@@ -139,7 +139,6 @@ final class VMProcess extends Process
 	  if (process != null)
 	    spawn(process);
 
-
 	  // Check for termination of active child processes
 	  while (!activeMap.isEmpty() && VMProcess.nativeReap())
 	    {
@@ -160,7 +159,6 @@ final class VMProcess extends Process
 				   + pid);
 	    }
 
-
 	  // If there are more new processes to create, go do that now.
 	  // If there is nothing left to do, exit this thread. Otherwise,
 	  // sleep a little while, and then check again for reapable children.
@@ -176,7 +174,7 @@ final class VMProcess extends Process
 		  processThread = null;
 		  break;
 		}
-	
+
 	      try
 		{
 		  workList.wait(MAX_REAP_DELAY);
@@ -192,7 +190,7 @@ final class VMProcess extends Process
     // Spawn a process
     private void spawn(VMProcess process)
     {
-      
+
       // Spawn the process and put it in our active map indexed by pid.
       // If the spawn operation fails, store the exception with the process.
       // In either case, wake up thread that created the process.
@@ -223,14 +221,14 @@ final class VMProcess extends Process
   private VMProcess(String[] cmd, String[] env, File dir, boolean redirect)
     throws IOException
   {
-    
+
     // Initialize this process
     this.state = INITIAL;
     this.cmd = cmd;
     this.env = env;
     this.dir = dir;
     this.redirect = redirect;
-  
+
     // Add process to the new process work list and wakeup processThread
     synchronized (workList)
       {
@@ -359,7 +357,7 @@ final class VMProcess extends Process
       return;
 
     nativeKill(pid);
-    
+
     while (state != TERMINATED)
       {
 	try

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm;
 
 import org.jnode.annotation.LoadStatics;
@@ -35,7 +35,6 @@ import org.jnode.vm.classmgr.VmMethod;
 import org.jnode.vm.classmgr.VmType;
 import org.jnode.vm.facade.VmHeapManager;
 import org.jnode.vm.facade.VmUtils;
-
 
 /**
  * Class with software implementations of "difficult" java bytecodes.
@@ -330,13 +329,13 @@ public final class SoftByteCodes {
                 throw new ClassCastException(object.getClass().getName()
                     + " superClasses==null");
             }
-            
+
             final StringBuilder sb = new StringBuilder("expected : ");
             sb.append(expected.getName());
-            
+
             sb.append(" actual class : ");            
             sb.append(object.getClass().getName());
-            
+
             sb.append(" superClasses : ");
             for (Object sc : superClasses) {
                 sb.append(',');

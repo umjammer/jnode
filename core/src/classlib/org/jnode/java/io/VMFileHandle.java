@@ -17,13 +17,12 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.java.io;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
-
 
 /**
  * A FileHandle represents a single, opened file for a single principal.
@@ -64,7 +63,6 @@ public interface VMFileHandle {
      * @throws IOException
      */
     public int read(ByteBuffer dest) throws IOException;
-
 
     /**
      * Write bytes from the {@code src} buffer.

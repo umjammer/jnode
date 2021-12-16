@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.common;
 
 import org.jnode.shell.AbstractCommand;
@@ -33,22 +33,22 @@ public class DirnameCommand extends AbstractCommand {
 
     private static final String help_name = "Strip the non-directory suffix from this file name";
     private static final String help_super = "Strip non-directory suffix from the file name";
-    
+
     private final StringArgument argName;
-    
+
     public DirnameCommand() {
         super(help_super);
         argName = new StringArgument("name", Argument.MANDATORY, help_name);
         registerArguments(argName);
     }
-    
+
     public void execute() {
         String name = argName.getValue();
-        
+
         if (name.equals("")) {
             name = ".";
         }
-        
+
         boolean allSlashes = true;
         for (char c : name.toCharArray()) {
             if (c != '/') {
@@ -56,7 +56,7 @@ public class DirnameCommand extends AbstractCommand {
                 break;
             }
         }
-        
+
         if (allSlashes) {
             name = "/";
         } else {
@@ -73,7 +73,7 @@ public class DirnameCommand extends AbstractCommand {
                 name = name.substring(0, i);
             }
         }
-        
+
         getOutput().getPrintWriter().println(name);
     }
 }

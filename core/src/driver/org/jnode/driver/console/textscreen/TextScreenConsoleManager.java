@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console.textscreen;
 
 import java.io.Reader;
@@ -39,7 +39,7 @@ import org.jnode.naming.NameSpaceListener;
 public class TextScreenConsoleManager extends AbstractConsoleManager {
 
     private int SCROLLABLE_HEIGHT = 500;
-    
+
     /**
      * Initialize this instance.
      *
@@ -47,16 +47,16 @@ public class TextScreenConsoleManager extends AbstractConsoleManager {
      */
     public TextScreenConsoleManager()
         throws ConsoleException {
-        
+
         InitialNaming.addNameSpaceListener(TextScreenManager.NAME, new NameSpaceListener<TextScreenManager>() {
 
             @Override
             public void serviceBound(TextScreenManager service) {
                 final TextScreen systemScreen = service.getSystemScreen();
-                
+
                 for (Console c : getConsoles()) {
                     TextScreenConsole console = (TextScreenConsole) c;
-                    
+
                     final TextScreen screen;            
                     if ((console.getOptions() & CreateOptions.SCROLLABLE) != 0) {
                         screen = systemScreen.createCompatibleScrollableBufferScreen(SCROLLABLE_HEIGHT);
@@ -71,11 +71,10 @@ public class TextScreenConsoleManager extends AbstractConsoleManager {
             public void serviceUnbound(TextScreenManager service) {
                 // nothing
             }
-            
+
         });
     }
-    
-    
+
     /**
      * @see org.jnode.driver.console.ConsoleManager#createConsole(String, int)
      */
@@ -108,7 +107,7 @@ public class TextScreenConsoleManager extends AbstractConsoleManager {
             throw new IllegalArgumentException("Unknown option " + options);
         }
     }
-    
+
     protected Reader getReader(int options, TextScreenConsole console) {
         Reader in = null;
         if ((options & CreateOptions.NO_LINE_EDITTING) == 0) {
@@ -117,7 +116,7 @@ public class TextScreenConsoleManager extends AbstractConsoleManager {
         }
         return in;
     }
-    
+
     protected TextScreenManager getTextScreenManager() {
         TextScreenManager tsm;
         try {

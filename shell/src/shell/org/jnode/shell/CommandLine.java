@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import java.util.NoSuchElementException;
@@ -100,7 +100,7 @@ public class CommandLine implements Completable, Iterable<String> {
     private final Token[] argumentTokens;
 
     private CommandIO[] ios;
-    
+
     private CommandInfo commandInfo;
 
     private boolean argumentAnticipated = false;
@@ -335,7 +335,7 @@ public class CommandLine implements Completable, Iterable<String> {
         }
         return arguments;
     }
-    
+
     public Token[] getArgumentTokens() {
         return argumentTokens;
     }
@@ -596,7 +596,7 @@ public class CommandLine implements Completable, Iterable<String> {
             } catch (ShellException ex) {
                 throw new CompletionException(ex.getMessage(), ex);
             }
-            
+
             Command command;
             try {
                 command = ci.createCommandInstance();

@@ -36,7 +36,6 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 
-
 package gnu.classpath.jdwp.transport;
 
 import gnu.classpath.jdwp.transport.ITransport;
@@ -76,7 +75,7 @@ class SocketTransport
 
   // Host name
   private String _host;
-   
+
   // Are we acting as a server?
   private boolean _server = false;
 

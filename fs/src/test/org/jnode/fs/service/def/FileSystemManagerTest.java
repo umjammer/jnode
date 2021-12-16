@@ -17,17 +17,18 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.service.def;
 
 import java.util.Collection;
+
 import org.jnode.driver.Device;
 import org.jnode.fs.FileSystem;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -37,7 +38,7 @@ public class FileSystemManagerTest {
     private FileSystem<?> fs;
     private Device device;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         fsm = new FileSystemManager();
         device = mock(Device.class);

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console;
 
 import java.awt.event.KeyEvent;
@@ -33,12 +33,12 @@ import org.jnode.driver.input.KeyboardEvent;
  * @author crawley@jnode.org
  */
 public abstract class KeyEventBindings<T extends Enum<?>> {
-    
+
     private final T defaultCharAction;
     private final T defaultVKAction;
     private CodeMap<T> charMap;
     private CodeMap<T> vkMap;
-    
+
     /**
      * Create empty bindings.
      * @param defaultCharAction the default action for a character-valued event
@@ -50,7 +50,7 @@ public abstract class KeyEventBindings<T extends Enum<?>> {
         this.charMap = new CodeMap<T>(defaultCharAction);
         this.vkMap = new CodeMap<T>(defaultVKAction);
     }
-    
+
     /**
      * Create a copy of an existing KeyEventBindings object.
      * @param bindings the bindings to be copied.
@@ -69,7 +69,7 @@ public abstract class KeyEventBindings<T extends Enum<?>> {
         charMap = new CodeMap(this.defaultCharAction);
         vkMap = new CodeMap(this.defaultVKAction);
     }
-    
+
     /**
      * Lookup the action for a given KeyboardEvent.
      * 
@@ -115,7 +115,7 @@ public abstract class KeyEventBindings<T extends Enum<?>> {
             throw new IllegalArgumentException("modifiers range error");
         }
     }
-    
+
     public T getVKAction(VirtualKey vk) {
         return vkMap.get(vk.value);
     }
@@ -216,7 +216,7 @@ public abstract class KeyEventBindings<T extends Enum<?>> {
             }
         }
     }
-    
+
     /**
      * Get all characters that are currently bound to an action.
      * @return the bound characters.
@@ -294,7 +294,7 @@ public abstract class KeyEventBindings<T extends Enum<?>> {
                 }
             }
         }
-        
+
         public Set<Integer> getKeys() {
             return map.keySet();
         }

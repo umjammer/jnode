@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.fat;
 
 import org.jnode.fs.FSObject;
@@ -30,7 +30,7 @@ public abstract class FatObject implements FSObject {
 
     /** The filesystem I'm a part of */
     private final FatFileSystem fs;
-    
+
     /** Is this object still valid? */
     private boolean valid;
 

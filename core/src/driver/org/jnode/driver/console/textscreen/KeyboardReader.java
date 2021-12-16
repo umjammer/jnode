@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console.textscreen;
 
 import java.awt.event.KeyEvent;
@@ -31,7 +31,6 @@ import org.jnode.driver.input.KeyboardEvent;
 import org.jnode.system.event.FocusEvent;
 import org.jnode.system.event.FocusListener;
 import org.jnode.util.ConsoleStream;
-
 
 /**
  * KeyboardReader maps keyboard events into a stream of characters.  Current functionality includes:
@@ -75,7 +74,7 @@ public class KeyboardReader extends Reader
     private final TextConsole console;
     private InputCompleter completer;
     private final Writer out;
-    
+
     private ConsoleKeyEventBindings bindings = ConsoleKeyEventBindings.createDefault();
 
     private String currentPrompt;
@@ -93,7 +92,7 @@ public class KeyboardReader extends Reader
 
     private final KeyboardHandler keyboardHandler;
     private final FocusListener focusListener;
-    
+
     /**
      * This constructor is used by wrappers.
      */
@@ -143,7 +142,7 @@ public class KeyboardReader extends Reader
     public void clearSoftEOF() {
         eof = false;
     }
-    
+
     /**
      * Get a snapshot of the reader's key event bindings.
      * 
@@ -152,7 +151,7 @@ public class KeyboardReader extends Reader
     public ConsoleKeyEventBindings getKeyEventBindings() {
         return new ConsoleKeyEventBindings(bindings);
     }
-    
+
     /**
      * Set the reader's key event bindings.
      * 
@@ -399,7 +398,7 @@ public class KeyboardReader extends Reader
         }
         return n;
     }
-    
+
     /**
      * Get the TextConsole associated with this KeyboardReader.
      * 

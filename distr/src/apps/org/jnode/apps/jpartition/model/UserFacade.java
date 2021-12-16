@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.jpartition.model;
 
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public class UserFacade {
     private final Map<String, Formatter<? extends FileSystem<?>>> formatters =
             new HashMap<String, Formatter<? extends FileSystem<?>>>();
     private Formatter<? extends FileSystem<?>> selectedFormatter;
-    
+
     private Context context;
 
     private CommandProcessor cmdProcessor;
@@ -191,7 +191,7 @@ public class UserFacade {
 
         Formatter<? extends FileSystem<?>> formatter = selectedFormatter.clone();
         selectedDevice.formatPartition(offset, formatter);
-        
+
         //TODO set parameters
         Command cmd =
                 new FormatPartitionCommand((IDEDevice) selectedDevice.getDevice(), 0, formatter);

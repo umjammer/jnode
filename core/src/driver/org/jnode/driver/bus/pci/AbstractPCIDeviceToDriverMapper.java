@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.bus.pci;
 
 import java.lang.reflect.Constructor;
@@ -28,7 +28,6 @@ import org.jnode.driver.Driver;
 import org.jnode.driver.DriverException;
 import org.jnode.plugin.ConfigurationElement;
 import org.jnode.util.NumberUtils;
-
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)

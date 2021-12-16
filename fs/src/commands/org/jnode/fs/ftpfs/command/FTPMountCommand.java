@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.ftpfs.command;
 
 import java.io.File;
@@ -43,16 +43,16 @@ import org.jnode.shell.syntax.StringArgument;
 public class FTPMountCommand extends AbstractCommand {
     private final FileArgument MOUNTPOINT_ARG = 
         new FileArgument("directory", Argument.MANDATORY, "the mountpoint");
-    
+
     private static final HostNameArgument HOST_ARG = 
         new HostNameArgument("host", Argument.MANDATORY, "FTP host");
-    
+
     private static final StringArgument USERNAME_ARG = 
         new StringArgument("userName", Argument.MANDATORY, "FTP user");
-    
+
     private static final StringArgument PASSWORD_ARG = 
         new StringArgument("password", Argument.OPTIONAL, "FTP password");
-    
+
     public FTPMountCommand() {
         super("Mount an FTP filesystem");
         registerArguments(MOUNTPOINT_ARG, HOST_ARG, USERNAME_ARG, PASSWORD_ARG);
@@ -68,7 +68,7 @@ public class FTPMountCommand extends AbstractCommand {
         final String user = USERNAME_ARG.getValue();
         final String password = PASSWORD_ARG.getValue();
         boolean ok = false;
-        
+
         final FileSystemService fss = InitialNaming.lookup(FileSystemService.NAME);
         FTPFileSystemType type = fss.getFileSystemType(FTPFileSystemType.ID);
         final DeviceManager dm = DeviceUtils.getDeviceManager();

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.classmgr;
 
 import gnu.java.lang.VMClassHelper;
@@ -123,7 +123,7 @@ public final class TIBBuilder implements TIBLayout {
             VMClassHelper.getPackagePortion(met.getDeclaringClass().getName()).
                 equals(VMClassHelper.getPackagePortion(method.getDeclaringClass().getName()))));
     }
-    
+
     /**
      * Search through a given VMT for a method with a given name & signature.
      * Return the index in the VMT (0..length-1) if found, -1 otherwise.

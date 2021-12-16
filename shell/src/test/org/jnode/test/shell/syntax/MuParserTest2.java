@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.syntax;
 
 import java.io.File;
@@ -36,12 +36,14 @@ import org.jnode.shell.syntax.MuBackReference;
 import org.jnode.shell.syntax.MuParser;
 import org.jnode.shell.syntax.MuSequence;
 import org.jnode.shell.syntax.MuSyntax;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @SuppressWarnings("deprecation")
-@Ignore
+@Disabled
 public class MuParserTest2 {
 
     @Test
@@ -57,12 +59,12 @@ public class MuParserTest2 {
         cl = new CommandLine(new String[] {"1"});
 
         parser.parse(syntax, null, cl.tokenIterator(), bundle);
-        Assert.assertEquals(new Integer(1), intArg.getValue());
+        assertEquals(new Integer(1), intArg.getValue());
 
         try {
             cl = new CommandLine(new String[] {"X"});
             parser.parse(syntax, null, cl.tokenIterator(), bundle);
-            Assert.fail("parse didn't fail");
+            fail("parse didn't fail");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -70,7 +72,7 @@ public class MuParserTest2 {
         try {
             cl = new CommandLine(new String[] {"1", "1"});
             parser.parse(syntax, null, cl.tokenIterator(), bundle);
-            Assert.fail("parse didn't fail");
+            fail("parse didn't fail");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -90,20 +92,20 @@ public class MuParserTest2 {
         cl = new CommandLine(new String[] {"1", "x"});
         parser.parse(syntax, null, cl.tokenIterator(), bundle);
 
-        Assert.assertEquals(new Integer(1), intArg.getValue());
-        Assert.assertEquals(new File("x"), fileArg.getValue());
+        assertEquals(new Integer(1), intArg.getValue());
+        assertEquals(new File("x"), fileArg.getValue());
 
         try {
             cl = new CommandLine(new String[] {"1"});
             parser.parse(syntax, null, cl.tokenIterator(), bundle);
-            Assert.fail("parse didn't fail");
+            fail("parse didn't fail");
         } catch (CommandSyntaxException ex) {
             // expected
         }
         try {
             cl = new CommandLine(new String[] {"1", ""});
             parser.parse(syntax, null, cl.tokenIterator(), bundle);
-            Assert.fail("parse didn't fail");
+            fail("parse didn't fail");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -123,13 +125,13 @@ public class MuParserTest2 {
 
         cl = new CommandLine(new String[] {"1"});
         parser.parse(syntax, null, cl.tokenIterator(), bundle);
-        Assert.assertEquals(new Integer(1), intArg.getValue());
-        Assert.assertEquals(false, fileArg.isSet());
+        assertEquals(new Integer(1), intArg.getValue());
+        assertEquals(false, fileArg.isSet());
 
         cl = new CommandLine(new String[] {"x"});
         parser.parse(syntax, null, cl.tokenIterator(), bundle);
-        Assert.assertEquals(new File("x"), fileArg.getValue());
-        Assert.assertEquals(false, intArg.isSet());
+        assertEquals(new File("x"), fileArg.getValue());
+        assertEquals(false, intArg.isSet());
 
     }
 
@@ -150,23 +152,23 @@ public class MuParserTest2 {
 
         cl = new CommandLine(new String[] {"x"});
         parser.parse(syntax, null, cl.tokenIterator(), bundle);
-        Assert.assertEquals(1, fileArg.getValues().length);
-        Assert.assertEquals(0, intArg.getValues().length);
+        assertEquals(1, fileArg.getValues().length);
+        assertEquals(0, intArg.getValues().length);
 
         cl = new CommandLine(new String[] {"1", "x"});
         parser.parse(syntax, null, cl.tokenIterator(), bundle);
-        Assert.assertEquals(1, fileArg.getValues().length);
-        Assert.assertEquals(1, intArg.getValues().length);
+        assertEquals(1, fileArg.getValues().length);
+        assertEquals(1, intArg.getValues().length);
 
         cl = new CommandLine(new String[] {"1", "2", "x"});
         parser.parse(syntax, null, cl.tokenIterator(), bundle);
-        Assert.assertEquals(1, fileArg.getValues().length);
-        Assert.assertEquals(2, intArg.getValues().length);
+        assertEquals(1, fileArg.getValues().length);
+        assertEquals(2, intArg.getValues().length);
 
         try {
             cl = new CommandLine(new String[] {"1", "2", ""});
             parser.parse(syntax, null, cl.tokenIterator(), bundle);
-            Assert.fail("expected SEE");
+            fail("expected SEE");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -188,23 +190,23 @@ public class MuParserTest2 {
 
         cl = new CommandLine(new String[] {"x"});
         parser.parse(syntax, null, cl.tokenIterator(), bundle);
-        Assert.assertEquals(1, fileArg.getValues().length);
-        Assert.assertEquals(0, intArg.getValues().length);
+        assertEquals(1, fileArg.getValues().length);
+        assertEquals(0, intArg.getValues().length);
 
         cl = new CommandLine(new String[] {"1", "x"});
         parser.parse(syntax, null, cl.tokenIterator(), bundle);
-        Assert.assertEquals(1, fileArg.getValues().length);
-        Assert.assertEquals(1, intArg.getValues().length);
+        assertEquals(1, fileArg.getValues().length);
+        assertEquals(1, intArg.getValues().length);
 
         cl = new CommandLine(new String[] {"1", "1", "x"});
         parser.parse(syntax, null, cl.tokenIterator(), bundle);
-        Assert.assertEquals(1, fileArg.getValues().length);
-        Assert.assertEquals(2, intArg.getValues().length);
+        assertEquals(1, fileArg.getValues().length);
+        assertEquals(2, intArg.getValues().length);
 
         try {
             cl = new CommandLine(new String[] {"1", "1", ""});
             parser.parse(syntax, null, cl.tokenIterator(), bundle);
-            Assert.fail("expected SEE");
+            fail("expected SEE");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -260,32 +262,32 @@ public class MuParserTest2 {
 
         cl = new CommandLine(new String[] {"BIG"});
         parser.parse(syntax, null, cl.tokenIterator(), bundle);
-        Assert.assertEquals(1, bigArg.getValues().length);
-        Assert.assertEquals(0, smallArg.getValues().length);
-        Assert.assertEquals(0, intArg.getValues().length);
+        assertEquals(1, bigArg.getValues().length);
+        assertEquals(0, smallArg.getValues().length);
+        assertEquals(0, intArg.getValues().length);
 
         cl = new CommandLine(new String[] {"1", "LARGE"});
         parser.parse(syntax, null, cl.tokenIterator(), bundle);
-        Assert.assertEquals(1, bigArg.getValues().length);
-        Assert.assertEquals(0, smallArg.getValues().length);
-        Assert.assertEquals(1, intArg.getValues().length);
+        assertEquals(1, bigArg.getValues().length);
+        assertEquals(0, smallArg.getValues().length);
+        assertEquals(1, intArg.getValues().length);
 
         cl = new CommandLine(new String[] {"1", "2", "BIG"});
         parser.parse(syntax, null, cl.tokenIterator(), bundle);
-        Assert.assertEquals(1, bigArg.getValues().length);
-        Assert.assertEquals(0, smallArg.getValues().length);
-        Assert.assertEquals(2, intArg.getValues().length);
+        assertEquals(1, bigArg.getValues().length);
+        assertEquals(0, smallArg.getValues().length);
+        assertEquals(2, intArg.getValues().length);
 
         cl = new CommandLine(new String[] {"1", "2", "3", "BIG", "SMALL"});
         parser.parse(syntax, null, cl.tokenIterator(), bundle);
-        Assert.assertEquals(1, bigArg.getValues().length);
-        Assert.assertEquals(1, smallArg.getValues().length);
-        Assert.assertEquals(3, intArg.getValues().length);
+        assertEquals(1, bigArg.getValues().length);
+        assertEquals(1, smallArg.getValues().length);
+        assertEquals(3, intArg.getValues().length);
 
         try {
             cl = new CommandLine(new String[] {"1", "2", "TINY"});
             parser.parse(syntax, null, cl.tokenIterator(), bundle);
-            Assert.fail("expected SEE");
+            fail("expected SEE");
         } catch (CommandSyntaxException ex) {
             // expected
         }

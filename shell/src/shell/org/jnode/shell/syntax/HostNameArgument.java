@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.net.InetAddress;
@@ -51,7 +51,7 @@ public class HostNameArgument extends Argument<String> {
     protected String doAccept(Token token, int flags) throws CommandSyntaxException {
         return token.text;
     }
-    
+
     @Override
     protected String argumentKind() {
         return "host name/ip address";
@@ -65,7 +65,7 @@ public class HostNameArgument extends Argument<String> {
     public InetAddress getAsInetAddress() throws UnknownHostException {
         return InetAddress.getByName(getValue());
     }
-    
+
     /**
      * Resolve the ith hostname / IP address string to a network address.
      * @param i the index of the hostname we want the address

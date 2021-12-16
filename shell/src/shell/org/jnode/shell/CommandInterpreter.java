@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import java.io.PrintWriter;
@@ -56,7 +56,7 @@ public interface CommandInterpreter {
      * @throws ShellException
      */
     int interpret(CommandShell shell, Reader reader, boolean script, String alias, String[] args) throws ShellException;
-    
+
     /**
      * Parse a partial command line, returning the command line fragment to be
      * completed.  If the interpreter does not support completion, this method
@@ -86,7 +86,7 @@ public interface CommandInterpreter {
      * @return the word with any necessary escaping or quoting added.
      */
     String escapeWord(String word);
-    
+
     /**
      * Test if the interpreter supports multiline commands.
      * 

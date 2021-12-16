@@ -38,7 +38,6 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 
-
 package gnu.classpath.jdwp;
 
 import gnu.classpath.jdwp.event.ClassPrepareEvent;
@@ -285,7 +284,6 @@ public class EmuVirtualMachine
       return 0;
   }
 
-
   /**
    * Returns the status of a thread
    *
@@ -386,7 +384,6 @@ public class EmuVirtualMachine
       System.out.println("unregisterEvent");
 
   }
-
 
   /**
    * Clear all events of the given kind

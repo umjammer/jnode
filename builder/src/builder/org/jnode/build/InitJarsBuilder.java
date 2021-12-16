@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.build;
 
 import java.io.File;
@@ -43,9 +43,9 @@ public class InitJarsBuilder extends Task {
     private final ArrayList<FileSet> fileSets = new ArrayList<FileSet>();
     private File pluginDir;
     private File systemPluginListFile;
-    
+
     private PluginListInsertor insertor;
-    
+
     /**
      * Create and add a fileset to this task.
      *
@@ -75,7 +75,7 @@ public class InitJarsBuilder extends Task {
                 builder.setSystemPluginList(systemPluginListFile);
                 builder.setPluginList(listFile);
                 builder.setDestDir(getDestDir());
-                
+
                 if (insertor != null) {
                     builder.setPackager(insertor);
                 }
@@ -127,7 +127,7 @@ public class InitJarsBuilder extends Task {
     public final void setSystemPluginList(File systemPluginListFile) {
         this.systemPluginListFile = systemPluginListFile;
     }
-    
+
     public PluginListInsertor createInsert() {
         insertor = new PluginListInsertor();
         insertor.setProject(getProject());

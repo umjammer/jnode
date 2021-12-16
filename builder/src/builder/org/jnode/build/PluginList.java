@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.build;
 
 import java.io.File;
@@ -47,7 +47,7 @@ public final class PluginList {
     private final List<URL> pluginList;
 
     private final String name;
-    
+
     private Manifest manifest;
 
     private List<PluginList> includes = new ArrayList<PluginList>();
@@ -88,7 +88,7 @@ public final class PluginList {
                     throw new PluginException("id attribute expected on "
                         + e.getName());
                 }
-                
+
                 // version attribute is optional
                 // if not specified, then the latest version found will be used.
                 final String version = e.getStringAttribute("version");
@@ -104,7 +104,7 @@ public final class PluginList {
             }
         }
     }
-    
+
     /**
      * 
      * @param id
@@ -115,7 +115,7 @@ public final class PluginList {
     public void addPlugin(String id, String version) throws MalformedURLException, PluginException {
         addPlugin(descrList, pluginList, id, version);
     }
-    
+
     /**
      * 
      * @param descrList
@@ -130,7 +130,7 @@ public final class PluginList {
         final File f = findPlugin(defaultDir, id, version);
         final URL pluginUrl = f.toURI().toURL();  // ensure proper escaping ...
         final URL descrUrl = new URL("jar:" + pluginUrl + "!/plugin.xml");
-        
+
         if (pluginList.contains(pluginUrl)) {
             String versionStr = (version == null) ? "unspecified" : version;
             throw new PluginException("can't use the same id(" + id + ") and version(" + versionStr
@@ -145,7 +145,7 @@ public final class PluginList {
         // System.out.println("Find " + id + " in " + dir);
         final String begin = id + "_";
         final String end = ".jar";
-        
+
         String[] names = dir.list(new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 return name.startsWith(begin) && name.endsWith(end);
@@ -167,12 +167,12 @@ public final class PluginList {
                 }
             }            
         }
-        
+
         if (filename == null) {
             // by default, take the latest version
             filename = names[names.length - 1];
         }
-        
+
         return new File(dir, filename);
     }
 

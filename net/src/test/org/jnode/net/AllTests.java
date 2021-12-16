@@ -17,16 +17,16 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net;
 
 import org.jnode.net.arp.ARPHeaderTest;
 import org.jnode.net.ethernet.EthernetAddressTest;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({ARPHeaderTest.class, //
+@Suite
+@SelectClasses({ARPHeaderTest.class, //
     EthernetAddressTest.class })
 public class AllTests {
 }

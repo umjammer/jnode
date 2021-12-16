@@ -17,9 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.shell.syntax;
 
+package org.jnode.shell.syntax;
 
 /**
  * This class represents the micro-syntax for setting an argument without matching any tokens.
@@ -27,15 +26,15 @@ package org.jnode.shell.syntax;
  * @author crawley@jnode.org
  */
 public class MuPreset extends MuSyntax {
-    
+
     private final String argName;
     private final String preset;
     private final int flags;
-    
+
     public MuPreset(String argName, String preset) {
         this(null, argName, preset, 0);
     }
-    
+
     public MuPreset(String label, String argName, String preset, int flags) {
         super(label);
         if (argName.length() == 0) {
@@ -71,7 +70,7 @@ public class MuPreset extends MuSyntax {
     public String getPreset() {
         return preset;
     }
-    
+
     public int getFlags() {
         return flags;
     }

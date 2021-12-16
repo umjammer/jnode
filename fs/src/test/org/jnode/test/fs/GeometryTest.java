@@ -17,18 +17,19 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs;
 
-import junit.framework.TestCase;
 import org.jnode.driver.block.CHS;
 import org.jnode.driver.block.Geometry;
 import org.jnode.driver.block.GeometryException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * @author epr
  */
-public class GeometryTest extends TestCase {
+public class GeometryTest {
 
     /**
      * Constructor for GeometryTest.
@@ -36,7 +37,6 @@ public class GeometryTest extends TestCase {
      * @param arg0
      */
     public GeometryTest(String arg0) {
-        super(arg0);
     }
 
     public void testLogSec2CHS() throws GeometryException {
@@ -45,7 +45,7 @@ public class GeometryTest extends TestCase {
         for (long logSec = 0; logSec < max; logSec++) {
             CHS chs = geom.getCHS(logSec);
             //System.out.println("logSec=" + logSec + ", chs=" + chs);
-            assertEquals("logSec=" + logSec, logSec, geom.getLogicalSector(chs));
+            assertEquals(logSec, geom.getLogicalSector(chs), "logSec=" + logSec);
         }
     }
 

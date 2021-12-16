@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.net;
 
 import java.io.FileOutputStream;
@@ -33,20 +33,20 @@ import org.jnode.shell.syntax.URLArgument;
 
 public class WgetCommand extends AbstractCommand {
     private static final int BUFFER_SIZE = 8192;
-    
+
     private static final String help_debug = "if set, output debug information";
     private static final String help_url = "the source URL(s)";
     private static final String help_super = "Fetch the contents of one or more URLs.";
     private static final String fmt_get_file = "Getting file %s from url %s%n";
     private static final String err_get_file = "Cannot get %s: %s%n";
     private static final String err_no_file = "Could not figure out a local file name for URL %s%n";
-    
+
     private final FlagArgument argDebug;
     private final URLArgument argUrl;
 
     private PrintWriter out;
     private PrintWriter err;
-    
+
     public WgetCommand() {
         super(help_super);
         argDebug = new FlagArgument("debug", Argument.OPTIONAL, help_debug);
@@ -57,7 +57,7 @@ public class WgetCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new WgetCommand().execute(args);
     }
-    
+
     @Override
     public void execute() throws Exception {
         this.out = getOutput().getPrintWriter();

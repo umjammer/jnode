@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.block.floppy;
 
 import java.security.PrivilegedExceptionAction;
@@ -170,7 +170,6 @@ public class DefaultFDC implements FDC {
         this.dmaMem = dmaMem;
     }
 
-
     /**
      * (non-Javadoc)
      *
@@ -194,7 +193,6 @@ public class DefaultFDC implements FDC {
             io1.outPortByte(startPort + RW8_DATA_OFFSET, command[i] & 0xFF);
         }
     }
-
 
     /**
      * (non-Javadoc)
@@ -237,7 +235,6 @@ public class DefaultFDC implements FDC {
     protected void copyToDMA(byte[] src, int length) {
         dmaMem.setBytes(src, 0, 0, length);
     }
-
 
     /**
      * (non-Javadoc)
@@ -321,7 +318,6 @@ public class DefaultFDC implements FDC {
         }
         return rc;
     }
-
 
     /**
      * (non-Javadoc)

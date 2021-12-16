@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -19,11 +19,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 package org.jtestserver.tests;
 
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 
-
-
-@Ignore 
+@Disabled
 public class TestOutputMessage {
 
 }

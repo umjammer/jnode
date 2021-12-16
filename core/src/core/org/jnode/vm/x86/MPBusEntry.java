@@ -17,12 +17,11 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.x86;
 
 import org.jnode.system.resource.MemoryResource;
 import org.jnode.util.NumberUtils;
-
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)
@@ -45,7 +44,6 @@ final class MPBusEntry extends MPEntry {
         mem.getBytes(2, data, 0, data.length);
         return new String(data).trim();
     }
-
 
     /**
      * @see org.jnode.vm.x86.MPEntry#toString()

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import org.jnode.shell.CommandLine;
@@ -143,7 +143,7 @@ public class BjorneToken extends CommandLine.Token {
 
     public static final int TOK_IN = 39;
     public static final long TOK_IN_BIT = (1L << TOK_IN);
-    
+
     // The following token types specialize the 'word' and 'name' types.
     // A token won't be assigned one of these types, but the corresponding
     // bits are included in the expectedSet bitsets to tell the completer
@@ -157,7 +157,7 @@ public class BjorneToken extends CommandLine.Token {
 
     public static final int TOK_FUNCTION_NAME = 42;
     public static final long TOK_FUNCTION_NAME_BITS = (1L << TOK_FUNCTION_NAME) + TOK_NAME_BIT;
-    
+
     public static final int TOK_HERE_END = 43;
     public static final long TOK_HERE_END_BITS = (1L << TOK_HERE_END) + TOK_WORD_BIT;
 
@@ -167,7 +167,7 @@ public class BjorneToken extends CommandLine.Token {
 
     public static final int TOK_FOR_WORD = 45;
     public static final long TOK_FOR_WORD_BITS = (1L << TOK_FOR_WORD) + TOK_WORD_BIT;
-    
+
     public static final int TOK_PATTERN = 46;
     public static final long TOK_PATTERN_BITS = (1L << TOK_PATTERN) + TOK_WORD_BIT;
 
@@ -176,8 +176,7 @@ public class BjorneToken extends CommandLine.Token {
 
     public static final int TOK_CASE_WORD = 48;
     public static final long TOK_CASE_WORD_BITS = (1L << TOK_CASE_WORD) + TOK_WORD_BIT;
-    
-    
+
     // Contexts that affect the parsing of words
 
     public static final int BASE_CONTEXT = 0;
@@ -203,12 +202,12 @@ public class BjorneToken extends CommandLine.Token {
         super(text == null ? "" : text, tokenType, start, end);
         validate();
     }
-    
+
     public BjorneToken(final String text) {
         super(text == null ? "" : text, TOK_WORD, 0, 0);
         validate();
     }
-    
+
     public BjorneToken remake(CharSequence newText) {
         if (newText.length() == 0) {
             return null;
@@ -458,7 +457,7 @@ public class BjorneToken extends CommandLine.Token {
             return "";
         }
     }
-    
+
     public static String formatExpectedSet(long expectedSet) {
         StringBuilder sb = new StringBuilder(40);
         long mask = 1L;

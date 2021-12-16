@@ -10,7 +10,7 @@
  *  See the COPYRIGHT.txt file distributed with this work for information
  *  regarding copyright ownership.
  */
- 
+
 package org.mmtk.vm;
 
 import static org.jnode.vm.VirtualMemoryRegion.AVAILABLE;
@@ -39,7 +39,7 @@ import org.jnode.vm.facade.VmUtils;
  * @version $Revision$
  */
 public final class VMConstants {
-    
+
     /** 
      * @return The log base two of the size of an address 
      */

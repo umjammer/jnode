@@ -34,7 +34,6 @@ public class TreePath {
     protected TreePath() {
     }
 
-
     /** Constructs a TreePath containing only a single element.  
      */
     public TreePath(Object singlePath) {
@@ -128,20 +127,17 @@ public class TreePath {
 	return _list.get(element);
     }
 
-
     /** Returns the number of elements in the path.
      */
     public int getPathCount() {
 	return _list.size();
     }
 
-
     /** Returns the hashCode for the object.
      */
     public int hashCode() {
 	return 0;   // not implemented
     }
-
 
     /** Returns true if aTreePath is a descendant of this TreePath.
      * A TreePath P1 is a descendent of a TreePath P2 if P1 contains 
@@ -165,7 +161,6 @@ public class TreePath {
 	return true;
     }
 
-
     /** Returns a new path containing all the elements of this
      * object plus child.
      */
@@ -174,7 +169,6 @@ public class TreePath {
 	other.add(child);
 	return new TreePath(other);
     }
-
 
     /** Returns a string that displays and identifies this object's
      *  properties.

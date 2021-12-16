@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.video.nvidia;
 
 import java.awt.Color;
@@ -114,7 +114,7 @@ public class NVidiaCore extends AbstractSurface implements NVidiaConstants, Disp
         this.acc = new NVidiaAcceleration(vgaIO, architecture);
         this.memSize = getMemorySize();
         int bootInfo;
-        
+
         switch (architecture) {
             case NV04A:
                 bootInfo = vgaIO.getReg32(NV32_NVSTRAPINFO2);

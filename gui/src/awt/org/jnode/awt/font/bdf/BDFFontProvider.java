@@ -60,7 +60,7 @@ public class BDFFontProvider extends AbstractFontProvider<BDFFont, BDFFontContai
     };
 
     private List<BDFFontContainer> containers;
-    
+
     public BDFFontProvider() {
         super(BDFFont.class, "bdf");        
     }
@@ -71,12 +71,11 @@ public class BDFFontProvider extends AbstractFontProvider<BDFFont, BDFFontContai
         return renderer;
     }
 
-
     protected FontMetrics createFontMetrics(Font font) throws IOException {
         final BDFFont bdfFont = getCompatibleFont(font);
         return bdfFont.getFontMetrics();
     }
-    
+
     /**
      * Creates a font peer from the given name or return null if not supported/provided.
      * As said in {@link org.jnode.awt.JNodeToolkit#getClasspathFontPeer(String, java.util.Map)} javadoc :
@@ -98,14 +97,14 @@ public class BDFFontProvider extends AbstractFontProvider<BDFFont, BDFFontContai
                 break;
             }
         }
-        
+
         for (BDFFontContainer container : getContainers()) {
             if (match(container, name, attrs)) {
                 peer = new BDFFontPeer(this, name, attrs);
                 break;
             }
         }
-        
+
         //Unsafe.debug("BDFFontProvider: name=" + name + "fontPeer=" + peer);
         return peer;
     }
@@ -131,7 +130,7 @@ public class BDFFontProvider extends AbstractFontProvider<BDFFont, BDFFontContai
             throw ffe;
         }
     }
-    
+
     /**
      * Load all default fonts.
      */
@@ -141,7 +140,7 @@ public class BDFFontProvider extends AbstractFontProvider<BDFFont, BDFFontContai
             addFont(new BDFFont(container));
         }
     }
-        
+
     private List<BDFFontContainer> getContainers() {
         if (containers == null) {
             containers = new ArrayList<BDFFontContainer>();
@@ -163,21 +162,21 @@ public class BDFFontProvider extends AbstractFontProvider<BDFFont, BDFFontContai
                 }
             }            
         }
-        
+
         return containers;
     }
 
     @Override
     protected final Size getMaxCharSize(BDFFontContainer container) {        
         Size size = new Size();
-        
+
         for (BDFGlyph g : container.getGlyphs()) {
             if (g != null) {
                 size.maxCharWidth += g.getDWidth().width;
                 size.maxCharHeight = Math.max(g.getDWidth().height, size.maxCharHeight);
             }
         }
-        
+
         return size;
     }
 

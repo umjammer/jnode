@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.input;
 
 import java.util.Arrays;
@@ -26,7 +26,6 @@ import java.util.Arrays;
  * @author Martin Husted Hartvig
  * @since 0.1.6
  */
-
 
 public class Keys {
     private Key[] keys = new Key[128];
@@ -60,7 +59,6 @@ public class Keys {
 
         return -1; // bad keycode
     }
-
 
     public void setKey(int _scancode, Key key) {
         keys[_scancode] = key;

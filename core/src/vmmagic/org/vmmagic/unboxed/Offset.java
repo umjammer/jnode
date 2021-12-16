@@ -27,7 +27,7 @@ package org.vmmagic.unboxed;
 public final class Offset implements UnboxedObject {
 
     final long v;
-    
+
     /**
      * Constructor used during the bootimage creation.
      * @param v
@@ -35,7 +35,7 @@ public final class Offset implements UnboxedObject {
     Offset(long v) {
         this.v = v;
     }
-    
+
     /**
      * @deprecated
      */

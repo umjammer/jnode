@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.build.dependencies;
 
 import java.io.File;
@@ -201,7 +201,6 @@ public class PluginDependencyChecker extends AbstractPluginTask {
         }
         return files.toArray(new File[files.size()]);
     }
-
 
     /**
      * @param jarFiles
@@ -602,4 +601,3 @@ public class PluginDependencyChecker extends AbstractPluginTask {
         }
     }
 }
-

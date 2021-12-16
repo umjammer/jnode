@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 package org.jtestserver.tests;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -32,7 +32,7 @@ class TestUtils {
     static final int PORT = 11000; // use a different port than default one
     static final InetAddress IP;
     static final InetAddress UNKNOWN_IP;
-    
+
     static {
         try {
             IP = InetAddress.getLocalHost();
@@ -50,45 +50,45 @@ class TestUtils {
     static synchronized void sendReceive(Client<?, ?> client, String message, Server<?, ?> server,
             int serverDelay, String response)
         throws Throwable {
-        
+
         boolean needResponse  = (response != MessageProcessor.NO_RESPONSE);
-        
+
         ServerThread serverThread = new ServerThread(server, serverDelay, response);
         serverThread.start();
-        
+
         ClientThread clientThread = new ClientThread(client, message, needResponse);
         clientThread.start();
 
         while (clientThread.isAlive() || serverThread.isAlive()) {
             Thread.sleep(1000);
         }
-        
+
 //        if (serverThread.hasError()) {
 //            server.close();
 //        }
 //        if (clientThread.hasError()) {
 //            client.close();
 //        }
-        
+
         assertEquals(message, serverThread.getMessage());
         assertEquals(response, clientThread.getResponse());
     }
-    
+
     private static class ServerThread extends Thread implements MessageProcessor {
         private final Server<?, ?> server;
         private final int serverDelay;
         private final String response;
-        
+
         private String message = null;
         private Throwable t = null;
-        
+
         public ServerThread(Server<?, ?> server, int serverDelay, String response) {
             super("ServerThread");
             this.server = server;
             this.serverDelay = serverDelay;
             this.response = response;
         }
-        
+
         /* (non-Javadoc)
          * @see java.lang.Thread#run()
          */
@@ -101,18 +101,18 @@ class TestUtils {
 //                    // ignore
 //                }
 //            }
-            
+
             try {
                 server.receive(this);
             } catch (Throwable t) {
                 this.t = t;
             }
         }
-        
+
         public boolean hasError() {
             return (t != null);
         }
-        
+
         /* (non-Javadoc)
          * @see org.jtestserver.common.protocol.MessageProcessor#process(java.lang.String)
          */
@@ -121,7 +121,7 @@ class TestUtils {
             this.message = message;
             return response; // might be MessageProcessor.NO_REPLY
         }
-        
+
         public String getMessage() throws Throwable {
             if (t != null) {
                 throw t;
@@ -129,23 +129,23 @@ class TestUtils {
             return message;
         }
     }
-    
+
     private static class ClientThread extends Thread {
         private final Client<?, ?> client;
         private final boolean needResponse;
         private final String message;
-        
+
         private boolean responseReceived = false;
         private String response = null;
         private Throwable t = null;
-        
+
         public ClientThread(Client<?, ?> client, String message, boolean needResponse) {
             super("ClientThread");
             this.client = client;
             this.needResponse = needResponse;
             this.message = message;
         }
-        
+
         public boolean hasError() {
             return (t != null);
         }
@@ -157,14 +157,14 @@ class TestUtils {
         public void run() {      
             try {
                 responseReceived = false;
-                
+
                 response = client.send(message, needResponse);
                 responseReceived = true;
             } catch (Throwable  t) {
                 this.t = t;
             }
         }
-        
+
         public String getResponse() throws Throwable {
             if (t != null) {
                 throw t;

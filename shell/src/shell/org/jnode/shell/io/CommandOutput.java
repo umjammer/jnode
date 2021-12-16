@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.io;
 
 import java.io.IOException;
@@ -61,7 +61,7 @@ public class CommandOutput extends BaseCommandIO {
         }
         return outputStream;
     }
-    
+
     public PrintStream getPrintStream(boolean autoflush) {
         if (printStream == null) {
             if (outputStream instanceof PrintStream) {
@@ -83,7 +83,7 @@ public class CommandOutput extends BaseCommandIO {
         }
         return writer;
     }
-    
+
     public PrintWriter getPrintWriter(boolean autoflush) {
         if (printWriter == null) {
             if (writer instanceof PrintWriter) {
@@ -114,7 +114,7 @@ public class CommandOutput extends BaseCommandIO {
             outputStream.close();
         }
     }
-    
+
     void doFlush() throws IOException {
         if (writer != null) {
             writer.flush();

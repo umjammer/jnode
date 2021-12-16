@@ -11,7 +11,6 @@
  *  regarding copyright ownership.
  */
 
- 
 package org.mmtk.vm;
 
 import org.jnode.vm.scheduler.ProcessorLock;
@@ -34,7 +33,7 @@ public final class Lock extends ProcessorLock {
                                     // locks
 
     private final String name;
-    
+
     public static void fullyBooted() {
     }
 
@@ -73,7 +72,7 @@ public final class Lock extends ProcessorLock {
     public final void release() {
         unlock();
     }
-    
+
     /**
      * @see java.lang.Object#toString()
      */

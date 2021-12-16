@@ -17,14 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm;
 
 import org.jnode.system.resource.MemoryScanner;
 import org.jnode.annotation.MagicPermission;
 import org.vmmagic.unboxed.Address;
 import org.vmmagic.unboxed.Offset;
-
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)

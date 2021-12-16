@@ -13,7 +13,6 @@
 
 package org.vmmagic.pragma;
 
-
 /**
  * Do not inline method that can throw this exception.
  * 

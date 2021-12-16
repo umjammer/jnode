@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.bus.ide.atapi;
 
 import org.apache.log4j.Logger;
@@ -122,7 +122,6 @@ public class ATAPIDriver extends Driver implements SCSIHostControllerAPI {
     class ATAPISCSIDevice extends SCSIDevice {
 
         private InquiryData inquiryResult;
-
 
         /**
          * Initialize this instance.

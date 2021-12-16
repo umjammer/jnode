@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import java.io.BufferedReader;
@@ -58,7 +58,7 @@ public class DefaultInterpreter implements CommandInterpreter {
     };
 
     static final String[] NO_ARGS = new String[0];
-    
+
     private static final Logger LOG = Logger.getLogger(DefaultInterpreter.class);
 
     public static final int REDIRECTS_FLAG = 0x01;
@@ -93,7 +93,7 @@ public class DefaultInterpreter implements CommandInterpreter {
     public String getName() {
         return "default";
     }
-    
+
     /**
      * {@inheritDoc}
      * 
@@ -133,13 +133,13 @@ public class DefaultInterpreter implements CommandInterpreter {
             }
         }
     }
-    
+
     @Override
     public Completable parsePartial(CommandShell shell, String line) throws ShellException {
         CommandLine res = doParseCommandLine(line);
         return res == null ? new CommandLine("", null) : res;
     }
-    
+
     @Override
     public boolean help(CommandShell shell, String line, PrintWriter pw) throws ShellException {
         CommandLine cmd = doParseCommandLine(line);
@@ -156,7 +156,7 @@ public class DefaultInterpreter implements CommandInterpreter {
         }
         return false;
     }
-    
+
     protected int interpret(CommandShell shell, String line) 
         throws ShellException {
         CommandLine cmd = doParseCommandLine(line);
@@ -294,7 +294,7 @@ public class DefaultInterpreter implements CommandInterpreter {
         }
         return result.toString();
     }
-    
+
     @Override
     public boolean supportsMultiline() {
         return false;

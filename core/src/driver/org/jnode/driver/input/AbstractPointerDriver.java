@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.input;
 
 import java.io.IOException;
@@ -41,7 +41,6 @@ public abstract class AbstractPointerDriver extends AbstractInputDriver<PointerE
     private static final Logger log = Logger.getLogger(AbstractPointerDriver.class);
     private ByteChannel channel;
     private PointerInterpreter interpreter;
-
 
     public void addPointerListener(PointerListener l) {
         super.addListener(l);

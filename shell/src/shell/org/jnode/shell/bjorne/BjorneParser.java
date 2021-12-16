@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import static org.jnode.shell.bjorne.BjorneInterpreter.CMD_BRACE_GROUP;
@@ -120,7 +120,7 @@ import org.jnode.shell.ShellSyntaxException;
 public class BjorneParser {
     private final BjorneTokenizer tokens;
     private BjorneCompleter completer;
-    
+
     private final List<RedirectionNode> hereRedirections = new ArrayList<RedirectionNode>();
     private boolean allowLineBreaks;
 
@@ -150,7 +150,7 @@ public class BjorneParser {
         }
         return command;
     }
-    
+
     /**
      * Parse a 'complete_command' capturing completions.
      * 
@@ -603,7 +603,7 @@ public class BjorneParser {
             return parseCompoundList(TOK_FI_BIT);
         } 
     }
-    
+
     private BjorneToken optNext(long expectedSet, int context) throws ShellSyntaxException {
         if (allowLineBreaks) {
             doLineBreaks(expectedSet, false);
@@ -678,14 +678,14 @@ public class BjorneParser {
         expect(token, expectedSet, true);
         return token;
     }
-    
+
     private BjorneToken next() throws ShellSyntaxException {
         if (allowLineBreaks) {
             doLineBreaks(0L, false);
         }
         return tokens.next();
     }
-    
+
     private BjorneToken peekEager() throws ShellSyntaxException {
         if (allowLineBreaks) {
             doLineBreaks(0L, true);
@@ -742,7 +742,7 @@ public class BjorneParser {
             }
         }
     }
-    
+
     private void skipLineBreaks() throws ShellSyntaxException {
         this.allowLineBreaks = true;
         doLineBreaks(0L, false);

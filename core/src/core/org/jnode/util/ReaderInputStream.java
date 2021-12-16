@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.util;
 
 import java.io.IOException;
@@ -38,13 +38,13 @@ import java.nio.charset.CoderResult;
  */
 public class ReaderInputStream extends InputStream {
     private final Reader reader;
-    
+
     private CharBuffer chars = CharBuffer.allocate(1024);
     private ByteBuffer bytes = ByteBuffer.allocate(2048);
-    
+
     private CharsetEncoder encoder;
     private CoderResult cr;
-    
+
     public ReaderInputStream(Reader reader) {
         this(reader, Charset.defaultCharset().name());
     }
@@ -65,7 +65,7 @@ public class ReaderInputStream extends InputStream {
         }
         return bytes.get();
     }
-    
+
     @Override
     public synchronized int read(byte[] b, int off, int len) throws IOException {
         if (off < 0 || off > b.length || len < 0 || off + len > b.length || off + len < 0) {
@@ -94,7 +94,7 @@ public class ReaderInputStream extends InputStream {
     public int read(byte[] b) throws IOException {
         return this.read(b, 0, b.length);
     }
-    
+
     /**
      * This method puts bytes into the (empty) 'bytes' buffer.  It returns
      * <code>false</code> if no bytes were copied either because the reader

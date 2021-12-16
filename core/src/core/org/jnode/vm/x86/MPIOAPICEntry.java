@@ -17,14 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.x86;
 
 import org.jnode.system.resource.MemoryResource;
 import org.jnode.util.NumberUtils;
 import org.jnode.annotation.MagicPermission;
 import org.vmmagic.unboxed.Address;
-
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)
@@ -54,7 +53,6 @@ class MPIOAPICEntry extends MPEntry {
     public Address getAddress() {
         return Address.fromIntZeroExtend(mem.getInt(4));
     }
-
 
     /**
      * @see org.jnode.vm.x86.MPEntry#toString()

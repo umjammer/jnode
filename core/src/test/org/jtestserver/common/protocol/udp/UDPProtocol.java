@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2009  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -37,12 +37,12 @@ import org.jtestserver.common.protocol.TimeoutException;
 
 public class UDPProtocol extends Protocol<DatagramSocket> {
     private static final Logger LOGGER = Logger.getLogger(UDPProtocol.class.getName());
-        
+
     private static final int MAX_SIZE = Integer.MAX_VALUE; // 1024 * 1024;
 
     //private static final int CHAR_SIZE = 2; // size of a char in bytes
     private static final int INT_SIZE = 4; // size of an int in bytes
-    
+
     @Override
     public final UDPClient createClient(InetAddress serverIp, int serverPort) throws ProtocolException {
         try {
@@ -51,7 +51,7 @@ public class UDPProtocol extends Protocol<DatagramSocket> {
             throw new ProtocolException(e);
         }
     }
-    
+
     @Override
     public final UDPServer createServer(int localPort) throws ProtocolException {
         try {
@@ -66,21 +66,21 @@ public class UDPProtocol extends Protocol<DatagramSocket> {
         throws ProtocolException, TimeoutException {
         try {
             final byte[] bytes = message.getBytes(); 
-            
+
             // send size of data
             ByteBuffer byteBuffer = ByteBuffer.allocate(INT_SIZE).putInt(bytes.length);
             byte[] data = byteBuffer.array();
             remoteAddress = (remoteAddress == null) ? socket.getRemoteSocketAddress() : remoteAddress;
             DatagramPacket packet = new DatagramPacket(data, data.length, remoteAddress);
-                        
+
             socket.send(packet);
-            
+
             LOGGER.log(Level.INFO, "nb bytes sent : " + bytes.length);
-            
+
             // send data
             packet = new DatagramPacket(bytes, bytes.length, remoteAddress);
             socket.send(packet);
-            
+
 //            ByteBuffer bb = ByteBuffer.allocate(command.length() * CHAR_SIZE + INT_SIZE);
 //            bb.putInt(command.length()).asCharBuffer().append(command);
 //            socket.getChannel().send(bb, socket.getRemoteSocketAddress());
@@ -106,14 +106,14 @@ public class UDPProtocol extends Protocol<DatagramSocket> {
                         "stream probably corrupted : received more than "
                         + MAX_SIZE + " bytes (" + size + ")");
             }
-            
+
             // receive actual data
             data = new byte[size];
             packet = new DatagramPacket(data, data.length);
             socket.receive(packet);
-            
+
             return new ReceivedMessage(new String(packet.getData()), packet.getSocketAddress());
-            
+
 //            ByteBuffer bb = ByteBuffer.allocate(INT_SIZE);
 //            socket.getChannel().read(bb);
 //            int size = bb.getInt();

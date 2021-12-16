@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package java.lang;
 
 import java.lang.ref.WeakReference;
@@ -63,7 +63,7 @@ public class NativeString {
                 boot();
                 booted = true;
             }
-            
+
             final WeakReference<String> ref = internTable.get(instance);
             if (ref != null) {
                 final String s = ref.get();

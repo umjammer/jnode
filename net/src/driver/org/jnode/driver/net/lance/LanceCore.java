@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.net.lance;
 
 import java.security.PrivilegedExceptionAction;
@@ -73,33 +73,33 @@ public class LanceCore extends AbstractDeviceCore implements IRQHandler, LanceCo
      * Device Driver
      */
     private final LanceDriver driver;
-    
+
     /**
      * Start of IO address space
      */
     private final int iobase;
-    
+
     /**
      * IO address space resource
      */
     private final IOResource ioResource;
     private final IOAccess io;
-    
+
     /**
      * IRQ resource
      */
     private final IRQResource irq;
-    
+
     /**
      * My ethernet address
      */
     private EthernetAddress hwAddress;
-    
+
     /**
      * Flags for the specific device found
      */
     private final LanceFlags flags;
-    
+
     /**
      * Manager for receive and transmit rings as well as data buffers
      */

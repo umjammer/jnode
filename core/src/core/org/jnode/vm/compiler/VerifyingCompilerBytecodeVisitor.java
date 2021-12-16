@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.compiler;
 
 import org.jnode.vm.classmgr.VmConstIMethodRef;
@@ -93,7 +93,6 @@ public class VerifyingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor>
         verifyInvoke(methodRef);
         super.visit_invokevirtual(methodRef);
     }
-
 
     /**
      * @see org.jnode.vm.compiler.DelegatingCompilerBytecodeVisitor#visit_monitorenter()

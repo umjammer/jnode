@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.net;
 
 import java.io.PrintWriter;
@@ -44,7 +44,7 @@ public class ResolverCommand extends AbstractCommand {
     private static final String help_super = "Manage JNode's DNS resolver";
     private static final String str_no_servers = "No DNS servers found.";
     private static final String str_servers = "DNS servers:";
-    
+
     // FIXME this should not be restricted to IPv4 addresses.
     private final FlagArgument argAdd;
     private final FlagArgument argDel;

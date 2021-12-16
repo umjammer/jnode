@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.io;
 
 import java.io.IOException;
@@ -56,7 +56,7 @@ public class CommandIOHolder {
         this.io = other.io;
         this.isMine = false;
     }
-    
+
     /**
      * Get the holder's CommandIO.
      * @return the holder' current CommandIO.
@@ -103,7 +103,7 @@ public class CommandIOHolder {
             }
         }
     }
-    
+
     /**
      * @return {@code true} is the holder 'owns' the current CommandIO, and {@code false} otherwise.
      */

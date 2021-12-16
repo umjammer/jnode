@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.swingpeers;
 
 import java.awt.AWTEvent;
@@ -47,7 +47,6 @@ final class SwingCheckboxPeer extends SwingComponentPeer<Checkbox, SwingCheckBox
         peerComponent.setSelected(checkBox.getState());
 
     }
-
 
     public void setCheckboxGroup(CheckboxGroup g) {
 

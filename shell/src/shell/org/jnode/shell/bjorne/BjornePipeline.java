@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import java.io.IOException;
@@ -52,14 +52,13 @@ class BjornePipeline {
         private CommandIOHolder[] holders;
         private BjornePipeline nestedPipeline;
     }
-    
+
     private int stageCount = 0;
     private int nextStage = 0;
     private final PipelineStage[] stages;
     private final BjornePipeline parent;
     private final Map<String, Pipeline> pipes;
     private int activeStageCount;
-    
 
     BjornePipeline(int len) {
         this.stages = new PipelineStage[len];
@@ -142,7 +141,7 @@ class BjornePipeline {
             return new CommandInput(pipe.createSink());
         }
     }
-    
+
     private void activatePipes() {
         for (Pipeline pipe : pipes.values()) {
             try {

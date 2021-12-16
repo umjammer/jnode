@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.input;
 
 public class LogitechProtocol implements MouseProtocolHandler {
@@ -46,15 +46,15 @@ public class LogitechProtocol implements MouseProtocolHandler {
         final int d0 = data[0] & 0xFF;
         final int d1 = data[1] & 0xFF;
         final int d2 = data[2] & 0xFF;
-        
+
         // In case of overflow, discard this packet
         if ((d0 & BITS_XY_OVFL) != 0)
             return null;
-        
+
         final int buttons = d0 & BIT_BUTTON_MASK;
         final int x = (d1 != 0) ? d1 - ((d0 & BIT_X_SIGN) << 4) : 0;
         final int y = (d2 != 0) ? ((d0 & BIT_Y_SIGN) << 3) - d2 : 0;
-        
+
         return new PointerEvent(buttons, x, y, PointerEvent.RELATIVE);
     }
 }

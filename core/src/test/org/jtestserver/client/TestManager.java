@@ -1,7 +1,7 @@
 /*
 
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2009  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -34,19 +34,19 @@ import org.jtestserver.common.protocol.TimeoutException;
 
 public class TestManager {
     private static final Logger LOGGER = Logger.getLogger(TestManager.class.getName());
-    
+
     private final TestClient client;
     private final List<Result> results;
-    
+
     public TestManager(Client<?, ?> client) {
         this.client = new DefaultTestClient(client);
         results = new ArrayList<Result>();
     }
-    
+
     public void runTest(String test) throws ProtocolException, IOException {
-        
+
         LOGGER.info("running test " + test);
-        
+
         try {
             RunResult delta = client.runMauveTest(test);
             results.add(new Result(test, delta));
@@ -61,18 +61,18 @@ public class TestManager {
     public boolean hasPendingTests() {
         return !results.isEmpty();
     }
-    
+
     /**
      * @return
      */
     public Result getResult() {
         return results.remove(0);
     }
-    
+
     public static class Result {
         private final String test;
         private final RunResult runResult;
-        
+
         public Result(String test, RunResult runResult) {
             super();
             this.test = test;
@@ -92,6 +92,6 @@ public class TestManager {
         public String getTest() {
             return test;
         }
-        
+
     }
 }

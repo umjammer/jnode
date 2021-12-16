@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.File;
@@ -47,7 +47,7 @@ import org.jnode.shell.syntax.URLArgument;
  * @author crawley@jnode.org
  */
 public class Log4jCommand extends AbstractCommand {
-    
+
     private static final String help_list = "List the current loggers";
     private static final String help_set_level = "Set the level of a logger";
     private static final String help_file = "log4j configuration file";
@@ -56,7 +56,7 @@ public class Log4jCommand extends AbstractCommand {
     private static final String help_logger = "the logger";
     private static final String help_super = "Manage log4j logging";
     private static final String err_config = "Cannot open configuration file '%s': %s";
-    
+
     private final FlagArgument argList;
     private final FlagArgument argSetLevel;
     private final FileArgument argFile;
@@ -64,7 +64,6 @@ public class Log4jCommand extends AbstractCommand {
     private final Log4jLevelArgument argLevel;
     private final Log4jLoggerArgument argLogger;
 
-    
     public Log4jCommand() {
         super(help_super);
         argList     = new FlagArgument("list", Argument.OPTIONAL, help_list);
@@ -79,7 +78,7 @@ public class Log4jCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new Log4jCommand().execute(args);
     }
-    
+
     @Override
     public void execute() throws IOException {
         if (argFile.isSet()) {

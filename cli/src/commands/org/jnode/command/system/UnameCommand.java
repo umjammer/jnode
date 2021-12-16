@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import gnu.java.security.action.GetPropertiesAction;
@@ -102,7 +102,6 @@ public final class UnameCommand extends AbstractCommand {
      * Flag for argument 'v'.
      */
     private final FlagArgument versionArg;
-
 
     /**
      * Construct new uname command implementation with "amnrsv" arguments.

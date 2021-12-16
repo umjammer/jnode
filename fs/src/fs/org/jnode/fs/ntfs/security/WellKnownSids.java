@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.ntfs.security;
 
 import java.util.LinkedHashMap;
@@ -134,11 +134,9 @@ public class WellKnownSids {
 
     public static final SecurityIdentifier WRITE_RESTRICTED_CODE =    register("S-1-5-33", "Write Restricted Code");
 
-
     public static final SecurityIdentifier NTLM_AUTHENTICATION =      register("S-1-5-64-10", "NTLM Authentication");
     public static final SecurityIdentifier SCHANNEL_AUTHENTICATION =  register("S-1-5-64-14", "SChannel Authentication");
     public static final SecurityIdentifier DIGEST_AUTHENTICATION =    register("S-1-5-64-21", "Digest Authentication");
-
 
     public static final SecurityIdentifier NT_SERVICE =               register("S-1-5-80", "NT Service");
     public static final SecurityIdentifier ALL_NT_SERVICES =          register("S-1-5-80-0", "All Services");
@@ -158,9 +156,7 @@ public class WellKnownSids {
     public static final SecurityIdentifier ML_SYSTEM =                register("S-1-16-16384", "System Mandatory Level");
     public static final SecurityIdentifier ML_PROTECTED_PROCESS =     register("S-1-16-20480", "Protected Process Mandatory Level");
 
-
     public static final SecurityIdentifier MANDATORY_PROCESS_SECURE = register("S-1-16-28672", "Secure Process Mandatory Level");
-
 
     /**
      * Well known SIDs for the sub-region beginning with 1-5-21 then a set of values and ending in the following.
@@ -186,12 +182,10 @@ public class WellKnownSids {
         put("522", "Cloneable Domain Controllers");
     }};
 
-
     /**
      * Sid for a login session in the format "S-1-5-5-*-*"
      */
     private static final String WELL_KNOWN_1_5_5_SID_NAME = "Logon Session";
-
 
     private WellKnownSids() {
         // Prevent instantiation

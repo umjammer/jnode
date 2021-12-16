@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.font.truetype.glyph;
 
 import java.awt.geom.AffineTransform;
@@ -26,7 +26,6 @@ import java.io.IOException;
 import org.jnode.awt.font.spi.ShapedGlyph;
 import org.jnode.awt.font.truetype.TTFInput;
 import org.jnode.awt.font.truetype.tables.GlyphTable;
-
 
 public class CompositeGlyph extends TTFGlyph {
 

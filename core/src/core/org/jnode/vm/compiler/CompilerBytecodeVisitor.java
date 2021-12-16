@@ -17,13 +17,12 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.compiler;
 
 import org.jnode.vm.bytecode.BasicBlock;
 import org.jnode.vm.bytecode.BytecodeVisitor;
 import org.jnode.vm.classmgr.VmType;
-
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)

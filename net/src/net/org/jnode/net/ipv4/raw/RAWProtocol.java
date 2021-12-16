@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.ipv4.raw;
 
 import java.net.DatagramSocketImplFactory;
@@ -37,10 +37,10 @@ import org.jnode.vm.objects.Statistics;
 public class RAWProtocol implements IPv4Protocol, IPv4Constants {
     /** My logger */
     private static final Logger log = Logger.getLogger(RAWProtocol.class);
-    
+
     /** The service i'm a part of */
     // private final IPv4Service ipService;
-    
+
     /** My statistics */
     private final RAWStatistics stat = new RAWStatistics();
 

@@ -10,7 +10,7 @@
  *  See the COPYRIGHT.txt file distributed with this work for information
  *  regarding copyright ownership.
  */
- 
+
 package org.mmtk.vm;
 
 import org.jnode.vm.Unsafe;
@@ -26,7 +26,7 @@ import org.vmmagic.pragma.UninterruptiblePragma;
  * @version $Revision$
  */
 public final class Strings {
-    
+
     /**
      * Primitive parsing facilities for strings
      */

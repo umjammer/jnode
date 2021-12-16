@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 /**
@@ -30,8 +30,8 @@ public interface SyntaxSpecAdapter {
     public String getName();
 
     public SyntaxSpecAdapter getChild(int childNo);
-    
+
     public int getNosChildren();
-    
+
     public String getAttribute(String name);
 }

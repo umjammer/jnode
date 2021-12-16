@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.BufferedReader;
@@ -42,7 +42,7 @@ import org.jnode.shell.syntax.StringArgument;
  * @author chris boertien
  */
 public class CutCommand extends AbstractCommand {
-    
+
     private static final String help_byte = "Select only the listed bytes";
     private static final String help_char = "Select only the listed chars";
     private static final String help_field = "Select only the listed fields";
@@ -57,11 +57,11 @@ public class CutCommand extends AbstractCommand {
     private static final String err_no_mode = "Must select either a byte, char or field range";
     private static final String err_suppress = "Suppression only makes sense when using fields";
     private static final String fmt_err = "cut: %s%n";
-    
+
     private static enum Mode {
         BYTE, CHAR, FIELD;
     }
-    
+
     private final NumberListArgument argByteRange;
     private final NumberListArgument argCharRange;
     private final NumberListArgument argFieldRange;
@@ -70,7 +70,7 @@ public class CutCommand extends AbstractCommand {
     private final FileArgument argFiles;
     private final FlagArgument argSuppress;
     private final FlagArgument argComplement;
-    
+
     private PrintWriter err;
     private BufferedWriter out;
     private File[] files;
@@ -81,7 +81,7 @@ public class CutCommand extends AbstractCommand {
     private boolean suppress;
     @SuppressWarnings("unused")
     private boolean complement;
-    
+
     public CutCommand() {
         super(help_super);
         argByteRange  = new NumberListArgument("byte-range", 0, 1, Integer.MAX_VALUE - 1, help_byte);
@@ -95,15 +95,15 @@ public class CutCommand extends AbstractCommand {
         registerArguments(argByteRange, argCharRange, argFieldRange, argInDelim, argOutDelim, argFiles);
         registerArguments(argSuppress, argComplement);
     }
-    
+
     public void execute() throws IOException {
         err = getError().getPrintWriter();
         out = new BufferedWriter(getOutput().getPrintWriter());
         parseOptions();
-        
+
         BufferedReader reader;
         List<String> lines;
-        
+
         for (File file : files) {
             if (file.getName().equals("-")) {
                 reader = new BufferedReader(getInput().getReader());
@@ -128,7 +128,7 @@ public class CutCommand extends AbstractCommand {
             }
         }
     }
-    
+
     private void cutBytes(List<String> lines) throws IOException {
         // FIXME
         // In the case of single-byte characters, this is the right
@@ -137,7 +137,7 @@ public class CutCommand extends AbstractCommand {
         // does not fall in the middle of a character.
         cutChars(lines);
     }
-    
+
     private void cutChars(List<String> lines) throws IOException {
         int limit, start, end;
         for (String line : lines) {
@@ -151,7 +151,7 @@ public class CutCommand extends AbstractCommand {
             out.newLine();
         }
     }
-    
+
     private void cutFields(List<String> lines) throws IOException {
         boolean first;
         int limit, start, end;
@@ -168,7 +168,7 @@ public class CutCommand extends AbstractCommand {
                 out.newLine();
                 continue;
             }
-            
+
             first = true;
             limit = fields.length;
             for (NumberRange range : list) {
@@ -186,7 +186,7 @@ public class CutCommand extends AbstractCommand {
             out.newLine();
         }
     }
-    
+
     private void parseOptions() {
         if (argByteRange.isSet()) {
             mode = Mode.BYTE;
@@ -238,7 +238,7 @@ public class CutCommand extends AbstractCommand {
             files = new File[] {new File("-")};
         }
     }
-    
+
     private void error(String s) {
         err.format(fmt_err, s);
         exit(1);

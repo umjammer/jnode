@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.memmgr.def;
 
 import org.jnode.vm.Unsafe;
@@ -217,7 +217,7 @@ final class GCMarkVisitor extends ObjectVisitor implements ObjectFlags,
                     if (true) {
                         verifyChild(child, object, "array child", i, i);
                     }
-                    
+
                     processChild(child);
                 }
             }
@@ -257,7 +257,7 @@ final class GCMarkVisitor extends ObjectVisitor implements ObjectFlags,
                     if (false) {
                         verifyChild(child, object, "object child", i, offset);
                     }
-                    
+
                     processChild(child);
                 }
             }

@@ -1,7 +1,7 @@
 /* SingleTestHarness.java -- Runs one test given on the command line
  Copyright (C) 2005 Mark J. Wielaard
  This file is part of Mauve.
- 
+
  Modified by Levente S\u00e1ntha (lsantha@jnode.org)
  Modified by Ewout Prangsma (epr@jnode.org)
 
@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PluginTestHarness extends TestHarness {
-    
+
     private int count;
 
     private final String className;
@@ -214,7 +214,7 @@ public class PluginTestHarness extends TestHarness {
         } else {
             int passed = 0;
             int failed = 0;
-            
+
             final List<String> tests = new ArrayList<String>();
             Filter.readTestList(new LineProcessor() {
 
@@ -222,18 +222,18 @@ public class PluginTestHarness extends TestHarness {
                 public void processLine(StringBuffer buf) {
                     String className = buf.toString();
                     className = className.trim();
-               
+
                     if (!className.isEmpty() && (className.indexOf('[') < 0)) {                        
                         if (className.startsWith(filter)) {
                             tests.add(className);
                         }
                     }
                 }
-                
+
             });
-            
+
             for (String className : tests) {
-                
+
                 if (!className.isEmpty() && (className.indexOf('[') < 0)) {                        
                     if (className.startsWith(filter)) {
                         try {

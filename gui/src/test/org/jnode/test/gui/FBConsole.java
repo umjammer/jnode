@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.gui;
 
 import java.awt.Color;
@@ -99,7 +99,6 @@ public class FBConsole {
         }
     }
 
-
     static class FBPcTextScreen extends AbstractPcTextScreen {
         private static final int SCREEN_WIDTH = 80;
         private static final int SCREEN_HEIGHT = 25;
@@ -120,7 +119,6 @@ public class FBConsole {
                 System.out.println(s);
             }
         }
-
 
         public char getChar(int offset) {
             return buffer[offset];
@@ -164,7 +162,6 @@ public class FBConsole {
         public void copyTo(TextScreen dst, int offset, int length) {
 
         }
-
 
         @Override
         public void sync(int offset, int length) {

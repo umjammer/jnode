@@ -17,15 +17,12 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.command.test;
 
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Set;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.jnode.driver.console.CompletionInfo;
 import org.jnode.shell.AbstractCommand;
@@ -52,7 +49,6 @@ public class SuiteCommand extends AbstractCommand {
             "category", Argument.OPTIONAL | Argument.MULTIPLE,
             "test categories to run or list");
 
-    
     public SuiteCommand() {
         super("Run one or more JUnit testcase(s)");
         registerArguments(FLAG_LIST, FLAG_RUN, ARG_CATEGORY);
@@ -69,7 +65,7 @@ public class SuiteCommand extends AbstractCommand {
         TestManager mgr = TestManager.getInstance();
         if (FLAG_LIST.isSet()) {
             PrintWriter out = getOutput().getPrintWriter();
-            for (Class<? extends Test> test : mgr.getTests()) {
+            for (Class<? extends Object> test : mgr.getTests()) {
                 out.print(test.getName() + " :");
                 for (String category : mgr.getCategories(test)) {
                     out.print(" ");
@@ -82,7 +78,7 @@ public class SuiteCommand extends AbstractCommand {
             if (categories == null) {
                 categories = new String[0];
             }
-            TestSuite suite = mgr.getTestSuite(Arrays.asList(categories));
+            Object suite = mgr.getTestSuite(Arrays.asList(categories));
             junit.textui.TestRunner.run(suite);
         }
     }
@@ -94,7 +90,7 @@ public class SuiteCommand extends AbstractCommand {
     private static class CategoryArgument extends StringArgument {
 
         public CategoryArgument(String label, int flags, String description) {
-            super(label, flags, description);        
+            super(label, flags, description);
         }
 
         public void doComplete(CompletionInfo completions, String partial, int flags) {
@@ -113,6 +109,6 @@ public class SuiteCommand extends AbstractCommand {
             } else {
                 throw new CommandSyntaxException("not a recognized JUnit test category");
             }
-        }    
+        }
     }
 }

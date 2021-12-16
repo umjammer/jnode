@@ -1,7 +1,7 @@
 /*
 
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -32,29 +32,29 @@ import org.jtestserver.server.TestFailureException;
 
 public class MauveTestRunner implements TestRunner<RunResult> {
     private static final MauveTestRunner INSTANCE = new MauveTestRunner();
-    
+
     public static final MauveTestRunner getInstance() {
         return INSTANCE;
     }
-    
+
     private Status status = Status.READY;
 //    private RunnerThread thread = new RunnerThread();
     private Config config;
-    
+
     private MauveTestRunner() {        
     }
-    
+
     public void setConfig(Config config) {
         this.config = config;        
     }
-    
+
     @Override
     public RunResult runTest(String test) throws TestFailureException {
         status = status.RUNNING;
         JTSMauve m = new JTSMauve();
         RunResult result = m.runTest(test);
         status = Status.READY;
-        
+
         return result;
     }
 
@@ -66,16 +66,16 @@ public class MauveTestRunner implements TestRunner<RunResult> {
         public RunResult runTest(String testName) {
             // save the default locale, some tests change the default
             Locale savedLocale = Locale.getDefault();
-            
+
             result = new RunResult("Mauve Test Run");
             addSystemProperties(result);
             currentCheck = new CheckResult(0, false);
 
             executeLine("", testName);
-            
+
             // restore the default locale
             Locale.setDefault(savedLocale);
-            
+
             return getResult();
         }
     }

@@ -36,7 +36,6 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 
-
 package gnu.classpath.jdwp;
 
 import gnu.classpath.jdwp.event.Event;
@@ -124,7 +123,7 @@ public class Jdwp
   {
     return _group;
   }
-  
+
   /**
    * Should the virtual machine suspend on startup?
    */
@@ -244,7 +243,7 @@ public class Jdwp
 	  }
       }
   }
-  
+
   /**
    * Sends the event to the debugger.
    *

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.syntax;
 
 import org.jnode.shell.AbstractCommand;
@@ -32,11 +32,14 @@ import org.jnode.shell.syntax.FlagArgument;
 import org.jnode.shell.syntax.IntegerArgument;
 import org.jnode.shell.syntax.OptionSetSyntax;
 import org.jnode.shell.syntax.OptionSyntax;
-import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class OptionSetSyntaxTest {
 
-    public static class Test extends AbstractCommand {
+    public static class Test1 extends AbstractCommand {
         private final FileArgument fileArg = new FileArgument("fileArg", Argument.OPTIONAL +
                 Argument.MULTIPLE);
         private final IntegerArgument intArg = new IntegerArgument("intArg", Argument.OPTIONAL +
@@ -50,7 +53,7 @@ public class OptionSetSyntaxTest {
         private final FlagArgument flagArg4 = new FlagArgument("flagArg4", Argument.OPTIONAL +
                 Argument.SINGLE);
 
-        public Test() {
+        public Test1() {
             registerArguments(fileArg, intArg, flagArg1, flagArg2, flagArg3, flagArg4);
         }
 
@@ -58,14 +61,14 @@ public class OptionSetSyntaxTest {
         }
     }
 
-    @org.junit.Test
+    @Test
     public void testConstructor() {
         new OptionSetSyntax(new OptionSyntax("intArg", 'i'), new OptionSyntax("fileArg", 'f'),
                 new OptionSyntax("flagArg1", 'x'), new OptionSyntax("flagArg2", 'y'),
                 new OptionSyntax("flagArg3", 'z'), new OptionSyntax("flagArg4", "boring"));
     }
 
-    @org.junit.Test
+    @Test
     public void testOne() throws Exception {
         TestShell shell = new TestShell();
         shell.addAlias("cmd", "org.jnode.test.shell.syntax.OptionSetSyntaxTest$Test");
@@ -81,17 +84,17 @@ public class OptionSetSyntaxTest {
         cl = new CommandLine(new Token("cmd"), new Token[] {}, null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
+        assertEquals(0, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals(0, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
 
         cl =
                 new CommandLine(new Token("cmd"), new Token[] {new Token("-f"), new Token("F1")},
                         null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
-        Assert.assertEquals("F1", cmd.getArgumentBundle().getArgument("fileArg").getValue()
+        assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals(0, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
+        assertEquals("F1", cmd.getArgumentBundle().getArgument("fileArg").getValue()
                 .toString());
 
         cl =
@@ -99,25 +102,25 @@ public class OptionSetSyntaxTest {
                     new Token("-x"), new Token("-yz")}, null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("flagArg1").getValues().length);
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("flagArg2").getValues().length);
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("flagArg3").getValues().length);
+        assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals(0, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
+        assertEquals(1, cmd.getArgumentBundle().getArgument("flagArg1").getValues().length);
+        assertEquals(1, cmd.getArgumentBundle().getArgument("flagArg2").getValues().length);
+        assertEquals(1, cmd.getArgumentBundle().getArgument("flagArg3").getValues().length);
 
         cl = new CommandLine(new Token("cmd"), new Token[] {new Token("-yz")}, null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("flagArg1").getValues().length);
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("flagArg2").getValues().length);
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("flagArg3").getValues().length);
+        assertEquals(0, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals(0, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
+        assertEquals(0, cmd.getArgumentBundle().getArgument("flagArg1").getValues().length);
+        assertEquals(1, cmd.getArgumentBundle().getArgument("flagArg2").getValues().length);
+        assertEquals(1, cmd.getArgumentBundle().getArgument("flagArg3").getValues().length);
 
         try {
             cl = new CommandLine(new Token("cmd"), new Token[] {new Token("-xya")}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("no exception");
+            fail("no exception");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -125,7 +128,7 @@ public class OptionSetSyntaxTest {
         try {
             cl = new CommandLine(new Token("cmd"), new Token[] {new Token("-")}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("no exception");
+            fail("no exception");
         } catch (CommandSyntaxException ex) {
             // expected
         }

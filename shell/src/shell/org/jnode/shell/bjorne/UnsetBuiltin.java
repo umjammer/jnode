@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import org.jnode.shell.syntax.Argument;
@@ -33,16 +33,15 @@ import org.jnode.shell.syntax.SyntaxBundle;
 final class UnsetBuiltin extends BjorneBuiltin {
     private static final SyntaxBundle SYNTAX = 
         new SyntaxBundle("unset", new RepeatSyntax(new ArgumentSyntax("unset")));
-    
+
     static final Factory FACTORY = new Factory() {
         public BjorneBuiltinCommandInfo buildCommandInfo(BjorneContext context) {
             return new BjorneBuiltinCommandInfo("unset", SYNTAX, new UnsetBuiltin(context), context);
         }
     };
-    
+
     private final VariableNameArgument argVariables; 
-    
-    
+
     UnsetBuiltin(BjorneContext context) {
         super("Export shell variables to the environment");
         argVariables = new VariableNameArgument(

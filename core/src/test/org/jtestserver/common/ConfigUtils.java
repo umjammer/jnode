@@ -1,7 +1,7 @@
 /*
 
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -86,11 +86,11 @@ public class ConfigUtils {
     public static File getFile(Properties properties, String name, boolean mustExist) {
         return getFile(properties, name, mustExist, false); // directory=false (aka we want a file)
     }
-    
+
     private static File getFile(Properties properties, String name, boolean mustExist, boolean directory) {
         String fileStr = properties.getProperty(name);
         File file = null;
-        
+
         if ((fileStr != null) && !fileStr.trim().isEmpty()) {
             file = new File(fileStr);
 
@@ -99,7 +99,7 @@ public class ConfigUtils {
                 file = null;
             }
         }
-        
+
         if (file == null) {
             final String type = directory ? "directory" : "file";
             final String msg;
@@ -119,7 +119,7 @@ public class ConfigUtils {
         if ((value == null) || value.trim().isEmpty()) {
             throw new IllegalArgumentException("property " + name + " must be specified");
         }
-        
+
         return value;
     }
 
@@ -131,17 +131,17 @@ public class ConfigUtils {
      */
     public static String getClasspath(Properties properties, String name, boolean mustExist) {
         String classpath;
-        
+
         if (mustExist) {
             classpath = getString(properties, name);
         } else {
             classpath = properties.getProperty(name, null);
         }
-        
+
         if (classpath != null) {
             classpath = classpath.replace(',', File.pathSeparatorChar);
         }
-        
+
         return classpath;
     }
 }

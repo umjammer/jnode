@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.build;
 
 import java.io.File;
@@ -50,7 +50,7 @@ public class InitJarBuilder extends AbstractPluginsTask {
     private File destDir;
 
     private File destFile;
-    
+
     private PluginListInsertor insertor;
 
     public void execute() throws BuildException {
@@ -189,29 +189,29 @@ public class InitJarBuilder extends AbstractPluginsTask {
     protected void testPluginPrerequisites(List<PluginJar> pluginJars)
         throws BuildException {
         final Map<String, List<String>> idToVersions = new HashMap<String, List<String>>();
-        
+
         // get all couples (id, version) in idToVersions 
         for (PluginJar piJar : pluginJars) {
             final PluginDescriptor descr = piJar.getDescriptor();
-            
+
             List<String> versions = idToVersions.get(descr.getId());
             if (versions == null) {
                 versions = new ArrayList<String>(); 
                 idToVersions.put(descr.getId(), versions);
             }
-            
+
             versions.add(descr.getVersion().toString());
         }
-        
+
         // now, check that each dependency is satisfied
         for (PluginJar piJar : pluginJars) {
             final PluginDescriptor descr = piJar.getDescriptor();
             final PluginPrerequisite[] prereqs = descr.getPrerequisites();
-            
+
             for (int j = 0; j < prereqs.length; j++) {
                 PluginPrerequisite required = prereqs[j]; 
                 List<String> versions = idToVersions.get(required.getPluginReference().getId());
-                
+
                 boolean versionSpecified = (required.getPluginReference().getVersion() == null); 
 
                 boolean satisfied = false;
@@ -219,7 +219,7 @@ public class InitJarBuilder extends AbstractPluginsTask {
                     satisfied = !versionSpecified ||
                         versions.contains(required.getPluginReference().getVersion().toString());
                 }
-                
+
                 if (!satisfied) {
                     String reqVersionStr =  versionSpecified ? "" : " version " +
                             required.getPluginReference().getVersion();
@@ -298,7 +298,6 @@ public class InitJarBuilder extends AbstractPluginsTask {
         }
     }
 
-
     /**
      * @return Returns the destDir.
      */
@@ -306,14 +305,13 @@ public class InitJarBuilder extends AbstractPluginsTask {
         return destDir;
     }
 
-
     /**
      * @param destDir The destDir to set.
      */
     public final void setDestDir(File destDir) {
         this.destDir = destDir;
     }
-        
+
     public void setPackager(PluginListInsertor insertor) {
         this.insertor = insertor;        
     }    

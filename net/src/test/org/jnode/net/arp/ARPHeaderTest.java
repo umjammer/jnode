@@ -17,15 +17,15 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.arp;
 
 import java.net.SocketException;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.ethernet.EthernetConstants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ARPHeaderTest {
 

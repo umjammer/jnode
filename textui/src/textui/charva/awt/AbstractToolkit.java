@@ -132,15 +132,15 @@ public abstract class AbstractToolkit
         Window top_window = getTopWindow();
         Point origin = top_window.getLocation();    	
         Component component = null;
-        
+
         if (top_window.contains(x, y)) {
         	component =
                 top_window.getComponentAt(x - origin.x, y - origin.y);
         }
-        
+
         return component;
     }
-    
+
     /**
      * Processes the mouse-click specified by mouse_info.
      * Note that we disable mouse-click resolution in the ncurses library
@@ -152,7 +152,7 @@ public abstract class AbstractToolkit
         int x = event.getX();
         int y = event.getY();
         int button = event.getButton();
-        
+
         if (modifiers == MouseEvent.MOUSE_PRESSED)
             _lastMousePressTime = System.currentTimeMillis();
 
@@ -209,7 +209,7 @@ public abstract class AbstractToolkit
         try {
             while (isKeyboardReaderRunning()) {
                 Object event = readKey();
-                
+
                 // identify the kind of event (key, mouse)
                 int key = -1;
                 MouseEvent mouseEvent = null;
@@ -224,7 +224,7 @@ public abstract class AbstractToolkit
                 {
                     fireMouseEvent(mouseEvent);                	
                 }
-                
+
                 /* Note that if the "kent" key is defined, ncurses returns
                  * VK_ENTER when the ENTER key is pressed; but some terminfo
                  * files don't define the "kent" capability.
@@ -744,7 +744,6 @@ public abstract class AbstractToolkit
      */
     protected abstract Object readKey();
 
-
     /** Get current X position of cursor.
      */
     protected abstract int getx();
@@ -765,7 +764,6 @@ public abstract class AbstractToolkit
         0, //A_INVIS       8
 
     };
-
 
     /** This method is used for initializing the curses / ncurses video
      * attributes.

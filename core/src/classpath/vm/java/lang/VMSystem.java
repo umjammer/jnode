@@ -1,6 +1,6 @@
 /* VMSystem.java -- helper for java.lang.system
    Copyright (C) 1998, 2002, 2004 Free Software Foundation
- 
+
 This file is part of GNU Classpath.
 
 GNU Classpath is free software; you can redistribute it and/or modify

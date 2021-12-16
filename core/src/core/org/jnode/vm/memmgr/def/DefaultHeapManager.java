@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.memmgr.def;
 
 import java.io.PrintWriter;
@@ -461,7 +461,7 @@ public final class DefaultHeapManager extends VmHeapManager {
 
         return heapStatistics;
     }
-    
+
     private void accept(ObjectVisitor visitor, boolean locking) {
         VmDefaultHeap heap = firstNormalHeap;
         final Word zero = Word.zero();
@@ -471,7 +471,7 @@ public final class DefaultHeapManager extends VmHeapManager {
             heap = heap.getNext();
         }
     }
-    
+
     /**
      * @see org.jnode.vm.memmgr.VmHeapManager#createProcessorHeapData(org.jnode.vm.facade.VmProcessor)
      */

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.syntax;
 
 import java.util.NoSuchElementException;
@@ -26,8 +26,10 @@ import org.jnode.shell.CommandLine;
 import org.jnode.shell.DefaultInterpreter;
 import org.jnode.shell.ShellException;
 import org.jnode.shell.SymbolSource;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class DefaultTokenizerTest {
 
@@ -45,58 +47,58 @@ public class DefaultTokenizerTest {
     @Test
     public void testTokenizerEmpty() throws ShellException {
         SymbolSource<CommandLine.Token> t = new MyDefaultInterpreter().makeTokenizer("");
-        Assert.assertEquals(false, t.hasNext());
-        Assert.assertEquals(false, t.whitespaceAfterLast());
+        assertEquals(false, t.hasNext());
+        assertEquals(false, t.whitespaceAfterLast());
     }
 
     @Test
     public void testTokenizerSpaces() throws ShellException {
         SymbolSource<CommandLine.Token> t = new MyDefaultInterpreter().makeTokenizer("   ");
-        Assert.assertEquals(false, t.hasNext());
-        Assert.assertEquals(true, t.whitespaceAfterLast());
+        assertEquals(false, t.hasNext());
+        assertEquals(true, t.whitespaceAfterLast());
     }
 
     @Test
     public void testTokenizerSimple() throws ShellException {
         SymbolSource<CommandLine.Token> t = new MyDefaultInterpreter().makeTokenizer("a b c");
-        Assert.assertEquals(true, t.hasNext());
-        Assert.assertEquals(false, t.whitespaceAfterLast());
+        assertEquals(true, t.hasNext());
+        assertEquals(false, t.whitespaceAfterLast());
         CommandLine.Token s = t.next();
-        Assert.assertEquals("a", s.text);
-        Assert.assertEquals(0, s.start);
-        Assert.assertEquals(1, s.end);
+        assertEquals("a", s.text);
+        assertEquals(0, s.start);
+        assertEquals(1, s.end);
         s = t.next();
-        Assert.assertEquals("b", s.text);
-        Assert.assertEquals(2, s.start);
-        Assert.assertEquals(3, s.end);
+        assertEquals("b", s.text);
+        assertEquals(2, s.start);
+        assertEquals(3, s.end);
         s = t.next();
-        Assert.assertEquals("c", s.text);
-        Assert.assertEquals(4, s.start);
-        Assert.assertEquals(5, s.end);
-        Assert.assertEquals(false, t.hasNext());
-        Assert.assertEquals(3, t.tell());
+        assertEquals("c", s.text);
+        assertEquals(4, s.start);
+        assertEquals(5, s.end);
+        assertEquals(false, t.hasNext());
+        assertEquals(3, t.tell());
         try {
             t.next();
-            Assert.fail("No exception");
+            fail("No exception");
         } catch (NoSuchElementException ex) {
             // expected
         }
         t.seek(0);
-        Assert.assertEquals(true, t.hasNext());
+        assertEquals(true, t.hasNext());
         s = t.next();
-        Assert.assertEquals("a", s.text);
-        Assert.assertEquals(0, s.start);
-        Assert.assertEquals(1, s.end);
-        Assert.assertEquals(1, t.tell());
+        assertEquals("a", s.text);
+        assertEquals(0, s.start);
+        assertEquals(1, s.end);
+        assertEquals(1, t.tell());
         try {
             t.seek(-1);
-            Assert.fail("No exception");
+            fail("No exception");
         } catch (NoSuchElementException ex) {
             // expected
         }
         try {
             t.seek(4);
-            Assert.fail("No exception");
+            fail("No exception");
         } catch (NoSuchElementException ex) {
             // expected
         }
@@ -105,47 +107,47 @@ public class DefaultTokenizerTest {
     @Test
     public void testTokenizerQuotes() throws ShellException {
         SymbolSource<CommandLine.Token> t = new MyDefaultInterpreter().makeTokenizer("'a' \"b c\"");
-        Assert.assertEquals(true, t.hasNext());
-        Assert.assertEquals(false, t.whitespaceAfterLast());
+        assertEquals(true, t.hasNext());
+        assertEquals(false, t.whitespaceAfterLast());
         CommandLine.Token s = t.next();
-        Assert.assertEquals("a", s.text);
-        Assert.assertEquals(0, s.start);
-        Assert.assertEquals(3, s.end);
+        assertEquals("a", s.text);
+        assertEquals(0, s.start);
+        assertEquals(3, s.end);
         s = t.next();
-        Assert.assertEquals("b c", s.text);
-        Assert.assertEquals(4, s.start);
-        Assert.assertEquals(9, s.end);
-        Assert.assertEquals(false, t.hasNext());
+        assertEquals("b c", s.text);
+        assertEquals(4, s.start);
+        assertEquals(9, s.end);
+        assertEquals(false, t.hasNext());
     }
 
     @Test
     public void testTokenizerBackslashes() throws ShellException {
         SymbolSource<CommandLine.Token> t =
                 new MyDefaultInterpreter().makeTokenizer("\\'a  b\\ c\\\"");
-        Assert.assertEquals(true, t.hasNext());
-        Assert.assertEquals(false, t.whitespaceAfterLast());
+        assertEquals(true, t.hasNext());
+        assertEquals(false, t.whitespaceAfterLast());
         CommandLine.Token s = t.next();
-        Assert.assertEquals("'a", s.text);
-        Assert.assertEquals(0, s.start);
-        Assert.assertEquals(3, s.end);
+        assertEquals("'a", s.text);
+        assertEquals(0, s.start);
+        assertEquals(3, s.end);
         s = t.next();
-        Assert.assertEquals("b c\"", s.text);
-        Assert.assertEquals(5, s.start);
-        Assert.assertEquals(11, s.end);
-        Assert.assertEquals(false, t.hasNext());
+        assertEquals("b c\"", s.text);
+        assertEquals(5, s.start);
+        assertEquals(11, s.end);
+        assertEquals(false, t.hasNext());
     }
 
     @Test
     public void testTokenizerBackslashes2() throws ShellException {
         SymbolSource<CommandLine.Token> t =
                 new MyDefaultInterpreter().makeTokenizer("\\\\\\n\\r\\t\\b ");
-        Assert.assertEquals(true, t.hasNext());
-        Assert.assertEquals(true, t.whitespaceAfterLast());
+        assertEquals(true, t.hasNext());
+        assertEquals(true, t.whitespaceAfterLast());
         CommandLine.Token s = t.next();
-        Assert.assertEquals("\\\n\r\t\b", s.text);
-        Assert.assertEquals(0, s.start);
-        Assert.assertEquals(10, s.end);
-        Assert.assertEquals(false, t.hasNext());
+        assertEquals("\\\n\r\t\b", s.text);
+        assertEquals(0, s.start);
+        assertEquals(10, s.end);
+        assertEquals(false, t.hasNext());
     }
 
     @Test
@@ -153,26 +155,26 @@ public class DefaultTokenizerTest {
         SymbolSource<CommandLine.Token> t =
                 new MyDefaultInterpreter().makeTokenizer("a< >b c|d \"<\" \\< '<'",
                         MyDefaultInterpreter.REDIRECTS_FLAG);
-        Assert.assertEquals(true, t.hasNext());
-        Assert.assertEquals(false, t.whitespaceAfterLast());
-        Assert.assertEquals("a", t.next().text);
-        Assert.assertEquals("<", t.next().text);
-        Assert.assertEquals(MyDefaultInterpreter.SPECIAL, t.last().tokenType);
-        Assert.assertEquals(">", t.next().text);
-        Assert.assertEquals(MyDefaultInterpreter.SPECIAL, t.last().tokenType);
-        Assert.assertEquals("b", t.next().text);
-        Assert.assertEquals("c", t.next().text);
-        Assert.assertEquals("|", t.next().text);
-        Assert.assertEquals(MyDefaultInterpreter.SPECIAL, t.last().tokenType);
-        Assert.assertEquals("d", t.next().text);
-        Assert.assertEquals("<", t.next().text);
-        Assert.assertEquals(MyDefaultInterpreter.STRING | MyDefaultInterpreter.CLOSED,
+        assertEquals(true, t.hasNext());
+        assertEquals(false, t.whitespaceAfterLast());
+        assertEquals("a", t.next().text);
+        assertEquals("<", t.next().text);
+        assertEquals(MyDefaultInterpreter.SPECIAL, t.last().tokenType);
+        assertEquals(">", t.next().text);
+        assertEquals(MyDefaultInterpreter.SPECIAL, t.last().tokenType);
+        assertEquals("b", t.next().text);
+        assertEquals("c", t.next().text);
+        assertEquals("|", t.next().text);
+        assertEquals(MyDefaultInterpreter.SPECIAL, t.last().tokenType);
+        assertEquals("d", t.next().text);
+        assertEquals("<", t.next().text);
+        assertEquals(MyDefaultInterpreter.STRING | MyDefaultInterpreter.CLOSED,
                 t.last().tokenType);
-        Assert.assertEquals("<", t.next().text);
-        Assert.assertEquals(MyDefaultInterpreter.LITERAL, t.last().tokenType);
-        Assert.assertEquals("<", t.next().text);
-        Assert.assertEquals(MyDefaultInterpreter.STRING | MyDefaultInterpreter.CLOSED,
+        assertEquals("<", t.next().text);
+        assertEquals(MyDefaultInterpreter.LITERAL, t.last().tokenType);
+        assertEquals("<", t.next().text);
+        assertEquals(MyDefaultInterpreter.STRING | MyDefaultInterpreter.CLOSED,
                 t.last().tokenType);
-        Assert.assertEquals(false, t.hasNext());
+        assertEquals(false, t.hasNext());
     }
 }

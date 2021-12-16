@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.configure;
 
 import java.io.File;
@@ -81,7 +81,7 @@ public class ScriptParser {
     public static final String EMPTY_TOKEN = "emptyToken";
 
     public static final Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9.\\-_]+");
-    
+
     private static final Pattern LINE_SPLITTER_PATTERN = Pattern.compile("\r\n|\r(?!\n)|\n");
 
     public static class ParseContext {
@@ -118,7 +118,7 @@ public class ScriptParser {
 
     private final LinkedList<ParseContext> stack = new LinkedList<ParseContext>();
     private final Configure configure;
-    
+
     public ScriptParser(Configure configure) {
         this.configure = configure;
     }

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.jfat;
 /*
  * $Id: FatFormatter.java  2007-07-26 +0100 (s,26 JULY 2007) Tanmoy Deb $
@@ -75,61 +75,61 @@ public class FatFormatter {
 
     /** The Device Identifier for Floppy Device */
     public static final int FLOPPY_DESC = 0xf0;
-    
+
     /** The Device Identifier for Hard Disk Device */
     public static final int HD_DESC = 0xf8;
-    
+
     /** The Device Identifier for RAM Disk Device */
     public static final int RAMDISK_DESC = 0xfa;
-    
+
     /** The Size of Fat. */
     private int FatSize;
-    
+
     /** The Number of the Fat in system. */
     public final int NumOfFATs = 2;
-    
+
     /** The boot sector backing up. */
     public final int BackupBootSector = 6;
-    
+
     /** The number of reserved sectors. */
     public final int ReservedSectorCount = 32;
-    
+
     /** The Tracks Per cylinder. */
     private static final int NB_HEADS = 255;
-    
+
     /** The sector per track. */
     private static final int SECTOR_PER_TRACK = 63;
-    
+
     /** The volume label. */
     private static final String VOL_LABEL = "NO NAME    ";
-    
+
     /** The FAT version label. */
     private static final String FAT_LABEL = "FAT32   ";
-    
+
     /** The Identifier of the Boot Sector */
     public final byte[] BS_Identifier = {(byte) 0x55, (byte) 0xAA};
-    
+
     /** The First 3 Bytes of the BootSector */
     public final byte[] BS_jmpBoot = {(byte) 0xEB, (byte) 0x5A, (byte) 0x90};
-    
+
     /**
      * This lead signature is used to validate that this is in fact an FSInfo
      * sector.
      */
     private final int FSI_LeadSig = 0x41615252;
-    
+
     /**
      * The signature that is more localized in the sector to the location of the
      * fields that are used.
      */
     private final int FSI_StrucSig = 0x61417272;
-    
+
     /**
      * Contains the last known free cluster count on the volume. If the value is
      * 0xFFFFFFFF, then the free count is unknown and must be computed.
      */
     private int FSI_FreeCount = 0xffffffff;
-    
+
     /**
      * This is a hint for the FAT driver. It indicates the cluster number at
      * which the driver should start looking for free clusters.
@@ -141,16 +141,16 @@ public class FatFormatter {
      * sector
      */
     private final int FSI_TrailSig = 0xaa550000;
-    
+
     /** The media ID at the reserved cluster one. */
     private final int ReservedSector_0 = 0x0ffffff8;
-    
+
     /** The End Of Chain ID at the reserved sector second. */
     private final int ReservedSector_1 = 0xffffffff;
-    
+
     /** The End of cluster chain of the root directory. */
     private final int ReservedSector_2 = 0x0fffffff;
-    
+
     /** The array for the reserved sector. */
     private byte[] reservedSector;
 

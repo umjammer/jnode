@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.archive;
 
 import org.jnode.shell.syntax.Argument;
@@ -38,11 +38,11 @@ public class GZipCommand extends GZip {
 
     private static final String help_fast    = "compress faster";
     private static final String help_best    = "compress better";
-    
+
     private final FlagArgument Decompress = new FlagArgument("decompress", Argument.OPTIONAL, help_decompress);
     private final FlagArgument C1         = new FlagArgument("c1", Argument.OPTIONAL, help_fast);
     private final FlagArgument C9         = new FlagArgument("c9", Argument.OPTIONAL, help_best);
-    
+
     public GZipCommand() {
         super("compresses and decompresses files/data");
         // from ArchiveCommand
@@ -51,7 +51,7 @@ public class GZipCommand extends GZip {
         registerArguments(Files, List, NoName, Name, Recurse, Test, Suffix);
         registerArguments(Decompress, C1, C9);
     }
-    
+
     public void execute() {
         compress = !Decompress.isSet();
         super.execute("gzip");

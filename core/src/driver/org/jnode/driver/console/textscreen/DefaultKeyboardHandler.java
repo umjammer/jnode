@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console.textscreen;
 
 import java.io.IOException;
@@ -35,7 +35,6 @@ import org.jnode.driver.input.KeyboardListener;
 import org.jnode.naming.InitialNaming;
 import org.jnode.system.event.FocusEvent;
 import org.jnode.system.event.FocusListener;
-
 
 /**
  * @author crawley@jnode.org

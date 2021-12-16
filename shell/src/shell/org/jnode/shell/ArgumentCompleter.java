@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import org.jnode.driver.console.CompletionInfo;
@@ -30,10 +30,10 @@ import org.jnode.shell.syntax.ArgumentBundle;
  * @author crawley@jnode.org
  */
 public class ArgumentCompleter implements Completable {
-    
+
     private final Argument<?> argument;
     private final CommandLine.Token token;
-    
+
     /**
      * Create the wrapper.
      * 

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.games.rubik;
 
 import java.awt.AWTEvent;
@@ -43,9 +43,9 @@ import javax.swing.SwingUtilities;
  *
  */
 public final class Rubik extends JComponent {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     int i, j, k, n, o, p, q, lastX, lastY, dx, dy;
     int rectX[], rectY[];
     Color colList[], bgcolor;

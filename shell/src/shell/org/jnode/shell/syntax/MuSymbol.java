@@ -17,9 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.shell.syntax;
 
+package org.jnode.shell.syntax;
 
 /**
  * This class represents the micro-syntax for a fixed symbol.
@@ -27,13 +26,13 @@ package org.jnode.shell.syntax;
  * @author crawley@jnode.org
  */
 public class MuSymbol extends MuSyntax {
-    
+
     private final String symbol;
-    
+
     public MuSymbol(String symbol) {
         this(null, symbol);
     }
-    
+
     public MuSymbol(String label, String symbol) {
         super(label);
         this.symbol = symbol;

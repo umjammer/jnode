@@ -36,7 +36,6 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 
-
 package gnu.classpath.jdwp;
 
 import gnu.classpath.jdwp.util.Location;
@@ -56,13 +55,13 @@ public class VMFrame
 
   // The object this frame resides in
   private Object obj;
-  
+
   // The current location of this frame
   private Location loc;
-  
+
   // id of this frame
   private long id;
-  
+
   /**
    * Gets the current location of the frame.
    */

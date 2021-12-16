@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.PrintWriter;
@@ -30,7 +30,6 @@ import org.jnode.shell.syntax.PropertyNameArgument;
 import org.jnode.shell.syntax.ShellPropertyNameArgument;
 import org.jnode.shell.syntax.StringArgument;
 
-
 /**
  * Shell command to set system or shell property values.
  *
@@ -41,7 +40,7 @@ import org.jnode.shell.syntax.StringArgument;
  */
 
 public class SetCommand extends AbstractCommand {
-    
+
     private static final String help_key = "The name of the property to be set (or cleared)";
     private static final String help_skey = "The name of the shell property to be set (or cleared)";
     private static final String help_value = "The new property value";
@@ -49,13 +48,12 @@ public class SetCommand extends AbstractCommand {
     private static final String help_super = "Set or clear the value of a property";
     private static final String fmt_remove = "Removing %s%n";
     private static final String fmt_set = "Setting %s to %s%n";
-    
+
     private PropertyNameArgument keyArg;
     private ShellPropertyNameArgument skeyArg;
     private StringArgument valueArg;
     private final FlagArgument shellArg;
 
-    
     public SetCommand() {
         super(help_super);
         keyArg   = new PropertyNameArgument("key", Argument.OPTIONAL, help_key);
@@ -68,7 +66,7 @@ public class SetCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new SetCommand().execute(args);
     }
-    
+
     public void execute() throws Exception {
         PrintWriter out = getOutput().getPrintWriter();
         if (shellArg.isSet()) {

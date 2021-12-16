@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import org.jnode.shell.CommandRunnable;
@@ -83,7 +83,7 @@ public class CaseCommandNode extends CommandNode {
             context.popHolders();
         }
     }
-    
+
     @Override
     public CommandThread fork(CommandShell shell, final BjorneContext context) 
         throws ShellException {

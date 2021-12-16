@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.filesystem.config;
 
 import java.io.File;
@@ -34,7 +34,7 @@ public class FileParam extends DeviceParam {
 
     private File file;
     private long fileSize;
-    
+
     public FileParam(String fileName, String fileSize) {
         setFile(new File(fileName));
         setSize(fileSize);

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt;
 
 import java.awt.Component;
@@ -43,7 +43,6 @@ public interface JNodeAwtContext {
      * @return the root container
      */
     public JComponent getAwtRoot();
-
 
     public void adjustDesktopSize(int width, int height);
 

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import java.io.PrintWriter;
@@ -35,16 +35,15 @@ import org.jnode.shell.syntax.SyntaxBundle;
 final class ReadonlyBuiltin extends BjorneBuiltin {
     private static final SyntaxBundle SYNTAX = 
         new SyntaxBundle("readonly", new RepeatSyntax(new ArgumentSyntax("readonly")));
-    
+
     static final Factory FACTORY = new Factory() {
         public BjorneBuiltinCommandInfo buildCommandInfo(BjorneContext context) {
             return new BjorneBuiltinCommandInfo("readonly", SYNTAX, new ReadonlyBuiltin(context), context);
         }
     };
-    
+
     private final AssignmentArgument argVariables; 
-    
-    
+
     ReadonlyBuiltin(BjorneContext context) {
         super("Mark shell variables as readonly");
         argVariables = new AssignmentArgument(

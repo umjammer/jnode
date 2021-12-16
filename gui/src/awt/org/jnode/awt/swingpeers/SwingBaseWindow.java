@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.swingpeers;
 
 import java.awt.AWTEvent;
@@ -335,7 +335,6 @@ abstract class SwingBaseWindow<awtT extends Window, swingPeerT extends SwingBase
 
                 int dx = p_loc.x - f_loc.x;
                 int dy = p_loc.y - f_loc.y;
-
 
                 for (Component c : f.getComponents()) {
                     Graphics cg = g.create(c.getX() - dx, c.getY() - dy, c.getWidth(), c.getHeight());

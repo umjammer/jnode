@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.common;
 
 import java.io.PrintWriter;
@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import org.jnode.shell.AbstractCommand;
-
 
 /**
  * JNode implementation of the UNIX 'expr' command
@@ -40,30 +39,29 @@ public class ExprCommand extends AbstractCommand {
             super(msg);
         }
     }
-    
+
     private static class ExprSyntaxException extends ExprException {
         private static final long serialVersionUID = 1L;
-        
+
         private ExprSyntaxException(String msg) {
             super(msg);
         }
-        
+
         private ExprSyntaxException() {
             super("syntax error");
         }
     }
-    
+
     private static final Set<String> RESERVED_WORDS = new HashSet<String>(
             Arrays.asList(new String[] {
                 "|", "&", "+", "-", "*", "/", "%", "(", ")", "<", "<=", "=", "!=",
                 ">", ">=", ":", "match", "index", "substr", "find"}));
-    
+
     // FIXME convert to use the new commandline syntax mechanism so that 
     // we get command completion.
 
     String[] args;
     int pos;
-    
 
     public void execute() throws Exception {
         PrintWriter out = getOutput().getPrintWriter(true);
@@ -302,7 +300,7 @@ public class ExprCommand extends AbstractCommand {
     private boolean isTrue(Object obj) throws ExprSyntaxException {
         return !obj.equals("") && !obj.toString().equals("0");
     }
-    
+
     private boolean isInteger(Object obj) {
         if (obj instanceof Integer) {
             return true;
@@ -315,7 +313,7 @@ public class ExprCommand extends AbstractCommand {
             }
         }
     }
-    
+
     private int asInteger(Object obj) throws ExprException {
         if (obj instanceof Integer) {
             return (Integer) obj;
@@ -327,7 +325,7 @@ public class ExprCommand extends AbstractCommand {
             }
         }
     }
-    
+
     private String asString(Object obj) throws ExprException {
         return obj.toString();
     }

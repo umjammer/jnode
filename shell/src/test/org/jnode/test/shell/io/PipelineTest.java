@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.io;
 
 import java.io.IOException;
@@ -30,8 +30,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.jnode.shell.io.Pipeline;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class PipelineTest {
 
@@ -45,18 +49,18 @@ public class PipelineTest {
         Pipeline p = new Pipeline();
         InputStream is = p.createSink();
         OutputStream os = p.createSource();
-        Assert.assertFalse(p.isActive());
-        Assert.assertFalse(p.isClosed());
-        Assert.assertFalse(p.isShutdown());
+        assertFalse(p.isActive());
+        assertFalse(p.isClosed());
+        assertFalse(p.isShutdown());
         p.activate();
-        Assert.assertTrue(p.isActive());
-        Assert.assertFalse(p.isClosed());
-        Assert.assertFalse(p.isShutdown());
+        assertTrue(p.isActive());
+        assertFalse(p.isClosed());
+        assertFalse(p.isShutdown());
         is.close();
         os.close();
-        Assert.assertFalse(p.isActive());
-        Assert.assertTrue(p.isClosed());
-        Assert.assertFalse(p.isShutdown());
+        assertFalse(p.isActive());
+        assertTrue(p.isClosed());
+        assertFalse(p.isShutdown());
     }
 
     @Test
@@ -64,18 +68,18 @@ public class PipelineTest {
         Pipeline p = new Pipeline();
         InputStream is = p.createSink();
         OutputStream os = p.createSource();
-        Assert.assertFalse(p.isActive());
-        Assert.assertFalse(p.isShutdown());
+        assertFalse(p.isActive());
+        assertFalse(p.isShutdown());
         p.activate();
-        Assert.assertTrue(p.isActive());
-        Assert.assertFalse(p.isShutdown());
+        assertTrue(p.isActive());
+        assertFalse(p.isShutdown());
         p.shutdown();
-        Assert.assertFalse(p.isActive());
-        Assert.assertTrue(p.isShutdown());
-        Assert.assertEquals(-1, is.read());
+        assertFalse(p.isActive());
+        assertTrue(p.isShutdown());
+        assertEquals(-1, is.read());
         try {
             os.write('X');
-            Assert.fail("no exception on write()");
+            fail("no exception on write()");
         } catch (IOException ex) {
             // expected ...
         }
@@ -90,19 +94,19 @@ public class PipelineTest {
         InputStream is = p.createSink();
         OutputStream os = p.createSource();
         p.activate();
-        Assert.assertEquals(0, is.available());
+        assertEquals(0, is.available());
         os.write('A');
-        Assert.assertEquals(1, is.available());
-        Assert.assertEquals('A', is.read());
+        assertEquals(1, is.available());
+        assertEquals('A', is.read());
         os.write('B');
-        Assert.assertEquals('B', is.read());
-        Assert.assertEquals(0, is.available());
+        assertEquals('B', is.read());
+        assertEquals(0, is.available());
         os.write("the quick brown fox".getBytes());
         int len = "the quick brown fox".length();
-        Assert.assertEquals(len, is.available());
+        assertEquals(len, is.available());
         byte[] buffer = new byte[100];
-        Assert.assertEquals(len, is.read(buffer, 0, len));
-        Assert.assertEquals("the quick brown fox", new String(buffer, 0, len));
+        assertEquals(len, is.read(buffer, 0, len));
+        assertEquals("the quick brown fox", new String(buffer, 0, len));
     }
 
     @Test
@@ -121,8 +125,8 @@ public class PipelineTest {
         if (exceptions.size() > 0) {
             throw exceptions.get(0);
         }
-        Assert.assertEquals(10000, sink.getCount((byte) '1'));
-        Assert.assertEquals(10000, sink.getCount((byte) '2'));
+        assertEquals(10000, sink.getCount((byte) '1'));
+        assertEquals(10000, sink.getCount((byte) '2'));
     }
 
     @Test
@@ -141,8 +145,8 @@ public class PipelineTest {
         if (exceptions.size() > 0) {
             throw exceptions.get(0);
         }
-        Assert.assertEquals(10000, sink.getCount((byte) '1'));
-        Assert.assertEquals(10000, sink.getCount((byte) '2'));
+        assertEquals(10000, sink.getCount((byte) '1'));
+        assertEquals(10000, sink.getCount((byte) '2'));
     }
 
     @Test
@@ -165,8 +169,8 @@ public class PipelineTest {
         if (exceptions.size() > 0) {
             throw exceptions.get(0);
         }
-        Assert.assertEquals(10000, sink.getCount((byte) '1'));
-        Assert.assertEquals(10000, sink.getCount((byte) '2'));
+        assertEquals(10000, sink.getCount((byte) '1'));
+        assertEquals(10000, sink.getCount((byte) '2'));
     }
 
     @Test
@@ -189,8 +193,8 @@ public class PipelineTest {
         if (exceptions.size() > 0) {
             throw exceptions.get(0);
         }
-        Assert.assertEquals(10000, sink.getCount((byte) '1'));
-        Assert.assertEquals(10000, sink.getCount((byte) '2'));
+        assertEquals(10000, sink.getCount((byte) '1'));
+        assertEquals(10000, sink.getCount((byte) '2'));
     }
 
     /**

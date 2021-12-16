@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import org.jnode.nanoxml.XMLElement;
@@ -31,11 +31,11 @@ import org.jnode.nanoxml.XMLElement;
  * @author crawley@jnode.org
  */
 public class EmptySyntax extends Syntax {
-    
+
     public EmptySyntax(String label, String description) {
         super(label, description);
     }
-    
+
     @Override
     public String format(ArgumentBundle bundle) {
         return "";

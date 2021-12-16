@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import org.jnode.driver.console.CompletionInfo;
@@ -37,7 +37,6 @@ public class SimpleCommandNode extends CommandNode implements BjorneCompletable 
     private BjorneToken[] assignments;
 
     private final BjorneToken[] words;
-    
 
     public SimpleCommandNode(int nodeType, BjorneToken[] words) {
         super(nodeType);
@@ -126,7 +125,7 @@ public class SimpleCommandNode extends CommandNode implements BjorneCompletable 
         context.setLastReturnCode(rc);
         return rc;
     }
-    
+
     public CommandThread fork(CommandShell shell, BjorneContext context) 
         throws ShellException {
         if (words.length > 0) {

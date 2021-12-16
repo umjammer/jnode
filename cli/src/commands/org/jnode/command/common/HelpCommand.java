@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.common;
 
 import java.io.PrintWriter;
@@ -51,7 +51,7 @@ public class HelpCommand extends AbstractCommand {
     private static final String err_help_ex = "Error getting help for '%s': %s%n";
     private static final String err_sec_ex = "Security exception while loading the class for '%s'%nReason: %s%n";
     private static final String fmt_other_alias = "Other aliases: %s%n";
-    
+
     private final AliasArgument argAlias;
 
     public HelpCommand() {
@@ -101,7 +101,7 @@ public class HelpCommand extends AbstractCommand {
             throw ex;
         }
     }
-    
+
     private void otherAliases(AliasManager aliasManager, String thisAlias, 
             String aliasClass, PrintWriter out) throws NoSuchAliasException {
         // NoSuchAliasException indicates a bug, and should be allowed to propagate.

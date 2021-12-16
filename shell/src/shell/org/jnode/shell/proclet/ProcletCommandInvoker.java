@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.proclet;
 
 import java.util.Map;
@@ -54,7 +54,7 @@ public class ProcletCommandInvoker extends AsyncCommandInvoker implements Comman
             return "proclet";
         }
     };
-    
+
     private static boolean initialized;
 
     public ProcletCommandInvoker(CommandShell commandShell) {
@@ -65,7 +65,7 @@ public class ProcletCommandInvoker extends AsyncCommandInvoker implements Comman
     public String getName() {
         return "proclet";
     }
-    
+
     public int invoke(CommandLine commandLine, Properties sysProps, Map<String, String> env)
         throws ShellException {
         CommandRunner cr = setup(commandLine, sysProps, env);
@@ -77,7 +77,7 @@ public class ProcletCommandInvoker extends AsyncCommandInvoker implements Comman
         CommandRunner cr = setup(commandLine, sysProps, env);
         return forkIt(commandLine, cr);
     }
-    
+
     protected CommandThreadImpl createThread(CommandRunner cr) {
         CommandIO[] ios = cr.getIOs();
         return Proclet.createProclet(cr, cr.getSysProps(), cr.getEnv(), 
@@ -87,7 +87,7 @@ public class ProcletCommandInvoker extends AsyncCommandInvoker implements Comman
                         ios[Command.STD_ERR].getPrintStream()}, 
                 cr.getCommandName());
     }
-    
+
     private static synchronized void init() {
         if (!initialized) {
             VmSystem.switchToExternalIOContext(new ProcletIOContext());

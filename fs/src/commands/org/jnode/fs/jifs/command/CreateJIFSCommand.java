@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.jifs.command;
 
 import javax.naming.NameNotFoundException;
@@ -53,9 +53,9 @@ public class CreateJIFSCommand extends AbstractCommand {
             return "{start,stop,restart}";
         }
     }
-    
+
     private final ActionArgument ARG_ACTION = new ActionArgument();
-    
+
     public CreateJIFSCommand() {
         super("Manage the JIFS filesystem plugin");
         registerArguments(ARG_ACTION);

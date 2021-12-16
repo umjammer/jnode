@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.bjorne;
 
 import java.io.StringReader;
@@ -25,8 +25,9 @@ import java.io.StringReader;
 import org.jnode.shell.ShellException;
 import org.jnode.shell.bjorne.BjorneParser;
 import org.jnode.shell.bjorne.BjorneTokenizer;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BjorneParserTest {
 
@@ -39,17 +40,17 @@ public class BjorneParserTest {
 
     @Test
     public void test1() throws ShellException {
-        Assert.assertEquals("SimpleCommand{nodeType=1,words=[WORD{foo}]}", doTest("foo"));
+        assertEquals("SimpleCommand{nodeType=1,words=[WORD{foo}]}", doTest("foo"));
     }
 
     @Test
     public void test2() throws ShellException {
-        Assert.assertEquals("SimpleCommand{nodeType=1,words=[WORD{ls},WORD{-l}]}", doTest("ls -l"));
+        assertEquals("SimpleCommand{nodeType=1,words=[WORD{ls},WORD{-l}]}", doTest("ls -l"));
     }
 
     @Test
     public void test3() throws ShellException {
-        Assert.assertEquals(
+        assertEquals(
                 "SimpleCommand{nodeType=1,"
                         + "redirects=[Redirect{redirectionType=6,io=IO_NUMBER{1},arg=WORD{/tmp/foo}},"
                         + "Redirect{redirectionType=7,arg=WORD{/tmp/bar}}],"
@@ -58,7 +59,7 @@ public class BjorneParserTest {
 
     @Test
     public void test4() throws ShellException {
-        Assert.assertEquals("ListCommand{nodeType=2,flags=0x10,"
+        assertEquals("ListCommand{nodeType=2,flags=0x10,"
                 + "commands=[SimpleCommand{nodeType=1,assignments=[ASSIGNMENT{FOO=BAR}],"
                 + "words=[WORD{ls},WORD{-l}]}," + "SimpleCommand{nodeType=1,words=[WORD{less}]}]}",
                 doTest("FOO=BAR ls -l | less"));
@@ -66,7 +67,7 @@ public class BjorneParserTest {
 
     @Test
     public void test5() throws ShellException {
-        Assert.assertEquals("ListCommand{nodeType=2,flags=0x10,commands=["
+        assertEquals("ListCommand{nodeType=2,flags=0x10,commands=["
                 + "SimpleCommand{nodeType=1,words=[WORD{cat},WORD{foo}]},"
                 + "ListCommand{nodeType=10,commands=[" + "ListCommand{nodeType=2,commands=["
                 + "SimpleCommand{nodeType=1,words=[WORD{wc},WORD{1}]},"
@@ -79,7 +80,7 @@ public class BjorneParserTest {
 
     @Test
     public void test6() throws ShellException {
-        Assert.assertEquals("ListCommand{nodeType=2,commands=["
+        assertEquals("ListCommand{nodeType=2,commands=["
                 + "SimpleCommand{nodeType=1,flags=0x1,words=[WORD{cat},WORD{foo}]},"
                 + "SimpleCommand{nodeType=1,words=[WORD{cat},WORD{bar}]},"
                 + "SimpleCommand{nodeType=1,words=[WORD{cat},WORD{baz}]}]}",
@@ -88,7 +89,7 @@ public class BjorneParserTest {
 
     @Test
     public void test7() throws ShellException {
-        Assert.assertEquals("LoopCommand{nodeType=3,var=NAME{i},"
+        assertEquals("LoopCommand{nodeType=3,var=NAME{i},"
                 + "words=[WORD{1},WORD{2},WORD{3},WORD{4},WORD{5}],"
                 + "body=SimpleCommand{nodeType=1,words=[WORD{echo},WORD{$i}]}}",
                 doTest("for i in 1 2 3 4 5 ; do echo $i ; done"));
@@ -96,7 +97,7 @@ public class BjorneParserTest {
 
     @Test
     public void test7a() throws ShellException {
-        Assert.assertEquals("LoopCommand{nodeType=3,var=NAME{i},"
+        assertEquals("LoopCommand{nodeType=3,var=NAME{i},"
                 + "words=[WORD{1},WORD{2},WORD{3},WORD{4},WORD{5}],"
                 + "body=SimpleCommand{nodeType=1,words=[WORD{echo},WORD{$i}]}}",
                 doTest("for i in 1 2 3 4 5 ; do \n echo $i ; done"));
@@ -104,7 +105,7 @@ public class BjorneParserTest {
 
     @Test
     public void test8() throws ShellException {
-        Assert.assertEquals("LoopCommand{nodeType=4,"
+        assertEquals("LoopCommand{nodeType=4,"
                 + "cond=SimpleCommand{nodeType=1,words=[WORD{true}]},"
                 + "body=SimpleCommand{nodeType=1,words=[WORD{echo},WORD{$i}]}}",
                 doTest("while true ; do echo $i ; done"));
@@ -112,7 +113,7 @@ public class BjorneParserTest {
 
     @Test
     public void test9() throws ShellException {
-        Assert.assertEquals("LoopCommand{nodeType=5,"
+        assertEquals("LoopCommand{nodeType=5,"
                 + "cond=SimpleCommand{nodeType=1,words=[WORD{true}]},"
                 + "body=SimpleCommand{nodeType=1,words=[WORD{echo},WORD{$i}]}}",
                 doTest("until true ; do echo $i ; done"));
@@ -120,7 +121,7 @@ public class BjorneParserTest {
 
     @Test
     public void test10() throws ShellException {
-        Assert.assertEquals("CaseCommand{nodeType=9,word=WORD{$1},caseItems=["
+        assertEquals("CaseCommand{nodeType=9,word=WORD{$1},caseItems=["
                 + "CaseItem{pattern=[WORD{a}],body="
                 + "SimpleCommand{nodeType=1,words=[WORD{ls},WORD{-l}]}},"
                 + "CaseItem{pattern=[WORD{b}],body="
@@ -130,7 +131,7 @@ public class BjorneParserTest {
 
     @Test
     public void test11() throws ShellException {
-        Assert.assertEquals("IfCommand{nodeType=6,cond="
+        assertEquals("IfCommand{nodeType=6,cond="
                 + "SimpleCommand{nodeType=1,words=[WORD{true}]},thenPart="
                 + "SimpleCommand{nodeType=1,words=[WORD{echo},WORD{yes}]}}",
                 doTest("if true ; then echo yes ; fi"));
@@ -138,7 +139,7 @@ public class BjorneParserTest {
 
     @Test
     public void test12() throws ShellException {
-        Assert.assertEquals("IfCommand{nodeType=6,cond="
+        assertEquals("IfCommand{nodeType=6,cond="
                 + "SimpleCommand{nodeType=1,words=[WORD{true}]},thenPart="
                 + "SimpleCommand{nodeType=1,words=[WORD{echo},WORD{yes}]},elsePart="
                 + "SimpleCommand{nodeType=1,words=[WORD{echo},WORD{false}]}}",

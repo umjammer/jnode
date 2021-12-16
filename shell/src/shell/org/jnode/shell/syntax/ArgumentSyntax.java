@@ -17,11 +17,10 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import org.jnode.nanoxml.XMLElement;
-
 
 /**
  * An ArgumentSyntax instance allows an Argument to appear exactly once.
@@ -33,7 +32,7 @@ public class ArgumentSyntax extends Syntax {
 
     private final String argName;
     private final String flags;
-    
+
     public ArgumentSyntax(String label, String argName, String flags, String description) {
         super(label, description);
         this.argName = argName;

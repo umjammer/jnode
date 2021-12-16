@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -31,11 +31,11 @@ class CustomConfigReader extends ConfigReader {
     public CustomConfigReader(String type) {
         this.type = type;
     }
-    
+
     Config readConfig() throws IOException {
         return read(AllTests.CONFIG_DIRECTORY);
     }
-    
+
     @Override
     protected VMConfig createVMConfig(Properties vmProperties, String vm)
         throws IOException {

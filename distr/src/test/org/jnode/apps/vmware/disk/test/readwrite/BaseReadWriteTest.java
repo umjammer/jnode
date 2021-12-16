@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.vmware.disk.test.readwrite;
 
 import java.io.File;
@@ -34,12 +34,12 @@ import org.jnode.apps.vmware.disk.VMWareDisk;
 import org.jnode.apps.vmware.disk.handler.IOHandler;
 import org.jnode.apps.vmware.disk.test.BaseTest;
 import org.jnode.apps.vmware.disk.test.Utils;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Wrote from the 'Virtual Disk Format 1.0' specifications (from VMWare).
@@ -47,7 +47,6 @@ import org.junit.runners.Parameterized.Parameters;
  * @author Fabien DUMINY (fduminy at jnode dot org)
  * 
  */
-@RunWith(value = Parameterized.class)
 public abstract class BaseReadWriteTest extends BaseTest {
     private static final Logger LOG = Logger.getLogger(BaseReadWriteTest.class);
 
@@ -83,10 +82,9 @@ public abstract class BaseReadWriteTest extends BaseTest {
 
     /**
      * Get the set of data to use for the read & write tests.
-     *  
+     *
      * @return
      */
-    @Parameters
     public static List<File[]> data() {
         File directory = new File(DISKS_PATH);
         File[] files = directory.listFiles(new FilenameFilter() {
@@ -122,14 +120,16 @@ public abstract class BaseReadWriteTest extends BaseTest {
      * @throws Exception
      */
     @Test
-    @Ignore
+    @Disabled
+    @ParameterizedTest
+    @MethodSource("data")
     public void read() throws Exception {
         VMWareDisk disk = new VMWareDisk(diskFile);
 
         ByteBuffer data = IOUtils.allocate(IOHandler.SECTOR_SIZE * 100);
         disk.read(0, data);
 
-        Assert.assertEquals(toString() + ": buffer should be filled", 0, data.remaining());
+        assertEquals(0, data.remaining(), toString() + ": buffer should be filled");
     }
 
     /**
@@ -137,14 +137,14 @@ public abstract class BaseReadWriteTest extends BaseTest {
      * @throws Exception
      */
     @Test
-    @Ignore
+    @Disabled
     public void write() throws Exception {
         VMWareDisk disk = new VMWareDisk(diskFile);
 
         ByteBuffer data = IOUtils.allocate(IOHandler.SECTOR_SIZE * 100);
         disk.write(0, data);
 
-        Assert.assertEquals(toString() + ": buffer should be fully copied", 0, data.remaining());
+        assertEquals(0, data.remaining(), toString() + ": buffer should be fully copied");
     }
 
     /**
@@ -172,9 +172,8 @@ public abstract class BaseReadWriteTest extends BaseTest {
         // read
         LOG.info("writeAndRead: reading...");
         VMWareDisk disk2 = new VMWareDisk(diskFile);
-        Assert.assertEquals("disk has different size", disk.getLength(), disk2.getLength());
-        Assert.assertEquals("disk has different descriptor", disk.getDescriptor(), disk2
-                .getDescriptor());
+        assertEquals(disk.getLength(), disk2.getLength(), "disk has different size");
+        assertEquals(disk.getDescriptor(), disk2.getDescriptor(), "disk has different descriptor");
 
         expectedData.rewind();
         ByteBuffer actualData = IOUtils.allocate(size);
@@ -182,7 +181,7 @@ public abstract class BaseReadWriteTest extends BaseTest {
         for (int i = 0; i < (size / 4); i++) {
             int actual = actualData.getInt(i);
             int expected = expectedData.getInt();
-            Assert.assertEquals("bad data at index " + (i * 4), expected, actual);
+            assertEquals(expected, actual, "bad data at index " + (i * 4));
         }
         LOG.info("END   writeAndRead");
     }

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.bjorne;
 
 import java.util.Set;
@@ -40,8 +40,11 @@ import org.jnode.shell.syntax.SyntaxBundle;
 import org.jnode.shell.syntax.SyntaxManager;
 import org.jnode.test.shell.Cassowary;
 import org.jnode.test.shell.syntax.TestShell;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Tests for completion in the bjorne interpreter. Some of the sample commands
@@ -275,7 +278,7 @@ public class BjorneCompletionTest {
         try {
             doCompletionTest("if fi ;", "T??");
         } catch (CompletionException ex) {
-            Assert.assertEquals("Cannot find an alias or load a command class for 'fi'",
+            assertEquals("Cannot find an alias or load a command class for 'fi'",
                     ex.getMessage());
         }
     }
@@ -306,23 +309,20 @@ public class BjorneCompletionTest {
             switch (flags.charAt(inWord)) {
                 case 'T':
                     // Expect completions
-                    Assert.assertTrue("got no completions: " + diag(partial, completions),
-                            completionWords.size() > 0);
+                    assertTrue(completionWords.size() > 0, "got no completions: " + diag(partial, completions));
                     break;
                 case 'F':
                     // Expect no completions
-                    Assert.assertTrue("got unexpected completions: " + diag(partial, completions),
-                            completionWords.size() == 0);
+                    assertTrue(completionWords.size() == 0, "got unexpected completions: " + diag(partial, completions));
                     break;
                 case 'E':
                     // Expect completions if the last char is ' ', otherwise not
                     if (wordStart >= partial.length()) {
-                        Assert.assertTrue("got no completions: " + diag(partial, completions),
-                                completionWords.size() > 0);
+                        assertTrue(completionWords.size() > 0, "got no completions: " + diag(partial, completions));
                     } else {
-                        Assert.assertTrue(
-                                "got unexpected completions: " + diag(partial, completions),
-                                completionWords.size() == 0);
+                        assertTrue(
+                                completionWords.size() == 0,
+                                "got unexpected completions: " + diag(partial, completions));
                     }
                     break;
                 case 'Z':
@@ -330,8 +330,7 @@ public class BjorneCompletionTest {
                     if (wordStart >= partial.length()) {
                         //
                     } else {
-                        Assert.assertTrue("got no completions: " + diag(partial, completions),
-                                completionWords.size() > 0);
+                        assertTrue(completionWords.size() > 0, "got no completions: " + diag(partial, completions));
                     }
                     break;
                 case '?':
@@ -339,7 +338,7 @@ public class BjorneCompletionTest {
             }
             for (String completionWord : completionWords) {
                 if (!completionWord.startsWith(lastWord)) {
-                    Assert.fail("completion(s) don't start with '" + lastWord + "': " +
+                    fail("completion(s) don't start with '" + lastWord + "': " +
                             diag(partial, completions));
                 }
             }

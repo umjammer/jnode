@@ -17,15 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console;
 
 import java.io.Reader;
 import java.io.Writer;
 
 import org.jnode.driver.console.textscreen.ConsoleKeyEventBindings;
-
-
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)
@@ -206,7 +204,6 @@ public interface TextConsole extends Console {
      */
     public void setCursorVisible(boolean visible);
 
-
     /**
      * Get the console's input completer
      *
@@ -220,19 +217,19 @@ public interface TextConsole extends Console {
      * @param completer The new completer or <code>null</code>.
      */
     public void setCompleter(InputCompleter completer);
-    
+
     /**
      * Get a snapshot of the console's key event bindings.
      * 
      * @return a copy of the current bindings.
      */
     public ConsoleKeyEventBindings getKeyEventBindings();
-    
+
     /**
      * Set the console's key event bindings.
      * 
      * @param bindings the new bindings.
      */
     public void setKeyEventBindings(ConsoleKeyEventBindings bindings);
-    
+
 }

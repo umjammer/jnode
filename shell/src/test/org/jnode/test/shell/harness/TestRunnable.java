@@ -17,9 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.test.shell.harness;
 
+package org.jnode.test.shell.harness;
 
 /**
  * This is the API implemented by the command test runners.  We cannot
@@ -29,11 +28,11 @@ package org.jnode.test.shell.harness;
  * @author crawley@jnode.org
  */
 public interface TestRunnable {
-    
+
     public int run() throws Exception;
-    
+
     public void setup() throws Exception;
-    
+
     public void cleanup();
 
 }

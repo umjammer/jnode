@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.util;
 
 /**
@@ -204,7 +204,6 @@ public class NumberUtils {
         return buf.toString();
     }
 
-
     /**
      * Convert a byte array to a string of hex-numbers
      *
@@ -298,7 +297,6 @@ public class NumberUtils {
     public static String toBinaryByte(long v) {
         return toBinaryByte(v, 2);
     }
-
 
     /**
      * @param size a number eventually followed by  a multiplier (K: Kilobytes, M: Megabytes, G:Gigabytes, ...)

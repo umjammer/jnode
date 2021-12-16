@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.commander;
 
 import charva.awt.BorderLayout;
@@ -710,7 +710,6 @@ public class CharvaCommander extends JFrame {
         public boolean isFocusTraversable() {
             return false;
         }
-
 
         @Override
         protected String getLabelString() {

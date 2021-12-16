@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.x86;
 
 import org.jnode.annotation.Internal;
@@ -101,7 +101,6 @@ public abstract class VmX86Thread extends VmThread {
         super(isolatedStatics, javaThread);
         fxState = new byte[FXSTATE_SIZE];
     }
-
 
     /**
      * Gets the most current stackframe of this thread.

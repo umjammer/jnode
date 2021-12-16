@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.swingpeers;
 
 import java.awt.Menu;
@@ -39,7 +39,6 @@ final class SwingMenuBarPeer extends SwingMenuComponentPeer<MenuBar, JMenuBar>
     public SwingMenuBarPeer(SwingToolkit toolkit, MenuBar menuBar) {
         super(toolkit, menuBar, new JMenuBar());
         int mc = menuBar.getMenuCount();
-
 
         Menu help_menu = menuBar.getHelpMenu();
         if (help_menu != null) {

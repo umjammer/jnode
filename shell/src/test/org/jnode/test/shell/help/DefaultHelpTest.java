@@ -17,15 +17,17 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.help;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
 import org.jnode.shell.help.def.DefaultHelpFactory;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for the DefaultHelp implementation of the Help
@@ -65,18 +67,18 @@ public class DefaultHelpTest {
         String msg = "The quick brown fox jumped over the lazy dog.";
         for (int i = 1; i < msg.length() + 5; i++) {
             String m = new MyDefaultHelp.MyCell(5, i).fit(msg);
-            Assert.assertTrue("fit length", m.length() <= i);
-            Assert.assertTrue("text starts with fit ", msg.startsWith(m));
+            assertTrue(m.length() <= i, "fit length");
+            assertTrue(msg.startsWith(m), "text starts with fit ");
         }
 
-        Assert.assertEquals("   Hello  ", new MyDefaultHelp.MyCell(5, 10).fit("   Hello   "));
+        assertEquals("   Hello  ", new MyDefaultHelp.MyCell(5, 10).fit("   Hello   "));
     }
 
     @Test
     public void testCellStamp() {
         String msg = "Hello Mum";
         String m = new MyDefaultHelp.MyCell(5, 10).stamp(msg);
-        Assert.assertEquals(m, "     Hello Mum ");
+        assertEquals(m, "     Hello Mum ");
     }
 
     @Test
@@ -90,7 +92,7 @@ public class DefaultHelpTest {
                         + "The quick brown fox jumped over the lazy dog."
                         + "The quick brown fox jumped over the lazy dog."});
         pw.flush();
-        Assert.assertEquals("   12345   The quick brown fox \n"
+        assertEquals("   12345   The quick brown fox \n"
                 + "   67890   jumped over the lazy\n" + "   12345   dog.The quick brown \n"
                 + "   67890   fox jumped over     \n" + "           the lazy dog.The    \n"
                 + "           quick brown fox     \n" + "           jumped over the     \n"

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import org.jnode.shell.CommandLine.Token;
@@ -28,7 +28,7 @@ import org.jnode.shell.CommandLine.Token;
  * @author crawley@jnode.org
  */
 public class FlagArgument extends Argument<Boolean> {
-    
+
     public FlagArgument(String label, int flags, String description) {
         super(label, flags, new Boolean[0], description);
     }
@@ -41,7 +41,7 @@ public class FlagArgument extends Argument<Boolean> {
     protected Boolean doAccept(Token token, int flags) throws CommandSyntaxException {
         return Boolean.TRUE;
     }
-  
+
     @Override
     protected String argumentKind() {
         return "flag";

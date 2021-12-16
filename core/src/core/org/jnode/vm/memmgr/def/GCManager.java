@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.memmgr.def;
 
 import org.jnode.vm.Unsafe;
@@ -128,7 +128,7 @@ final class GCManager extends VmSystemObject implements Uninterruptible {
                     verify(bootHeap, firstHeap);
                 }
             }
-            
+
             // Mark
             //helper.stopThreadsAtSafePoint();
             //heapManager.setGcActive(true);

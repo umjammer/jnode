@@ -17,22 +17,21 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test;
 
 import org.jnode.test.util.NumberUtilsTest;
 import org.jnode.test.util.VersionTest;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
  * Test suite calling all tests run for the core project.
  * @author ewout
  *
  */
-@RunWith(Suite.class)
-@SuiteClasses({
+@Suite
+@SelectClasses({
     NumberUtilsTest.class,
     VersionTest.class,
 }

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.proclet;
 
 import gnu.java.security.action.GetPropertiesAction;
@@ -48,7 +48,7 @@ import org.jnode.vm.isolate.VmIsolate;
  */
 public class Proclet extends ThreadGroup {
     public static final int NO_SUCH_PID = 0;
-    
+
     private Properties properties;
     private Map<String, String> environment;
     private int threadCount;
@@ -120,7 +120,7 @@ public class Proclet extends ThreadGroup {
     public synchronized void setProperties(Properties properties) {
         this.properties = properties;
     }
-    
+
     public synchronized void setEnvironment(Map<String, String> environment) {
         this.environment = environment;
     }

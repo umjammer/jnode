@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import org.jnode.shell.CommandRunnable;
@@ -27,7 +27,7 @@ public abstract class BjorneSubshellRunner implements CommandRunnable {
     private int rc;
     private Throwable terminatingException;
     private final BjorneContext context;
-    
+
     public BjorneSubshellRunner(BjorneContext context) {
         super();
         this.context = context;
@@ -42,7 +42,7 @@ public abstract class BjorneSubshellRunner implements CommandRunnable {
     public int getRC() {
         return rc;
     }
-    
+
     @Override
     public Throwable getTerminatingException() {
         return terminatingException;

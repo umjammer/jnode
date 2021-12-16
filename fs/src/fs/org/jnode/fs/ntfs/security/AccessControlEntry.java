@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.ntfs.security;
 
 import java.util.ArrayList;
@@ -96,12 +96,12 @@ public class AccessControlEntry extends NTFSStructure {
 
         int type;
         String name;
-            
+
         Type(int type, String name) {
             this.type = type;
             this.name = name;
         }
-        
+
         public static List<String> namesForType(int type) {
             List<String> names = new ArrayList<String>();
 
@@ -134,7 +134,7 @@ public class AccessControlEntry extends NTFSStructure {
 
         int flags;
         String name;
-            
+
         Flags(int flags, String name) {
             this.flags = flags;
             this.name = name;

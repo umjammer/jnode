@@ -17,9 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.configure.adapter;
 
+package org.jnode.configure.adapter;
 
 /**
  * Encode / decode for the context of text contents of an XML element.
@@ -34,7 +33,7 @@ class XMLValueCodec implements BasePropertyFileAdapter.ValueCodec {
     public String getValidModifiers() {
         return "";
     }
-    
+
     private String encodeText(String raw) {
         StringBuffer sb = new StringBuffer(raw.length());
         for (char ch : raw.toCharArray()) {

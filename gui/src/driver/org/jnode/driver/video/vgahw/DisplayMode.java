@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.video.vgahw;
 
 import java.util.StringTokenizer;
@@ -32,25 +32,25 @@ public class DisplayMode {
 
     /** Visible display width in pixels */
     private final int width;
-    
+
     /** h-sync pulse start */
     private final int hsyncStart;
-    
+
     /** h-sync pulse end */
     private final int hsyncEnd;
-    
+
     /** Total pixels per line */
     private final int hTotal;
 
     /** Visible display height in lines */
     private final int height;
-    
+
     /** v-sync pulse start */
     private final int vsyncStart;
-    
+
     /** v-sync pulse end */
     private final int vsyncEnd;
-    
+
     /** Total lines per frame */
     private final int vTotal;
 

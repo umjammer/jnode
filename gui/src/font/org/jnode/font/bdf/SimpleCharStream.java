@@ -110,7 +110,6 @@ public class SimpleCharStream
         throw new Error(t.getMessage());
      }
 
-
      bufsize += 2048;
      available = bufsize;
      tokenBegin = 0;

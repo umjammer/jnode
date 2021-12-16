@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.archive;
 
 import java.io.File;
@@ -53,7 +53,7 @@ import org.jnode.shell.syntax.StringArgument;
 public class Zip extends ArchiveCommand {
 
     private static final boolean DEBUG = true;
-    
+
     private static final String help_delete = "remove the list of entries from the archive";
     private static final String help_freshen = "[zip] Replaces entries in the archive with files from the file " +
                                                "system if they exist and are newer than the entry.\n[unzip] Replaces " +
@@ -69,7 +69,7 @@ public class Zip extends ArchiveCommand {
     private static final String help_no_path = "store/extract the file with only its file name and no path prefix";
     private static final String help_archive = "the zip archive to use";
     private static final String help_patterns = "file matching patterns(wildcards)";
-    
+
     private static final String fmt_extract  = "%11s: %s";
     private static final String fmt_footer   = " %8d %8d                   %d files";
     private static final String fmt_entry    = " %8d %8d                 %d %s";
@@ -91,7 +91,7 @@ public class Zip extends ArchiveCommand {
     private static final String str_fullname_1  = " first full name";
     private static final String str_fullname_2  = "second full name";
     private static final String str_name_repeat = "name in zip file repeated";
-    
+
     protected final StringArgument Patterns;
     protected final FileArgument Archive;
     protected final FlagArgument Delete;
@@ -101,7 +101,7 @@ public class Zip extends ArchiveCommand {
     protected final FlagArgument Move;
     protected final FlagArgument List;
     protected final FlagArgument NoPath;
-    
+
     private static final int ZIP_ADD      = 0x01;
     private static final int ZIP_MOVE     = 0x02;
     private static final int ZIP_EXTRACT  = 0x04;
@@ -114,16 +114,16 @@ public class Zip extends ArchiveCommand {
     private static final int ZIP_INSERT   = ZIP_ADD | ZIP_MOVE;
     @SuppressWarnings("unused")
     private static final int ZIP_REQ_ARCH = ZIP_ALL & ~ZIP_INSERT;
-    
+
     /* Populated in ZipCommand and UnzipCommand */
     protected List<String> includes;
     protected List<String> excludes;
     protected List<String> excludeDirs;
-    
+
     private List<File> files;
     private List<ZipEntry> fileEntries;
     private List<ZipEntry> dirEntries;
-    
+
     protected long newer;
     protected long older;
     private File archive;
@@ -140,7 +140,7 @@ public class Zip extends ArchiveCommand {
     protected boolean recurse;
     protected boolean filesStdin;
     protected boolean useStdout;
-    
+
     public Zip(String s) {
         super(s);
         Delete  = new FlagArgument("delete", Argument.OPTIONAL, help_delete);
@@ -153,11 +153,11 @@ public class Zip extends ArchiveCommand {
         Patterns = new StringArgument("patterns", Argument.OPTIONAL | Argument.MULTIPLE, help_patterns);
         Archive = new FileArgument("archive", Argument.MANDATORY, help_archive);
     }
-    
+
     public void execute(String command) {
         super.execute("zcat");
         parseOptions(command);
-        
+
         try {
             if ((mode & ZIP_ADD) != 0) {
                 insert();
@@ -168,12 +168,12 @@ public class Zip extends ArchiveCommand {
                 }
                 return;
             }
-            
+
             if (mode == ZIP_EXTRACT) {
                 extract();
                 return;
             }
-            
+
             if (mode == ZIP_LIST) {
                 list();
                 return;
@@ -185,12 +185,12 @@ public class Zip extends ArchiveCommand {
             exit(0);
         }
     }
-    
+
     private void insert() throws IOException {
         ZipOutputStream zout = null;
         ZipEntry entry;
         InputStream in;
-        
+
         try {
             zout = new ZipOutputStream(archive);
             for (File file : files) {
@@ -230,18 +230,18 @@ public class Zip extends ArchiveCommand {
             }
         }
     }
-    
+
     private void list() throws IOException {
         int size = 0;
         int csize = 0;
         int count = 0;
-        
+
         printListHeader();
         for (ZipEntry entry : dirEntries) {
             printListEntry(entry);
             count++;
         }
-        
+
         for (ZipEntry entry : fileEntries) {
             printListEntry(entry);
             count++;
@@ -250,20 +250,20 @@ public class Zip extends ArchiveCommand {
         }
         printListFooter(size, csize, count);
     }
-    
+
     private void extract() throws IOException {
         InputStream in = null;
         OutputStream out = null;
         File file;
-        
+
         out(str_archive + archive.getName());
-        
+
         for (ZipEntry entry : dirEntries) {
             out(String.format(fmt_extract, str_creating, entry.getName()));
             file = new File(entry.getName());
             file.mkdirs();
         }
-        
+
         for (ZipEntry entry : fileEntries) {
             out(String.format(fmt_extract, str_inflating, entry.getName()));
             file = new File(entry.getName());
@@ -286,7 +286,7 @@ public class Zip extends ArchiveCommand {
             }
         }
     }
-    
+
     /**
      * Creates a ZipEntry for the specified file.
      *
@@ -323,7 +323,7 @@ public class Zip extends ArchiveCommand {
         }
         return entry;
     }
-    
+
     private void parseOptions(String command) {
         if (DEBUG || Debug.isSet()) {
             outMode |= OUT_DEBUG;
@@ -359,9 +359,9 @@ public class Zip extends ArchiveCommand {
                 mode = ZIP_EXTRACT;
             }
         }
-        
+
         noPath = NoPath.isSet();
-        
+
         switch (mode & (ZIP_ADD | ZIP_EXTRACT | ZIP_LIST)) {
             case ZIP_ADD :
                 parseFiles();
@@ -379,7 +379,7 @@ public class Zip extends ArchiveCommand {
                 throw new UnsupportedOperationException("This mode is not implemented.");
         }
     }
-    
+
     /**
      * Instantiates the archive.
      *
@@ -393,11 +393,11 @@ public class Zip extends ArchiveCommand {
      */
     private void getArchive(boolean create, boolean zipfile) {
         archive = Archive.getValue();
-        
+
         if (archive.getName().equals("-")) {
             // pipe to stdout
         }
-        
+
         if (!archive.exists()) {
             if (create) {
                 try {
@@ -413,7 +413,7 @@ public class Zip extends ArchiveCommand {
                 fatal("Archive exists, refused to overwrite: " + archive, 1);
             }
         }
-        
+
         if (zipfile) {
             try {
                 zarchive = new ZipFile(archive);
@@ -423,7 +423,7 @@ public class Zip extends ArchiveCommand {
             }
         }
     }
-    
+
     private class Walker extends AbstractDirectoryWalker {
         @Override
         public void handleFile(final File file) throws IOException {
@@ -435,7 +435,7 @@ public class Zip extends ArchiveCommand {
             addFile(file);
         }
     }
-    
+
     /**
      * Creates a list of files based on the files and filename patterns given
      * on the command line. If we're using recursion, then a directory walker
@@ -450,7 +450,7 @@ public class Zip extends ArchiveCommand {
     private void parseFiles() {
         files = new ArrayList<File>();
         List<File> dirs = new ArrayList<File>();
-        
+
         if (filesStdin) {
             parseFilesStdin();
         }
@@ -481,7 +481,7 @@ public class Zip extends ArchiveCommand {
                 }
             }
         }
-        
+
         if (recurse && dirs.size() > 0) {
             Walker walker = new Walker();
             if (noDirEntry || noPath) {
@@ -516,7 +516,7 @@ public class Zip extends ArchiveCommand {
             }
         }
     }
-    
+
     /**
      * Parses files from stdin, one file per line.
      *
@@ -528,7 +528,7 @@ public class Zip extends ArchiveCommand {
         LineNumberReader reader = new LineNumberReader(stdinReader);
         String line;
         File file;
-        
+
         try {
             while ((line = reader.readLine()) != null) {
                 file = new File(line);
@@ -540,7 +540,7 @@ public class Zip extends ArchiveCommand {
             fatal(fatal_read_stdin, 1);
         }
     }
-    
+
     /**
      * Adds a file to the list of files.
      *
@@ -562,16 +562,16 @@ public class Zip extends ArchiveCommand {
         }
         files.add(file);
     }
-    
+
     @SuppressWarnings("unchecked")
     private void parseEntries() {
         int count = 0;
-        
+
         ZipEntry entry;
         Enumeration<ZipEntry> entries = zarchive.getEntries();
         fileEntries = new ArrayList<ZipEntry>();
         dirEntries = new ArrayList<ZipEntry>();
-        
+
         while (entries.hasMoreElements()) {
             count++;
             entry = entries.nextElement();
@@ -582,34 +582,34 @@ public class Zip extends ArchiveCommand {
             }
         }
     }
-    
+
     private void printListHeader() {
         out(str_header_1);
         out(str_header_2);
     }
-    
+
     private void printListEntry(ZipEntry entry) {
         out(String.format(fmt_entry, entry.getSize(), entry.getCompressedSize(), entry.getMethod(), entry.getName()));
     }
-    
+
     private void printListFooter(int size, int csize, int numFiles) {
         out(str_footer);
         out(String.format(fmt_footer, size, csize, numFiles));
     }
-    
+
     private void printDuplicateError(File A, File B) {
         error(String.format(fmt_warn_dup, str_zip_warn, str_fullname_1, A.getPath()));
         error(String.format(fmt_warn_dup, str_zip_warn, str_fullname_2, B.getPath()));
         error(String.format(fmt_warn_dup, str_zip_warn, str_name_repeat, A.getName()));
     }
-    
+
     @SuppressWarnings("unused")
     private void printName(String s) {
         if (outMode != 0) {
             out(s);
         }
     }
-    
+
     @SuppressWarnings("unused")
     private void debug(ZipEntry entry) {
         debug("Name: " + entry.getName());

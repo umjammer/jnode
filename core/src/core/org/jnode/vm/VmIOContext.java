@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm;
 
 import java.io.InputStream;
@@ -39,7 +39,7 @@ import java.util.Properties;
 public class VmIOContext implements IOContext {
     // FIXME ... restrict visibility (if possible) and add Java security
     // access controls.
-    
+
     private static InputStream globalInStream;
     private static PrintStream globalOutStream;
     private static PrintStream globalErrStream;
@@ -84,7 +84,7 @@ public class VmIOContext implements IOContext {
     public Map<String, String> getEnv() {
         return globalEnv;
     }
-    
+
     public Properties getProperties() {
         return globalSysProps;
     }
@@ -96,7 +96,7 @@ public class VmIOContext implements IOContext {
     public void setProperties(Properties props) {
         globalSysProps = props;
     }
-    
+
     /**
      * Set the 'global' view of {@link System#in}. 
      * @param in the new input stream.
@@ -168,7 +168,7 @@ public class VmIOContext implements IOContext {
     public static Map<String, String> getGlobalEnv() {
         return globalEnv;
     }
-    
+
     /**
      * Get the 'global' view of the Properties returned by {@link System#getProperties()}. 
      * @return the current 'global' Properties.

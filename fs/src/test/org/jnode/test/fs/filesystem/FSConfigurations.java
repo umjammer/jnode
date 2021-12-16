@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.filesystem;
 
 import java.io.File;
@@ -89,7 +89,6 @@ public class FSConfigurations implements Iterable<FSTestConfig> {
         private Formatter<? extends FileSystem<?>> formatter;
         private String fileName;
         private String fileSize;
-
 
         public FileSystemTestConfigurationListBuilder osType(OsType osType) {
             this.osType = osType;

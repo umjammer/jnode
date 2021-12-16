@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.File;
@@ -59,7 +59,7 @@ public class FindCommand extends AbstractCommand {
             out.println(f);
         }
     }
-    
+
     private static final String help_name = "filter results to show only files that match a given pattern";
     private static final String help_iname = "same as name, but case insensitive";
     private static final String help_max_depth = "descend at most to the given level of directories";
@@ -68,14 +68,14 @@ public class FindCommand extends AbstractCommand {
                                             "for directories and 'f' for files";
     private static final String help_dir = "directory to start searching from";
     private static final String help_super = "Find files and directories";
-    
+
     private final StringArgument nameArg;
     private final StringArgument inameArg;
     private final LongArgument maxdepthArg;
     private final LongArgument mindepthArg;
     private final StringArgument typeArg;
     private final FileArgument dirArg;
-    
+
     private PrintWriter out;
     private PrintWriter err;
 
@@ -93,7 +93,7 @@ public class FindCommand extends AbstractCommand {
     public static void main(String[] args) throws IOException {
         new FindCommand().execute();
     }
-    
+
     @Override
     public void execute() throws IOException {
         out = getOutput().getPrintWriter();

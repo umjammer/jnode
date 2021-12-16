@@ -1,7 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
 
- 
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -36,12 +35,12 @@ public class KVMServerProcess implements ServerProcess {
      * Configuration of machine to run in KVM.
      */
     private final KVMConfig config;
-    
+
     /**
      * Manager for the KVM machine.
      */
     private final KVM kvm; 
-    
+
     /**
      * 
      * @param config configuration of the KVM machine.
@@ -50,7 +49,7 @@ public class KVMServerProcess implements ServerProcess {
         this.config = config;
         kvm = new KVM();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -58,7 +57,7 @@ public class KVMServerProcess implements ServerProcess {
     public synchronized void start() throws IOException {
         kvm.start(config);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -79,7 +78,7 @@ public class KVMServerProcess implements ServerProcess {
                 break;
             }
         }
-        
+
         return isRunning;
     }
 }

@@ -17,27 +17,27 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.plugin.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+package org.jnode.plugin.model;
 
 import org.jnode.nanoxml.XMLElement;
 import org.jnode.plugin.Extension;
 import org.jnode.plugin.PluginException;
 import org.jnode.plugin.PluginPrerequisite;
 import org.jnode.plugin.PluginReference;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PluginDescriptorModelTest {
 
     private PluginDescriptorModel model;
 
-    @Before
+    @BeforeEach
     public void setUp() throws PluginException {
         XMLElement element = new XMLElement();
         element.parseString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE plugin SYSTEM \"jnode.dtd\">" +
@@ -132,4 +132,3 @@ public class PluginDescriptorModelTest {
         assertEquals("version", reference.getVersion());
     }
 }
-

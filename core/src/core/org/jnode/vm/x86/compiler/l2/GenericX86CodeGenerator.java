@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.x86.compiler.l2;
 
 import static org.jnode.vm.compiler.ir.AddressingMode.CONSTANT;
@@ -4145,7 +4145,6 @@ public class GenericX86CodeGenerator<T extends X86Register> extends CodeGenerato
         // Verify
         //todo spec issue: add type compatibility check (elemType <- valueType), throw ArrayStoreException
 
-
         if (ref.getAddressingMode() == REGISTER) {
             GPR dstReg = (GPR) ((RegisterLocation) ref.getLocation()).getRegister();
             if (ind.getAddressingMode() == CONSTANT) {
@@ -4714,8 +4713,6 @@ public class GenericX86CodeGenerator<T extends X86Register> extends CodeGenerato
                 os.writeCMP_Const(valr, n);
                 os.writeJCC(helper.getInstrLabel(defAddress), X86Constants.JAE);
 
-
-
                 // Get absolute address of l1 into S0. (do not use
                 // stackMgr.writePOP!)
                 os.writeCALL(l1);
@@ -4739,8 +4736,6 @@ public class GenericX86CodeGenerator<T extends X86Register> extends CodeGenerato
                 // If outsite low-high range, jump to default
                 os.writeCMP_Const(BITS32, X86Register.EBP, vald, n);
                 os.writeJCC(helper.getInstrLabel(defAddress), X86Constants.JAE);
-
-
 
                 // Get absolute address of l1 into S0. (do not use
                 // stackMgr.writePOP!)
@@ -5562,7 +5557,6 @@ public class GenericX86CodeGenerator<T extends X86Register> extends CodeGenerato
                 // Result is already on the stack.
             }
         }
-
 
         Variable lhs = quad.getLHS();
         if (lhs.getAddressingMode() == REGISTER) {

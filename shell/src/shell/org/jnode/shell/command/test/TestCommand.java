@@ -17,16 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.shell.command.test;
 
-import junit.framework.TestResult;
-import junit.framework.TestSuite;
-import junit.textui.TestRunner;
+package org.jnode.shell.command.test;
 
 import org.jnode.shell.AbstractCommand;
 import org.jnode.shell.syntax.Argument;
 import org.jnode.shell.syntax.ClassNameArgument;
+
 
 /**
  * @author epr

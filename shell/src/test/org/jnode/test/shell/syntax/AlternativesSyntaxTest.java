@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.syntax;
 
 import org.jnode.shell.AbstractCommand;
@@ -33,11 +33,14 @@ import org.jnode.shell.syntax.FlagArgument;
 import org.jnode.shell.syntax.IntegerArgument;
 import org.jnode.shell.syntax.OptionSyntax;
 import org.jnode.shell.syntax.Syntax;
-import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class AlternativesSyntaxTest {
 
-    public static class Test extends AbstractCommand {
+    public static class Test1 extends AbstractCommand {
         private final FileArgument fileArg = new FileArgument("fileArg", Argument.OPTIONAL +
                 Argument.MULTIPLE);
         private final IntegerArgument intArg = new IntegerArgument("intArg", Argument.OPTIONAL +
@@ -45,7 +48,7 @@ public class AlternativesSyntaxTest {
         private final FlagArgument flagArg = new FlagArgument("flagArg", Argument.OPTIONAL +
                 Argument.MULTIPLE);
 
-        public Test() {
+        public Test1() {
             registerArguments(fileArg, intArg, flagArg);
         }
 
@@ -53,23 +56,23 @@ public class AlternativesSyntaxTest {
         }
     }
 
-    @org.junit.Test
+    @Test
     public void testConstructor() {
         new AlternativesSyntax(new OptionSyntax("intArg", 'i'), new OptionSyntax("fileArg", 'f'),
                 new OptionSyntax("flagArg", "xxx"));
     }
 
-    @org.junit.Test
+    @Test
     public void testFormat() {
-        Test test = new Test();
+        Test1 test = new Test1();
         Syntax syntax1 =
                 new AlternativesSyntax(new OptionSyntax("intArg", 'i'), new OptionSyntax("fileArg",
                         'f'), new OptionSyntax("flagArg", "xxx"));
-        Assert.assertEquals("( -i <intArg> ) | ( -f <fileArg> ) | --xxx",
+        assertEquals("( -i <intArg> ) | ( -f <fileArg> ) | --xxx",
                 syntax1.format(test.getArgumentBundle()));
     }
 
-    @org.junit.Test
+    @Test
     public void testOne() throws Exception {
         TestShell shell = new TestShell();
         shell.addAlias("cmd", "org.jnode.test.shell.syntax.AlternativesSyntaxTest$Test");
@@ -83,7 +86,7 @@ public class AlternativesSyntaxTest {
         try {
             cl = new CommandLine(new Token("cmd"), new Token[] {}, null);
             cmdInfo = cl.parseCommandLine(shell);
-            Assert.fail("no exception");
+            fail("no exception");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -93,36 +96,36 @@ public class AlternativesSyntaxTest {
                         null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
-        Assert.assertEquals("F1", cmd.getArgumentBundle().getArgument("fileArg").getValue()
+        assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals("F1", cmd.getArgumentBundle().getArgument("fileArg").getValue()
                 .toString());
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("flagArg").getValues().length);
+        assertEquals(0, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
+        assertEquals(0, cmd.getArgumentBundle().getArgument("flagArg").getValues().length);
 
         cl =
                 new CommandLine(new Token("cmd"), new Token[] {new Token("-i"), new Token("41")},
                         null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
-        Assert.assertEquals("41", cmd.getArgumentBundle().getArgument("intArg").getValue()
+        assertEquals(0, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals(1, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
+        assertEquals("41", cmd.getArgumentBundle().getArgument("intArg").getValue()
                 .toString());
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("flagArg").getValues().length);
+        assertEquals(0, cmd.getArgumentBundle().getArgument("flagArg").getValues().length);
 
         cl = new CommandLine(new Token("cmd"), new Token[] {new Token("--xxx")}, null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("flagArg").getValues().length);
+        assertEquals(0, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals(0, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
+        assertEquals(1, cmd.getArgumentBundle().getArgument("flagArg").getValues().length);
 
         try {
             cl =
                     new CommandLine(new Token("cmd"), new Token[] {new Token("--xxx"),
                         new Token("-f"), new Token("F1")}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("no exception");
+            fail("no exception");
         } catch (CommandSyntaxException ex) {
             // expected
         }

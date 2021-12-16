@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package gnu.java.security.action;
 
 import java.security.Policy;
@@ -32,7 +32,7 @@ import java.security.PrivilegedAction;
 public class GetPolicyAction implements PrivilegedAction<Policy> {
 
     private static final GetPolicyAction instance = new GetPolicyAction();
-    
+
     /**
      * Gets the single instance of this class.
      * @return
@@ -40,14 +40,14 @@ public class GetPolicyAction implements PrivilegedAction<Policy> {
     public static GetPolicyAction getInstance() {
         return instance;
     }
-    
+
     /**
      * @see java.security.PrivilegedAction#run()
      */
     public Policy run() {
         return Policy.getPolicy();
     }
-    
+
     /**
      * Singleton constructor.
      */

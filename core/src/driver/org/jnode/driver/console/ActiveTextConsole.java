@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console;
 
 import java.io.IOException;
@@ -25,8 +25,6 @@ import java.io.Reader;
 import java.io.Writer;
 
 import org.jnode.driver.console.textscreen.ConsoleKeyEventBindings;
-
-
 
 /**
  * This virtual console class operates on the console that has the current focus.
@@ -40,12 +38,12 @@ public class ActiveTextConsole extends VirtualTextConsole {
     // changes to the active console.  The most harmful of these is that
     // the ATCWriter classes may end up writing to an inactive console if
     // the console switch happens at just the wrong time.
-    
+
     private TextConsole activeConsole;
     private final ConsoleManager mgr;
     private ATCWriter out;
     private ATCWriter err;
-    
+
     public ActiveTextConsole(ConsoleManager mgr) {
         this.mgr = mgr;
         this.activeConsole = (TextConsole) mgr.getFocus();
@@ -74,7 +72,6 @@ public class ActiveTextConsole extends VirtualTextConsole {
     public int getHeight() {
         return getActiveTextConsole().getHeight();
     }
-
 
     @Override
     public int getDeviceHeight() {
@@ -123,7 +120,7 @@ public class ActiveTextConsole extends VirtualTextConsole {
     public int getDeviceWidth() {
         return getActiveTextConsole().getDeviceWidth();
     }
-    
+
     @Override
     public ConsoleKeyEventBindings getKeyEventBindings() {
         throw new UnsupportedOperationException();
@@ -150,13 +147,13 @@ public class ActiveTextConsole extends VirtualTextConsole {
         }
         return activeConsole;
     }
-    
+
     /**
      * This internal Writer writes to the current active console.
      */
     private class ATCWriter extends Writer {
         private final boolean isErr;
-        
+
         public ATCWriter(boolean isErr) {
             super();
             this.isErr = isErr;
@@ -180,7 +177,7 @@ public class ActiveTextConsole extends VirtualTextConsole {
         public void write(int c) throws IOException {
             getWriter().write(c);
         }
-        
+
         private Writer getWriter() {
             return isErr ? getActiveTextConsole().getErr() :
                 getActiveTextConsole().getOut();

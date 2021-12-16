@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.util;
 
 /**
@@ -32,7 +32,7 @@ public class ByteQueue {
     // FIXME ... Looking at the way this class is used, I think it may needs an 
     // atomic drain operation and/or a close operation.
     // FIXME ... Make the ByteQueue API and behavior mirror the Queue API and behavior.
-    
+
     /**
      * The default queue size.
      */

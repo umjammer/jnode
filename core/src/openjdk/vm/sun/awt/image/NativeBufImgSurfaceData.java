@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package sun.awt.image;
 
 import java.awt.image.IndexColorModel;
@@ -33,7 +33,7 @@ class NativeBufImgSurfaceData {
     private static void initIDs(Class<?> arg1) {
         //todo implement it
     }
-    
+
     /**
      * @see sun.awt.image.BufImgSurfaceData#initRaster(java.lang.Object, int, int, int, int, int, int, java.awt.image.IndexColorModel)
      */
@@ -42,7 +42,7 @@ class NativeBufImgSurfaceData {
             IndexColorModel arg8) {
         //todo implement it
     }
-    
+
     /**
      * @see sun.awt.image.BufImgSurfaceData#freeNativeICMData(java.awt.image.IndexColorModel)
      */

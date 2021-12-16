@@ -1,7 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
 
- 
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -38,16 +37,16 @@ public class JVMConfig implements VMConfig {
     private final String classpath;
     private final String bootClasspath;
     private final String options;
-    
+
     private String vmName;
-    
+
     public JVMConfig(Properties properties) {
         javaHome = ConfigUtils.getDirectory(properties, "jvm.java.home", true);
         classpath = ConfigUtils.getClasspath(properties, "jvm.classpath", true);
         options = ConfigUtils.getClasspath(properties, "jvm.options", true);
         bootClasspath = ConfigUtils.getClasspath(properties, "jvm.bootclasspath", false);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -91,7 +90,7 @@ public class JVMConfig implements VMConfig {
     public String getOptions() {
         return options;
     }
-    
+
     /**
      * @return
      */

@@ -126,7 +126,7 @@ public abstract class AbstractButton
     /** Programmatically performs a "click" of this button.
      */
     public void doClick() {
-	
+
 	// This is required because our parent window will send the KeyEvent
 	// to the Container containing the component with the current focus.
 //	super.requestFocus();
@@ -168,7 +168,7 @@ public abstract class AbstractButton
 	    if (( ! key_event.isConsumed()) &&
 		key_event.getKeyCode() == KeyEvent.VK_ENTER &&
 		super.isEnabled()) {
-		
+
 		EventQueue queue = Toolkit.getDefaultToolkit().getSystemEventQueue();
 		queue.postEvent(new ActionEvent(this, getActionCommand()));
 		key_event.consume();

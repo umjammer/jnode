@@ -25,7 +25,7 @@ package org.vmmagic.unboxed;
 public final class Extent implements UnboxedObject {
 
     final long v;
-    
+
     /**
      * Constructor used during the bootimage creation.
      * @param v
@@ -33,7 +33,7 @@ public final class Extent implements UnboxedObject {
     Extent(long v) {
         this.v = v;
     }
-    
+
     /**
      * @deprecated
      */
@@ -72,7 +72,7 @@ public final class Extent implements UnboxedObject {
     public static Extent max() {
         return new Extent(0xFFFFFFFFFFFFFFFFL);
     }
-    
+
     public boolean isZero() {
     	return EQ(zero());
     }
@@ -140,4 +140,3 @@ public final class Extent implements UnboxedObject {
         return !EQ(extent2);
     }
 }
-

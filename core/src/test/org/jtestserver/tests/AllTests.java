@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -22,19 +22,18 @@ package org.jtestserver.tests;
 import java.io.File;
 
 import org.jtestserver.client.utils.ConfigurationUtils;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
-@RunWith(Suite.class)
-@SuiteClasses({TestProtocol.class, TestUDPProtocol.class, TestInputMessage.class,
+@Suite
+@SelectClasses({TestProtocol.class, TestUDPProtocol.class, TestInputMessage.class,
     TestOutputMessage.class, TestVMware.class, TestKVM.class, TestJVM.class,
     TestMauveTestRunner.class })
 public class AllTests {
-    
+
     static {
         ConfigurationUtils.init();
     }
-    
+
     static final File CONFIG_DIRECTORY = ConfigurationUtils.getConfigurationFile();
 }

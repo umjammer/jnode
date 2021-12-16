@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.command.driver.system.bus;
 
 import java.io.IOException;
@@ -33,7 +33,7 @@ import org.jnode.shell.AbstractCommand;
  * @author Francois-Frederic Ozog
  */
 public class SMBusCommand extends AbstractCommand {
-    
+
     public SMBusCommand() {
         super("Dump information about the SMBus");
     }
@@ -41,7 +41,7 @@ public class SMBusCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new SMBusCommand().execute(args);
     }
-    
+
     @Override
     public void execute() {
         SMBusControler smbusctrl = null;
@@ -64,4 +64,3 @@ public class SMBusCommand extends AbstractCommand {
         }
     }
 }
-

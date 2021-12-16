@@ -17,9 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.system.resource;
 
+package org.jnode.system.resource;
 
 /**
  * Interface of Manager or Direct Memory Access resources.
@@ -44,6 +43,5 @@ public interface DMAManager {
      */
     public DMAResource claimDMAChannel(ResourceOwner owner, int dmanr)
         throws IllegalArgumentException, ResourceNotFreeException;
-
 
 }

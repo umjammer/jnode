@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.syntax;
 
 import org.jnode.shell.CommandLine;
@@ -30,8 +30,10 @@ import org.jnode.shell.syntax.MuSequence;
 import org.jnode.shell.syntax.MuSymbol;
 import org.jnode.shell.syntax.MuSyntax;
 import org.jnode.shell.syntax.SyntaxFailureException;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @SuppressWarnings("deprecation")
 public class MuParserTest {
@@ -55,7 +57,7 @@ public class MuParserTest {
         try {
             cl = new CommandLine(new String[] {"b"});
             parser.parse(syntax, null, cl.tokenIterator(), null);
-            Assert.fail("parse didn't fail");
+            fail("parse didn't fail");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -63,7 +65,7 @@ public class MuParserTest {
         try {
             cl = new CommandLine(new String[] {"a", "a"});
             parser.parse(syntax, null, cl.tokenIterator(), null);
-            Assert.fail("parse didn't fail");
+            fail("parse didn't fail");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -81,14 +83,14 @@ public class MuParserTest {
         try {
             cl = new CommandLine(new String[] {"a"});
             parser.parse(syntax, null, cl.tokenIterator(), null);
-            Assert.fail("parse didn't fail");
+            fail("parse didn't fail");
         } catch (CommandSyntaxException ex) {
             // expected
         }
         try {
             cl = new CommandLine(new String[] {"a"});
             parser.parse(syntax, null, cl.tokenIterator(), null);
-            Assert.fail("parse didn't fail");
+            fail("parse didn't fail");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -110,7 +112,7 @@ public class MuParserTest {
         try {
             cl = new CommandLine(new String[] {"c"});
             parser.parse(syntax, null, cl.tokenIterator(), null);
-            Assert.fail("parse didn't fail");
+            fail("parse didn't fail");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -132,7 +134,7 @@ public class MuParserTest {
         try {
             cl = new CommandLine(new String[] {"a", "b"});
             parser.parse(syntax, null, cl.tokenIterator(), null);
-            Assert.fail("expected SFE");
+            fail("expected SFE");
         } catch (SyntaxFailureException ex) {
             // expected
         }
@@ -147,7 +149,7 @@ public class MuParserTest {
         try {
             cl = new CommandLine(new String[] {"a", "a", "c"});
             parser.parse(syntax, null, cl.tokenIterator(), null);
-            Assert.fail("expected SEE");
+            fail("expected SEE");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -178,7 +180,7 @@ public class MuParserTest {
         try {
             cl = new CommandLine(new String[] {"a", "a", "c"});
             parser.parse(syntax, null, cl.tokenIterator(), null);
-            Assert.fail("expected SEE");
+            fail("expected SEE");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -213,7 +215,7 @@ public class MuParserTest {
         try {
             cl = new CommandLine(new String[] {"a", "a", "c"});
             parser.parse(syntax, null, cl.tokenIterator(), null);
-            Assert.fail("expected SEE");
+            fail("expected SEE");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -239,9 +241,9 @@ public class MuParserTest {
         cl = new CommandLine(new String[] {"a"});
         try {
             parser.parse(syntax, null, cl.tokenIterator(), null);
-            Assert.fail("expected SFE");
+            fail("expected SFE");
         } catch (SyntaxFailureException ex) {
-            Assert.assertEquals(
+            assertEquals(
                     "Parse exceeded the step limit (" + MuParser.DEFAULT_STEP_LIMIT + "). " +
                             "Either the command line is too large, or the syntax is too complex (or pathological)",
                     ex.getMessage());

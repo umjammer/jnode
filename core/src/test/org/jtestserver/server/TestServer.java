@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -39,7 +39,7 @@ import org.jtestserver.server.commands.ShutdownCommand;
 
 public class TestServer {
     private static final Logger LOGGER = Logger.getLogger(TestServer.class.getName());
-        
+
     public static void main(String[] args) {
         try {
             TestServer server = new TestServer();
@@ -52,19 +52,19 @@ public class TestServer {
             System.exit(2);
         }
     }
-    
+
     private boolean shutdownRequested = false;
     private final Server<?, ?> server;
     private final Map<String, TestServerCommand> nameToCommand;
     private final Config config;
-    
+
     public TestServer() throws IOException, ProtocolException {
         nameToCommand = new HashMap<String, TestServerCommand>();
-        
+
         addCommand(new RunMauveTestCommand());
         addCommand(new ShutdownCommand(this));
         addCommand(new GetStatusCommand());
-        
+
         config = Config.read();
         Server<?, ?> s = null;
         //TODO use config for min and max port
@@ -81,21 +81,21 @@ public class TestServer {
             }
         }
         server = s;
-        
+
         if (server == null) {
             throw new IOException("no available port found");
         }
         //protocol.setTimeout(10000);
-        
+
         MauveTestRunner.getInstance().setConfig(config);
     }
-    
+
     private void addCommand(TestServerCommand command) {
         nameToCommand.put(command.getName(), command);
     }
-    
+
     public void start() {
-        
+
         /*
         String pid = "???";
         try {
@@ -108,7 +108,7 @@ public class TestServer {
         LOGGER.info("server started (PID=" + pid + ')');
         */
         LOGGER.info("server started");
-        
+
         while (!shutdownRequested) {
             try {
                 server.receive(new MessageProcessor() {
@@ -120,7 +120,7 @@ public class TestServer {
                         InputMessage input = InputMessage.create(message);
                         String commandName = input.getString();
                         TestServerCommand command = nameToCommand.get(commandName);
-                        
+
                         OutputMessage output = null;
                         if (command == null) {
                             //TODO
@@ -131,17 +131,17 @@ public class TestServer {
                                 LOGGER.log(Level.SEVERE, "error in command", t);
                             }
                         }
-                        
+
                         // if the command returns a result
                         String result = MessageProcessor.NO_RESPONSE;
                         if (output != null) {
                             result = output.toMessage();
                         }
-                        
+
                         return result;
                     }
                 });
-                
+
             } catch (ProtocolException pe) {
                 LOGGER.log(Level.SEVERE, "protocol error", pe);
             } catch (TimeoutException te) {
@@ -153,12 +153,12 @@ public class TestServer {
 
         shutdown();
     }
-    
+
     private void shutdown() {
         server.close();
         LOGGER.info("Server has shutdown");
     }
-    
+
     public void requestShutdown() {
         shutdownRequested = true;
         LOGGER.info("shutdown requested");

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.archive;
 
 import org.jnode.shell.syntax.Argument;
@@ -30,7 +30,7 @@ public class BZipCommand extends BZip {
 
     private static final String help_fast = "compress faster";
     private static final String help_best = "compress better";
-    
+
     private final FlagArgument C1 = new FlagArgument("c1", Argument.OPTIONAL, help_fast);
     private final FlagArgument C2 = new FlagArgument("c2", Argument.OPTIONAL, " ");
     private final FlagArgument C3 = new FlagArgument("c3", Argument.OPTIONAL, " ");
@@ -49,7 +49,7 @@ public class BZipCommand extends BZip {
         registerArguments(Compress, Decompress, Files, Keep, Small, Test);
         registerArguments(C1, C2, C3, C4, C5, C6, C7, C8, C9);
     }
-    
+
     public void execute() {
         compress = true;
         if (C1.isSet()) clevel = 1;
@@ -62,7 +62,7 @@ public class BZipCommand extends BZip {
         if (C8.isSet()) clevel = 8;
         if (C9.isSet()) clevel = 9;
         else clevel = 6;
-        
+
         super.execute("bzip2");
     }
 }

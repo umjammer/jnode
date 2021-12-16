@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.syntax;
 
 import org.jnode.shell.syntax.MuAlternation;
@@ -27,8 +27,10 @@ import org.jnode.shell.syntax.MuSequence;
 import org.jnode.shell.syntax.MuSymbol;
 import org.jnode.shell.syntax.MuSyntax;
 import org.jnode.shell.syntax.SyntaxFailureException;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class MuSyntaxTest {
 
@@ -38,19 +40,19 @@ public class MuSyntaxTest {
         new MuSymbol("prod1", "hi");
         try {
             new MuSymbol(null, null);
-            Assert.fail("expected NPE");
+            fail("expected NPE");
         } catch (NullPointerException ex) {
             // expected
         }
         try {
             new MuSymbol(null, "");
-            Assert.fail("expected IAE");
+            fail("expected IAE");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             new MuSymbol("", "hi");
-            Assert.fail("expected IAE");
+            fail("expected IAE");
         } catch (IllegalArgumentException ex) {
             // expected
         }
@@ -63,19 +65,19 @@ public class MuSyntaxTest {
 
         try {
             new MuArgument(null, null, 0);
-            Assert.fail("expected NPE");
+            fail("expected NPE");
         } catch (NullPointerException ex) {
             // expected
         }
         try {
             new MuArgument(null, "", 0);
-            Assert.fail("expected IAE");
+            fail("expected IAE");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             new MuArgument("", "arg1", 0);
-            Assert.fail("expected IAE");
+            fail("expected IAE");
         } catch (IllegalArgumentException ex) {
             // expected
         }
@@ -86,7 +88,7 @@ public class MuSyntaxTest {
         new MuSequence(new MuSymbol("hi"), new MuSymbol("mom"));
         try {
             new MuSequence(new MuSymbol("hi"), null);
-            Assert.fail("expected NPE");
+            fail("expected NPE");
         } catch (NullPointerException ex) {
             // expected
         }
@@ -103,13 +105,13 @@ public class MuSyntaxTest {
         new MuBackReference("hi");
         try {
             new MuBackReference(null);
-            Assert.fail("expected NPE");
+            fail("expected NPE");
         } catch (NullPointerException ex) {
             // expected
         }
         try {
             new MuBackReference("");
-            Assert.fail("expected IAE");
+            fail("expected IAE");
         } catch (IllegalArgumentException ex) {
             // expected
         }
@@ -119,20 +121,20 @@ public class MuSyntaxTest {
     public void testResolveBackReferences() {
         MuSyntax syntax = new MuAlternation("root", new MuBackReference("root"), null);
         syntax.resolveBackReferences();
-        Assert.assertEquals(((MuAlternation) syntax).getAlternatives()[0], syntax);
+        assertEquals(((MuAlternation) syntax).getAlternatives()[0], syntax);
 
         syntax =
                 new MuAlternation("root", new MuSequence(new MuBackReference("root"),
                         new MuBackReference("root")), null);
         syntax.resolveBackReferences();
         MuSyntax[] tmp = ((MuAlternation) syntax).getAlternatives();
-        Assert.assertEquals(((MuSequence) tmp[0]).getElements()[0], syntax);
-        Assert.assertEquals(((MuSequence) tmp[0]).getElements()[1], syntax);
+        assertEquals(((MuSequence) tmp[0]).getElements()[0], syntax);
+        assertEquals(((MuSequence) tmp[0]).getElements()[1], syntax);
 
         try {
             syntax = new MuAlternation("root", new MuBackReference("foo"), null);
             syntax.resolveBackReferences();
-            Assert.fail("expected SFE");
+            fail("expected SFE");
         } catch (SyntaxFailureException ex) {
             // expected
         }
@@ -140,34 +142,34 @@ public class MuSyntaxTest {
 
     @Test
     public void testFormat() {
-        Assert.assertEquals("<*Start*> ::= <<arg1>>", new MuArgument("arg1").format());
-        Assert.assertEquals("<l1> ::= <<arg1>>", new MuArgument("l1", "arg1", 0).format());
+        assertEquals("<*Start*> ::= <<arg1>>", new MuArgument("arg1").format());
+        assertEquals("<l1> ::= <<arg1>>", new MuArgument("l1", "arg1", 0).format());
 
-        Assert.assertEquals("<*Start*> ::= 'hi'", new MuSymbol("hi").format());
-        Assert.assertEquals("<l1> ::= 'hi'", new MuSymbol("l1", "hi").format());
+        assertEquals("<*Start*> ::= 'hi'", new MuSymbol("hi").format());
+        assertEquals("<l1> ::= 'hi'", new MuSymbol("l1", "hi").format());
 
-        Assert.assertEquals("<*Start*> ::= 'hi' 'mum'", new MuSequence(new MuSymbol("hi"),
+        assertEquals("<*Start*> ::= 'hi' 'mum'", new MuSequence(new MuSymbol("hi"),
                 new MuSymbol("mum")).format());
-        Assert.assertEquals("<l1> ::= 'hi' 'mum'", new MuSequence("l1", new MuSymbol("hi"),
+        assertEquals("<l1> ::= 'hi' 'mum'", new MuSequence("l1", new MuSymbol("hi"),
                 new MuSymbol("mum")).format());
-        Assert.assertEquals("<l1> ::= <l2> 'mum'\n<l2> ::= 'hi'", new MuSequence("l1",
+        assertEquals("<l1> ::= <l2> 'mum'\n<l2> ::= 'hi'", new MuSequence("l1",
                 new MuSymbol("l2", "hi"), new MuSymbol("mum")).format());
 
-        Assert.assertEquals("<*Start*> ::= ( 'hi' | 'mum' )", new MuAlternation(new MuSymbol("hi"),
+        assertEquals("<*Start*> ::= ( 'hi' | 'mum' )", new MuAlternation(new MuSymbol("hi"),
                 new MuSymbol("mum")).format());
-        Assert.assertEquals("<*Start*> ::= ( 'hi' |  )",
+        assertEquals("<*Start*> ::= ( 'hi' |  )",
                 new MuAlternation(new MuSymbol("hi"), null).format());
-        Assert.assertEquals("<l1> ::= ( 'hi' | 'mum' )", new MuAlternation("l1",
+        assertEquals("<l1> ::= ( 'hi' | 'mum' )", new MuAlternation("l1",
                 new MuSymbol("hi"), new MuSymbol("mum")).format());
-        Assert.assertEquals("<l1> ::= ( <l2> | 'mum' )\n<l2> ::= 'hi'", new MuAlternation("l1",
+        assertEquals("<l1> ::= ( <l2> | 'mum' )\n<l2> ::= 'hi'", new MuAlternation("l1",
                 new MuSymbol("l2", "hi"), new MuSymbol("mum")).format());
     }
 
     @Test
     public void testFormat2() {
         MuSyntax syntax = new MuAlternation("root", new MuBackReference("root"), null);
-        Assert.assertEquals("<root> ::= ( <[root]> |  )\n<[root]> ::= <root>", syntax.format());
+        assertEquals("<root> ::= ( <[root]> |  )\n<[root]> ::= <root>", syntax.format());
         syntax.resolveBackReferences();
-        Assert.assertEquals("<root> ::= ( <root> |  )", syntax.format());
+        assertEquals("<root> ::= ( <root> |  )", syntax.format());
     }
 }

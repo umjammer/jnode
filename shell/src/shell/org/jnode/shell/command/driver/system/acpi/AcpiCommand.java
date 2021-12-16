@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.command.driver.system.acpi;
 
 import java.io.PrintWriter;
@@ -42,10 +42,10 @@ public class AcpiCommand extends AbstractCommand {
 
     private final FlagArgument FLAG_DUMP = new FlagArgument(
             "dump", Argument.OPTIONAL, "lists all devices that can be discovered and controlled through ACPI");
-    
+
     private final FlagArgument FLAG_BATTERY = new FlagArgument(
             "battery", Argument.OPTIONAL, "displays information about installed batteries");
-    
+
     public AcpiCommand() {
         super("display and (in the future) manage the ACPI system");
         registerArguments(FLAG_BATTERY, FLAG_DUMP);
@@ -54,7 +54,7 @@ public class AcpiCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new AcpiCommand().execute(args);
     }
-    
+
     @Override
     public void execute() throws ApiNotFoundException {
         final Collection<Device> acpiDevs = DeviceUtils.getDevicesByAPI(AcpiAPI.class);

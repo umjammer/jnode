@@ -17,17 +17,17 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test;
 
 import org.jnode.test.util.NumberUtilsTest;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
  * @author epr
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({TestVmClass.class, SignatureTest.class, NumberUtilsTest.class })
+@Suite
+@SelectClasses({TestVmClass.class, SignatureTest.class, NumberUtilsTest.class })
 public class AllTests {
 }

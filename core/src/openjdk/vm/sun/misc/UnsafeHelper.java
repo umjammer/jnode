@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package sun.misc;
 
 /**
@@ -38,7 +38,7 @@ class UnsafeHelper { //todo remove this class if not used
             return ((VmInstanceField) VmInstanceField.class.getVmClass().getField("offset")).getOffset();
         }
     });
-            
+
     static long objectFieldOffset(Field f) {
         return ObjectReference.fromObject(f).toAddress().
                 add(OFFSET_OF_vmField_IN_Field).loadAddress().

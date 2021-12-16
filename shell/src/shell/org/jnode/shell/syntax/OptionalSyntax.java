@@ -17,11 +17,10 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import org.jnode.nanoxml.XMLElement;
-
 
 /**
  * An Optional syntax specifies that one or more child syntaxes are an optional
@@ -30,9 +29,9 @@ import org.jnode.nanoxml.XMLElement;
  * @author crawley@jnode.org
  */
 public class OptionalSyntax extends GroupSyntax {
-    
+
     private final boolean eager;
-    
+
     public OptionalSyntax(String label, String description, boolean eager, Syntax...syntaxes) {
         super(label, description, syntaxes);
         this.eager = eager;

@@ -17,12 +17,17 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.ethernet;
 
 import org.jnode.net.HardwareAddress;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class EthernetAddressTest {
 
@@ -43,24 +48,24 @@ public class EthernetAddressTest {
                 new EthernetAddress(TEST_MAC_ADDRESS_BYTE_0, TEST_MAC_ADDRESS_BYTE_1,
                         TEST_MAC_ADDRESS_BYTE_2, TEST_MAC_ADDRESS_BYTE_3, TEST_MAC_ADDRESS_BYTE_4,
                         TEST_MAC_ADDRESS_BYTE_5);
-        Assert.assertEquals(TEST_MAC_ADDRESS_STRING_DISPLAY, mac.toString());
+        assertEquals(TEST_MAC_ADDRESS_STRING_DISPLAY, mac.toString());
     }
 
     @Test
     public void testEthernetAddressString() {
         EthernetAddress mac = new EthernetAddress(TEST_MAC_ADDRESS_STRING);
-        Assert.assertNotNull(mac);
+        assertNotNull(mac);
         try {
             mac = new EthernetAddress(TEST_MAC_ADDRESS_STRING_WRONG_LENGTH);
-            Assert.fail();
+            fail();
         } catch (IllegalArgumentException e) {
-            Assert.assertTrue(e.getMessage().startsWith("Invalid address"));
+            assertTrue(e.getMessage().startsWith("Invalid address"));
         }
         try {
             mac = new EthernetAddress(TEST_MAC_ADDRESS_STRING_WRONG);
-            Assert.fail();
+            fail();
         } catch (IllegalArgumentException e) {
-            Assert.assertTrue(e.getMessage().startsWith("Not an ethernet address"));
+            assertTrue(e.getMessage().startsWith("Not an ethernet address"));
         }
     }
 
@@ -70,7 +75,7 @@ public class EthernetAddressTest {
                 new EthernetAddress(TEST_MAC_ADDRESS_BYTE_0, TEST_MAC_ADDRESS_BYTE_1,
                         TEST_MAC_ADDRESS_BYTE_2, TEST_MAC_ADDRESS_BYTE_3, TEST_MAC_ADDRESS_BYTE_4,
                         TEST_MAC_ADDRESS_BYTE_5);
-        Assert.assertNotNull(mac);
+        assertNotNull(mac);
     }
 
     @Test
@@ -79,7 +84,7 @@ public class EthernetAddressTest {
                 new EthernetAddress(TEST_MAC_ADDRESS_BYTE_0, TEST_MAC_ADDRESS_BYTE_1,
                         TEST_MAC_ADDRESS_BYTE_2, TEST_MAC_ADDRESS_BYTE_3, TEST_MAC_ADDRESS_BYTE_4,
                         TEST_MAC_ADDRESS_BYTE_5);
-        Assert.assertTrue(mac.equals(new EthernetAddress(TEST_MAC_ADDRESS_STRING)));
+        assertTrue(mac.equals(new EthernetAddress(TEST_MAC_ADDRESS_STRING)));
     }
 
     @Test
@@ -89,38 +94,38 @@ public class EthernetAddressTest {
                         TEST_MAC_ADDRESS_BYTE_2, TEST_MAC_ADDRESS_BYTE_3, TEST_MAC_ADDRESS_BYTE_4,
                         TEST_MAC_ADDRESS_BYTE_5);
         HardwareAddress mac2 = new EthernetAddress(TEST_MAC_ADDRESS_STRING);
-        Assert.assertTrue(mac.equals(mac2));
+        assertTrue(mac.equals(mac2));
     }
 
     @Test
     public void testGetLength() {
         EthernetAddress mac = new EthernetAddress(TEST_MAC_ADDRESS_STRING);
-        Assert.assertEquals(EthernetConstants.ETH_ALEN, mac.getLength());
+        assertEquals(EthernetConstants.ETH_ALEN, mac.getLength());
     }
 
     @Test
     public void testGet() {
         EthernetAddress mac = new EthernetAddress(TEST_MAC_ADDRESS_STRING);
-        Assert.assertEquals(TEST_MAC_ADDRESS_BYTE_0, mac.get(0));
-        Assert.assertEquals(TEST_MAC_ADDRESS_BYTE_1, mac.get(1));
-        Assert.assertEquals(TEST_MAC_ADDRESS_BYTE_2, mac.get(2));
-        Assert.assertEquals(TEST_MAC_ADDRESS_BYTE_3, mac.get(3));
-        Assert.assertEquals(TEST_MAC_ADDRESS_BYTE_4, mac.get(4));
-        Assert.assertEquals(TEST_MAC_ADDRESS_BYTE_5, mac.get(5));
+        assertEquals(TEST_MAC_ADDRESS_BYTE_0, mac.get(0));
+        assertEquals(TEST_MAC_ADDRESS_BYTE_1, mac.get(1));
+        assertEquals(TEST_MAC_ADDRESS_BYTE_2, mac.get(2));
+        assertEquals(TEST_MAC_ADDRESS_BYTE_3, mac.get(3));
+        assertEquals(TEST_MAC_ADDRESS_BYTE_4, mac.get(4));
+        assertEquals(TEST_MAC_ADDRESS_BYTE_5, mac.get(5));
     }
 
     @Test
     public void testIsBroadcast() {
         EthernetAddress mac = new EthernetAddress(TEST_MAC_ADDRESS_STRING);
-        Assert.assertFalse(mac.isBroadcast());
+        assertFalse(mac.isBroadcast());
         EthernetAddress broadcast = new EthernetAddress("FF-FF-FF-FF-FF-FF");
-        Assert.assertTrue(broadcast.isBroadcast());
+        assertTrue(broadcast.isBroadcast());
     }
 
     @Test
     public void testGetType() {
         EthernetAddress mac = new EthernetAddress(TEST_MAC_ADDRESS_STRING);
-        Assert.assertEquals(1, mac.getType());
+        assertEquals(1, mac.getType());
     }
 
 }

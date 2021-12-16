@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2009  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -35,7 +35,7 @@ import org.jtestserver.common.protocol.TimeoutException;
 class UDPServer implements Server<DatagramSocket, UDPProtocol> {
     private final UDPProtocol protocol;
     private final DatagramSocket socket;
-    
+
     /**
      * @throws SocketException 
      * 
@@ -44,7 +44,7 @@ class UDPServer implements Server<DatagramSocket, UDPProtocol> {
         this.protocol = protocol;
         this.socket = new DatagramSocket(localPort);
     }
-    
+
     /* (non-Javadoc)
      * @see org.jtestserver.common.protocol.Server#receive(org.jtestserver.common.protocol.MessageProcessor)
      */
@@ -52,12 +52,12 @@ class UDPServer implements Server<DatagramSocket, UDPProtocol> {
     public synchronized void receive(MessageProcessor processor) throws ProtocolException, TimeoutException {
         ReceivedMessage receivedMessage = protocol.receiveMessage(socket);
         String reply = processor.process(receivedMessage.getMessage());
-        
+
         if (reply != MessageProcessor.NO_RESPONSE) {
             protocol.sendMessage(socket, reply, receivedMessage.getRemoteAddress());
         }
     }
-    
+
     public void setTimeout(int timeout) throws ProtocolException {
         try {
             socket.setSoTimeout(timeout);
@@ -65,7 +65,7 @@ class UDPServer implements Server<DatagramSocket, UDPProtocol> {
             throw new ProtocolException(se);
         }
     }
-    
+
     @Override
     public void close() {
         socket.disconnect();

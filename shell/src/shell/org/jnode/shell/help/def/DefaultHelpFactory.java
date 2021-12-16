@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.help.def;
 
 import java.io.PrintWriter;
@@ -55,7 +55,7 @@ public class DefaultHelpFactory extends HelpFactory {
      */
     public DefaultHelpFactory() {
     }
-    
+
     @Override
     public Help getHelp(String alias, CommandInfo cmdInfo) throws HelpException {
         SyntaxBundle syntaxes = null;
@@ -173,7 +173,7 @@ public class DefaultHelpFactory extends HelpFactory {
             format(out, cells, texts);
         }
     }
-    
+
     @Override
     public void describeArgument(org.jnode.shell.syntax.Argument<?> arg, PrintWriter out) {
         String description = "(" + arg.getTypeDescription() + ") " + arg.getDescription();
@@ -304,6 +304,5 @@ public class DefaultHelpFactory extends HelpFactory {
             return field.substring(0, margin) + text + field.substring(0, width - text.length());
         }
     }
-
 
 }

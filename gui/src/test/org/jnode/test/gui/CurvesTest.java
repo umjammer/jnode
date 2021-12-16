@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.gui;
 
 import java.awt.Color;
@@ -45,7 +45,6 @@ public class CurvesTest {
 
     private static double x0, y0, x1, y1, x2, y2, x3, y3;
 
-
     static {
         r = new Random(System.currentTimeMillis());
         x0 = r.nextDouble() * SCALE;
@@ -57,7 +56,6 @@ public class CurvesTest {
         x3 = r.nextDouble() * SCALE;
         y3 = r.nextDouble() * SCALE;
     }
-
 
     public static void main(String[] args) {
 
@@ -72,7 +70,6 @@ public class CurvesTest {
     private void testOptic() {
 
         System.out.println("Startframe");
-
 
         JFrame frame = new JFrame();
 
@@ -121,7 +118,6 @@ public class CurvesTest {
             panel2.addPoints2(temp2);
         }
 
-
     }
 
     public static void compareQuadCurveImpl() {
@@ -135,7 +131,6 @@ public class CurvesTest {
         start = System.currentTimeMillis();
         quadNew();
         System.out.println("quadNew took " + (System.currentTimeMillis() - start) + "ms.");
-
 
     }
 
@@ -155,7 +150,6 @@ public class CurvesTest {
             Curves.calculateQuadCurveOpt2(x0, y0, x1, y1, x2, y2, temp);
 
     }
-
 
     public static void compareCubicCurveImpl() {
 

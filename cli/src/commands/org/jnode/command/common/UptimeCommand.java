@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.common;
 
 import java.io.PrintWriter;
@@ -32,7 +32,7 @@ public class UptimeCommand extends AbstractCommand {
 
     private static final String help_super = "Show the system uptime";
     private static final String fmt_time   = " up %d day%s, %02d:%02d:%02d%n";
-    
+
     public static void main(String[] args) throws Exception {
         new UptimeCommand().execute(args);
     }

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.net.ne2000;
 
 import org.jnode.driver.Device;
@@ -38,7 +38,7 @@ public abstract class Ne2000Driver extends AbstractEthernetDriver {
      * The actual device driver
      */
     private Ne2000Core dd;
-    
+
     /**
      * The device flags
      */

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.net;
 
 import java.io.PrintWriter;
@@ -54,11 +54,10 @@ public class IfconfigCommand extends AbstractCommand {
     private static final String fmt_devices = "%s: MAC-Address %s MTU %s%n    %s%n";
     private static final String fmt_ip      = "IP address(es) for %s %s%n";
     private static final String fmt_set_ip  = "IP Address for %s set to %s%n";
-    
+
     private final DeviceArgument argDevice;
     private final IPv4AddressArgument argIPAddress;
     private final IPv4AddressArgument argSubnetMask;
-
 
     public IfconfigCommand() {
         super(help_super);
@@ -71,7 +70,7 @@ public class IfconfigCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new IfconfigCommand().execute(args);
     }
-    
+
     public void execute() throws NameNotFoundException, ApiNotFoundException, NetworkException {
         PrintWriter out = getOutput().getPrintWriter();
         if (!argDevice.isSet()) {

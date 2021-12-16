@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.ant.taskdefs;
 
 import java.io.File;
@@ -32,18 +32,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+
+import org.apache.bcel.classfile.RuntimeVisibleAnnotations;
 import org.apache.tools.ant.BuildException;
 import org.jnode.annotation.MagicPermission;
 import org.jnode.annotation.SharedStatics;
 import org.objectweb.asm.Attribute;
-import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.objectweb.asm.attrs.Annotation;
-import org.objectweb.asm.attrs.Attributes;
-import org.objectweb.asm.attrs.RuntimeVisibleAnnotations;
 import org.objectweb.asm.util.TraceClassVisitor;
 
 /**
@@ -282,7 +281,7 @@ public class AnnotateTask extends FileSetTask {
         boolean classIsModified = false;
         FileOutputStream outputClass = null;
 
-        ClassWriter cw = new ClassWriter(false);
+        ClassWriter cw = new ClassWriter(0);
         try {
             ClassReader cr = new ClassReader(inputClass);
 
@@ -330,22 +329,22 @@ public class AnnotateTask extends FileSetTask {
      *
      * @author fabien
      */
-    private static class MarkerClassVisitor extends ClassAdapter {
+    private static class MarkerClassVisitor extends ClassVisitor {
         private final List<String> annotationTypeDescs;
 
         private boolean classIsModified = false;
 
         public MarkerClassVisitor(ClassVisitor cv, List<String> annotationTypeDescs) {
-            super(cv);
+            super(Opcodes.V1_5, cv);
 
             this.annotationTypeDescs = annotationTypeDescs;
         }
 
         @Override
-        public void visit(int version, int access, String name,
-                          String superName, String[] interfaces, String sourceFile) {
-            super.visit(org.objectweb.asm.Constants.V1_5, access,
-                name, superName, interfaces, sourceFile);
+        public void visit(int version, int access, String name, String signature,
+                          String superName, String[] interfaces) {
+            super.visit(Opcodes.V1_5, access,
+                name, signature, superName, interfaces);
         }
 
         @Override
@@ -353,8 +352,8 @@ public class AnnotateTask extends FileSetTask {
             if (attr instanceof RuntimeVisibleAnnotations) {
                 RuntimeVisibleAnnotations rva = (RuntimeVisibleAnnotations) attr;
                 for (Object annotation : rva.annotations) {
-                    if (annotation instanceof Annotation) {
-                        Annotation ann = (Annotation) annotation;
+                    if (annotation instanceof AnnotationInfo) {
+                        AnnotationInfo ann = (AnnotationInfo) annotation;
                         for (String annTypeDesc : annotationTypeDescs) {
                             if (ann.type.equals(annTypeDesc)) {
                                 // we have found one of the annotations -> we won't need to add it again !
@@ -374,7 +373,7 @@ public class AnnotateTask extends FileSetTask {
             if (!annotationTypeDescs.isEmpty()) {
                 // we have not found the annotation -> we will add it and so modify the class
                 classIsModified = true;
-                RuntimeVisibleAnnotations attr = new RuntimeVisibleAnnotations();
+                Attribute attr = new Attribute();
 
                 for (String annTypeDesc : annotationTypeDescs) {
 

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.video.cirrus;
 
 import org.jnode.driver.Device;
@@ -41,13 +41,13 @@ import org.jnode.system.resource.ResourceNotFreeException;
 public class CirrusDriver extends AbstractFrameBufferDriver implements CirrusConstants {
 
     private final String architecture;
-    
+
     private final String model;
 
     private FrameBufferConfiguration currentConfig;
-    
+
     private CirrusCore driver;
-    
+
     /**
      * Create a new instance
      */
@@ -99,7 +99,7 @@ public class CirrusDriver extends AbstractFrameBufferDriver implements CirrusCon
             throw new NotOpenException();
         }
     }
-    
+
     /**
      * @see org.jnode.driver.video.FrameBufferAPI#isOpen()
      */

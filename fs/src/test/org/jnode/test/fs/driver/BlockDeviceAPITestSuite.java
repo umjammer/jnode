@@ -17,13 +17,11 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.driver;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import junit.framework.TestCase;
 
 import org.jnode.test.fs.driver.context.ByteArrayDeviceContext;
 import org.jnode.test.fs.driver.context.FileDeviceContext;
@@ -89,7 +87,7 @@ public class BlockDeviceAPITestSuite extends AbstractTestSuite {
     }
 
     @SuppressWarnings("unchecked")
-    public Class<? extends TestCase>[] getTestSuites() {
+    public Class<? extends Object>[] getTestSuites() {
         return new Class[]{BlockDeviceAPITest.class};
     }
 }

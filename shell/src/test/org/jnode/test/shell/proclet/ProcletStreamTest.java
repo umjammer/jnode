@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.proclet;
 
 import java.io.ByteArrayInputStream;
@@ -55,7 +55,7 @@ public class ProcletStreamTest {
             System.err.println(USAGE);
         }
     }
-    
+
     private void systemInputTests() throws IOException {
         String data = "1234567890\n1234567890\n1234567890\n1234567890\n1234567890\n" +
                 "1234567890\n1234567890\n1234567890\n1234567890\n1234567890\n";
@@ -98,7 +98,7 @@ public class ProcletStreamTest {
             }
         }
     }
-    
+
     private class CharFilterStream extends FilterInputStream {
         private final char filterChar;
 
@@ -119,23 +119,23 @@ public class ProcletStreamTest {
 
     private void systemOutputTests() {
         System.err.println("start testing [line #1 red]");
-        
+
         // Initial state
         System.out.println("-> System.out [line #2 white]");
-        
+
         // Wrap the initial System.out and test
         PrintStream ps = new PrintStream(System.out);
         ps.println("-> after wrapping [line #3 white]");
-        
+
         // Update System.out and test
         System.setOut(ps);
         System.out.println("-> System.out (wrapped) [line #4 white]");
-        
+
         ps = new PrintStream(System.out);
         ps.println("-> after double wrapping [line #5 white]");
         System.setOut(ps);
         System.out.println("-> System.out (double wrapped) [line #6 white]");
-        
+
         // Now check that output using the previously saved (and double wrapped)
         // System.out still goes to the same place after we update System.out.
         System.setOut(System.err);
@@ -146,23 +146,23 @@ public class ProcletStreamTest {
 
     private void systemErrorTests() {
         System.out.println("start testing [line #1 white]");
-        
+
         // Initial state
         System.err.println("-> System.error [line #2 red]");
-        
+
         // Wrap the initial System.err and test
         PrintStream ps = new PrintStream(System.err);
         ps.println("-> after wrapping [line #3 red]");
-        
+
         // Update System.err and test
         System.setErr(ps);
         System.err.println("-> System.error (wrapped) [line #4 red]");
-        
+
         ps = new PrintStream(System.err);
         ps.println("-> after double wrapping [line #5 red]");
         System.setErr(ps);
         System.err.println("-> System.error (double wrapped) [line #6 red]");
-        
+
         // Now check that output using the previously saved (and double wrapped)
         // System.err still goes to the same place after we update System.err.
         System.setErr(System.out);

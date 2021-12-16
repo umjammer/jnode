@@ -17,13 +17,12 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package gnu.java.security.action;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.PrivilegedExceptionAction;
-
 
 /**
  * Utility class for invoking a method in a privileged action.
@@ -35,7 +34,7 @@ public class InvokeAction implements PrivilegedExceptionAction<Object> {
     private final Method method;
     private final Object object;
     private final Object[] args;
-    
+
     /**
      * Initialize this instance.
      * @param method
@@ -47,7 +46,7 @@ public class InvokeAction implements PrivilegedExceptionAction<Object> {
         this.object = object;
         this.args = args;
     }
-    
+
     /**
      * @see java.security.PrivilegedExceptionAction#run()
      */

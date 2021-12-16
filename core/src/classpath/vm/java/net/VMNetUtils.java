@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package java.net;
 
 import org.jnode.annotation.SharedStatics;
@@ -30,11 +30,11 @@ public final class VMNetUtils {
 
 	private static VMNetAPI api;
 	private static Object token;
-	
+
 	static VMNetAPI getAPI() {
 		return api;
 	}
-	
+
 	public static void setAPI(VMNetAPI newApi, Object setToken) {
 		if (api == null) {
 			api = newApi;
@@ -43,7 +43,7 @@ public final class VMNetUtils {
 			throw new SecurityException("Cannot overwrite the NetAPI");
 		}
 	}
-	
+
 	public static void resetAPI(Object setToken) {
 		if (token == setToken) {
 			api = null;
@@ -52,5 +52,5 @@ public final class VMNetUtils {
 			throw new SecurityException("Cannot reset API with wrong token");
 		}
 	}
-	
+
 }

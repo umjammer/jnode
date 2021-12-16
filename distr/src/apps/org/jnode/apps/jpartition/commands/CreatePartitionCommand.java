@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.jpartition.commands;
 
 import org.jnode.apps.jpartition.Context;
@@ -34,7 +34,7 @@ public class CreatePartitionCommand extends BasePartitionCommand {
      * The start sector of the partition to create.
      */
     private final long start;
-    
+
     /**
      * The number of sectors of the partition to create.
      */

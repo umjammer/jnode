@@ -26,9 +26,7 @@
  *  3. This notice may not be removed or altered from any source distribution.
  *****************************************************************************/
 
-
 package org.jnode.nanoxml;
-
 
 /**
  * An XMLParseException is thrown when an error occures while parsing an XML
@@ -51,7 +49,6 @@ public class XMLParseException
      */
     public static final int NO_LINE = -1;
 
-
     /**
      * The line number in the source code where the error occurred, or
      * <code>NO_LINE</code> if the line number is unknown.
@@ -61,7 +58,6 @@ public class XMLParseException
      * </ul></dd></dl>
      */
     private int lineNr;
-
 
     /**
      * Creates an exception.
@@ -86,7 +82,6 @@ public class XMLParseException
               + ": " + message);
         this.lineNr = XMLParseException.NO_LINE;
     }
-
 
     /**
      * Creates an exception.
@@ -114,7 +109,6 @@ public class XMLParseException
               + " at line " + lineNr + ": " + message);
         this.lineNr = lineNr;
     }
-
 
     /**
      * Where the error occurred, or <code>NO_LINE</code> if the line number is

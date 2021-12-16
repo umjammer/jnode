@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console.textscreen;
 
 public enum KeyboardReaderAction {
@@ -128,12 +128,11 @@ public enum KeyboardReaderAction {
      * This action causes the next history line to be selected.
      */
     KR_HISTORY_DOWN;
-    
 
     public static KeyboardReaderAction getDefaultCharAction() {
         return KR_INSERT;
     }
-    
+
     public static KeyboardReaderAction getDefaultVKAction() {
         return KR_IGNORE;
     }

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import java.io.PrintWriter;
@@ -37,15 +37,15 @@ import org.jnode.shell.syntax.SyntaxBundle;
 final class AliasBuiltin extends BjorneBuiltin {
     private static final SyntaxBundle SYNTAX = 
         new SyntaxBundle("alias", new RepeatSyntax(new ArgumentSyntax("alias")));
-    
+
     static final Factory FACTORY = new Factory() {
         public BjorneBuiltinCommandInfo buildCommandInfo(BjorneContext context) {
             return new BjorneBuiltinCommandInfo("alias", SYNTAX, new AliasBuiltin(context), context);
         }
     };
-    
+
     private final BjorneAliasDefinitionArgument argAlias; 
-    
+
     private AliasBuiltin(BjorneContext context) {
         super("define or list aliases");
         argAlias = new BjorneAliasDefinitionArgument(
@@ -103,6 +103,5 @@ final class AliasBuiltin extends BjorneBuiltin {
     private void printAlias(PrintWriter pw, String aliasName, String alias) {
         pw.println(aliasName + "='" + alias + "'");
     }
-   
-    
+
 }

@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2009  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 package org.jtestserver.common.protocol;
 
-
 /**
  * @author Fabien DUMINY (fduminy@jnode.org)
  *
@@ -27,6 +26,6 @@ package org.jtestserver.common.protocol;
 public interface Server<S, P extends Protocol<S>> {
     void setTimeout(int timeout) throws ProtocolException;
     void close();
-    
+
     void receive(MessageProcessor processor) throws ProtocolException, TimeoutException;
 }

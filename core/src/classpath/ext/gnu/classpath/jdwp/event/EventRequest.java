@@ -36,7 +36,6 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 
-
 package gnu.classpath.jdwp.event;
 
 import gnu.classpath.jdwp.JdwpConstants;
@@ -156,7 +155,6 @@ public class EventRequest
    */
   public static final byte EVENT_VM_DEATH =
     JdwpConstants.EventKind.VM_DEATH;
-
 
   /*
    * Suspend policies

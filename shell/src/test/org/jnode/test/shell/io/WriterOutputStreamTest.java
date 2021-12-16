@@ -17,15 +17,16 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.io;
 
 import java.io.StringWriter;
 import java.nio.charset.MalformedInputException;
 
 import org.jnode.util.WriterOutputStream;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WriterOutputStreamTest {
 
@@ -37,7 +38,7 @@ public class WriterOutputStreamTest {
         byte[] buffer = LINE.getBytes();
         wos.write(buffer);
         wos.flush();
-        Assert.assertEquals(LINE, sw.getBuffer().toString());
+        assertEquals(LINE, sw.getBuffer().toString());
     }
 
     @Test
@@ -48,7 +49,7 @@ public class WriterOutputStreamTest {
         byte[] buffer = LINE.getBytes();
         wos.write(buffer);
         wos.flush();
-        Assert.assertEquals(LINE, sw.getBuffer().toString());
+        assertEquals(LINE, sw.getBuffer().toString());
     }
 
     @Test
@@ -61,7 +62,7 @@ public class WriterOutputStreamTest {
             wos.write(b);
         }
         wos.flush();
-        Assert.assertEquals(LINE, sw.getBuffer().toString());
+        assertEquals(LINE, sw.getBuffer().toString());
     }
 
     @Test
@@ -73,9 +74,9 @@ public class WriterOutputStreamTest {
         for (int i = 0; i < buffer.length; i++) {
             wos.write(buffer[i]);
             wos.flush();
-            Assert.assertEquals(LINE.charAt(i), sw.getBuffer().charAt(i));
+            assertEquals(LINE.charAt(i), sw.getBuffer().charAt(i));
         }
-        Assert.assertEquals(LINE, sw.getBuffer().toString());
+        assertEquals(LINE, sw.getBuffer().toString());
     }
 
     @Test
@@ -90,9 +91,9 @@ public class WriterOutputStreamTest {
         wos.write(buffer);
         wos.flush();
         StringBuffer sb = sw.getBuffer();
-        Assert.assertEquals(chars.length, sb.length());
+        assertEquals(chars.length, sb.length());
         for (int i = 0; i < chars.length; i++) {
-            Assert.assertEquals(chars[i], sb.charAt(i));
+            assertEquals(chars[i], sb.charAt(i));
         }
     }
 
@@ -104,7 +105,7 @@ public class WriterOutputStreamTest {
         try {
             wos.write(BAD);
             wos.flush();
-            Assert.fail("no exception thrown");
+            fail("no exception thrown");
         } catch (MalformedInputException ex) {
             // expected
         }
@@ -118,10 +119,10 @@ public class WriterOutputStreamTest {
         try {
             wos.write(BAD);
             wos.flush();
-            Assert.fail("no exception thrown");
+            fail("no exception thrown");
         } catch (MalformedInputException ex) {
             // expected
-            Assert.assertEquals("hi", sw.getBuffer().toString());
+            assertEquals("hi", sw.getBuffer().toString());
         }
     }
 
@@ -133,10 +134,10 @@ public class WriterOutputStreamTest {
         try {
             wos.write(BAD);
             wos.flush();
-            Assert.fail("no exception thrown");
+            fail("no exception thrown");
         } catch (MalformedInputException ex) {
             // expected
-            Assert.assertEquals("hi", sw.getBuffer().toString());
+            assertEquals("hi", sw.getBuffer().toString());
         }
     }
 
@@ -149,10 +150,10 @@ public class WriterOutputStreamTest {
         wos.flush();
         try {
             wos.close();
-            Assert.fail("no exception thrown");
+            fail("no exception thrown");
         } catch (MalformedInputException ex) {
             // expected
-            Assert.assertEquals("hi", sw.getBuffer().toString());
+            assertEquals("hi", sw.getBuffer().toString());
         }
     }
 }

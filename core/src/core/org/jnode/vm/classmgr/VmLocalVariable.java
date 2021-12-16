@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.classmgr;
 
 import org.jnode.vm.objects.VmSystemObject;
@@ -39,22 +39,22 @@ public final class VmLocalVariable extends VmSystemObject {
      * Start of the value value range.
      */
     private final char startPC;
-    
+
     /**
      * Length of the value value range.
      */
     private final char length;
-    
+
     /**
      * Name of the variable
      */
     private final char nameIndex;
-    
+
     /**
      * Type descriptor of the variable
      */
     private final char descriptorIndex;
-    
+
     /**
      * Local variable index (on the stack) of the variable
      */
@@ -76,7 +76,6 @@ public final class VmLocalVariable extends VmSystemObject {
         this.descriptorIndex = descriptorIndex;
         this.index = index;
     }
-
 
     /**
      * @return The index of this variable

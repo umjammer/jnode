@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.PrintWriter;
@@ -73,7 +73,7 @@ public class PluginCommand extends AbstractCommand {
     private static final String str_version = "version";
     private static final String fmt_list = "%s; state %s; version %s";
     private static final String fmt_no_plugin = "Plugin %s not found%n";
-    
+
     private final FlagArgument argLoad;
     private final FlagArgument argReload;
     private final FlagArgument argUnload;
@@ -83,7 +83,6 @@ public class PluginCommand extends AbstractCommand {
 
     private PrintWriter out;
     private PluginManager mgr;
-    
 
     public PluginCommand() {
         super(help_super);
@@ -152,7 +151,7 @@ public class PluginCommand extends AbstractCommand {
         mgr.getRegistry().loadPlugin(mgr.getLoaderManager(), pluginReference, true); //resolve=true
         out.format(fmt_load, pluginReference.getId(), pluginReference.getVersion());
     }
-    
+
     private void reloadPlugin(PluginReference pluginReference) throws PluginException {
         final PluginRegistry reg = mgr.getRegistry();
         final List<PluginReference> refs = reg.unloadPlugin(pluginReference.getId());
@@ -171,7 +170,7 @@ public class PluginCommand extends AbstractCommand {
         mgr.getRegistry().unloadPlugin(id);
         out.format(fmt_unload, id);
     }
-    
+
     private void listPlugins() throws PluginException {
         final List<String> rows = new ArrayList<String>();
         for (PluginDescriptor descr : mgr.getRegistry()) {

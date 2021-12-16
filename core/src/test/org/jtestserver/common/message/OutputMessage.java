@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -26,28 +26,28 @@ public class OutputMessage extends Message {
 
     public static final OutputMessage createResultMessage(MessageDescriptor desc, Object result) {
         OutputMessage output = null;
-        
+
         if (desc.getResultClass() != null) {
             output =  new OutputMessage();
             output.append(desc.getResultClass(), result);
         }
-        
+
         return output;
     }
-    
+
     public static final OutputMessage createOutputMessage(MessageDescriptor desc, Object... params) {
         OutputMessage output = new OutputMessage();
         output.append(desc.getName());
-        
+
         int iParam = 0;
         for (Class<?> paramClass : desc.getParamClasses()) {
             output.append(paramClass, params[iParam]);
             iParam++;
         }
-        
+
         return output;
     }
-    
+
     private OutputMessage() {
         message = new StringBuilder();
     }
@@ -60,26 +60,26 @@ public class OutputMessage extends Message {
         if (message.length() > 0) {
             message.append(SEPARATOR);
         }
-        
+
         // add characters one by one in order to escape
         // SEPARATOR and ESCAPE_CHARACTER characters, if any.
         for (int i = 0; i < chars.length(); i++) {
             char c = chars.charAt(i);
-            
+
             if ((c == SEPARATOR) || (c == ESCAPE_CHARACTER)) {
                 message.append(ESCAPE_CHARACTER);                
             }
-            
+
             message.append(c);
         }
-        
+
         return this;
     }
 
     private OutputMessage append(int i) {
         return append(Integer.toString(i));
     }
-    
+
     private final void append(Class<?> type, Object value) {
         if (value == null) {
             append(NULL);

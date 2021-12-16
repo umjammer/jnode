@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.help.def;
 
 import java.io.PrintWriter;
@@ -42,19 +42,19 @@ public class NewSyntaxHelp extends TextHelpBase implements EnhancedHelp {
 
     private final SyntaxBundle syntaxBundle;
     private final ArgumentBundle argBundle;
-    
+
     public NewSyntaxHelp(SyntaxBundle syntaxBundle, ArgumentBundle argBundle) {
         this.syntaxBundle = syntaxBundle;
         this.argBundle = argBundle;
     }
-    
+
     @Override
     public void help(PrintWriter pw) {
         usage(pw);
         options(pw);
         arguments(pw);
     }
-    
+
     @Override
     public void description(PrintWriter pw) {
         if (argBundle.getDescription() != null) {

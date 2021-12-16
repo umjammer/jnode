@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -38,7 +38,7 @@ import org.jtestserver.common.protocol.TimeoutException;
 
 public class DefaultTestClient implements TestClient {
     private static final Logger LOGGER = Logger.getLogger(DefaultTestClient.class.getName());
-        
+
     private final Client<?, ?> client;
 
     public DefaultTestClient(Client<?, ?> client) {
@@ -51,13 +51,13 @@ public class DefaultTestClient implements TestClient {
         LOGGER.log(Level.INFO, "parsing xml report for " + test);
         return parseMauveReport(report);
     }
-    
+
     protected RunResult parseMauveReport(String report) throws ProtocolException {
         XMLReportParser parser = new XMLReportParser();
         StringReader sr = new StringReader(report);
         try {
             LOGGER.log(Level.INFO, "xml report: " + report);
-            
+
             return parser.parse(sr);
         } catch (XMLParseException e) {
             throw new ProtocolException("invalid XML answer", e);
@@ -65,17 +65,17 @@ public class DefaultTestClient implements TestClient {
             throw new ProtocolException("I/O error", e);
         }
     }
-    
+
     @Override
     public Status getStatus() throws ProtocolException, TimeoutException {
         return (Status) Message.send(client, Descriptors.GET_STATUS);
     }
-    
+
     @Override
     public void shutdown() throws ProtocolException, TimeoutException {
         Message.send(client, Descriptors.SHUTDOWN);
     }
-    
+
     @Override
     public void close() throws ProtocolException {
         try {

@@ -17,14 +17,17 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.swingpeers;
 
+import java.awt.BufferCapabilities.FlipContents;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.GraphicsConfiguration;
 import java.awt.Image;
 import java.awt.MenuBar;
 import java.awt.Rectangle;
+import java.awt.peer.ComponentPeer;
 import java.awt.peer.FramePeer;
 import java.beans.PropertyVetoException;
 
@@ -39,7 +42,6 @@ final class SwingFrame extends SwingBaseWindow<Frame, SwingFrame> {
     public void paintAll(Graphics g) {
         super.paintAll(g);
     }
-
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -158,10 +160,63 @@ final class SwingFramePeer extends SwingBaseWindowPeer<Frame, SwingFrame>
 
     }
 
-
     //jnode openjdk
     public Rectangle getBoundsPrivate() {
         //TODO implement it
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void updateAlwaysOnTopState() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setOpacity(float opacity) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setOpaque(boolean isOpaque) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void updateWindow() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void repositionSecurityWarning() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void flip(int x1, int y1, int x2, int y2, FlipContents flipAction) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setZOrder(ComponentPeer above) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public boolean updateGraphicsData(GraphicsConfiguration gc) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void emulateActivation(boolean activate) {
+        // TODO Auto-generated method stub
+        
     }
 }

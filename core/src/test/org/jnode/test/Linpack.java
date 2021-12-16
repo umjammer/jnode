@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test;
 
 /*
@@ -40,11 +40,9 @@ Optimizations performed:
  - wrote my own abs() method
 See http://www.cs.cmu.edu/~jch/java/linpack.html for more details.
 
-
 Ported to Java by Reed Wade  (wade@cs.utk.edu) 2/96
 built using JDK 1.0 on solaris
 using "javac -O Linpack.java"
-
 
 Translated to C by Bonnie Toy 5/88
   (modified on 2/25/94  to fix a problem with daxpy  for

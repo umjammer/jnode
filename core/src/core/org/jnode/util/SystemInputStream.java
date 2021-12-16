@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.util;
 
 import java.io.IOException;
@@ -33,7 +33,7 @@ import java.io.InputStream;
 public final class SystemInputStream extends InputStream {
     // FIXME ... remove the thread localization support.  It is now just a misleading
     // historical relic.
-    
+
     private static final InputStream EMPTY = new EmptyInputStream();
 
     private final class ThreadLocalInputStream extends InheritableThreadLocal {

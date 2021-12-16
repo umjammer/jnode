@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.command.driver.console;
 
 import java.io.OutputStreamWriter;
@@ -60,7 +60,6 @@ public class ConsoleCommand extends AbstractCommand {
     private final FlagArgument FLAG_TEST = new FlagArgument(
             "test", Argument.OPTIONAL, "if set, create a raw text console (test)");
 
-    
     public ConsoleCommand() {
         super("Console administration");
         registerArguments(FLAG_ISOLATED, FLAG_LIST, FLAG_NEW, FLAG_TEST);

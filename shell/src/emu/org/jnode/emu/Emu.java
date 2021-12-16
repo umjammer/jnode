@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.emu;
 
 import java.io.BufferedReader;
@@ -76,12 +76,12 @@ public class Emu {
         "org.jnode.apps.commander",
         "org.jnode.apps.console",
     };
-    
+
     private final File root;
     private final AliasManager aliasMgr;
     private final SyntaxManager syntaxMgr;
     private final HashSet<String> configuredPlugins = new HashSet<String>();
-    
+
     public Emu(File root) throws EmuException {
         this(root, DEFAULT_PLUGIN_IDS);
     }

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.PrintWriter;
@@ -64,8 +64,7 @@ public class LoadkeysCommand extends AbstractCommand {
     private static final String fmt_remove = "Keybard layout %s removed%n";
     private static final String fmt_set_interp = "Keyboard interpreter for %s set to %s%n";
     private static final String fmt_list_interp = "Current keyboard interpreter for %s is %s%n";
-    
-    
+
     private final KeyboardLayoutArgument argLayout;
     private final CountryArgument argCountry;
     private final LanguageArgument argLanguage;
@@ -75,8 +74,7 @@ public class LoadkeysCommand extends AbstractCommand {
     private final FlagArgument argRemove;
     private final FlagArgument argSet;
     private final ClassNameArgument argClass;
-        
-    
+
     public LoadkeysCommand() {
         super(help_super);
         argLayout   = new KeyboardLayoutArgument("layout", Argument.OPTIONAL, help_layout);

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import org.jnode.shell.AbstractCommand;
@@ -36,17 +36,17 @@ import org.jnode.vm.VmExit;
  *
  */
 abstract class BjorneBuiltin extends AbstractCommand {
-    
+
     static interface Factory {
         BjorneBuiltinCommandInfo buildCommandInfo(BjorneContext context);
     }
-    
+
     private BjorneContext parentContext;
-    
+
     public BjorneBuiltin(String description) {
         super(description);
     }
-    
+
     /**
      * Temporary adapter method.  Unconverted builtin classes override this.
      */

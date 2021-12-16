@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.File;
@@ -81,7 +81,7 @@ public class WcCommand extends AbstractCommand {
         maxChars  = new FlagArgument("maxCharLine", Argument.OPTIONAL, HELP_MAX_CHARS);
         registerArguments(filesArgs, bytesArgs, linesArgs, charsArgs, wordsArgs, maxChars);
     }
-    
+
     @Override
     public void execute() {
         List<WcStream> results = new ArrayList<WcStream>(1);

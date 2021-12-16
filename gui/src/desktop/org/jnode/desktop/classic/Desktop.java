@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.desktop.classic;
 
 import java.awt.AWTError;
@@ -87,7 +87,6 @@ public class Desktop implements Runnable {
                 }
                 Desktop.this.taskBar = new TaskBar(Desktop.this, appsEP);
 
-
                 final JNodeToolkit tk = JNodeToolkit.getJNodeToolkit();
                 desktopFrame = tk.getAwtContext();
                 desktopPane = desktopFrame.getDesktop();
@@ -112,7 +111,6 @@ public class Desktop implements Runnable {
                         }
                     }
                 });
-
 
                 taskBar.quitMI.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -143,7 +141,6 @@ public class Desktop implements Runnable {
                         JNodeToolkit.stopGui();
                     }
                 });
-
 
                 ActionListener desktopColorAction = new ActionListener() {
                     private JFrame frame;
@@ -215,11 +212,11 @@ public class Desktop implements Runnable {
                 JMenuItem desktopColor = new JMenuItem("Desktop color");
                 desktopColor.addActionListener(desktopColorAction);
                 desktopMenu.add(desktopColor);
-                
+
                 for (JMenuItem item : taskBar.chgSizeMenuItem) {
                     desktopMenu.add(item);
                 }
-                
+
                 desktopPane.addMouseListener(new MouseAdapter() {
                     public void mousePressed(MouseEvent event) {
                         if (event.getButton() == MouseEvent.BUTTON2) {

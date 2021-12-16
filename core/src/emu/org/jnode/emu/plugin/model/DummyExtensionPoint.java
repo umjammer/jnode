@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.emu.plugin.model;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ import org.jnode.plugin.PluginDescriptor;
  * @author crawley@jnode.org
  */
 public class DummyExtensionPoint implements ExtensionPoint {
-    
+
     private final String id;
     private final String uid;
     private final String name;
@@ -47,7 +47,7 @@ public class DummyExtensionPoint implements ExtensionPoint {
     public DummyExtensionPoint() {
         this("A", "aaa", "B");
     }
-    
+
     public DummyExtensionPoint(String id, String uid, String name) {
         this.id = id;
         this.uid = uid;
@@ -72,7 +72,7 @@ public class DummyExtensionPoint implements ExtensionPoint {
         }
         return new Extension[0];
     }
-    
+
     public void addExtension(Extension extension) {
         if (extensions == null) {
             extensions = new ArrayList<Extension>(1);

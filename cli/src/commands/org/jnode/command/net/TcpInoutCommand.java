@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.net;
 
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class TcpInoutCommand extends AbstractCommand {
     private static final String help_port = "the port the server is listening to";
     private static final String help_lport = "the local port we should listen to";
     private static final String help_super = "Set up an interactive TCP connection to a remote machine";
-    
+
     private final HostNameArgument argHost;
     private final PortNumberArgument argPort;
     private final PortNumberArgument argLocalPort;

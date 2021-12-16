@@ -17,9 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.vm.classmgr;
 
+package org.jnode.vm.classmgr;
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)
@@ -41,7 +40,6 @@ public interface VmTypeState {
     // Isolate specific states
     public static final char IST_INITIALIZED = 0x0100;
     public static final char IST_INITIALIZING = 0x0200;
-
 
     // Shared specific states
     public static final char SST_INITIALIZED = 0x0100;

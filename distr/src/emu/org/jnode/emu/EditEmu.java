@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.emu;
 
 import java.io.File;
@@ -30,11 +30,11 @@ import org.jnode.driver.console.textscreen.TextScreenConsole;
  * @author Levente S\u00e1ntha
  */
 public class EditEmu extends Emu {
-    
+
     public EditEmu(File root) throws EmuException {
         super(root);
     }
-    
+
     public static void main(String[] argv) throws Exception {
         if (argv.length == 0 || argv[0].startsWith("-")) {
             System.err.println("Usage: editEmu <file> [<jnode-home>]");
@@ -43,7 +43,7 @@ public class EditEmu extends Emu {
 
         new EditEmu(argv.length > 1 ? new File(argv[1]) : null).run(new File(argv[0]));
     }
-    
+
     private void run(File file) throws Exception {
         SwingTextScreenConsoleManager cm = new SwingTextScreenConsoleManager();
         final TextScreenConsole console = cm.createConsole(

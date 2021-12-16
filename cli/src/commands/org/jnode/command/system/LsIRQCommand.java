@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import org.jnode.shell.AbstractCommand;
@@ -28,9 +28,9 @@ import org.jnode.vm.scheduler.VmProcessor;
  * @author Ewout Prangsma (epr@users.sourceforge.net)
  */
 public class LsIRQCommand extends AbstractCommand {
-    
+
     private static final String help_super = "prints IRQ handler info";
-    
+
     public LsIRQCommand() {
         super(help_super);
     }
@@ -38,7 +38,7 @@ public class LsIRQCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new LsIRQCommand().execute(args);
     }
-    
+
     @Override
     public void execute() {
         final VmProcessor proc = VmProcessor.current();

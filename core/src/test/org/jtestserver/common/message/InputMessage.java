@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -26,31 +26,31 @@ import org.jtestserver.common.Status;
 
 public class InputMessage extends Message {
     private static final String SEPARATOR_STR = new String(new char[]{SEPARATOR});
-    
+
     private final String message;
     private int currentPosition = 0;
 
     public static InputMessage create(String answer) {
         return new InputMessage(answer);
     }
-    
+
     private InputMessage(String message) {
         this.message = message;
     }
 
     public final Object[] parseParameters(MessageDescriptor desc) {
         List<Object> parameters = new ArrayList<Object>();
-        
+
         for (Class<?> paramClass : desc.getParamClasses()) {
             parameters.add(parse(paramClass));
         }
-        
+
         return parameters.toArray();
     }
 
     final Object parse(Class<?> type) {
         Object result = null;
-        
+
         try {
             if (int.class.equals(type) || Integer.class.equals(type)) {
                 result = getInt();
@@ -65,7 +65,7 @@ public class InputMessage extends Message {
             // the parsed value is equals to the NULL constant 
             result = null;
         }
-        
+
         return result;
     }        
 
@@ -74,7 +74,7 @@ public class InputMessage extends Message {
         StringBuilder sb = new StringBuilder();
         for (; currentPosition < message.length(); currentPosition++) {
             char c = message.charAt(currentPosition);
-            
+
             boolean unescaped = false;
             if (c == ESCAPE_CHARACTER) {
                 if (currentPosition < (message.length() - 1)) {
@@ -87,7 +87,7 @@ public class InputMessage extends Message {
                     }
                 }
             }
-            
+
             if (!unescaped) {
                 if (c == SEPARATOR) {
                     // found the "real" separator => end of the field 
@@ -99,19 +99,19 @@ public class InputMessage extends Message {
                 }
             }
         }
-        
+
         String str = sb.toString();
         if (NULL.equals(str)) {
             throw new NullValueException();
         }
-        
+
         return str;
     }
 
     public Status getStatus() {
         return Status.valueOf(getString());
     }
-    
+
     public int getInt() {
         return Integer.parseInt(getString());
     }

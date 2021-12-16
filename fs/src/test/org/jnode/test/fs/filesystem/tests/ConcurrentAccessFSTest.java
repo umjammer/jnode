@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.filesystem.tests;
 
 import java.io.IOException;
@@ -29,8 +29,10 @@ import org.jnode.fs.FSFile;
 import org.jnode.test.fs.filesystem.AbstractFSTest;
 import org.jnode.test.fs.filesystem.config.FSTestConfig;
 import org.jnode.test.support.TestUtils;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Fabien DUMINY
@@ -61,7 +63,7 @@ public class ConcurrentAccessFSTest extends AbstractFSTest {
         monitor.waitAll();
     }
 
-    @Test @Ignore("Fix concurrency issues")
+    @Test @Disabled("Fix concurrency issues")
     public void testWrite() throws Throwable {
         if (!config.isReadOnly()) {
             setUp();
@@ -70,11 +72,11 @@ public class ConcurrentAccessFSTest extends AbstractFSTest {
             Monitor monitor = new Monitor("testWrite");
             createWriters(monitor, file);
             monitor.waitAll();
-            assertTrue("integrity test failed", isGoodResultFile(file));
+            assertTrue(isGoodResultFile(file), "integrity test failed");
         }
     }
 
-    @Test @Ignore("Fix concurrency issues")
+    @Test @Disabled("Fix concurrency issues")
     public void testReadWrite() throws Throwable {
         setUp();
 
@@ -85,7 +87,7 @@ public class ConcurrentAccessFSTest extends AbstractFSTest {
             createWriters(monitor, file);
         }
         monitor.waitAll();
-        assertTrue("integrity test failed", isGoodResultFile(file));
+        assertTrue(isGoodResultFile(file), "integrity test failed");
     }
 
     protected void createReaders(Monitor monitor, FSFile file) {

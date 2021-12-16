@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import org.jnode.shell.syntax.Argument;
@@ -35,17 +35,16 @@ import org.jnode.shell.syntax.SyntaxBundle;
 final class ContinueBuiltin extends BjorneBuiltin {
     private static final SyntaxBundle SYNTAX = 
         new SyntaxBundle("continue", new OptionalSyntax(new ArgumentSyntax("count")));
-    
+
     static final Factory FACTORY = new Factory() {
         public BjorneBuiltinCommandInfo buildCommandInfo(BjorneContext context) {
             return new BjorneBuiltinCommandInfo("continue", SYNTAX, new ContinueBuiltin(), context);
         }
     };
-    
+
     private final IntegerArgument argCount = new IntegerArgument(
             "count", Argument.OPTIONAL, 1, Integer.MAX_VALUE, "the enclosing loop count");
-    
-    
+
     private ContinueBuiltin() {
         super("Continue to the next iteration of an enclosing loop");
         registerArguments(argCount);

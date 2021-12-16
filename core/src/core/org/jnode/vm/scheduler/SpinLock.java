@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.scheduler;
 
 import org.jnode.vm.Unsafe;
@@ -40,7 +40,7 @@ public class SpinLock extends VmSystemObject {
      * Lock counter. THIS FIELD MUST BE AT OFFSET 0!!
      */
     private int lockCount;
-    
+
     /**
      * Owner used for deadlock detection
      */

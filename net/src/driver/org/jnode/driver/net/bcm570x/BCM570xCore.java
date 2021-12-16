@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.net.bcm570x;
 
 import java.security.PrivilegedExceptionAction;
@@ -561,7 +561,7 @@ public class BCM570xCore extends AbstractDeviceCore implements BCM570xConstants,
                 final SocketBuffer skbuf = null; // rxRing.getPacket(pktLen);
 
                 try {
-                    
+
                     if (skbuf != null && skbuf.getSize() > 0) {
                         driver.onReceive(skbuf);
                     }

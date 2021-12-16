@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.jnode</groupId>
+  <artifactId>jnode</artifactId>
+  <version>0.2.9v-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>JNode Parent Module</name>
+
+  <modules>
+    <module>core</module>
+    <module>net</module>
+    <module>shell</module>
+    <module>fs</module>
+    <module>builder</module>
+    <module>cli</module>
+    <module>distr</module>
+    <module>gui</module>
+    <module>textui</module>
+<!--
+    <module>sound</module>
+-->
+  </modules>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub umjammer Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/umjammer/jnode</url>
+    </repository>
+  </distributionManagement>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>5.8.1</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

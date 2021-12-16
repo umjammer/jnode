@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.util;
 
 /**
@@ -42,7 +42,7 @@ public final class NumberRange implements Comparable<NumberRange> {
     private final int end;
     private final int negativeInfinity;
     private final int positiveInfinity;
-    
+
     /**
      * Creates a number range.
      *
@@ -67,7 +67,7 @@ public final class NumberRange implements Comparable<NumberRange> {
         this.negativeInfinity = negInf;
         this.positiveInfinity = posInf;
     }
-    
+
     /**
      * Creates a number range.
      *
@@ -81,7 +81,7 @@ public final class NumberRange implements Comparable<NumberRange> {
     public NumberRange(int start,  int end) {
         this(start, end, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
-    
+
     /**
      * Compares this NumberRange to another NumberRange for order.
      *
@@ -99,12 +99,12 @@ public final class NumberRange implements Comparable<NumberRange> {
         if (equals(that)) {
             return 0;
         }
-        
+
         boolean a1 = isStartInfinite();
         boolean a2 = isEndInfinite();
         boolean b1 = that.isStartInfinite();
         boolean b2 = that.isEndInfinite();
-        
+
         if (a1 ^ b1) {
             return a1 ? -1 : 1;
         }
@@ -116,7 +116,7 @@ public final class NumberRange implements Comparable<NumberRange> {
         }
         return start - that.start;
     }
-    
+
     /**
      * Tests this NumberRange for equivalence to that NumberRange.
      *
@@ -137,11 +137,11 @@ public final class NumberRange implements Comparable<NumberRange> {
         boolean a2 = isEndInfinite();
         boolean b1 = that.isStartInfinite();
         boolean b2 = that.isEndInfinite();
-        
+
         return ((a1 && b1) || (!(a1 ^ b1) && (start == that.start))) 
             && ((a2 && b2) || (!(a2 ^ b2) && (end == that.end)));
     }
-    
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -152,12 +152,12 @@ public final class NumberRange implements Comparable<NumberRange> {
         }
         return equals((NumberRange) that);
     }
-    
+
     @Override
     public String toString() {
         return start + "-" + end;
     }
-    
+
     /**
      * The starting position of this number range.
      *
@@ -169,7 +169,7 @@ public final class NumberRange implements Comparable<NumberRange> {
     public int start() {
         return start;
     }
-    
+
     /**
      * The ending position of this number range.
      *
@@ -181,7 +181,7 @@ public final class NumberRange implements Comparable<NumberRange> {
     public int end() {
         return end;
     }
-    
+
     /**
      * Does this NumberRange represent a range that is positively infinite.
      *
@@ -190,7 +190,7 @@ public final class NumberRange implements Comparable<NumberRange> {
     public boolean isEndInfinite() {
         return end >= positiveInfinity;
     }
-    
+
     /**
      * Does this NumberRange represent a range that is negatively infinite.
      *

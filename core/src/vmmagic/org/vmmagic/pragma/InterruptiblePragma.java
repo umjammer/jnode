@@ -13,7 +13,6 @@
 
 package org.vmmagic.pragma; 
 
-
 /**
  * A pragma that can be used to declare that a 
  * particular method is interruptible.  

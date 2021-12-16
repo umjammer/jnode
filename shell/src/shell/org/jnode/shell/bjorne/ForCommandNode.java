@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import java.util.List;
@@ -105,11 +105,11 @@ public class ForCommandNode extends CommandNode {
             context.popHolders();
         }
     }
-    
+
     @Override
     public CommandThread fork(CommandShell shell, final BjorneContext context) 
         throws ShellException {
-        
+
         CommandRunnable cr = new BjorneSubshellRunner(context) {
             @Override
             public int doRun() throws ShellException {

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.jnasm.assembler.x86;
 
 import java.util.List;
@@ -140,7 +140,6 @@ public class X86Core extends AbstractX86Module {
     public static final int WRMSR_ISN = TEST_ISN + 1;
     public static final int XCHG_ISN = WRMSR_ISN + 1;
     public static final int XOR_ISN = XCHG_ISN + 1;
-
 
     protected static final Map<String, Integer> INSTRUCTION_MAP;
     private static final String[] MNEMONICS;

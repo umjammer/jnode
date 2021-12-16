@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import org.jnode.shell.AbstractCommand;
@@ -46,7 +46,7 @@ import java.util.ArrayList;
  * @author chris boertien
  */
 public class TailCommand extends AbstractCommand {
-    
+
     private static final String help_files = "Print the last 10 lines of each file to stdout, with multiple files a " +
                                              "header giving the file name is printed. With no file, or if file is - " +
                                              "read standard in.";
@@ -65,7 +65,7 @@ public class TailCommand extends AbstractCommand {
     private static final String help_verbose = "always output headers giving file names";
     private static final String help_retry = "keep trying to open a file even if it is inaccessible at the start, or " +
                                              "if it becomes inaccessible.";
-    
+
     private final FileArgument Files;
     private final StringArgument Bytes;
     private final StringArgument Lines;
@@ -79,9 +79,9 @@ public class TailCommand extends AbstractCommand {
     private final FlagArgument Verbose;
     // TODO This might work as thread id, since we dont have process ids
     //private final IntegerArgument PID = new IntegerArgument("pid", Argument.OPTIONAL, help_pid);
-    
+
     private PrintWriter err;
-    
+
     private int count;
     @SuppressWarnings("unused")
     private int sleep;
@@ -94,7 +94,7 @@ public class TailCommand extends AbstractCommand {
     @SuppressWarnings("unused")
     private boolean retry;
     private boolean first = true;
-    
+
     public TailCommand() {
         super("Print the tail end of a list of files, or stdin.");
         Files        = new FileArgument("files", Argument.OPTIONAL | Argument.MULTIPLE, help_files);
@@ -109,7 +109,7 @@ public class TailCommand extends AbstractCommand {
         Verbose      = new FlagArgument("verbose", Argument.OPTIONAL, help_verbose);
         registerArguments(Files, Bytes, Lines, Follow, Retry, FollowR, MaxUnchanged, Sleep, Quiet, Verbose);
     }
-    
+
     public void execute() {
         File[] files;
         err       = getError().getPrintWriter();
@@ -121,19 +121,19 @@ public class TailCommand extends AbstractCommand {
         retry     = Retry.isSet()  || FollowR.isSet();
         sleep     = Sleep.isSet() ? Sleep.getValue() : 1;
         unchanged = MaxUnchanged.isSet() ? MaxUnchanged.getValue() : 5;
-        
+
         if (follow) {
             err.println("Follow not supported yet");
             exit(1);
         }
-        
+
         if (!Files.isSet()) {
             files = new File[1];
             files[0] = new File("-");
         } else {
             files = Files.getValues();
         }
-        
+
         try {
             for (File file : files) {
                 printHeader(file.getPath());
@@ -156,7 +156,7 @@ public class TailCommand extends AbstractCommand {
             exit(1);
         }
     }
-    
+
     private void printStdinLines() {
         try {
             printLines(new LineNumberReader(new InputStreamReader(getInput().getInputStream())));
@@ -164,7 +164,7 @@ public class TailCommand extends AbstractCommand {
             err.println(ex);
         }
     }
-    
+
     private void printStdinBytes() {
         try {
             printBytes(getInput().getInputStream(), -1);
@@ -172,7 +172,7 @@ public class TailCommand extends AbstractCommand {
             err.println(ex);
         }
     }
-    
+
     private void printFileLines(File file) {
         LineNumberReader reader = null;
         try {
@@ -190,7 +190,7 @@ public class TailCommand extends AbstractCommand {
             }
         }
     }
-    
+
     private void printFileBytes(File file) {
         InputStream in = null;
         try {
@@ -208,7 +208,7 @@ public class TailCommand extends AbstractCommand {
             }
         }
     }
-    
+
     private void printLines(LineNumberReader reader) throws IOException {
         PrintWriter out = getOutput().getPrintWriter();
         String line;
@@ -225,20 +225,20 @@ public class TailCommand extends AbstractCommand {
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
             }
-            
+
             int n = Math.max(0, lines.size() - count);
             for (; n < lines.size(); n++) {
                 out.println(lines.get(n));
             }
         }
     }
-    
+
     private void printBytes(InputStream in, int size) throws IOException {
         OutputStream out = getOutput().getOutputStream();
         byte[] buffer;
         int len;
         int bufsize = 8 * 1024;
-        
+
         if (reverse) {
             in.skip(count + 1);
         } else if (size != -1) {
@@ -246,13 +246,13 @@ public class TailCommand extends AbstractCommand {
         } else {
             throw new UnsupportedOperationException("Cannot do -count byte reads on stdin yet");
         }
-        
+
         buffer = new byte[bufsize];
         while ((len = in.read(buffer)) > 0) {
             out.write(buffer, 0, len);
         }
     }
-    
+
     private void printHeader(String name) {
         PrintWriter out = getOutput().getPrintWriter();
         if (headers) {
@@ -267,7 +267,7 @@ public class TailCommand extends AbstractCommand {
             }
         }
     }
-    
+
     private boolean getHeaders() {
         if (Quiet.isSet()) {
             return false;
@@ -277,11 +277,11 @@ public class TailCommand extends AbstractCommand {
             return headers = Files.isSet() && Files.getValues().length > 1;
         }
     }
-    
+
     private boolean getCountType() {
         return !Bytes.isSet();
     }
-    
+
     private int getCount() {
         int count = 10;
         if (Bytes.isSet()) {
@@ -292,7 +292,7 @@ public class TailCommand extends AbstractCommand {
         }
         return count < 0 ? 10 : count;
     }
-    
+
     private boolean getReversed() {
         if (Bytes.isSet()) {
             return Bytes.getValue().charAt(0) == '+';

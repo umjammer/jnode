@@ -17,11 +17,12 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.jpartition.model;
 
 import org.jnode.apps.jpartition.utils.device.DeviceUtils;
-import org.junit.Assert;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public abstract class AbstractTest {
     static {
@@ -30,10 +31,10 @@ public abstract class AbstractTest {
         DeviceUtils.initJNodeCore();
     }
 
-    protected void assertEquals(long start, long size, boolean used, Partition part) {
-        Assert.assertEquals(start, part.getStart());
-        Assert.assertEquals(size, part.getSize());
-        Assert.assertEquals(start + size - 1, part.getEnd());
-        Assert.assertEquals(used, part.isUsed());
+    protected void assertEquals_(long start, long size, boolean used, Partition part) {
+        assertEquals(start, part.getStart());
+        assertEquals(size, part.getSize());
+        assertEquals(start + size - 1, part.getEnd());
+        assertEquals(used, part.isUsed());
     }
 }

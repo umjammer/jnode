@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.help;
 
 import java.io.PrintWriter;
@@ -31,14 +31,14 @@ import java.io.PrintWriter;
  * @author crawley@jnode.org
  */
 public interface Help {
-    
+
     /**
      * Output complete help for the command.
      * 
      * @param pw the help information is written here
      */
     public void help(PrintWriter pw);
-    
+
     /**
      * Output the usage message(s) for the command.
      * 

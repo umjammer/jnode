@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.util.Arrays;
@@ -73,7 +73,6 @@ public class ArgumentBundle implements Iterable<Argument<?>> {
     public static final int PARSING = 1;
     public static final int PARSE_SUCCEEDED = 2;
     public static final int PARSE_FAILED = 3;
-
 
     private Argument<?>[] arguments;
     private final Map<String, Argument<?>> argumentMap;

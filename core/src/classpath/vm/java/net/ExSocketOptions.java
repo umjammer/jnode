@@ -17,9 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package java.net;
 
+package java.net;
 
 /**
  * A JNode specific extension on SocketOptions
@@ -28,7 +27,7 @@ package java.net;
  * @author epr
  */
 public interface ExSocketOptions extends SocketOptions {
-	
+
 	/**
 	 * Sets the network interface to use in transmission.
 	 * Values must be of the type NetworkInterface.

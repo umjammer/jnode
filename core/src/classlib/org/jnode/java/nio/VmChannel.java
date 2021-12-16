@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.java.nio;
 
 import java.io.IOException;
@@ -70,7 +70,6 @@ public final class VmChannel {
         throw new IOException("Not implemented");
     }
 
-
     public static int receive(int fd, ByteBuffer dst, ByteBuffer address) throws IOException {
         throw new IOException("Not implemented");
     }
@@ -115,7 +114,6 @@ public final class VmChannel {
         throw new IOException("Not implemented");
     }
 
-
     public static boolean connect(int fd, byte[] addr, int port, int timeout) throws SocketException {
         throw new SocketException("Not implemented");
     }
@@ -144,7 +142,6 @@ public final class VmChannel {
     public static int accept(int native_fd) throws IOException {
         throw new IOException("Not implemented");
     }
-
 
     public static int open(String path, int mode) throws IOException {
         throw new IOException("Not implemented");

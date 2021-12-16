@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.isolate;
 
 import java.util.concurrent.ThreadFactory;
@@ -66,7 +66,6 @@ class IsolateThreadFactory implements ThreadFactory {
         return t;
     }
 }
-
 
 class IsolateThreadFactory2 implements ThreadFactory {
     final ThreadGroup group;
@@ -214,7 +213,6 @@ class IsolateThreadFactory2 implements ThreadFactory {
         return t;
     }
 }
-
 
 class IsolateFactoryThread extends Thread {
             IsolateFactoryThread(ThreadGroup group, Runnable r, String name, VmIsolatedStatics isolatedStatics) {

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 /**
@@ -29,18 +29,18 @@ public class SyntaxBundle {
     private final String alias;
     private final String description;
     private final Syntax[] syntaxes;
-    
+
     public SyntaxBundle(String alias, String description, Syntax[] syntaxes) {
         super();
         this.alias = alias;
         this.description = description;
         this.syntaxes = syntaxes == null ? new Syntax[0] : syntaxes;
     }
-    
+
     public SyntaxBundle(String alias, Syntax ... syntaxes) {
         this(alias, null, syntaxes);
     }
-    
+
     public String getAlias() {
         return alias;
     }
@@ -52,7 +52,7 @@ public class SyntaxBundle {
     public Syntax[] getSyntaxes() {
         return syntaxes;
     }
-    
+
     public MuSyntax prepare(ArgumentBundle bundle) {
         if (syntaxes.length == 0) {
             return null;

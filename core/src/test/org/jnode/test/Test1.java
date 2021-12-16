@@ -17,21 +17,21 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test;
 
-public class Test {
+public class Test1 {
     private int m_v;
     private byte[] ba;
 
-    public Test() {
+    public Test1() {
     }
 
-    public Test(int v) {
+    public Test1(int v) {
         this.m_v = v << 5;
     }
 
-    public Test(long v) {
+    public Test1(long v) {
     }
 
     public int return11() {

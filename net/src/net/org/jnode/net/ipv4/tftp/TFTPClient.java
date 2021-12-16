@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.ipv4.tftp;
 
 import java.io.BufferedReader;
@@ -53,7 +53,6 @@ public class TFTPClient extends org.apache.commons.net.tftp.TFTPClient {
     private InetAddress serverAddress;
     private int mode = BINARY_MODE;
     private boolean quit;
-    
 
     public TFTPClient(PrintWriter out) {
         this.out = out;

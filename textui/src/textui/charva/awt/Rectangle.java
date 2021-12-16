@@ -19,7 +19,6 @@
 
 package charva.awt;
 
-
 /**
  * The Rectangle class respresents a rectangular area of the screen; the
  * boundaries are INCLUSIVE (i.e. the _right instance variable refers to
@@ -86,7 +85,7 @@ public class Rectangle
     public int getRight() { return _right; }
     public int getTop() { return _top; }
     public int getBottom() { return _bottom; }
-    
+
     /**
      * Check if the specified rectangle intersects at all with this rectangle.
      */

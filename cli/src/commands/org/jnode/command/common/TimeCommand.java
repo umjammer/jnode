@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.common;
 
 import java.io.PrintWriter;
@@ -46,7 +46,7 @@ public class TimeCommand extends AbstractCommand {
 
     private final AliasArgument Alias;
     private final StringArgument Args;
-    
+
     public TimeCommand() {
         super(help_super);
         Alias = new AliasArgument("alias", Argument.MANDATORY, help_alias);
@@ -66,7 +66,7 @@ public class TimeCommand extends AbstractCommand {
             sb.append(' ');
             sb.append(arg);
         }
-        
+
         CommandShell shell = null;
         int ret = 1;
         try {
@@ -81,7 +81,7 @@ public class TimeCommand extends AbstractCommand {
             exit(ret);
         }
     }
-    
+
     public String getRuntime(int time) {
         int hours = time / (60 * 60 * 1000);
         int minutes = (time / (60 * 1000)) % 60;

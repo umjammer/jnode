@@ -17,12 +17,12 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.java.io;
 
 import java.io.IOException;
 import java.io.File;
-import java.io.VMOpenMode;
+import java.nio.file.OpenOption;
 
 /**
  * The implementation of this interface is used to connect the java.io package with the JNode
@@ -65,7 +65,7 @@ public interface VMFileSystemAPI {
     public boolean canWrite(String file) throws IOException;
 
     public boolean canExecute(String file) throws IOException;
-    
+
     /**
      * Gets the length in bytes of the given file or 0 if the file does not exist.
      * 
@@ -116,7 +116,7 @@ public interface VMFileSystemAPI {
      * This method returns an array of filesystem roots.
      */
     public File[] getRoots();
-    
+
     /**
      * Gets an array of names of all entries of the given directory. All names are relative to the
      * given directory.
@@ -131,7 +131,7 @@ public interface VMFileSystemAPI {
      * @param file
      * @throws IOException
      */
-    public VMFileHandle open(String file, VMOpenMode mode) throws IOException;
+    public VMFileHandle open(String file, OpenOption mode) throws IOException;
 
     /**
      * Make a directory
@@ -140,14 +140,14 @@ public interface VMFileSystemAPI {
      * @throws IOException
      */
     public boolean mkDir(String file) throws IOException;
-    
+
     /**
      * Make a file
      * 
      * @param file
      * @throws IOException
      */
-    public boolean mkFile(String file, VMOpenMode mode) throws IOException;
+    public boolean mkFile(String file, OpenOption mode) throws IOException;
 
     public long getTotalSpace(String normalizedPath) throws IOException;
 

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.ant.taskdefs;
 
 import java.io.File;
@@ -33,13 +33,13 @@ import java.util.TreeSet;
 
 import org.apache.tools.ant.BuildException;
 import org.jnode.vm.facade.VmUtils;
-import org.objectweb.asm.Attribute;
-import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.CodeVisitor;
-import org.objectweb.asm.attrs.Attributes;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+
+import bsh.org.objectweb.asm.Constants;
 
 /**
  * That ant task will check that native methods are properly implemented
@@ -174,7 +174,7 @@ public class NativeCheckTask extends FileSetTask {
     }
 
     private NativeMethodClassVisitor getNativeMethods(File file, InputStream inputClass) throws BuildException {
-        ClassWriter cw = new ClassWriter(false);
+        ClassWriter cw = new ClassWriter(0);
         NativeMethodClassVisitor v = null;
         try {
             ClassReader cr = new ClassReader(inputClass);
@@ -192,14 +192,14 @@ public class NativeCheckTask extends FileSetTask {
         return v;
     }
 
-    private static class NativeMethodClassVisitor extends ClassAdapter {
+    private static class NativeMethodClassVisitor extends ClassVisitor {
         private String className;
         private boolean couldImplementNativeMethods;
         private boolean allowNatives = false;
         private List<NativeMethod> nativeMethods = new ArrayList<NativeMethod>();
 
         public NativeMethodClassVisitor(File file, ClassVisitor cv) {
-            super(cv);
+            super(Opcodes.V1_5, cv);
         }
 
         @Override
@@ -207,21 +207,21 @@ public class NativeCheckTask extends FileSetTask {
                           int access,
                           String name,
                           String superName,
-                          String[] interfaces,
-                          String sourceFile) {
+                          String signature,
+                          String[] interfaces) {
             this.className = name.replace('/', '.');
             this.allowNatives = VmUtils.allowNatives(className, "x86"); //TODO hard coded architecture: change that !
             this.couldImplementNativeMethods = VmUtils.couldImplementNativeMethods(className);
 
-            super.visit(version, access, name, superName, interfaces, sourceFile);
+            super.visit(version, access, name, superName, signature, interfaces);
         }
 
         @Override
-        public CodeVisitor visitMethod(int access,
+        public MethodVisitor visitMethod(int access,
                                        String name,
                                        String desc,
-                                       String[] exceptions,
-                                       Attribute attrs) {
+                                       String signature,
+                                       String[] exceptions) {
             if (!allowNatives) {
                 // we don't allow native for that class =>
                 // we must have a pure java implementation for that method
@@ -282,11 +282,11 @@ public class NativeCheckTask extends FileSetTask {
     }
 
     public static boolean isNative(int access) {
-        return isSet(access, org.objectweb.asm.Constants.ACC_NATIVE);
+        return isSet(access, Constants.ACC_NATIVE);
     }
 
     public static boolean isStatic(int access) {
-        return isSet(access, org.objectweb.asm.Constants.ACC_STATIC);
+        return isSet(access, Constants.ACC_STATIC);
     }
 
     private static boolean isSet(int access, int flag) {

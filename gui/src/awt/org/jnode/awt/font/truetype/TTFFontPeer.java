@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.font.truetype;
 
 import java.awt.Font;
@@ -86,12 +86,12 @@ public class TTFFontPeer extends JNodeFontPeer<TTFontProvider, TTFFont> {
     public LineMetrics getLineMetrics(Font font, CharacterIterator ci,
                                       int begin, int limit, FontRenderContext rc) {
         TTFFontMetrics fm = getFontMetrics(font);
-        
+
         float ascent = fm.getAscent();
         float descent = fm.getDescent();
         float leading = fm.getLeading();
         float height = fm.getHeight();
-        
+
         // TODO find these metrics
         int baselineIndex = 0;
         float[] baselineOffsets = new float[]{0f};
@@ -101,22 +101,22 @@ public class TTFFontPeer extends JNodeFontPeer<TTFontProvider, TTFFont> {
         float underlineThickness = 0;
         float ssOffset = 0;
         //
-        
+
         float italicAngle = getItalicAngle(font);
         CoreMetrics cm = new CoreMetrics(ascent, descent, leading, height, baselineIndex, baselineOffsets,
                         strikethroughOffset, strikethroughThickness, underlineOffset,
                         underlineThickness, ssOffset, italicAngle);
-        
+
         return new FontLineMetrics(limit - begin + 1, cm, rc);
     }
 
     @Override
     public Rectangle2D getMaxCharBounds(Font font, FontRenderContext rc) {
         TTFFont ttfFont = getCompatibleFont(font);
-        
+
         final Rectangle2D bounds = provider.getMaxCharBounds(ttfFont.getFontData());
         transform(bounds, rc);
-        
+
         return bounds;
     }
 
@@ -157,7 +157,7 @@ public class TTFFontPeer extends JNodeFontPeer<TTFontProvider, TTFFont> {
             }                
         }
         final Rectangle2D bounds = new Rectangle2D.Double(0, 0, width, height);
-                
+
         transform(bounds, frc);
         return bounds;
     }

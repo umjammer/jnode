@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.common;
 
 import org.jnode.shell.AbstractCommand;
@@ -28,9 +28,9 @@ import org.jnode.shell.AbstractCommand;
  * @author crawley@jnode.org
  */
 public class FalseCommand extends AbstractCommand {
-    
+
     private static final String help_super = "Exit with a non-zero return code";
-    
+
     public FalseCommand() {
         super(help_super);
     }

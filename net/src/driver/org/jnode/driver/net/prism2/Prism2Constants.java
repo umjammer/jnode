@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.net.prism2;
 
 /**
@@ -254,7 +254,7 @@ public interface Prism2Constants {
         CNFOWNDTIMPER(0xFC10), CNFWDSADDR1(0xFC11), CNFWDSADDR2(0xFC12), 
         CNFWDSADDR3(0xFC13), CNFWDSADDR4(0xFC14), CNFWDSADDR5(0xFC15), 
         CNFWDSADDR6(0xFC16), CNFMCASTPMBUFF(0xFC17),
-        
+
         /*--------------------------------------------------------------------
          Configuration RIDs: Network Parameters, Dynamic Configuration Entities
          --------------------------------------------------------------------*/
@@ -291,7 +291,7 @@ public interface Prism2Constants {
         CNFPASSIVESCANCTRL(0xFCB9), // NEW STA
         SCANREQUEST(0xFCE1), JOINREQUEST(0xFCE2), AUTHENTICATESTA(0xFCE3), 
         CHANNELINFOREQUEST(0xFCE4), HOSTSCAN(0xFCE5), // NEW STA
-        
+
         /*--------------------------------------------------------------------
          Configuration RIDs: Behavior Parameters
          --------------------------------------------------------------------*/

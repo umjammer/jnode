@@ -17,18 +17,16 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.ipv4.udp;
 
-import gnu.java.net.PlainDatagramSocketImpl;
-import gnu.java.net.PlainDatagramSocketImplFactory;
-
 import java.net.DatagramSocketImpl;
+import java.net.DatagramSocketImplFactory;
 
 /**
  * @author epr
  */
-public class UDPDatagramSocketImplFactory implements PlainDatagramSocketImplFactory {
+public class UDPDatagramSocketImplFactory implements DatagramSocketImplFactory {
 
     private final UDPProtocol protocol;
 
@@ -51,7 +49,7 @@ public class UDPDatagramSocketImplFactory implements PlainDatagramSocketImplFact
     /**
      * @see java.net.DatagramSocketImplFactory#createDatagramSocketImpl()
      */
-    public PlainDatagramSocketImpl createPlainDatagramSocketImpl() {
+    public DatagramSocketImpl createPlainDatagramSocketImpl() {
         return new PlainUDPDatagramSocketImpl(protocol);
     }
 

@@ -17,17 +17,21 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.driver.tests;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+
 import org.jnode.driver.block.BlockDeviceAPI;
 import org.jnode.driver.block.floppy.FloppyDriver;
 import org.jnode.driver.block.ide.disk.IDEDiskDriver;
 import org.jnode.driver.bus.ide.IDEConstants;
 import org.jnode.test.fs.driver.BlockDeviceAPITestConfig;
 import org.jnode.test.support.AbstractTest;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BlockDeviceAPITest extends AbstractTest {
     public BlockDeviceAPITest() {
@@ -63,7 +67,7 @@ public class BlockDeviceAPITest extends AbstractTest {
 
     public void testGetLength() throws IOException {
         long length = getBlockDeviceAPI().getLength();
-        assertTrue("length must be > 0 (actual:" + length + ")", length > 0);
+        assertTrue(length > 0, "length must be > 0 (actual:" + length + ")");
     }
 
     public void testRegularReadUnaligned() throws Exception {
@@ -119,9 +123,9 @@ public class BlockDeviceAPITest extends AbstractTest {
         }
 
         if (bounds.expectError()) {
-            assertTrue("expected an error for " + bounds, errorOccured);
+            assertTrue(errorOccured, "expected an error for " + bounds);
         } else {
-            assertFalse("error not expected for " + bounds, errorOccured);
+            assertFalse(errorOccured, "error not expected for " + bounds);
         }
     }
 
@@ -140,9 +144,9 @@ public class BlockDeviceAPITest extends AbstractTest {
         }
 
         if (bounds.expectError()) {
-            assertTrue("expected an error for " + bounds, errorOccured);
+            assertTrue(errorOccured, "expected an error for " + bounds);
         } else {
-            assertFalse("error not expected for " + bounds, errorOccured);
+            assertFalse(errorOccured, "error not expected for " + bounds);
         }
     }
 
@@ -281,7 +285,6 @@ public class BlockDeviceAPITest extends AbstractTest {
                 (getBlockDeviceAPI() instanceof IDEDiskDriver);
             expectError |= !aligned && apiNeedAlignment;
         }
-
 
         public long getEnd() {
             return end;

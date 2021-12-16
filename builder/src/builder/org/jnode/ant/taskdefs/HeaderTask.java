@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.ant.taskdefs;
 
 import java.io.BufferedReader;
@@ -87,7 +87,6 @@ public class HeaderTask extends FileSetTask {
 
         return false;
     }
-
 
     private boolean compareLine(String line, String hdrLine) {
         if ((line.indexOf('$') >= 0) && (hdrLine.indexOf('$') >= 0)) {
@@ -205,7 +204,6 @@ public class HeaderTask extends FileSetTask {
             out.close();
         }
     }
-
 
     private String[] readFile(File file) throws IOException {
         final BufferedReader in = new BufferedReader(new FileReader(file));

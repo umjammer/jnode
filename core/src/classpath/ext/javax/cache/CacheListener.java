@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package javax.cache;
 
 /**
@@ -36,25 +36,25 @@ public interface CacheListener
      * @param key
      */
     public void onLoad(Object key);
-    
+
     /**
      * 
      * @param key
      */
     public void onPut(Object key);
-    
+
     /**
      * 
      * @param key
      */
     public void onEvict(Object key);
-    
+
     /**
      * 
      * @param key
      */
     public void onRemove(Object key);
-    
+
     /**
      * 
      *

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.BufferedReader;
@@ -65,19 +65,17 @@ public class Md5SumCommand extends AbstractCommand {
     private static final String err_norecurse = "Cannot calculate MD5 on directory, use recurse flag";
     private static final String fmt_err_md5 = "%s was not processed: %s%n";
     private static final String str_input = "Input";
-    
+
     private final FileArgument argPaths;
     private final FlagArgument flagRecursive;
     private final FileArgument argCheckfile;
-
 
     private static final int BUFFER_SIZE = 1048576;  // 1Mb
 
     private PrintWriter out;
     private PrintWriter err;
     private MessageDigest digestEngine;
-    
-    
+
     public Md5SumCommand() {
         super(help_super);
         argPaths      = new FileArgument("paths", Argument.MULTIPLE | Argument.EXISTING, help_paths);
@@ -202,7 +200,7 @@ public class Md5SumCommand extends AbstractCommand {
         }
         return res;
     }
-    
+
     /**
      * Compute digest for the command's input stream.
      * @return <code>true</code> if all is well;
@@ -258,7 +256,7 @@ public class Md5SumCommand extends AbstractCommand {
         }
         return new String(hex);
     }
-    
+
     private char hexChar(int i) {
         i = i & 0xf;
         return (char) ((i > 9 ? ('a' - 10) : '0') + i);

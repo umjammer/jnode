@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.archive;
 
 import java.io.File;
@@ -32,7 +32,6 @@ import org.jnode.shell.syntax.Argument;
 import org.jnode.shell.syntax.FileArgument;
 import org.jnode.shell.syntax.FlagArgument;
 
-
 /**
  * BZip is the backing class for handling compression and decompression
  * of bzip files.
@@ -40,18 +39,18 @@ import org.jnode.shell.syntax.FlagArgument;
  * @author chris boertien
  */
 public class BZip extends ArchiveCommand {
-    
+
     @SuppressWarnings("unused")
     private static final boolean DEBUG = false;
-    
+
     private static final String help_compress = "forces compression; regardless of invocation name";
     private static final String help_files = "space seperated list of files to compress";
     private static final String help_keep = "Keep input files";
     private static final String help_small = "(ignored)";
     private static final String help_test     = "test the file integrity";
-    
+
     private static final String fmt_suffix_bad = "Can't guess original name for %s -- using %s.out";
-    
+
     protected final FlagArgument Compress;
     protected final FlagArgument Decompress;
     protected final FileArgument Files;
@@ -64,7 +63,7 @@ public class BZip extends ArchiveCommand {
     protected int clevel;
     protected boolean keep;
     protected boolean small;
-    
+
     public BZip(String s) {
         super(s);
         Compress   = new FlagArgument("compress", Argument.OPTIONAL, help_compress);
@@ -76,11 +75,11 @@ public class BZip extends ArchiveCommand {
         Test       = new FlagArgument("test", Argument.OPTIONAL, help_test);
         createStreamBuffer(4096);
     }
-    
+
     public void execute(String command) {
         super.execute(command);
         parseOptions(command);
- 
+
         try {
             if (compress) {
                 compress();
@@ -95,22 +94,22 @@ public class BZip extends ArchiveCommand {
             exit(rc);
         }
     }
-    
+
     private void compress() throws IOException {
         InputStream in = null;
         OutputStream out = null;
         CBZip2OutputStream bzout = null;
-        
+
         if (use_stdout) {
             bzout = new CBZip2OutputStream(stdout, clevel);
         }
-        
+
         for (File file : files) {
             if (file.getName().equals("-")) {
                 processStream(stdin, bzout);
                 continue;
             }
-            
+
             try {
                 if (use_stdout) {
                     if ((in = openFileRead(file)) == null) {
@@ -148,11 +147,11 @@ public class BZip extends ArchiveCommand {
             bzout.close();
         }
     }
-    
+
     private void decompress() throws IOException {
         InputStream in = null;
         OutputStream out = stdout;
-        
+
         for (File bzfile : files) {
             if (bzfile.getName().equals("-")) {
                 processStream(new CBZip2InputStream(stdin), out);
@@ -189,7 +188,7 @@ public class BZip extends ArchiveCommand {
             }
         }
     }
-    
+
     @SuppressWarnings("unused")
     private void test(File[] files) {
         // TODO
@@ -199,7 +198,7 @@ public class BZip extends ArchiveCommand {
         //
         // Otherwise we would have to read and compute the crc ourself.
     }
-    
+
     /**
      * Strips .bz and .bz2 suffixes from the file. Will also replace
      * .tbz and .tbz2 files with .tar suffix. If the suffix doesn't match
@@ -209,7 +208,7 @@ public class BZip extends ArchiveCommand {
         String name = bzfile.getName();
         int len = 0;
         String newSuffix = null;
-        
+
         if (name.endsWith(".bz")) {
             len = 3;
         } else if (name.endsWith(".bz2")) {
@@ -224,18 +223,18 @@ public class BZip extends ArchiveCommand {
             notice(String.format(fmt_suffix_bad, bzfile.getPath(), bzfile.getPath()));
             return new File(bzfile.getPath() + ".out");
         }
-        
+
         if (len > 0) {
             name = name.substring(0, name.length() - len);
         }
-        
+
         if (newSuffix != null) {
             name = name + newSuffix;
         }
-        
+
         return new File(name);
     }
-    
+
     private void parseOptions(String command) {
         small = Small.isSet();
         if (!command.equals("bzcat")) {
@@ -245,12 +244,12 @@ public class BZip extends ArchiveCommand {
             if (!compress && Compress.isSet()) {
                 compress = true;
             }
-            
+
             keep  = use_stdout || Keep.isSet();
         }
-        
+
         files = new ArrayList<File>();
-        
+
         for (File file : Files.getValues()) {
             if (file.isDirectory()) {
                 for (File f : file.listFiles()) {
@@ -265,7 +264,7 @@ public class BZip extends ArchiveCommand {
                 files.add(file);
             }
         }
-        
+
         if (files.size() == 0) {
             files.add(new File("-"));
             use_stdout = true;

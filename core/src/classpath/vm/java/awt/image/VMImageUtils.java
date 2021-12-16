@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package java.awt.image;
 
 /**
@@ -26,11 +26,11 @@ package java.awt.image;
 public class VMImageUtils {
 	private static VMImageAPI api;
 	private static Object token;
-	
+
 	static VMImageAPI getAPI() {
 		return api;
 	}
-	
+
 	public static void setAPI(VMImageAPI newApi, Object setToken) {
 		if (api == null) {
 			api = newApi;
@@ -39,7 +39,7 @@ public class VMImageUtils {
 			throw new SecurityException("Cannot overwrite the ImageAPI");
 		}
 	}
-	
+
 	public static void resetAPI(Object setToken) {
 		if (token == setToken) {
 			api = null;

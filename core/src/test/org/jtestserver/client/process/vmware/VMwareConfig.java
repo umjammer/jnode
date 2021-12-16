@@ -1,7 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
 
- 
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -37,7 +36,7 @@ public class VMwareConfig implements VMConfig {
      * Key for the username parameter in the config file.
      */
     public static final String USERNAME = "vmware.server.username";
-    
+
     /**
      * Key for the password parameter in the config file.
      */
@@ -47,27 +46,27 @@ public class VMwareConfig implements VMConfig {
      * Host of VMware server.
      */
     private final String host;
-    
+
     /**
      * Port of VMware server.
      */
     private final int port;
-    
+
     /**
      * Username to connect to VMware server.
      */
     private final String userName;
-    
+
     /**
      * password to connect to VMware server.
      */
     private final String password;
-    
+
     /**
      * Name of the machine to run in the VMware server. 
      */
     private final String vmName;
-    
+
     /**
      * Build an instance from the given {@link Properties}. 
      * Only properties whose key starts with <b>vmware.</b> will be used.
@@ -92,7 +91,7 @@ public class VMwareConfig implements VMConfig {
     public String getPassword() {
         return password;
     }
-    
+
     /**
      * {@inheritDoc}
      */

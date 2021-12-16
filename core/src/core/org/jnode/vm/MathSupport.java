@@ -17,12 +17,11 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm;
 
 import org.jnode.annotation.MagicPermission;
 import org.jnode.annotation.Uninterruptible;
-
 
 /**
  * In MathSupport ldiv and lrem will be used as SoftBytecodes. I.e. normal Java classes that contain ldiv or

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.util.Deque;
@@ -58,22 +58,22 @@ import org.jnode.shell.syntax.CommandSyntaxException.Context;
  * @author crawley@jnode.org
  */
 public class MuParser {
-    
+
     /**
      * This is the default value for the stepLimit parameter.
      */
     public static final int DEFAULT_STEP_LIMIT = 10000;
-    
+
     private static final boolean DEBUG = false;
     private static final Logger log = Logger.getLogger(MuParser.class);
-    
+
     private static class ChoicePoint {
         public final int sourcePos;
         public final Deque<MuSyntax> syntaxStack;
         public final MuSyntax[] choices;
         public int choiceNo;
         public final List<Argument<?>> argsModified;
-        
+
         public ChoicePoint(int sourcePos, Deque<MuSyntax> syntaxStack, MuSyntax[] choices) {
             super();
             this.sourcePos = sourcePos;
@@ -82,7 +82,7 @@ public class MuParser {
             this.argsModified = new LinkedList<Argument<?>>();
             this.choiceNo = 0;
         }
-        
+
         public String toString() {
             StringBuilder sb = new StringBuilder();
             sb.append("CP{");
@@ -92,11 +92,11 @@ public class MuParser {
             return sb.toString();
         }
     }
-    
+
     public MuParser() {
         super();
     }
-    
+
     /**
      * Parse Tokens against a MuSyntax using a default stepLimit.  On success, tokens will
      * have been used to populate Argument values in the ArgumentBundle.
@@ -113,7 +113,7 @@ public class MuParser {
         throws CommandSyntaxException, SyntaxFailureException {
         parse(rootSyntax, completions, source, bundle, DEFAULT_STEP_LIMIT);
     }
-    
+
     /**
      * Parse Tokens against a MuSyntax using a default stepLimit.  On success, tokens will
      * have been used to populate Argument values in the ArgumentBundle.
@@ -369,7 +369,6 @@ public class MuParser {
         }
     }
 
-    
     private static String showStack(Deque<MuSyntax> stack, boolean oneLine) {
         StringBuilder sb = new StringBuilder();
         for (MuSyntax syntax : stack) {

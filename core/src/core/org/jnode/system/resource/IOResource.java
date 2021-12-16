@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.system.resource;
 
 import org.jnode.annotation.KernelSpace;
@@ -51,7 +51,6 @@ public interface IOResource extends Resource {
      * @return The port value
      */
     public abstract int inPortByte(int portNr);
-
 
     /**
      * Get the value of a 16-bit I/O port.

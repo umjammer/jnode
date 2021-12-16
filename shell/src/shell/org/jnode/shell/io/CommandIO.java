@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.io;
 
 import java.io.Closeable;
@@ -51,7 +51,7 @@ public interface CommandIO {
     public static final int DIRECTION_IN = 1;
     public static final int DIRECTION_OUT = 2;
     public static final int DIRECTION_INOUT = 3; 
-    
+
     /**
      * Reify the CommandIO as an OutputStream.
      * 
@@ -129,7 +129,7 @@ public interface CommandIO {
      * @return <code>true</code> if the associated stream is interactive.
      */
     public boolean isTTY();
-    
+
     /**
      * Query if this CommandIO is associated with a pipe.
      * 
@@ -154,7 +154,7 @@ public interface CommandIO {
      * @throws IOException
      */
     public void close() throws IOException;
-    
+
     /**
      * Flush this CommandIO's associated byte and / or character output streams.
      * This method has no effect on an input-only or closed CommandIO object.

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.ext2;
 
 /**
@@ -52,7 +52,7 @@ public class Ext2Constants {
     public static final int EXT2_S_IFDIR = 0x4000; // directory
     public static final int EXT2_S_IFCHR = 0x2000; // character device
     public static final int EXT2_S_IFIFO = 0x1000; // fifo
-    
+
     // access rights
     public static final int EXT2_S_ISUID = 0x0800; // SUID
     public static final int EXT2_S_ISGID = 0x0400; // SGID

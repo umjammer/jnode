@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.ant.taskdefs.classpath;
 
 import java.io.BufferedReader;
@@ -96,7 +96,6 @@ public class CompareTask extends Task {
 
         if (type == null)
             throw new BuildException("The type attribute must be set");
-
 
         final Map<String, SourceFile> vmFiles = vmDirs
             .scanJavaFiles(getProject());

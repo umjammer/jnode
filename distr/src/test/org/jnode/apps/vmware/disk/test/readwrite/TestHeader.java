@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.vmware.disk.test.readwrite;
 
 import java.io.File;
@@ -26,8 +26,8 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 import org.jnode.apps.vmware.disk.VMWareDisk;
 import org.jnode.apps.vmware.disk.test.Utils;
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Wrote from the 'Virtual Disk Format 1.0' specifications (from VMWare).
@@ -82,9 +82,8 @@ public class TestHeader extends BaseReadWriteTest {
         // read
         LOG.info("writeAndRead: reading...");
         VMWareDisk disk2 = new VMWareDisk(diskFile);
-        Assert.assertEquals("disk has different size", disk.getLength(), disk2.getLength());
-        Assert.assertEquals("disk has different descriptor", disk.getDescriptor(), disk2
-                .getDescriptor());
+        assertEquals(disk.getLength(), disk2.getLength(), "disk has different size");
+        assertEquals(disk.getDescriptor(), disk2.getDescriptor(), "disk has different descriptor");
         disk2.flush();
         LOG.info("END   writeAndRead");
     }

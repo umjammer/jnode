@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import javax.naming.NameNotFoundException;
@@ -34,11 +34,11 @@ import org.jnode.plugin.PluginManager;
  * @author crawley@jnode.org
  */
 public class PluginArgument extends StringArgument {
-    
+
     public PluginArgument(String label, int flags, String description) {
         super(label, flags, description);
     }
-  
+
     @Override
     public void doComplete(CompletionInfo completions, String partial, int flags) {
         try {
@@ -57,7 +57,7 @@ public class PluginArgument extends StringArgument {
             return;
         }
     }
-    
+
     @Override
     protected String argumentKind() {
         return "plugin id";

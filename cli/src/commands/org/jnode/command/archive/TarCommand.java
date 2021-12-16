@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.archive;
 
 import java.io.File;
@@ -193,7 +193,7 @@ import org.jnode.shell.syntax.StringArgument;
  * @author chris boertien
  */
 public class TarCommand extends ArchiveCommand {
-    
+
     private static final String help_append  = "append entries to an archive";
     private static final String help_concat  = "concatenate multiple archives";
     private static final String help_create  = "create a new tar archive";
@@ -202,7 +202,7 @@ public class TarCommand extends ArchiveCommand {
     private static final String help_extract = "extract the entries from an archive";
     private static final String help_list    = "list the contents of an archive";
     private static final String help_update  = "only append files that are newer than the copy in the archive";
-    
+
     private static final String help_archive   = "use the given archive";
     private static final String help_backup    = "backup files instead of overwriting";
     private static final String help_bzip      = "compress the archive with bzip2";
@@ -227,9 +227,9 @@ public class TarCommand extends ArchiveCommand {
     private static final String help_verbose   = "list files processed";
     private static final String help_verify    = "verify the archive after writing it";
     private static final String help_xfile     = "exclude files matching patterns in <file>";
-    
+
     private static final String err_options    = "required options -Acdtrux not found, or multiple options set";
-    
+
     private static final int TAR_APPEND     = 0x01;
     private static final int TAR_CREATE     = 0x02;
     private static final int TAR_CONCAT     = 0x04;
@@ -245,10 +245,10 @@ public class TarCommand extends ArchiveCommand {
     private static final int TAR_COMPRESS   = TAR_APPEND | TAR_CREATE | TAR_CONCAT | TAR_DELETE | TAR_UPDATE;
     private static final int TAR_DECOMPRESS = 
         TAR_APPEND | TAR_CONCAT | TAR_DELETE | TAR_DIFF | TAR_UPDATE | TAR_LIST | TAR_EXTRACT;
-    
+
     private static final int USE_BZIP = 1;
     private static final int USE_GZIP = 2;
-    
+
     private final FlagArgument DoAppend  = new FlagArgument("doAppend", Argument.OPTIONAL, help_append);
     private final FlagArgument DoConcat  = new FlagArgument("doConcat", Argument.OPTIONAL, help_concat);
     private final FlagArgument DoCreate  = new FlagArgument("doCreate", Argument.OPTIONAL, help_create);
@@ -257,7 +257,7 @@ public class TarCommand extends ArchiveCommand {
     private final FlagArgument DoExtract = new FlagArgument("doExtract", Argument.OPTIONAL, help_extract);
     private final FlagArgument DoList    = new FlagArgument("doList", Argument.OPTIONAL, help_list);
     private final FlagArgument DoUpdate  = new FlagArgument("doUpdate", Argument.OPTIONAL, help_update);
-    
+
     private final FlagArgument Backup      = new FlagArgument("backup", Argument.OPTIONAL, help_backup);
     private final FlagArgument UseBzip     = new FlagArgument("bzip", Argument.OPTIONAL, help_bzip);
     private final FileArgument ChangeDir   = new FileArgument("dir", Argument.OPTIONAL, help_dir);
@@ -276,9 +276,9 @@ public class TarCommand extends ArchiveCommand {
     private final FlagArgument Unlink      = new FlagArgument("unlink", Argument.OPTIONAL, help_unlink);
     private final FlagArgument Verify      = new FlagArgument("verify", Argument.OPTIONAL, help_verify);
     private final FileArgument ExcludeFile = new FileArgument("xfile", Argument.OPTIONAL, help_xfile);
-    
+
     private final FileArgument Paths = new FileArgument("paths", Argument.OPTIONAL | Argument.MULTIPLE, help_paths);
-    
+
     private File archive;
     @SuppressWarnings("unused")
     private File excludeFile;
@@ -305,35 +305,35 @@ public class TarCommand extends ArchiveCommand {
     private boolean keepNew;
     @SuppressWarnings("unused")
     private boolean unlink;
-    
+
     public TarCommand() {
         super("Create/Modify/Extract tape archives");
         // from ArchiveCommand
         registerArguments(Verbose, Debug, Stdout);
-        
+
         // tar Operations
         registerArguments(DoAppend, DoConcat, DoCreate, DoDelete, DoDiff, DoExtract, DoList, DoUpdate);
-        
+
         // tar Global Options
         registerArguments(Backup, Suffix, UseBzip, UseGzip, Archive, FileList, ExcludeFile, Interact, KeepNew, KeepOld,
                            Unlink, RemoveFiles, ShowTotals, Verify, Paths);
         // tar Parsing Options
         registerArguments(ChangeDir, Exclude, NoRecurse, Recurse);
     }
-    
+
     // TODO Allow working directory to be changed
     public void execute() {
         super.execute("tar");
         if (!checkMode()) {
             fatal(err_options, 1);
         }
-        
+
         if (Archive.isSet())     archive     = Archive.getValue();
         if (Suffix.isSet())      suffix      = Suffix.getValue();
         if (Exclude.isSet())     exclude     = Exclude.getValue();
         if (ExcludeFile.isSet()) excludeFile = ExcludeFile.getValue();
         if (FileList.isSet())    fileList    = FileList.getValue();
-        
+
         backup     = Backup.isSet();
         bzip       = UseBzip.isSet();
         gzip       = UseGzip.isSet();
@@ -344,12 +344,12 @@ public class TarCommand extends ArchiveCommand {
         keepNew    = KeepNew.isSet();
         recurse    = !NoRecurse.isSet();
         unlink     = Unlink.isSet();
-        
+
         try {
             if ((mode & TAR_REQ_ARCH) != 0 && archive == null) {
                 fatal("Archive required for -Acdtru", 1);
             }
-            
+
             if ((mode & TAR_DECOMPRESS) != 0 && archive != null) {
                 if (checkCompressed(archive) == -1) {
                     // happens when -j or -z were specified, but the archive is not
@@ -363,7 +363,7 @@ public class TarCommand extends ArchiveCommand {
                     fatal("Internal Error: checkCompressed() returned -1", -1);
                 }
             }
-            
+
             if ((mode & TAR_COMPRESS) != 0) {
                 if (bzip) {
                     compress = USE_BZIP;
@@ -373,31 +373,31 @@ public class TarCommand extends ArchiveCommand {
                     compress = decompress;
                 }
             }
-            
+
             if ((mode & TAR_VERIFY) != 0 && verify) {
                 // backup original archive
             }
-            
+
             if ((mode & TAR_CREATE) != 0 && compress == 0) {
                 compress = checkSuffix(archive);
             }
-                
+
             if ((mode & TAR_INSERT) != 0) {
                 insert(processFiles(Paths.getValues(), recurse));
             }
-            
+
             if ((mode & TAR_UPDATE) != 0) {
                 update(processFiles(Paths.getValues(), recurse));
             }
-            
+
             if ((mode & TAR_CONCAT) != 0) {
                 concat(processArchives(Paths.getValues()));
             }
-            
+
             if ((mode & TAR_DELETE) != 0) {
                 //delete();
             }
-            
+
             if ((mode & TAR_EXTRACT) != 0) {
                 if (decompress == 0 && archive == null) {
                     if (bzip) {
@@ -408,11 +408,11 @@ public class TarCommand extends ArchiveCommand {
                 }
                 extract();
             }
-            
+
             if ((mode & TAR_LIST) != 0) {
                 list();
             }
-            
+
             if ((mode & TAR_DIFF) != 0) {
                 diff();
             }
@@ -421,7 +421,7 @@ public class TarCommand extends ArchiveCommand {
             fatal(err_exception_uncaught, 1);
         }
     }
-    
+
     /**
      * Concatenates a list of archives with this archive.
      *
@@ -432,10 +432,10 @@ public class TarCommand extends ArchiveCommand {
         InputStream in;
         TarInputStream tin;
         TarOutputStream tout;
-        
+
         // Setup archive for appending
         tout = appendTarOutputStream();
-        
+
         // Concatenate new archives
         for (File arch : archives) {
             if ((in = openFileRead(arch)) == null) {
@@ -451,7 +451,7 @@ public class TarCommand extends ArchiveCommand {
         }
         tout.close();
     }
-    
+
     /**
      * Insert a list of files into an archive.
      *
@@ -469,7 +469,7 @@ public class TarCommand extends ArchiveCommand {
         OutputStream out;
         TarOutputStream tout = null;
         TarEntry entry;
-        
+
         if (mode == TAR_APPEND && archive.exists()) {
             tout = appendTarOutputStream();
         } else {
@@ -482,13 +482,13 @@ public class TarCommand extends ArchiveCommand {
             }
             tout = new TarOutputStream(out);
         }
-        
+
         // Insert new entries
         for (File file : files) {
             notice(file.getPath());
             entry = new TarEntry(file);
             tout.putNextEntry(entry);
-            
+
             if (!file.isDirectory()) {
                 if ((in = openFileRead(file)) == null) continue;
                 processStream(in, tout);
@@ -498,28 +498,28 @@ public class TarCommand extends ArchiveCommand {
         }
         tout.close();
     }
-    
+
     // TODO
     private void update(File[] files) throws IOException {
         InputStream in;
         TarInputStream tin;
         TarEntry entry;
         TreeMap<String, Long> entries = new TreeMap<String, Long>();
-        
+
         if ((in = openFileRead(archive)) == null) {
             fatal(" ", 1);
         }
         if (decompress != 0) {
             in = wrapInputStream(in);
         }
-        
+
         tin = new TarInputStream(in);
-        
+
         while ((entry = tin.getNextEntry()) != null) {
             entries.put(entry.getName(), entry.getModTime().getTime());
         }
         tin.close();
-        
+
         long etime, ftime;
         ArrayList<File> list = new ArrayList<File>();
         for (File file : files) {
@@ -532,15 +532,15 @@ public class TarCommand extends ArchiveCommand {
             }
             list.add(file);
         }
-        
+
         insert(list.toArray(files));
     }
-    
+
     // TODO
     @SuppressWarnings("unused")
     private void delete(String[] names) throws IOException {
     }
-    
+
     /**
      * Extract entries from an archive.
      *
@@ -554,7 +554,7 @@ public class TarCommand extends ArchiveCommand {
         OutputStream out;
         TarInputStream tin;
         File file;
-        
+
         if (archive != null) {
             if ((in = openFileRead(archive)) == null) {
                 fatal(" ", 1);
@@ -562,16 +562,16 @@ public class TarCommand extends ArchiveCommand {
         } else {
             in = stdin;
         }
-        
+
         if (decompress != 0) {
             in = wrapInputStream(in);
         }
         tin = new TarInputStream(in);
-        
+
         if (use_stdout) {
             out = stdout;
         }
-        
+
         while ((entry = tin.getNextEntry()) != null) {
             notice(entry.getName());
             file = new File(entry.getName());
@@ -598,7 +598,7 @@ public class TarCommand extends ArchiveCommand {
         }
         tin.close();
     }
-    
+
     /**
      * List the contents of an archive.
      *
@@ -609,21 +609,21 @@ public class TarCommand extends ArchiveCommand {
         TarEntry entry;
         InputStream in = null;
         TarInputStream tin;
-        
+
         if ((in = openFileRead(archive)) == null) {
             fatal(" ", 1);
         }
-        
+
         if (decompress != 0) {
             in = wrapInputStream(in);
         }
         tin = new TarInputStream(in);
-        
+
         while ((entry = tin.getNextEntry()) != null) {
             out(entry.getName());
         }
     }
-    
+
     /**
      * Outputs the differences found between the archive and the file system.
      */
@@ -632,37 +632,37 @@ public class TarCommand extends ArchiveCommand {
         InputStream in = null;
         TarInputStream tin;
         File file;
-        
+
         if ((in = openFileRead(archive)) == null) {
             exit(1);
         }
-        
+
         if (decompress != 0) {
             in = wrapInputStream(in);
         }
         tin = new TarInputStream(in);
-        
+
         while ((entry = tin.getNextEntry()) != null) {
             file = new File(entry.getName());
-            
+
             if (!file.exists()) {
                 out(file + ": Warning: No such file or directory");
                 continue;
             }
-            
+
             if (file.lastModified() != entry.getModTime().getTime()) {
                 out(file + ": Mod time is different");
             }
-            
+
             if (file.length() != entry.getSize()) {
                 out(file + ": Size is different");
             }
-            
+
             // TODO check file mode
             // TODO check file ownership
         }
     }
-    
+
     /**
      * Copies an archive to another archive.
      *
@@ -680,7 +680,7 @@ public class TarCommand extends ArchiveCommand {
         }
         tin.close();
     }
-    
+
     /**
      * Sets up a TarOutputStream suitable for appending new entries.
      */
@@ -691,12 +691,12 @@ public class TarCommand extends ArchiveCommand {
         TarOutputStream tout;
         TarInputStream tin;
         File tmpArchive;
-        
+
         tmpArchive = archive.getAbsoluteFile();
         tmpArchive.renameTo(new File(archive.getName() + ".tmp"));
-        
+
         createArchive();
-        
+
         if ((out = openFileWrite(archive, false, false)) == null) {
             fatal(" ", 1);
         }
@@ -704,7 +704,7 @@ public class TarCommand extends ArchiveCommand {
             out = wrapOutputStream(out);
         }
         tout = new TarOutputStream(out);
-        
+
         if ((in = openFileRead(tmpArchive)) == null) {
             fatal(" ", 1);
         }
@@ -714,10 +714,10 @@ public class TarCommand extends ArchiveCommand {
         tin = new TarInputStream(in);
         copy(tin, tout);
         tmpArchive.delete();
-        
+
         return tout;
     }
-        
+
     /**
      * Creates a file for an archive, deleting it first if it already exists.
      */
@@ -733,7 +733,7 @@ public class TarCommand extends ArchiveCommand {
             fatal(err_file_create + archive, 1);
         }
     }
-    
+
     /**
      * Processes a list of files and directories given on the command line
      * in order to generate a list of files for Append, Create and Update.
@@ -743,7 +743,7 @@ public class TarCommand extends ArchiveCommand {
     private File[] processFiles(File[] files , boolean recurse) {
         // FIXME object pollution
         ArrayList<File> _files = new ArrayList<File>();
-        
+
         for (File file : files) {
             if (!file.exists()) {
                 continue;
@@ -751,7 +751,7 @@ public class TarCommand extends ArchiveCommand {
             if (file.getName().equals(".") || file.getName().equals("..")) {
                 continue;
             }
-            
+
             if (file.isDirectory()) {
                 if (recurse) {
                     _files.add(file);
@@ -761,15 +761,15 @@ public class TarCommand extends ArchiveCommand {
             }
             _files.add(file);
         }
-        
+
         return _files.toArray(files);
     }
-    
+
     // TODO Need to check that the list of files are actually archives or compressed archives.
     private File[] processArchives(File[] files) {
         return files;
     }
-    
+
     /**
      * Wraps an InputStream with a decompression stream for reading compressed archives.
      */
@@ -780,11 +780,11 @@ public class TarCommand extends ArchiveCommand {
         if (decompress == USE_GZIP) {
             return new GZIPInputStream(in, BUFFER_SIZE);
         }
-        
+
         fatal("Internal Error: Unknown compress type", -1);
         return null;
     }
-    
+
     /**
      * Wraps an OutputStream with a compression stream for writing compressed archives.
      */
@@ -795,11 +795,11 @@ public class TarCommand extends ArchiveCommand {
         if (compress == USE_GZIP) {
             return new GZIPOutputStream(out);
         }
-        
+
         fatal("Internal Error: Unknown decompress type", -1);
         return null;
     }
-    
+
     /**
      * Used by create to determine if the archive should be compressed even if the -j or -z flags
      * were not given.
@@ -814,7 +814,7 @@ public class TarCommand extends ArchiveCommand {
         }
         return 0;
     }
-    
+
     /**
      * Check via the file header the type of compression used to create it.
      */
@@ -835,17 +835,17 @@ public class TarCommand extends ArchiveCommand {
         */
         return 0;
     }
-    
+
     // TODO
     private boolean checkBZipMagic(File file) throws IOException {
         return true;
     }
-    
+
     // TODO
     private boolean checkGZipMagic(File file) throws IOException {
         return true;
     }
-    
+
     /**
      * Checks which operational mode was selected.
      *

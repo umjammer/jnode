@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.textscreen.x86;
 
 public class PcTextScreenUtils {
@@ -33,21 +33,21 @@ public class PcTextScreenUtils {
     public static final int decodeColor(char characterAndColor) {
         return (characterAndColor & COLOR_MASK) >> COLOR_SHIFT;
     }
-    
+
     public static final int encodeCharacter(int character) {
         int ch = (character & CHARACTER_MASK);
         ch = ((ch == 0) ? ' ' : ch);
         return ch;
     }
-        
+
     public static final int decodeCharacter(int characterAndColor) {
         return (characterAndColor & CHARACTER_MASK);
     }
-        
+
     public static final char encodeCharacterAndColor(char character, int color) {
         return (char) (PcTextScreenUtils.encodeCharacter(character) | PcTextScreenUtils.encodeColor(color));
     }
-    
+
     /**
      * Exchange the background and the foreground colors in a character/color value
      * @param characterAndColor
@@ -58,10 +58,10 @@ public class PcTextScreenUtils {
         color = ((color & 0xF0) >> 4) | ((color & 0x0F) << 4);
         //int color = 0x70;
         char character = (char) decodeCharacter(characterAndColor);
-        
+
         return encodeCharacterAndColor(character, color);
     }
-    
+
     private PcTextScreenUtils() {
     }
 }

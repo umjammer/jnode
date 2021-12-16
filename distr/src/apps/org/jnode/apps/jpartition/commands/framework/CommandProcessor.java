@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.jpartition.commands.framework;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class CommandProcessor {
      * The stack of commands.
      */
     private Stack<Command> commands = new Stack<Command>();
-    
+
     /**
      * The listeners of this command processor.
      */

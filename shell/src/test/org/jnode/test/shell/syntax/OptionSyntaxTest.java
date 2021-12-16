@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.syntax;
 
 import org.jnode.shell.AbstractCommand;
@@ -33,11 +33,14 @@ import org.jnode.shell.syntax.IntegerArgument;
 import org.jnode.shell.syntax.OptionSyntax;
 import org.jnode.shell.syntax.RepeatSyntax;
 import org.jnode.shell.syntax.Syntax;
-import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class OptionSyntaxTest {
 
-    public static class Test extends AbstractCommand {
+    public static class Test1 extends AbstractCommand {
         private final FileArgument fileArg = new FileArgument("fileArg", Argument.OPTIONAL +
                 Argument.MULTIPLE);
         private final IntegerArgument intArg = new IntegerArgument("intArg", Argument.OPTIONAL +
@@ -45,7 +48,7 @@ public class OptionSyntaxTest {
         private final FlagArgument flagArg = new FlagArgument("flagArg", Argument.OPTIONAL +
                 Argument.SINGLE);
 
-        public Test() {
+        public Test1() {
             registerArguments(fileArg, intArg, flagArg);
         }
 
@@ -53,27 +56,27 @@ public class OptionSyntaxTest {
         }
     }
 
-    @org.junit.Test
+    @Test
     public void testConstructor() {
         new OptionSyntax("fileArg", "file");
         new OptionSyntax("fileArg", 'f');
         new OptionSyntax("fileArg", "file", 'f');
     }
 
-    @org.junit.Test
+    @Test
     public void testFormat() {
-        Test test = new Test();
+        Test1 test = new Test1();
         Syntax syntax1 = new OptionSyntax("fileArg", "file", 'f');
-        Assert.assertEquals("--file | -f <fileArg>", syntax1.format(test.getArgumentBundle()));
+        assertEquals("--file | -f <fileArg>", syntax1.format(test.getArgumentBundle()));
         Syntax syntax2 = new OptionSyntax("intArg", "int");
-        Assert.assertEquals("--int <intArg>", syntax2.format(test.getArgumentBundle()));
+        assertEquals("--int <intArg>", syntax2.format(test.getArgumentBundle()));
         Syntax syntax3 = new OptionSyntax("intArg", 'i');
-        Assert.assertEquals("-i <intArg>", syntax3.format(test.getArgumentBundle()));
+        assertEquals("-i <intArg>", syntax3.format(test.getArgumentBundle()));
         Syntax syntax4 = new OptionSyntax("flagArg", "xxx", 'x');
-        Assert.assertEquals("--xxx | -x", syntax4.format(test.getArgumentBundle()));
+        assertEquals("--xxx | -x", syntax4.format(test.getArgumentBundle()));
     }
 
-    @org.junit.Test
+    @Test
     public void testOne() throws Exception {
         TestShell shell = new TestShell();
         shell.addAlias("cmd", "org.jnode.test.shell.syntax.OptionSyntaxTest$Test");
@@ -86,7 +89,7 @@ public class OptionSyntaxTest {
         try {
             cl = new CommandLine(new Token("cmd"), new Token[] {}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("no exception");
+            fail("no exception");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -96,8 +99,8 @@ public class OptionSyntaxTest {
                         new Token[] {new Token("--file"), new Token("F1")}, null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
-        Assert.assertEquals("F1", cmd.getArgumentBundle().getArgument("fileArg").getValue()
+        assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals("F1", cmd.getArgumentBundle().getArgument("fileArg").getValue()
                 .toString());
 
         cl =
@@ -105,14 +108,14 @@ public class OptionSyntaxTest {
                         null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
-        Assert.assertEquals("F1", cmd.getArgumentBundle().getArgument("fileArg").getValue()
+        assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals("F1", cmd.getArgumentBundle().getArgument("fileArg").getValue()
                 .toString());
 
         try {
             cl = new CommandLine(new Token("cmd"), new Token[] {new Token("-f")}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("no exception");
+            fail("no exception");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -120,7 +123,7 @@ public class OptionSyntaxTest {
         try {
             cl = new CommandLine(new Token("cmd"), new Token[] {new Token("--file")}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("no exception");
+            fail("no exception");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -130,13 +133,13 @@ public class OptionSyntaxTest {
                     new CommandLine(new Token("cmd"),
                             new Token[] {new Token("-g"), new Token("F1")}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("no exception");
+            fail("no exception");
         } catch (CommandSyntaxException ex) {
             // expected
         }
     }
 
-    @org.junit.Test
+    @Test
     public void testTwo() throws Exception {
         TestShell shell = new TestShell();
         shell.addAlias("cmd", "org.jnode.test.shell.syntax.OptionSyntaxTest$Test");
@@ -149,15 +152,15 @@ public class OptionSyntaxTest {
         cl = new CommandLine(new Token("cmd"), new Token[] {}, null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals(0, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
 
         cl =
                 new CommandLine(new Token("cmd"),
                         new Token[] {new Token("--file"), new Token("F1")}, null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
-        Assert.assertEquals("F1", cmd.getArgumentBundle().getArgument("fileArg").getValue()
+        assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals("F1", cmd.getArgumentBundle().getArgument("fileArg").getValue()
                 .toString());
 
         cl =
@@ -165,8 +168,8 @@ public class OptionSyntaxTest {
                         null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
-        Assert.assertEquals("F1", cmd.getArgumentBundle().getArgument("fileArg").getValue()
+        assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals("F1", cmd.getArgumentBundle().getArgument("fileArg").getValue()
                 .toString());
 
         cl =
@@ -174,14 +177,14 @@ public class OptionSyntaxTest {
                     new Token("-f"), new Token("F2")}, null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(2, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals(2, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
 
         try {
             cl =
                     new CommandLine(new Token("cmd"),
                             new Token[] {new Token("-g"), new Token("F1")}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("no exception");
+            fail("no exception");
         } catch (CommandSyntaxException ex) {
             // expected
         }

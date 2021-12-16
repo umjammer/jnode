@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.font.truetype;
 
 import java.io.ByteArrayOutputStream;
@@ -40,7 +40,7 @@ public class TTFMemoryInput extends TTFInput {
     public TTFMemoryInput(URL url) throws IOException {
         this(url.openStream());
     }
-    
+
     public TTFMemoryInput(InputStream is) throws IOException {
         final ByteArrayOutputStream os = new ByteArrayOutputStream();
         final byte[] buf = new byte[4096];
@@ -59,7 +59,7 @@ public class TTFMemoryInput extends TTFInput {
         this.data = data;
         this.offset = offset;
         this.pointer = offset;
-        
+
         //FIXME more likely to be a bug since we ignore length parameter        
     }
 
@@ -70,7 +70,7 @@ public class TTFMemoryInput extends TTFInput {
     private TTFMemoryInput(TTFMemoryInput src, int offset, int length) {
         this.data = src.data;
         this.offset = src.offset + offset;
-        
+
         //FIXME more likely to be a bug or why is that code disabled ?        
         //this.length = length;
     }

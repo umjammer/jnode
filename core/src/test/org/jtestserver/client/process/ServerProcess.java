@@ -1,7 +1,7 @@
 /*
 
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -29,19 +29,19 @@ import java.io.IOException;
  *
  */
 public interface ServerProcess {
-    
+
     /**
      * Start the VM. 
      * @throws IOException
      */
     void start() throws IOException;
-    
+
     /**
      * Stop the VM.
      * @throws IOException
      */
     void stop() throws IOException;
-    
+
     /**
      * Checks if the VM is alive.
      * @return true if the VM is alive.

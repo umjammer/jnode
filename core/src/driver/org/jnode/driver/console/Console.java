@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console;
 
 import org.jnode.driver.input.KeyboardListener;
@@ -103,7 +103,6 @@ public interface Console extends FocusListener, KeyboardListener,
      * @param l
      */
     public void removeConsoleListener(ConsoleListener l);
-
 
     /**
      * Gets the manager this console is registered with.

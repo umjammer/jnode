@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.hfs;
 
 import java.io.IOException;
@@ -101,4 +101,3 @@ public class HfsWrapperFileSystemType implements BlockDeviceFileSystemType<HfsPl
                 mdb.getEmbeddedSignature() == MasterDirectoryBlock.HFSPLUS_EMBEDDED_SIGNATURE;
     }
 }
-

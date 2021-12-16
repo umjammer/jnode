@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.system.resource;
 
 import java.nio.ByteBuffer;
@@ -27,7 +27,6 @@ import org.jnode.annotation.Uninterruptible;
 import org.vmmagic.unboxed.Address;
 import org.vmmagic.unboxed.Extent;
 import org.vmmagic.unboxed.Offset;
-
 
 /**
  * Block of memory resource.
@@ -669,7 +668,6 @@ public interface MemoryResource extends Resource {
     public abstract MemoryResource claimChildResource(int offset, int size, boolean allowOverlaps)
         throws IndexOutOfBoundsException, ResourceNotFreeException;
 
-
     /**
      * Gets a multi media memory resource wrapping this given memory resource.
      *
@@ -683,4 +681,3 @@ public interface MemoryResource extends Resource {
      */
     public abstract Offset getOffset();
 }
-

@@ -17,13 +17,14 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.util;
 
-import static org.junit.Assert.assertEquals;
-
 import org.jnode.util.Version;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class VersionTest {
     @Test
@@ -173,111 +174,147 @@ public class VersionTest {
         assertEquals(1, a.compareTo(b));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testError2a() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version(-1, 2);
+        assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version(-1, 2);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testError2b() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version(1, -2);
+        assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version(1, -2);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testError3a() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version(-1, 2, 3);
+        assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version(-1, 2, 3);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testError3b() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version(1, -2, 3);
+        assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version(1, -2, 3);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testError3c() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version(1, 2, -3);
+        assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version(1, 2, -3);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testError4a() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version(-1, 2, 3, 4);
+        assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version(-1, 2, 3, 4);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testError4b() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version(1, -2, 3, 4);
+        assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version(1, -2, 3, 4);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testError4c() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version(1, 2, -3, 4);
+        assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version(1, 2, -3, 4);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testError4d() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version(1, 2, 3, -4);
+        assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version(1, 2, 3, -4);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testError5a() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version("-1.2");
+        assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version("-1.2");
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testError5b() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version("1.-2");
+        assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version("1.-2");
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testError5c() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version("1.2.-3");
+        assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version("1.2.-3");
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testError5d() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version("1.2.3.-4");
+        assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version("1.2.3.-4");
+        });
     }
 
-    @Test(expected = NumberFormatException.class)
+    @Test
     public void testError6a() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version("jon");
+        assertThrows(NumberFormatException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version("jon");
+        });
     }
 
-    @Test(expected = NumberFormatException.class)
+    @Test
     public void testError6b() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version("1.jon");
+        assertThrows(NumberFormatException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version("1.jon");
+        });
     }
 
-    @Test(expected = NumberFormatException.class)
+    @Test
     public void testError6c() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version("1.2.jon");
+        assertThrows(NumberFormatException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version("1.2.jon");
+        });
     }
 
-    @Test(expected = NumberFormatException.class)
+    @Test
     public void testError6d() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version("1.2.3.jon");
+        assertThrows(NumberFormatException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version("1.2.3.jon");
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testError7a() throws Exception {
-        @SuppressWarnings("unused")
-        Version a = new Version("1.2.3.4.5");
+        assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
+            Version a = new Version("1.2.3.4.5");
+        });
     }
 }

@@ -17,13 +17,11 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import org.jnode.shell.syntax.SequenceSyntax;
 import org.jnode.shell.syntax.SyntaxBundle;
-
-
 
 /**
  * This builtin does nothing.  It is intended for use in places where
@@ -33,17 +31,17 @@ import org.jnode.shell.syntax.SyntaxBundle;
  */
 final class ColonBuiltin extends BjorneBuiltin {
     private static final SyntaxBundle SYNTAX = new SyntaxBundle(":", new SequenceSyntax());
-    
+
     static final Factory FACTORY = new Factory() {
         public BjorneBuiltinCommandInfo buildCommandInfo(BjorneContext context) {
             return new BjorneBuiltinCommandInfo(":", SYNTAX, new ColonBuiltin(), context);
         }
     };
-    
+
     private ColonBuiltin() {
         super("The no-op command");
     }
-    
+
     @Override
     public void execute() throws Exception {
         // no-op

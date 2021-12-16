@@ -27,7 +27,7 @@ import charvax.swing.table.TableModel;
 public class TableModelEvent extends java.util.EventObject
 {
     private static final long serialVersionUID = 1L;
-    
+
     /** All row data has changed; listeners should discard all state
      * and re-query the TableModel.
      */

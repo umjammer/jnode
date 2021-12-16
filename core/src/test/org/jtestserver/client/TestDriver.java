@@ -1,7 +1,7 @@
 /*
 
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -55,38 +55,38 @@ import org.jtestserver.common.protocol.udp.UDPProtocol;
 
 public class TestDriver {
     private static final Logger LOGGER = Logger.getLogger(TestDriver.class.getName());
-    
+
     public static void main(String[] args) {
         ConfigurationUtils.init();
         TestDriver testDriver = null;
-        
+
         try {
             testDriver = createUDPTestDriver();
-            
+
             testDriver.start();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "protocol error", e);
         }
     }
-    
+
     private static TestDriver createUDPTestDriver() throws ProtocolException, IOException {         
         Config config = new ConfigReader().read(ConfigurationUtils.getConfigurationFile());
         InetAddress serverAddress = InetAddress.getByName(config.getServerName());
         int serverPort = config.getServerPort();        
         Protocol<?> protocol = new UDPProtocol(); //TODO create protocol from a config parameter
-        
+
         Client<?, ?> client = protocol.createClient(serverAddress, serverPort);
         client.setTimeout(config.getClientTimeout());
-        
+
         return new TestDriver(config, client);
     }
-    
+
     private final Config config;
     private final TestListRW testListRW;
     private final TestManager testManager;
     private final ServerProcessManager processManager;
     private final String vmType;
-    
+
     private TestDriver(Config config, Client<?, ?> client) {
         this.config = config;
         testListRW = new TestListRW(config);
@@ -94,18 +94,18 @@ public class TestDriver {
         processManager = new ServerProcessManager(config);
         vmType = config.getVMConfig().getVmType();
     }
-    
+
     public void start() throws Exception {
         processManager.startAll();
- 
+
         try {
             Run latestRun = Run.getLatest(config);
             Run newRun = Run.create(config);
-            
+
             List<String> workingList = new ArrayList<String>();
             List<String> crashingList = new ArrayList<String>();
             RunResult runResult;
-            
+
             if (latestRun == null) {
                 LOGGER.info("running list of all tests");
                 runResult = runTests(null, true, workingList, crashingList, newRun.getTimestampString());
@@ -116,52 +116,52 @@ public class TestDriver {
                 File workingTests = latestRun.getWorkingTests();
                 runResult = runTests(workingTests, true, workingList, crashingList, newRun.getTimestampString());
                 runResult.setSystemProperty("jtestserver.process", vmType);
-                
+
                 LOGGER.info("running list of crashing tests");
                 File crashingTests = latestRun.getCrashingTests();
                 RunResult rr = runTests(crashingTests, false, workingList, crashingList, 
                         newRun.getTimestampString());
                 mergeResults(runResult, rr);
             }
-            
+
             LOGGER.info("writing crashing & working tests lists");
             testListRW.writeList(newRun.getWorkingTests(), workingList);
             testListRW.writeList(newRun.getCrashingTests(), crashingList);
-            
+
             writeReports(runResult, newRun.getReportXml());
-            
+
             compareRuns(latestRun, newRun, runResult);
         } finally {        
             processManager.stopAll();
         }
     }
-    
+
     private void compareRuns(Run latestRun, Run newRun, RunResult newRunResult) throws XMLParseException, IOException {
         if ((latestRun != null) && latestRun.getReportXml().exists()) {
             // there was a previous run, let do the comparison !
-            
+
             RunResult latestRunResult = new XMLReportParser().parse(latestRun.getReportXml());
-            
+
             ReportComparator comparator = new ReportComparator(latestRunResult, newRunResult);
             RunComparison comparison = comparator.compare();
-            
+
             // write comparison in html format
             ComparisonWriter writer = new HTMLComparisonWriter();
             writer.write(comparison, new File(newRun.getReportXml().getParentFile(), "comparison.html"));
-            
+
             // write comparison in text format
             writer = new TextComparisonWriter();
             writer.write(comparison, new File(newRun.getReportXml().getParentFile(), "comparison.txt"));
         }
     }
-    
+
     private void writeReports(RunResult result, File reportXml) throws IOException {
         XMLReportWriter rw = new XMLReportWriter(false);
         rw.write(result, reportXml);
-        
+
         HTMLGenerator.createReport(result, reportXml.getParentFile());
     }
-    
+
     private RunResult runTests(File listFile, boolean useCompleteListAsDefault,
             List<String> workingList, List<String> crashingList, String timestamp)
         throws Exception {
@@ -183,7 +183,7 @@ public class TestDriver {
             if (i++ > 100) { // TODO for debug only, remove that
                 break;
             }
-            
+
             LOGGER.info("adding test " + test);            
             testManager.runTest(test);
         }
@@ -194,7 +194,7 @@ public class TestDriver {
             boolean working = false;
             RunResult delta = null;
             String test = null;
-            
+
             try {
                 LOGGER.info("getting a result");
                 Result runnerResult = testManager.getResult(); 
@@ -202,7 +202,7 @@ public class TestDriver {
                 test = runnerResult.getTest();
                 LOGGER.info("got a result for " + test);
                 mergeResults(result, delta);
-                
+
                 working = true;
             } finally {
                 if (working) {
@@ -210,38 +210,38 @@ public class TestDriver {
                 } else {
                     crashingList.add(test);
                 }
-                
+
                 if (firstTest && (delta != null)) {
                     for (String name : delta.getSystemPropertyNames()) {
                         result.setSystemProperty(name, delta.getSystemProperty(name));
                     }
-                    
+
                     firstTest = false;
                 }
             }
         }
-        
+
         return result;
     }
-    
+
     private void mergeResults(RunResult target, RunResult source) {
         for (Iterator<?> itSourcePackage = source.getPackageIterator(); itSourcePackage.hasNext(); ) {
             PackageResult sourcePackage = (PackageResult) itSourcePackage.next();
-            
+
             PackageResult targetPackage = target.getPackageResult(sourcePackage.getName());
             if (targetPackage == null) {
                 target.add(sourcePackage);
             } else {            
                 for (Iterator<?> itSourceClass = sourcePackage.getClassIterator(); itSourceClass.hasNext(); ) {
                     ClassResult sourceClass = (ClassResult) itSourceClass.next();
-                    
+
                     ClassResult targetClass = targetPackage.getClassResult(sourceClass.getName());
                     if (targetClass == null) {
                         targetPackage.add(sourceClass);
                     } else {                                    
                         for (Iterator<?> itSourceTest = sourceClass.getTestIterator(); itSourceTest.hasNext(); ) {
                             TestResult sourceTest = (TestResult) itSourceTest.next();
-                            
+
                             boolean hasTest = false;
                             for (Iterator<?> it = targetClass.getTestIterator(); it.hasNext(); ) {
                                 TestResult tr = (TestResult) it.next();
@@ -250,16 +250,16 @@ public class TestDriver {
                                     break;
                                 }
                             }
-                            
+
                             if (!hasTest) {
                                 targetClass.add(sourceTest);
                             }
-                            
+
                         }
                     }
                 }
             }
         }
     }
-    
+
 }

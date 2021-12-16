@@ -17,10 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.awt.font.def;
 
-import gnu.java.security.action.GetPropertyAction;
+package org.jnode.awt.font.def;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -31,6 +29,7 @@ import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -59,7 +58,7 @@ public class DefaultFontManager implements FontManager, ExtensionPointListener {
 
     private static final Logger log = Logger.getLogger(DefaultFontManager.class);    
     private final ExtensionPoint providersEP;
-    
+
     /**
      * Note : For now, we have only 2 providers (bdf, ttf) and we will probably 
      * never have more than 5 ones. So, a {@link List} is enough for our usage. 
@@ -175,11 +174,11 @@ public class DefaultFontManager implements FontManager, ExtensionPointListener {
         final ConfigurationElement[] elements = extension.getConfigurationElements();
         for (int j = 0; j < elements.length; j++) {
             final String className = elements[j].getAttribute("class");
-            
+
             if (log.isDebugEnabled()) {
                 log.debug("Removed provider: class=" + className);
             }
-            
+
             if (className != null) {
                 int idx = getProviderIndexByClass(className);
                 if (idx >= 0) {
@@ -228,11 +227,11 @@ public class DefaultFontManager implements FontManager, ExtensionPointListener {
                 return prv;
             }
         }
-        
+
         if (log.isDebugEnabled()) {
             log.debug("font=" + font + " NO PROVIDER");
         }
-        
+
         return null;
     }
 
@@ -248,16 +247,21 @@ public class DefaultFontManager implements FontManager, ExtensionPointListener {
 //        final String firstProviderName = (String)AccessController.
 // doPrivileged(new GetPropertyAction("jnode.font.renderer", "ttf"));
         final String firstProviderName =
-            (String) AccessController.doPrivileged(new GetPropertyAction("jnode.font.renderer", "bdf"));
+            (String) AccessController.doPrivileged(new PrivilegedAction<String>() {
+                @Override
+                public String run() {
+                    return System.getProperty("jnode.font.renderer", "bdf");
+                }
+            });
         if ((providers.size() > 1) && !firstProviderName.equals(providers.get(0).getName())) {
             for (int i = 1; i < providers.size(); i++) {
                 if (firstProviderName.equals(providers.get(i).getName())) {
-                    
+
                     // exchange the providers so that firstProvider is always at index 0
                     FontProvider<?> firstProvider = providers.get(i);
                     providers.set(i, providers.get(0));
                     providers.set(0, firstProvider);
-                    
+
                     break;
                 }
             }
@@ -273,11 +277,11 @@ public class DefaultFontManager implements FontManager, ExtensionPointListener {
      */
     private Font getTranslatedFont(Font font) {
         Font txFont = font;
-        
+
         if (getProvider(font) == null) {
             txFont = getCompatibleFont(font);
         }
-        
+
         return txFont;
     }
 
@@ -290,10 +294,10 @@ public class DefaultFontManager implements FontManager, ExtensionPointListener {
     private Font getCompatibleFont(Font font) {
         return getProviders().get(0).getCompatibleFont(font);
     }
-    
+
     private synchronized void updateFontProviders() {
         final Extension[] extensions = providersEP.getExtensions();
-        
+
         if (log.isDebugEnabled()) {
             log.debug("Found " + extensions.length + " font providers");
         }
@@ -308,13 +312,13 @@ public class DefaultFontManager implements FontManager, ExtensionPointListener {
 
     private void configureProvider(List<FontProvider<?>> providers, ConfigurationElement element) {
         final String className = element.getAttribute("class");
-        
+
         if (log.isDebugEnabled()) {
             log.debug("Configure provider: class=" + className);
         }
-        
+
         if ((className != null) && (getProviderIndexByClass(className) < 0)) {
-            
+
             try {
                 final Class<?> cls = Thread.currentThread().getContextClassLoader().loadClass(className);
                 final FontProvider<?> provider = (FontProvider<?>) cls.newInstance();
@@ -330,17 +334,17 @@ public class DefaultFontManager implements FontManager, ExtensionPointListener {
             }
         }
     }
-    
+
     private int getProviderIndexByClass(String className) {
         int idx = -1;
-        
+
         for (int i = 0; i < providers.size(); i++) {
             if (providers.get(i).getClass().getName().equals(className)) {
                 idx = i;
                 break;
             }
         }
-        
+
         return idx;
     }
 }

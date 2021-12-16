@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import gnu.java.security.action.InvokeAction;
@@ -56,7 +56,7 @@ public class CommandRunner implements CommandRunnable {
     static final String MAIN_METHOD = "main";
 
     static final String EXECUTE_METHOD = "execute";
-    
+
     private final SimpleCommandInvoker invoker;
     private final CommandIO[] ios;
     final CommandLine commandLine;
@@ -64,7 +64,7 @@ public class CommandRunner implements CommandRunnable {
     final Properties sysProps;
     final Map<String, String> env;
     final boolean redirected;
-    
+
     Class<?> targetClass;
     Method method;
     Object[] args;
@@ -92,7 +92,7 @@ public class CommandRunner implements CommandRunnable {
             setTerminatingException(ex);
         }
     }
-    
+
     /**
      * Prepare the command for execution.
      *
@@ -139,7 +139,7 @@ public class CommandRunner implements CommandRunnable {
             }
         }
     }
-    
+
     /**
      * Executes the command.
      *
@@ -201,7 +201,7 @@ public class CommandRunner implements CommandRunnable {
     void setRC(int rc) {
         this.rc = rc;
     }
-    
+
     public Throwable getTerminatingException() {
         return terminatingException;
     }
@@ -215,7 +215,7 @@ public class CommandRunner implements CommandRunnable {
             ex.printStackTrace(shellErr);
         }
     }
-    
+
     public Method getMethod() {
         return method;
     }

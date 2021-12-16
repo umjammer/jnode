@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import java.util.ArrayDeque;
@@ -48,7 +48,7 @@ public class BjorneArithmeticEvaluator {
     private static final int PLING = 9;
     private static final int TWIDDLE = 10;
     private static final int STARSTAR = 11;
-    
+
     private static final int PREFIX = 16;
 
     private static final HashMap<Integer, Integer> precedence = new HashMap<Integer, Integer>();
@@ -73,11 +73,10 @@ public class BjorneArithmeticEvaluator {
             MINUS + PREFIX, MINUSMINUS, MINUSMINUS + PREFIX}));
     };
 
-    
     private class Primary {
         private final String name;
         private final long value;
-        
+
         public Primary(String name, long value) {
             super();
             this.name = name;
@@ -101,12 +100,11 @@ public class BjorneArithmeticEvaluator {
             }
         }
     }
-    
+
     private final BjorneContext context;
     private final Deque<Integer> opStack = new ArrayDeque<Integer>();
     private final Deque<Primary> valStack = new ArrayDeque<Primary>();
 
-    
     public BjorneArithmeticEvaluator(BjorneContext context) {
         super();
         this.context = context;
@@ -120,7 +118,7 @@ public class BjorneArithmeticEvaluator {
         Primary res = evalExpression(ci);
         return Long.toString(res.getValue());
     }
-    
+
     private Primary evalExpression(CharIterator ci) throws ShellException {
         int mark = opStack.size();
         int ch = skipWhiteSpace(ci);
@@ -150,7 +148,7 @@ public class BjorneArithmeticEvaluator {
                 skipWhiteSpace(ci);
                 op = parseExpressionOperator(ci);
             }
-            
+
             ch = skipWhiteSpace(ci);
             if (op == NONE) {
                 if (ch != -1 && ch != ')') {
@@ -172,7 +170,7 @@ public class BjorneArithmeticEvaluator {
         }
         return valStack.removeFirst();
     }
-    
+
     private void pushOperator(int op, int mark) throws ShellException {
         while (opStack.size() > mark && precedence.get(opStack.getFirst()) <= precedence.get(op)) {
             evalOperation();
@@ -253,7 +251,7 @@ public class BjorneArithmeticEvaluator {
         }
         valStack.addFirst(res);
     }
-    
+
     private Primary evalPrimary(CharIterator ci) throws ShellException {
         int ch = ci.peekCh();
         if (Character.isLetter(ch) || ch == '_') {
@@ -272,7 +270,7 @@ public class BjorneArithmeticEvaluator {
             throw new ShellSyntaxException("Expected a number or variable name");
         }
     }
-    
+
     private long evalName(String name) throws ShellSyntaxException {
         try {
             String value = context.variable(name);

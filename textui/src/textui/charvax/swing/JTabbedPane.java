@@ -290,7 +290,7 @@ public class JTabbedPane
 	}
 	return (-1);
     }
-					 
+
     /** Returns the title of the tab with the specified index.
      */
     public String getTitleAt(int index)  {
@@ -302,7 +302,6 @@ public class JTabbedPane
     public void setTitleAt(int index, String title)  {
 	((TabButton) _tabs.elementAt(index)).setText(title);
     }
-
 
     /** Make the tab at the specified index enabled.
      */

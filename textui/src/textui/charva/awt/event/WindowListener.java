@@ -19,7 +19,6 @@
 
 package charva.awt.event;
 
-
 /**
  * The listener interface for receiving window events.
  */

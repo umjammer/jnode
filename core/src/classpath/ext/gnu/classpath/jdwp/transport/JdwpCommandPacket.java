@@ -36,7 +36,6 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 
-
 package gnu.classpath.jdwp.transport;
 
 import java.io.DataOutputStream;
@@ -74,7 +73,7 @@ public class JdwpCommandPacket extends JdwpPacket
     // Don't assign an id. This constructor is called by
     // JdwpPacket.fromBytes, and that will assign a packet id.
   }
-  
+
   /**
    * Constructs a new <code>JdwpCommandPacket</code>
    * with the given command set and command

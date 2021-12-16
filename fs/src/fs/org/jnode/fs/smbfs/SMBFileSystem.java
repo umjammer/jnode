@@ -17,14 +17,18 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.smbfs;
 
 import java.io.IOException;
-import jcifs.smb.NtlmAuthenticator;
-import jcifs.smb.NtlmPasswordAuthentication;
-import jcifs.smb.SmbFile;
+
 import org.jnode.fs.FileSystem;
+
+import jcifs.CIFSContext;
+import jcifs.context.SingletonContext;
+import jcifs.smb.NtlmAuthenticator;
+import jcifs.smb.NtlmPasswordAuthenticator;
+import jcifs.smb.SmbFile;
 
 /**
  * @author Levente S\u00e1ntha
@@ -39,8 +43,8 @@ public class SMBFileSystem extends NtlmAuthenticator implements FileSystem<SMBFS
         this.type = type;
         this.device = device;
         try {
-            root = new SMBFSDirectory(null, new SmbFile("smb://" + device.getUser() + ":" + device.getPassword() + "@"
-                + device.getHost() + "/" + device.getPath() + "/"));
+            CIFSContext context = SingletonContext.getInstance().withCredentials(getNtlmPasswordAuthentication());
+            root = new SMBFSDirectory(null, new SmbFile("smb://" + device.getHost() + "/" + device.getPath() + "/", context));
             root.smbFile.setDefaultUseCaches(false);
             root.smbFile.connect();
         } catch (IOException e) {
@@ -52,8 +56,8 @@ public class SMBFileSystem extends NtlmAuthenticator implements FileSystem<SMBFS
         return type;
     }
 
-    protected NtlmPasswordAuthentication getNtlmPasswordAuthentication() {
-        return new NtlmPasswordAuthentication("", device.getUser(), device.getPassword());
+    protected NtlmPasswordAuthenticator getNtlmPasswordAuthentication() {
+        return new NtlmPasswordAuthenticator("", device.getUser(), device.getPassword());
     }
 
     /**

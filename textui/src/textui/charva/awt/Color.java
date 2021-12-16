@@ -133,7 +133,7 @@ public class Color
 	int curses_color_pair = 0;
 	try {
 	    Toolkit toolkit = Toolkit.getDefaultToolkit();
-	    
+
 	    // if the terminal is capable of colors
 	    if (toolkit.hasColors()) {
 		ColorPair color_pair = new ColorPair(foreground_, background_);
@@ -146,7 +146,6 @@ public class Color
 	}
 	return curses_color_pair;
     }
-
 
     /** Convert an ncurses color value to a color name.
      */

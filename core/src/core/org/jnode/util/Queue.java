@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.util;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * @author epr
  */
 public class Queue<T> {
-    
+
     public static final int NO_WAIT = -1;
 
     /**
@@ -170,7 +170,7 @@ public class Queue<T> {
         this.closed = true;
         notifyAll();
     }
-    
+
     /**
      * Is this queue closed.
      * @return {@code true} if the queue is closed, {@code false} otherwise.
@@ -179,4 +179,3 @@ public class Queue<T> {
         return closed;
     }
 }
-

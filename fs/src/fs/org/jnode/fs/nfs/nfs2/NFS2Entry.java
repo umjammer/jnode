@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.nfs.nfs2;
 
 import java.io.IOException;
@@ -49,7 +49,6 @@ public class NFS2Entry extends NFS2Object implements FSEntry {
 
     @SuppressWarnings("unused")
     private NFS2AccessRights accessRights;
-
 
     NFS2Entry(NFS2FileSystem fileSystem, NFS2Directory parent, String name, byte[] fileHandle,
               FileAttribute fileAttribute) {

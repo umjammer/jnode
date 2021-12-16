@@ -29,8 +29,8 @@ import java.io.InputStreamReader;
 import org.apache.tools.ant.Project;
 import org.jnode.ant.taskdefs.Asm;
 import org.jnode.jnasm.assembler.Assembler;
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Simple test for JNasm. Requires the availability of nasm.
@@ -82,17 +82,17 @@ public class JNAsmTest {
         //compare JNAsm binary with NASM binary
         File nasmOutputFile = new File(workingDirectory, NASM_OUTPUT_FILE_NAME);
 
-        Assert.assertEquals(nasmOutputFile.length(), jnasmOutputFile.length());
+        assertEquals(nasmOutputFile.length(), jnasmOutputFile.length());
         InputStream jnasmBinaryInput = new FileInputStream(jnasmOutputFile);
         InputStream nasmBinaryInput = new FileInputStream(nasmOutputFile);
         int b1, b2;
         while (((b1 = jnasmBinaryInput.read()) > -1) | ((b2 = nasmBinaryInput.read()) > -1)) {
-            Assert.assertEquals(b2, b1);
+            assertEquals(b2, b1);
         }
         jnasmBinaryInput.close();
         nasmBinaryInput.close();
-        Assert.assertEquals(-1, b1);
-        Assert.assertEquals(-1, b2);
+        assertEquals(-1, b1);
+        assertEquals(-1, b2);
 
         cleanupWorkingDirectory(workingDirectory);
     }
@@ -114,7 +114,7 @@ public class JNAsmTest {
         InputStream in2 = new FileInputStream(file2);
         int b1, b2;
         while (((b1 = in1.read()) > -1) | ((b2 = in2.read()) > -1)) {
-            Assert.assertEquals(b2, b1);
+            assertEquals(b2, b1);
         }
         in1.close();
         in2.close();

@@ -17,14 +17,14 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.fs.jarfs;
 
-import gnu.java.nio.InputStreamChannel;
+package org.jnode.fs.jarfs;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.jar.JarFile;
 
 import org.jnode.fs.FSFile;
@@ -67,7 +67,7 @@ public class JarFSFile implements FSFile {
         final JarFile jarFile = fs.getJarFile();
         final InputStream is = jarFile.getInputStream(entry.getJarEntry());
         is.skip(fileOffset);
-        InputStreamChannel isc = new InputStreamChannel(is);
+        ReadableByteChannel isc = Channels.newChannel(is);
         isc.read(destBuf);
         isc.close();
         is.close();

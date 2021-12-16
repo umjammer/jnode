@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -22,13 +22,12 @@ package org.jtestserver.common.protocol;
 import java.net.InetAddress;
 import java.net.SocketAddress;
 
-
 public abstract class Protocol<S> {
     public abstract Client<S, ? extends Protocol<S>> createClient(InetAddress serverIp, int serverPort) 
         throws ProtocolException;
-    
+
     public abstract Server<S, ? extends Protocol<S>> createServer(int localPort) throws ProtocolException;
-    
+
     protected abstract void sendMessage(S socket, String message, SocketAddress remoteAddress) 
         throws ProtocolException, TimeoutException;
     protected abstract ReceivedMessage receiveMessage(S socket) throws ProtocolException, TimeoutException;

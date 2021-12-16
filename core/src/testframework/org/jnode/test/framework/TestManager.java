@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.framework;
 
 import java.util.ArrayList;
@@ -30,7 +30,6 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
-import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.apache.log4j.Logger;
@@ -109,14 +108,14 @@ public final class TestManager implements ExtensionPointListener {
         log.debug("end of Cstor");
     }
 
-    public List<Class<? extends Test>> getTests() {
+    public List<Class<? extends Object>> getTests() {
         refreshTests();
-        List<Class<? extends Test>> result = new ArrayList<Class<? extends Test>>(tests);
+        List<Class<? extends Object>> result = new ArrayList<Class<? extends Object>>(tests);
         result.addAll(suites);
         return result;
     }
 
-    public List<String> getCategories(Class<? extends Test> test) {
+    public List<String> getCategories(Class<? extends Object> test) {
         refreshTests();
         return Collections.unmodifiableList(categories.get(test));
     }
@@ -129,7 +128,7 @@ public final class TestManager implements ExtensionPointListener {
     /**
      * Get a TestSuite with all known tests.
      */
-    public TestSuite getTestSuite() {
+    public Object getTestSuite() {
         refreshTests();
         return getTestSuite(Collections.singletonList(ALL_CATEGORY));
     }
@@ -137,16 +136,16 @@ public final class TestManager implements ExtensionPointListener {
     /**
      * Get a TestSuite with all tests that have one of the given categories.
      */
-    public synchronized TestSuite getTestSuite(List<String> wantedCategories) {
+    public synchronized Object getTestSuite(List<String> wantedCategories) {
         refreshTests();
         TestSuite suite = new TestSuite();
 
         // add Tests
-        for (Class<? extends Test> testClass : tests) {
+        for (Class<? extends Object> testClass : tests) {
             if (!matchCategory(wantedCategories, categories.get(testClass))) continue;
 
             try {
-                Test test = (Test) testClass.newInstance();
+                Object test = (Object) testClass.newInstance();
                 suite.addTest(test);
                 log.debug("added Test " + testClass.getName());
             } catch (InstantiationException e1) {

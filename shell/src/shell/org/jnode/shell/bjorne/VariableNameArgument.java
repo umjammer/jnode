@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import org.jnode.driver.console.CompletionInfo;
@@ -35,7 +35,7 @@ import org.jnode.shell.syntax.CommandSyntaxException;
  */
 public class VariableNameArgument extends Argument<String> {
     private final BjorneContext context;
-    
+
     public VariableNameArgument(String label, BjorneContext context, int flags, String description) {
         super(label, flags, new String[0], description);
         this.context = context;

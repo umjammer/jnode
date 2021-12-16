@@ -17,14 +17,14 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.bjorne;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({BjorneArithmeticEvaluatorTest.class, BjorneCompletionTest.class,
+@Suite
+@SelectClasses({BjorneArithmeticEvaluatorTest.class, BjorneCompletionTest.class,
     BjorneContextTest.class, BjorneParserTest.class, BjorneTokenizerTest.class })
 public class AllTests {
 

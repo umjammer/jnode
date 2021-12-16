@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.facade;
 
 /**
@@ -29,10 +29,10 @@ package org.jnode.vm.facade;
  */
 public class NoObjectFilter implements ObjectFilter {
     public static final NoObjectFilter INSTANCE = new NoObjectFilter();
-    
+
     private NoObjectFilter() {        
     }
-    
+
     /**
      * {@inheritDoc}
      * <br>This implementation always returns true.

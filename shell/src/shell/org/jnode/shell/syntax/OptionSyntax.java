@@ -17,11 +17,10 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import org.jnode.nanoxml.XMLElement;
-
 
 /**
  * An OptionSyntax matches a short or long option (e.g. '-X' or '--xflag') followed by
@@ -140,7 +139,6 @@ public class OptionSyntax extends ArgumentSyntax {
     public String getLongOptName() {
         return longOptName;
     }
-
 
     @Override
     public XMLElement toXML() {

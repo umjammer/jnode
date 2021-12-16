@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -19,13 +19,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 package org.jtestserver.tests;
 
-import static org.jtestserver.tests.TestUtils.IP;
-import static org.jtestserver.tests.TestUtils.PORT;
-
 import java.util.Arrays;
 import java.util.List;
-
-import junit.framework.Assert;
 
 import org.jtestserver.common.protocol.Client;
 import org.jtestserver.common.protocol.Protocol;
@@ -33,64 +28,67 @@ import org.jtestserver.common.protocol.ProtocolException;
 import org.jtestserver.common.protocol.Server;
 import org.jtestserver.common.protocol.TimeoutException;
 import org.jtestserver.common.protocol.udp.UDPProtocol;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 
-@RunWith(Parameterized.class)
+import static org.jtestserver.tests.TestUtils.IP;
+import static org.jtestserver.tests.TestUtils.PORT;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class TestProtocol {
-    @Parameters
+    @ParameterizedTest
     public static List<Object[]> getProtocols() throws ProtocolException {
         return Arrays.asList(new Object[][] {{new UDPProtocol()}});
     }
-    
+
     private final Protocol<?> protocol;
     private Server<?, ?> server;
     private Client<?, ?> client;
-    
+
     public TestProtocol(Protocol<?> protocol) throws ProtocolException {
         this.protocol = protocol;
     }
 
-    @Before
+    @BeforeEach
     public void setupDown() throws ProtocolException {
         client = protocol.createClient(IP, PORT);
         server = protocol.createServer(PORT);
-        
+
         client.setTimeout(1000);
         server.setTimeout(1000);
     }
-    
-    @After
+
+    @AfterEach
     public void tearDown() {
         client.close();
         server.close();
     }
-    
+
     @Test
     public void testSendReceive() throws Throwable {
         sendReceive("A Message", "A response");
     }
-    
+
     @Test
     public void testSendReceiveBlank() throws Throwable {
         sendReceive("  ", " ");
     }
-    
+
     @Test
     public void testSendReceiveEmpty() throws Throwable {
         sendReceive("", "");
     }
-    
-    @Test(expected = NullPointerException.class)
-    public void testSendNull() throws Throwable {
-        client.send(null, false);        
+
+    @Test
+    public void testSendNull() {
+        assertThrows(NullPointerException.class, () -> {
+            client.send(null, false);
+        });
     }
 
-    
     @Test
     public void testSendLongMessage() throws Throwable {
         StringBuilder longMessage = new StringBuilder();
@@ -99,7 +97,7 @@ public class TestProtocol {
         }
         sendReceive(longMessage.toString(), longMessage.toString());
     }
-    
+
     @Test
     public void testMultiThreadedAccess() {
         final int nbThreads = 10;
@@ -109,11 +107,11 @@ public class TestProtocol {
             final int baseValue = (i + 1) * 1000000;
             threads[i] = new TestThread(baseValue, nbLoops);
         }
-        
+
         for (TestThread t : threads) {
             t.start();
         }
-        
+
         boolean running = true;
         while (running) {
             running = false;
@@ -129,7 +127,7 @@ public class TestProtocol {
                 // ignore
             }
         }
-        
+
         int errors = 0;
         for (TestThread t : threads) {
             if (t.getError()) {
@@ -137,22 +135,22 @@ public class TestProtocol {
             }
         }
         if (errors > 0) {
-            Assert.fail("" + errors + " errors");
+            fail("" + errors + " errors");
         }
     }
-    
+
     private class TestThread extends Thread {
         private final int baseValue;
         private final int nbLoops;
-        
+
         private boolean error = false;
-        
+
         public TestThread(int baseValue, int nbLoops) {
             super("Thread-" + baseValue);
             this.baseValue = baseValue;
             this.nbLoops = nbLoops;
         }
-        
+
         public void run() {
             for (int loop = 0; loop < nbLoops; loop++) {
                 try {
@@ -170,7 +168,7 @@ public class TestProtocol {
                 }
             }
         }
-        
+
         public boolean getError() {
             return error;
         }
@@ -179,7 +177,7 @@ public class TestProtocol {
     private void sendReceive(String message, String response) throws Throwable {
         TestUtils.sendReceive(client, message, server, response);
     }
-    
+
     @Override
     public String toString() {
         return getClass().getSimpleName();

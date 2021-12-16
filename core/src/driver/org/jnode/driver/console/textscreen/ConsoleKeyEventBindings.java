@@ -17,13 +17,12 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console.textscreen;
 
 import java.awt.event.KeyEvent;
 
 import org.jnode.driver.console.KeyEventBindings;
-
 
 /**
  * KeyEventBinding class for the Console system.
@@ -31,7 +30,7 @@ import org.jnode.driver.console.KeyEventBindings;
  * @author crawley@jnode.org
  */
 public class ConsoleKeyEventBindings extends KeyEventBindings<KeyboardReaderAction> {
-    
+
     /**
      * Create empty bindings.  The default action for characters is to insert
      * the character.  The default action for virtual keys is to ignore the key.

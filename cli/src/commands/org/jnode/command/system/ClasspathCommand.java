@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.PrintWriter;
@@ -43,7 +43,7 @@ public class ClasspathCommand extends AbstractCommand {
     private static final String help_clear = "when set, clear the classpath";
     private static final String help_refresh = "when set, cause classes to be reloaded on next use";
     private static final String help_super = "Print, modify or refresh the classpath";
-    
+
     private final URLArgument argAdd;
     private final FlagArgument argClear;
     private final FlagArgument argRefresh;
@@ -89,7 +89,7 @@ public class ClasspathCommand extends AbstractCommand {
 
     private void addToClassPath(URL url) throws URISyntaxException {
         URL[] urls = getClassLoader().getURLs();
-        
+
         if (urls != null) {
             URI uri = url.toURI();
             URI classLoaderUri;

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.build;
 
 import java.io.File;
@@ -138,7 +138,7 @@ public abstract class AbstractPluginTask extends Task {
             }
         }
     }
-    
+
     /**
      * Gets the file described by the given library
      */
@@ -156,17 +156,17 @@ public abstract class AbstractPluginTask extends Task {
         }
         return f;
     }
-    
+
     private void checkPackageExists(String jarName, final String export, File src) {
         String packageDir = export;
-        
+
         if (!src.isFile()) {
             if (packageDir.endsWith("/*")) {
                 packageDir = packageDir.substring(0, packageDir.length() - 2);
             } else if (packageDir.endsWith("*")) {
                 packageDir = packageDir.substring(0, packageDir.length() - 1);
             }
-            
+
             File f = new File(src, packageDir);
             if (!f.exists()) {
                 f = new File(src, packageDir + ".class");

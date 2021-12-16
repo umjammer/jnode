@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.proclet;
 
 import java.io.InputStream;
@@ -46,9 +46,9 @@ import org.jnode.vm.VmSystem;
  * @author crawley@jnode.org
  */
 public class ProcletIOContext implements IOContext {
-    
+
     public static final int GLOBAL_STREAM_ID = Proclet.NO_SUCH_PID;
-    
+
     public ProcletIOContext() {
     }
 
@@ -81,7 +81,7 @@ public class ProcletIOContext implements IOContext {
                 (ProcletProxyPrintStream) System.err, ps, pid);
         VmSystem.setStaticField(System.class, "err", newProxyStream);
     }
-    
+
     public Map<String, String> getEnv() {
         Proclet proclet = Proclet.currentProcletContext();
         if (proclet != null) {

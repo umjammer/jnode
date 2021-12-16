@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.textscreen;
 
 /**
@@ -110,7 +110,7 @@ public interface TextScreen {
      * @return Returns the virtual screen width.
      */
     public abstract int getWidth();
-    
+
     /**
      * Gets the height of the physical screen in characters.
      *

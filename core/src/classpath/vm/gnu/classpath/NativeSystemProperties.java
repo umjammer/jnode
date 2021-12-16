@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package gnu.classpath;
 
 import java.util.Properties;
@@ -28,14 +28,14 @@ import org.jnode.vm.VmSystem;
  * @see gnu.classpath.SystemProperties
  */
 class NativeSystemProperties {
-    
+
     /**
      * @see gnu.classpath.SystemProperties#doGetProperties()
      */
     private static Properties doGetProperties() {
         return VmSystem.getIOContext().getProperties();
     }
-    
+
     /**
      * @see gnu.classpath.SystemProperties#doSetProperties(java.util.Properties)
      */

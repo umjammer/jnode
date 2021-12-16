@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package java.util;
 
 import org.jnode.vm.VmSystem;
@@ -26,7 +26,7 @@ import org.jnode.vm.VmSystem;
  * @author Levente S\u00e1ntha
  */
 class NativeResourceBundle {
-    
+
     static Class<?>[] getClassContext(){
         //skip the call to VmSystem.getRealClassContext() 
         Class<?>[] context = VmSystem.getRealClassContext();

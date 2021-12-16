@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -24,10 +24,10 @@ import org.jtestserver.common.Status;
 public interface Descriptors {
     public static final MessageDescriptor RUN_MAUVE_TEST = 
         new MessageDescriptor(String.class, "RUN_MAUVE_TEST", String.class);
-    
+
     public static final MessageDescriptor SHUTDOWN = 
         new MessageDescriptor(null, "SHUTDOWN");
-    
+
     public static final MessageDescriptor GET_STATUS = 
         new MessageDescriptor(Status.class, "GET_STATUS");
 }

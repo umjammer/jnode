@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.command;
 
 import java.io.File;
@@ -44,7 +44,7 @@ public class MountCommand extends AbstractCommand {
     private static final String help_super = "Mount a filesystem";
     private static final String fmt_mount = "%s on %s type %s (%s)%n";
     private static final String fmt_err_nofs = "No filesystem found on %s%n";
-    
+
     private final DeviceArgument argDevice 
         = new DeviceArgument("device", Argument.OPTIONAL, help_device, BlockDeviceAPI.class);
     private final FileArgument argDir = new FileArgument("directory", Argument.OPTIONAL, help_dir);

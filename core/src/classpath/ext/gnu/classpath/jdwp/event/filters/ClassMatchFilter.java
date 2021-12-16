@@ -36,7 +36,6 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 
-
 package gnu.classpath.jdwp.event.filters;
 
 import gnu.classpath.jdwp.event.Event;
@@ -95,7 +94,7 @@ public class ClassMatchFilter
       {
 	Class eventClass = (Class) type;
 	String name = eventClass.getName ();
-	
+
 	if (_pattern.startsWith ("*"))
 	  return name.endsWith (_pattern.substring (1));
 	else if (_pattern.endsWith ("*"))

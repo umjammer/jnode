@@ -17,9 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package javax.cache;
 
+package javax.cache;
 
 /**
  * JSR 107 - JCACHE implementation 
@@ -37,43 +36,43 @@ public interface CacheEntry
      * @return
      */
     public int getHits();
-    
+
     /**
      * 
      * @return
      */
     public long getLastAccessTime();
-    
+
     /**
      * 
      * @return
      */
     public long getLastUpdateTime();
-    
+
     /**
      * 
      * @return
      */
     public long getCreationTime();
-    
+
     /**
      * 
      * @return
      */
     public long getExpirationTime();
-    
+
     /**
      * 
      * @return
      */
     public long getVersion();
-    
+
     /**
      * 
      * @return
      */
     public boolean isValid();
-    
+
     /**
      * 
      * @return

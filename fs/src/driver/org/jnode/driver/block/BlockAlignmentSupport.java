@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.block;
 
 import java.io.IOException;
@@ -242,7 +242,6 @@ public class BlockAlignmentSupport implements BlockDeviceAPI {
     private final BlockDeviceAPI parentApi;
     private int alignment;
 
-
     /**
      * Constructor for BlockAlignmentSupport
      *
@@ -257,7 +256,6 @@ public class BlockAlignmentSupport implements BlockDeviceAPI {
         }
     }
 
-
     /**
      * @return The length
      * @throws IOException
@@ -266,7 +264,6 @@ public class BlockAlignmentSupport implements BlockDeviceAPI {
     public long getLength() throws IOException {
         return parentApi.getLength();
     }
-
 
     /**
      * @param offset
@@ -299,7 +296,6 @@ public class BlockAlignmentSupport implements BlockDeviceAPI {
 
         final int type;
 
-
         int n = nA;
         long s = start;
 
@@ -327,7 +323,6 @@ public class BlockAlignmentSupport implements BlockDeviceAPI {
         nB = n;
         lB = nB * alignment;
         sB = s;
-
 
         ByteBuffer buf = null;
 
@@ -408,7 +403,6 @@ public class BlockAlignmentSupport implements BlockDeviceAPI {
 
         final int type;
 
-
         int n = nA;
         long s = start;
 
@@ -436,7 +430,6 @@ public class BlockAlignmentSupport implements BlockDeviceAPI {
         nB = n;
         lB = nB * alignment;
         sB = s;
-
 
         ByteBuffer buf = null;
 
@@ -495,7 +488,6 @@ public class BlockAlignmentSupport implements BlockDeviceAPI {
         buf = null;
     }
 
-
     /**
      * @throws IOException
      * @see BlockDeviceAPI#flush()
@@ -503,7 +495,6 @@ public class BlockAlignmentSupport implements BlockDeviceAPI {
     public void flush() throws IOException {
         parentApi.flush();
     }
-
 
     /**
      * Gets the alignment value
@@ -513,7 +504,6 @@ public class BlockAlignmentSupport implements BlockDeviceAPI {
     public int getAlignment() {
         return alignment;
     }
-
 
     /**
      * @param i

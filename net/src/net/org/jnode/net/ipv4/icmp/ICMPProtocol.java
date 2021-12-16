@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.ipv4.icmp;
 
 import java.net.DatagramSocketImplFactory;
@@ -191,7 +191,6 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
         ipReplyHdr.setTtl(0xFF);
         send(ipReplyHdr, hdr.createReplyHeader(), new SocketBuffer(skbuf));
     }
-
 
     /**
      * @see org.jnode.net.ipv4.IPv4Protocol#getStatistics()

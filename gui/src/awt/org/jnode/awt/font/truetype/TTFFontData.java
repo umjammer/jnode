@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.font.truetype;
 
 import java.awt.Font;
@@ -80,7 +80,6 @@ public abstract class TTFFontData implements FontData {
      * @return the version number
      */
     public abstract int getFontVersion();
-
 
     /**
      * Create a new table with a given table.

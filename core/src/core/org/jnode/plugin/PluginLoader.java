@@ -17,13 +17,12 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.plugin;
 
 import java.nio.ByteBuffer;
 
 import org.jnode.permission.JNodePermission;
-
 
 /**
  * Loader of plugin files.

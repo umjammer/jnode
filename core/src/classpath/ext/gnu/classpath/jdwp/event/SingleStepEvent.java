@@ -36,7 +36,6 @@
  obligated to do so.  If you do not wish to do so, delete this
  exception statement from your version. */
 
-
 package gnu.classpath.jdwp.event;
 
 import gnu.classpath.jdwp.JdwpConstants;
@@ -46,7 +45,6 @@ import gnu.classpath.jdwp.util.Location;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-
 
 /**
  * Notification from the VM that a single step has compleated including the

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.common;
 
 import org.jnode.shell.AbstractCommand;
@@ -35,23 +35,23 @@ public class BasenameCommand extends AbstractCommand {
     private static final String help_name = "Strip this file name of its directory and optionally suffix components.";
     private static final String help_suffix = "Strip this suffix from the file name";
     private static final String help_super = "Strip directory and suffix from files names";
-    
+
     private final StringArgument argName;
     private final StringArgument argSuffix;
-    
+
     public BasenameCommand() {
         super(help_super);
         argName   = new StringArgument("name", Argument.MANDATORY, help_name);
         argSuffix = new StringArgument("suffix", Argument.OPTIONAL, help_suffix);
         registerArguments(argName, argSuffix);
     }
-    
+
     public void execute() {
         String name = argName.getValue();
-        
+
         int start = 0;
         int end = name.length();
-        
+
         boolean allSlashes = true;
         for (char c : name.toCharArray()) {
             if (c != '/') {
@@ -59,7 +59,7 @@ public class BasenameCommand extends AbstractCommand {
                 break;
             }
         }
-        
+
         if (allSlashes) {
             name = "/";
         } else {
@@ -68,7 +68,7 @@ public class BasenameCommand extends AbstractCommand {
             }
             start = name.lastIndexOf('/', end - 1) + 1;
             name = name.substring(start, end);
-            
+
             if (argSuffix.isSet()) {
                 String suffix = argSuffix.getValue();
                 if (!name.equals(suffix) && name.endsWith(suffix)) {

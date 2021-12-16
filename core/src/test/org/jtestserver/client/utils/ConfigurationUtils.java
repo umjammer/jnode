@@ -16,16 +16,16 @@ import java.util.logging.LogManager;
  */
 public class ConfigurationUtils {
     public static final String LOGGING_CONFIG_FILE = "java.util.logging.config.file";
-    
+
     private static final String HOME_DIRECTORY_PROPERTY = "jtestserver.home";
     private static final String DEFAULT_HOME_DIRECTORY_NAME = "home";
-    
+
     private static final String CONFIG_DIRECTORY_NAME = "config";
     private static final String CONFIG_FILE_NAME = "config.properties";
 
     private static boolean INIT = false;
     private static File HOME = null;
-    
+
     /**
      * Try to find the home directory defined as a directory that contains a sub-directory named config, 
      * which contains a file named config.properties.<br> 
@@ -43,7 +43,7 @@ public class ConfigurationUtils {
     public static File getHomeDirectory() {        
         return HOME;
     }
-    
+
     /**
      * Get the configuration file.
      * @return
@@ -62,7 +62,7 @@ public class ConfigurationUtils {
         if (!INIT) {
             // search home directory 
             HOME = searchHomeDirectory();
-            
+
             // init logging
             System.setProperty(LOGGING_CONFIG_FILE, getLoggingConfigFile());
             try {
@@ -74,7 +74,7 @@ public class ConfigurationUtils {
             }
         }
     }
-    
+
     /**
      * Get the java.util.logging configuration file.
      * @return The java.util.logging configuration file.
@@ -83,7 +83,7 @@ public class ConfigurationUtils {
         File f = new File(getConfigurationDirectory(), "logging.config.properties");
         return f.getAbsolutePath();
     }
-    
+
     /**
      * Indicates if the given file is a valid home directory.
      * @param f file to test
@@ -98,10 +98,10 @@ public class ConfigurationUtils {
                 valid = configFile.exists() && configFile.isFile() && configFile.canRead();
             }
         }
-        
+
         return valid;
     }
-    
+
     /**
      * Indicates if the given file is a valid directory.
      * @param f file to test
@@ -126,7 +126,7 @@ public class ConfigurationUtils {
      */
     private static File searchHomeDirectory() {
         File home = null;
-        
+
         // try from the system property
         String value = System.getProperty(HOME_DIRECTORY_PROPERTY);
         if ((value != null) && !value.trim().isEmpty()) {
@@ -137,7 +137,7 @@ public class ConfigurationUtils {
                 System.out.println("using home directory from system property : " + home.getAbsolutePath());
             }
         }
-        
+
         if (home == null) {
             home = new File(DEFAULT_HOME_DIRECTORY_NAME); 
             if (!isValidHomeDirectory(home)) {
@@ -146,28 +146,28 @@ public class ConfigurationUtils {
                 System.out.println("using current directory as home : " + home.getAbsolutePath());
             }
         }
-        
+
         // try from the classpath
         if (home == null) {
             URL myURL = ConfigurationUtils.class.getResource(ConfigurationUtils.class.getSimpleName() + ".class");
-            
+
             File f = new File(myURL.getFile());
             while (!f.getAbsolutePath().endsWith("/jtestserver") && !f.getAbsolutePath().isEmpty()) {
                 f = f.getParentFile();
             }
             home = new File(f, "home");
-            
+
             if (!isValidHomeDirectory(home)) {
                 home = null;
             } else {
                 System.out.println("using home directory from classpath : " + home.getAbsolutePath());
             }
         }
-        
+
         if (home == null) {
             throw new RuntimeException("unable to find a valid home directory");
         }
-            
+
         return home;
     }
 }

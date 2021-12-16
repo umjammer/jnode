@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.classmgr;
 
 import java.nio.ByteBuffer;
@@ -36,12 +36,12 @@ public final class VmByteCode extends AbstractCode {
      * The method i'm a part of
      */
     private final VmMethod method;
-    
+
     /**
      * The constant pool where indexes in my bytecode refer to
      */
     private final VmCP cp;
-    
+
     /**
      * Number of local variables for this method
      */
@@ -50,27 +50,27 @@ public final class VmByteCode extends AbstractCode {
      * Max. number of slots taken by this method on the stack
      */
     private char maxStack;
-    
+
     /**
      * Bytecode of this method. This is a ByteBuffer or byte[]
      */
     private Object bytecode;
-    
+
     /**
      * Exception handler table
      */
     private VmInterpretedExceptionHandler[] eTable;
-    
+
     /**
      * Line number table
      */
     private VmLineNumberMap lnTable;
-    
+
     /**
      * Local variable table
      */
     private final VmLocalVariableTable lvTable;
-    
+
     /**
      * Data used by the native code compilers
      */

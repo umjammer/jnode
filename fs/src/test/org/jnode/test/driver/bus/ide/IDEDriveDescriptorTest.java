@@ -17,16 +17,17 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.driver.bus.ide;
 
 import org.jnode.driver.bus.ide.IDEDriveDescriptor;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class IDEDriveDescriptorTest {
     // The ide descriptor.
@@ -100,17 +101,18 @@ public class IDEDriveDescriptorTest {
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000};
 
-
-    @Before
+    @BeforeEach
     public void setUp() {
         ideDescriptor = new IDEDriveDescriptor(ide, true);
         cdromIdeDescriptor = new IDEDriveDescriptor(cdrom, true);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructorDataWrongLength() {
-        int[] data = new int[125];
-        IDEDriveDescriptor wrongIdeDescriptor = new IDEDriveDescriptor(data, true);
+        assertThrows(IllegalArgumentException.class, () -> {
+            int[] data = new int[125];
+            IDEDriveDescriptor wrongIdeDescriptor = new IDEDriveDescriptor(data, true);
+        });
     }
 
     @Test
@@ -141,33 +143,33 @@ public class IDEDriveDescriptorTest {
     @Test
     public void testSupports48bitAddressing() {
         boolean result = ideDescriptor.supports48bitAddressing();
-        assertTrue("Must support 48bits addressing", result);
+        assertTrue(result, "Must support 48bits addressing");
     }
 
     @Test
     public void testSupportsLBA() {
         boolean result = ideDescriptor.supportsLBA();
-        assertTrue("Must support LBA", result);
+        assertTrue(result, "Must support LBA");
     }
 
     @Test
     public void testDMA() {
         boolean result = ideDescriptor.supportsDMA();
-        assertTrue("Must support DMA", result);
+        assertTrue(result, "Must support DMA");
     }
 
     @Test
     public void testIsATA() {
         boolean result = ideDescriptor.isAta();
-        assertTrue("Must be ATA drive", result);
+        assertTrue(result, "Must be ATA drive");
     }
 
     @Test
     public void testIsRemovable() {
         boolean result = ideDescriptor.isRemovable();
-        assertFalse("Must not be a removable device", result);
+        assertFalse(result, "Must not be a removable device");
         result = cdromIdeDescriptor.isRemovable();
-        assertTrue("Must be a removable device", result);
+        assertTrue(result, "Must be a removable device");
     }
 
 }

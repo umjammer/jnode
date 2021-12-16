@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.BufferedReader;
@@ -41,23 +41,23 @@ import org.jnode.shell.syntax.StringArgument;
  * @author chris boertien
  */
 public class PasteCommand extends AbstractCommand {
-    
+
     private static final String help_files = "list of files to be operated on";
     private static final String help_serial = "if set, paste files one at a time, instead of in parallel";
     private static final String help_delims = "use the supplied characters as delimiters instead of <TAB>";
     private static final String help_super = "merge lines of files";
-    
+
     private final FileArgument argFiles;
     private final FlagArgument argSerial;
     private final StringArgument argDelims;
     private PrintWriter out;
-    
+
     private List<File> files;
     private char[] delims;
     private int delimPos;
     private int rc = 0;
     private boolean serial;
-    
+
     public PasteCommand() {
         super(help_super);
         int filesFlags = Argument.MULTIPLE | Argument.EXISTING | FileArgument.HYPHEN_IS_SPECIAL;
@@ -66,7 +66,7 @@ public class PasteCommand extends AbstractCommand {
         argDelims = new StringArgument("delims", 0, help_delims);
         registerArguments(argFiles, argSerial, argDelims);
     }
-    
+
     public void execute() {
         out = getOutput().getPrintWriter();
         parseOptions();
@@ -80,7 +80,7 @@ public class PasteCommand extends AbstractCommand {
             exit(rc);
         }
     }
-    
+
     private void pasteParallel() {
         List<BufferedReader> readers = new ArrayList<BufferedReader>(files.size());
         List<String> names = new ArrayList<String>(files.size());
@@ -112,7 +112,7 @@ public class PasteCommand extends AbstractCommand {
             }
         }
     }
-    
+
     private void pasteSerial() {
         BufferedReader reader = null;
         for (File file : files) {
@@ -134,7 +134,7 @@ public class PasteCommand extends AbstractCommand {
             }
         }
     }
-    
+
     private int readLines(List<String> lines, List<BufferedReader> readers) {
         int count = 0;
         String line = null;
@@ -152,7 +152,7 @@ public class PasteCommand extends AbstractCommand {
         }
         return count;
     }
-    
+
     private void writeLines(List<String> lines, int max) {
         boolean first = true;
         for (int i = 0; i < max; i++) {
@@ -165,13 +165,13 @@ public class PasteCommand extends AbstractCommand {
         out.println();
         delimPos = 0;
     }
-    
+
     private char nextDelim() {
         char c = delims[delimPos++];
         if (delimPos == delims.length) delimPos = 0;
         return c;
     }
-    
+
     private void parseOptions() {
         if (argFiles.isSet()) {
             files = Arrays.asList(argFiles.getValues());
@@ -179,7 +179,7 @@ public class PasteCommand extends AbstractCommand {
             files = new ArrayList<File>(1);
             files.add(new File("-"));
         }
-        
+
         if (argDelims.isSet()) {
             delims = argDelims.getValue().toCharArray();
         } else {

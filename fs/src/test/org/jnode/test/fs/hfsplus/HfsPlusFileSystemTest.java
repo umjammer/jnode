@@ -17,32 +17,36 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.hfsplus;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.jnode.driver.Device;
 import org.jnode.driver.block.FileDevice;
+import org.jnode.fs.FSDirectory;
 import org.jnode.fs.hfsplus.HFSPlusParams;
 import org.jnode.fs.hfsplus.HfsPlusFileSystem;
 import org.jnode.fs.hfsplus.HfsPlusFileSystemType;
 import org.jnode.fs.hfsplus.SuperBlock;
-import org.jnode.test.fs.DataStructureAsserts;
-import org.jnode.fs.FSDirectory;
-import org.jnode.test.fs.FileSystemTestUtils;
 import org.jnode.fs.service.FileSystemService;
+import org.jnode.test.fs.DataStructureAsserts;
+import org.jnode.test.fs.FileSystemTestUtils;
 import org.jnode.test.support.TestUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HfsPlusFileSystemTest {
 
     private Device device;
     private FileSystemService fss;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         // create test device.
         device = createTestDisk(false);
@@ -257,8 +261,8 @@ public class HfsPlusFileSystemTest {
         params.setJournalSize(HFSPlusParams.DEFAULT_JOURNAL_SIZE);
         fs.create(params);
         SuperBlock vh = fs.getVolumeHeader();
-        Assert.assertEquals(SuperBlock.HFSPLUS_SUPER_MAGIC, vh.getMagic());
-        Assert.assertEquals(4096, vh.getBlockSize());
+        assertEquals(SuperBlock.HFSPLUS_SUPER_MAGIC, vh.getMagic());
+        assertEquals(4096, vh.getBlockSize());
 
     }
 
@@ -277,16 +281,16 @@ public class HfsPlusFileSystemTest {
         fs.read();
         fs.createRootEntry();
         FSDirectory root = fs.getRootEntry().getDirectory();
-        Assert.assertFalse("Must be empty", root.iterator().hasNext());
+        assertFalse(root.iterator().hasNext(), "Must be empty");
         root.addDirectory("test");
         fs.flush();
         fs.close();
         fs = new HfsPlusFileSystemType().create(device, false);
         fs.read();
-        Assert.assertEquals(1, fs.getVolumeHeader().getFolderCount());
+        assertEquals(1, fs.getVolumeHeader().getFolderCount());
         fs.createRootEntry();
         root = fs.getRootEntry().getDirectory();
-        Assert.assertTrue("Must contains one directory", root.iterator().hasNext());
+        assertTrue(root.iterator().hasNext(), "Must contains one directory");
     }
 
     private Device createTestDisk(boolean formatted) throws IOException {

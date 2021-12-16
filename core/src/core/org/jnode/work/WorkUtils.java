@@ -17,14 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.work;
 
 import javax.naming.NameNotFoundException;
 
 import org.jnode.bootlog.BootLogInstance;
 import org.jnode.naming.InitialNaming;
-
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)

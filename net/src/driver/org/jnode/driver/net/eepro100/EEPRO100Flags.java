@@ -17,12 +17,11 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.net.eepro100;
 
 import org.jnode.driver.net.ethernet.spi.Flags;
 import org.jnode.plugin.ConfigurationElement;
-
 
 /**
  * @author flesire

@@ -17,13 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.driver;
 
 import java.io.IOException;
 import java.util.Collection;
+
 import org.apache.log4j.Logger;
-import org.jmock.MockObjectTestCase;
 import org.jnode.driver.Device;
 import org.jnode.driver.DeviceAlreadyRegisteredException;
 import org.jnode.driver.DeviceException;
@@ -58,7 +58,7 @@ public class BlockDeviceAPIContext implements Context {
         return name;
     }
 
-    public void init(TestConfig config, MockObjectTestCase testCase)
+    public void init(TestConfig config, Object testCase)
         throws Exception {
         BlockDeviceAPITestConfig cfg = (BlockDeviceAPITestConfig) config;
         partitions = cfg.getPartitions();

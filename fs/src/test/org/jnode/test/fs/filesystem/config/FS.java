@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.filesystem.config;
 
 import java.io.IOException;
@@ -57,11 +57,11 @@ public class FS {
 
     public FileSystem<?> format(Device device) throws FileSystemException {
         FileSystem<?> fs = null;
-        
+
         if (formatter != null) {
             formatter.format(device);
         }
-        
+
         return fs;
     }
 

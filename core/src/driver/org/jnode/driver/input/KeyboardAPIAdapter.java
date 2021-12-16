@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.input;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class KeyboardAPIAdapter implements KeyboardAPI {
      * All listeners
      */
     private final ArrayList<KeyboardListener> listeners = new ArrayList<KeyboardListener>();
-    
+
     /**
      * The interpreter
      */

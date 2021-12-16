@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.help;
 
 import java.io.PrintWriter;
@@ -61,7 +61,7 @@ public abstract class HelpFactory {
         return PluginUtils.getLocalizedMessage(HelpFactory.class, 
                 BUNDLE_NAME, messageKey);
     }
-    
+
     /**
      * Obtain a CommanHelp object for a given command alias and its resolved CommandInfo.
      * 
@@ -72,7 +72,7 @@ public abstract class HelpFactory {
      */
     public abstract Help getHelp(
             String alias, CommandInfo cmdInfo) throws HelpException;
-    
+
     // FIXME ... the remaining API methods are historical, and should not be used outside of
     // the help package and its implementation packages.
 

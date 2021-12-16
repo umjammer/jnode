@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.jfat;
 
 import java.io.IOException;
@@ -35,7 +35,6 @@ import org.jnode.partitions.PartitionTableEntry;
 import org.jnode.partitions.ibm.IBMPartitionTableEntry;
 import org.jnode.naming.InitialNaming;
 import javax.naming.NameNotFoundException;
-
 
 /**
  * @author gvt
@@ -76,7 +75,7 @@ public class FatFileSystemFormatter extends Formatter<FatFileSystem> {
                 numberOfSectors = api.getLength() / sectorSize;
                 offset = 0;
             }
-            
+
             /*
              * Check the Disks Availability. low end limit - 65536 sectors I
              * suspect that most FAT32 implementations would mount this volume
@@ -85,7 +84,7 @@ public class FatFileSystemFormatter extends Formatter<FatFileSystem> {
             if (numberOfSectors < 65536) {
                 log.error("This drive is too small for FAT32 - there must be at least 64K clusters\n");
             }
-            
+
             /*
              * This is a more fundamental limitation on FAT32 - the total sector
              * count in the root dir 32bit. With a bit of creativity, FAT32

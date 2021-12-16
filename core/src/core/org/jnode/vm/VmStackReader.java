@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm;
 
 import org.jnode.annotation.Internal;
@@ -74,7 +74,7 @@ public abstract class VmStackReader extends VmSystemObject {
                 // for a 'native' method call is on the stack.  A panic is not a 
                 // good idea.  It is better to generate a stack trace with a missing
                 // method name.)
-                
+
                 // Unsafe.die("Unknown ccid found on stack");
                 return null;
             } else {

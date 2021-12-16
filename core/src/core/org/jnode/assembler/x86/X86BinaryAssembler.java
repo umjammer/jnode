@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.assembler.x86;
 
 import java.io.IOException;
@@ -58,7 +58,6 @@ import static org.jnode.assembler.x86.X86Register.SS;
  * @author Patrik Reali (patrik_reali@users.sourceforge.net)
  */
 public class X86BinaryAssembler extends X86Assembler implements X86Operation {
-
 
     static final class Key {
 
@@ -467,7 +466,6 @@ public class X86BinaryAssembler extends X86Assembler implements X86Operation {
     }
 
     */
-
 
     private final void ensureSize(int extra) {
         if (m_used + extra >= dataLength) {
@@ -1679,7 +1677,6 @@ public class X86BinaryAssembler extends X86Assembler implements X86Operation {
         write8(0x77);
     }
 
-
     /**
      * Create a fadd dword [srcReg+srcDisp]
      *
@@ -2152,7 +2149,6 @@ public class X86BinaryAssembler extends X86Assembler implements X86Operation {
         write32(disp);
     }
 
-
     /**
      * Create a inc size [dstReg+disp]
      *
@@ -2207,7 +2203,6 @@ public class X86BinaryAssembler extends X86Assembler implements X86Operation {
             write32(dstDisp);
         }
     }
-
 
     /**
      * Create a int vector
@@ -2295,7 +2290,6 @@ public class X86BinaryAssembler extends X86Assembler implements X86Operation {
         }
     }
 
-
     //TODO this method does not handle the forward jumps correctly, needs further work.
     //Also the general purpose version of the method writeJCC(Lable lebal, int jumpcode)
     //for handling byte sized target for the jump would renders this method unnecessary.
@@ -2328,7 +2322,6 @@ public class X86BinaryAssembler extends X86Assembler implements X86Operation {
             write8(offset);
         }
     }
-
 
     /**
      * Create a relative jump to a given label
@@ -2475,7 +2468,6 @@ public class X86BinaryAssembler extends X86Assembler implements X86Operation {
 
             writeModRMRREXPrefix(operandSize, rm, reg);
             write8(opcode);
-
 
             //writeModRM(rm.getNr() & 7, disp, reg & 7);
         }
@@ -3119,7 +3111,6 @@ public class X86BinaryAssembler extends X86Assembler implements X86Operation {
         write8(0x8C);
         writeModRR(dstReg.getNr() & 7, srcReg.getNr() & 7);
     }
-
 
     /**
      * Create a mov <dstReg>, <srcReg>
@@ -5130,7 +5121,6 @@ public class X86BinaryAssembler extends X86Assembler implements X86Operation {
     public boolean isUByte(int value) {
         return byteValueEnabled && X86Utils.isUByte(value);
     }
-
 
     public boolean isByteValueEnabled() {
         return byteValueEnabled;

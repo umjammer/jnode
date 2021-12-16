@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.input;
 
 import java.awt.event.InputEvent;
@@ -36,7 +36,7 @@ public abstract class AbstractKeyboardInterpreter implements KeyboardInterpreter
     protected int lastDeadVK = -1;
 
     protected final Keys keys;
-    
+
     // FIXME this is an evil hack to mitigate the performance issues that
     // result from the interpretExtendedScanCode's inappropriate use of exceptions.
     private final UnsupportedKeyException unsupportedKeyException = new UnsupportedKeyException();
@@ -86,7 +86,6 @@ public abstract class AbstractKeyboardInterpreter implements KeyboardInterpreter
                 vk = keys.getKey(scancode).getLowerVirtuelKey();
             }
         }
-
 
         adjustFlags(vk, released);
 
@@ -221,7 +220,6 @@ public abstract class AbstractKeyboardInterpreter implements KeyboardInterpreter
         return vk;
     }
 
-
     /**
      * Method interpretExtendedScanCode this method sould be used to handle the dead keys and other special keys
      *
@@ -334,8 +332,5 @@ public abstract class AbstractKeyboardInterpreter implements KeyboardInterpreter
         return this.flags;
     }
 
-
     protected abstract void initKeys(Keys keys);
 }
-
-

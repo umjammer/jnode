@@ -17,13 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.hfsplus;
 
 import org.jnode.fs.hfsplus.HfsUnicodeString;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HfsUnicodeStringTest {
     private byte[] STRING_AS_BYTES_ARRAY =

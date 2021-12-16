@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package java.net;
 
 import java.io.Serializable;
@@ -79,7 +79,7 @@ final class VMInetAddress implements Serializable {
         // Lookup the hostname
         return VMNetUtils.getAPI().getHostByName(hostname);
     }
-    
+
     /**
      * Test if the hostname is an IP address and if so returns the address.
      * @param hostname
@@ -100,7 +100,7 @@ final class VMInetAddress implements Serializable {
             return null;
         }
     }
-    
+
     /**
      * Parse a string that is supported to b an unsigned byte.
      * @param str

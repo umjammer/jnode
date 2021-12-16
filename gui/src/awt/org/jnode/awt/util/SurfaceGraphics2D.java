@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.util;
 
 import java.awt.AlphaComposite;
@@ -1053,7 +1053,6 @@ todo attempt to fix metal ocean slider painting
         ColorModel scm = surface.getColorModel();
         PaintContext pc = paint.createContext(scm, new Rectangle(0, 0, 800, 600),
             new Rectangle(0, 0, 800, 600), new AffineTransform(), renderingHints);
-
 
         Raster raster = pc.getRaster(x, y, width, height);
 

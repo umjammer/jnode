@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.service.def;
 
 import java.util.ArrayList;
@@ -62,7 +62,6 @@ final class FileSystemTypeManager implements ExtensionPointListener {
         refreshFileSystemTypes();
     }
 
-    
     /**
      * Gets all registered file system types
      * 
@@ -71,7 +70,7 @@ final class FileSystemTypeManager implements ExtensionPointListener {
     public synchronized Collection<FileSystemType<?>> fileSystemTypes() {
         return new ArrayList<FileSystemType<?>>(types.values());
     }
-   
+
     /**
      * Get a registered filesystemType by its name
      * 

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.jfat;
 
 import java.io.IOException;
@@ -25,7 +25,6 @@ import java.nio.charset.CharacterCodingException;
 import java.util.Arrays;
 import org.apache.log4j.Logger;
 import org.jnode.util.NumberUtils;
-
 
 /**
  * @author gvt

@@ -141,7 +141,6 @@ public class DefaultComboBoxModel
 	super.fireIntervalRemoved(this, 0, size - 1);
     }
 
-
     /** Insert an item at the specified index.
      */
     public void insertElementAt(Object obj_, int index_) {

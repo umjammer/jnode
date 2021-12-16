@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.common;
 
 import org.jnode.naming.InitialNaming;
@@ -31,7 +31,7 @@ import org.jnode.shell.ShellManager;
 public class ExitCommand extends AbstractCommand {
 
     private static final String help_super = "Exit the current shell";
-    
+
     public ExitCommand() {
         super(help_super);
     }

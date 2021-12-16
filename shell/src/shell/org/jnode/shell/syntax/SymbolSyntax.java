@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import org.jnode.nanoxml.XMLElement;
@@ -29,9 +29,9 @@ import org.jnode.nanoxml.XMLElement;
  * @author crawley@jnode.org
  */
 public class SymbolSyntax extends Syntax {
-    
+
     private final String symbol;
-    
+
     public SymbolSyntax(String label, String symbol, String description) {
         super(label, description);
         this.symbol = symbol;
@@ -39,7 +39,7 @@ public class SymbolSyntax extends Syntax {
             throw new IllegalArgumentException("empty symbol");
         }
     }
-    
+
     @Override
     public String format(ArgumentBundle bundle) {
         return symbol;
@@ -61,6 +61,5 @@ public class SymbolSyntax extends Syntax {
     public String toString() {
         return "SymbolSyntax{" + super.toString() + ",symbol=" + symbol + "}";
     }
-
 
 }

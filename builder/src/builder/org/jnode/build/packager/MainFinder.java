@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.build.packager;
 
 import java.io.File;
@@ -32,10 +32,11 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import org.objectweb.asm.Attribute;
-import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.CodeVisitor;
+import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 /**
  * Class for searching main methods in a jar.
@@ -44,7 +45,7 @@ import org.objectweb.asm.CodeVisitor;
  *
  */
 public class MainFinder {
-    
+
     /**
      * Search for the main classes in the jars/resources.
      * Starts by looking in the jars manifests and, if nothing is found,
@@ -57,28 +58,28 @@ public class MainFinder {
      */
     public static List<String> searchMain(File userJar) throws FileNotFoundException, IOException {
         List<String> mainList = new ArrayList<String>();
-        
+
         JarFile jarFile = null;
         try {
             jarFile = new JarFile(userJar);
-            
+
             // try to find the main class from the manifest
             Object value = null;
-            
+
             // do we have a manifest ?
             if (jarFile.getManifest() != null) {
                 value = jarFile.getManifest().getMainAttributes().get(Attributes.Name.MAIN_CLASS);
                 if (value == null) {
                     String name = Attributes.Name.MAIN_CLASS.toString();
                     final Attributes attr = jarFile.getManifest().getAttributes(name);
-                    
+
                     // we have a manifest but do we have a main class defined inside ?
                     if (attr != null) {
                         value = attr.get(Attributes.Name.MAIN_CLASS);
                     }
                 }
             }
-            
+
             if (value != null) {
                 mainList.add(String.valueOf(value));
             } else {
@@ -88,7 +89,7 @@ public class MainFinder {
                     final JarEntry entry = e.nextElement(); 
                     final String name = entry.getName();
                     InputStream is = null;
-                    
+
                     try {
                         if (name.endsWith(".class")) {
                             String className = name.substring(0, name.length() - ".class".length());
@@ -122,16 +123,16 @@ public class MainFinder {
                 jarFile.close();
             }
         }
-        
+
         return mainList;
     }
-    
+
     private static boolean isMainClass(InputStream classStream, JarEntry entry, String className) 
         throws ClassNotFoundException, SecurityException, NoSuchMethodException, IOException {
         ClassReader cr = new ClassReader(classStream);
         MainClassVisitor mcv = new MainClassVisitor(NullClassVisitor.INSTANCE);
-        cr.accept(mcv, true);
-        
+        cr.accept(mcv, ClassReader.SKIP_DEBUG);
+
         return mcv.hasMainMethod();
     }
 
@@ -141,37 +142,41 @@ public class MainFinder {
      * @author fabien
      *
      */
-    static class MainClassVisitor extends ClassAdapter {
+    static class MainClassVisitor extends ClassVisitor {
         private boolean mainMethod = false;
-        
+
         public MainClassVisitor(ClassVisitor visitor) {
-            super(visitor);
+            super(Opcodes.V1_5, visitor);
         }
 
         @Override
-        public CodeVisitor visitMethod(int access, String name, String signature, String[] exceptions,
-                Attribute arg4) {
+        public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
             if ("main".equals(name) && "([Ljava/lang/String;)V".equals(signature)) {
                 mainMethod = true;
             }
             return null;
         }
-        
+
         public boolean hasMainMethod() {
             return mainMethod;
         }
     }
-    
+
     /**
      * ClassVisitor doing nothing but that's needed by MainClassVisitor constructor.
      * @author fabien
      *
      */
-    static class NullClassVisitor implements ClassVisitor {
+    static class NullClassVisitor extends ClassVisitor {
+
+        public NullClassVisitor() {
+            super(Opcodes.V1_5);
+        }
+
         private static final NullClassVisitor INSTANCE = new NullClassVisitor();
-        
+
         @Override
-        public void visit(int arg0, int arg1, String arg2, String arg3, String[] arg4, String arg5) {
+        public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         }
 
         @Override
@@ -183,7 +188,8 @@ public class MainFinder {
         }
 
         @Override
-        public void visitField(int arg0, String arg1, String arg2, Object arg3, Attribute arg4) {
+        public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
+            return null;
         }
 
         @Override
@@ -191,10 +197,8 @@ public class MainFinder {
         }
 
         @Override
-        public CodeVisitor visitMethod(int arg0, String arg1, String arg2, String[] arg3,
-                Attribute arg4) {
+        public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
             return null;
         }
-        
     }
 }

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.input;
 
 /**
@@ -30,7 +30,7 @@ package org.jnode.driver.input;
  * @author crawley@jnode.org
  */
 public interface KeyboardInterpreter {
-    
+
     /**
      * A factory API for keyboard interpreters
      */
@@ -39,7 +39,7 @@ public interface KeyboardInterpreter {
          * Create a new interpreter instance.
          */
         public KeyboardInterpreter create() throws KeyboardInterpreterException;
-        
+
         /**
          * Provide a short description for the layout.
          */

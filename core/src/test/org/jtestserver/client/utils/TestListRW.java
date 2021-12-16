@@ -1,7 +1,7 @@
 /*
 
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -50,12 +50,12 @@ public class TestListRW {
      * My logger
      */
     private static final Logger LOGGER = Logger.getLogger(TestListRW.class.getName());
-    
+
     /**
      * Configuration used to filter the list of lines.
      */
     private final Config config;
-    
+
     /**
      * Create an instance from the given configuration.
      * @param config
@@ -63,7 +63,7 @@ public class TestListRW {
     public TestListRW(Config config) {
         this.config = config;
     }
-    
+
     /**
      * Read the mauve tests list but don't take lines containing '[' 
      * and also apply additional filters specified in configuration. 
@@ -82,11 +82,11 @@ public class TestListRW {
                     list.add(line);
                 }
             }
-            
+
         });
         return list;
     }
-    
+
     /**
      * Read a list from the given file but don't take lines starting with '#' (comments) 
      * and also apply additional filters specified in configuration.
@@ -96,7 +96,7 @@ public class TestListRW {
      */
     public List<String> readList(File file) throws IOException {
         List<String> list = new ArrayList<String>();
-        
+
         InputStream in = new FileInputStream(file);
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         String test = null;
@@ -106,10 +106,10 @@ public class TestListRW {
             }
         }
         LOGGER.info("read " + list.size() + " lines from " + file.getAbsolutePath());
-        
+
         return list;
     }
-    
+
     /**
      * Check if a test should be kept or not according to the filters specified 
      * in the configuration.
@@ -118,14 +118,14 @@ public class TestListRW {
      */
     public boolean acceptTest(String test) {
         boolean accept = true;
-        
+
         for (String exclude : config.getExcludingFilters()) {
             if (test.contains(exclude)) {
                 accept = false;
                 break;
             }
         }
-        
+
         return accept;
     }
 

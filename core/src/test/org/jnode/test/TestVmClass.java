@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test;
 
 import java.net.URL;
@@ -29,17 +29,20 @@ import org.jnode.vm.VmSystemClassLoader;
 import org.jnode.vm.classmgr.VmClassLoader;
 import org.jnode.vm.classmgr.VmType;
 import org.jnode.vm.x86.VmX86Architecture32;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * <description>
- * 
+ *
  * @author epr
  */
 // FIXME
-@Ignore
+@Disabled
 public class TestVmClass {
 
     private VmClassLoader clc;
@@ -47,7 +50,7 @@ public class TestVmClass {
     /**
      * @see junit.framework.TestCase#setUp()
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         VmSystemClassLoader bib =
                 new VmSystemClassLoader(new URL("file:///" + System.getProperty("classes.dir") +
@@ -56,7 +59,7 @@ public class TestVmClass {
         clc = bib;
     }
 
-    @org.junit.Test
+    @Test
     public void testAssignableFrom() throws Exception {
 
         testAssignableFrom(Map.class, HashMap.class);
@@ -82,19 +85,15 @@ public class TestVmClass {
                 "\tarray " + vmC2.isArray());
 
         if (c1.isAssignableFrom(c2)) {
-            Assert.assertTrue(c1.getName() + " is assignableFrom " + c2.getName(),
-                    vmC1.isAssignableFrom(vmC2));
+            assertTrue(vmC1.isAssignableFrom(vmC2), c1.getName() + " is assignableFrom " + c2.getName());
         } else {
-            Assert.assertFalse(c1.getName() + " is not assignableFrom " + c2.getName(),
-                    vmC1.isAssignableFrom(vmC2));
+            assertFalse(vmC1.isAssignableFrom(vmC2), c1.getName() + " is not assignableFrom " + c2.getName());
         }
 
         if (c2.isAssignableFrom(c1)) {
-            Assert.assertTrue(c2.getName() + " is assignableFrom " + c1.getName(),
-                    vmC2.isAssignableFrom(vmC1));
+            assertTrue(vmC2.isAssignableFrom(vmC1), c2.getName() + " is assignableFrom " + c1.getName());
         } else {
-            Assert.assertFalse(c2.getName() + " is not assignableFrom " + c1.getName(),
-                    vmC2.isAssignableFrom(vmC1));
+            assertFalse(vmC2.isAssignableFrom(vmC1), c2.getName() + " is not assignableFrom " + c1.getName());
         }
     }
 

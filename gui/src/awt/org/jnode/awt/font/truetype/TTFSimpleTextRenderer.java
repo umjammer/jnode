@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.font.truetype;
 
 import java.awt.Color;
@@ -85,11 +85,11 @@ public class TTFSimpleTextRenderer implements TextRenderer {
 
             final AffineTransform tx2 = new AffineTransform();            
             final double scale = fontSize / (-hheadTable.getDescent() + ascent);
-            
+
             tx2.translate(x, y + fontSize);
             tx2.scale(scale, -scale);
             tx2.translate(0, ascent);
-            
+
             for (int i = 0; i < text.length(); i++) {
                 // get the index for the needed glyph
                 final char character = text.charAt(i);

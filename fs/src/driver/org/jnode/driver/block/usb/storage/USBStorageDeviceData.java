@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.block.usb.storage;
 
 import org.apache.log4j.Logger;
@@ -106,7 +106,6 @@ final class USBStorageDeviceData implements USBStorageConstants {
             }
         }
 
-
     }
 
     /**
@@ -169,7 +168,6 @@ final class USBStorageDeviceData implements USBStorageConstants {
      *
      * @param dev
      */
-
 
     /**
      * @return Returns the bulkInEndPoint.

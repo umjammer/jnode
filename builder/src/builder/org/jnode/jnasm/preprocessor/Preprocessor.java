@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.jnasm.preprocessor;
 
 import java.io.BufferedInputStream;
@@ -109,7 +109,6 @@ public abstract class Preprocessor {
         sw.flush();
         return sw.toString();
     }
-
 
     public void print(Writer w) {
         try {

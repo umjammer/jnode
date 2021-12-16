@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.jpartition.consoleview;
 
 import java.io.IOException;
@@ -168,18 +168,18 @@ class ConsoleView extends Component {
                 view.removePartition(partition);
             }
         };
-        
+
         private String label;
-        
+
         private Operation(String label) {
             this.label = label;
         }
-        
+
         @Override
         public String toString() {
             return label;
         }
-        
+
         public abstract void execute(ConsoleView view, Partition partition) throws Exception;
     }
     private void modifyPartition(Partition partition) throws Exception {

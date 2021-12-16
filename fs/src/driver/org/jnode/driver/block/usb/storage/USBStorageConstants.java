@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.block.usb.storage;
 
 import org.jnode.driver.bus.usb.USBConstants;
@@ -65,13 +65,11 @@ public interface USBStorageConstants extends USBConstants {
     public static final int US_BULK_FLAG_OUT = 0x00;
     public static final int US_BULK_FLAG_IN = 0x80;
 
-
     public static final int US_BULK_CS_SIGN = 0x53425355;    /*spells out USBS */
     public static final int US_BULK_CS_WRAP_LEN = 13;
 
     public static final int US_BULK_CS_CMD_NO_ERROR = 0x00; // No error occurs
     public static final int US_BULK_CS_CMD_FAILED = 0x01;
     public static final int US_BULK_CS_CMD_WRONG_SEQUENCE = 0x02;
-
 
 }

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import org.jnode.shell.AbstractCommand;
@@ -29,7 +29,7 @@ import org.jnode.vm.VmSystem;
  * @author Ewout Prangsma (epr@users.sourceforge.net)
  */
 public class HaltCommand extends AbstractCommand {
-    
+
     private static final String help_super = "Stop all services and devices, so that the computer can be turned off";
     public HaltCommand() {
         super(help_super);

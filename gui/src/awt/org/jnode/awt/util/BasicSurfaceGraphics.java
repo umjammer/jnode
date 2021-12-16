@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.util;
 
 import java.awt.Color;
@@ -134,7 +134,6 @@ public class BasicSurfaceGraphics extends BasicGraphics {
 
         if (dr.x != sr.x + dx) sr.x = dr.x - dx;
         if (dr.y != sr.y + dy) sr.y = dr.y - dy;
-
 
         surface.copyArea(sr.x, sr.y, w, h, dx, dy);
     }
@@ -304,7 +303,6 @@ public class BasicSurfaceGraphics extends BasicGraphics {
         if (dx1 == dx2 || dy1 == dy2 || sx1 == sx2 || sy1 == sy2)
             return true;
 
-
         final int widthImage;
         final int heightImage;
         final int xImage;
@@ -344,7 +342,6 @@ public class BasicSurfaceGraphics extends BasicGraphics {
             heightDest = dy1 - dy2 + 1;
             yDest = dy2;
         }
-
 
         final Image imageArea;
         if (img.getWidth(observer) == widthImage && img.getHeight(observer) == heightImage) {
@@ -747,7 +744,6 @@ public class BasicSurfaceGraphics extends BasicGraphics {
         if (clip == null || clip.contains(x, y))
             surface.drawPixel(x, y, color.getRGB(), mode);
     }
-
 
     /**
      * Draws the outline of an oval.

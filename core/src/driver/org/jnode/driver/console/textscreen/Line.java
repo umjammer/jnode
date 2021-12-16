@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console.textscreen;
 
 import java.io.CharArrayWriter;
@@ -32,7 +32,6 @@ import org.jnode.driver.console.InputCompleter;
 import org.jnode.driver.console.ScrollableTextConsole;
 import org.jnode.driver.console.TextConsole;
 import org.jnode.driver.console.spi.ConsoleWriter;
-
 
 /**
  * A class that handles the content of the current command line in the shell.

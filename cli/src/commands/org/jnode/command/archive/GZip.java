@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.archive;
 
 import java.io.File;
@@ -41,7 +41,7 @@ import org.jnode.shell.syntax.StringArgument;
  * @author chris boertien
  */
 public class GZip extends ArchiveCommand {
-    
+
     private static final String help_suffix  = "append <suffix> on compressed files";
     private static final String help_list    = "list compressed file contents";
     private static final String help_noname  = "do not save or restore the original name and time stamp";
@@ -49,7 +49,7 @@ public class GZip extends ArchiveCommand {
     private static final String help_recurse = "operate recursively on directories";
     private static final String help_test    = "test compressed file integrity";
     private static final String help_file    = "the files to compress, use stdin if FILE is '-' or no files are listed";
-    
+
     protected final FileArgument Files    = new FileArgument("files", Argument.OPTIONAL | Argument.MULTIPLE, help_file);
     protected final FlagArgument List     = new FlagArgument("list", Argument.OPTIONAL, help_list);
     protected final FlagArgument NoName   = new FlagArgument("noname", Argument.OPTIONAL, help_noname);
@@ -57,20 +57,20 @@ public class GZip extends ArchiveCommand {
     protected final FlagArgument Recurse  = new FlagArgument("recurse", Argument.OPTIONAL, help_recurse);
     protected final FlagArgument Test     = new FlagArgument("test", Argument.OPTIONAL, help_test);
     protected final StringArgument Suffix = new StringArgument("suffix", Argument.OPTIONAL, help_suffix);
-    
+
     private List<File> files;
     protected String suffix = ".gz";
     protected boolean recurse;
-    
+
     protected GZip(String s) {
         super(s);
         createStreamBuffer(4096);
     }
-    
+
     public void execute(String command) {
         super.execute(command);
         parseOptions(command);
-        
+
         try {
             if (compress) {
                 compress();
@@ -85,16 +85,16 @@ public class GZip extends ArchiveCommand {
             exit(rc);
         }
     }
-    
+
     private void compress() throws IOException {
         InputStream in = null;
         OutputStream out = null;
         GZIPOutputStream gzout = null;
-        
+
         if (use_stdout) {
             gzout = new GZIPOutputStream(stdout, BUFFER_SIZE);
         }
-        
+
         for (File file : files) {
             if (file.getName().equals("-")) {
                 processStream(stdin, gzout);
@@ -132,7 +132,7 @@ public class GZip extends ArchiveCommand {
                 close(in);
             }
         }
-        
+
         if (use_stdout) {
             gzout.finish();
             // TEST need to see if this is even necessary, and if it is
@@ -140,17 +140,17 @@ public class GZip extends ArchiveCommand {
             gzout.close();
         }
     }
-    
+
     private void decompress() throws IOException {
         InputStream in = null;
         OutputStream out = stdout;
-        
+
         for (File gzfile : files) {
             if (gzfile.getName().equals("-")) {
                 processStream(new GZIPInputStream(stdin, BUFFER_SIZE), out);
                 continue;
             }
-            
+
             try {
                 if (use_stdout) {
                     if ((in = new GZIPInputStream(openFileRead(gzfile), BUFFER_SIZE)) == null) {
@@ -183,33 +183,33 @@ public class GZip extends ArchiveCommand {
             }
         }
     }
-    
+
     protected void test(File[] files) {}
-    
+
     protected void list(File[] files) {}
-    
+
     private File stripSuffix(File file) {
         String name = file.getAbsolutePath();
-        
+
         if (!name.endsWith(suffix)) {
             notice(name + " unknown suffix -- ignore");
             return null;
         }
-        
+
         name = name.substring(0, name.length() - suffix.length());
-        
+
         return new File(name);
     }
-    
+
     private void parseOptions(String command) {
         if (!command.equals("zcat")) {
             if (Suffix.isSet()) suffix = Suffix.getValue();
-        
+
             recurse = Recurse.isSet();
         }
-        
+
         files = new ArrayList<File>();
-        
+
         for (File file : Files.getValues()) {
             if (file.isDirectory()) {
                 if (recurse) {
@@ -226,11 +226,11 @@ public class GZip extends ArchiveCommand {
                 files.add(file);
             }
         }
-        
+
         if (files.size() == 0) {
             files.add(new File("-"));
         }
-        
+
         if (files.size() == 1 && files.get(0).getName().equals("-")) {
             use_stdout = true;
         }

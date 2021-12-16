@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.help;
 
 import java.io.PrintWriter;
@@ -35,21 +35,21 @@ public interface EnhancedHelp extends Help {
      * @param pw the help information is written here
      */
     void description(PrintWriter pw);
-    
+
     /**
      * Output the argument descriptions for the command.
      * 
      * @param pw the help information is written here
      */
     public void arguments(PrintWriter pw);
-    
+
     /**
      * Output the option descriptions for the command.
      * 
      * @param pw the help information is written here
      */
     public void options(PrintWriter pw);
-    
+
     /**
      * Output the detailed help text for the command.
      * 

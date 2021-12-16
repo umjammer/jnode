@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.File;
@@ -45,9 +45,9 @@ import static org.jnode.shell.syntax.Argument.NONEXISTENT;
 import static org.jnode.shell.syntax.FileArgument.HYPHEN_IS_SPECIAL;
 
 public class SortCommand extends AbstractCommand {
-    
+
     private static final boolean DEBUG = true;
-    
+
     private static final String help_files = "files to sort";
     private static final String help_output = "send output to this file, instead of stdout";
     private static final String help_field = "The field or field range to sort on";
@@ -64,7 +64,7 @@ public class SortCommand extends AbstractCommand {
     private static final String help_no_blanks = "Ignore leading blanks when determining that start and end " +
                                                  "positions of a key";
     private static final String help_super = "sort/merge files, or check that files are sorted";
-    
+
     private static class Field {
         private int field;
         private int offset;
@@ -80,23 +80,23 @@ public class SortCommand extends AbstractCommand {
         @SuppressWarnings("unused")
         private boolean reverse;
     }
-    
+
     private static class FieldRange {
         private Field start;
         private Field end;
     }
-    
+
     private static class Key {
         String[] parts;
         FieldRange[] ranges;
     }
-    
+
     @SuppressWarnings("unused")
     private static class Entry {
         Key key;
         String value;
     }
-    
+
     private static class KeyFieldArgument extends Argument<FieldRange> {
         private KeyFieldArgument(String label, int flags, String desc) {
             super(label, flags, new FieldRange[0], desc);
@@ -195,16 +195,16 @@ public class SortCommand extends AbstractCommand {
             return field;
         }
     }
-    
+
     private class FieldComparator implements Comparator<String> {
-        
+
         private boolean trim = false;
 
         @Override
         public boolean equals(Object o) {
             return o instanceof FieldComparator;
         }
-        
+
         @Override
         public int compare(String a, String b) {
             for (FieldRange range : ranges) {
@@ -218,7 +218,7 @@ public class SortCommand extends AbstractCommand {
             }
             return 0;
         }
-        
+
         // TODO
         // Refactor this out and calculate the keys before sorting
         private String getKey(String text, FieldRange range) {
@@ -253,7 +253,7 @@ public class SortCommand extends AbstractCommand {
                 return capture.toString();
             }
         }
-        
+
         private String[] splitSep(String text, String sep) {
             List<String> fields = new LinkedList<String>();
             int mark = 0;
@@ -265,7 +265,7 @@ public class SortCommand extends AbstractCommand {
             fields.add(text.substring(mark, text.length()));
             return fields.toArray(new String[fields.size()]);
         }
-        
+
         private String[] splitDefault(String text) {
             List<String> fields = new LinkedList<String>();
             boolean haveField = false;
@@ -291,12 +291,12 @@ public class SortCommand extends AbstractCommand {
             }
             return fields.toArray(new String[fields.size()]);
         }
-        
+
         private boolean isBlank(char c) {
             return c == ' ' || c == '\t';
         }
     }
-    
+
     private final FileArgument argFile = new FileArgument("files", MULTIPLE | EXISTING | HYPHEN_IS_SPECIAL, help_files);
     private final FileArgument argOut        = new FileArgument("output", NONEXISTENT, help_output);
     private final FlagArgument argCheck      = new FlagArgument("check", 0, help_check);
@@ -310,14 +310,14 @@ public class SortCommand extends AbstractCommand {
     private final FlagArgument argNoBlanks   = new FlagArgument("no-blanks", 0, help_no_blanks);
     private final KeyFieldArgument argField  = new KeyFieldArgument("field", MULTIPLE, help_field);
     private final StringArgument argFieldSep = new StringArgument("field-sep", 0, help_field_sep);
-    
+
     private final IntegerArgument argSort = new IntegerArgument("sort", 0, " ");
     @SuppressWarnings("unused")
     private static final int SORT_ONE = 1;
     @SuppressWarnings("unused")
     private static final int SORT_TWO = 2;
     private static final int SORT_LAST = 1;
-    
+
     private List<File> files;
     private File outputFile;
     private PrintWriter out;
@@ -345,19 +345,19 @@ public class SortCommand extends AbstractCommand {
     private boolean cmpICase;
     @SuppressWarnings("unused")
     private boolean noBlanks;
-    
+
     public SortCommand() {
         super(help_super);
         registerArguments(argFile, argOut, argField, argFieldSep, argMerge, argUnique, argNumeric, argReverse);
         registerArguments(argCmpPrint, argCmpAlpha, argCmpICase, argNoBlanks, argCheck);
-        
+
         registerArguments(argSort);
     }
-    
+
     public void execute() {
         err = getError().getPrintWriter();
         parseOptions();
-        
+
         try {
             if (outputFile != null) {
                 out = new PrintWriter(outputFile);
@@ -372,7 +372,7 @@ public class SortCommand extends AbstractCommand {
             exit(rc);
         }
     }
-    
+
     private void sortOne() {
         // OPTIMIZE
         // This is probably efficient enough for most use cases, but a lot
@@ -383,7 +383,7 @@ public class SortCommand extends AbstractCommand {
         // merge sort. Again, not efficient, but it works.
         Comparator<String> cmp = new FieldComparator();
         List<String> allLines = new LinkedList<String>();
-        
+
         for (File file : files) {
             List<String> lines;
             if (file.getName().equals("-")) {
@@ -398,7 +398,7 @@ public class SortCommand extends AbstractCommand {
             }
             allLines.addAll(lines);
         }
-        
+
         if (argField.isSet()) {
             Collections.sort(allLines, cmp);
         } else {
@@ -408,12 +408,12 @@ public class SortCommand extends AbstractCommand {
             out.println(line);
         }
     }
-    
+
     @SuppressWarnings("unused")
     private void sortTwo() {
-        
+
     }
-    
+
     private void parseOptions() {
         if (argFile.isSet()) {
             files = Arrays.asList(argFile.getValues());
@@ -439,14 +439,14 @@ public class SortCommand extends AbstractCommand {
         cmpAlpha = argCmpAlpha.isSet();
         cmpICase = argCmpICase.isSet();
         noBlanks = argNoBlanks.isSet();
-        
+
         sort = argSort.isSet() ? argSort.getValue() : SORT_LAST;
     }
 
     private void error(String s) {
         err.println(s);
     }
-    
+
     @SuppressWarnings("unused")
     private void debug(String s) {
         if (DEBUG) {

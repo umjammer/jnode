@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.archive;
 
 /**
@@ -31,9 +31,9 @@ package org.jnode.command.archive;
  *
  * @author Chris Boertien
  */
- 
+
 public class GUnzipCommand extends GZip {
-    
+
     public GUnzipCommand() {
         super("decompresses files/data");
         // from ArchiveCommand
@@ -41,7 +41,7 @@ public class GUnzipCommand extends GZip {
         // from GZip
         registerArguments(Files, List, NoName, Name, Recurse, Test, Suffix);
     }
-    
+
     public void execute() {
         compress = false;
         super.execute("gunzip");

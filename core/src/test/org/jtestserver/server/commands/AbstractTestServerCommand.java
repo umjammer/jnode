@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -28,23 +28,23 @@ import org.jtestserver.server.TestServerCommand;
 
 public abstract class AbstractTestServerCommand<T> implements TestServerCommand {
     private final MessageDescriptor descriptor;
-    
+
     public AbstractTestServerCommand(MessageDescriptor descriptor) {
         this.descriptor = descriptor;
     }
-    
+
     @Override
     public final String getName() {
         return descriptor.getName();
     }
-    
+
     @Override
     public final OutputMessage execute(InputMessage input) throws ProtocolException, TimeoutException {
         Object[] params = input.parseParameters(descriptor);
         T result = execute(params);
-        
+
         return OutputMessage.createResultMessage(descriptor, result);
     }
-    
+
     protected abstract T execute(Object[] params) throws ProtocolException, TimeoutException;
 }

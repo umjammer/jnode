@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.common;
 
 import java.io.PrintWriter;
@@ -36,7 +36,7 @@ public class EchoCommand extends AbstractCommand {
 
     private static final String help_words = "the text to be printed";
     private static final String help_super = "Print text to standard output";
-    
+
     private final StringArgument argWords;
 
     public EchoCommand() {

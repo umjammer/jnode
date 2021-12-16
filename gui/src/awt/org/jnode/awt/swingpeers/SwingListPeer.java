@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.swingpeers;
 
 import java.awt.AWTEvent;
@@ -114,7 +114,6 @@ final class SwingListPeer extends SwingComponentPeer<List, SwingList> implements
         return getPreferredSize();
     }
 
-
 }
 
 final class SwingList extends JList implements ISwingPeer<List> {
@@ -157,4 +156,3 @@ final class SwingList extends JList implements ISwingPeer<List> {
         super.validate();
     }
 }
-

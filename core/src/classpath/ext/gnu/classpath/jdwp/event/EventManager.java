@@ -36,7 +36,6 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 
-
 package gnu.classpath.jdwp.event;
 
 import gnu.classpath.jdwp.VMVirtualMachine;
@@ -296,7 +295,7 @@ public class EventManager
 	// Did not get a valid event type
 	throw new IllegalArgumentException ("invalid event kind: " + kind);
       }
-    
+
     return requests.values ();
   }
 }

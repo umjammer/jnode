@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package java.io;
 
 import org.jnode.vm.classmgr.VmType;
@@ -34,7 +34,7 @@ class NativeObjectStreamClass {
     private static void initNative() {
         //empty
     }
-    
+
     /**
      * @see java.io.ObjectStreamClass#hasStaticInitializer(java.lang.Class)
      */

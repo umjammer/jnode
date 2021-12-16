@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.input.l10n;
 
 import java.awt.event.KeyEvent;
@@ -26,7 +26,6 @@ import org.jnode.driver.input.Key;
 import org.jnode.driver.input.AbstractKeyboardInterpreter;
 import org.jnode.driver.input.Keys;
 import org.jnode.driver.input.UnsupportedKeyException;
-
 
 /**
  * @author Levente S\u00e1ntha
@@ -139,7 +138,6 @@ public class KeyboardInterpreter_HU extends AbstractKeyboardInterpreter {
         key.setUpperVirtuelKey(KeyEvent.VK_DEAD_GRAVE);
         keys.setKey(13, key);
 
-
         keys.setKey(18, new Key('e', KeyEvent.VK_E, 'E', KeyEvent.VK_E, '\u20ac', KeyEvent.VK_EURO_SIGN));
         key = keys.getKey(18);
         key.addDeadKeyChar(KeyEvent.VK_DEAD_ACUTE, new char[]{'\u00e9', '\u00c9'});
@@ -154,14 +152,12 @@ public class KeyboardInterpreter_HU extends AbstractKeyboardInterpreter {
         key.addDeadKeyChar(KeyEvent.VK_DEAD_DIAERESIS, new char[]{'\u00fc', '\u00dc'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_CIRCUMFLEX, new char[]{'\u00fb', '\u00db'});
 
-
         keys.setKey(23, new Key('i', 'I', KeyEvent.VK_I));
         key = keys.getKey(23);
         key.addDeadKeyChar(KeyEvent.VK_DEAD_ACUTE, new char[]{'\u00ed', '\u00cd'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_GRAVE, new char[]{'\u00ec', '\u00cc'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_DIAERESIS, new char[]{'\u00ef', '\u00cf'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_CIRCUMFLEX, new char[]{'\u00ee', '\u00ce'});
-
 
         keys.setKey(24, new Key('o', 'O', KeyEvent.VK_O));
         key = keys.getKey(24);
@@ -189,7 +185,6 @@ public class KeyboardInterpreter_HU extends AbstractKeyboardInterpreter {
         key.addDeadKeyChar(KeyEvent.VK_DEAD_CIRCUMFLEX, new char[]{'\u00e2', '\u00c2'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_TILDE, new char[]{'\u00e3', '\u00c3'});
 
-
         keys.setKey(43, new Key("'".charAt(0), KeyEvent.VK_QUOTE, '*', KeyEvent.VK_MULTIPLY));
 
         keys.setKey(51, new Key(',', KeyEvent.VK_COMMA, ';', KeyEvent.VK_SEMICOLON));
@@ -205,7 +200,6 @@ public class KeyboardInterpreter_HU extends AbstractKeyboardInterpreter {
         key.addDeadKeyChar(KeyEvent.VK_DEAD_DIAERESIS, new char[]{'\u00a8'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_CIRCUMFLEX, new char[]{'^'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_TILDE, new char[]{'~'});
-
 
         keys.setKey(71, new Key('7', KeyEvent.VK_NUMPAD7));
 // have to check this out
@@ -548,10 +542,8 @@ public class KeyboardInterpreter_HU extends AbstractKeyboardInterpreter {
     protected void initVkMap() {
     }
 
-
     protected char interpretExtendedScanCode(int scancode, int vk, boolean released)
         throws UnsupportedKeyException, DeadKeyException {
         return 0;
     }
 }
-

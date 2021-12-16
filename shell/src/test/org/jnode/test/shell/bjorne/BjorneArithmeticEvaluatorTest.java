@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.bjorne;
 
 import org.jnode.shell.ShellException;
@@ -25,8 +25,10 @@ import org.jnode.shell.ShellSyntaxException;
 import org.jnode.shell.bjorne.BjorneArithmeticEvaluator;
 import org.jnode.shell.bjorne.BjorneContext;
 import org.jnode.shell.io.CommandIOHolder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Some unit tests for the BjorneArithmeticEvaluator class.
@@ -76,9 +78,9 @@ public class BjorneArithmeticEvaluatorTest {
     public void testLiterals() throws ShellException {
         TestBjorneArithmeticEvaluator ev =
                 new TestBjorneArithmeticEvaluator(new TestBjorneContext());
-        Assert.assertEquals("1", ev.evaluateExpression("1"));
-        Assert.assertEquals("1", ev.evaluateExpression(" 1 "));
-        Assert.assertEquals("42", ev.evaluateExpression("42"));
+        assertEquals("1", ev.evaluateExpression("1"));
+        assertEquals("1", ev.evaluateExpression(" 1 "));
+        assertEquals("42", ev.evaluateExpression("42"));
     }
 
     @Test
@@ -86,9 +88,9 @@ public class BjorneArithmeticEvaluatorTest {
         TestBjorneContext context = new TestBjorneContext();
         context.setVariable("A", "1");
         TestBjorneArithmeticEvaluator ev = new TestBjorneArithmeticEvaluator(context);
-        Assert.assertEquals("1", ev.evaluateExpression("A"));
-        Assert.assertEquals("1", ev.evaluateExpression(" A "));
-        Assert.assertEquals("0", ev.evaluateExpression(" B"));
+        assertEquals("1", ev.evaluateExpression("A"));
+        assertEquals("1", ev.evaluateExpression(" A "));
+        assertEquals("0", ev.evaluateExpression(" B"));
     }
 
     @Test
@@ -96,12 +98,12 @@ public class BjorneArithmeticEvaluatorTest {
         TestBjorneContext context = new TestBjorneContext();
         context.setVariable("A", "1");
         TestBjorneArithmeticEvaluator ev = new TestBjorneArithmeticEvaluator(context);
-        Assert.assertEquals("1", ev.evaluateExpression("+A"));
-        Assert.assertEquals("1", ev.evaluateExpression(" + A "));
-        Assert.assertEquals("0", ev.evaluateExpression(" + B"));
-        Assert.assertEquals("-1", ev.evaluateExpression("-A"));
-        Assert.assertEquals("-1", ev.evaluateExpression(" - A "));
-        Assert.assertEquals("0", ev.evaluateExpression(" - B"));
+        assertEquals("1", ev.evaluateExpression("+A"));
+        assertEquals("1", ev.evaluateExpression(" + A "));
+        assertEquals("0", ev.evaluateExpression(" + B"));
+        assertEquals("-1", ev.evaluateExpression("-A"));
+        assertEquals("-1", ev.evaluateExpression(" - A "));
+        assertEquals("0", ev.evaluateExpression(" - B"));
     }
 
     @Test
@@ -109,23 +111,23 @@ public class BjorneArithmeticEvaluatorTest {
         TestBjorneContext context = new TestBjorneContext();
         context.setVariable("A", "1");
         TestBjorneArithmeticEvaluator ev = new TestBjorneArithmeticEvaluator(context);
-        Assert.assertEquals("2", ev.evaluateExpression("1 + 1"));
-        Assert.assertEquals("2", ev.evaluateExpression("A + 1"));
-        Assert.assertEquals("0", ev.evaluateExpression("1 - 1"));
-        Assert.assertEquals("0", ev.evaluateExpression("1 - A"));
-        Assert.assertEquals("4", ev.evaluateExpression("2 * 2"));
-        Assert.assertEquals("2", ev.evaluateExpression("4 / 2"));
-        Assert.assertEquals("1", ev.evaluateExpression("4 % 3"));
-        Assert.assertEquals("27", ev.evaluateExpression("3 ** 3"));
+        assertEquals("2", ev.evaluateExpression("1 + 1"));
+        assertEquals("2", ev.evaluateExpression("A + 1"));
+        assertEquals("0", ev.evaluateExpression("1 - 1"));
+        assertEquals("0", ev.evaluateExpression("1 - A"));
+        assertEquals("4", ev.evaluateExpression("2 * 2"));
+        assertEquals("2", ev.evaluateExpression("4 / 2"));
+        assertEquals("1", ev.evaluateExpression("4 % 3"));
+        assertEquals("27", ev.evaluateExpression("3 ** 3"));
         try {
             ev.evaluateExpression("4 / 0");
-            Assert.fail("no exception for '4 / 0'");
+            fail("no exception for '4 / 0'");
         } catch (ShellException ex) {
             // expected
         }
         try {
             ev.evaluateExpression("4 % 0");
-            Assert.fail("no exception for '4 % 0'");
+            fail("no exception for '4 % 0'");
         } catch (ShellException ex) {
             // expected
         }
@@ -136,11 +138,11 @@ public class BjorneArithmeticEvaluatorTest {
         TestBjorneContext context = new TestBjorneContext();
         context.setVariable("A", "1");
         TestBjorneArithmeticEvaluator ev = new TestBjorneArithmeticEvaluator(context);
-        Assert.assertEquals("0", ev.evaluateExpression("-1 * 2 + 2"));
-        Assert.assertEquals("4", ev.evaluateExpression("1 * 2 + 2"));
-        Assert.assertEquals("5", ev.evaluateExpression("1 + 2 * 2"));
-        Assert.assertEquals("9", ev.evaluateExpression("1 + 2 * 2 ** 2"));
-        Assert.assertEquals("8", ev.evaluateExpression("1 + 2 * 2 ** 2 + -A"));
+        assertEquals("0", ev.evaluateExpression("-1 * 2 + 2"));
+        assertEquals("4", ev.evaluateExpression("1 * 2 + 2"));
+        assertEquals("5", ev.evaluateExpression("1 + 2 * 2"));
+        assertEquals("9", ev.evaluateExpression("1 + 2 * 2 ** 2"));
+        assertEquals("8", ev.evaluateExpression("1 + 2 * 2 ** 2 + -A"));
     }
 
     @Test
@@ -148,11 +150,11 @@ public class BjorneArithmeticEvaluatorTest {
         TestBjorneContext context = new TestBjorneContext();
         context.setVariable("A", "1");
         TestBjorneArithmeticEvaluator ev = new TestBjorneArithmeticEvaluator(context);
-        Assert.assertEquals("-4", ev.evaluateExpression("-1 * (2 + 2)"));
-        Assert.assertEquals("4", ev.evaluateExpression("(1 * 2 + 2)"));
-        Assert.assertEquals("6", ev.evaluateExpression("((1) + 2) * 2"));
-        Assert.assertEquals("17", ev.evaluateExpression("1 + (2 * 2) ** 2"));
-        Assert.assertEquals("10", ev.evaluateExpression("1 + 2 * 2 ** 2 + -(-1)"));
+        assertEquals("-4", ev.evaluateExpression("-1 * (2 + 2)"));
+        assertEquals("4", ev.evaluateExpression("(1 * 2 + 2)"));
+        assertEquals("6", ev.evaluateExpression("((1) + 2) * 2"));
+        assertEquals("17", ev.evaluateExpression("1 + (2 * 2) ** 2"));
+        assertEquals("10", ev.evaluateExpression("1 + 2 * 2 ** 2 + -(-1)"));
     }
 
     @Test
@@ -160,13 +162,13 @@ public class BjorneArithmeticEvaluatorTest {
         TestBjorneContext context = new TestBjorneContext();
         context.setVariable("A", "1");
         TestBjorneArithmeticEvaluator ev = new TestBjorneArithmeticEvaluator(context);
-        Assert.assertEquals("1", ev.evaluateExpression("A++"));
-        Assert.assertEquals("2", context.variable("A"));
-        Assert.assertEquals("3", ev.evaluateExpression("++A"));
-        Assert.assertEquals("3", context.variable("A"));
-        Assert.assertEquals("3", ev.evaluateExpression("A--"));
-        Assert.assertEquals("2", context.variable("A"));
-        Assert.assertEquals("1", ev.evaluateExpression("--A"));
-        Assert.assertEquals("1", context.variable("A"));
+        assertEquals("1", ev.evaluateExpression("A++"));
+        assertEquals("2", context.variable("A"));
+        assertEquals("3", ev.evaluateExpression("++A"));
+        assertEquals("3", context.variable("A"));
+        assertEquals("3", ev.evaluateExpression("A--"));
+        assertEquals("2", context.variable("A"));
+        assertEquals("1", ev.evaluateExpression("--A"));
+        assertEquals("1", context.variable("A"));
     }
 }

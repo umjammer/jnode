@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.BufferedReader;
@@ -51,7 +51,7 @@ import org.jnode.shell.syntax.FileArgument;
  * @author crawley@jnode.org
  */
 public class PageCommand extends AbstractCommand implements KeyboardListener {
-    
+
     private static final String help_file = "the file to be paged";
     private static final String help_super = "output a file to the console one 'page' at a time";
     private static final String str_no_pipe = "Paging piped from the console is not supported";
@@ -73,33 +73,32 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
     private static final String help_bw_search2 = "Repeat search backwards:      ?";
     private static final String help_help       = "Display this help screen:     h";
     private static final String help_quit       = "Quit:                         q, CTRL-D";
-    
+
     private static boolean DEBUG = false;
     private static int LAST_SUBLINE = Integer.MAX_VALUE;
     private static int DEFAULT_COLOR = 0x07;
     private static int MATCH_COLOR = 0x04;
-    
+
     private final FileArgument argFile;
 
     private PrintWriter err;
     private TextConsole console;
-    
+
     private int pageHeight;
     private int pageWidth;
     private int pageSize;
     private int tabSize;
-    
+
     // This is the line number of the top (data source) line displayed on the
     // screen page.
     private int topLineNo;
     private int topSublineNo;
-    
-    
+
     // This is the line number of the bottom (data source) line displayed on the
     // screen page.
     private int bottomLineNo;
     private int bottomSublineNo;
-    
+
     // This pipe passes characters from the system thread that calls 
     // our 'keyPressed' event method to the thread that runs the Page command.
     private PipedReader pr;
@@ -115,8 +114,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
     private String prompt;
 
     private ScreenBuffer currentBuffer;
-    
-    
+
     public PageCommand() {
         super(help_super);
         argFile = new FileArgument("file", Argument.OPTIONAL, help_file);
@@ -153,7 +151,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
             setup();
             lineStore = new LineStore(r);
             pager();
-            
+
         } catch (IOException ex) {
             debugln(ex.getMessage());
             exit(1);
@@ -168,7 +166,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
             tearDown();
         }
     }
-    
+
     /**
      * Set up the pager's console and command pipe.
      */
@@ -182,19 +180,19 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
                 ConsoleManager.CreateOptions.NO_LINE_EDITTING |
                 ConsoleManager.CreateOptions.NO_SYSTEM_OUT_ERR));
         manager.focus(console);
-        
+
         pageHeight = console.getDeviceHeight() - 1;
         pageWidth = console.getDeviceWidth();
         pageSize = pageHeight * pageWidth;
         tabSize = console.getTabSize();
-        
+
         pw = new PipedWriter();
         pr = new PipedReader();
         pr.connect(pw);
-        
+
         console.addKeyboardListener(this);
     }
-    
+
     /**
      * Tear down the console and pipe.
      * @throws IOException
@@ -224,7 +222,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
         bottomLineNo = -1;
         boolean exit = false;
         nextPage();
-        
+
         // Process commands until we reach the EOF on the data source or
         // the command pipe.
         while (!exit) {
@@ -286,7 +284,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
             }
         }
     }
-    
+
     private void searchBackwards() throws IOException {
         String input = readLine('?');
         int lineNo = bottomLineNo;
@@ -339,7 +337,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
             }
             matcher = regex.matcher("");
         }
-        
+
         while (true) {
             String line = lineStore.getLine(lineNo);
             if (line == null) {
@@ -375,7 +373,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
         } while (ch != -1 && ch != '\n');
         return line;
     }
-    
+
     private void help() throws IOException {
         String[] help = new String[] {
             help_fw_page, help_bw_page, help_fw_dline, help_bw_dline, help_fw_sline, help_bw_sline,
@@ -385,7 +383,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
         // Remember the 'current' buffer so that we can repaint it
         // when we are done.
         ScreenBuffer prevBuffer = this.currentBuffer;
-        
+
         // Prepare and paint the help screen
         ScreenBuffer buffer = new ScreenBuffer(true);
         for (int i = 0; i < help.length; i++) {
@@ -394,7 +392,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
         buffer.adjust(0, 0);
         buffer.output();
         prompt(str_any_key);
-        
+
         // Wait till the user is done, then repaint the previous screen.
         pr.read();
         prompt();
@@ -416,7 +414,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
         console.setChar(0, this.pageHeight, text.toCharArray(), DEFAULT_COLOR);
         console.setCursor(0, this.pageHeight);
     }
-    
+
     private void setPrompt(String prompt) {
         this.prompt = prompt;
     }
@@ -439,7 +437,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
     private void nextPage() throws IOException {
         prepare(bottomLineNo + 1, 0).output();
     }
-    
+
     /**
      * Page backwards by one page.  The implementation strategy is similar to
      * page forward except that we use prepareReverse which paints lines starting
@@ -452,15 +450,15 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
             prepareReverse(topLineNo - 1, LAST_SUBLINE).output();
         }
     }
-    
+
     private void gotoPage(int firstLineNo) throws IOException {
         prepare(firstLineNo, 0).output();
     }
-    
+
     private void gotoLastPage() throws IOException {
         prepareReverse(lineStore.getLastLineNo(), LAST_SUBLINE).output();
     }
-    
+
     /**
      * Page forward by one line.  We use the 'prepare' and 'output'
      * strategy as described in {@link nextPage}.
@@ -480,11 +478,11 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
     private void prevLine() throws IOException {
         prepareReverse(bottomLineNo - 1, LAST_SUBLINE).output();
     }
-    
+
     private void nextScreenLine() throws IOException {
         prepare(topLineNo, topSublineNo + 1).output();
     }
-    
+
     private void prevScreenLine() throws IOException {
         if (bottomSublineNo == 0) {
             prepareReverse(bottomLineNo - 1, LAST_SUBLINE).output();
@@ -542,7 +540,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
             return prepare(0, 0);
         }
     }
-    
+
     /**
      * Prepare lines for output by painting them to our private buffer
      * starting at the supplied bufferLineOffset
@@ -633,13 +631,13 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
     public void keyReleased(KeyboardEvent event) {
         // ignore
     }
-    
+
     private void debugln(String msg) {
         if (DEBUG) {
             err.println(msg);
         }
     }
-    
+
     /**
      * This class provides an in-memory buffer for lines read from the data source 
      * being paged.  In the future, this could be enhanced to cut down on memory
@@ -653,11 +651,11 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
         private final BufferedReader reader;
         private boolean reachedEOF;
         private List<String> lines = new ArrayList<String>(100);
-        
+
         private LineStore(Reader reader) {
             this.reader = new BufferedReader(reader);
         }
-        
+
         /**
          * Get a line identified by line number.
          * @param lineNo the line number
@@ -690,7 +688,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
                 }
             }
         }
-        
+
         /**
          * Get the last line number for the data source.  This requires that
          * all lines of the data source are read up to the EOF position.
@@ -708,7 +706,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
             }
             return lines.size() - 1;
         }
-        
+
         /**
          * Check if a given line number is known to be the last line
          * of the data source.  This method does not do any reading
@@ -722,7 +720,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
             return reachedEOF && lineNo == lines.size() - 1;
         }
     }
-    
+
     /**
      * The ScreenBuffer class holds the screen image that we are building.
      * It takes care of wrapping long lines over multiple screen lines.
@@ -740,33 +738,33 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
             private final int[] colors = new int[pageWidth];
             private final int lineNo;
             private final int sublineNo;
-            
+
             private ScreenLine(int lineNo, int sublineNo) {
                 this.lineNo = lineNo;
                 this.sublineNo = sublineNo;
             }
         }
-        
+
         ArrayList<ScreenLine> lines = new ArrayList<ScreenLine>();
-        
+
         // The direction of filling ...
         private final boolean forwards;
-        
+
         // The current color.
         private int color;
-        
+
         // The character pos in the current subline
         private int charPos;
-        
+
         // The current subline no
         private int linePos;
-        
+
         // The current data source line number
         private int lineNo;
         private int sublineNo;
         private int firstLinePos;
         private int lastLinePos;
-        
+
         ScreenBuffer(boolean forwards) {
             this.forwards = forwards;
             this.linePos = 0;
@@ -790,14 +788,14 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
             if (lineNo < 0) {
                 throw new IllegalArgumentException("lineNo < 0");
             }
-            
+
             // Record current line number and allocate the first screen line.
             this.lineNo = lineNo;
             this.sublineNo = 0;
             lines.add(linePos, new ScreenLine(lineNo, 0));
             charPos = 0;
         }
-        
+
         /**
          * End the current line.  This fills the remainder of the subline, then
          * moves 'linePos' to the position for the next line.
@@ -819,7 +817,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
                 }
             }
         }
-        
+
         /**
          * Put a character to the current line, allocating a new subline
          * if we wrap past 'pageWidth'.
@@ -836,7 +834,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
             line.colors[charPos] = color;
             charPos++;
         }
-        
+
         /**
          * Add a new subline for the current line.  The subline
          * goes into the buffer after the current subline.  If
@@ -849,7 +847,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
             linePos++;
             lines.add(linePos, new ScreenLine(lineNo, sublineNo));
         }
-        
+
         /**
          * This method calculates the adjusted start/end linePos values corresponding
          * to the supplied lineNo/sublineNo and the opposite end of the screen buffer.
@@ -935,7 +933,7 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
             // 1) there is no 'console.setChar(x, y, chars, colors, x, 1)' method, and
             // 2) a call to setChar(...) will sync the screen, which currently repaints
             //    every character to the screen device.
-            
+
             // First we build a single char array for all characters on the screen, populate
             // from the lines, and pad out with spaces to the screen height.
             char[] tmp = new char[pageSize];
@@ -945,10 +943,10 @@ public class PageCommand extends AbstractCommand implements KeyboardListener {
                 System.arraycopy(line.chars, 0, tmp, (y - firstLinePos) * pageWidth, pageWidth);
             }
             Arrays.fill(tmp, (lastLinePos - firstLinePos + 1) * pageWidth, pageSize, ' ');
-            
+
             // Next, output the characters in the default color
             console.setChar(0, 0, tmp, 0, pageSize, 0x7);
-            
+
             // Finally, go back and repaint any characters that have a different color
             // to the default.  We do this in runs, to avoid doing too many screen syncs. 
             int color = DEFAULT_COLOR;

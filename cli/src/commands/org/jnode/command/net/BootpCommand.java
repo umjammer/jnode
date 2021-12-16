@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.net;
 
 import javax.naming.NameNotFoundException;
@@ -39,7 +39,7 @@ public class BootpCommand extends AbstractCommand {
     private static final String help_device = "";
     private static final String help_super = "Configure a network interface using BOOTP";
     private static final String fmt_config = "Trying to configure %s...%n";
-    
+
     private final DeviceArgument argDevice;
 
     public BootpCommand() {

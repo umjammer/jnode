@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver;
 
 import org.jnode.bootlog.BootLogInstance;
@@ -27,7 +27,6 @@ import org.jnode.plugin.PluginDescriptorListener;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-
 
 /**
  * Abstract driver of a Device.

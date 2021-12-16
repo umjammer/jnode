@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -33,7 +33,7 @@ public class CommandLineBuilder {
      * The list of argument used to build the command line.
      */
     private final List<String> line = new ArrayList<String>();
-    
+
     /**
      * 
      * @param arg first argument of the command line.
@@ -53,10 +53,10 @@ public class CommandLineBuilder {
         } else {
             line.add(arg);
         }
-        
+
         return this;
     }
-    
+
     /**
      * Append a list of arguments to the command line.
      * @param arg a list of {@link String} arguments
@@ -99,9 +99,9 @@ public class CommandLineBuilder {
             if (!firstArg) {
                 sb.append(' ');
             }
-            
+
             sb.append(arg);
-            
+
             firstArg = false;
         }
         return sb.toString();

@@ -17,17 +17,17 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.jpartition.model;
 
 import org.jnode.apps.jpartition.ErrorReporter;
 import org.jnode.apps.jpartition.utils.device.DeviceUtils;
-import org.junit.Test;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TestOSFacade extends AbstractTest {
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         DeviceUtils.createFakeDevice(new ErrorReporter());
         UserFacade.getInstance().getDeviceNames();

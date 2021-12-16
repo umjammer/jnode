@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.ipv4.icmp;
 
 import org.jnode.net.ipv4.IPv4Address;
@@ -52,7 +52,7 @@ public class ICMPListenerCriteria implements ICMPConstants {
         if (!(obj instanceof ICMPListenerCriteria)) {
             return false;
         }
-        
+
         ICMPListenerCriteria c = (ICMPListenerCriteria) obj;
         if (src != null && !src.equals(c.getSrc())) {
             return false;

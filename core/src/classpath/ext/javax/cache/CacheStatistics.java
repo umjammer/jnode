@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package javax.cache;
 
 /**
@@ -34,31 +34,31 @@ public interface CacheStatistics
     public static final int STATISTICS_ACCURACY_NONE = 0;
     public static final int STATISTICS_ACCURACY_BEST_EFFORT = 1;
     public static final int STATISTICS_ACCURACY_GUARANTEED = 2;
-    
+
     /**
      * 
      * @return
      */
     public int getStatisticsAccuracy();
-    
+
     /**
      * 
      * @return
      */
     public int getObjectCount();
-    
+
     /**
      * 
      * @return
      */
     public int getCacheHits();
-    
+
     /**
      * 
      * @return
      */
     public int getCacheMisses();
-    
+
     /**
      * 
      *

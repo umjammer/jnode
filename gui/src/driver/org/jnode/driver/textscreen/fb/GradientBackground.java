@@ -17,23 +17,22 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.textscreen.fb;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-
 public class GradientBackground implements Background {
     private final int maxX;
     private final int height;
     private final Color[] colors;
-    
+
     GradientBackground(int width, int height) {
         this.maxX = width - 1;
         this.height = height;        
         this.colors = new Color[height];
-        
+
         final float step = (float) 1.0 / (float) height;        
         float blue = 0f;
         Color color = null;
@@ -45,13 +44,12 @@ public class GradientBackground implements Background {
                 color = new Color(0f, 0f, blue);
             }
             colors[y] = color;
-            
+
             blue += step;
             prevColor = color;
         }
     }
-    
-    
+
     public void paint(Graphics ig) {
         for (int y = 0; y < height; y++) {
             ig.setColor(colors[y]);        

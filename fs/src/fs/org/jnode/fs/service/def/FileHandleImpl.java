@@ -17,13 +17,15 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.service.def;
 
 import java.io.IOException;
-import java.io.VMOpenMode;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
+import java.nio.file.OpenOption;
+import java.nio.file.StandardOpenOption;
+import java.util.EnumSet;
 
 import org.jnode.fs.FSFile;
 import org.jnode.java.io.VMFileHandle;
@@ -34,7 +36,7 @@ import org.jnode.java.io.VMFileHandle;
 final class FileHandleImpl implements VMFileHandle {
 
     /** The open mode of this filehandle */
-    private final VMOpenMode mode;
+    private final OpenOption mode;
     /** The actual file on the filesystem */
     private final FSFile file;
     /** Is this a readonly connection? */
@@ -53,16 +55,16 @@ final class FileHandleImpl implements VMFileHandle {
      * @param mode
      * @param fhm
      */
-    public FileHandleImpl(FSFile file, VMOpenMode mode, FileHandleManager fhm) {
+    public FileHandleImpl(FSFile file, OpenOption mode, FileHandleManager fhm) {
         this.mode = mode;
         this.file = file;
-        this.readOnly = (mode == VMOpenMode.READ);
+        this.readOnly = (mode == StandardOpenOption.READ);
         this.fhm = fhm;
         this.closed = false;
 
         // WRITE only mode, i.e. NOT APPEND mode. Thus we have to set the
         // filesize to 0
-        if (!mode.canRead() && mode.canWrite()) {
+        if (mode != StandardOpenOption.READ && FileHandleManager.isWriting(mode)) {
             try {
                 file.setLength(0);
             } catch (IOException e) {
@@ -208,7 +210,7 @@ final class FileHandleImpl implements VMFileHandle {
      * 
      * @throws IOException
      */
-    public VMFileHandle dup(VMOpenMode newMode) throws IOException {
+    public VMFileHandle dup(OpenOption newMode) throws IOException {
         return fhm.dup(this, newMode);
     }
 
@@ -222,7 +224,7 @@ final class FileHandleImpl implements VMFileHandle {
     /**
      * Gets the mode of this handle
      */
-    public VMOpenMode getMode() {
+    public OpenOption getMode() {
         return mode;
     }
 

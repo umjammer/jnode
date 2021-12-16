@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.ipv4.tftp;
 
 import java.io.File;
@@ -48,16 +48,16 @@ public class TFTPServer extends TFTP {
 
     /** current client address */
     private InetAddress clientAddress;
-    
+
     private int clientPort;
     /** send transfer stream */
-    
+
     private FileInputStream fileIn;
     /** receive transfer stream */
-    
+
     private FileOutputStream fileOut;
     /** current block number received or sent */
-    
+
     private int blockNumber;
 
     public static void main(String[] args) {

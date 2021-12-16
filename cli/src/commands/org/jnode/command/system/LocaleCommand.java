@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.PrintWriter;
@@ -39,7 +39,7 @@ import org.jnode.shell.syntax.StringArgument;
  * @author crawley@jnode.org
  */
 public class LocaleCommand extends AbstractCommand {
-    
+
     private static final String help_lang = "the local's language";
     private static final String help_country = "the locale's country";
     private static final String help_variant = "the locale's variant";
@@ -49,12 +49,12 @@ public class LocaleCommand extends AbstractCommand {
     private static final String err_no_locale = "No Locale is available for %s %s %s%n";
     private static final String fmt_set = "Setting default Locale to %s%n";
     private static final String fmt_get = "Current default Locale is %s%n";
-    
+
     private final LanguageArgument argLanguage;
     private final CountryArgument argCountry;
     private final StringArgument argVariant;
     private final FlagArgument argList;
-    
+
     public LocaleCommand() {
         super(help_super);
         argLanguage = new LanguageArgument("language", Argument.OPTIONAL, help_lang);
@@ -63,7 +63,7 @@ public class LocaleCommand extends AbstractCommand {
         argList     = new FlagArgument("list", Argument.OPTIONAL, help_lang);
         registerArguments(argLanguage, argCountry, argVariant, argList);
     }
-    
+
     public static void main(String[] args) throws Exception {
         new LocaleCommand().execute(args);
     }
@@ -90,7 +90,7 @@ public class LocaleCommand extends AbstractCommand {
             out.format(fmt_get, formatLocale(Locale.getDefault()));
         }
     }
-    
+
     /**
      * List the available Locales in alphabetical order
      * 

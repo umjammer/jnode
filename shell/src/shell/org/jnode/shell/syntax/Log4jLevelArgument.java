@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.util.HashMap;
@@ -31,7 +31,7 @@ import org.apache.log4j.Level;
  */
 public class Log4jLevelArgument extends MappedArgument<Level> {
     private static HashMap<String, Level> LEVEL_MAP = new HashMap<String, Level>();
-    
+
     static {
         LEVEL_MAP.put("all", Level.ALL);
         // LEVEL_MAP.put("trace", Level.TRACE);  // introduce in log4j 1.2.12

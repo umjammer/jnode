@@ -19,7 +19,6 @@
 
 package charva.awt.event;
 
-
 /**
  * An event which executes the <code>run()</code> method on a 
  * <code>Runnable</code> when dispatched by the AWT event dispatcher thread.

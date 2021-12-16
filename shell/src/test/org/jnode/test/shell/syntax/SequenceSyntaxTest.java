@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.syntax;
 
 import org.jnode.shell.AbstractCommand;
@@ -33,17 +33,20 @@ import org.jnode.shell.syntax.IntegerArgument;
 import org.jnode.shell.syntax.RepeatSyntax;
 import org.jnode.shell.syntax.SequenceSyntax;
 import org.jnode.shell.syntax.Syntax;
-import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class SequenceSyntaxTest {
 
-    public static class Test extends AbstractCommand {
+    public static class Test1 extends AbstractCommand {
         private final FileArgument fileArg = new FileArgument("fileArg", Argument.OPTIONAL +
                 Argument.MULTIPLE);
         private final IntegerArgument intArg = new IntegerArgument("intArg", Argument.OPTIONAL +
                 Argument.MULTIPLE);
 
-        public Test() {
+        public Test1() {
             registerArguments(fileArg, intArg);
         }
 
@@ -51,27 +54,27 @@ public class SequenceSyntaxTest {
         }
     }
 
-    @org.junit.Test
+    @Test
     public void testConstructor() {
         new SequenceSyntax();
         new SequenceSyntax(new ArgumentSyntax("fileArg"));
         new SequenceSyntax(new ArgumentSyntax("fileArg"), new ArgumentSyntax("fileArg"));
     }
 
-    @org.junit.Test
+    @Test
     public void testFormat() {
-        Test test = new Test();
+        Test1 test = new Test1();
         Syntax syntax1 = new SequenceSyntax(new ArgumentSyntax("fileArg"));
-        Assert.assertEquals("<fileArg>", syntax1.format(test.getArgumentBundle()));
+        assertEquals("<fileArg>", syntax1.format(test.getArgumentBundle()));
         Syntax syntax2 =
                 new SequenceSyntax(new RepeatSyntax(new ArgumentSyntax("fileArg")),
                         new ArgumentSyntax("intArg"));
-        Assert.assertEquals("[ <fileArg> ... ] <intArg>", syntax2.format(test.getArgumentBundle()));
+        assertEquals("[ <fileArg> ... ] <intArg>", syntax2.format(test.getArgumentBundle()));
         Syntax syntax3 = new SequenceSyntax();
-        Assert.assertEquals("", syntax3.format(test.getArgumentBundle()));
+        assertEquals("", syntax3.format(test.getArgumentBundle()));
     }
 
-    @org.junit.Test
+    @Test
     public void testOne() throws Exception {
         TestShell shell = new TestShell();
         shell.addAlias("cmd", "org.jnode.test.shell.syntax.SequenceSyntaxTest$Test");
@@ -84,7 +87,7 @@ public class SequenceSyntaxTest {
         try {
             cl = new CommandLine(new Token("cmd"), new Token[] {}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("no exception");
+            fail("no exception");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -92,20 +95,20 @@ public class SequenceSyntaxTest {
         cl = new CommandLine(new Token("cmd"), new Token[] {new Token("F1")}, null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
 
         try {
             cl =
                     new CommandLine(new Token("cmd"),
                             new Token[] {new Token("F1"), new Token("F1")}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("no exception");
+            fail("no exception");
         } catch (CommandSyntaxException ex) {
             // expected
         }
     }
 
-    @org.junit.Test
+    @Test
     public void testTwo() throws Exception {
         TestShell shell = new TestShell();
         shell.addAlias("cmd", "org.jnode.test.shell.syntax.SequenceSyntaxTest$Test");
@@ -119,7 +122,7 @@ public class SequenceSyntaxTest {
         try {
             cl = new CommandLine(new Token("cmd"), new Token[] {}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("no exception");
+            fail("no exception");
         } catch (CommandSyntaxException ex) {
             //
         }
@@ -127,17 +130,17 @@ public class SequenceSyntaxTest {
         cl = new CommandLine(new Token("cmd"), new Token[] {new Token("1")}, null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(0, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
+        assertEquals(0, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals(1, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
 
         cl = new CommandLine(new Token("cmd"), new Token[] {new Token("F1"), new Token("1")}, null);
         cmdInfo = cl.parseCommandLine(shell);
         cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
-        Assert.assertEquals(1, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
+        assertEquals(1, cmd.getArgumentBundle().getArgument("fileArg").getValues().length);
+        assertEquals(1, cmd.getArgumentBundle().getArgument("intArg").getValues().length);
     }
 
-    @org.junit.Test
+    @Test
     public void testThree() throws Exception {
         TestShell shell = new TestShell();
         shell.addAlias("cmd", "org.jnode.test.shell.syntax.SequenceSyntaxTest$Test");
@@ -151,7 +154,7 @@ public class SequenceSyntaxTest {
         try {
             cl = new CommandLine(new Token("cmd"), new Token[] {new Token("1")}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("no exception");
+            fail("no exception");
         } catch (CommandSyntaxException ex) {
             // expected
         }

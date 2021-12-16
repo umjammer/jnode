@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.ftpfs;
 
 import org.jnode.driver.Device;
@@ -29,7 +29,7 @@ public class FTPFSDevice extends Device {
     private String host;
     private String user;
     private String password;
-    
+
     public FTPFSDevice(String host, String user, String password) {
         super(null, "ftp-(" + host + "," + user + ")");
         this.host = host;

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.PrintWriter;
@@ -29,7 +29,7 @@ import org.jnode.vm.isolate.VmIsolate;
  * @author Levente S\u00e1ntha
  */
 public class IsolateCommand extends AbstractCommand {
-    
+
     private static final String str_header = "      Id  Creator State    Main class";
     @Override
     public void execute() throws Exception {

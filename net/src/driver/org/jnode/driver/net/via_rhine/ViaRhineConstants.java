@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.net.via_rhine;
 
 /**
@@ -427,7 +427,6 @@ interface ViaRhineConstants {
     int IntrAbnormalSummary = 0xC260;
     int IntrTxDescRace = 0x080000;        // mapped from IntrStatus2
     int IntrTxErrSummary = 0x082218;
-
 
     int DEFAULT_INTR = IntrRxDone | IntrRxErr | IntrRxEmpty |
         IntrRxOverflow | IntrRxDropped | IntrRxNoBuf;

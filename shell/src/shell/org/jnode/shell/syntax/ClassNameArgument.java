@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import org.jnode.shell.CommandLine.Token;
@@ -29,7 +29,7 @@ import org.jnode.shell.CommandLine.Token;
  * @author crawley@jnode.org
  */
 public class ClassNameArgument extends Argument<String> {
-    
+
     public ClassNameArgument(String label, int flags, String description) {
         super(label, flags, new String[0], description);
     }
@@ -42,12 +42,12 @@ public class ClassNameArgument extends Argument<String> {
     protected String doAccept(Token token, int flags) throws CommandSyntaxException {
         return token.text;
     }
-    
+
     @Override
     protected String argumentKind() {
         return "class name";
     }
-    
+
     public Class<?> getValueAsClass() throws ClassNotFoundException {
         final ClassLoader cl = Thread.currentThread().getContextClassLoader();
         return cl.loadClass(getValue());

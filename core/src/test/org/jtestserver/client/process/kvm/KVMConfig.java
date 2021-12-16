@@ -1,7 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
 
- 
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -40,32 +39,32 @@ public class KVMConfig implements VMConfig {
      * Megabytes to give to the machine.
      */
     private final int memory;
-    
+
     /**
      * CDROM file to use.
      */
     private final File cdrom;
-    
+
     /**
      * Miscellaneous options.
      */
     private final String options;
-    
+
     /**
      * Destination of data sent to the serial port of the machine.
      */
     private final String serial;
-    
+
     /**
      * Locale used for the machine's keyboard.
      */
     private final String keyboard;
-    
+
     /**
      * Name of the VM. It's computed dynamically when given to {@link KVM}'s constructor.
      */
     private String vmName;
-    
+
     /**
      * Build an instance from the given {@link Properties}. 
      * Only properties whose key starts with <b>kvm.</b> will be used.
@@ -98,7 +97,7 @@ public class KVMConfig implements VMConfig {
     public String getKeyboard() {
         return keyboard;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -106,7 +105,7 @@ public class KVMConfig implements VMConfig {
     public String getVmName() {
         return vmName;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -122,7 +121,7 @@ public class KVMConfig implements VMConfig {
     public String getVmType() {
         return "KVM";
     }
-    
+
     /**
      * @param vmName name of the VM
      */

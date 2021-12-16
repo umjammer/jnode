@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import org.jnode.nanoxml.XMLElement;
@@ -30,10 +30,10 @@ import org.jnode.nanoxml.XMLElement;
  * @author crawley@jnode.org
  */
 public class VerbSyntax extends ArgumentSyntax {
-    
+
     private final String symbol;
     private final String argName;
-    
+
     public VerbSyntax(String label, String symbol, String argName, String flags, String description) {
         super(label, argName, flags, description);
         this.symbol = symbol;

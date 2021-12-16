@@ -1,7 +1,7 @@
 /*
 
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2009  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -31,26 +31,26 @@ import org.jtestserver.common.protocol.ProtocolException;
 
 public class ServerProcessManager {
     private static final Logger LOGGER = Logger.getLogger(ServerProcessManager.class.getName());
-    
+
 //    private final TestClient client;
     private final List<ServerProcess> processes;
     private final WatchDog watchDog;
-    
+
     public ServerProcessManager(Config config) {
 //        this.client = new DefaultTestClient(client);
         watchDog = new WatchDog(config);
         processes = new ArrayList<ServerProcess>();
-        
+
         ServerProcess process;
         for (int i = 0; i < 10; i++) { // TODO read number of processes from config
             process = config.getVMConfig().createServerProcess();
             processes.add(process);
         }
     }
-    
+
     public void startAll() throws IOException, ProtocolException {
         watchDog.startWatching();
-        
+
         for (ServerProcess process : processes) {
             process.start();
             watchDog.watch(process);
@@ -61,7 +61,7 @@ public class ServerProcessManager {
         for (ServerProcess process : processes) {
             // stop the watch dog before actually stop the process
             watchDog.unwatch(process);
-    
+
             LOGGER.info("killing running servers");        
 //        boolean killed = false;
 //        try {
@@ -83,9 +83,9 @@ public class ServerProcessManager {
 //                killed = true;
 //            }
 //        }
-        
+
             LOGGER.info("all servers are killed");
-    
+
             try {
                 process.stop();
             } catch (IOException e) {

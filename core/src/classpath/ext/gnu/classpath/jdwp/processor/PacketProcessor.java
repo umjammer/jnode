@@ -37,7 +37,6 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 
-
 package gnu.classpath.jdwp.processor;
 
 import gnu.classpath.jdwp.Jdwp;
@@ -67,10 +66,10 @@ public class PacketProcessor
 {
   // The connection to the debugger
   private JdwpConnection _connection;
-  
+
   // Shutdown this thread?
   private boolean _shutdown;
-  
+
   // A Mapping of the command set (Byte) to the specific CommandSet
   private CommandSet[] _sets;
 
@@ -79,7 +78,7 @@ public class PacketProcessor
 
   // Output stream around _outputBytes
   private DataOutputStream _os;
-  
+
   /**
    * Constructs a new <code>PacketProcessor</code> object
    * Connection must be validated before getting here!
@@ -90,7 +89,7 @@ public class PacketProcessor
   {
     _connection = con;
     _shutdown = false;
-    
+
     // MAXIMUM is the value of the largest command set we may receive 
     _sets = new CommandSet[JdwpConstants.CommandSet.MAXIMUM + 1];
     _outputBytes = new ByteArrayOutputStream();
@@ -130,7 +129,7 @@ public class PacketProcessor
     _sets[JdwpConstants.CommandSet.ClassObjectReference.CS_VALUE] =
       new ClassObjectReferenceCommandSet();
   }
-  
+
   /**
    * Main run routine for this thread. Will loop getting packets
    * from the connection and processing them.
@@ -140,7 +139,7 @@ public class PacketProcessor
     // Notify initialization thread (gnu.classpath.jdwp.Jdwp) that
     // the PacketProcessor thread is ready.
     Jdwp.getDefault().subcomponentInitialized ();
-	
+
     try
       {
         while (!_shutdown)
@@ -156,7 +155,7 @@ public class PacketProcessor
     Jdwp.getDefault().shutdown();
     return null;
   }
-  
+
   /**
    * Shutdown the packet processor
    */
@@ -164,34 +163,34 @@ public class PacketProcessor
   {
     _shutdown = true;
   }
-  
+
   // Helper function which actually does all the work of waiting
   // for a packet and getting it processed.
   private void _processOnePacket ()
     throws IOException
   {
     JdwpPacket pkt = _connection.getPacket ();
-    
+
     if (!(pkt instanceof JdwpCommandPacket))
       {
         // We're not supposed to get these from the debugger!
         // Drop it on the floor
         return;
       }
-    
+
     if (pkt != null)
       {
         JdwpCommandPacket commandPkt = (JdwpCommandPacket) pkt;
         JdwpReplyPacket reply = new JdwpReplyPacket(commandPkt);
-        
+
         // Reset our output stream
         _outputBytes.reset();
-        
+
         // Create a ByteBuffer around the command packet 
         ByteBuffer bb = ByteBuffer.wrap(commandPkt.getData());
         byte command = commandPkt.getCommand();
         byte commandSet = commandPkt.getCommandSet();
-        
+
         CommandSet set = null;
         try
           {

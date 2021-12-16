@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.exfat;
 
 import java.io.IOException;
@@ -65,7 +65,7 @@ public final class ExFatSuperBlock extends AbstractFSObject {
         final ByteBuffer b = ByteBuffer.allocate(SIZE);
         b.order(ByteOrder.LITTLE_ENDIAN);
         fs.getApi().read(0, b);
-        
+
         /* check OEM name */
 
         final byte[] oemBytes = new byte[OEM_NAME.length()];
@@ -88,7 +88,7 @@ public final class ExFatSuperBlock extends AbstractFSObject {
         if ((b.get(0x6f) & 0xff) != 0x80) {
             throw new IOException("invalid drive number");
         }
-        
+
         /* check boot signature */
 
         if ((b.get(510) & 0xff) != 0x55 || (b.get(511) & 0xff) != 0xaa)

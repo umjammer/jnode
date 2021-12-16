@@ -17,9 +17,10 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.driver.factories;
 
+import org.jmock.Mockery;
 import org.jmock.cglib.Mock;
 import org.jmock.core.Invocation;
 import org.jmock.core.Stub;
@@ -46,7 +47,7 @@ public class MockIDEDeviceFactory extends AbstractMockDeviceFactory implements
                                      boolean master, String name, IDEDriveDescriptor descriptor,
                                      DefaultIDEControllerDriver controller) {
         MockInitializer initializer = new MockInitializer() {
-            public void init(Mock mockIDEDevice) {
+            public void init(Mockery mockIDEDevice) {
                 // Boolean diskChanged = Boolean.FALSE;
                 // mockFDC.expects(testCase.atLeastOnce()).method("diskChanged").withAnyArguments().
                 // will(new ReturnStub(diskChanged));
@@ -59,7 +60,7 @@ public class MockIDEDeviceFactory extends AbstractMockDeviceFactory implements
 
     public IDEBus createIDEBus(Device parent, boolean primary) {
         MockInitializer initializer = new MockInitializer() {
-            public void init(Mock mockIDEBus) {
+            public void init(Mockery mockIDEBus) {
                 mockIDEBus.expects(testCase.atLeastOnce()).method(
                     "executeAndWait").withAnyArguments();
             }
@@ -74,7 +75,7 @@ public class MockIDEDeviceFactory extends AbstractMockDeviceFactory implements
 
     public IDEIO createIDEIO(Device parent, boolean primary) {
         MockInitializer initializer = new MockInitializer() {
-            public void init(Mock mockIDEIO) {
+            public void init(Mockery mockIDEIO) {
                 Integer irq = new Integer(13);
                 mockIDEIO.expects(testCase.atLeastOnce()).method("getIrq")
                     .withNoArguments().will(new ReturnStub(irq));
@@ -99,7 +100,7 @@ public class MockIDEDeviceFactory extends AbstractMockDeviceFactory implements
     private IBMPartitionTableEntry createEntry(int partNum,
                                                final boolean extended, final long startLba, final long nbSectors) {
         MockInitializer initializer = new MockInitializer() {
-            public void init(Mock mockEntry) {
+            public void init(Mockery mockEntry) {
                 Boolean valid = Boolean.TRUE;
                 mockEntry.expects(testCase.atLeastOnce()).method("isValid")
                     .withNoArguments().will(new ReturnStub(valid));
@@ -149,7 +150,7 @@ public class MockIDEDeviceFactory extends AbstractMockDeviceFactory implements
 
     public IBMPartitionTable createIBMPartitionTable(byte[] bs, Device dev) {
         MockInitializer initializer = new MockInitializer() {
-            public void init(Mock mockTable) {
+            public void init(Mockery mockTable) {
                 final BlockDeviceAPIContext context = (BlockDeviceAPIContext) ContextManager
                     .getInstance().getContext();
                 final Partition[] parts = context.getPartitions();

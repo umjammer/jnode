@@ -18,7 +18,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.vmmagic.unboxed;
 
 import org.jnode.util.NumberUtils;
@@ -33,7 +33,7 @@ import org.jnode.vm.facade.VmUtils;
 public final class MagicUtils {
 
     private static transient int refSize;
-    
+
     /**
      * Convert to a String representation.
      * @param v
@@ -46,7 +46,7 @@ public final class MagicUtils {
             return NumberUtils.hex(v.toLong());            
         }
     }
-    
+
     /**
      * Convert to a String representation.
      * @param v
@@ -59,7 +59,7 @@ public final class MagicUtils {
             return NumberUtils.hex(v.toLong());            
         }
     }
-    
+
     /**
      * Convert to a String representation.
      * @param v
@@ -72,7 +72,7 @@ public final class MagicUtils {
             return NumberUtils.hex(v.toLong());            
         }
     }
-    
+
     /**
      * Convert to a String representation.
      * @param v
@@ -85,12 +85,12 @@ public final class MagicUtils {
             return NumberUtils.hex(v.toLong());            
         }
     }
-    
+
     private static final int getRefSize() {
         if (refSize == 0) {
             refSize = VmUtils.getVm().getArch().getReferenceSize();
         }
         return refSize;
     }
-    
+
 }

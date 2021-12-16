@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -27,11 +27,13 @@ import org.jtestserver.client.ConfigReader;
 import org.jtestserver.client.process.VMConfig;
 import org.jtestserver.client.process.vmware.VMware;
 import org.jtestserver.client.process.vmware.VMwareConfig;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TestVMware extends TestVmManager<VMwareConfig> {
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         Config config = new CustomConfigReader(ConfigReader.VMWARE_TYPE).readConfig();
         this.config = (VMwareConfig) config.getVMConfig();
@@ -39,23 +41,25 @@ public class TestVMware extends TestVmManager<VMwareConfig> {
         vmManager = new VMware((VMwareConfig) this.config);
     }
 
-    @Test(expected = IOException.class)
+    @Test
     public void testGetRunningVMsWithWrongAuthentification() throws IOException {
-        CustomConfigReader reader = new CustomConfigReader(ConfigReader.VMWARE_TYPE) {
-            @Override
-            protected VMConfig createVMConfig(Properties vmProperties, String vm)
-                throws IOException {
-                vmProperties.put(VMwareConfig.USERNAME, "anObviouslyWrongLogin");
-                vmProperties.put(VMwareConfig.PASSWORD, "ThisIsNotAValidPassword");
+        assertThrows(IOException.class, () -> {
+            CustomConfigReader reader = new CustomConfigReader(ConfigReader.VMWARE_TYPE) {
+                @Override
+                protected VMConfig createVMConfig(Properties vmProperties, String vm)
+                    throws IOException {
+                    vmProperties.put(VMwareConfig.USERNAME, "anObviouslyWrongLogin");
+                    vmProperties.put(VMwareConfig.PASSWORD, "ThisIsNotAValidPassword");
 
-                return super.createVMConfig(vmProperties, vm);
-            }
-        };
+                    return super.createVMConfig(vmProperties, vm);
+                }
+            };
 
-        Config config = reader.readConfig();
-        VMwareConfig vmwareConfig = (VMwareConfig) config.getVMConfig();
+            Config config = reader.readConfig();
+            VMwareConfig vmwareConfig = (VMwareConfig) config.getVMConfig();
 
-        VMware vmware = new VMware(vmwareConfig);
-        vmware.getRunningVMs(vmwareConfig);
+            VMware vmware = new VMware(vmwareConfig);
+            vmware.getRunningVMs(vmwareConfig);
+        });
     }
 }

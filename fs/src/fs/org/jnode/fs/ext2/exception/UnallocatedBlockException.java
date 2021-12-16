@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.ext2.exception;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ import java.io.IOException;
  *
  */
 public class UnallocatedBlockException extends IOException {
-    
+
     private static final long serialVersionUID = 1L;
 
     public UnallocatedBlockException(String s) {

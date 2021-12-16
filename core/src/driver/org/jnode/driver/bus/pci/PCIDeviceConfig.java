@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.bus.pci;
 
 import java.util.Collection;
@@ -49,42 +49,42 @@ public abstract class PCIDeviceConfig implements PCIConstants {
      * My device
      */
     protected final PCIDevice device;
-    
+
     /**
      * My device ID
      */
     private final int deviceID;
-    
+
     /**
      * The vendor ID
      */
     private final int vendorID;
-    
+
     /**
      * The major class
      */
     private final int majorClass;
-    
+
     /**
      * The sub class
      */
     private final int subClass;
-    
+
     /**
      * The minor class
      */
     private int minorClass;
-    
+
     /**
      * The revision
      */
     private final int revision;
-    
+
     /**
      * The header type
      */
     private final int headerTypeRaw;
-    
+
     /**
      * The list of capabilities
      */

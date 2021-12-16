@@ -17,11 +17,14 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.swingpeers;
 
+import java.awt.BufferCapabilities.FlipContents;
 import java.awt.Dialog;
+import java.awt.GraphicsConfiguration;
 import java.awt.Window;
+import java.awt.peer.ComponentPeer;
 import java.awt.peer.DialogPeer;
 import java.util.List;
 
@@ -57,6 +60,54 @@ final class SwingDialogPeer extends SwingBaseWindowPeer<Dialog, SwingDialog>
     public void blockWindows(List<Window> windows) {
         //TODO implement it
     }
+
+    @Override
+    public void updateAlwaysOnTopState() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setOpacity(float opacity) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setOpaque(boolean isOpaque) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void updateWindow() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void repositionSecurityWarning() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void flip(int x1, int y1, int x2, int y2, FlipContents flipAction) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setZOrder(ComponentPeer above) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public boolean updateGraphicsData(GraphicsConfiguration gc) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }
 
 final class SwingDialog extends SwingBaseWindow<Dialog, SwingDialog> {
@@ -66,4 +117,3 @@ final class SwingDialog extends SwingBaseWindow<Dialog, SwingDialog> {
         super(target, title);
     }
 }
-

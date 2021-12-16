@@ -17,13 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.imageio.jpeg;
 
 import javax.imageio.IIOException;
 
 public class JPEGException extends IIOException {
-    
+
     private static final long serialVersionUID = 1L;
 
     public JPEGException(String message) {

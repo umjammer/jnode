@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import java.io.InputStream;
@@ -118,7 +118,7 @@ public abstract class AbstractCommand implements Command {
         CommandInfo ci = cmdLine.parseCommandLine((CommandShell) ShellUtils.getCurrentShell());
         return ci.getCommandInstance();
     }
-    
+
     /**
      * Get our best guess as to what the alias was.
      * 
@@ -178,7 +178,7 @@ public abstract class AbstractCommand implements Command {
             bundle.addArgument(arg);
         }
     }
-    
+
     /**
      * The default implementation of the 'execute()' entry point delegates to 
      * the older 'execute(...)' entry point.  A new command class should override
@@ -191,7 +191,7 @@ public abstract class AbstractCommand implements Command {
                 ((CommandOutput) ios[1]).getPrintStream(),
                 ((CommandOutput) ios[2]).getPrintStream());
     }
-    
+
     /**
      * The default implementation of the 'execute(...)' entry point complains that
      * you haven't implemented it.  A command class must override either this method
@@ -202,7 +202,7 @@ public abstract class AbstractCommand implements Command {
         throw new UnsupportedOperationException(
                 "A JNode command class MUST implement one of the 'execute(...)' methods.");
     }
-    
+
     /**
      * Get the CommandLine object representing the command name and arguments
      * in String form.  This method should not be called from a Command constructor.
@@ -241,7 +241,7 @@ public abstract class AbstractCommand implements Command {
         }
         return (CommandInput) ios[0];
     }
-    
+
     /**
      * Get the Command's stream indexed by the 'fd' number.
      * This method should not be called from a Command constructor.
@@ -255,7 +255,7 @@ public abstract class AbstractCommand implements Command {
         }
         return ios[fd];
     }
-    
+
     /**
      * Get the CommandIO object representing the 'output' stream; i.e. fd '1'.
      * This method should not be called from a Command constructor.
@@ -276,11 +276,10 @@ public abstract class AbstractCommand implements Command {
         if (ios.length < 3) {
             throw new IllegalArgumentException("'ios' must have at least 3 elements");
         }
-        
+
         this.commandLine = commandLine;
         this.ios = ios;
     }
-
 
     static ThreadLocal<Command> currentCommand = new ThreadLocal<Command>();
 

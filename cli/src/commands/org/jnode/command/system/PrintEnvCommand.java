@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import gnu.java.security.action.GetEnvAction;
@@ -37,9 +37,9 @@ import org.jnode.shell.AbstractCommand;
  * @author crawley@jnode.org
  */
 public class PrintEnvCommand extends AbstractCommand {
-    
+
     private static final String help_super = "Print the current environment variables";
-    
+
     public PrintEnvCommand() {
         super(help_super);
     }

@@ -17,11 +17,10 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import org.jnode.nanoxml.XMLElement;
-
 
 /**
  * An AlternativesSyntax specifies that one of its child syntaxes needs to be 
@@ -31,7 +30,7 @@ import org.jnode.nanoxml.XMLElement;
  * @author crawley@jnode.org
  */
 public class AlternativesSyntax extends GroupSyntax {
-    
+
     public AlternativesSyntax(String label, String description, Syntax...syntaxes) {
         super(label, description, syntaxes);
     }
@@ -75,5 +74,5 @@ public class AlternativesSyntax extends GroupSyntax {
     public XMLElement toXML() {
         return basicElement("alternatives");
     }
-    
+
 }

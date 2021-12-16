@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.arp;
 
 import java.util.ArrayList;
@@ -37,10 +37,10 @@ import org.jnode.net.ProtocolAddress;
 public class ARPCache {
 
     private static final Logger log = Logger.getLogger(ARPCache.class);
-    
+
     private final Map<HardwareAddress, ARPCacheEntry> networkToProtocolAddresses =
             new HashMap<HardwareAddress, ARPCacheEntry>();
-    
+
     private final Map<ProtocolAddress, ARPCacheEntry> protocolToNetworkAddresses =
             new HashMap<ProtocolAddress, ARPCacheEntry>();
 

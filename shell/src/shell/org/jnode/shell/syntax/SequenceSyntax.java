@@ -17,11 +17,10 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import org.jnode.nanoxml.XMLElement;
-
 
 /**
  * A SequenceSyntax specifies that a group of child syntaxes need to be 
@@ -30,7 +29,7 @@ import org.jnode.nanoxml.XMLElement;
  * @author crawley@jnode
  */
 public class SequenceSyntax extends GroupSyntax {
-    
+
     public SequenceSyntax(String label, String description, Syntax...syntaxes) {
         super(label, description, syntaxes);
     }

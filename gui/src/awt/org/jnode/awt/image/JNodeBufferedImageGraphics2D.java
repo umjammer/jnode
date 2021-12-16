@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.image;
 
 import java.awt.GraphicsConfiguration;
@@ -70,7 +70,6 @@ public class JNodeBufferedImageGraphics2D extends AbstractSurfaceGraphics2D {
 
         return copy;
     }
-
 
     /**
      * @return The configuration

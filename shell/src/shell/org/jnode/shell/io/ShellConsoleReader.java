@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.io;
 
 import java.io.IOException;
@@ -36,9 +36,9 @@ import org.jnode.system.event.FocusEvent;
  * @author crawley@jnode.org
  */
 public class ShellConsoleReader extends KeyboardReader {
-    
+
     private final KeyboardReader reader;
-    
+
     public ShellConsoleReader(KeyboardReader reader) {
         super();
         this.reader = reader;

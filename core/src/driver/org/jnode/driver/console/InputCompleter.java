@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console;
 
 import java.io.PrintWriter;
@@ -37,7 +37,7 @@ public interface InputCompleter {
      * @return a CompletionInfo that contains the possible completions.
      */
     public CompletionInfo complete(String partial);
-    
+
     /**
      * Show incremental syntax help for the supplied partial input line.
      * 
@@ -52,6 +52,5 @@ public interface InputCompleter {
      * different histories may be returned at different times.
      */
     public InputHistory getInputHistory();
-
 
 }

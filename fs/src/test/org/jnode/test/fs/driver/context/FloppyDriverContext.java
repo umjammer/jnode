@@ -17,12 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.driver.context;
 
 import java.io.IOException;
+
 import javax.naming.NamingException;
-import org.jmock.MockObjectTestCase;
+
 import org.jnode.driver.DeviceFinder;
 import org.jnode.driver.block.floppy.FloppyControllerFinder;
 import org.jnode.driver.block.floppy.FloppyDeviceToDriverMapper;
@@ -38,7 +39,7 @@ public class FloppyDriverContext extends BlockDeviceAPIContext {
         super("FloppyDriver");
     }
 
-    public void init(TestConfig config, MockObjectTestCase testCase) throws Exception {
+    public void init(TestConfig config, Object testCase) throws Exception {
         super.init(config, testCase);
 
         // set the current testCase for our factory

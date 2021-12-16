@@ -17,9 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.configure.adapter;
 
+package org.jnode.configure.adapter;
 
 /**
  * Dummy property value encoder / decoder. Performs the identity transform.
@@ -27,7 +26,7 @@ package org.jnode.configure.adapter;
  * @author crawley@jnode.org
  */
 class DummyValueCodec implements BasePropertyFileAdapter.ValueCodec {
-    
+
     public String encodeProperty(String propName, String propValue, String modifiers) {
         return propValue;
     }

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.isolate;
 
 import java.net.ServerSocket;
@@ -25,7 +25,6 @@ import java.net.Socket;
 
 import javax.isolate.Link;
 import javax.isolate.LinkMessage;
-
 
 public final class LinkMessageFactory {
 

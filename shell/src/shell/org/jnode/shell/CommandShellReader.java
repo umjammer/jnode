@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ import java.util.List;
  * @author crawley@jnode.org
  */
 class CommandShellReader extends Reader {
-    
+
     private StringReader reader;
     private final Reader in;
     private final PrintWriter out;
@@ -51,7 +51,7 @@ class CommandShellReader extends Reader {
         this.in = in;
         nextReader(true);
     }
-    
+
     private boolean nextReader(boolean first) throws IOException {
         String prompt;
         if (first) {
@@ -87,7 +87,7 @@ class CommandShellReader extends Reader {
         reader = new StringReader(sb.toString());
         return true;
     }
-    
+
     @Override
     public int read() throws IOException {
         if (reader == null) {
@@ -143,7 +143,7 @@ class CommandShellReader extends Reader {
         }
         return res;
     }
-    
+
     @Override
     public boolean ready() throws IOException {
         if (reader == null) {
@@ -165,5 +165,5 @@ class CommandShellReader extends Reader {
     public List<String> getLines() {
         return lines;
     }
-    
+
 }

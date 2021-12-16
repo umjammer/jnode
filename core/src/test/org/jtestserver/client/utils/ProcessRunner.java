@@ -1,7 +1,7 @@
 /*
 
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -44,32 +44,32 @@ public class ProcessRunner {
      * Logger used for our internal usage.
      */
     private static final Logger LOGGER = Logger.getLogger(ProcessRunner.class.getName());
-    
+
     /**
      * Logger used by our {@link PipeInputStream}s.
      */
     static final Logger SERVER_LOGGER = Logger.getLogger("Server");
-    
+
     /**
      * Default work directory for the processes we are launching.
      */
     private static final File DEFAULT_WORK_DIR = new File(System.getProperty("user.home"));
-    
+
     /**
      * {@link PipeInputStream} used to redirect the process output stream.
      */
     private PipeInputStream outputPipe;
-    
+
     /**
      * {@link PipeInputStream} used to redirect the process error stream.
      */
     private PipeInputStream errorPipe;
-    
+
     /**
      * The process we have launched.
      */
     private Process process;
-    
+
     /**
      * The actual work directory 
      */
@@ -99,7 +99,7 @@ public class ProcessRunner {
     public boolean executeAndWait(Listener listener, String... command) throws IOException {
         return executeAndWait(listener, new int[]{0}, command);
     }
-    
+
     /**
      * Executes a command and waits for its termination. 
      * Also listen for lines received from the process streams and give the return codes that    
@@ -114,7 +114,7 @@ public class ProcessRunner {
      */
     public boolean executeAndWait(Listener listener, int[] successExitValue, String... command) throws IOException {
         boolean success = false;
-        
+
         execute(listener, listener, command);
         try {
             int exitValue  = process.waitFor();            
@@ -124,15 +124,15 @@ public class ProcessRunner {
                     break;
                 }
             }
-            
+
             LOGGER.info("exit value : " + exitValue);
         } catch (InterruptedException e) {
             LOGGER.log(Level.SEVERE, "error while waiting for process", e);
         }
-        
+
         outputPipe.waitFor();
         errorPipe.waitFor();
-        
+
         return success;
     }
 
@@ -155,7 +155,7 @@ public class ProcessRunner {
     public void execute(Listener outputListener,
             Listener errorListener, String... command) throws IOException {
         LOGGER.finer("command: " + command);
-        
+
         Map<String, String> env = System.getenv();
         String[] envArray = new String[env.size()];
         int i = 0;
@@ -189,7 +189,6 @@ public class ProcessRunner {
         this.workDir = ((workDir == null) || !workDir.isDirectory()) ? DEFAULT_WORK_DIR : workDir;
     }
 
-    
     /**
      * Execute the given command line.
      * 
@@ -206,7 +205,7 @@ public class ProcessRunner {
                 errors.add(Boolean.TRUE);
             }            
         }, cmdLine.toArray());
-        
+
         LOGGER.log(Level.INFO, "command line: " + cmdLine.toString());
 
         // wait a bit to see if an error happen
@@ -216,7 +215,7 @@ public class ProcessRunner {
         } catch (InterruptedException e) {
             // ignore
         }
-        
+
         return errors.isEmpty();
     }
 }

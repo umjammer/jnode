@@ -17,11 +17,11 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver;
 
-import gnu.java.security.action.GetPropertyAction;
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -88,8 +88,12 @@ public abstract class AbstractDeviceManager implements DeviceManager {
      * Create a new instance.
      */
     public AbstractDeviceManager() {
-        this((String) AccessController.doPrivileged(new GetPropertyAction(
-            "jnode.cmdline", "")));
+        this((String) AccessController.doPrivileged(new PrivilegedAction<String>() {
+            @Override
+            public String run() {
+                return System.getProperty("jnode.cmdline", "");
+            }
+        }));
     }
 
     /**

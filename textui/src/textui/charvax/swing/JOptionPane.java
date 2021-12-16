@@ -470,7 +470,7 @@ public class JOptionPane
 
 	    JPanel southpan = new JPanel();
 	    southpan.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
-	
+
 	    if (_options != null) {
 		// Option buttons were explicitly specified.
 		for (int i=0; i<_options.length; i++) {

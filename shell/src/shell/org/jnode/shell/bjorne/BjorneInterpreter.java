@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import static org.jnode.shell.bjorne.BjorneToken.TOK_CLOBBER;
@@ -126,9 +126,9 @@ public class BjorneInterpreter implements CommandInterpreter {
 
     static HashMap<String, BjorneBuiltin.Factory> BUILTINS = 
         new HashMap<String, BjorneBuiltin.Factory>();
-    
+
     private static boolean DEBUG = false;
-    
+
     private static long subshellCount;
 
     static {
@@ -152,9 +152,9 @@ public class BjorneInterpreter implements CommandInterpreter {
     private CommandShell shell;
 
     private BjorneContext context;
-    
+
     private BjorneParser parser;
-    
+
     private Reader reader;
 
     public BjorneInterpreter() {
@@ -184,7 +184,7 @@ public class BjorneInterpreter implements CommandInterpreter {
         }
         return completer;
     }
-    
+
     @Override
     public synchronized boolean help(CommandShell shell, String partial, PrintWriter pw) throws ShellException {
         // TODO Auto-generated method stub
@@ -274,7 +274,7 @@ public class BjorneInterpreter implements CommandInterpreter {
             }
         }
     }
-    
+
     @Override
     public String getPrompt(CommandShell shell, boolean continuation) {
         try {
@@ -294,7 +294,7 @@ public class BjorneInterpreter implements CommandInterpreter {
     public boolean supportsMultiline() {
         return true;
     }
-    
+
     Reader getReader() {
         return this.reader;
     }
@@ -307,7 +307,7 @@ public class BjorneInterpreter implements CommandInterpreter {
             this.shell = shell;
         }
     }
-    
+
     static boolean isBuiltin(String commandWord) {
         return BUILTINS.containsKey(commandWord);
     }
@@ -352,7 +352,7 @@ public class BjorneInterpreter implements CommandInterpreter {
     InputStream resolveInputStream(CommandIO stream) {
         return shell.resolveInputStream(stream);
     }
-    
+
     private static synchronized long getSubshellNumber() {
         return subshellCount++;
     }

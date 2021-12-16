@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.File;
@@ -28,9 +28,9 @@ import org.jnode.shell.AbstractCommand;
  * @author Martin Husted Hartvig (hagar@jnode.org)
  */
 public class PwdCommand extends AbstractCommand {
-    
+
     private static final String help_super = "Show the pathname of the current working directory";
-    
+
     public PwdCommand() {
         super(help_super);
     }

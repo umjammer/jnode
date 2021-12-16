@@ -17,14 +17,17 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.jpartition.model;
 
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public abstract class AbstractTestDevice extends AbstractTest {
     protected static final int DEVICE_SIZE = 5000;
@@ -41,7 +44,7 @@ public abstract class AbstractTestDevice extends AbstractTest {
         return getEndFreeSpace() - getStartFreeSpace() + 1;
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         device = new CustomDevice("dev1", DEVICE_SIZE);
     }
@@ -50,14 +53,14 @@ public abstract class AbstractTestDevice extends AbstractTest {
     public void testAddPartitionWithIllegalStart() {
         try {
             device.addPartition(getStartFreeSpace() - 1, getFreeSpace() - 1);
-            Assert.fail("failed case 1");
+            fail("failed case 1");
         } catch (DeviceException e) {
             // success
         }
 
         try {
             device.addPartition(getStartFreeSpace() - 1, getFreeSpace());
-            Assert.fail("failed case 2");
+            fail("failed case 2");
         } catch (DeviceException e) {
             // success
         }
@@ -67,28 +70,28 @@ public abstract class AbstractTestDevice extends AbstractTest {
     public void testAddPartitionWithIllegalSize() {
         try {
             device.addPartition(getStartFreeSpace(), -1);
-            Assert.fail("failed case 1");
+            fail("failed case 1");
         } catch (DeviceException e) {
             // success
         }
 
         try {
             device.addPartition(getStartFreeSpace(), 0);
-            Assert.fail("failed case 2");
+            fail("failed case 2");
         } catch (DeviceException e) {
             // success
         }
 
         try {
             device.addPartition(getStartFreeSpace(), getFreeSpace() + 1);
-            Assert.fail("failed case 3");
+            fail("failed case 3");
         } catch (DeviceException e) {
             // success
         }
 
         try {
             device.addPartition(getStartFreeSpace(), getFreeSpace() + 2);
-            Assert.fail("failed case 4");
+            fail("failed case 4");
         } catch (DeviceException e) {
             // success
         }
@@ -98,14 +101,13 @@ public abstract class AbstractTestDevice extends AbstractTest {
     public void testAddPartitionAllFreeSpace() {
         final int nbPartitions = device.getPartitions().size();
         Partition newPart = device.addPartition(getStartFreeSpace(), getFreeSpace());
-        assertEquals(getStartFreeSpace(), getFreeSpace(), true, newPart);
+        assertEquals_(getStartFreeSpace(), getFreeSpace(), true, newPart);
 
         List<Partition> partitions = device.getPartitions();
-        Assert.assertEquals("must have only " + nbPartitions + " partition(s)", nbPartitions,
-                partitions.size());
+        assertEquals(nbPartitions, partitions.size(), "must have only " + nbPartitions + " partition(s)");
 
         Partition part = partitions.get(getIndexFreeSpacePartition());
-        Assert.assertTrue("must return the same instance as addPartition", newPart == part);
+        assertTrue(newPart == part, "must return the same instance as addPartition");
     }
 
     @Test
@@ -115,19 +117,18 @@ public abstract class AbstractTestDevice extends AbstractTest {
         final long size = getFreeSpace() - 1500;
 
         Partition newPart = device.addPartition(begin, size);
-        assertEquals(begin, size, true, newPart);
+        assertEquals_(begin, size, true, newPart);
 
         List<Partition> partitions = device.getPartitions();
         final int expectedNbPartitions = nbPartitions + 1;
-        Assert.assertEquals("must have only " + expectedNbPartitions + " partition(s)",
-                expectedNbPartitions, partitions.size());
+        assertEquals(expectedNbPartitions, partitions.size(), "must have only " + expectedNbPartitions + " partition(s)");
 
         Partition part1 = partitions.get(getIndexFreeSpacePartition());
-        Assert.assertTrue("must return the same instance as addPartition", newPart == part1);
+        assertTrue(newPart == part1, "must return the same instance as addPartition");
 
         Partition part2 = partitions.get(getIndexFreeSpacePartition() + 1);
         long part2Size = getFreeSpace() - part1.getSize();
-        assertEquals(begin + size, part2Size, false, part2);
+        assertEquals_(begin + size, part2Size, false, part2);
     }
 
     @Test
@@ -138,22 +139,21 @@ public abstract class AbstractTestDevice extends AbstractTest {
         final long size = getFreeSpace() - 1500;
 
         Partition newPart = device.addPartition(begin, size);
-        assertEquals(begin, size, true, newPart);
+        assertEquals_(begin, size, true, newPart);
 
         List<Partition> partitions = device.getPartitions();
         final int expectedNbPartitions = nbPartitions + 2;
-        Assert.assertEquals("must have only " + expectedNbPartitions + " partition(s)",
-                expectedNbPartitions, partitions.size());
+        assertEquals(expectedNbPartitions, partitions.size(), "must have only " + expectedNbPartitions + " partition(s)");
 
         Partition part1 = partitions.get(getIndexFreeSpacePartition());
-        assertEquals(getStartFreeSpace(), shift, false, part1);
+        assertEquals_(getStartFreeSpace(), shift, false, part1);
 
         Partition part2 = partitions.get(getIndexFreeSpacePartition() + 1);
-        Assert.assertTrue("must return the same instance as addPartition", newPart == part2);
+        assertTrue(newPart == part2, "must return the same instance as addPartition");
 
         Partition part3 = partitions.get(getIndexFreeSpacePartition() + 2);
         long part3Size = getFreeSpace() - part1.getSize() - part2.getSize();
-        assertEquals(begin + size, part3Size, false, part3);
+        assertEquals_(begin + size, part3Size, false, part3);
     }
 
     @Test
@@ -164,18 +164,17 @@ public abstract class AbstractTestDevice extends AbstractTest {
         final long size = getFreeSpace() - shift;
 
         Partition newPart = device.addPartition(begin, size);
-        assertEquals(begin, size, true, newPart);
+        assertEquals_(begin, size, true, newPart);
 
         List<Partition> partitions = device.getPartitions();
         final int expectedNbPartitions = nbPartitions + 1;
-        Assert.assertEquals("must have only " + expectedNbPartitions + " partition(s)",
-                expectedNbPartitions, partitions.size());
+        assertEquals(expectedNbPartitions, partitions.size(), "must have only " + expectedNbPartitions + " partition(s)");
 
         Partition part1 = partitions.get(getIndexFreeSpacePartition());
-        assertEquals(getStartFreeSpace(), shift, false, part1);
+        assertEquals_(getStartFreeSpace(), shift, false, part1);
 
         Partition part2 = partitions.get(getIndexFreeSpacePartition() + 1);
-        Assert.assertTrue("must return the same instance as addPartition", newPart == part2);
+        assertTrue(newPart == part2, "must return the same instance as addPartition");
     }
 
     @Test
@@ -184,11 +183,10 @@ public abstract class AbstractTestDevice extends AbstractTest {
         device.addPartition(getStartFreeSpace(), getFreeSpace());
 
         List<Partition> partitions = device.getPartitions();
-        Assert.assertEquals("must have only " + nbPartitions + " partition(s)", nbPartitions,
-                partitions.size());
+        assertEquals(nbPartitions, partitions.size(), "must have only " + nbPartitions + " partition(s)");
 
         Partition part = partitions.get(getIndexFreeSpacePartition());
-        assertEquals(getStartFreeSpace(), getFreeSpace(), true, part);
+        assertEquals_(getStartFreeSpace(), getFreeSpace(), true, part);
     }
 
     @Test
@@ -200,15 +198,14 @@ public abstract class AbstractTestDevice extends AbstractTest {
 
         List<Partition> partitions = device.getPartitions();
         final int expectedNbPartitions = nbPartitions + 1;
-        Assert.assertEquals("must have only " + expectedNbPartitions + " partition(s)",
-                expectedNbPartitions, partitions.size());
+        assertEquals(expectedNbPartitions, partitions.size(), "must have only " + expectedNbPartitions + " partition(s)");
 
         Partition part1 = partitions.get(getIndexFreeSpacePartition());
-        assertEquals(begin, size, true, part1);
+        assertEquals_(begin, size, true, part1);
 
         Partition part2 = partitions.get(getIndexFreeSpacePartition() + 1);
         long part2Size = getFreeSpace() - part1.getSize();
-        assertEquals(begin + size, part2Size, false, part2);
+        assertEquals_(begin + size, part2Size, false, part2);
     }
 
     @Test
@@ -221,18 +218,17 @@ public abstract class AbstractTestDevice extends AbstractTest {
 
         List<Partition> partitions = device.getPartitions();
         final int expectedNbPartitions = nbPartitions + 2;
-        Assert.assertEquals("must have only " + expectedNbPartitions + " partition(s)",
-                expectedNbPartitions, partitions.size());
+        assertEquals(expectedNbPartitions, partitions.size(), "must have only " + expectedNbPartitions + " partition(s)");
 
         Partition part1 = partitions.get(getIndexFreeSpacePartition());
-        assertEquals(getStartFreeSpace(), shift, false, part1);
+        assertEquals_(getStartFreeSpace(), shift, false, part1);
 
         Partition part2 = partitions.get(getIndexFreeSpacePartition() + 1);
-        assertEquals(begin, size, true, part2);
+        assertEquals_(begin, size, true, part2);
 
         Partition part3 = partitions.get(getIndexFreeSpacePartition() + 2);
         long part3Size = getFreeSpace() - part1.getSize() - part2.getSize();
-        assertEquals(begin + size, part3Size, false, part3);
+        assertEquals_(begin + size, part3Size, false, part3);
     }
 
     @Test
@@ -245,14 +241,13 @@ public abstract class AbstractTestDevice extends AbstractTest {
 
         List<Partition> partitions = device.getPartitions();
         final int expectedNbPartitions = nbPartitions + 1;
-        Assert.assertEquals("must have only " + expectedNbPartitions + " partition(s)",
-                expectedNbPartitions, partitions.size());
+        assertEquals(expectedNbPartitions, partitions.size(), "must have only " + expectedNbPartitions + " partition(s)");
 
         Partition part1 = partitions.get(getIndexFreeSpacePartition());
-        assertEquals(getStartFreeSpace(), shift, false, part1);
+        assertEquals_(getStartFreeSpace(), shift, false, part1);
 
         Partition part2 = partitions.get(getIndexFreeSpacePartition() + 1);
-        assertEquals(begin, size, true, part2);
+        assertEquals_(begin, size, true, part2);
     }
 
     @Test
@@ -281,13 +276,13 @@ public abstract class AbstractTestDevice extends AbstractTest {
                     } else {
                         device.removePartition(start + 1);
                     }
-                    Assert.fail("must throw an exception");
+                    fail("must throw an exception");
                 } catch (DeviceException e) {
                     // success
                 }
 
-                Assert.assertEquals(nbPartitions, device.getPartitions().size());
-                assertEquals(start, size, used, part);
+                assertEquals(nbPartitions, device.getPartitions().size());
+                assertEquals_(start, size, used, part);
             }
         }
     }

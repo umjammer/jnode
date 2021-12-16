@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import java.io.BufferedReader;
@@ -124,17 +124,17 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
     private static final Logger log = Logger.getLogger(CommandShell.class);
 
     private CommandInput cin;
-    
+
     private CommandOutput cout;
-    
+
     private CommandOutput cerr;
-    
+
     private Reader in;
 
     private PrintWriter outPW;
-    
+
     private PrintWriter errPW;
-    
+
     private AliasManager aliasMgr;
 
     private SyntaxManager syntaxMgr;
@@ -175,13 +175,13 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
     private SimpleCommandInvoker invoker;
 
     private CommandInterpreter interpreter;
-    
+
     private HashMap<String, String> propertyMap;
 
     private CompletionInfo completion;
 
     private boolean historyEnabled;
-    
+
     private boolean debugEnabled;
 
     private boolean exited = false;
@@ -210,7 +210,7 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
     public CommandShell(TextConsole cons) throws ShellException {
         this(cons, false);
     }
-    
+
     public CommandShell(TextConsole cons, boolean emu) throws ShellException {
         debugEnabled = true;
         try {
@@ -236,7 +236,7 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
             ex.printStackTrace();
         }
     }
-    
+
     /**
      * Create a CommandShell that doesn't use a TextConsole or the ConsoleManager
      * for use in the TestHarness.
@@ -258,7 +258,7 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
             throw new ShellFailureException("CommandShell initialization failed", ex);
         }
     }
-    
+
     /**
      * This constructor builds a partial command shell for test purposes only.
      * 
@@ -276,7 +276,6 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
                 new OutputStreamWriter(System.err));
     }
 
-    
     private HashMap<String, String> initShellProperties(boolean emu) {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put(PROMPT_PROPERTY_NAME, DEFAULT_PROMPT);
@@ -286,7 +285,7 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
         map.put(INTERPRETER_PROPERTY_NAME, INITIAL_INTERPRETER);
         return map;
     }
-    
+
     private void setupStreams(Reader in, Writer out, Writer err) {
         this.cout = new CommandOutput(out);
         this.cerr = new CommandOutput(err);
@@ -295,7 +294,7 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
         this.outPW = cout.getPrintWriter();
         this.errPW = cerr.getPrintWriter();
     }
-    
+
     /**
      * Run this shell until exit.
      * 
@@ -443,11 +442,11 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
         // Now become interactive
         ownThread = Thread.currentThread();
     }
-    
+
     protected void setReadingCommand(boolean readingCommand) {
         this.readingCommand = readingCommand;
     }
-    
+
     @Override
     public String getProperty(String propName) {
         return propertyMap.get(propName);
@@ -495,7 +494,7 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
         debugEnabled = Boolean.parseBoolean(propertyMap.get(DEBUG_PROPERTY_NAME));
         historyEnabled = Boolean.parseBoolean(propertyMap.get(HISTORY_PROPERTY_NAME));
     }
-    
+
     private synchronized void setCommandInvoker(String name) throws ShellException {
         if (invoker == null || !name.equals(invoker.getName())) {
             boolean alreadySet = invoker != null;
@@ -521,7 +520,7 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
             ex.printStackTrace(errPW);
         }
     }
-    
+
     private void clearEof() {
         if (in instanceof KeyboardReader) {
             ((KeyboardReader) in).clearSoftEOF();
@@ -572,7 +571,7 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
         throws ShellException {
         return this.invoker.invokeAsynchronous(cmdLine);
     }
-    
+
     /**
      * Gets a {@link CommandInfo} object representing the given command/alias.
      *
@@ -615,7 +614,7 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
             }
         }
     }
-    
+
     protected ArgumentBundle getCommandArgumentBundle(CommandInfo commandInfo) {
         return commandInfo.getArgumentBundle();
     }
@@ -648,7 +647,7 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
             return CommandShell.applicationHistory.get();
         }
     }
-    
+
     /**
      * This method is called by the console input driver to perform command line
      * completion in response to a 
@@ -691,7 +690,7 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
         completion = null;
         return myCompletion;
     }
-    
+
     /**
      * This method is responsible for generating incremental help in response
      * to a @link org.jnode.driver.console.textscreen.KeyboardReaderAction#KR_HELP}
@@ -830,7 +829,7 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
             setHistoryEnabled(enabled);
         }
     }
-    
+
     private CommandInterpreter createInterpreter(Reader reader) throws ShellException {
         try {
             final BufferedReader br = new BufferedReader(reader);
@@ -859,7 +858,7 @@ public class CommandShell implements Runnable, Shell, ConsoleListener {
             }
         }
     }
-    
+
     public void exit() {
         exit0();
         console.close();

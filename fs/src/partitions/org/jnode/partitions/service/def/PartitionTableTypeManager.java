@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.partitions.service.def;
 
 import java.util.Collection;
@@ -37,11 +37,11 @@ import org.jnode.plugin.ExtensionPointListener;
  */
 final class PartitionTableTypeManager implements ExtensionPointListener {
     private static final Logger log = Logger.getLogger(PartitionTableTypeManager.class);
-    
+
     /** All registered types */
     private final HashMap<String, PartitionTableType> types =
             new HashMap<String, PartitionTableType>();
-    
+
     /** The org.jnode.fs.types extension point */
     private final ExtensionPoint typesEP;
 

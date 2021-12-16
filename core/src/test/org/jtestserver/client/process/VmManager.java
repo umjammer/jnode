@@ -1,7 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
 
- 
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -37,7 +36,7 @@ public interface VmManager<T extends VMConfig> {
      * @throws IOException
      */
     boolean start(T config) throws IOException;
-    
+
     /**
      * Stops the VM given by its name.
      * 

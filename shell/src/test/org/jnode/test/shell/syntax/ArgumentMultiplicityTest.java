@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.syntax;
 
 import org.jnode.shell.AbstractCommand;
@@ -30,8 +30,10 @@ import org.jnode.shell.syntax.ArgumentSyntax;
 import org.jnode.shell.syntax.CommandSyntaxException;
 import org.jnode.shell.syntax.FileArgument;
 import org.jnode.shell.syntax.RepeatSyntax;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class ArgumentMultiplicityTest {
 
@@ -93,12 +95,12 @@ public class ArgumentMultiplicityTest {
         CommandLine cl = new CommandLine(new Token("cmd"), new Token[] {new Token("F1")}, null);
         CommandInfo cmdInfo = cl.parseCommandLine(shell);
         Command cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals("F1", cmd.getArgumentBundle().getArgument("arg1").getValue().toString());
+        assertEquals("F1", cmd.getArgumentBundle().getArgument("arg1").getValue().toString());
 
         try {
             cl = new CommandLine(new Token("cmd"), new Token[] {new Token("")}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("parse didn't fail");
+            fail("parse didn't fail");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -112,12 +114,12 @@ public class ArgumentMultiplicityTest {
         CommandLine cl = new CommandLine(new Token("cmd"), new Token[] {new Token("F1")}, null);
         CommandInfo cmdInfo = cl.parseCommandLine(shell);
         Command cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals("F1", cmd.getArgumentBundle().getArgument("arg1").getValue().toString());
+        assertEquals("F1", cmd.getArgumentBundle().getArgument("arg1").getValue().toString());
 
         try {
             cl = new CommandLine(new Token("cmd"), new Token[] {}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("parse didn't fail");
+            fail("parse didn't fail");
         } catch (CommandSyntaxException ex) {
             // expected
         }
@@ -131,7 +133,7 @@ public class ArgumentMultiplicityTest {
         CommandLine cl = new CommandLine(new Token("cmd"), new Token[] {new Token("F1")}, null);
         CommandInfo cmdInfo = cl.parseCommandLine(shell);
         Command cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals("F1", cmd.getArgumentBundle().getArgument("arg1").getValue().toString());
+        assertEquals("F1", cmd.getArgumentBundle().getArgument("arg1").getValue().toString());
 
         cl = new CommandLine(new Token("cmd"), new Token[] {}, null);
         cmdInfo = cl.parseCommandLine(shell);
@@ -150,12 +152,12 @@ public class ArgumentMultiplicityTest {
         CommandLine cl = new CommandLine(new Token("cmd"), new Token[] {new Token("F1")}, null);
         CommandInfo cmdInfo = cl.parseCommandLine(shell);
         Command cmd = cmdInfo.createCommandInstance();
-        Assert.assertEquals("F1", cmd.getArgumentBundle().getArgument("arg1").getValue().toString());
+        assertEquals("F1", cmd.getArgumentBundle().getArgument("arg1").getValue().toString());
 
         try {
             cl = new CommandLine(new Token("cmd"), new Token[] {}, null);
             cl.parseCommandLine(shell);
-            Assert.fail("parse didn't fail");
+            fail("parse didn't fail");
         } catch (CommandSyntaxException ex) {
             // expected
         }

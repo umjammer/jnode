@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.compiler.ir;
 
 import static org.jnode.vm.compiler.ir.quad.BinaryOperation.DADD;
@@ -1217,7 +1217,6 @@ public class IRGenerator<T> extends BytecodeVisitor {
             currentBlock.add(new InterfaceCallAssignQuad(address, currentBlock, stackOffset, methodRef, varOffs));
             stackOffset += typeSizeInfo.getStackSlots(returnType);
         }
-
 
 //        int argSlotCount = Signature.getArgSlotCount(typeSizeInfo, methodRef.getSignature());
 //        int returnType = JvmType.getReturnType(methodRef.getSignature());

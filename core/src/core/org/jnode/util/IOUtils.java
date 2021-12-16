@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.util;
 
 import java.io.Closeable;
@@ -49,11 +49,11 @@ public class IOUtils {
     // is.  Currently, we have to explicitly grant the calling application permissions
     // to do this (e.g. via the plugin descriptor).  Ideally, this should be unnecessary
     // ... but I cannot figure out how to implement this.
-    
+
     private IOUtils() {
         // Prevent instantiation
     }
-    
+
     public static boolean isTTY(Closeable stream) {
         if (stream instanceof ConsoleStream) {
             return true;
@@ -75,7 +75,7 @@ public class IOUtils {
             return false;
         }
     }
-    
+
     public static boolean isPipe(Closeable stream) {
         if (stream instanceof PipeStream) {
             return true;
@@ -119,7 +119,7 @@ public class IOUtils {
             return stream;
         }
     }
-    
+
     private static InputStream findInputStream(final FilterInputStream inputStream) {
         PrivilegedAction<InputStream> pa = new PrivilegedAction<InputStream>() {
             public InputStream run() {

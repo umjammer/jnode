@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.font.truetype;
 
 import java.awt.Color;
@@ -42,7 +42,7 @@ import org.jnode.driver.video.Surface;
  * @author epr
  */
 public class TTFTextRenderer extends AbstractTextRenderer {
-    
+
     /**
      * Create a new instance
      *

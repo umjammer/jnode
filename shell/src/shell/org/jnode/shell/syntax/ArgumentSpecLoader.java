@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.lang.reflect.Constructor;
@@ -73,9 +73,9 @@ import java.util.Map;
  * @author chris boertien
  */
 public class ArgumentSpecLoader {
-    
+
     private Map<String, String> typeDefs;
-    
+
     /**
      * Parses a list of {@link Argument}s as {@code ArgumentSpec} objects.
      *
@@ -87,7 +87,7 @@ public class ArgumentSpecLoader {
         if (alias == null) {
             throw new SyntaxFailureException("'argument-bundle' element has no 'alias' attribute");
         }
-        
+
         int numArgs = element.getNosChildren();
         int start = 0;
         if (numArgs > 0) {
@@ -106,7 +106,7 @@ public class ArgumentSpecLoader {
         }
         throw new SyntaxFailureException("No arguments found in 'argument-bundle' node for : " + alias);
     }
-    
+
     /**
      * Parses typedefs used to map a String to a fully qualified class
      * name for an argument.
@@ -127,7 +127,7 @@ public class ArgumentSpecLoader {
             throw new SyntaxFailureException("'typedefs' found, but no 'typedef' nodes");
         }
     }
-    
+
     /**
      * Parses an argument.
      */
@@ -138,7 +138,7 @@ public class ArgumentSpecLoader {
         }
         String type = element.getAttribute("type");
         String label = element.getAttribute("label");
-        
+
         int numParams = element.getNosChildren();
         Object[] params;
         Class<?>[] paramTypes;
@@ -154,10 +154,10 @@ public class ArgumentSpecLoader {
             params[1] = 0;
             paramTypes[1] = int.class;
         }
-        
+
         params[0] = label;
         paramTypes[0] = String.class;
-        
+
         try {
             if (typeDefs != null && typeDefs.containsKey(type)) {
                 type = typeDefs.get(type);
@@ -173,7 +173,7 @@ public class ArgumentSpecLoader {
             throw new SyntaxFailureException("'type' could not be instantiated, invalid constructor");
         }
     }
-    
+
     /**
      * Parses a paramater for the constructor of an argument.
      *
@@ -208,21 +208,21 @@ public class ArgumentSpecLoader {
             throw new SyntaxFailureException("The given 'type' is not supported: " + type);
         }
     }
-    
+
     public static class ArgumentSpec<T extends Argument<?>> {
         private Constructor<T> ctor;
         private Object[] params;
-        
+
         private ArgumentSpec(Constructor<T> ctor, Object[] params) {
             this.ctor = ctor;
             this.params = params;
         }
-        
+
         Argument<?> instantiate() throws Exception {
             return (Argument<?>) ctor.newInstance(params);
         }
     }
-    
+
     // this is nothing short of a hack, don't pay it much attention for now
     private int parseFlags(String flags) {
         String[] nameList = flags.trim().split("\\s*,\\s*");

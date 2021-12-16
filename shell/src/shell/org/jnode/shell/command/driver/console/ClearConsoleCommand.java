@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.command.driver.console;
 
 import org.jnode.driver.console.TextConsole;
@@ -44,7 +44,7 @@ public class ClearConsoleCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new ClearConsoleCommand().execute(args);
     }
-    
+
     @Override
     public void execute() throws Exception {
         final Shell shell = ShellUtils.getCurrentShell();

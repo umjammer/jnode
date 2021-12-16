@@ -19,7 +19,6 @@
 
 package charva.awt;
 
-
 /**
  * This class defines constraints used for laying out components in the
  * GridBagLayout layout manager.

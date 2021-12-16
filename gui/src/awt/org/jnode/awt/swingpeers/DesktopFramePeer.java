@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.swingpeers;
 
 import gnu.classpath.SystemProperties;
@@ -638,7 +638,6 @@ final class DesktopFramePeer extends JNodeGenericPeer<SwingToolkit, DesktopFrame
     public void updateIconImages() {
         //TODO implement it
     }
-
 
     public boolean requestFocus(Component lightweightChild, boolean temporary, boolean focusedWindowChangeAllowed,
                                 long time, CausedFocusEvent.Cause cause) {

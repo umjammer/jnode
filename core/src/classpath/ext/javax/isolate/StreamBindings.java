@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package javax.isolate;
 
 import java.io.FileInputStream;
@@ -27,9 +27,9 @@ import java.net.Socket;
 import org.jnode.vm.isolate.VmStreamBindings;
 
 public final class StreamBindings {
-    
+
     private final VmStreamBindings bindings = new VmStreamBindings();
-    
+
     /**
      * Gets the bindings implementation
      * @return
@@ -55,7 +55,7 @@ public final class StreamBindings {
         bindings.setErr(socket);
         return this;
     }
-    
+
     /**
      * Bind the stdout of a new isolate to the given file stream.
      * @param stream
@@ -82,7 +82,7 @@ public final class StreamBindings {
         bindings.setIn(stream);
         return this;
     }
-    
+
     /**
      * Bind the stdin of a new isolate to the given stream.
      * @param socket

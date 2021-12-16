@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package java.io;
 
 import gnu.classpath.SystemProperties;
@@ -55,7 +55,7 @@ class JNodeFileSystem extends FileSystem {
 			    	canAccess = VMFile.canWriteDirectory(f);
 			    else
 			    	canAccess = VMFile.canWrite(f.getPath());
-			    
+
 				break;
 		case ACCESS_EXECUTE: canAccess = VMFile.canExecute(f.getPath()); break;
 		default: throw new IllegalArgumentException("invalid access : "+access);
@@ -80,7 +80,7 @@ class JNodeFileSystem extends FileSystem {
      * on some platforms, if restrictive is true.
      */
 	@Override
-	public boolean createFileExclusively(String pathname, boolean restrictive) throws IOException {
+	public boolean createFileExclusively(String pathname) throws IOException {
 		return VMFile.create(pathname);
 	}
 
@@ -97,7 +97,7 @@ class JNodeFileSystem extends FileSystem {
 	@Override
 	public int getBooleanAttributes(File f) {
 	    int attributes = 0;
-	    
+
 	    attributes |= (VMFile.exists(f.getPath()) ? BA_EXISTS : 0); 
 	    attributes |= (VMFile.isFile(f.getPath()) ? BA_REGULAR : 0);
 	    attributes |= (VMFile.isDirectory(f.getPath()) ? BA_DIRECTORY : 0);
@@ -230,7 +230,7 @@ class JNodeFileSystem extends FileSystem {
 	public String resolve(File f) {
 		if (isAbsolute(f))
 	        return f.getPath();
-		
+
         String currentDir = System.getProperty("user.dir");
 
         if (currentDir.endsWith(File.separator))

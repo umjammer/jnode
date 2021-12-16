@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.plugin.model;
 
 import java.util.ArrayList;
@@ -71,7 +71,6 @@ final class ExtensionModel extends PluginModelObject implements Extension {
             ep.add(this);
         }
     }
-
 
     /**
      * Remove all references to (elements of) other plugin descriptors

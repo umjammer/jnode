@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.util;
 
 import java.awt.geom.AffineTransform;
@@ -73,7 +73,6 @@ public abstract class AbstractBitmapGraphics extends BitmapGraphics {
     }
 
     protected abstract int getOffset(int x, int y);
-
 
     /**
      * @see org.jnode.driver.video.Surface#copyArea(int, int, int, int, int,

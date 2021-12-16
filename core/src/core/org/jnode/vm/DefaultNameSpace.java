@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm;
 
 import java.util.HashMap;
@@ -59,7 +59,7 @@ class DefaultNameSpace extends AbstractNameSpace {
             }
             namespace.put(VmType.fromClass(name), service);
         }
-        
+
         // notify listeners
         fireServiceBound(name, service);
     }
@@ -76,7 +76,7 @@ class DefaultNameSpace extends AbstractNameSpace {
         synchronized (namespace) {
             service = namespace.remove(VmType.fromClass((Class<?>) name));
         }
-                
+
         // notify listeners
         fireServiceUnbound(name, service);
     }

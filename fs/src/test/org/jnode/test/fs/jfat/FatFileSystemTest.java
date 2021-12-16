@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.jfat;
 
 import org.jnode.driver.Device;
@@ -27,15 +27,15 @@ import org.jnode.fs.jfat.FatFileSystemType;
 import org.jnode.fs.service.FileSystemService;
 import org.jnode.test.fs.DataStructureAsserts;
 import org.jnode.test.fs.FileSystemTestUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FatFileSystemTest {
 
     private Device device;
     private FileSystemService fss;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         // create file system service.
         fss = FileSystemTestUtils.createFSService(FatFileSystemType.class.getName());
@@ -79,4 +79,3 @@ public class FatFileSystemTest {
         DataStructureAsserts.assertStructure(fs, expectedStructure);
     }
 }
-

@@ -17,16 +17,16 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.image;
 
-import gnu.classpath.SystemProperties;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.IndexColorModel;
 import java.awt.image.WritableRaster;
 import java.util.Hashtable;
+
 import org.jnode.awt.GraphicsFactory;
 
 /**
@@ -69,7 +69,7 @@ public class JNodeBufferedImage extends BufferedImage {
      * @see java.awt.image.BufferedImage#createGraphics()
      */
     public Graphics2D createGraphics() {
-        return SystemProperties.getProperty("gnu.javax.swing.noGraphics2D") == null ?
+        return System.getProperty("gnu.javax.swing.noGraphics2D") == null ?
             new JNodeBufferedImageGraphics2D(this) : GraphicsFactory.getInstance().createGraphics(this);
     }
 }

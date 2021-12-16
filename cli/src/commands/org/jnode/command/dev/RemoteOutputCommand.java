@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.dev;
 
 import java.io.IOException;
@@ -49,7 +49,7 @@ import org.jnode.shell.syntax.IntegerArgument;
  * @author crawley@jnode.org
  */
 public class RemoteOutputCommand extends AbstractCommand {
-    
+
     private static final String help_addr  = "remote host running the receiver";
     private static final String help_port  = "remote port for the receiver";
     private static final String help_udp   = "if set, use udp, otherwise use tcp";
@@ -58,7 +58,7 @@ public class RemoteOutputCommand extends AbstractCommand {
     private static final String err_capture = "Cannot capture output from the current shell";
     private static final String err_connect = "Connection failed: %s%n";
     private static final String err_host = "Unknown host: %s%n";
-    
+
     public static int DEFAULT_PORT = RemoteReceiver.DEFAULT_PORT;
 
     private final HostNameArgument argAddress;
@@ -72,7 +72,7 @@ public class RemoteOutputCommand extends AbstractCommand {
         argUdp     = new FlagArgument("udp", Argument.OPTIONAL, help_udp);
         registerArguments(argAddress, argPort, argUdp);
     }
-    
+
     public void execute() throws Exception {
         PrintWriter err = getError().getPrintWriter();
         try {
@@ -105,7 +105,7 @@ public class RemoteOutputCommand extends AbstractCommand {
             exit(1);
         }
     }
-    
+
     private OutputStream createTCPOutputStream(InetAddress addr, int port) throws IOException {
         Socket socket = new Socket(addr, port);
         return socket.getOutputStream();

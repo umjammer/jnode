@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.command;
 
 import javax.naming.NameNotFoundException;
@@ -40,10 +40,10 @@ import org.jnode.shell.syntax.DeviceArgument;
  * @author crawley@jnode.org
  */
 public abstract class AbstractFormatCommand<T extends FileSystem<?>> extends AbstractCommand {
-    
+
     protected final DeviceArgument ARG_DEVICE = 
         new DeviceArgument("device", Argument.MANDATORY, "the device to format", FSBlockDeviceAPI.class);
-    
+
     public AbstractFormatCommand(String description) {
         super(description);
         registerArguments(ARG_DEVICE);

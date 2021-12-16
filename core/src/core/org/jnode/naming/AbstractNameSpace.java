@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.naming;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public abstract class AbstractNameSpace implements NameSpace {
 
     private final Map<Class<?>, List<NameSpaceListener<?>>> listeners = 
         new HashMap<Class<?>, List<NameSpaceListener<?>>>();
-    
+
     public final <T> void addNameSpaceListener(Class<T> name, NameSpaceListener<T> l) {
         List<NameSpaceListener<?>> list = listeners.get(name);
         if (list == null) {
@@ -50,7 +50,7 @@ public abstract class AbstractNameSpace implements NameSpace {
         if (!list.contains(l)) {
             list.add(l);
         }
-        
+
         try {
             // if a service is already bound for that name => 
             // notify the listener right now
@@ -59,19 +59,19 @@ public abstract class AbstractNameSpace implements NameSpace {
             // no service bound for that name => ignore
         }
     }
-    
+
     public final <T> void removeNameSpaceListener(Class<T> name, NameSpaceListener<T> l) {
         List<NameSpaceListener<?>> list = listeners.get(name);
         if (list != null) {
             list.remove(l);
-            
+
             if (list.isEmpty()) {
                 // no more listeners for that name => remove the empty list
                 listeners.remove(name);
             }
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     protected final <T> void fireServiceBound(Class<T> name, T service) {
         List<NameSpaceListener<?>> list = listeners.get(name);
@@ -81,7 +81,6 @@ public abstract class AbstractNameSpace implements NameSpace {
             }
         }        
     }
-    
 
     @SuppressWarnings("unchecked")
     protected final <T> void fireServiceUnbound(Class<T> name, Object service) {

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.util.Arrays;
@@ -35,7 +35,7 @@ import org.jnode.shell.CommandLine.Token;
 public class LanguageArgument extends Argument<String> {
     private static final HashSet<String> validLanguages = 
         new HashSet<String>(Arrays.asList(Locale.getISOLanguages()));
-    
+
     public LanguageArgument(String label, int flags, String description) {
         super(label, flags, new String[0], description);
     }
@@ -48,7 +48,7 @@ public class LanguageArgument extends Argument<String> {
             throw new CommandSyntaxException("invalid language code");
         }
     }
-    
+
     @Override
     public void doComplete(CompletionInfo completions, String partial, int flags) {
         for (String language : validLanguages) {

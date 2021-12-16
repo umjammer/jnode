@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.net;
 
 import java.io.PrintWriter;
@@ -41,7 +41,7 @@ public class ArpCommand extends AbstractCommand {
     private static final String help_clear = "if set, clear the ARP cache";
     private static final String help_super = "print or clear the ARP cache";
     private static final String str_cleared = "Cleared the ARP cache";
-    
+
     private final FlagArgument argClear;
 
     public ArpCommand() {

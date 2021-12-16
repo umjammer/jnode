@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.compiler.ir;
 
 import java.io.File;
@@ -177,7 +177,6 @@ public class IRTest {
 
         generateCode(os, code, x86cg, stackFrame, arithMethod, typeSizeInfo);
 
-
 //        X86CodeGenerator x86cg = null;//new X86CodeGenerator(os, code.getLength());
 //
 //        generateCode(os, code, x86cg);
@@ -218,7 +217,6 @@ public class IRTest {
         cfg.removeDefUseChains();
         cfg.fixupAddresses();
         printCFG(cfg, "Def-use chains removed SSA");
-
 
 //        removeUnusedVars(cfg);
 //        printCFG(cfg, "Unused vars removed SSA");

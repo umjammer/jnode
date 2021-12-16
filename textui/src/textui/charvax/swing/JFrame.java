@@ -43,7 +43,6 @@ public class JFrame extends Frame {
         _contentPane.setLayout(new BorderLayout());
     }
 
-    
     protected void processPaintEvent(PaintEvent  event) {
         Component source = (Component) event.getSource();
         if (!source.isTotallyObscured()) {

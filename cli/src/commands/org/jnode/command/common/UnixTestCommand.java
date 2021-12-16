@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.common;
 
 import java.io.File;
@@ -27,7 +27,6 @@ import java.util.Stack;
 import org.jnode.shell.AbstractCommand;
 import org.jnode.shell.CommandLine;
 import org.jnode.shell.syntax.CommandSyntaxException;
-
 
 /**
  * JNode implementation of the UNIX 'test' command
@@ -47,7 +46,7 @@ public class UnixTestCommand extends AbstractCommand {
             this.kind = kind;
         }
     }
-    
+
     private boolean bracketted;
     private int pos;
     private String[] args;

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.BufferedReader;
@@ -64,7 +64,7 @@ public class GrepCommand extends AbstractCommand {
     private static final Logger log = Logger.getLogger(GrepCommand.class);
     private static final boolean DEBUG = false;
     private static final int BUFFER_SIZE = 8192;
-    
+
     private static final String help_matcher_fixed = "Patterns are fixed strings, seperated by new lines. Any of " +
                                                      "which is to be matched.";
     private static final String help_matcher_basic = "Use basic regular expressions (Default).";
@@ -158,11 +158,11 @@ public class GrepCommand extends AbstractCommand {
     private static final String help_files = "The files to match against. If there are no files, or if any file is " +
                                              "'-' then match stdandard input.";
     private static final String err_ex_walker = "Exception while walking.";
-    
+
     private class ContextLineWriter implements Closeable, Flushable {
-        
+
         protected LineNumberReader reader;
-        
+
         private PrintWriter writer;
         private Deque<String> contextStack;
         private int linesUntilFlush;
@@ -171,25 +171,25 @@ public class GrepCommand extends AbstractCommand {
         private int contextAfter;
         private boolean haveLine;
         private boolean firstFlush;
-        
+
         public ContextLineWriter(Writer writer, int before, int after) {
             if (writer instanceof PrintWriter) {
                 this.writer = (PrintWriter) writer;
             } else {
                 this.writer = new PrintWriter(writer);
             }
-            
+
             firstFlush      = true;
             contextBefore   = before;
             contextAfter    = after;
             linesForFlush   = before + after + 1;
             contextStack    = new ArrayDeque<String>();
         }
-        
+
         public ContextLineWriter(OutputStream out, int before, int after) {
             this(new PrintWriter(out), before, after);
         }
-        
+
         @Override
         public void close() {
             if (reader != null) {
@@ -198,7 +198,7 @@ public class GrepCommand extends AbstractCommand {
             IOUtils.close(true, writer);
             writer = null;
         }
-        
+
         @Override
         public void flush() {
             doFlush();
@@ -208,11 +208,11 @@ public class GrepCommand extends AbstractCommand {
             haveLine = false;
             writer.flush();
         }
-        
+
         public void setIn(InputStream in) throws IOException {
             setIn(new InputStreamReader(in));
         }
-        
+
         public LineNumberReader setIn(Reader reader) throws IOException {
             if (isClosed()) {
                 throw new IOException("Stream closed");
@@ -220,7 +220,7 @@ public class GrepCommand extends AbstractCommand {
             if (this.reader != null) {
                 finish();
             }
-            
+
             this.reader = new LineNumberReader(reader, BUFFER_SIZE) {
                 @Override
                 public String readLine() throws IOException {
@@ -258,10 +258,10 @@ public class GrepCommand extends AbstractCommand {
                     return line;
                 }
             };
-            
+
             return this.reader;
         }
-        
+
         public void addLine(String s) throws IOException {
             if (isClosed()) {
                 throw new IOException("Stream closed");
@@ -269,7 +269,7 @@ public class GrepCommand extends AbstractCommand {
             contextStack.addLast(s);
             writeLast();
         }
-        
+
         public void rewriteLast(String s) throws IOException {
             if (isClosed()) {
                 throw new IOException("Stream closed");
@@ -278,7 +278,7 @@ public class GrepCommand extends AbstractCommand {
             contextStack.addLast(s);
             writeLast();
         }
-        
+
         public void writeLast() throws IOException {
             if (isClosed()) {
                 throw new IOException("Stream closed");
@@ -288,7 +288,7 @@ public class GrepCommand extends AbstractCommand {
             }
             linesUntilFlush = linesForFlush;
         }
-        
+
         private void finish() {
             if (reader == null) return;
             if (!haveLine) {
@@ -304,27 +304,27 @@ public class GrepCommand extends AbstractCommand {
             IOUtils.close(reader);
             reader = null;
         }
-        
+
         private boolean isClosed() {
             return writer == null;
         }
-        
+
         @SuppressWarnings("unused")
         private boolean haveLine() {
             return haveLine;
         }
-        
+
         protected void doFlush() {
             if (!firstFlush) {
                 contextStack.addFirst("-----");
             }
             firstFlush = false;
         }
-        
+
         protected void doFinish() {
             // no-op
         }
-        
+
         protected String doContextLine(String s) {
             return prefixLine(s, currentFile, currentLine, currentByte, '-');
         }
@@ -337,12 +337,12 @@ public class GrepCommand extends AbstractCommand {
     private final FlagArgument MatcherBasic;
     private final FlagArgument MatcherExt;
     private final FlagArgument MatcherPerl;
-    
+
     private final FlagArgument IgnoreCase;
     private final FlagArgument Invert;
     private final FlagArgument MatchWord;
     private final FlagArgument MatchLine;
-    
+
     private final FlagArgument ShowCount;
     private final FlagArgument ShowFileNoMatch;
     private final FlagArgument ShowFileMatch;
@@ -350,7 +350,7 @@ public class GrepCommand extends AbstractCommand {
     private final IntegerArgument MaxCount;
     private final FlagArgument Quiet;
     private final FlagArgument Suppress;
-    
+
     private final FlagArgument PrefixByte;
     private final FlagArgument PrefixFile;
     private final FlagArgument PrefixNoFile;
@@ -358,11 +358,11 @@ public class GrepCommand extends AbstractCommand {
     private final FlagArgument PrefixLine;
     private final FlagArgument PrefixTab;
     private final FlagArgument PrefixNull;
-    
+
     private final IntegerArgument ContextAfter;
     private final IntegerArgument ContextBefore;
     private final IntegerArgument ContextBoth;
-    
+
     private final StringArgument ModeBinary;
     private final StringArgument ModeDevice;
     private final StringArgument ModeDir;
@@ -373,15 +373,15 @@ public class GrepCommand extends AbstractCommand {
     private final FileArgument ExcludeFile;
     private final StringArgument ExcludeDir;
     private final StringArgument Include;
-    
+
     private final FlagArgument NullTerm;
     private final FlagArgument Debug;
-    
+
     private static final int MATCHER_FIXED = 1;
     private static final int MATCHER_BASIC = 2;
     private static final int MATCHER_EXT   = 3;
     private static final int MATCHER_PERL  = 4;
-    
+
     private static final int PREFIX_FILE   = 0x01;
     private static final int PREFIX_LINE   = 0x02;
     private static final int PREFIX_BYTE   = 0x04;
@@ -396,7 +396,7 @@ public class GrepCommand extends AbstractCommand {
     private static final int PREFIX_FB     = PREFIX_FILE | PREFIX_BYTE;
     @SuppressWarnings("unused")
     private static final int PREFIX_LB     = PREFIX_LINE | PREFIX_BYTE;
-    
+
     private PrintWriter err;
     private PrintWriter out;
     private ContextLineWriter contextOut;
@@ -437,7 +437,7 @@ public class GrepCommand extends AbstractCommand {
     @SuppressWarnings("unused")
     private boolean readDevice;
     private boolean exitOnFirstMatch;
-    
+
     public GrepCommand() {
         super("Search for lines that match a string or regex");
         MatcherFixed = new FlagArgument("matcher-fixed", 0, help_matcher_fixed);
@@ -445,7 +445,7 @@ public class GrepCommand extends AbstractCommand {
         MatcherExt   = new FlagArgument("matcher-ext", 0, help_matcher_ext);
         MatcherPerl  = new FlagArgument("matcher-perl", 0, help_matcher_perl);
         registerArguments(MatcherFixed, MatcherBasic, MatcherExt, MatcherPerl);
-        
+
         IgnoreCase   = new FlagArgument("ignore-case", 0, help_case);
         Invert       = new FlagArgument("invert", 0, help_invert);
         MatchWord    = new FlagArgument("word-match", 0, help_match_word);
@@ -455,13 +455,13 @@ public class GrepCommand extends AbstractCommand {
         Suppress     = new FlagArgument("suppress", 0, help_suppress);
         Debug        = new FlagArgument("debug", 0, help_debug);
         registerArguments(IgnoreCase, Invert, MatchWord, MatchLine, MaxCount, Quiet, Suppress, Debug);
-        
+
         ShowCount       = new FlagArgument("show-count", 0, help_count);
         ShowFileNoMatch = new FlagArgument("show-files-nomatch", 0, help_file_nomatch);
         ShowFileMatch   = new FlagArgument("show-files-match", 0, help_file_match);
         ShowOnlyMatch   = new FlagArgument("show-only-match", 0, help_only_matching);
         registerArguments(ShowCount, ShowFileNoMatch, ShowFileMatch, ShowOnlyMatch);
-        
+
         PrefixByte   = new FlagArgument("prefix-byte", 0, help_prefix_byte);
         PrefixFile   = new FlagArgument("prefix-file", 0, help_prefix_file);
         PrefixNoFile = new FlagArgument("prefix-nofile", 0, help_prefix_nofile);
@@ -470,12 +470,12 @@ public class GrepCommand extends AbstractCommand {
         PrefixTab    = new FlagArgument("prefix-tab", 0, help_prefix_tab);
         PrefixNull   = new FlagArgument("prefix-null", 0, help_prefix_null);
         registerArguments(PrefixByte, PrefixFile, PrefixNoFile, PrefixLabel, PrefixLine, PrefixTab, PrefixNull);
-        
+
         ContextAfter  = new IntegerArgument("show-context-after", 0, help_context_after);
         ContextBefore = new IntegerArgument("show-context-before", 0, help_context_before);
         ContextBoth   = new IntegerArgument("show-context-both", 0, help_context_both);
         registerArguments(ContextAfter, ContextBefore, ContextBoth);
-        
+
         ModeBinary     = new StringArgument("mode-binary", 0, help_mode_binary);
         ModeDevice     = new StringArgument("mode-device", 0, help_mode_device);
         ModeDir        = new StringArgument("mode-dir", 0, help_mode_dir);
@@ -488,14 +488,14 @@ public class GrepCommand extends AbstractCommand {
         Include        = new StringArgument("pattern-include", 0, help_include);
         registerArguments(ModeBinary, ModeBinaryText, ModeBinarySkip, ModeDevice, ModeDir, ModeDirRecurse);
         registerArguments(Exclude, ExcludeFile, ExcludeDir, Include);
-        
+
         NullTerm = new FlagArgument("null-term", 0, help_null_term);
         Patterns = new StringArgument("patterns", Argument.MULTIPLE | Argument.MANDATORY, help_patterns);
         PatternFiles = new FileArgument("pattern-files", Argument.MULTIPLE | Argument.EXISTING, help_pattern_files);
         Files = new 
             FileArgument("files", Argument.MULTIPLE | Argument.EXISTING | FileArgument.HYPHEN_IS_SPECIAL, help_files);
         registerArguments(Patterns, PatternFiles, Files, NullTerm);
-        
+
         // Default matcher
         match = Pattern.compile(".*").matcher("");
     }
@@ -516,16 +516,16 @@ public class GrepCommand extends AbstractCommand {
         err = getError().getPrintWriter();
         in = getInput().getReader();
         out = getOutput().getPrintWriter();
-        
+
         LineNumberReader reader;
         String name;
-        
+
         try {
             parseOptions();
             if ((contextBefore > 0) || (contextAfter > 0)) {
                 contextOut = new ContextLineWriter(out, contextBefore, contextAfter);
             }
-            
+
             for (File file : files) {
                 reader = null;
                 name   = file.getPath();
@@ -581,12 +581,12 @@ public class GrepCommand extends AbstractCommand {
             exit(rc);
         }
     }
-    
+
     /* Each of the next few methods are inner loops for different conditions. This
      * is mostly to avoid a complex set of branches inside the inner loop. With any
      * luck they will get inlined anyway.
      */
-    
+
     /**
      * Matches lines in a file until a single match is made.
      */
@@ -599,7 +599,7 @@ public class GrepCommand extends AbstractCommand {
         }
         return false;
     }
-    
+
     /**
      * Counts the number of matching or non-matching lines in a file.
      */
@@ -613,7 +613,7 @@ public class GrepCommand extends AbstractCommand {
         }
         return ret;
     }
-    
+
     /**
      * Uses the MatchResult to only print the substring of the line that matched.
      */
@@ -634,14 +634,14 @@ public class GrepCommand extends AbstractCommand {
             byteCount += line.length();
         }
     }
-    
+
     /**
      * Prints matching or non-matching lines to stdout with a possible prefix.
      */
     private void matchNormal(LineNumberReader reader) throws IOException {
         String line;
         int matches = 0;
-        
+
         while ((matches < maxCount) && ((line = reader.readLine()) != null)) {
             currentLine = reader.getLineNumber();
             if ((match(line) != null) ^ inverse) {
@@ -652,7 +652,7 @@ public class GrepCommand extends AbstractCommand {
             currentByte += line.length() + 1;
         }
     }
-    
+
     /**
      * Compares the line to a list of patterns, returing the result of the first one to match.
      */
@@ -665,14 +665,14 @@ public class GrepCommand extends AbstractCommand {
         }
         return null;
     }
-    
+
     private String prefixLine(String line, String name, int lineCount, int byteCount, char fieldSep) {
         if (prefix == PREFIX_NOFILE) {
             return line;
         }
-        
+
         StringBuilder sb = new StringBuilder();
-        
+
         if ((prefix & PREFIX_TAB) != 0) {
             if ((prefix & PREFIX_FILE) != 0) {
                 sb.append(name);
@@ -709,7 +709,7 @@ public class GrepCommand extends AbstractCommand {
         }
         return sb.append(line).toString();
     }
-    
+
     /**
      * Outputs a matched string, in the given file, at the given line and the given byte offset. Outputs
      * to stdout the match string, along with any set prefix options.
@@ -727,7 +727,7 @@ public class GrepCommand extends AbstractCommand {
             out.println(newLine);
         }
     }
-    
+
     /**
      * Outputs the name and count seperated by a colon or null byte
      */
@@ -737,7 +737,7 @@ public class GrepCommand extends AbstractCommand {
         out.print(":");
         out.println(count);
     }
-    
+
     /**
      * Outputs a file name and appends a null byte if PREFIX_NULL is set, otherwise it
      * appends a newline.
@@ -751,11 +751,11 @@ public class GrepCommand extends AbstractCommand {
             out.println();
         }
     }
-    
+
     private String padNumber(int n, int size) {
         return String.format("%" + size + 'd', n);
     }
-    
+
     /**
      * grep uses different mnemonics for character classes, need to convert grep-style
      * to java-style.
@@ -777,16 +777,16 @@ public class GrepCommand extends AbstractCommand {
     private Pattern rewritePattern(String pattern) throws PatternSyntaxException {
         debug("Pattern before: " + pattern);
         int flags = 0;
-        
+
         if (matcher == MATCHER_FIXED) {
             pattern = Pattern.quote(pattern);
         }
         if (!matchCase) {
             flags |= Pattern.CASE_INSENSITIVE;
         }
-        
+
         StringBuilder sb = new StringBuilder(pattern);
-        
+
         switch(matcher) {
             case MATCHER_BASIC :
                 // de-sensitize some meta-characters
@@ -800,7 +800,7 @@ public class GrepCommand extends AbstractCommand {
             default :
                 break;
         }
-        
+
         if (matchWord) {
             if (!pattern.startsWith("\\b")) {
                 sb.insert(0, "\\b");
@@ -816,21 +816,21 @@ public class GrepCommand extends AbstractCommand {
                 sb.append('$');
             }
         }
-        
+
         debug("Pattern after : " + sb);
         return Pattern.compile(sb.toString(), flags);
     }
-    
+
     /*********************************************************/
     /************** Command Line Parsing *********************/
     /*********************************************************/
-    
+
     private void parseOptions() {
         // parse these early so they are enforced
         quiet    = Quiet.isSet();
         suppress = Suppress.isSet();
         debug    = DEBUG || Debug.isSet();
-        
+
         if (PrefixLabel.isSet())  prefixLabel = PrefixLabel.getValue();
         else                      prefixLabel = "stdin";
         if (PrefixByte.isSet())   prefix |= PREFIX_BYTE;
@@ -839,11 +839,11 @@ public class GrepCommand extends AbstractCommand {
         if (PrefixLine.isSet())   prefix |= PREFIX_LINE;
         if (PrefixTab.isSet())    prefix |= PREFIX_TAB;
         if (PrefixNull.isSet())   prefix |= PREFIX_NULL;
-        
+
         if ((prefix & (PREFIX_FILE | PREFIX_NOFILE)) == (PREFIX_FILE | PREFIX_NOFILE)) {
             prefix ^= PREFIX_NOFILE;
         }
-        
+
         if (MatcherFixed.isSet()) matcher = MATCHER_FIXED;
         if (MatcherBasic.isSet()) matcher = MATCHER_BASIC;
         if (MatcherExt.isSet())   matcher = MATCHER_EXT;
@@ -854,24 +854,24 @@ public class GrepCommand extends AbstractCommand {
         matchCase   = !IgnoreCase.isSet();
         inverse = Invert.isSet();
         parsePatterns();  // This requires the above options be parsed already.
-        
+
         if (MaxCount.isSet()) maxCount = MaxCount.getValue();
-        
+
         showCount       = ShowCount.isSet();
         showFileMatch   = ShowFileMatch.isSet();
         showFileNoMatch = ShowFileNoMatch.isSet();
         showOnlyMatch   = ShowOnlyMatch.isSet();
-        
+
         // Setup for fast-path exit(0) on first match
         if (quiet || (inverse && showOnlyMatch)) {
             exitOnFirstMatch = true;
         }
-        
+
         String s = " ";
         if (ModeBinary.isSet()) {
             s = ModeBinary.getValue();
         }
-        
+
         if (!(ModeBinarySkip.isSet() || s.equals("without-match"))) {
             if (ModeBinaryText.isSet() || s.equals("text")) {
                 binaryAsText = true;
@@ -879,20 +879,20 @@ public class GrepCommand extends AbstractCommand {
                 binaryAsBinary = true;
             }
         }
-        
+
         s = " ";
         if (ModeDir.isSet()) {
             s = ModeDir.getValue();
         }
-        
+
         if (ModeDirRecurse.isSet() || s.equals("recurse")) {
             recurse = true;
         }
-        
+
         if (!(ModeDevice.isSet() && ModeDevice.getValue().equals("skip"))) {
             readDevice = true;
         }
-        
+
         parseFiles();    // This requires the above options be parsed already.
         if (files.size() > 1) {
             if ((prefix & PREFIX_NOFILE) == 0) {
@@ -903,7 +903,7 @@ public class GrepCommand extends AbstractCommand {
                 prefix |= PREFIX_NOFILE;
             }
         }
-        
+
         if (ContextBoth.isSet()) {
             contextAfter = contextBefore = ContextBoth.getValue();
         } else if (ContextBefore.isSet()) {
@@ -915,12 +915,12 @@ public class GrepCommand extends AbstractCommand {
             contextAfter = contextBefore = 0;
         }
     }
-    
+
     private void parsePatterns() {
         BufferedReader reader;
         String line;
         patterns = new ArrayList<Pattern>();
-        
+
         for (String s : Patterns.getValues()) {
             try {
                 patterns.add(rewritePattern(s));
@@ -929,7 +929,7 @@ public class GrepCommand extends AbstractCommand {
                 exit(2);
             }
         }
-        
+
         for (File file : PatternFiles.getValues()) {
             reader = null;
             try {
@@ -951,7 +951,7 @@ public class GrepCommand extends AbstractCommand {
             }
         }
     }
-    
+
     private class Walker extends AbstractDirectoryWalker {
         @Override
         public void handleFile(File file) {
@@ -965,34 +965,34 @@ public class GrepCommand extends AbstractCommand {
         public void handleRestrictedFile(File file) {
             // no-op
         }
-        
+
         private void doFile(File file) {
             if (notFiltered(file)) {
                 files.add(file);
             }
         }
     }
-    
+
     private void parseFiles() {
         BufferedReader reader;
-        
+
         files = new ArrayList<File>();
-        
+
         if (!Files.isSet()) {
             files.add(new File("-"));
             return;
         }
-        
+
         Walker walker = new Walker();
-        
+
         for (String s : Include.getValues()) {
             walker.addFilter(new PathnamePatternFilter(s, false));
         }
-        
+
         for (String s : Exclude.getValues()) {
             walker.addFilter(new PathnamePatternFilter(s, true));
         }
-        
+
         for (File file : ExcludeFile.getValues()) {
             reader = IOUtils.openBufferedReader(file, BUFFER_SIZE);
             List<String> lines = null;
@@ -1007,7 +1007,7 @@ public class GrepCommand extends AbstractCommand {
                 }
             }
         }
-        
+
         for (final String s : ExcludeDir.getValues()) {
             walker.addDirectoryFilter(new FileFilter() {
                 @Override
@@ -1016,9 +1016,9 @@ public class GrepCommand extends AbstractCommand {
                 }
             });
         }
-        
+
         List<File> dirs = new ArrayList<File>();
-        
+
         for (File file : Files.getValues()) {
             if (file.isDirectory()) {
                 if (recurse) {
@@ -1030,7 +1030,7 @@ public class GrepCommand extends AbstractCommand {
                 // skip special files
             }
         }
-        
+
         try {
             if (dirs.size() > 0) {
                 walker.walk(dirs);
@@ -1042,15 +1042,15 @@ public class GrepCommand extends AbstractCommand {
             exit(2);
         }
     }
-    
+
     private void error(String s) {
         if (!suppress) err.println(s);
     }
-    
+
     private void debug(String s) {
         if (debug) log.debug(s);
     }
-    
+
     @SuppressWarnings("unused")
     private void debugOptions() {
         debug("Files : " + files.size());

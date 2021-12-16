@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.common;
 
 import gnu.java.security.action.GetEnvAction;
@@ -39,11 +39,11 @@ import org.jnode.shell.syntax.FlagArgument;
  */
 public class EnvCommand extends AbstractCommand {
     // FIXME ... this class and the corresponding alias are incorrectly named
-    
+
     private static final String help_env = "If set, print the environment variables rather than the System props";
     private static final String help_shell = "If set, print the shell props rather than the System props";
     private static final String help_super = "Print the System/Shell props or Environment Variables";
-    
+
     private final FlagArgument envArg;
     private final FlagArgument shellArg;
 

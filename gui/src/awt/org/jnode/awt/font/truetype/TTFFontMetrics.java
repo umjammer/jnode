@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.font.truetype;
 
 import java.awt.Font;
@@ -86,7 +86,7 @@ public class TTFFontMetrics extends FontMetrics {
     @Override
     public int charsWidth(char[] data, int off, int len) {
         int total = 0;
-        
+
         for (int i = off; i < (off + len); i++) {
             total += charWidth(data[i]);
         }

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import java.io.PrintWriter;
@@ -38,25 +38,25 @@ final class UnaliasBuiltin extends BjorneBuiltin {
     private static final SyntaxBundle SYNTAX = new SyntaxBundle("unalias", 
             new OptionSyntax("all", 'a'),
             new RepeatSyntax(new ArgumentSyntax("alias"), 1, Integer.MAX_VALUE));
-    
+
     static final Factory FACTORY = new Factory() {
         public BjorneBuiltinCommandInfo buildCommandInfo(BjorneContext context) {
             return new BjorneBuiltinCommandInfo("unalias", SYNTAX, new UnaliasBuiltin(context), context);
         }
     };
-    
+
     private final FlagArgument flagAll = new FlagArgument(
             "all", Argument.OPTIONAL, "if set, undefine all aliases");
-    
+
     private final BjorneAliasNameArgument argAlias; 
-    
+
     private UnaliasBuiltin(BjorneContext context) {
         super("undefined Bjorne shell aliases");
         argAlias = new BjorneAliasNameArgument(
                 "alias", context, Argument.OPTIONAL + Argument.MULTIPLE, "aliases to be undefined");
         registerArguments(flagAll, argAlias);
     }
-    
+
     @Override
     public void execute() throws Exception {
         BjorneContext pc = getParentContext();

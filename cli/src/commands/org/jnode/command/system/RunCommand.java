@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.File;
@@ -39,15 +39,15 @@ import org.jnode.shell.syntax.StringArgument;
  * @author crawley@jnode.org
  */
 public class RunCommand extends AbstractCommand {
-    
+
     private static final String help_file = "The command script file name";
     private static final String help_args = "Arguments passed to the script";
     private static final String help_super = "Run a script";
     private static final String err_null = "Shell is null";
-    
+
     private final FileArgument argFile;
     private final StringArgument argArgs;
-    
+
     public RunCommand() {
         super(help_super);
         argFile =  new FileArgument("file", Argument.MANDATORY | Argument.EXISTING, help_file);
@@ -58,7 +58,7 @@ public class RunCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new RunCommand().execute(args);
     }
-    
+
     @Override
     public void execute() throws Exception {
         final PrintWriter err = getError().getPrintWriter();
@@ -76,7 +76,7 @@ public class RunCommand extends AbstractCommand {
             err.println(err_null);
             exit(2);
         }
-        
+
         String[] args = argArgs.getValues();
 
         int rc = shell.runCommandFile(file, null, args);

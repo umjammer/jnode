@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.jfat.command;
 
 import java.util.HashMap;
@@ -37,7 +37,7 @@ import org.jnode.shell.syntax.MappedArgument;
  * @author crawley@jnode.org
  */
 public class FatFormatCommand extends AbstractFormatCommand<FatFileSystem> {
-    
+
     private static class ClusterSizeArgument extends MappedArgument<ClusterSize> {
         private static final Map<String, ClusterSize> MAP = new HashMap<String, ClusterSize>();
         static {
@@ -62,7 +62,7 @@ public class FatFormatCommand extends AbstractFormatCommand<FatFileSystem> {
     }
 
     private final ClusterSizeArgument ARG_CLUSTER_SIZE = new ClusterSizeArgument();
-    
+
     public FatFormatCommand() {
         super("Format a FAT32 file system");
         registerArguments(ARG_CLUSTER_SIZE);
@@ -71,13 +71,10 @@ public class FatFormatCommand extends AbstractFormatCommand<FatFileSystem> {
     public static void main(String[] args) throws Exception {
         new FatFormatCommand().execute(args);
     }
-    
+
     protected FatFileSystemFormatter getFormatter() {
         ClusterSize clusterSize = ARG_CLUSTER_SIZE.isSet() ? 
                 ARG_CLUSTER_SIZE.getValue() : ClusterSize._4Kb;
         return new FatFileSystemFormatter(clusterSize);
     }
 }
-
-
-

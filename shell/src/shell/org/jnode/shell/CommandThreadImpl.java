@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 /**
@@ -26,11 +26,11 @@ package org.jnode.shell;
  * @author crawley@jnode.org
  */
 public class CommandThreadImpl extends Thread implements CommandThread {
-    
+
     private ThreadExitListener listener;
     private CommandRunnable runner;
     private Throwable terminatingException;
-    
+
     private UncaughtExceptionHandler myUncaughtExceptionHandler = new UncaughtExceptionHandler() {
         public void uncaughtException(Thread thr, Throwable exc) {
             synchronized (CommandThreadImpl.this) {
@@ -38,7 +38,7 @@ public class CommandThreadImpl extends Thread implements CommandThread {
             }
         }
     };
-    
+
     /**
      * @param group the parent group for the thread
      * @param runner the runnable that will run the command

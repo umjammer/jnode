@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.net.rtl8139;
 
 import org.jnode.driver.net.ethernet.spi.Flags;
@@ -61,4 +61,3 @@ public class RTL8139Flags implements Flags {
         return name;
     }
 }
-

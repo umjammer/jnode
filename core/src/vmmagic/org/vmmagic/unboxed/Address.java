@@ -10,7 +10,7 @@
  *  See the COPYRIGHT.txt file distributed with this work for information
  *  regarding copyright ownership.
  */
- 
+
 package org.vmmagic.unboxed;
 
 import org.jnode.vm.VmAddress;
@@ -30,9 +30,9 @@ import org.jnode.annotation.Uninterruptible;
  * @author Daniel Frampton
  */
 public final class Address implements UnboxedObject {
-    
+
     final long v;
-    
+
     /**
      * Constructor used during the bootimage creation.
      * @param v
@@ -56,7 +56,7 @@ public final class Address implements UnboxedObject {
     public static Address fromIntZeroExtend(int address) {
         return new Address(0xFFFFFFFFL & address);
     }
-    
+
     /**
      * Temporary method to easy the transition from VmAddress to Address.
      * @param address
@@ -890,7 +890,7 @@ public final class Address implements UnboxedObject {
     @Uninterruptible
     public void store(short value, Offset offset) {
     }
-    
+
     /**
      * Performs an atomic add bewteen the word in the memory location pointed to by the
      * current instance and the given word.

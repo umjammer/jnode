@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.isolate;
 
 import java.io.IOException;
@@ -782,7 +782,6 @@ public final class VmIsolate {
     }
     */
 
-
     private ExecutorService executor;
 
     /**
@@ -835,7 +834,6 @@ public final class VmIsolate {
     boolean isEDT() {
         if (appContext == null)
             return false;
-
 
         try {
             Object eq = appContext.getClass().getMethod("get", Object.class).
@@ -954,7 +952,7 @@ public final class VmIsolate {
             VmSystem.setOut(thread.getStdout());
             VmSystem.setErr(thread.getStderr());
             VmSystem.setIn(thread.getStdin());
-            
+
             // Set the isolate's properties to a copy of the initial properties passed
             // when the isolate was created.  (This needs to be done really early
             // via the IOContext switch to avoid NPEs when the native compiler,
@@ -985,7 +983,6 @@ public final class VmIsolate {
             final Method mainMethod = cls.getMethod("main",
                 new Class[]{String[].class});
 //                IsolatedStaticData.mainTypes);
-
 
             //create the appcontext for this isolate
             // TODO - improve this
@@ -1278,7 +1275,6 @@ public final class VmIsolate {
         boolean isEDT() {
             if (appContext == null)
                 return false;
-
 
             try {
                 Object eq = appContext.getClass().getMethod("get", Object.class).

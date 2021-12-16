@@ -10,7 +10,7 @@
  *  See the COPYRIGHT.txt file distributed with this work for information
  *  regarding copyright ownership.
  */
- 
+
 package org.mmtk.vm;
 
 import org.jnode.vm.VmImpl;

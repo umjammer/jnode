@@ -1,7 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
 
- 
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -39,12 +38,12 @@ public class VMware implements VmManager<VMwareConfig> {
      * The {@link ProcessRunner} used to manage the new VMware process.
      */
     private ProcessRunner runner = new ProcessRunner();
-    
+
     /**
      * Base command needed by all commands sent to VMware server.
      */
     private final String[] baseCommand;
-    
+
     /**
      * 
      * @param config
@@ -54,7 +53,7 @@ public class VMware implements VmManager<VMwareConfig> {
         baseCommand = new String[] {"vmrun", "-T", "server", "-h", url, "-u", 
             config.getUserName(), "-p", config.getPassword()};
     }
-    
+
     /**
      * {@inheritDoc}
      * The implementation is using the command line to communicate with the VMware server.
@@ -63,7 +62,7 @@ public class VMware implements VmManager<VMwareConfig> {
     public boolean start(VMwareConfig config) throws IOException {
         return executeCommand("start", config.getVmName());
     }
-    
+
     /**
      * {@inheritDoc}
      * The implementation is using the command line to communicate with the VMware server.
@@ -88,13 +87,13 @@ public class VMware implements VmManager<VMwareConfig> {
                     runningVMs.add(line);
                 }
             }
-            
+
         }, "list");
-        
+
         if (!success) {
             throw new IOException("failed to get running VMs");
         }
-        
+
         return runningVMs;        
     }
 
@@ -109,7 +108,7 @@ public class VMware implements VmManager<VMwareConfig> {
     private boolean executeCommand(String... command) throws IOException {
         return executeCommand(null, command);
     }
-    
+
     /**
      * Helper method that execute a command by appending the {@link #baseCommand} 
      * with the given parameters.
@@ -125,7 +124,7 @@ public class VMware implements VmManager<VMwareConfig> {
         String[] fullCommand = new String[baseCommand.length + command.length];
         System.arraycopy(baseCommand, 0, fullCommand, 0, baseCommand.length);
         System.arraycopy(command, 0, fullCommand, baseCommand.length, command.length);
-        
+
         return runner.executeAndWait(listener, fullCommand);
     }
 }

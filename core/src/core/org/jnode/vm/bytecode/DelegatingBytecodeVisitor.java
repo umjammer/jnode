@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.bytecode;
 
 import org.jnode.vm.classmgr.VmConstClass;
@@ -26,7 +26,6 @@ import org.jnode.vm.classmgr.VmConstIMethodRef;
 import org.jnode.vm.classmgr.VmConstMethodRef;
 import org.jnode.vm.classmgr.VmConstString;
 import org.jnode.vm.classmgr.VmMethod;
-
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)

@@ -17,14 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.x86;
 
 import org.jnode.annotation.Internal;
 import org.jnode.annotation.KernelSpace;
 import org.vmmagic.unboxed.Address;
 import org.vmmagic.unboxed.Word;
-
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)

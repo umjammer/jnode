@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package java.lang;
 
 import java.io.PrintStream;
@@ -27,12 +27,10 @@ import org.jnode.vm.VmSystem;
 import org.jnode.util.SystemInputStream;
 import gnu.classpath.SystemProperties;
 
-
 /**
  * @author Levente S\u00e1ntha
  */
 public class NativeSystem {
-
 
     private static void registerNatives() {
     }
@@ -44,8 +42,6 @@ public class NativeSystem {
     private static PrintStream makeSystemOut0() {
         return VmSystem.getSystemOut();
     }
-
-
 
     private static void setIn0(InputStream in) {
         VmSystem.setIn(in);

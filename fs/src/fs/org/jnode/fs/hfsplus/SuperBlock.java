@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.hfsplus;
 
 import java.io.IOException;
@@ -430,7 +430,6 @@ public class SuperBlock extends HfsPlusObject {
     public void incrementFolderCount() {
         this.setFolderCount(this.getFolderCount() + 1);
     }
-
 
     public byte[] getBytes() {
         return data;

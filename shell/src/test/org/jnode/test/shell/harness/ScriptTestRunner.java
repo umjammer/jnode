@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.harness;
 
 import java.io.BufferedWriter;
@@ -28,7 +28,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.Properties;
 
-
 /**
  * This TestRunner runs a script.  Typically the first line of the script will
  * be a "#!" line that says what interpreter to use.
@@ -38,7 +37,7 @@ import java.util.Properties;
 class ScriptTestRunner extends TestRunnerBase implements TestRunnable {
 
     private File tempScriptFile;
-    
+
     public ScriptTestRunner(TestSpecification spec, TestHarness harness) {
         super(spec, harness);
     }
@@ -84,7 +83,7 @@ class ScriptTestRunner extends TestRunnerBase implements TestRunnable {
             harness.expect(errBucket.toString(), spec.getErrorContent(), "err content") &
             checkFiles();
     }
-    
+
     @Override
     public void cleanup() {
         if (tempScriptFile != null) {

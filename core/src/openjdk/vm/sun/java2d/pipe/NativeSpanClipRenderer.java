@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package sun.java2d.pipe;
 
 /**
@@ -31,7 +31,7 @@ class NativeSpanClipRenderer {
     private static void initIDs(Class<?> arg1, Class<?> arg2) {
         //todo implement it
     }
-    
+
     /**
      * @see sun.java2d.pipe.SpanClipRenderer#fillTile(sun.java2d.pipe.RegionIterator, byte[], int, int, int[])
      */
@@ -39,7 +39,7 @@ class NativeSpanClipRenderer {
             byte[] arg2, int arg3, int arg4, int[] arg5) {
         //todo implement it
     }
-    
+
     /**
      * @see sun.java2d.pipe.SpanClipRenderer#eraseTile(sun.java2d.pipe.RegionIterator, byte[], int, int, int[])
      */

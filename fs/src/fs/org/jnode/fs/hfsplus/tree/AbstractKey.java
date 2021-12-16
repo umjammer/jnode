@@ -17,18 +17,17 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.hfsplus.tree;
 
-
 public abstract class AbstractKey implements Key {
-    
+
     protected int keyLength;
-    
+
     public final int getKeyLength() {
         return keyLength;
     }
-    
+
     public abstract byte[] getBytes();
 
     public abstract int compareTo(Key key);

@@ -122,7 +122,6 @@ public class JFileChooser
 	    setCurrentDirectory(new File(currentDirectoryPath_));
     }
 
-
     /** Set the current directory. Passing a parameter of <code>null</code>
      * cause the JFileChooser to point to the user's home directory.
      */
@@ -633,7 +632,6 @@ public class JFileChooser
 	    }
 	    return false;
 	}
-
 
 	/**
 	 * Causes the JFileChooser to scan its file list for the current

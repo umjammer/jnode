@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.isolate;
 
 import java.io.Closeable;
@@ -56,12 +56,12 @@ import org.jnode.vm.isolate.ObjectLinkMessage;
  * @author crawley@jnode.org
  */
 public class IsolateCommandThreadImpl implements CommandThread {
-    
+
     private final Isolate isolate;
     private final CommandRunner cr;
     private Link sl;
     private int rc;
-    
+
     public IsolateCommandThreadImpl(CommandRunner cr) throws IOException {
         this.cr = cr;
         CommandIO[] ios = cr.getIOs();
@@ -126,7 +126,7 @@ public class IsolateCommandThreadImpl implements CommandThread {
         // FIXME ... maybe we should check that the thread has terminated.
         return rc;
     }
-    
+
     @Override
     public Throwable getTerminatingException() {
         // FIXME ... implement this
@@ -156,7 +156,7 @@ public class IsolateCommandThreadImpl implements CommandThread {
     public void stop(ThreadDeath threadDeath) {
         isolate.halt(-1);
     }
-    
+
     public void waitFor() throws ShellInvocationException {
         try {
             while (true) {

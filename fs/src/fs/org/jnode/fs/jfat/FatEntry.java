@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.jfat;
 
 import java.io.FileNotFoundException;
@@ -32,7 +32,6 @@ import org.jnode.fs.FSEntryCreated;
 import org.jnode.fs.FSEntryLastAccessed;
 import org.jnode.fs.FSFile;
 import org.jnode.util.NumberUtils;
-
 
 public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEntryLastAccessed {
     private static final Logger log = Logger.getLogger(FatEntry.class);

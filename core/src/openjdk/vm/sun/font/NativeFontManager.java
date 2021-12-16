@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package sun.font;
 
 import java.awt.Font;
@@ -38,14 +38,14 @@ class NativeFontManager {
     private static void initIDs() {
         //todo implement it
     }
-    
+
     /**
      * @see sun.font.FontManager#setFont2D(java.awt.Font, sun.font.Font2DHandle)
      */
     private static void setFont2D(Font arg1, Font2DHandle arg2) {
         //todo implement it
     }
-    
+
     /**
      * @see sun.font.FontManager#isCreatedFont(java.awt.Font)
      */
@@ -53,14 +53,14 @@ class NativeFontManager {
         //todo implement it
         return false;
     }
-    
+
     /**
      * @see sun.font.FontManager#setCreatedFont(java.awt.Font)
      */
     private static void setCreatedFont(Font arg1) {
         //todo implement it
     }
-    
+
     /**
      * @see sun.font.FontManager#populateFontFileNameMap(java.util.HashMap, java.util.HashMap, java.util.HashMap, java.util.Locale)
      */
@@ -68,7 +68,7 @@ class NativeFontManager {
             HashMap<?, ?> arg1, HashMap<?, ?> arg2, HashMap<?, ?> arg3, Locale arg4) {
         //todo implement it
     }
-    
+
     /**
      * @see sun.font.FontManager#getFont2D(java.awt.Font)
      */
@@ -119,7 +119,7 @@ class NativeFontManager {
                     @Override
                     void getGlyphImagePtrs(int[] glyphCodes, long[] images, int len) {
                         // TODO Auto-generated method stub
-                        
+
                     }
 
                     @Override
@@ -143,11 +143,11 @@ class NativeFontManager {
                     GeneralPath getGlyphVectorOutline(int[] glyphs, float x, float y) {
                         // TODO Auto-generated method stub
                         GeneralPath path = getGlyphOutline(glyphs[0], x, y);
-                        
+
                         for(int i = 1; i < glyphs.length; i++) {
                             path.append(getGlyphOutline(glyphs[i], x, y), false);
                         }
-                        
+
                         return path;
                     }
 
@@ -156,9 +156,9 @@ class NativeFontManager {
                         // TODO Auto-generated method stub
                         return 0;
                     }
-                    
+
                 };
-                
+
                 return strike;
             }
 
@@ -169,13 +169,13 @@ class NativeFontManager {
                     @Override
                     public void charsToGlyphs(int count, char[] unicodes, int[] glyphs) {
                         // TODO Auto-generated method stub
-                        
+
                     }
 
                     @Override
                     public void charsToGlyphs(int count, int[] unicodes, int[] glyphs) {
                         // TODO Auto-generated method stub
-                        
+
                     }
 
                     @Override
@@ -189,12 +189,12 @@ class NativeFontManager {
                         // TODO Auto-generated method stub
                         return 0;
                     }
-                    
+
                 };
-                
+
                 return mapper;
             }
-            
+
         };
     }
     /**

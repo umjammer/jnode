@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console.spi;
 
 import java.io.IOException;
@@ -34,7 +34,6 @@ public class ConsoleWriter extends Writer implements ConsoleStream {
 
     private TextConsole console;
     private int fgColor;
-
 
     /**
      * Create a new instance
@@ -59,7 +58,6 @@ public class ConsoleWriter extends Writer implements ConsoleStream {
         console.putChar(cbuf, off, len, fgColor);
     }
 
-
     @Override
     public void close() throws IOException {
     }
@@ -83,7 +81,7 @@ public class ConsoleWriter extends Writer implements ConsoleStream {
     public void setFgColor(int fgColor) {
         this.fgColor = fgColor;
     }
-    
+
     /**
      * Return the stream's console.
      * 

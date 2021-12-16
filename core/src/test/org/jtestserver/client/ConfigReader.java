@@ -1,7 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
 
- 
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -41,12 +40,12 @@ public class ConfigReader {
      * Key name in the property file that specify the type of the VM (vmware, kvm, ...)
      */
     protected static final String VM_TYPE = "type";
-    
+
     /**
      * Value assigned to {@link ConfigReader#VM_TYPE} key for a VMware machine.
      */
     public static final String VMWARE_TYPE = "vmware";
-    
+
     /**
      * Value assigned to {@link ConfigReader#VM_TYPE} key for a KVM machine.
      */
@@ -57,10 +56,9 @@ public class ConfigReader {
      */
     public static final String JVM_TYPE = "jvm";
 
-    
     private static final String BEGIN_VARIABLE_REF = "${";
     private static final String END_VARIABLE_REF = "}";
-    
+
     /**
      * Read the JTestServer configuration and the VM configuration.
      * @param configFile File where configuration is stored.
@@ -69,12 +67,12 @@ public class ConfigReader {
      */
     public Config read(File configFile) throws IOException {
         Properties properties = readProperties(configFile);
-        
+
         // read the vm configuration
         String vm = ConfigUtils.getString(properties, "use.vm");
         Properties vmProperties = readProperties(new File(configFile.getParentFile(), vm + ".properties"));
         VMConfig vmConfig = createVMConfig(vmProperties, vm);
-            
+
         return new Config(properties, vmConfig);
     }
 
@@ -97,10 +95,10 @@ public class ConfigReader {
         } else {
             throw new IllegalArgumentException("unsupported type for " + vm + " vm : " + type);
         }
-        
+
         return vmConfig;
     }
-    
+
     /**
      * Read a properties file.
      * 
@@ -114,10 +112,10 @@ public class ConfigReader {
         expandVariables(properties);
         return properties;
     }
-    
+
     private void expandVariables(Properties properties) {
         int nbReplace;
-        
+
         do {
             nbReplace = 0;
             for (String key : properties.stringPropertyNames()) {
@@ -125,11 +123,11 @@ public class ConfigReader {
             }
         } while (nbReplace > 0);
     }
-    
+
     private int expandVariables(Properties properties, String key) {
         int nbReplace = 0;        
         String value = properties.getProperty(key);
-        
+
         boolean replaced;        
         do {
             replaced = false;
@@ -152,7 +150,7 @@ public class ConfigReader {
                 }
             }
         } while (replaced);
-        
+
         return nbReplace;
     }
 }

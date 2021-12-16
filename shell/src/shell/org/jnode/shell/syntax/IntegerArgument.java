@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import org.jnode.driver.console.CompletionInfo;
@@ -34,7 +34,7 @@ public class IntegerArgument extends Argument<Integer> {
      * us from generating an unmanageably large number of completions.
      */
     private static final int COMPLETION_THRESHOLD = 100;
-    
+
     private final int min, max;
 
     public IntegerArgument(String label, int flags, String description) {
@@ -66,7 +66,7 @@ public class IntegerArgument extends Argument<Integer> {
             throw new CommandSyntaxException("invalid number");
         }
     }
-  
+
     @Override
     public void doComplete(CompletionInfo completions, String partial, int flags) {
         // FIXME ... maybe someone could figure out how to partial
@@ -85,7 +85,7 @@ public class IntegerArgument extends Argument<Integer> {
     protected String state() {
         return super.state() + ",min=" + min + ",max=" + max;
     }
-    
+
     @Override
     protected String argumentKind() {
         return "integer";

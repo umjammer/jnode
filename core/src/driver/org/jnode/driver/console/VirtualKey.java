@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console;
 
 /**
@@ -27,21 +27,21 @@ package org.jnode.driver.console;
  * @author crawley@jnode.org
  */
 public class VirtualKey {
-                       
+
     public final int value;
-    
+
     public VirtualKey(int value) {
         this.value = value;
     }
-    
+
     public VirtualKey(int vk, int modifiers) {
         this.value = vk | (modifiers << 16);
     }
-    
+
     public int getVKCode() {
         return value & 0xffff;
     }
-    
+
     public int getModifiers() {
         return value >>> 16;
     }

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.bus.usb.hub;
 
 import org.jnode.driver.Device;
@@ -49,7 +49,6 @@ public class USBHubDeviceToDriverMapper implements DeviceToDriverMapper, USBCons
         // We found an USB HUB
         return new USBHubDriver();
     }
-
 
     /**
      * Gets the matching level of this mapper.

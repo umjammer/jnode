@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.build;
 
 import java.io.BufferedReader;
@@ -68,7 +68,7 @@ public class VMwareBuilderTask extends Task {
     public final void setName(String name) {
         this.name = name;
     }
-    
+
     /**
      * @return Returns the memory size.
      */
@@ -129,7 +129,7 @@ public class VMwareBuilderTask extends Task {
     public void setOverrideFile(String overrideFile) {
         this.overrideFile = overrideFile;
     }
-    
+
     /**
      * The save directory is used to preserve certain VMWare state
      * files across 'clean' builds.
@@ -227,7 +227,7 @@ public class VMwareBuilderTask extends Task {
         } catch (IOException ex) {
             throw new BuildException("Cannot write the VMX file: " + vmxFile);
         }
-        
+
         // Finally reinstate the saved JNode.nvram file if we have one.
         if (saveDir != null) {
             File savedNVRam = new File(saveDir, "JNode.nvram");

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.font;
 
 import java.awt.Font;
@@ -82,7 +82,7 @@ public interface FontProvider<F extends Font> {
      * @return The font metrics for the given font
      */
     public FontMetrics getFontMetrics(Font font);
-    
+
     /**
      * Translates the font into a font that is provided by this provider.
      *
@@ -90,7 +90,7 @@ public interface FontProvider<F extends Font> {
      * @return the translated font
      */
     public F getCompatibleFont(Font font);
-    
+
     /**
      * Creates a font peer from the given name or return {@code null} if not supported/provided.
      * As said in {@link org.jnode.awt.JNodeToolkit#getClasspathFontPeer(String, java.util.Map)} javadoc :

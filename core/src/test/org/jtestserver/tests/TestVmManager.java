@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -19,24 +19,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 package org.jtestserver.tests;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.util.List;
 
 import org.jtestserver.client.process.VMConfig;
 import org.jtestserver.client.process.VmManager;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public abstract class TestVmManager<T extends VMConfig> {
     protected T config;
 
     protected VmManager<T> vmManager;
-    
-    @After
+
+    @AfterEach
     public void tearDown() {
         try {
             vmManager.stop(config);
@@ -44,49 +45,49 @@ public abstract class TestVmManager<T extends VMConfig> {
             ioe.printStackTrace();
         }
     }
-    
-    @Test    
+
+    @Test
     public void testGetRunningVMs() throws IOException {
         List<String> vms = vmManager.getRunningVMs(config);
         assertNotNull(vms);
     }
-    
-    @Test    
+
+    @Test
     public void testStartStop() throws IOException {
         ensureNoRunningVMs();
-        
+
         List<String> vms = getRunningVMs(config);
         final int initialNbVMs = vms.size();
-        Assert.assertTrue("No VM should be running", vms.isEmpty());
-        
+        assertTrue(vms.isEmpty(), "No VM should be running");
+
         // start
         boolean success = vmManager.start(config);
-        assertTrue("start must work", success);
-                
+        assertTrue(success, "start must work");
+
         vms = getRunningVMs(config);
-        Assert.assertTrue("list of running VMs must contains '" + config.getVmName()
-                + "'", vms.contains(config.getVmName()));
-        Assert.assertEquals("wrong number of running VMs", initialNbVMs + 1, vms.size());
-        
+        assertTrue(vms.contains(config.getVmName()), "list of running VMs must contains '" + config.getVmName()
+        + "'");
+        assertEquals(initialNbVMs + 1, vms.size(), "wrong number of running VMs");
+
         // stop
-        success = vmManager.stop(config);        
-        assertTrue("stop must work", success);
-        
+        success = vmManager.stop(config);
+        assertTrue(success, "stop must work");
+
         vms = getRunningVMs(config);
-        Assert.assertFalse("list of running VMs must not contains '"
-                + config.getVmName() + "'", vms.contains(config.getVmName()));
-        Assert.assertEquals("wrong number of running VMs", initialNbVMs, vms.size());
+        assertFalse(vms.contains(config.getVmName()), "list of running VMs must not contains '"
+                + config.getVmName() + "'");
+        assertEquals(initialNbVMs, vms.size(), "wrong number of running VMs");
     }
-    
+
     private void ensureNoRunningVMs() throws IOException {
         List<String> vms;
         do {
             vmManager.stop(config);
-            
+
             vms = getRunningVMs(config);
         } while (!vms.isEmpty());
     }
-    
+
     private void sleep(int seconds) {
         try {
             Thread.sleep(seconds * 1000);
@@ -94,7 +95,7 @@ public abstract class TestVmManager<T extends VMConfig> {
             // ignore
         }
     }
-    
+
     private List<String> getRunningVMs(T config) throws IOException {
         sleep(1);
         return vmManager.getRunningVMs(config);

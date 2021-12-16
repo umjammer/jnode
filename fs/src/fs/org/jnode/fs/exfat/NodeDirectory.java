@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.exfat;
 
 import java.io.IOException;
@@ -136,7 +136,7 @@ public class NodeDirectory extends AbstractFSObject implements FSDirectory, FSDi
         @Override
         public void foundUpcaseTable(DirectoryParser parser, long checksum,
                                      long startCluster, long size) throws IOException {
-            
+
             /* ignore */
         }
 

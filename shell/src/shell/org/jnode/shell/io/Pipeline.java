@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.io;
 
 import java.io.IOException;
@@ -56,39 +56,39 @@ public class Pipeline {
     // circular fashion.  If there are multiple active readers or writers, 
     // too many threads get woken up.  Finally, this class doesn't implement 
     // atomic writes / reads or detect cases where behavior is non-deterministic.
-    
+
     private List<PipelineInputStream> sinks = 
         new ArrayList<PipelineInputStream>();
     private List<PipelineOutputStream> sources = 
         new ArrayList<PipelineOutputStream>();
-    
+
     private byte[] buffer;
     private int pos = 0;
     private int lim = 0;
     private int state = INITIAL;
-    
+
     private static final int INITIAL = 1;
     private static final int ACTIVE = 2;
     private static final int CLOSED = 4;
     private static final int SHUTDOWN = 8;
-    
+
     private static final String[] STATE_NAMES = new String[] {
         null, "INITIAL", "ACTIVE", null, "CLOSED", 
         null, null, null, "SHUTDOWN"
     };
-    
+
     /**
      * The default Pipeline buffer size.
      */
     public static final int DEFAULT_BUFFER_SIZE = 1024;
-    
+
     /**
      * Create a pipeline, in 'inactive' state with the default buffer size;
      */
     public Pipeline() {
         buffer = new byte[DEFAULT_BUFFER_SIZE];
     }
-    
+
     /**
      * Create a pipeline, in 'inactive' state.
      * @param bufferSize the pipeline's buffer size.
@@ -96,7 +96,7 @@ public class Pipeline {
     public Pipeline(int bufferSize) {
         buffer = new byte[bufferSize];
     }
-    
+
     /**
      * Create a sink for a inactive pipeline.
      * @return the sink.
@@ -108,7 +108,7 @@ public class Pipeline {
         sinks.add(is);
         return is;
     }
-    
+
     private void checkState(int allowedStates, String action) throws IOException {
         if ((state & allowedStates) == 0) {
             String stateName = STATE_NAMES[state];
@@ -140,7 +140,7 @@ public class Pipeline {
         }
         state = ACTIVE;
     }
-    
+
     /**
      * Test if the pipeline is in the 'active' state.
      * @return <code>true</code> if the pipeline is active.
@@ -148,7 +148,7 @@ public class Pipeline {
     public synchronized boolean isActive() {
         return state == ACTIVE;
     }
-    
+
     /**
      * Test if the pipeline is in the 'closed' state.
      * @return <code>true</code> if the pipeline is closed.
@@ -156,7 +156,7 @@ public class Pipeline {
     public synchronized boolean isClosed() {
         return state == CLOSED;
     }
-    
+
     /**
      * Test if the pipeline is in the 'shut down' state.
      * @return <code>true</code> if the pipeline is shut down.
@@ -164,7 +164,7 @@ public class Pipeline {
     public synchronized boolean isShutdown() {
         return state == SHUTDOWN;
     }
-    
+
     /**
      * Forcibly shut down the pipeline.  This will cause any threads
      * currently blocked on sources or sinks to get an IOException.
@@ -178,7 +178,7 @@ public class Pipeline {
         checkState(ACTIVE, "available");
         return lim - pos;
     }
-    
+
     synchronized void closeInput(PipelineInputStream input) {
         sinks.remove(input);
         if (sinks.isEmpty()) {
@@ -249,7 +249,7 @@ public class Pipeline {
         }
         return off == 0 ? -1 : off;
     }
-    
+
     synchronized void flush() throws IOException {
         // FIXME This should be unnecessary ... but we'll do it for now to be safe.
         this.notifyAll();

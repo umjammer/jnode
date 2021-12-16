@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.font;
 
 import java.awt.Color;
@@ -121,7 +121,6 @@ public class DefaultTextPipe implements TextPipe {
                     org.jnode.vm.Unsafe.debug("DTP getRGBPixel\n");
                     return 0;
                 }
-
 
                 public void setRGBPixel(int x, int y, int color) {
                     //org.jnode.vm.Unsafe.debug("DTP setRGBPixel\n");

@@ -17,12 +17,12 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.vmware.disk.test;
 
 import java.io.IOException;
 import org.apache.log4j.Logger;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Wrote from the 'Virtual Disk Format 1.0' specifications (from VMWare).

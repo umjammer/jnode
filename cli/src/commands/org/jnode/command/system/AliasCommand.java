@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.PrintWriter;
@@ -44,13 +44,13 @@ public class AliasCommand extends AbstractCommand {
     private static final String help_class = "the class name";
     private static final String help_remove = "the alias to be removed";
     private static final String help_super = "List, add or remove JNOde command aliases";
-    
+
     private static final String slash_t = ":\t\t";
-    
+
     private final AliasArgument argAlias;
     private final ClassNameArgument argClass;
     private final AliasArgument argRemove;
-    
+
     public AliasCommand() {
         super(help_super);
         argAlias  = new AliasArgument("alias", Argument.OPTIONAL, help_alias);
@@ -88,7 +88,7 @@ public class AliasCommand extends AbstractCommand {
             showAliases(aliasMgr, getOutput().getPrintWriter());
         } 
     }
-    
+
     private void showAliases(AliasManager aliasMgr, PrintWriter out) throws NoSuchAliasException {
         final TreeMap<String, String> map = new TreeMap<String, String>();
 
@@ -101,5 +101,4 @@ public class AliasCommand extends AbstractCommand {
         }
     }
 
-    
 }

@@ -24,7 +24,7 @@ import charvax.swing.tree.TreePath;
 public class TreeModelEvent extends java.util.EventObject
 {
     private static final long serialVersionUID = 1L;
-    
+
     /** Used to create an event when the node structure has changed in some way, 
      * identifying the path to the root of a modified subtree as an array of 
      * Objects.

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import java.io.File;
@@ -118,7 +118,7 @@ public class PathnamePattern {
      * match "a'c"; i.e. a filename containing a single-quote character.
      */
     public static final int SINGLE_QUOTE_ESCAPES = 0x10;
-    
+
     /**
      * When set, this flag causes characters inside matching double-quote
      * characters to be match literal characters in the pathname. Only a '\' is
@@ -132,33 +132,32 @@ public class PathnamePattern {
      * recognized.
      */
     public static final int CHARACTER_CLASSES = 0x40;
-    
+
     /**
      * When set, the pattern is anchored to the left of the string to be searched. 
      * This is set implicitly by the pathname matching methods.
      */
     public static final int ANCHOR_LEFT = 0x80;
-    
+
     /**
      * When set, the pattern is anchored to the right of the string to be searched.  
      * This is set implicitly by the pathname matching methods.
      */
     public static final int ANCHOR_RIGHT = 0x100;
-    
+
     /**
      * When set, '*' is eager, matching as many characters as possible.  
      * This is set implicitly by the pathname matching methods. 
      * matching is always eager.
      */
     public static final int EAGER = 0x200;
-    
+
     /**
      * When set, an unescaped '/' inside a character class causes the entire class
      * to be interpreted as a literal character sequence.  
      * This is set implicitly by the pathname matching methods.
      */
     public static final int SLASH_DISABLES_CHARACTER_CLASSES = 0x400;
-    
 
     public static final int DEFAULT_FLAGS = SORT_MATCHES | HIDE_DOT_FILENAMES
             | INCLUDE_DOT_AND_DOTDOT | BACKSLASH_ESCAPES | SINGLE_QUOTE_ESCAPES
@@ -332,7 +331,7 @@ public class PathnamePattern {
         }
         return pp;
     }
-    
+
     /**
      * Clear the pattern cache
      */
@@ -406,7 +405,7 @@ public class PathnamePattern {
     public static Pattern compilePosixShellPattern(CharSequence pattern, int flags) {
         return compilePosixShellPattern(pattern, flags, null);
     }
-    
+
     /**
      * @param pattern the pattern in shell syntax.
      * @param flags compilation flags

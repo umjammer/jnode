@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import org.jnode.shell.syntax.ArgumentBundle;
@@ -40,7 +40,7 @@ import org.jnode.shell.syntax.SyntaxBundle;
  * @author chris boertien
  */
 public class CommandInfo {
-    
+
     private final Class<?> clazz;
     private final String commandName;
     private final SyntaxBundle syntaxBundle;
@@ -48,7 +48,7 @@ public class CommandInfo {
     private final boolean internal;
 
     private Command instance;
-    
+
     /**
      * Creates a CommandInfo object for a JNode command.
      *
@@ -63,7 +63,7 @@ public class CommandInfo {
         this.syntaxBundle = syntaxBundle;
         this.argBundle = null;
     }
-    
+
     /**
      * Creates a CommandInfo object for a bare command.
      *
@@ -82,7 +82,7 @@ public class CommandInfo {
         this.syntaxBundle = syntaxBundle;
         this.argBundle = argBundle;
     }
-    
+
     /**
      * Creates a CommandInfo object for a builtin command.
      *
@@ -100,7 +100,7 @@ public class CommandInfo {
         this.instance = instance;
         this.argBundle = instance.getArgumentBundle();
     }
-    
+
     /**
      * Gets the {@code Class} for the command.
      *
@@ -109,7 +109,7 @@ public class CommandInfo {
     public final Class<?> getCommandClass() {
         return clazz;
     }
-    
+
     /**
      * Checks whether this command is considered internal or not.
      *
@@ -119,7 +119,7 @@ public class CommandInfo {
     public final boolean isInternal() {
         return internal;
     }
-    
+
     /**
      * Retrieves the argument bundle for the command.
      *
@@ -169,7 +169,7 @@ public class CommandInfo {
     public Command getCommandInstance() {
         return instance;
     }
-    
+
     /**
      * Gets the name/alias for this command.
      *
@@ -178,7 +178,7 @@ public class CommandInfo {
     public String getCommandName() {
         return commandName;
     }
-    
+
     /**
      * Gets the syntax bundle attached when the CommandInfo was created.
      * 
@@ -188,7 +188,6 @@ public class CommandInfo {
         return syntaxBundle;
     }
 
-    
     /**
      * Perform command line argument parsing in preparation to invoking a command.
      * This locates the command's class and a suitable command line syntax, then
@@ -211,7 +210,7 @@ public class CommandInfo {
                     bundle = cmd.getArgumentBundle();
                 }
             }
-            
+
             if (bundle != null) {
                 // Do a full parse to bind the command line argument tokens to corresponding
                 // command arguments

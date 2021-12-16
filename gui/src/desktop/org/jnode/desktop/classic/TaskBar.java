@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.desktop.classic;
 
 import gnu.java.security.action.SetPropertyAction;
@@ -127,7 +127,7 @@ public class TaskBar extends JPanel {
         startMenu.add(settingsMenu);
         JMenu resMenu = new JMenu("Screen Resolution");
         settingsMenu.add(resMenu);
-        
+
         int i = 0;
         GraphicsConfiguration[] configs = ((JNodeToolkit) Toolkit.getDefaultToolkit()).getConfigurations();
         chgSizeMenuItem = new JMenuItem[configs.length];
@@ -195,7 +195,7 @@ public class TaskBar extends JPanel {
         clock = new Clock();
         add(clock, BorderLayout.EAST);
     }
-    
+
     private class SetLFAction implements ActionListener {
         private LookAndFeel lf;
         private final String lfName;

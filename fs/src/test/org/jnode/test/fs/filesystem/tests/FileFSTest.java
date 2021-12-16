@@ -17,10 +17,11 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.filesystem.tests;
 
 import java.nio.ByteBuffer;
+
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSFile;
 import org.jnode.fs.ReadOnlyFileSystemException;
@@ -28,7 +29,12 @@ import org.jnode.fs.util.FSUtils;
 import org.jnode.test.fs.filesystem.AbstractFSTest;
 import org.jnode.test.fs.filesystem.config.FSTestConfig;
 import org.jnode.test.support.TestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Fabien DUMINY
@@ -68,7 +74,7 @@ public class FileFSTest extends AbstractFSTest {
         if (!config.isReadOnly()) {
             FSDirectory rootDir2 = getFs().getRootEntry().getDirectory();
             FSFile file2 = rootDir2.getEntry(fileName).getFile();
-            assertNotNull("file not saved", file2);
+            assertNotNull(file2, "file not saved");
             assertSize("bad file.length after remount", data.capacity(), file2.getLength());
 
             ByteBuffer data2 = ByteBuffer.allocate(data.capacity());
@@ -76,7 +82,7 @@ public class FileFSTest extends AbstractFSTest {
                 getFs().getClass().getName() + ": buffer after alloc\n" + FSUtils.toString(data2.array(), 0, data.capacity()));
             file2.read(0, data2);
             log.debug(getFs().getClass().getName() + ": buffer after read\n" + FSUtils.toString(data2.array(), 0, data.capacity()));
-            assertTrue("read and written data are differents", TestUtils.equals(data.array(), data2.array()));
+            assertTrue(TestUtils.equals(data.array(), data2.array()), "read and written data are differents");
         }
     }
 

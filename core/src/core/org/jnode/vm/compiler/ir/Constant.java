@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.compiler.ir;
 
 /**
@@ -144,7 +144,6 @@ public abstract class Constant<T> extends Operand<T> {
         double d = ((DoubleConstant<T>) this).getValue();
         return new DoubleConstant<T>(-d);
     }
-
 
     ///////////////// BINARY OPERATIONS ////////////////////
     public Constant<T> iAdd(Constant<T> c2) {

@@ -17,11 +17,10 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.ant.taskdefs.classpath;
 
 import java.io.File;
-
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)

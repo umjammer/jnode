@@ -17,21 +17,24 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.smbfs;
 
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import jcifs.CIFSContext;
+import jcifs.context.SingletonContext;
 import jcifs.smb.NtlmAuthenticator;
-import jcifs.smb.NtlmPasswordAuthentication;
+import jcifs.smb.NtlmPasswordAuthenticator;
 import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 
 public class SmbShell extends NtlmAuthenticator {
 
-    protected NtlmPasswordAuthentication getNtlmPasswordAuthentication() {
+    protected NtlmPasswordAuthenticator getNtlmPasswordAuthentication() {
         System.out.println(getRequestingException().getMessage() +
             " for " + getRequestingURL());
         System.out.print("username: ");
@@ -49,7 +52,7 @@ public class SmbShell extends NtlmAuthenticator {
             if (password.length() == 0) {
                 return null;
             }
-            return new NtlmPasswordAuthentication(domain, username, password);
+            return new NtlmPasswordAuthenticator(domain, username, password);
         } catch (Exception e) {
             //empty
         }
@@ -83,14 +86,15 @@ public class SmbShell extends NtlmAuthenticator {
         sdf2.setCalendar(new GregorianCalendar());
         sdf3.setCalendar(new GregorianCalendar());
 
-        conn = new SmbFile(start);
+        CIFSContext context = SingletonContext.getInstance().withCredentials(getNtlmPasswordAuthentication());
+        conn = new SmbFile(start, context);
         while (true) {
             try {
                 if (conn.exists()) {
                     prompt = conn.getName() + "> ";
                 } else {
                     System.out.println("error reading " + conn);
-                    conn = new SmbFile("smb://");
+                    conn = new SmbFile("smb://", context);
                     continue;
                 }
                 System.out.print(prompt);
@@ -102,7 +106,7 @@ public class SmbShell extends NtlmAuthenticator {
                     int i = cmd.indexOf(' ');
                     String dir;
                     if (i == -1 || (dir = cmd.substring(i).trim()).length() == 0) {
-                        conn = new SmbFile("smb://");
+                        conn = new SmbFile("smb://", context);
                         continue;
                     }
                     tmp = new SmbFile(conn, dir);

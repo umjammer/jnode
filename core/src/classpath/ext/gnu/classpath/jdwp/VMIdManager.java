@@ -38,7 +38,6 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 
-
 package gnu.classpath.jdwp;
 
 import gnu.classpath.jdwp.exception.InvalidClassException;
@@ -220,7 +219,7 @@ public class VMIdManager
       super (referent);
       _hash = referent.hashCode ();
     }
-    
+
     /**
      * Constructs a new <code>ReferenceKey</code> object
      * with the given referent and reference queue.
@@ -237,7 +236,7 @@ public class VMIdManager
       super (referent, queue);
       _hash = referent.hashCode ();
     }
-    
+
     /**
      * Returns the hash code of the referent.
      * This seems hacky, but is required in order to use this class
@@ -266,19 +265,19 @@ public class VMIdManager
       if (obj instanceof ReferenceKey)
 	{
 	  ReferenceKey ref = (ReferenceKey) obj;
-	  
+
 	  /* First check if the two references are the same.
 	     If they are, that means we must be clearing GCd objects. */
 	  if (this == obj)
 	    return true;
-	  
+
 	  return (ref.get () == get ());
 	}
-      
+
       return false;
     }
   }
-  
+
   // instance of VMIdManager
   private static VMIdManager _idm = new VMIdManager ();
 
@@ -369,7 +368,7 @@ public class VMIdManager
     ObjectId oid = (ObjectId) _idTable.get (new Long (id));
     if (oid == null)
       throw new InvalidObjectException (id);
- 
+
     return oid;
   }
 
@@ -416,7 +415,7 @@ public class VMIdManager
     ReferenceTypeId rid = (ReferenceTypeId) _ridTable.get (new Long (id));
     if (rid == null)
       throw new InvalidClassException (id);
- 
+
     return rid;
   }
 

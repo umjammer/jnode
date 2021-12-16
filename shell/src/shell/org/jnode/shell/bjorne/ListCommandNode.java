@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import java.util.List;
@@ -31,9 +31,8 @@ import org.jnode.shell.Completable;
 import org.jnode.shell.ShellException;
 import org.jnode.shell.help.CompletionException;
 
-
 public class ListCommandNode extends CommandNode implements Completable {
-    
+
     private final CommandNode[] commands;
 
     public ListCommandNode(int nodeType, List<? extends CommandNode> commands) {
@@ -76,7 +75,6 @@ public class ListCommandNode extends CommandNode implements Completable {
                 } else if (nt == BjorneInterpreter.CMD_BRACE_GROUP) {
                     context.evaluateRedirectionsAndPushHolders(getRedirects());
                 }
-                
 
                 for (CommandNode command : commands) {
                     int commandFlags = command.getFlags();
@@ -103,11 +101,11 @@ public class ListCommandNode extends CommandNode implements Completable {
         }
         return rc;
     }
-    
+
     @Override
     public CommandThread fork(CommandShell shell, final BjorneContext context) 
         throws ShellException {
-        
+
         CommandRunnable cr = new BjorneSubshellRunner(context) {
             @Override
             public int doRun() throws ShellException {
@@ -127,7 +125,7 @@ public class ListCommandNode extends CommandNode implements Completable {
         }
         return pipeline;
     }
-    
+
     @Override
     public void complete(CompletionInfo completions, CommandShell shell) throws CompletionException {
         // TODO Auto-generated method stub

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.ntfs;
 
 import java.io.IOException;
@@ -611,7 +611,6 @@ public class FileRecord extends NTFSRecord {
                 // If if the data is past the 'initialised' part of the attribute. If it is uninitialised then it must
                 // be read as zeros. Annoyingly the initialised portion isn't even cluster aligned...
                 long endOffset = (clusterOffset + clusterWithinNresData + nrClusters) * clusterSize;
-
 
                 if (endOffset > initialisedSize && limitToInitialised) {
                     int delta = (int)(endOffset - initialisedSize);

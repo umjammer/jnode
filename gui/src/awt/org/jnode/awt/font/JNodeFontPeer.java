@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.font;
 
 import gnu.java.awt.peer.ClasspathFontPeer;
@@ -40,7 +40,7 @@ import sun.font.StandardGlyphVector;
 public abstract class JNodeFontPeer<FP extends FontProvider<F>, F extends Font> 
         extends ClasspathFontPeer implements FontPeer {
     protected final FP provider;
-    
+
     /**
      * @param name
      * @param attrs
@@ -55,14 +55,14 @@ public abstract class JNodeFontPeer<FP extends FontProvider<F>, F extends Font>
     @Override
     public final int canDisplayUpTo(Font font, CharacterIterator i, int start, int limit) {
         int upTo = -1;
-        
+
         for (char c = i.setIndex(start); i.getIndex() <= limit; c = i.next()) {
             if (!canDisplay(font, c)) {
                 upTo = i.getIndex();
                 break;
             }
         }
-    
+
         return upTo;
     }
 
@@ -103,7 +103,7 @@ public abstract class JNodeFontPeer<FP extends FontProvider<F>, F extends Font>
 
     public abstract GlyphVector layoutGlyphVector(Font font, FontRenderContext frc,
                                          char[] chars, int start, int limit, int flags);
-    
+
     /**
      * Convert the given font to a Font whose type is F.
      * The font given as input might not be an instance of F 
@@ -117,7 +117,7 @@ public abstract class JNodeFontPeer<FP extends FontProvider<F>, F extends Font>
     protected final F getCompatibleFont(Font font) {
         return provider.getCompatibleFont(font);
     }
-    
+
     protected final void transform(Rectangle2D bounds, FontRenderContext frc) {
         if (frc.getTransform() != null) {
             double[] srcPoints =
@@ -127,7 +127,7 @@ public abstract class JNodeFontPeer<FP extends FontProvider<F>, F extends Font>
                         bounds.getMaxX(), bounds.getMinY()};
             double[] dstPoints = new double[srcPoints.length]; 
             frc.getTransform().transform(srcPoints, 0, dstPoints, 0, srcPoints.length / 2);
-            
+
             // compute the bounding box of the result
             double minX = dstPoints[0];
             double minY = dstPoints[1];
@@ -137,7 +137,7 @@ public abstract class JNodeFontPeer<FP extends FontProvider<F>, F extends Font>
                 double x = dstPoints[i];
                 minX = Math.min(minX, x);
                 maxX = Math.max(maxX, x);
-                
+
                 double y = dstPoints[i + 1];
                 minY = Math.min(minY, y);
                 maxY = Math.max(maxY, y);

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.system.cmos;
 
 /**
@@ -112,6 +112,5 @@ public interface CMOSConstants {
     public static final int RTC_VALID = RTC_REG_D;
     public static final int RTC_VRT = 0x80;    /* valid RAM and time */
     /**********************************************************************/
-
 
 }

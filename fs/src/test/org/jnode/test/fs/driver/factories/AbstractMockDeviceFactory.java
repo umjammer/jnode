@@ -17,21 +17,20 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.driver.factories;
 
 import org.apache.log4j.Logger;
-import org.jmock.MockObjectTestCase;
 
 public abstract class AbstractMockDeviceFactory {
     protected final Logger log = Logger.getLogger(getClass());
 
-    protected MockObjectTestCase testCase;
+    protected Object testCase;
 
     public AbstractMockDeviceFactory() {
     }
 
-    public final void setTestCase(MockObjectTestCase testCase) {
+    public final void setTestCase(Object testCase) {
         this.testCase = testCase;
     }
 }

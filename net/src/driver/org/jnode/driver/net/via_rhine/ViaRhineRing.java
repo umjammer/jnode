@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.net.via_rhine;
 
 import org.jnode.system.resource.ResourceManager;
@@ -41,7 +41,6 @@ abstract class ViaRhineRing<T extends ViaRhineDesc> {
                 ringAddr = ring[0].descAddr;
             else
                 ring[i - 1].setNextDescAddr(ring[i].descAddr);
-
 
         }
         ring[RING_SIZE - 1].setNextDescAddr(ringAddr);

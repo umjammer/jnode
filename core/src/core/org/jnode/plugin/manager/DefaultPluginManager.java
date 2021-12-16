@@ -17,11 +17,11 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.plugin.manager;
 
-import gnu.java.security.action.GetPropertyAction;
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,7 +31,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.naming.NamingException;
+
 import org.jnode.bootlog.BootLogInstance;
 import org.jnode.naming.InitialNaming;
 import org.jnode.permission.JNodePermission;
@@ -87,7 +89,6 @@ public final class DefaultPluginManager extends PluginManager {
         return loaderMgr;
     }
 
-
     /**
      * Gets the plugin registry
      */
@@ -115,7 +116,12 @@ public final class DefaultPluginManager extends PluginManager {
             registry.getPluginsClassLoader());
 
         // Start the plugins
-        final String cmdLine = (String) AccessController.doPrivileged(new GetPropertyAction("jnode.cmdline", ""));
+        final String cmdLine = (String) AccessController.doPrivileged(new PrivilegedAction<String>() {
+            @Override
+            public String run() {
+                return System.getProperty("jnode.cmdline", "");
+            }
+        });
         final boolean debug = (cmdLine.indexOf("debug") > 0);
         final List<PluginDescriptor> descrList = createPluginDescriptorList();
 

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import org.jnode.shell.syntax.Argument;
@@ -35,7 +35,7 @@ import org.jnode.shell.syntax.SyntaxBundle;
 final class ReturnBuiltin extends BjorneBuiltin {
     private static final SyntaxBundle SYNTAX =
         new SyntaxBundle("return", new OptionalSyntax(new ArgumentSyntax("rc")));
-    
+
     static final Factory FACTORY = new Factory() {
         public BjorneBuiltinCommandInfo buildCommandInfo(BjorneContext context) {
             return new BjorneBuiltinCommandInfo("return", SYNTAX, new ReturnBuiltin(), context);
@@ -44,8 +44,7 @@ final class ReturnBuiltin extends BjorneBuiltin {
 
     private final IntegerArgument argRC = new IntegerArgument(
             "rc", Argument.OPTIONAL, 1, Integer.MAX_VALUE, "the return code");
-    
-    
+
     private ReturnBuiltin() {
         super("Return from the current shell function call");
         registerArguments(argRC);

@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -35,12 +35,12 @@ public class VMwareServerProcess implements ServerProcess {
      * Configuration of machine to run in VMware.
      */
     private final VMwareConfig config;
-    
+
     /**
      * Manager for the VMware machine.
      */
     private final VMware vmware;
-    
+
     /**
      * 
      * @param config configuration of the machine to run in VMware server.
@@ -49,7 +49,7 @@ public class VMwareServerProcess implements ServerProcess {
         this.config = config;
         vmware = new VMware(config);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -57,7 +57,7 @@ public class VMwareServerProcess implements ServerProcess {
     public synchronized void start() throws IOException {
         vmware.start(config);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -78,7 +78,7 @@ public class VMwareServerProcess implements ServerProcess {
                 break;
             }
         }
-        
+
         return isRunning;
     }
 }

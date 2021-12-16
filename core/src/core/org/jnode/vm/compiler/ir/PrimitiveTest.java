@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.compiler.ir;
 
 /**
@@ -240,7 +240,6 @@ public class PrimitiveTest {
         return l0 < l1 ? a0 : a1;
     }
 
-
     public static int const9(int a0, int a1) {
         int l1 = a1 + a0;
         int l2 = a0 * a1;
@@ -380,7 +379,6 @@ public class PrimitiveTest {
 //        return l + a1;
 //    }
 
-
 //    public static long ladd(long a0, long a1) {
 //        return a0 + a1;
 //    }
@@ -436,7 +434,6 @@ public class PrimitiveTest {
     public static int xor(int a0, int a1) {
         return a0 ^ a1;
     }
-
 
     //misc
     public static int test1() {

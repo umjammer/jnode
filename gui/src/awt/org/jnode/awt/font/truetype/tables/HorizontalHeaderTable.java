@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.font.truetype.tables;
 
 import java.io.IOException;
@@ -43,7 +43,6 @@ public final class HorizontalHeaderTable extends VersionTable {
     private int caretSlopeRun;
     private int metricDataFormat;
     private int numberOfHMetrics;
-
 
     /**
      * @param font

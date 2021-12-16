@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.proclet;
 
 import java.io.PrintStream;
@@ -26,7 +26,6 @@ import java.util.Map;
 
 import org.jnode.util.ProxyStream;
 import org.jnode.util.ProxyStreamException;
-
 
 /**
  * This class provides a proxy mechanism for System.out,err. If the current
@@ -40,7 +39,7 @@ public class ProcletProxyPrintStream extends AbstractProxyPrintStream implements
         ProcletProxyStream<PrintStream> {
 
     private Map<Integer, PrintStream> streamMap; 
-    
+
     private final int fd;
 
     /**
@@ -62,7 +61,7 @@ public class ProcletProxyPrintStream extends AbstractProxyPrintStream implements
         streamMap = new HashMap<Integer, PrintStream>();
         streamMap.put(ProcletIOContext.GLOBAL_STREAM_ID, ps);
     }
-    
+
     /**
      * Construct a proxy print stream based on the state of the supplied proxy.
      * The new proxy has all entries of the existing one except that the entry
@@ -85,7 +84,7 @@ public class ProcletProxyPrintStream extends AbstractProxyPrintStream implements
         streamMap.put(pid, ps);
         fd = proxy.fd;
     }
-    
+
     /**
      * This method does the work of deciding which printstream to delegate to.
      * 

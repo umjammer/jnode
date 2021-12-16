@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.help.def;
 
 import java.io.PrintWriter;
@@ -29,12 +29,12 @@ import java.io.PrintWriter;
  * @author crawley@jnode.org
  */
 public abstract class TextHelpBase {
-    
+
     public static final String RESOURCE_NAME = "messages.properties";
-    
+
     // FIXME ...
     static final int NOMINAL_WIDTH = 75;
-    
+
     /* start with 80 spaces ... */
     private static String spaces =
         "                                                                                ";

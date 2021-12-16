@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.File;
@@ -41,7 +41,7 @@ public class TouchCommand extends AbstractCommand {
     private static final String err_parent_dir = "Cannot create parent directories";
     private static final String str_created = "File created";
     private static final String err_file = "Cannot create file";
-    
+
     private final FileArgument argFile;
 
     public TouchCommand() {

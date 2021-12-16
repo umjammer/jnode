@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.video.cursor;
 
 import java.awt.Rectangle;
@@ -196,7 +196,7 @@ public class SoftwareCursor extends BitmapGraphics implements HardwareCursorAPI 
                     cursorArea.setLocation(newX, newY);
                 }
                 this.cursorImage = cursImage;
-                
+
                 showCursor();
             }
         } catch (Throwable t) {

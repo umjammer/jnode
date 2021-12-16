@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.io;
 
 import java.io.IOException;
@@ -38,7 +38,7 @@ import org.jnode.util.ReaderInputStream;
  * @author crawley@jnode.org
  */
 public class CommandInput extends BaseCommandIO {
-    
+
     private Reader reader;
     private InputStream inputStream;
 
@@ -83,7 +83,7 @@ public class CommandInput extends BaseCommandIO {
             reader.close();
         }
     }
-    
+
     @Override
     void doFlush() throws IOException {
     }

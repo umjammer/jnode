@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import java.util.Collections;
@@ -40,9 +40,9 @@ public class CommandCompletions implements CompletionInfo {
     private TreeSet<String> completions;
 
     private int completionStart = -1;
-    
+
     private final CommandInterpreter interpreter;
-    
+
     /**
      * Instantiate with a CommandInterpreter instance that will be used
      * to escape shell meta-characters in the completions.
@@ -51,7 +51,7 @@ public class CommandCompletions implements CompletionInfo {
     public CommandCompletions(CommandInterpreter interpreter) {
         this.interpreter = interpreter;
     }
-    
+
     /**
      * Instantiate without a CommandInterpreter.  Completions are captured
      * as-is.

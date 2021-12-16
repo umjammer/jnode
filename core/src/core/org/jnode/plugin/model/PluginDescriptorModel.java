@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.plugin.model;
 
 import java.lang.reflect.Constructor;
@@ -107,7 +107,7 @@ public class PluginDescriptorModel extends AbstractModelObject implements
     private final Version version;
 
     private final int priority;
-    
+
     private PluginReference reference;
 
     /**
@@ -479,7 +479,7 @@ public class PluginDescriptorModel extends AbstractModelObject implements
                     PluginClassLoaderImpl cl = new PluginClassLoaderImpl(
                         registry, PluginDescriptorModel.this, jarFile,
                         preLoaders);
-                    return new Object[]{cl, cl.getVmClassLoader()};
+                    return new Object[]{cl, ClassLoader.getSystemClassLoader()};
                 }
             }
         };
@@ -523,7 +523,7 @@ public class PluginDescriptorModel extends AbstractModelObject implements
     public Version getVersion() {
         return version;
     }
-    
+
     public PluginReference getPluginReference() {
         if (reference == null) {
             // lazy creation

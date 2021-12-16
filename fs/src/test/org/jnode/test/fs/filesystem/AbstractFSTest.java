@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.filesystem;
 
 import java.io.IOException;
@@ -26,8 +26,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.naming.NameNotFoundException;
-import junit.framework.TestCase;
+
 import org.apache.log4j.Logger;
 import org.jnode.driver.Device;
 import org.jnode.emu.naming.BasicNameSpace;
@@ -47,17 +48,17 @@ import org.jnode.test.fs.filesystem.config.FSTestConfig;
 import org.jnode.test.fs.filesystem.config.FSType;
 import org.jnode.test.support.TestUtils;
 import org.jnode.util.OsUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Fabien DUMINY
  */
-@RunWith(Parameterized.class)
-public abstract class AbstractFSTest extends TestCase {
+public abstract class AbstractFSTest {
     protected final Logger log = Logger.getLogger(getClass());
     private static boolean setup = false;
 
@@ -69,11 +70,10 @@ public abstract class AbstractFSTest extends TestCase {
     private Device device;
 
     public AbstractFSTest(FSTestConfig config) {
-        super();
         this.config = config;
     }
 
-    @Parameters
+    @ParameterizedTest
     public static List<FSTestConfig[]> getData() {
         List<FSTestConfig[]> config = new ArrayList<FSTestConfig[]>();
         for (FSTestConfig cfg : new FSConfigurations()) {
@@ -86,13 +86,11 @@ public abstract class AbstractFSTest extends TestCase {
      *
      */
     protected AbstractFSTest(String name) {
-        super(name);
     }
 
-    @Before
+    @BeforeEach
     public final void setUp() throws NameNotFoundException, FileSystemException, IOException,
         InstantiationException, IllegalAccessException, Exception {
-        super.setUp();
         if (!setup && !OsUtils.isJNode()) {
             // We are not running in JNode, emulate a JNode environment.
 
@@ -120,13 +118,12 @@ public abstract class AbstractFSTest extends TestCase {
         this.fs = config.getFileSystem().mount(this.device);
     }
 
-    @After
+    @AfterEach
     public final void tearDown() throws Exception {
         // Some tests don't call setup(config), which means that config will be null when teardown is called.
         if (config != null) {
             config.getDeviceParam().tearDown(device);
         }
-        super.tearDown();
     }
 
 //  /**
@@ -222,8 +219,8 @@ public abstract class AbstractFSTest extends TestCase {
             }
         }
 
-        assertTrue(errorMessage + " (must contains only " + TestUtils.toString(reqNames) + ") found: " +
-            TestUtils.toString(names), ok);
+        assertTrue(ok, errorMessage + " (must contains only " + TestUtils.toString(reqNames) + ") found: " +
+                TestUtils.toString(names));
     }
 
     /**
@@ -268,6 +265,6 @@ public abstract class AbstractFSTest extends TestCase {
     }
 
     protected void assertSize(String message, long expectedSize, long currentSize) {
-        assertEquals(message, Long.valueOf(expectedSize), Long.valueOf(currentSize));
+        assertEquals(Long.valueOf(expectedSize), Long.valueOf(currentSize), message);
     }
 }

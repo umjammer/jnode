@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import org.jnode.shell.syntax.Argument;
@@ -35,7 +35,7 @@ import org.jnode.shell.syntax.SyntaxBundle;
 final class ShiftBuiltin extends BjorneBuiltin {
     private static final SyntaxBundle SYNTAX = 
         new SyntaxBundle("shift", new OptionalSyntax(new ArgumentSyntax("count")));
-    
+
     static final Factory FACTORY = new Factory() {
         public BjorneBuiltinCommandInfo buildCommandInfo(BjorneContext context) {
             return new BjorneBuiltinCommandInfo("shift", SYNTAX, new ShiftBuiltin(), context);
@@ -44,12 +44,12 @@ final class ShiftBuiltin extends BjorneBuiltin {
 
     private final IntegerArgument argCount = new IntegerArgument(
             "count", Argument.OPTIONAL, 0, Integer.MAX_VALUE, "the shift count");
-    
+
     private ShiftBuiltin() {
         super("shift the current arguments");
         registerArguments(argCount);
     }
-    
+
     public void execute() throws Exception {
         BjorneContext pc = getParentContext();
         int nos = argCount.isSet() ? argCount.getValue() : 1;

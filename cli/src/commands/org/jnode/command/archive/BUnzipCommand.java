@@ -17,14 +17,14 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.archive;
 
 /**
  * @author chris boertien
  */
 public class BUnzipCommand extends BZip {
-    
+
     public BUnzipCommand() {
         super("decompresses data in bzip2 format");
         // from ArchiveCommand
@@ -32,7 +32,7 @@ public class BUnzipCommand extends BZip {
         // from BZip
         registerArguments(Compress, Decompress, Files, Keep, Small, Test);
     }
-    
+
     public void execute() {
         compress = false;
         super.execute("bunzip2");

@@ -17,15 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.jpartition;
 
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
-
-import junit.framework.TestSuite;
 
 import org.jnode.apps.jpartition.consoleview.ConsoleViewFactory;
 import org.jnode.apps.jpartition.model.TestEmptyDevice;
@@ -35,9 +33,8 @@ import org.jnode.apps.jpartition.model.TestRemovePartitionFromDevice;
 import org.jnode.apps.jpartition.utils.device.DeviceUtils;
 import org.jnode.driver.bus.ide.IDEDevice;
 import org.jnode.fs.jfat.command.JGrub;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
  * Class used for both running all the JUnit tests of JPartition and 
@@ -46,10 +43,10 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author fabien
  *
  */
-@RunWith(Suite.class)
-@SuiteClasses({TestNonEmptyDevice.class, TestEmptyDevice.class,
+@Suite
+@SelectClasses({TestNonEmptyDevice.class, TestEmptyDevice.class,
     TestRemovePartitionFromDevice.class, TestOSFacade.class })
-public class JPartitionTest extends TestSuite {
+public class JPartitionTest {
     static {
         // when not in JNode, must be called before anything
         // invoking InitialNaming
@@ -65,10 +62,10 @@ public class JPartitionTest extends TestSuite {
         InputStream in = System.in;
         PrintStream out = System.out;
         PrintStream err = System.err;
-        
+
         final ViewFactory vf = new ConsoleViewFactory();
         final ErrorReporter errorReporter = vf.createErrorReporter(err);
-/*        
+/*
         final Thread t = new Thread() {
             public void run() {
                 try {
@@ -84,9 +81,9 @@ public class JPartitionTest extends TestSuite {
         IDEDevice dev = DeviceUtils.createFileDevice(errorReporter);
         @SuppressWarnings("unused")
         JGrub jgrub = new JGrub(new PrintWriter(new OutputStreamWriter(System.out)), dev);
-        
+
 //        jgrub.install();
-        
+
         new JPartitionCommand().doExecute(true, in, out, err, true, false);
     }
 }

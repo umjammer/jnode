@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs;
 
 import java.util.List;
@@ -31,7 +31,7 @@ import org.jnode.fs.spi.FSEntryTable;
  * @author Fabien DUMINY
  */
 public class FSEntryTableIgnoreCase extends FSEntryTable {
-    
+
     /**
      * Construct a FSEntryTableIgnoreCase from a list of FSEntry
      * 

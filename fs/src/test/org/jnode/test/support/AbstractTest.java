@@ -17,16 +17,15 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.support;
 
 import org.apache.log4j.Logger;
-import org.jmock.cglib.MockObjectTestCase;
 
 /**
  * @author Fabien DUMINY
  */
-public abstract class AbstractTest extends /*TestCase*/ MockObjectTestCase {
+public abstract class AbstractTest {
     private TestConfig testConfig;
     private Class<?> configClazz;
 

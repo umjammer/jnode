@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.common;
 
 import java.io.PrintWriter;
@@ -46,7 +46,7 @@ public class HistoryCommand extends AbstractCommand {
     private static final String err_not_found_1 = "History command #%d not found%n";
     private static final String err_not_found_2 = "History command starting with '%s' not found%n";
     private static final String err_test = "History command running is not implemented yet: try '-t' to test";
-    
+
     private final IntegerArgument argIndex;
     private final StringArgument argPrefix;
     private final FlagArgument argTest;
@@ -55,7 +55,6 @@ public class HistoryCommand extends AbstractCommand {
     private PrintWriter out;
     private PrintWriter err;
     private InputHistory history;
-
 
     public HistoryCommand() {
         super(help_super);

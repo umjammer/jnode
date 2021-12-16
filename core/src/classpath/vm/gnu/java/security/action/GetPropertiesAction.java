@@ -17,14 +17,12 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package gnu.java.security.action;
 
 import java.security.PrivilegedAction;
 import java.util.Map;
 import java.util.Properties;
-
-
 
 /**
  * Utility class for getting all system properties in a privileged action.

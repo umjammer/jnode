@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 /**
@@ -26,13 +26,13 @@ package org.jnode.shell.syntax;
  * @author crawley@jnode.org
  */
 public class MuAlternation extends MuSyntax {
-    
+
     private final MuSyntax[] alternatives;
-    
+
     public MuAlternation(MuSyntax ... alternatives) {
         this(null, alternatives);
     }
-        
+
     public MuAlternation(String label, MuSyntax ... alternatives) {
         super(label);
         if (alternatives.length < 1) {
@@ -67,7 +67,7 @@ public class MuAlternation extends MuSyntax {
     public MuSyntaxKind getKind() {
         return MuSyntaxKind.ALTERNATION;
     }
-    
+
     @Override
     MuSyntax resolveBackReferences(ResolveState state) throws SyntaxFailureException {
         if (state.seen.add(this)) {

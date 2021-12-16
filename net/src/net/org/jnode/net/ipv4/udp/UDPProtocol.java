@@ -17,10 +17,9 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.ipv4.udp;
 
-import gnu.java.net.PlainDatagramSocketImpl;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.DatagramSocketImplFactory;
@@ -32,6 +31,7 @@ import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.HashMap;
 import java.util.Random;
+
 import org.apache.log4j.Logger;
 import org.jnode.driver.net.NetworkException;
 import org.jnode.net.SocketBuffer;
@@ -102,7 +102,6 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
                 AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
                     public Object run() throws IOException {
                         DatagramSocket.setDatagramSocketImplFactory(dsiFactory);
-                        PlainDatagramSocketImpl.setUDPFactory(dsiFactory);
                         return null;
                     }
                 });

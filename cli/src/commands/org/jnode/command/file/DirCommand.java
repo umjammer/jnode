@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.File;
@@ -132,7 +132,6 @@ public class DirCommand extends AbstractCommand {
     }
 
     private static final String[] units = {"B", "K", "M", "G", "T", "P", "E", "Z", "Y"};
-
 
     protected String formatSize(long bytes) {
         if (humanReadableArg.isSet()) {

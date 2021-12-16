@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.input.l10n;
 
 import java.awt.event.KeyEvent;
@@ -31,7 +31,6 @@ import org.jnode.driver.input.Keys;
  * @author Yves Galante
  */
 public class KeyboardInterpreter_CH_fr extends AbstractKeyboardInterpreter {
-
 
     public KeyboardInterpreter_CH_fr() {
         super();
@@ -182,4 +181,3 @@ public class KeyboardInterpreter_CH_fr extends AbstractKeyboardInterpreter {
     }
 
 }
-

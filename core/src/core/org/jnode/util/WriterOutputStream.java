@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.util;
 
 import java.io.IOException;
@@ -36,14 +36,14 @@ import java.nio.charset.CoderResult;
  * @author crawley@jnode.org
  */
 public class WriterOutputStream extends OutputStream {
-    
+
     private ByteBuffer bytes = ByteBuffer.allocate(2048);
     private CharBuffer chars = CharBuffer.allocate(2048);
-    
+
     private Writer writer;
     private CharsetDecoder decoder;
     private final boolean reallyClose;
-    
+
     /**
      * Construct an OutputStream that encodes the data in the default character coding system.
      * @param writer the Writer to be wrapped
@@ -82,7 +82,7 @@ public class WriterOutputStream extends OutputStream {
         flush(false);
         writer.flush();
     }
-    
+
     @Override
     public void close() throws IOException {
         flush(reallyClose);

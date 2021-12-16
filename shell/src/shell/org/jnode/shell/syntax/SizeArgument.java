@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import org.jnode.shell.CommandLine.Token;
@@ -60,7 +60,7 @@ public class SizeArgument extends Argument<Long> {
             throw new CommandSyntaxException("invalid size");
         }
     }
-    
+
     private ScaleFactor scaleFactor(String str) {
         ScaleFactor[] prefixes = binaryScaling ? 
                 BinaryScaleFactor.values() : DecimalScaleFactor.values();
@@ -72,12 +72,12 @@ public class SizeArgument extends Argument<Long> {
         }
         return null;
     }
-  
+
     @Override
     protected String state() {
         return super.state() + "binaryScaling=" + binaryScaling;
     }
-    
+
     @Override
     protected String argumentKind() {
         return "size";

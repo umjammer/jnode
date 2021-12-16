@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.memmgr.def;
 
 import org.jnode.vm.VmMagic;
@@ -315,7 +315,6 @@ final class VmDefaultHeap extends VmAbstractHeap implements ObjectFlags {
         Word offset = headerSize;
         final Offset sizeOffset = this.sizeOffset;
         final Offset tibOffset = this.tibOffset;
-
 
         lock();
         try {

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.dev;
 
 import gnu.classpath.jdwp.transport.JNodeSocketTransport;
@@ -36,17 +36,17 @@ import org.jnode.shell.syntax.IntegerArgument;
  * @author Levente S\u00e1ntha
  */
 public class DebugCommand extends AbstractCommand {
-    
+
     private static final String help_port = "the port to listen to";
     private static final String help_super = "Listen to connections from a remote debugger";
     private static final String str_quit = "Type 'q' to exit";
-    
+
     private static final int DEFAULT_PORT = 6789;
-    
+
     private final IntegerArgument argPort;
-    
+
     private boolean up = true;
-    
+
     public DebugCommand() {
         super(help_super);
         argPort = new IntegerArgument("port", Argument.OPTIONAL, help_port);
@@ -56,7 +56,7 @@ public class DebugCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new DebugCommand().execute(args);
     }
-    
+
     @Override
     public void execute() throws Exception {
         int port = argPort.isSet() ? argPort.getValue() : DEFAULT_PORT;

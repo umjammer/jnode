@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm;
 
 import java.io.InputStream;
@@ -36,7 +36,7 @@ import java.util.Properties;
  * @author crawley@jnode.org
  */
 public interface IOContext {
-    
+
     // FIXME ... the name of this interface is misleading.
 
     /**
@@ -74,23 +74,23 @@ public interface IOContext {
      * This hook is used to get the 'real' stream underlying System.err in the current context.
      */
     PrintStream getRealSystemErr();
-    
+
     /**
      * The hook is used to get the current context's 'system properties'
      */
     Properties getProperties();
-    
+
     /**
      * The hook is used to set the current context's 'system properties'
      */
     void setProperties(Properties props);
-    
+
     /**
      * The hook is used to get the current context's environment; e.g. containing exported
      * shell variables.
      */
     Map<String, String> getEnv();
-    
+
     /**
      * The hook is used to get the current context's environment.
      */
@@ -99,6 +99,5 @@ public interface IOContext {
     void enterContext();
 
     void exitContext();
-    
-    
+
 }

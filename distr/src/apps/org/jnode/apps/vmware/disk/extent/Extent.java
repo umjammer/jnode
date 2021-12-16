@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.vmware.disk.extent;
 
 import java.io.File;
@@ -37,19 +37,19 @@ public class Extent {
     private Descriptor descriptor;
 
     private final Access access;
-    
+
     /**
      * Number of sectors. A sector is 512 bytes.
      */
     private final long sizeInSectors;
-    
+
     private final ExtentType extentType;
-    
+
     /**
      * Filename. Relative to the location of the descriptor.
      */
     private final String fileName;
-    
+
     private final File file;
     private final long offset;
 

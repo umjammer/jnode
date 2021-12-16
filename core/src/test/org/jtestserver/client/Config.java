@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -38,37 +38,37 @@ public class Config {
      * Client side timeout for connection with the server.
      */
     private final int clientTimeout;
-    
+
     /**
      * Name of the server. <br>Examples : server.mydomain.org, 123.456.789.1
      */
     private final String serverName;
-    
+
     /**
      * Port of the server.
      */
     private final int serverPort;
-    
+
     /**
      * Work directory.
      */
     private final File workDir;
-    
+
     /**
      * Excluding filters, used to remove some tests from a list.
      */
     private final String[] excludingFilters;
-    
+
     /**
      * Time between 2 checks of the WatchDog.
      */
     private final int watchDogPollInterval;
-    
+
     /**
      * Configuration of the VM in which tests will actually be run.
      */
     private final VMConfig vmConfig;
-    
+
     /**
      * 
      * @param properties configuration parameters of JTestServer
@@ -95,11 +95,11 @@ public class Config {
     public int getServerPort() {
         return serverPort;
     }
-    
+
     public File getWorkDir() {
         return workDir;
     }
-    
+
     public String[] getExcludingFilters() {
         return excludingFilters;
     }

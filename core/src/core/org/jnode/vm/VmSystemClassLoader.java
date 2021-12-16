@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm;
 
 import java.io.ByteArrayInputStream;
@@ -566,7 +566,6 @@ public final class VmSystemClassLoader extends VmAbstractClassLoader {
             return null;
         }
     }
-
 
     /**
      * Gets an inputstream for a resource with the given name.

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import org.jnode.shell.syntax.Argument;
@@ -45,13 +45,13 @@ final class SetBuiltin extends BjorneBuiltin {
                         new ArgumentSyntax("suppressGlobbing")),
                 new OptionalSyntax(null, null, true, new VerbSyntax(null, "--", "forceNew", null, null)),
                 new RepeatSyntax(new ArgumentSyntax("newArgs"))));
-    
+
     static final Factory FACTORY = new Factory() {
         public BjorneBuiltinCommandInfo buildCommandInfo(BjorneContext context) {
             return new BjorneBuiltinCommandInfo("set", SYNTAX, new SetBuiltin(), context);
         }
     };
-    
+
     private final SetFlagArgument flagEchoExpansions = new SetFlagArgument(
             "echoExpansions", 'x', Argument.OPTIONAL, "controls echoing of expanded commands before execution");
 
@@ -60,15 +60,15 @@ final class SetBuiltin extends BjorneBuiltin {
 
     private final FlagArgument flagForceNewArgs = new FlagArgument(
             "forceNew", Argument.OPTIONAL, "setting this flag forces setting of new arguments");
-    
+
     private final StringArgument argNewArgs = new StringArgument(
             "newArgs", Argument.OPTIONAL + Argument.MULTIPLE, "new arguments ");
-    
+
     private SetBuiltin() {
         super("the bjorne 'set' command sets or clears shell flags and/or sets new arguments");
         registerArguments(flagEchoExpansions, flagForceNewArgs, flagSuppressGlobing, argNewArgs);
     }
-    
+
     @Override
     public void execute() throws Exception {
         BjorneContext pc = getParentContext();

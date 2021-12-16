@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.assembler.x86;
 
 import java.io.IOException;
@@ -982,7 +982,6 @@ public abstract class X86Assembler extends NativeStream implements BootImageNati
      */
     public abstract void writeDIV_EAX(GPR srcReg);
 
-
     /**
      * Create a emms
      */
@@ -1400,7 +1399,6 @@ public abstract class X86Assembler extends NativeStream implements BootImageNati
      * @param label
      */
     public abstract void writeJECXZ(Label label);
-
 
     /**
      * Create a absolute jump to address in register
@@ -2150,7 +2148,6 @@ public abstract class X86Assembler extends NativeStream implements BootImageNati
      */
     public abstract int writePUSH(SR sr, int srcDisp);
 
-
     /**
      * Create a push dword <imm32>
      *
@@ -2557,7 +2554,6 @@ public abstract class X86Assembler extends NativeStream implements BootImageNati
      * Create a STOSD
      */
     public abstract void writeSTOSD();
-
 
     /**
      * Create a STOSQ

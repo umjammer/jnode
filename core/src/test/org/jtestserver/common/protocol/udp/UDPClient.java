@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2009  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -36,7 +36,7 @@ class UDPClient implements Client<DatagramSocket, UDPProtocol> {
     private final InetAddress serverIp;
     private final int serverPort;
     private final DatagramSocket socket;
-    
+
     /**
      * @throws SocketException 
      * 
@@ -47,7 +47,7 @@ class UDPClient implements Client<DatagramSocket, UDPProtocol> {
         this.serverPort = serverPort;
         socket = new DatagramSocket();
     }
-    
+
     /* (non-Javadoc)
      * @see org.jtestserver.common.protocol.Client#send(java.lang.String)
      */
@@ -55,14 +55,14 @@ class UDPClient implements Client<DatagramSocket, UDPProtocol> {
     public synchronized String send(String message, boolean needReply) throws ProtocolException, TimeoutException {
         ensureConnected();
         protocol.sendMessage(socket, message, null);
-        
+
         String reply = null;
         if (needReply) {
             reply = protocol.receiveMessage(socket).getMessage();
         }
         return reply;
     }
-    
+
     public void setTimeout(int timeout) throws ProtocolException {
         try {
             socket.setSoTimeout(timeout);
@@ -70,18 +70,18 @@ class UDPClient implements Client<DatagramSocket, UDPProtocol> {
             throw new ProtocolException(se);
         }
     }
-    
+
     @Override
     public void close() {
         socket.disconnect();
         socket.close();
     }
-    
+
     protected void ensureConnected() throws ProtocolException {
         if (socket.isClosed()) {
             throw new ProtocolException("connection is closed");
         }
-        
+
         if (!socket.isConnected()) {
             socket.connect(serverIp, serverPort);
         }

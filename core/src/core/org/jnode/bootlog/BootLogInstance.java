@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.bootlog;
 
 import javax.naming.NameAlreadyBoundException;
@@ -25,7 +25,6 @@ import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
 
 import org.jnode.naming.InitialNaming;
-
 
 /**
  * Class holding the {@link BootLog} instance used by the system.

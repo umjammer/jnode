@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.jpartition.utils.device;
 
 import java.io.File;
@@ -50,7 +50,6 @@ import org.jnode.test.fs.driver.stubs.StubDeviceManager;
 import org.jnode.test.fs.filesystem.config.FSType;
 import org.jnode.util.OsUtils;
 
-
 public class DeviceUtils {
     private static final long DEFAULT_FILE_SIZE = 1024 * 1024;
     private static final Logger log = Logger.getLogger(FileDeviceView.class);
@@ -65,7 +64,7 @@ public class DeviceUtils {
                 NameSpace namespace = new BasicNameSpace();
                 InitialNaming.setNameSpace(namespace);
                 InitialNaming.bind(DeviceManager.NAME, StubDeviceManager.INSTANCE);
-                
+
                 // Build a plugin descriptor that is sufficient for the FileSystemPlugin to 
                 // configure file system types for testing.
                 DummyPluginDescriptor desc = new DummyPluginDescriptor(true);
@@ -78,10 +77,10 @@ public class DeviceUtils {
                     extension.addElement(element);
                     ep.addExtension(extension);
                 }
-                
+
                 FileSystemService fss = new FileSystemPlugin(desc);
                 InitialNaming.bind(FileSystemService.class, fss);
-                
+
             } catch (NameAlreadyBoundException e) {
                 throw new RuntimeException(e);
             } catch (NamingException e) {
@@ -91,8 +90,7 @@ public class DeviceUtils {
             }
             coreInitialized = true;
         }
-        
-        
+
 //        if (!coreInitialized && !OsUtils.isJNode()) {
 //            // We are not running in JNode, emulate a JNode environment.
 //

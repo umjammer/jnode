@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.util.Collection;
@@ -54,7 +54,7 @@ public interface SyntaxManager {
      * @param alias the alias
      */
     public abstract void add(String alias, ArgumentSpec<?>[] argSpecs);
-    
+
     /**
      * Remove the syntaxBundle and argumentBundle (if one exists) for an alias
      * 
@@ -69,7 +69,7 @@ public interface SyntaxManager {
      * @return The syntax for the given alias, or <code>null</code>
      */
     public abstract SyntaxBundle getSyntaxBundle(String alias);
-    
+
     /**
      * Gets the argument bundle for a given alias if one exists.
      *
@@ -77,7 +77,7 @@ public interface SyntaxManager {
      * @return The arguments for the given alias, or <code>null</code>
      */
     public abstract ArgumentBundle getArgumentBundle(String alias);
-    
+
     /**
      * Get the current set of keys known to the SyntaxManager.
      * 

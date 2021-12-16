@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.util;
 
 import java.io.File;
@@ -59,15 +59,15 @@ public abstract class AbstractDirectoryWalker {
             this.depth = depth;
         }
     }
-    
+
     /**
      * A FileFilter that filters based on matching a pathname glob pattern
      */
     public static class PathnamePatternFilter implements FileFilter {
-        
+
         private Matcher matcher;
         private boolean exclude;
-        
+
         /**
          * Create the filter with the given pattern and orientation
          *
@@ -79,21 +79,21 @@ public abstract class AbstractDirectoryWalker {
             this.exclude = exclude;
             this.matcher = PathnamePattern.compilePosixShellPattern(pattern, 0).matcher("");
         }
-        
+
         @Override
         public boolean accept(File file) {
             return matcher.reset(file.getName()).matches() ^ exclude;
         }
     }
-    
+
     /**
      * A FileFilter that filters based on matching a regular expression.
      */
     public static class RegexPatternFilter implements FileFilter {
-        
+
         private Matcher matcher;
         private boolean exclude;
-        
+
         /**
          * Create the filter with the given pattern and orientation
          *
@@ -105,21 +105,21 @@ public abstract class AbstractDirectoryWalker {
             this.exclude = exclude;
             this.matcher = Pattern.compile(pattern).matcher("");
         }
-        
+
         @Override
         public boolean accept(File file) {
             return matcher.reset(file.getName()).matches() ^ exclude;
         }
     }
-    
+
     /**
      * A FileFilter that filters based on the file modification time.
      */
     public static class ModTimeFilter implements FileFilter {
-        
+
         private long modTime;
         private boolean newer;
-        
+
         /**
          * Create the filter with the given mod time and direction
          *
@@ -131,21 +131,21 @@ public abstract class AbstractDirectoryWalker {
             this.modTime = time;
             this.newer = newer;
         }
-        
+
         @Override
         public boolean accept(File file) {
             return file.lastModified() == modTime || ((file.lastModified() < modTime) ^ newer);
         }
     }
-    
+
     /**
      * A FileFilter that filters based on the file size.
      */
     public static class SizeFilter implements FileFilter {
-        
+
         private long size;
         private boolean greater;
-        
+
         /**
          * Create the filter with the given size and direction.
          *
@@ -157,7 +157,7 @@ public abstract class AbstractDirectoryWalker {
             this.size = size;
             this.greater = greater;
         }
-        
+
         @Override
         public boolean accept(File file) {
             return file.length() == size || ((file.length() <= size) ^ greater);
@@ -206,7 +206,7 @@ public abstract class AbstractDirectoryWalker {
             // with another process that has deleted the directory already
             if (dir == null || !dir.isDirectory())
                 throw new IOException("No such directory " + dir);
-            
+
             /* See note in handleChilds()
             dir = dir.getCanonicalPath();
             */
@@ -220,11 +220,11 @@ public abstract class AbstractDirectoryWalker {
             stack.clear();
         }
     }
-    
+
     public synchronized void walk(final List<File> dirs) throws IOException {
         walk(dirs.toArray(new File[dirs.size() ]));
     }
-    
+
     private void handle(final FileObject file) throws IOException {
         if (minDepth != null && file.depth < minDepth) {
             // out of boundaries
@@ -243,7 +243,7 @@ public abstract class AbstractDirectoryWalker {
             handleRestrictedFile(file.file);
         }
     }
-    
+
     /**
      * Add a directories contents to the stack.
      */
@@ -275,7 +275,7 @@ public abstract class AbstractDirectoryWalker {
         }
 
     }
-    
+
     /**
      * Trigger the callbacks
      */
@@ -288,7 +288,7 @@ public abstract class AbstractDirectoryWalker {
             handleSpecialFile(file.file);
         }
     }
-    
+
     /**
      * Process a file through a set of file filters.
      *
@@ -310,7 +310,7 @@ public abstract class AbstractDirectoryWalker {
                     return false;
         return true;
     }
-    
+
     /**
      * Stop recursing if this is false.
      */
@@ -385,7 +385,7 @@ public abstract class AbstractDirectoryWalker {
     public synchronized void addFilter(FileFilter filter) {
         filters.add(filter);
     }
-    
+
     /**
      * Add a FileFilter to stop recursing of directories.
      *
@@ -398,7 +398,7 @@ public abstract class AbstractDirectoryWalker {
     public synchronized void addDirectoryFilter(FileFilter filter) {
         dirFilters.add(filter);
     }
-    
+
     /**
      * Handle a file or directory that triggered a SecurityException.
      * This method is called, when access to a file was denied.
@@ -437,7 +437,7 @@ public abstract class AbstractDirectoryWalker {
     protected void handleStartingDir(final File file) throws IOException {
         // do nothing by default
     }
-    
+
     /**
      * This method is called, when walking has finished.
      * By default, it does nothing. May be overridden by extending classes to do something else.
@@ -466,7 +466,7 @@ public abstract class AbstractDirectoryWalker {
      * @throws IOException if IO error occurs.
      */
     public abstract void handleFile(final File file) throws IOException;
-    
+
     /**
      * Handle a special file.
      *

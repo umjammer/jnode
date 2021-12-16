@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -21,50 +21,55 @@ package org.jtestserver.tests;
 
 import org.jtestserver.common.protocol.ProtocolException;
 import org.jtestserver.common.protocol.TimeoutException;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@Ignore 
+@Disabled
 public class TestUDPProtocol {
     private static final int DISABLE_TIMEOUT_VALUE = 0;
-    
+
     /**
      * set a very small value so that we go in timeout
      */
     private static final int SMALL_TIMEOUT_VALUE = 1;
-    
+
     /**
      * delay for processing the message. 
      * must be bigger than {@link TestUDPProtocol#SMALL_TIMEOUT_VALUE}
      */
     private static final int SERVER_DELAY = SMALL_TIMEOUT_VALUE + 10;
-    
-    @Test(expected = TimeoutException.class)    
+
+    @Test
     public void testSendReceiveWithServerTimeout() throws ProtocolException, TimeoutException {
-//TODO find a way to simulate a timeout by software        
+        assertThrows(TimeoutException.class, () -> {
+//TODO find a way to simulate a timeout by software
 //        client.setTimeout(DISABLE_TIMEOUT_VALUE);
 //        server.setTimeout(SMALL_TIMEOUT_VALUE);
-//        
+//
 //        sendReceive(client, "test", server, SERVER_DELAY);
+        });
     }
-    
-    @Test(expected = TimeoutException.class)    
+
+    @Test
     public void testSendReceiveWithClientTimeout() throws ProtocolException, TimeoutException {
-//TODO find a way to simulate a timeout by software        
+        assertThrows(TimeoutException.class, () -> {
+//TODO find a way to simulate a timeout by software
 //        final int serverPort = PORT + 1;
 //        UDPProtocol client = new UDPProtocol(IP, serverPort) {
-//            
+//
 //            @Override
 //            public void send(String command) throws ProtocolException, TimeoutException {
 //                super.send(command);
 //            }  
 //        };
 //        client.setTimeout(SMALL_TIMEOUT_VALUE);
-//        
+//
 //        UDPProtocol server = UDPProtocol.createServer(serverPort);
 //        server.setTimeout(DISABLE_TIMEOUT_VALUE);
-//        
+//
 //        sendReceive(client, "test", null);
+        });
     }
 }

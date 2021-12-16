@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt;
 
 import java.awt.Component;
@@ -209,7 +209,7 @@ public class MouseHandler implements PointerListener {
         if (pointerAPI != null) {
             pointerAPI.removePointerListener(this);            
         }
-        
+
         if (hwCursor != null) {
             // hide the cursor so that it won't stay displayed
             // if we stay in graphic mode

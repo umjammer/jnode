@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.File;
@@ -52,7 +52,7 @@ public class JavaCommand extends AbstractCommand {
     private static final String err_not_public = "The 'main' method for this class is not public";
     private static final String err_no_class = "Cannot find the requested class: %s%n";
     private static final String err_no_method = "Cannot find a 'void main(String[])' method for %s%n";
-    
+
     private final ClassNameArgument argClass;
     private final StringArgument argArgs;
 
@@ -72,11 +72,11 @@ public class JavaCommand extends AbstractCommand {
      */
     public void execute() throws Exception {
         PrintWriter err = getError().getPrintWriter();
-        
+
         // Build our classloader
         final ClassLoader parent_cl = Thread.currentThread().getContextClassLoader();
         JCClassLoader cl = new JCClassLoader(parent_cl, new String[]{"./"});
-        
+
         Method mainMethod = null;
         String className = argClass.getValue();
         try {
@@ -96,7 +96,7 @@ public class JavaCommand extends AbstractCommand {
             // is the class is not 'public'.  (Strangely, Sun's 'java' command
             // allows you to run a non-public class. So we should allow this too.)
             mainMethod.setAccessible(true);
-            
+
             String[] mainArgs = argArgs.isSet() ? argArgs.getValues() : new String[0];
             mainMethod.invoke(null, new Object[]{mainArgs});
         } catch (ClassNotFoundException ex) {
@@ -116,7 +116,7 @@ public class JavaCommand extends AbstractCommand {
             }
         }
     }
-    
+
     /**
      * This class loader looks in the supplied list of directories after 
      * checking the parent class loader.
@@ -183,4 +183,3 @@ public class JavaCommand extends AbstractCommand {
         }
     }
 }
-

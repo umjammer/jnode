@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.common;
 
 import org.jnode.shell.AbstractCommand;
@@ -30,7 +30,7 @@ import org.jnode.shell.AbstractCommand;
 public class TrueCommand extends AbstractCommand {
 
     private static final String help_super = "Exit with zero return code";
-    
+
     public TrueCommand() {
         super(help_super);
     }

@@ -46,7 +46,7 @@ public class MouseEvent extends InputEvent
     {
     	return (button == BUTTON1) && (modifiers == MOUSE_PRESSED);
     }
-    
+
     public boolean isMiddleButtonPressed()
     {
     	return (button == BUTTON2) && (modifiers == MOUSE_PRESSED);
@@ -56,7 +56,7 @@ public class MouseEvent extends InputEvent
     {
     	return (button == BUTTON3) && (modifiers == MOUSE_PRESSED);
     }
-	
+
     public int getX() {
 	return x;
     }

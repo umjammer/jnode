@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.BufferedReader;
@@ -62,13 +62,13 @@ public class CatCommand extends AbstractCommand {
     private static final String HELP_SUPER = "Concatenate the contents of files, urls or standard input";
     private static final String ERR_URL = "Cannot fetch %s: %s%n";
     private static final String ERR_FILE = "Cannot open %sn";
-    
+
     private final FileArgument argFile;
     private final FlagArgument argNumNB;
     private final FlagArgument argNumAll;
     private final FlagArgument argEnds;
     private final FlagArgument argSqueeze;
-    
+
     private final URLArgument argUrl;
     private final FlagArgument argUrls;
 
@@ -85,7 +85,7 @@ public class CatCommand extends AbstractCommand {
     private boolean numAll;
     private boolean numNB;
     private boolean useStreams;
-    
+
     public CatCommand() {
         super(HELP_SUPER);
         int fileFlags = Argument.MULTIPLE | Argument.EXISTING | FileArgument.HYPHEN_IS_SPECIAL;
@@ -95,33 +95,33 @@ public class CatCommand extends AbstractCommand {
         argEnds    = new FlagArgument("show-ends", 0, HELP_ENDS);
         argSqueeze = new FlagArgument("squeeze", 0, HELP_SQUEEZE);
         registerArguments(argFile, argNumNB, argNumAll, argEnds, argSqueeze);
-        
+
         argUrl  = new URLArgument("url", Argument.MULTIPLE | Argument.EXISTING, HELP_URL);
         argUrls = new FlagArgument("urls", Argument.OPTIONAL, HELP_URLS);
         registerArguments(argUrl, argUrls);
     }
-    
+
     private static final int BUFFER_SIZE = 8192;
-    
+
     public static void main(String[] args) throws Exception {
         new CatCommand().execute(args);
     }
-    
+
     public void execute() throws IOException {
         in     = getInput().getReader();
         stdin  = getInput().getInputStream();
         out    = getOutput().getPrintWriter();
         stdout = getOutput().getOutputStream();
         err    = getError().getPrintWriter();
-        
+
         parseOptions();
-        
+
         if (files != null && files.length > 0) {
             handleFiles();
             out.flush();
             exit(rc);
         }
-        
+
         // FIXME remove this url code once wget is more complete
         URL[] urls = argUrl.getValues();
         if (urls != null && urls.length > 0) {
@@ -145,17 +145,17 @@ public class CatCommand extends AbstractCommand {
             out.flush();
             exit(rc);
         }
-        
+
         // should not reach this
         throw new IllegalStateException("Nothing to process");
     }
-    
+
     private boolean handleFiles() {
         InputStream in = null;
         BufferedReader reader = null;
         byte[] buffer = new byte[BUFFER_SIZE];
         boolean ok = true;
-        
+
         for (File file : files) {
             try {
                 if (useStreams) {
@@ -177,10 +177,10 @@ public class CatCommand extends AbstractCommand {
                 IOUtils.close(in, reader);
             }
         }
-        
+
         return ok;
     }
-    
+
     /**
      * Process the input through a BufferedReader.
      *
@@ -190,7 +190,7 @@ public class CatCommand extends AbstractCommand {
     private void processReader(BufferedReader reader) throws IOException {
         String line;
         boolean haveBlank = false;
-        
+
         while ((line = reader.readLine()) != null) {
             if (line.length() == 0) {
                 if (!haveBlank) {
@@ -201,7 +201,7 @@ public class CatCommand extends AbstractCommand {
             } else {
                 haveBlank = false;
             }
-            
+
             if (numAll) {
                 println(line, ++lineCount);
             } else if (numNB) {
@@ -211,7 +211,7 @@ public class CatCommand extends AbstractCommand {
             }
         }
     }
-    
+
     /**
      * Attempt to open a file, writing an error message on failure. If the file
      * is '-', return stdin.
@@ -221,7 +221,7 @@ public class CatCommand extends AbstractCommand {
      */
     private InputStream openFileStream(File file) {
         InputStream ret = null;
-        
+
         if (file.getName().equals("-")) {
             ret = stdin;
         } else {
@@ -230,10 +230,10 @@ public class CatCommand extends AbstractCommand {
                 err.format(ERR_FILE, file);
             }
         }
-        
+
         return ret;
     }
-    
+
     /**
      * Attempt to open a file reader, writing an error message on failure. If the file
      * is '-', return stdin.
@@ -243,7 +243,7 @@ public class CatCommand extends AbstractCommand {
      */
     private BufferedReader openFileReader(File file) {
         BufferedReader ret = null;
-        
+
         if (file.getName().equals("-")) {
             ret = new BufferedReader(in, BUFFER_SIZE);
         } else {
@@ -252,19 +252,19 @@ public class CatCommand extends AbstractCommand {
                 err.format(ERR_FILE, file);
             }
         }
-        
+
         return ret;
     }
-    
+
     private void parseOptions() {
         files = argFile.getValues();
-        
+
         if (files == null || files.length == 0) {
             files = new File[] {new File("-")};
         }
-        
+
         useStreams = true;
-        
+
         if (argNumNB.isSet()) {
             numNB = true;
             useStreams = false;
@@ -272,20 +272,20 @@ public class CatCommand extends AbstractCommand {
             numAll = true;
             useStreams = false;
         }
-        
+
         if (argEnds.isSet()) {
             end = "$";
             useStreams = false;
         } else {
             end = "";
         }
-        
+
         if (argSqueeze.isSet()) {
             squeeze = true;
             useStreams = false;
         }
     }
-    
+
     private void println(String s, int line) {
         if (numNB || numAll) {
             if (line == -1) {

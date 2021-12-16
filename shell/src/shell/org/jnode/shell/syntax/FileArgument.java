@@ -17,18 +17,17 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.io.File;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
 import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 
 import org.jnode.driver.console.CompletionInfo;
 import org.jnode.shell.CommandLine.Token;
-import sun.security.action.GetPropertyAction;
 
 /**
  * This argument class performs completion against the file system namespace.  This
@@ -53,7 +52,7 @@ import sun.security.action.GetPropertyAction;
  * @author crawley@jnode.org
  */
 public class FileArgument extends Argument<File> {
-    
+
     /**
      * This Argument flag tells the FileArgument to accept filenames that,
      * while strictly legal, will cause problems.  At the moment, this means
@@ -62,7 +61,7 @@ public class FileArgument extends Argument<File> {
      * by mistake.)
      */
     public static final int ALLOW_DODGY_NAMES = 0x00010000;
-    
+
     /**
      * This Argument flag tells the FileArgument that the command will
      * interpret {@code File("-")} as meaning something other than a regular 
@@ -145,7 +144,12 @@ public class FileArgument extends Argument<File> {
         // Get the contents of that directory.  (Note that the call to getProperty()
         // is needed because new File("").exists() returns false.  According to Sun, this
         // behavior is "not a bug".)
-        String user_dir = AccessController.doPrivileged(new GetPropertyAction("user.dir"));
+        String user_dir = AccessController.doPrivileged(new PrivilegedAction<String>() {
+            @Override
+            public String run() {
+                return System.getProperty("user.dir");
+            }
+        });
         final File f = dir.isEmpty() ? new File(user_dir) : new File(dir);
         final String[] names = AccessController.doPrivileged(
             new PrivilegedAction<String[]>() {
@@ -187,7 +191,7 @@ public class FileArgument extends Argument<File> {
             (tmp == 2 && partial.endsWith("."))) {
             completions.addCompletion(partial + File.separatorChar, true);
         }
-        
+
         // Add "-" as a possible completion?
         if (partial.length() == 0 && (flags & HYPHEN_IS_SPECIAL) != 0) {
             completions.addCompletion("-");

@@ -7,15 +7,15 @@ import org.jnode.fs.exfat.ExFatFileSystemType;
 import org.jnode.fs.service.FileSystemService;
 import org.jnode.test.fs.DataStructureAsserts;
 import org.jnode.test.fs.FileSystemTestUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ExFatFileSystemTest {
 
     private Device device;
     private FileSystemService fss;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         // create file system service.
         fss = FileSystemTestUtils.createFSService(ExFatFileSystemType.class.getName());

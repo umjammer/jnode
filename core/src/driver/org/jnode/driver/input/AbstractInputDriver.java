@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.input;
 
 import java.nio.ByteBuffer;
@@ -109,7 +109,6 @@ public abstract class AbstractInputDriver<E extends SystemEvent> extends Driver 
         }
     }
 
-
     protected abstract E handleScancode(byte b);
 
     /**
@@ -154,7 +153,7 @@ public abstract class AbstractInputDriver<E extends SystemEvent> extends Driver 
                             // simply stop processing the events
                             break;
                         }
-                        
+
                         eventQueue.add(event);
                     }
                 } catch (Throwable ex) {

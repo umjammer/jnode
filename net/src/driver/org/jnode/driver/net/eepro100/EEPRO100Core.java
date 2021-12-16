@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.net.eepro100;
 
 import java.security.PrivilegedExceptionAction;
@@ -69,14 +69,14 @@ public class EEPRO100Core extends AbstractDeviceCore implements IRQHandler, EEPR
      * IRQ
      */
     private final IRQResource irq;
- 
+
     private ResourceManager rm;
 
     /**
      * My ethernet address
      */
     private EthernetAddress hwAddress;
- 
+
     private int[] eeprom;
 
     /**
@@ -98,7 +98,7 @@ public class EEPRO100Core extends AbstractDeviceCore implements IRQHandler, EEPR
      * RX/TX
      */
     private EEPRO100Buffer buffers;
- 
+
     @SuppressWarnings("unused")
     private int phy[]; 
     @SuppressWarnings("unused")
@@ -459,7 +459,7 @@ public class EEPRO100Core extends AbstractDeviceCore implements IRQHandler, EEPR
         } while ((val & 0x10000000) == 0);
         return val & 0xffff;
     }
- 
+
     public void setupInterrupt() {
 
         if ((buffers.getCurRx() - buffers.getDirtyRx()) > 15) {

@@ -10,7 +10,7 @@
  *  See the COPYRIGHT.txt file distributed with this work for information
  *  regarding copyright ownership.
  */
- 
+
 package org.vmmagic.unboxed;
 
 import org.jnode.annotation.KernelSpace;
@@ -31,7 +31,7 @@ import org.jnode.annotation.Uninterruptible;
 public final class Word implements UnboxedObject {
 
     final long v;
-    
+
     /**
      * Constructor used during the bootimage creation.
      * @param v

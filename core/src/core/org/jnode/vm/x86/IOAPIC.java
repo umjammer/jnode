@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.x86;
 
 import java.io.PrintStream;
@@ -31,7 +31,6 @@ import org.jnode.system.resource.ResourceOwner;
 import org.jnode.util.NumberUtils;
 import org.vmmagic.unboxed.Address;
 import org.vmmagic.unboxed.Extent;
-
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)

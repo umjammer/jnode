@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.PrintWriter;
@@ -39,13 +39,13 @@ import org.jnode.vm.isolate.VmIsolate;
  * @author Levente S\u00e1ntha
  */
 public class TerminateCommand extends AbstractCommand {
-    
+
     private static final String help_id = "The ID of the isolate to terminate";
     private static final String help_super = "Terminate an Isolate";
     private static final String err_root = "The root isolate cannot be terminated with this command";
     private static final String err_not_found = "Isolate not found: %d%n";
     private static final String str_done = "Done.";
-    
+
     private final IntegerArgument argID;
 
     public TerminateCommand() {
@@ -53,7 +53,7 @@ public class TerminateCommand extends AbstractCommand {
         argID = new IntegerArgument("id", Argument.MANDATORY | Argument.SINGLE, help_id);
         registerArguments(argID);
     }
-    
+
     public void execute() throws Exception {
         PrintWriter err = getError().getPrintWriter();
         PrintWriter out = getOutput().getPrintWriter();

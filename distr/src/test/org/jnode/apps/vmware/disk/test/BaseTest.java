@@ -17,14 +17,15 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.vmware.disk.test;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.jnode.apps.vmware.disk.tools.DiskCopier;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Wrote from the 'Virtual Disk Format 1.0' specifications (from VMWare).
@@ -52,7 +53,7 @@ public abstract class BaseTest {
      * 
      * @throws IOException
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         this.diskFile =
                 copyDisk ? DiskCopier.copyDisk(originalDiskFile, Utils.createTempDir())
@@ -63,7 +64,7 @@ public abstract class BaseTest {
      * 
      * @throws IOException
      */
-    @After
+    @AfterEach
     public void tearDown() throws IOException {
         Utils.clearTempDir(true);
         Utils.DO_CLEAR = true;

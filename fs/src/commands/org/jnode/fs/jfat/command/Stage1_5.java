@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.jfat.command;
 
 import java.io.File;
@@ -43,7 +43,7 @@ class Stage1_5 {
     private byte[] stage1_5;
 
     static final String GRUB_HOME = "/devices/sg0/boot/grub/";
-    
+
     /**
      * The Source path for the Grub in CD://devices/sg0/boot/grub/STAGE1.
      * Because the grub can installed from the Live Boot CD.

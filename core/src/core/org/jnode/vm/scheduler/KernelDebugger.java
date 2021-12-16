@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.scheduler;
 
 import org.jnode.annotation.Inline;
@@ -37,11 +37,11 @@ import org.jnode.vm.VmStackReader;
  */
 public class KernelDebugger {
     private final VmScheduler vmScheduler;
-    
+
     KernelDebugger(VmScheduler vmScheduler) {
         this.vmScheduler = vmScheduler;
     }
-    
+
     /**
      * Process all waiting KDB commands.
      */
@@ -178,7 +178,7 @@ public class KernelDebugger {
             e = e.next;
         }
     }
-    
+
     /**
      * Dump the status of this queue on debug.
      */
@@ -190,7 +190,7 @@ public class KernelDebugger {
             e = e.next;
         }
     }
-    
+
     /**
      * Print the given string to the output.
      */
@@ -198,7 +198,7 @@ public class KernelDebugger {
     private final void debug(String str) {
         Unsafe.debug(str);
     }
-    
+
     /**
      * Print the given integer to the output.
      */
@@ -206,7 +206,7 @@ public class KernelDebugger {
     private final void debug(int i) {
         Unsafe.debug(i);
     }
-    
+
     /**
      * Read a keystroke from the input.
      */

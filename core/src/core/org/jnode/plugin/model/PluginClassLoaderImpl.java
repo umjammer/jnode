@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.plugin.model;
 
 import gnu.java.security.action.GetPolicyAction;
@@ -94,7 +94,6 @@ final class PluginClassLoaderImpl extends ClassLoader implements PluginClassLoad
     protected PluginClassLoaderImpl(VmClassLoader vmClassLoader, PluginRegistryModel registry,
                                     PluginDescriptorModel descr, PluginJar jar,
                                     PluginClassLoaderImpl[] prerequisiteLoaders) {
-        super(ClassLoader.getSystemClassLoader(), vmClassLoader);
         this.registry = registry;
         this.descriptor = descr;
         this.jar = jar;
@@ -125,7 +124,7 @@ final class PluginClassLoaderImpl extends ClassLoader implements PluginClassLoad
     public Collection<String> getResources() {
         return jar.resourceNames();
     }
-    
+
     /**
      * Finds the specified class. This method should be overridden by class
      * loader implementations that follow the new delegation model for loading
@@ -306,7 +305,7 @@ final class PluginClassLoaderImpl extends ClassLoader implements PluginClassLoad
         return url;
     }
 
-    public Enumeration<?> getResources(String name) {
+    public Enumeration<URL> getResources(String name) {
         System.err.println("getResources " + name);
         final List<URL> urls = new ArrayList<URL>();
 
@@ -395,7 +394,7 @@ final class PluginClassLoaderImpl extends ClassLoader implements PluginClassLoad
     public PluginDescriptor getDeclaringPluginDescriptor() {
         return descriptor;
     }
-        
+
     public String toString() {
         return getClass().getName() + '(' + getDeclaringPluginDescriptor().getId() + ')';
     }    

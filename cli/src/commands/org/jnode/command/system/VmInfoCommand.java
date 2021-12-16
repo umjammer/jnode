@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.PrintWriter;
@@ -34,15 +34,15 @@ import org.jnode.vm.facade.VmUtils;
  * @author crawley@jnode.org
  */
 public class VmInfoCommand extends AbstractCommand {
-    
+
     private static final String help_reset = "if set, reset the JNode VM counters";
     private static final String help_super = "Prints JNode VM info";
     private static final String fmt_vm = "JNode VM %s%n";
     private static final String fmt_sm = "Security Manager %s%n";
     private static final String fmt_proc = "Processor %s (%s)%n";
-    
+
     private final FlagArgument argReset;
-    
+
     public VmInfoCommand() {
         super(help_super);
         argReset = new FlagArgument("reset", Argument.OPTIONAL, help_reset);
@@ -52,7 +52,7 @@ public class VmInfoCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new VmInfoCommand().execute(args);
     }
-    
+
     @Override
     public void execute() {
         final org.jnode.vm.facade.Vm vm = VmUtils.getVm();

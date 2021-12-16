@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.configure;
 
 import java.io.File;
@@ -102,7 +102,7 @@ public class PropertySet {
         public boolean isControlProperty() {
             return getPropertySet().getFile() == null;
         }
-        
+
         public PropertySet getPropertySet() {
             return PropertySet.this;
         }
@@ -265,5 +265,5 @@ public class PropertySet {
     public Property getProperty(String name) {
         return properties.get(name);
     }
-    
+
 }

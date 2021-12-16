@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.system.repository;
 
 import org.jnode.system.repository.spi.SystemRepositoryProvider;
@@ -68,7 +68,6 @@ public abstract class RepositoryPlugin {
     protected void providerAdded(SystemRepositoryProvider[] providers,
                                  SystemRepositoryProvider provider) {
     }
-
 
     /**
      * This method is called when a system repository provider is removed.

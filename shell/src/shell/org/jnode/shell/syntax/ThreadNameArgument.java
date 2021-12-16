@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.security.AccessController;
@@ -45,7 +45,7 @@ public class ThreadNameArgument extends StringArgument {
     public ThreadNameArgument(String label) {
         this(label, 0, null);
     }
-    
+
     @Override
     /**
      * Complete the 'partial' against the names of all existing Thread objects
@@ -64,7 +64,7 @@ public class ThreadNameArgument extends StringArgument {
                 return null;
             }
         });
-        
+
     }
 
     private void findList(ThreadGroup grp, String partial, CompletionInfo completions) {
@@ -86,7 +86,7 @@ public class ThreadNameArgument extends StringArgument {
             }
         }
     }
-    
+
     @Override
     protected String argumentKind() {
         return "thread name";

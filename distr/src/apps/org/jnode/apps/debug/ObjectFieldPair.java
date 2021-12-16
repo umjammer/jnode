@@ -17,11 +17,10 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.debug;
 
 import java.lang.reflect.Field;
-
 
 /**
  * Just a bean to store a Field and an object which has that field.

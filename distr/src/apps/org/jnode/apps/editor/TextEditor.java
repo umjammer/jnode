@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.editor;
 
 import java.awt.event.KeyEvent;
@@ -140,7 +140,6 @@ public class TextEditor implements KeyboardListener {
             }
         });
     }
-
 
     private void updateScreen() {
         char[] data = new char[sw * (cym + 1 + 1)];

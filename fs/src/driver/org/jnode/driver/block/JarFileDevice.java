@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.block;
 
 import java.io.File;
@@ -35,7 +35,6 @@ import org.jnode.fs.ReadOnlyFileSystemException;
 public class JarFileDevice extends FileDevice implements FSBlockDeviceAPI {
 
     private JarFile jarFile;
-
 
     /**
      * Create a new JarFileDevice

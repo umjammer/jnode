@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.block.ramdisk;
 
 import java.nio.ByteBuffer;
@@ -34,12 +34,12 @@ import org.jnode.partitions.PartitionTableEntry;
 public class RamDiskDriver extends Driver implements FSBlockDeviceAPI {
 
     private static final String RAMDISK_DEFAULTNAME = "ramdisk";
-    
+
     /**
      * The device
      */
     private RamDiskDevice device;
-    
+
     /**
      * The data
      */

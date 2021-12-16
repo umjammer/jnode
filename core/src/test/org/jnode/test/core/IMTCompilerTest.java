@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.core;
 
 import java.io.File;
@@ -53,7 +53,6 @@ public class IMTCompilerTest {
 
         //final ObjectResolver resolver = new DummyResolver();
         final X86CpuID cpuId = X86CpuID.createID(processorId);
-
 
         final String[] clsNames = CompilerTest.clsNames;
 

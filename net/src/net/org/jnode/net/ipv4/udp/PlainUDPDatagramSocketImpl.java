@@ -17,24 +17,24 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.ipv4.udp;
 
-import gnu.java.net.PlainDatagramSocketImpl;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.DatagramPacket;
-import java.net.SocketAddress;
-import java.net.NetworkInterface;
-import java.io.IOException;
 import java.io.FileDescriptor;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocketImpl;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketAddress;
+import java.net.SocketException;
 
 /**
  * Glue class for supporting gnu.java.nio.DatagramChannelImpl.
  *
  * @author Levente S\u00e1ntha
  */
-public class PlainUDPDatagramSocketImpl extends PlainDatagramSocketImpl {
+public class PlainUDPDatagramSocketImpl extends DatagramSocketImpl {
 
     private MyUDPDatagramSocketImpl udp;
 

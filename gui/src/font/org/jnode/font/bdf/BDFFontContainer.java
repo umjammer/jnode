@@ -1,9 +1,9 @@
 /*
  Copyright (C) 2002-2006 Stephane Meslin-Weber <steph@tangency.co.uk>
  All rights reserved.
- 
+
  This file is part of Odonata.
- 
+
  Odonata is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation; either version 2 of the License, or
@@ -44,7 +44,6 @@ import java.util.PropertyResourceBundle;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-
 
 public class BDFFontContainer {
 	private static final Logger log = Logger.getLogger(BDFFontContainer.class);

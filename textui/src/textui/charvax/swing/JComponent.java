@@ -51,7 +51,6 @@ public abstract class JComponent
 	    return new Insets(0,0,0,0);
     }
 
-
     /**
      * Draws the border of the component (if there is one).
      * @param toolkit

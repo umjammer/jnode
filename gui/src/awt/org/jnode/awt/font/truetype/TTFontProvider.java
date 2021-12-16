@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.font.truetype;
 
 import java.awt.Font;
@@ -70,7 +70,6 @@ public class TTFontProvider extends AbstractFontProvider<TTFFont, TTFFontData> {
         return new TTFFontMetrics(font, getFontData(font));
     }
 
-    
     /**
      * Creates a font peer from the given name or return null if not supported/provided.
      * As said in {@link org.jnode.awt.JNodeToolkit#getClasspathFontPeer(String, java.util.Map)} javadoc :
@@ -102,7 +101,7 @@ public class TTFontProvider extends AbstractFontProvider<TTFFont, TTFFontData> {
 //        }
 //        
 //        return peer;
-        
+
         return new TTFFontPeer(this, name, attrs);
     }
 
@@ -126,7 +125,7 @@ public class TTFontProvider extends AbstractFontProvider<TTFFont, TTFFontData> {
             throw ffe;
         }        
     }
-    
+
     /**
      * Gets the font data for the given font
      *
@@ -170,7 +169,7 @@ public class TTFontProvider extends AbstractFontProvider<TTFFont, TTFFontData> {
     @Override
     protected Size getMaxCharSize(TTFFontData fontData) {
         Size size = new Size();
-        
+
         //TODO implement it
 //        for (TTFGlyph g : fontData.getGlyph(c)) {
 //            if (g != null) {
@@ -181,8 +180,7 @@ public class TTFontProvider extends AbstractFontProvider<TTFFont, TTFFontData> {
         // temporary workaround
         size.maxCharWidth = 15;
         size.maxCharHeight = 15;
-        
-        
+
         return size;
     }
 }

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.x86.compiler.l1b;
 
 import java.util.HashMap;
@@ -323,7 +323,6 @@ final class X86BytecodeVisitor extends InlineBytecodeVisitor implements
         if (countBytecode) {
             counters.getCounter("checkbounds").inc();
         }
-
 
         if (index.isConstant()) {
             //System.err.println("Index constant = " + index.getValue() + ", ref.register = " + ref.getRegister());
@@ -2815,7 +2814,6 @@ final class X86BytecodeVisitor extends InlineBytecodeVisitor implements
         IntItem v2 = vstack.popInt();
         IntItem v1 = vstack.popInt();
 
-
         if (v1.isConstant() && v2.isConstant()) {
 
             if (countConstOps) {
@@ -3935,7 +3933,6 @@ final class X86BytecodeVisitor extends InlineBytecodeVisitor implements
         // Release
         L1AHelper.releaseRegister(eContext, classr);
     }
-
 
     /**
      * Push the given VmType on the stack.

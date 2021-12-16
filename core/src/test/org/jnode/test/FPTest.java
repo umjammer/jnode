@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test;
 
 import java.io.PrintStream;
@@ -71,7 +71,6 @@ public class FPTest {
         out.println("JVM: " + Math.tan(angle) + ", CP: " + StrictMathTest.tan(angle));
         out.println("CV: " + cv);
     }
-
 
     private static void testFloat(PrintStream out) {
         out.println("testFloat");

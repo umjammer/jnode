@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -19,16 +19,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 package org.jtestserver.common.message;
 
-
 import org.jtestserver.common.protocol.Client;
 import org.jtestserver.common.protocol.ProtocolException;
 import org.jtestserver.common.protocol.TimeoutException;
 
 public abstract class Message {
-    
+
     public static Object send(Client<?, ?> client, MessageDescriptor desc, Object... params)
         throws ProtocolException, TimeoutException {
-        
+
         boolean needReply = (desc.getResultClass() != null);
         OutputMessage output = OutputMessage.createOutputMessage(desc, params);
         String answer = client.send(output.toMessage(), needReply);

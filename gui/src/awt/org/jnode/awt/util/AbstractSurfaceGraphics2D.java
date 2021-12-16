@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.util;
 
 import gnu.java.awt.java2d.AbstractGraphics2D;
@@ -77,7 +77,6 @@ public abstract class AbstractSurfaceGraphics2D extends AbstractGraphics2D {
         this.height = height;
     }
 
-
     public Object clone() {
         AbstractSurfaceGraphics2D copy = (AbstractSurfaceGraphics2D) super.clone();
 
@@ -132,7 +131,6 @@ public abstract class AbstractSurfaceGraphics2D extends AbstractGraphics2D {
         }
     }
 
-
     /**
      * @param text
      * @param x
@@ -162,7 +160,6 @@ public abstract class AbstractSurfaceGraphics2D extends AbstractGraphics2D {
         }
     }
 
-
     protected void rawDrawLine(int x0, int y0, int x1, int y1) {
         surface.drawLine(x0, y0, x1, y1, getColor().getRGB(), this.mode);
     }
@@ -174,7 +171,6 @@ public abstract class AbstractSurfaceGraphics2D extends AbstractGraphics2D {
     protected void rawFillRect(int x, int y, int w, int h) {
         surface.fillRect(x, y, w, h, getColor().getRGB(), this.mode);
     }
-
 
     protected void rawCopyArea(int x, int y, int w, int h, int dx, int dy) {
         surface.copyArea(x, y, w, h, dx, dy);
@@ -201,7 +197,6 @@ public abstract class AbstractSurfaceGraphics2D extends AbstractGraphics2D {
     }
 
     // HELPER Methods:
-
 
     /**
      * Gets the Raster of a given image.

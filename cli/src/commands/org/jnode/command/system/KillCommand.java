@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.PrintWriter;
@@ -32,7 +32,7 @@ import org.jnode.shell.syntax.IntegerArgument;
  * @author crawley@jnode.org
  */
 public class KillCommand extends AbstractCommand {
-    
+
     private static final String help_tid = "the id of the thread to kill";
     private static final String help_debug = "if set, print debug information";
     private static final String help_super = "Kill the thread with the supplied ID";
@@ -40,7 +40,7 @@ public class KillCommand extends AbstractCommand {
     private static final String str_found = "Found the Thread: ";
     private static final String fmt_killed = "Killed thread %d%n";
     private static final String fmt_not_found = "Thread %d not found%n";
-    
+
     private final IntegerArgument argThreadID;
     private final FlagArgument argDebug;
 
@@ -54,7 +54,7 @@ public class KillCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new KillCommand().execute(args);
     }
-    
+
     @SuppressWarnings("deprecation")
     public void execute() throws Exception {
         PrintWriter out = getError().getPrintWriter();

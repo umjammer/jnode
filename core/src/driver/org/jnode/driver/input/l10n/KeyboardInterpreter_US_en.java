@@ -17,14 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.input.l10n;
 
 import java.awt.event.KeyEvent;
 import org.jnode.driver.input.Key;
 import org.jnode.driver.input.AbstractKeyboardInterpreter;
 import org.jnode.driver.input.Keys;
-
 
 /**
  * @author Created by Marc DENTY
@@ -304,7 +303,6 @@ public class KeyboardInterpreter_US_en extends AbstractKeyboardInterpreter {
         lcharMap[50] = 'm';
         lcharMap[51] = ',';
         lcharMap[52] = '.';
-
 
         lcharMap[53] = '/';
         lcharMap[55] = '*';

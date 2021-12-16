@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net;
 
 import java.util.Collection;
@@ -38,7 +38,7 @@ public interface NetworkLayerManager {
 
     /** Name used to bind the ptm in the InitialNaming namespace */
     public static final Class<NetworkLayerManager> NAME = NetworkLayerManager.class;
-    
+
     /**
      * Get all register packet types.
      * 

@@ -281,7 +281,6 @@ public class GridBagLayout
 		cont.doLayout();
 	    }
 
-
 	    /* Calculate the x position of the component's origin (i.e. top
 	     * left corner).
 	     */
@@ -375,7 +374,7 @@ public class GridBagLayout
      * information it should be discarded.
      */
     public void invalidateLayout(Container target_) {
-	
+
     }
 
     //====================================================================

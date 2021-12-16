@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.ipv4.icmp;
 
 import org.jnode.net.SocketBuffer;
@@ -39,8 +39,7 @@ public class ICMPEchoHeader extends ICMPExHeader {
     public ICMPEchoHeader(int identifier, int seqNumber) {
         super(ICMPType.ICMP_ECHO, 0, identifier, seqNumber);
     }
-    
-    
+
     /**
      * @param skbuf
      */

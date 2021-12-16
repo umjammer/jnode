@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.File;
@@ -41,7 +41,7 @@ public class CdCommand extends AbstractCommand {
     private static final String HELP_SUPER = "Change the current directory";
     private static final String ERR_HOME = "user.home is not set";
     private static final String ERR_DIR_INVALID = "%s is not a valid directory%n";
-    
+
     private final FileArgument argDir;
 
     public CdCommand() {

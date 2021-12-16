@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.File;
@@ -46,7 +46,7 @@ import org.jnode.shell.syntax.FlagArgument;
  * @see <a href="http://www.opengroup.org/onlinepubs/009695399/utilities/rm.html">POSIX "rm" command</a>
  */
 public class DeleteCommand extends AbstractCommand {
-    
+
     private static final String help_file = "the files or directories to be deleted";
     private static final String help_recurse = "if set, any directories are deleted recursively";
     private static final String help_force = "ignore non-existant files, never prompt";
@@ -74,7 +74,7 @@ public class DeleteCommand extends AbstractCommand {
     private final FlagArgument flagInteract;
     private final FlagArgument flagVerbose;
     private final FlagArgument flagOneFS;
-    
+
     private FileSystemService fss;
     private PrintWriter err;
     private PrintWriter out;
@@ -103,18 +103,18 @@ public class DeleteCommand extends AbstractCommand {
     public void execute() throws NameNotFoundException {
         // Lookup the Filesystem service
         fss = InitialNaming.lookup(FileSystemService.NAME);
-        
+
         recursive    = flagRecurse.isSet();
         force        = flagForce.isSet();
         interactive  = flagInteract.isSet();
         verbose      = flagVerbose.isSet();
         onefs        = flagOneFS.isSet();
         File[] paths = argPaths.getValues();
-        
+
         err = getError().getPrintWriter();
         out = getOutput().getPrintWriter();
         in = getInput().getReader();
-        
+
         boolean ok = true;
         for (File file : paths) {
             ok &= deleteFile(file);
@@ -123,28 +123,28 @@ public class DeleteCommand extends AbstractCommand {
             exit(1);
         }
     }
-    
+
     private boolean deleteFile(File file) {
         // We have to be careful about how we handle race conditions, especially
         // considering the depth-first nature of recursive file deletion. If this
         // method gets called on a file, and the file does not exist, then we assume
         // some other process has beat us to it. The command line only allows existing
         // files to be input.
-        
+
         boolean deleteOk;
         boolean prompt;
-        
+
         if (!file.exists()) {
             // someone beat us to the delete() call, return gracefully.
             return skip(str_not_exist, file) || true;
         }
-        
+
         // A note about 'interactive' mode. It is _not_ an error
         // if stdin is not a tty. It is possible to send responses
         // via a pipe. This is why we only check for a tty stdin
         // if interactive was not set.
         prompt = (!force && (interactive || (!isWriteable(file) && getInput().isTTY())));
-        
+
         if (file.isDirectory()) {
             // This is written to match the POSIX behavior in rm Description Section 2
             if (!recursive) {
@@ -192,11 +192,11 @@ public class DeleteCommand extends AbstractCommand {
             return unlink(file);
         }
     }
-    
+
     private boolean prompt(String s) {
         return IOUtils.promptYesOrNo(in, out, s);
     }
-    
+
     private boolean checkMount(File file) {
         // This is wrong, as the directory might have been given on the
         // command line, which means regardless of the value of onefs, we will continue.
@@ -213,7 +213,7 @@ public class DeleteCommand extends AbstractCommand {
         }
         return true;
     }
-    
+
     private boolean isWriteable(File file) {
         try {
             return file.canWrite();
@@ -221,7 +221,7 @@ public class DeleteCommand extends AbstractCommand {
             return false;
         }
     }
-    
+
     private boolean rmdir(File file) {
         if (!file.delete()) {
             return error(fmt_not_removed, file);
@@ -231,7 +231,7 @@ public class DeleteCommand extends AbstractCommand {
         }
         return true;
     }
-    
+
     private boolean unlink(File file) {
         if (!file.delete()) {
             return error(fmt_not_removed, file);
@@ -241,14 +241,14 @@ public class DeleteCommand extends AbstractCommand {
         }
         return true;
     }
-    
+
     private boolean skip(String msg, File file) {
         if (!force) {
             err.format(fmt_skip, file, msg);
         }
         return false;
     }
-    
+
     private boolean error(String msg, Object... args) {
         if (verbose) {
             err.format(msg, args);

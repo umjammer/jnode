@@ -38,7 +38,6 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 
-
 package gnu.classpath.jdwp;
 
 import gnu.classpath.jdwp.event.EventRequest;
@@ -84,7 +83,7 @@ public class VMVirtualMachine
 	group = parent;
 	parent = group.getParent ();
       }
-    
+
     // Get all the threads in the system
     int num = group.activeCount ();
     Thread[] threads = new Thread[num];
@@ -138,7 +137,7 @@ public class VMVirtualMachine
 	group = parent;
 	parent = group.getParent ();
       }
-    
+
     // Get all the threads in the system
     int num = group.activeCount ();
     Thread[] threads = new Thread[num];
@@ -168,7 +167,7 @@ public class VMVirtualMachine
    */
   public static native int getSuspendCount (Thread thread)
     throws JdwpException;
- 
+
   /**
    * Returns a count of the number of loaded classes in the VM
    */
@@ -249,7 +248,6 @@ public class VMVirtualMachine
   public static native int getFrameCount (Thread thread)
     throws JdwpException;
 
-
   /**
    * Returns the status of a thread
    *
@@ -317,7 +315,6 @@ public class VMVirtualMachine
    */
   public static native void unregisterEvent (EventRequest request)
     throws JdwpException;
-
 
   /**
    * Clear all events of the given kind

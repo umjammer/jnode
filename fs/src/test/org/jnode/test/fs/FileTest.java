@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs;
 
 import java.io.FileNotFoundException;
@@ -47,7 +47,6 @@ public class FileTest {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
 
     }
 }

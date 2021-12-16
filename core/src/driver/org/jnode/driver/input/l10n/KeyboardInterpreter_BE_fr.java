@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.input.l10n;
 
 import java.awt.event.KeyEvent;
@@ -72,12 +72,10 @@ public class KeyboardInterpreter_BE_fr extends KeyboardInterpreter_FR {
         key.addDeadKeyChar(KeyEvent.VK_DEAD_DIAERESIS, new char[]{'\u00fc', '\u00dc'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_CIRCUMFLEX, new char[]{'\u00fb', '\u00db'});
 
-
         keys.setKey(23, new Key('i', 'I', KeyEvent.VK_I));
         key = keys.getKey(23);
         key.addDeadKeyChar(KeyEvent.VK_DEAD_DIAERESIS, new char[]{'\u00ef', '\u00cf'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_CIRCUMFLEX, new char[]{'\u00ee', '\u00ce'});
-
 
         keys.setKey(24, new Key('o', 'O', '\u00f8', KeyEvent.VK_O));
         key = keys.getKey(24);

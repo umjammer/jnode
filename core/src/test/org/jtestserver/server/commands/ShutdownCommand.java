@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@ import org.jtestserver.server.TestServer;
 
 public class ShutdownCommand extends AbstractTestServerCommand<String> {
     private final TestServer testServer;
-    
+
     public ShutdownCommand(TestServer testServer) {
         super(Descriptors.SHUTDOWN);
         this.testServer = testServer;

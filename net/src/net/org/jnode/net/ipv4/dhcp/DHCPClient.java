@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.ipv4.dhcp;
 
 import java.io.IOException;
@@ -129,7 +129,7 @@ public class DHCPClient extends AbstractDHCPClient {
         if (dnsValue != null) {
             for (int i = 0; i < dnsValue.length; i += 4) {
                 final IPv4Address dnsIP = new IPv4Address(dnsValue, i);
-                
+
                 log.info("Got Dns IP address    : " + dnsIP);
                 try {
                     ResolverImpl.addDnsServer(dnsIP);
@@ -139,7 +139,7 @@ public class DHCPClient extends AbstractDHCPClient {
                 }
             }
         }
-        
+
         // Find the plugin loader option
         final byte[] pluginLoaderValue = msg.getOption(DHCPMessage.PLUGIN_LOADER_OPTION);
         if (pluginLoaderValue != null) {

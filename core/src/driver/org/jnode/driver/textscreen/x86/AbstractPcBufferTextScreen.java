@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.textscreen.x86;
 
 import org.jnode.driver.textscreen.TextScreen;
@@ -100,7 +100,7 @@ public abstract class AbstractPcBufferTextScreen extends AbstractPcTextScreen {
     public void set(final int offset, final char[] ch, final int chOfs, int length, int color) {
         color = (color & 0xFF) << 8;
         length = Math.min(length, buffer.length - offset);
-        
+
         int bufOffset = offset;
         int chOffset = chOfs;
         for (int i = 0; i < length; i++) {
@@ -115,7 +115,7 @@ public abstract class AbstractPcBufferTextScreen extends AbstractPcTextScreen {
     @Override
     public void set(final int offset, char[] ch, final int chOfs, int length, int[] colors, int colorsOfs) {
         length = Math.min(length, buffer.length - offset);
-        
+
         int bufOffset = offset;
         int chOffset = chOfs;
         int colorsOffset = colorsOfs;

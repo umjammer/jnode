@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.emu.plugin.model;
 
 import java.util.ArrayList;
@@ -26,7 +26,6 @@ import java.util.List;
 import org.jnode.plugin.ConfigurationElement;
 import org.jnode.plugin.Extension;
 import org.jnode.plugin.PluginDescriptor;
-
 
 /**
  * Dummy plugin extension for configuring plugins outside of the normal JNode framework.
@@ -37,9 +36,9 @@ import org.jnode.plugin.PluginDescriptor;
  * @author crawley@jnode.org
  */
 public class DummyExtension implements Extension {
-    
+
     private List<ConfigurationElement> elements;
-    
+
     @Override
     public ConfigurationElement[] getConfigurationElements() {
         if (elements != null) {
@@ -47,7 +46,7 @@ public class DummyExtension implements Extension {
         }
         return new ConfigurationElement[0];
     }
-    
+
     public void addElement(ConfigurationElement element) {
         if (elements == null) {
             elements = new ArrayList<ConfigurationElement>(1);

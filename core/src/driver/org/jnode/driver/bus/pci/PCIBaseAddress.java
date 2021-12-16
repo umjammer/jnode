@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.bus.pci;
 
 import org.jnode.util.NumberUtils;
@@ -42,32 +42,32 @@ public final class PCIBaseAddress {
      * Is this base address in IO Space?
      */
     private final boolean isIO;
-    
+
     /**
      * The base address in the IO space
      */
     private final int ioAddress;
-    
+
     /**
      * Memory type
      */
     private final byte memType;
-    
+
     /**
      * The base address in the memory space
      */
     private final long memAddress;
-    
+
     /**
      * Must a memory address be relocated below 1Mb?
      */
     private final boolean below1Mb;
-    
+
     /**
      * Is this a 64-bit memory address?
      */
     private final boolean b64;
-    
+
     /**
      * Size of the address space
      */

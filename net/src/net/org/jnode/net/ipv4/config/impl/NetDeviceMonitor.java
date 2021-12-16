@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.ipv4.config.impl;
 
 import java.util.Collection;
@@ -34,12 +34,12 @@ import org.jnode.driver.net.NetDeviceAPI;
  * @author Ewout Prangsma (epr@users.sourceforge.net)
  */
 final class NetDeviceMonitor implements DeviceListener {
-    
+
     /** My logger */
     private static final Logger log = Logger.getLogger(NetDeviceMonitor.class);
     private final ConfigurationProcessor processor;
     private final NetConfigurationData config;
-    
+
     /**
      * @param config
      */
@@ -60,7 +60,7 @@ final class NetDeviceMonitor implements DeviceListener {
             }
         }
     }
-    
+
     /**
      * @see org.jnode.driver.DeviceListener#deviceStarted(org.jnode.driver.Device)
      */
@@ -69,7 +69,7 @@ final class NetDeviceMonitor implements DeviceListener {
             configureDevice(device);
         }
     }
-    
+
     /**
      * @see org.jnode.driver.DeviceListener#deviceStop(org.jnode.driver.Device)
      */
@@ -77,7 +77,7 @@ final class NetDeviceMonitor implements DeviceListener {
         // TODO Auto-generated method stub
 
     }
-    
+
     private void configureDevice(Device dev) {
         log.info("Configuring " + dev.getId());
         final NetDeviceConfig cfg = config.getConfiguration(dev);

@@ -17,15 +17,17 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.swingpeers;
 
 import java.awt.AWTEvent;
+import java.awt.BufferCapabilities.FlipContents;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.GraphicsConfiguration;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.MenuBar;
@@ -33,6 +35,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.VMAwtAPI;
 import java.awt.Window;
+import java.awt.peer.ComponentPeer;
 import java.awt.peer.FramePeer;
 import java.awt.peer.WindowPeer;
 import javax.swing.JComponent;
@@ -220,7 +223,6 @@ abstract class SwingJBaseWindow<awtT extends Window, swingPeerT extends SwingJBa
     }
 }
 
-
 final class SwingJFrame extends SwingJBaseWindow<Frame, SwingJFrame> {
     private static final long serialVersionUID = 1L;
 
@@ -362,7 +364,6 @@ abstract class SwingJBaseWindowPeer<awtT extends Window, swingPeerT extends Swin
     }
 }
 
-
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)
  * @author Levente S\u00e1ntha
@@ -431,10 +432,63 @@ final class SwingJFramePeer extends SwingJBaseWindowPeer<Frame, SwingJFrame>
 
     }
 
-
     //jnode openjdk
     public Rectangle getBoundsPrivate() {
         //todo implement it
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void updateAlwaysOnTopState() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setOpacity(float opacity) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setOpaque(boolean isOpaque) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void updateWindow() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void repositionSecurityWarning() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void flip(int x1, int y1, int x2, int y2, FlipContents flipAction) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setZOrder(ComponentPeer above) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public boolean updateGraphicsData(GraphicsConfiguration gc) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void emulateActivation(boolean activate) {
+        // TODO Auto-generated method stub
+        
     }
 }

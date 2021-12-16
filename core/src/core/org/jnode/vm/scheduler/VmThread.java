@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.scheduler;
 
 import org.jnode.annotation.Inline;
@@ -443,7 +443,6 @@ public abstract class VmThread extends VmSystemObject implements org.jnode.vm.fa
             lom = prev;
         }
         lastOwnedMonitor = null;
-
 
         final VmProcessor proc = VmMagic.currentProcessor();
         final VmThread current = proc.getCurrentThread();

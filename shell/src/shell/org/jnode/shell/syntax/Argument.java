@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.util.ArrayList;
@@ -53,13 +53,13 @@ import org.jnode.shell.CommandLine.Token;
  * @param <V> this is the value type for the Argument.
  */
 public abstract class Argument<V> {
-    
+
     /**
      * This Argument flag indicates that the Argument is optional.  This is the
      * opposite of MANDATORY, and is the default if neither are specified.
      */
     public static final int OPTIONAL = 0x001;
-    
+
     /**
      * This Argument flag indicates that the Argument is mandatory; i.e that least
      * one instance of this Argument must be supplied in a command line.  This is
@@ -72,7 +72,7 @@ public abstract class Argument<V> {
      * This is the opposite of MULTIPLE and the default if neither are specified.
      */
     public static final int SINGLE = 0x004;
-    
+
     /**
      * This Argument flag indicates that multiple instances of this Argument may 
      * be provided.  This is the opposite of SINGLE.
@@ -85,7 +85,7 @@ public abstract class Argument<V> {
      * Note that this is <b>not</b> the logical negation of NONEXISTENT!
      */
     public static final int EXISTING = 0x010;
-    
+
     /**
      * This Argument flag indicates that an Argument's value must denote an entity
      * that does not exists in whatever domain that the Argument values corresponds to.
@@ -98,7 +98,7 @@ public abstract class Argument<V> {
      * common flags.
      */
     public static final int COMMON_FLAGS = 0x0000ffff;
-    
+
     /**
      * Flag bits in this bitset are available for use as Argument-subclass specific flags.
      * Flags in this range may be overridden by a Syntax.
@@ -110,24 +110,23 @@ public abstract class Argument<V> {
      * Flags in this range may NOT be overridden by a Syntax.
      */
     private static final int SPECIFIC_NONOVERRIDABLE_FLAGS = 0xff000000;
-    
+
     /**
      * Flag bits in this bitset may not be overridden by a Syntax. 
      */
     public static final int NONOVERRIDABLE_FLAGS = 
         SINGLE | MULTIPLE | MANDATORY | OPTIONAL | SPECIFIC_NONOVERRIDABLE_FLAGS;
-    
+
     private final String label;
     private final int flags;
     private final String description;
-    
+
     protected final List<V> values = new ArrayList<V>();
-    
+
     final V[] vArray;
-    
+
     private ArgumentBundle bundle;
-    
-    
+
     /**
      * @param label The label that is used associate this Argument object to
      * a component of a Syntax.
@@ -146,7 +145,7 @@ public abstract class Argument<V> {
         this.flags = flags;
         this.vArray = vArray;
     }
-    
+
     /**
      * Check that the supplied flags are consistent.  
      * <p>
@@ -166,7 +165,7 @@ public abstract class Argument<V> {
             throw new IllegalArgumentException("inconsistent flags: MANDATORY and OPTIONAL");
         }
     }
-    
+
     /**
      * Return the flags as passed to the constructor.
      * @return the flags.
@@ -174,7 +173,7 @@ public abstract class Argument<V> {
     public int getFlags() {
         return flags;
     }
-    
+
     /**
      * Convert a comma-separated list of names to a flags word.  The current implementation
      * will silently ignore empty names; e.g. in {@code "MANDATORY,,SINGLE"} or 
@@ -194,7 +193,7 @@ public abstract class Argument<V> {
         }
         return res;
     }
-    
+
     /**
      * Convert a flag name to a flag.  
      * <p>
@@ -231,7 +230,7 @@ public abstract class Argument<V> {
     public boolean isMandatory() {
         return isMandatory(flags);
     }
-    
+
     /**
      * If this method returns <code>true</code>, this Argument need not be bound to an
      * argument in a CommandLine if it is used in a given concrete syntax.
@@ -239,7 +238,7 @@ public abstract class Argument<V> {
     public boolean isOptional() {
         return isOptional(flags);
     }
-    
+
     /**
      * If this method returns <code>true</code>, this element may have
      * multiple instances in a CommandLine.
@@ -247,7 +246,7 @@ public abstract class Argument<V> {
     public boolean isMultiple() {
         return isMultiple(flags);
     }
-    
+
     /**
      * If this method returns <code>true</code>, this element must have at
      * most one instance in a CommandLine.
@@ -255,7 +254,7 @@ public abstract class Argument<V> {
     public boolean isSingle() {
         return isSingle(flags);
     }
-    
+
     /**
      * If this method returns <code>true</code>, an Argument value must correspond 
      * to an existing entity in the domain of entities denoted by the Argument type.
@@ -271,7 +270,7 @@ public abstract class Argument<V> {
     public boolean isNonexistent() {
         return isNonexistent(flags);
     }
-    
+
     /**
      * If this method returns <code>true</code>, the flags say that the corresponding Argument 
      * must be bound to an argument in a CommandLine if it is used in a given concrete syntax.
@@ -279,7 +278,7 @@ public abstract class Argument<V> {
     public static boolean isMandatory(int flags) {
         return (flags & MANDATORY) != 0;
     }
-    
+
     /**
      * If this method returns <code>true</code>, the flags say that the corresponding Argument 
      * need not be bound to an argument in a CommandLine if it is used in a given concrete syntax.
@@ -287,7 +286,7 @@ public abstract class Argument<V> {
     public static boolean isOptional(int flags) {
         return (flags & MANDATORY) == 0;
     }
-    
+
     /**
      * If this method returns <code>true</code>, the corresponding Argument may have
      * multiple instances in a CommandLine.
@@ -295,7 +294,7 @@ public abstract class Argument<V> {
     public static boolean isMultiple(int flags) {
         return (flags & MULTIPLE) != 0;
     }
-    
+
     /**
      * If this method returns <code>true</code>, the corresponding Argument must have at
      * most one instance in a CommandLine.
@@ -303,7 +302,7 @@ public abstract class Argument<V> {
     public static boolean isSingle(int flags) {
         return (flags & MULTIPLE) == 0;
     }
-    
+
     /**
      * If this method returns <code>true</code>, the corresponding Argument value must denote 
      * an existing entity.
@@ -319,7 +318,7 @@ public abstract class Argument<V> {
     public boolean isNonexistent(int flags) {
         return (flags & NONEXISTENT) != 0;
     }
-    
+
     /**
      * The label is the application's identifier for the Argument.  It is used to identify
      * the Argument in a concrete syntax specification.  The label could also be used by the
@@ -330,7 +329,7 @@ public abstract class Argument<V> {
     public String getLabel() {
         return label;
     }
-    
+
     /**
      * Test if this Argument currently has a bound value or values.
      */
@@ -338,7 +337,7 @@ public abstract class Argument<V> {
         checkArgumentsSet();
         return values.size() != 0;
     }
-    
+
     /**
      * Get this Arguments bound values as an array. 
      * @return an array of values, possibly empty but never {@code null}.
@@ -366,13 +365,13 @@ public abstract class Argument<V> {
                     label + " is bound to " + size + " values");
         }
     }
-    
+
     private void checkArgumentsSet() {
         if (bundle == null) {
             throw new SyntaxFailureException(
                     "This Argument is not associated with an ArgumentBundle");
         }
-        
+
         switch (bundle.getStatus()) {
             case ArgumentBundle.UNPARSED:
                 throw new SyntaxFailureException(
@@ -473,11 +472,11 @@ public abstract class Argument<V> {
     void setBundle(ArgumentBundle bundle) {
         this.bundle = bundle;
     }
-    
+
     public ArgumentBundle getBundle() {
         return bundle;
     }
-    
+
     /**
      * Clear the argument's values
      */
@@ -514,7 +513,7 @@ public abstract class Argument<V> {
     public final String formatForUsage() {
         return label;
     }
-    
+
     /**
      * Get the argument's optional description
      * @return the description or <code>null</code>
@@ -522,7 +521,7 @@ public abstract class Argument<V> {
     public String getDescription() {
         return description;
     }
-    
+
     /**
      * Return a String that describes the 'kind' of the Argument; e.g. a 
      * "class name" or an "integer".

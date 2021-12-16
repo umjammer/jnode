@@ -17,14 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console.textscreen;
 
 import java.io.IOException;
 
 import org.jnode.driver.input.KeyboardEvent;
 import org.jnode.util.Queue;
-
 
 /**
  * KeyInputStream maps keyboard events into a stream of characters.  Current functionality includes:

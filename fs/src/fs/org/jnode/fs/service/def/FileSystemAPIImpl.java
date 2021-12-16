@@ -17,14 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.service.def;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import org.jnode.java.io.VMFileSystemAPI;
-import java.io.VMOpenMode;
+import java.nio.file.OpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,6 +37,7 @@ import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
 import org.jnode.fs.FileSystem;
 import org.jnode.java.io.VMFileHandle;
+import org.jnode.java.io.VMFileSystemAPI;
 
 /**
  * @author epr
@@ -370,13 +370,13 @@ final class FileSystemAPIImpl implements VMFileSystemAPI {
      * @param file absolute path
      * @throws IOException
      */
-    public VMFileHandle open(String file, VMOpenMode mode) throws IOException {
+    public VMFileHandle open(String file, OpenOption mode) throws IOException {
         FSEntry entry = getEntry(file);
         if ((entry != null) && !entry.isFile()) {
             throw new IOException("Not a file " + file);
         }
         if (entry == null) {
-            if (mode.canWrite()) {
+            if (FileHandleManager.isWriting(mode)) {
                 // Try to create the file
                 FSDirectory parent = getParentDirectoryEntry(file);
                 if (parent == null) {
@@ -421,9 +421,9 @@ final class FileSystemAPIImpl implements VMFileSystemAPI {
      * @param file
      * @throws IOException
      */
-    public boolean mkFile(String file, VMOpenMode mode) throws IOException {
+    public boolean mkFile(String file, OpenOption mode) throws IOException {
         FSEntry entry = getEntry(file);
-        if ((entry != null) || !mode.canWrite()) {
+        if ((entry != null) || !FileHandleManager.isWriting(mode)) {
             return false;
         }
         FSDirectory directory = getParentDirectoryEntry(file);

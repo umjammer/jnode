@@ -17,9 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.driver.textscreen.x86;
 
+package org.jnode.driver.textscreen.x86;
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)

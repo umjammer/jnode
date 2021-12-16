@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.dev;
 
 import java.io.PrintWriter;
@@ -36,7 +36,7 @@ import org.jnode.vm.classmgr.VmType;
  * @author clawley@jnode.org
  */
 public class DisassembleCommand extends AbstractCommand {
-    
+
     private static final String help_class = "the class to disassemble";
     private static final String help_method = "the method to disassemble";
     private static final String help_level = "the optimization level";
@@ -47,7 +47,7 @@ public class DisassembleCommand extends AbstractCommand {
     private static final String err_test_opt = "The highest test optimization level is %d%n";
     private static final String err_opt = "The highest optimzation level is %d%n";
     private static final String fmt_out = "Disassembling %d methods took %dms%n";
-    
+
     private final int maxTestLevel = LoadCompileService.getHighestOptimizationLevel(true);
     private final int maxNontestLevel = LoadCompileService.getHighestOptimizationLevel(false);
     private final int maxLevel = Math.max(maxTestLevel, maxNontestLevel);
@@ -69,7 +69,7 @@ public class DisassembleCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new DisassembleCommand().execute(args);
     }
-    
+
     @Override
     public void execute() throws Exception {
         final PrintWriter out = getOutput().getPrintWriter();

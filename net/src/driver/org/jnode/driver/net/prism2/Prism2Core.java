@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.net.prism2;
 
 import javax.naming.NameNotFoundException;
@@ -542,7 +542,6 @@ final class Prism2Core extends WirelessDeviceCore implements Prism2Constants,
             // Copy 802.11 header to BAP
 
             // Copy data to BAP
-
 
         } catch (DriverException ex) {
             log.debug("Failed to copy data to BAP", ex);

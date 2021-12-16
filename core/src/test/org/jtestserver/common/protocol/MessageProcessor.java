@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2009  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -26,6 +26,6 @@ package org.jtestserver.common.protocol;
  */
 public interface MessageProcessor {
     public static final String NO_RESPONSE = "NO_RESPONSE";
-    
+
     String process(String message);
 }

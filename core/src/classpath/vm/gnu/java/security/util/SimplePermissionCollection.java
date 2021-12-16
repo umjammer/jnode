@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package gnu.java.security.util;
 
 import java.security.Permission;
@@ -35,7 +35,7 @@ import java.util.Vector;
 public class SimplePermissionCollection extends PermissionCollection {
 
     private final Vector<Permission> list = new Vector<Permission>();
-    
+
     /**
      * @see java.security.PermissionCollection#add(java.security.Permission)
      */
@@ -45,14 +45,14 @@ public class SimplePermissionCollection extends PermissionCollection {
         }
         list.add(perm);
     }
-    
+
     /**
      * @see java.security.PermissionCollection#elements()
      */
     public Enumeration elements() {
         return list.elements();
     }
-    
+
     /**
      * @see java.security.PermissionCollection#implies(java.security.Permission)
      */

@@ -17,19 +17,20 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.SortedSet;
 
-import junit.framework.TestCase;
-
 import org.jnode.driver.console.CompletionInfo;
 import org.jnode.shell.CommandShell;
 import org.jnode.test.shell.syntax.TestAliasManager;
 import org.jnode.test.shell.syntax.TestSyntaxManager;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Helper methods for doing completion tests.
@@ -37,9 +38,9 @@ import org.jnode.test.shell.syntax.TestSyntaxManager;
  * @author crawley@jnode.org
  */
 public class CompletionHelper {
-    
+
     public static class TestCommandShell extends CommandShell {
-        
+
         protected TestCommandShell(TestAliasManager testAliasManager,
                 TestSyntaxManager testSyntaxManager) {
             super(testAliasManager, testSyntaxManager);
@@ -68,7 +69,7 @@ public class CompletionHelper {
             assert (startPos == ci.getCompletionStart() ||
                 line.length() == ci.getCompletionStart());
         } else {
-            TestCase.assertEquals(startPos, ci.getCompletionStart());
+            assertEquals(startPos, ci.getCompletionStart());
         }
     }
 
@@ -78,7 +79,7 @@ public class CompletionHelper {
         showList(Arrays.asList(expected));
         System.err.println("Actual completions:");
         showList(actual);
-        TestCase.fail(message);
+        fail(message);
     }
 
     public static void showList(Collection<String> list) {

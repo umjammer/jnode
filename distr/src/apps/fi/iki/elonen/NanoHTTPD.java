@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package fi.iki.elonen;
 
 import java.io.BufferedReader;
@@ -267,7 +267,7 @@ public class NanoHTTPD {
      */
     private class HTTPSession implements Runnable {
         private Socket mySocket;
-        
+
         public HTTPSession(Socket s) {
             mySocket = s;
             Thread t = new Thread(this);
@@ -457,7 +457,6 @@ public class NanoHTTPD {
             }
         }
     }
-
 
     /**
      * URL-encodes everything between "/"-characters.

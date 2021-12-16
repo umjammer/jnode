@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.input.l10n;
 
 import java.awt.event.KeyEvent;
@@ -79,14 +79,12 @@ public class KeyboardInterpreter_DE extends AbstractKeyboardInterpreter {
         key.addDeadKeyChar(KeyEvent.VK_DEAD_DIAERESIS, new char[]{'\u00fc', '\u00dc'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_CIRCUMFLEX, new char[]{'\u00fb', '\u00db'});
 
-
         keys.setKey(23, new Key('i', 'I', KeyEvent.VK_I));
         key = keys.getKey(23);
         key.addDeadKeyChar(KeyEvent.VK_DEAD_ACUTE, new char[]{'\u00ed', '\u00cd'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_GRAVE, new char[]{'\u00ec', '\u00cc'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_DIAERESIS, new char[]{'\u00ef', '\u00cf'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_CIRCUMFLEX, new char[]{'\u00ee', '\u00ce'});
-
 
         keys.setKey(24, new Key('o', 'O', KeyEvent.VK_O));
         key = keys.getKey(24);
@@ -154,7 +152,6 @@ public class KeyboardInterpreter_DE extends AbstractKeyboardInterpreter {
         key.addDeadKeyChar(KeyEvent.VK_DEAD_DIAERESIS, new char[]{'\u00a8'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_CIRCUMFLEX, new char[]{'^'});
         key.addDeadKeyChar(KeyEvent.VK_DEAD_TILDE, new char[]{'~'});
-
 
         keys.setKey(71, new Key('7', KeyEvent.VK_NUMPAD7));
         keys.setKey(72, new Key('8', KeyEvent.VK_NUMPAD8));

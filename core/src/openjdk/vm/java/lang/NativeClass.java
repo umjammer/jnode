@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package java.lang;
 
 import sun.reflect.ConstantPool;
@@ -49,7 +49,7 @@ class NativeClass {
     private static void registerNatives() {
 
     }
-    
+
     /**
      * @see java.lang.Class#forName0(java.lang.String, boolean, java.lang.ClassLoader)
      */
@@ -57,49 +57,49 @@ class NativeClass {
         throws ClassNotFoundException {
         return (arg3 == null) ? VmSystem.forName(arg1) : arg3.loadClass(arg1, arg2);
     }
-    
+
     /**
      * @see java.lang.Class#isInstance(java.lang.Object)
      */
     private static boolean isInstance(Class<?> instance, Object arg1) {
         return SoftByteCodes.isInstanceof(arg1, getLinkedVmClass(instance));
     }
-    
+
     /**
      * @see java.lang.Class#isAssignableFrom(java.lang.Class)
      */
     private static boolean isAssignableFrom(Class<?> instance, Class<?> arg1) {
         return getLinkedVmClass(instance).isAssignableFrom(getLinkedVmClass(arg1));
     }
-    
+
     /**
      * @see java.lang.Class#isInterface()
      */
     private static boolean isInterface(Class<?> instance) {
          return VmType.fromClass(instance).isInterface();
     }
-    
+
     /**
      * @see java.lang.Class#isArray()
      */
     private static boolean isArray(Class<?> instance) {
         return VmType.fromClass(instance).isArray();
     }
-    
+
     /**
      * @see java.lang.Class#isPrimitive()
      */
     private static boolean isPrimitive(Class<?> instance) {
         return VmType.fromClass(instance).isPrimitive();
     }
-    
+
     /**
      * @see java.lang.Class#getName0()
      */
     private static String getName0(Class<?> instance) {
         return VmType.fromClass(instance).getName().replace('/', '.');
     }
-    
+
     /**
      * @see java.lang.Class#getClassLoader0()
      */
@@ -107,13 +107,13 @@ class NativeClass {
         VmClassLoader loader = VmType.fromClass(instance).getLoader();
         return loader.isSystemClassLoader() ? null : loader.asClassLoader();
     }
-    
+
     /**
      * @see java.lang.Class#getSuperclass()
      */
     private static <T> Class<?> getSuperclass(Class<T> instance) {
         VmType<T> vmType = getLinkedVmClass(instance);
-        
+
         if (vmType.isPrimitive() || vmType.isInterface()) {
             return null;
         }
@@ -124,7 +124,7 @@ class NativeClass {
             return null;
         }
     }
-    
+
     /**
      * @see java.lang.Class#getInterfaces()
      */
@@ -141,7 +141,7 @@ class NativeClass {
 //        return (Class[]) interfaces.toArray(new Class[interfaces.size()]);
         return list.toArray(new Class[list.size()]);
     }
-    
+
     /**
      * @see java.lang.Class#getComponentType()
      */
@@ -156,14 +156,14 @@ class NativeClass {
         }
         return null;
     }
-    
+
     /**
      * @see java.lang.Class#getModifiers()
      */
     private static int getModifiers(Class<?> instance) {
         return VmType.fromClass(instance).getAccessFlags();
     }
-    
+
     /**
      * @see java.lang.Class#getSigners()
      */
@@ -171,14 +171,14 @@ class NativeClass {
         //todo implement it
         return null;
     }
-    
+
     /**
      * @see java.lang.Class#setSigners(java.lang.Object[])
      */
     private static void setSigners(Class<?> instance, Object[] arg1) {
         //todo implement it
     }
-    
+
     /**
      * @see java.lang.Class#getEnclosingMethod0()
      */
@@ -186,7 +186,7 @@ class NativeClass {
         //todo implement it
         return null;
     }
-    
+
     /**
      * @see java.lang.Class#getDeclaringClass()
      */
@@ -194,7 +194,7 @@ class NativeClass {
         //todo implement it
         return null;
     }
-    
+
     /**
      * @see java.lang.Class#getProtectionDomain0()
      */
@@ -210,14 +210,14 @@ class NativeClass {
             return getUnknownProtectionDomain();
         }
     }
-    
+
     /**
      * @see java.lang.Class#setProtectionDomain0(java.security.ProtectionDomain)
      */
     private static void setProtectionDomain0(Class<?> instance, ProtectionDomain arg1) {
         //todo implement it
     }
-    
+
     /**
      * @see java.lang.Class#getPrimitiveClass(java.lang.String)
      */
@@ -243,28 +243,28 @@ class NativeClass {
         else
             throw new IllegalArgumentException("Unknown type " + type);
     }
-    
+
     /**
      * @see java.lang.Class#getGenericSignature()
      */
     private static String getGenericSignature(Class<?> instance) {
         return VmType.fromClass(instance).getSignature();
     }
-    
+
     /**
      * @see java.lang.Class#getRawAnnotations()
      */
     private static byte[] getRawAnnotations(Class<?> instance) {
         return VmType.fromClass(instance).getRawAnnotations();
     }
-    
+
     /**
      * @see java.lang.Class#getConstantPool()
      */
     private static ConstantPool getConstantPool(Class<?> instance) {
         return new VmConstantPool(VmType.fromClass(instance));
     }
-    
+
     /**
      * @see java.lang.Class#getDeclaredFields0(boolean)
      */
@@ -297,7 +297,7 @@ class NativeClass {
             return declaredFields;
         }
     }
-    
+
     /**
      * @see java.lang.Class#getDeclaredMethods0(boolean)
      */
@@ -323,7 +323,7 @@ class NativeClass {
         }
         return list;
     }
-    
+
     /**
      * @see java.lang.Class#getDeclaredConstructors0(boolean)
      */
@@ -347,7 +347,7 @@ class NativeClass {
         }
         return list;
     }
-    
+
     /**
      * @see java.lang.Class#getDeclaredClasses0()
      */
@@ -355,7 +355,7 @@ class NativeClass {
         //todo implement it
         return new Class[0];
     }
-    
+
     /**
      * @see java.lang.Class#desiredAssertionStatus0(java.lang.Class)
      */
@@ -371,7 +371,7 @@ class NativeClass {
     }
 
     private static ProtectionDomain unknownProtectionDomain;
-    
+
     /**
      * Gets the unknown protection domain. Create on demand.
      *

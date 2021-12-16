@@ -17,9 +17,9 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
- 
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,12 +39,12 @@ import org.jnode.shell.syntax.ArgumentSpecLoader.ArgumentSpec;
  * @author crawley@jnode.org
  */
 public class DefaultSyntaxManager implements SyntaxManager, ExtensionPointListener {
-    
+
     private final DefaultSyntaxManager parent;
 
     private final HashMap<String, SyntaxBundle> syntaxes = 
         new HashMap<String, SyntaxBundle>();
-    
+
     private final HashMap<String, ArgumentSpec<?>[]> arguments =
         new HashMap<String, ArgumentSpec<?>[]>();
 
@@ -76,7 +76,7 @@ public class DefaultSyntaxManager implements SyntaxManager, ExtensionPointListen
             syntaxes.put(bundle.getAlias(), bundle);
         }
     }
-    
+
     public void add(String alias, ArgumentSpec<?>[] args) {
         if (parent == null) {
             throw new UnsupportedOperationException(
@@ -106,7 +106,7 @@ public class DefaultSyntaxManager implements SyntaxManager, ExtensionPointListen
             return null;
         }
     }
-    
+
     public ArgumentBundle getArgumentBundle(String alias) {
         ArgumentSpec<?>[] args = arguments.get(alias);
         if (args != null) {
@@ -117,7 +117,7 @@ public class DefaultSyntaxManager implements SyntaxManager, ExtensionPointListen
             return null;
         }
     }
-    
+
     private ArgumentBundle makeArgumentBundle(ArgumentSpec<?>[] specs) {
         Argument<?>[] args = new Argument<?>[specs.length];
         for (int i = 0; i < specs.length; i++) {
@@ -129,7 +129,7 @@ public class DefaultSyntaxManager implements SyntaxManager, ExtensionPointListen
         }
         return new ArgumentBundle(args);
     }
-    
+
     public Collection<String> getKeys() {
         Set<String> res = new HashSet<String>(syntaxes.size());
         if (parent != null) {
@@ -178,7 +178,7 @@ public class DefaultSyntaxManager implements SyntaxManager, ExtensionPointListen
             }
         }
     }
-    
+
     public void extensionAdded(ExtensionPoint point, Extension extension) {
         refreshSyntaxes();
     }

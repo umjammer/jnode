@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.textscreen;
 
 /**
@@ -36,7 +36,7 @@ public interface ScrollableTextScreen extends TextScreen {
      * @param sync true if screen should synchronize
      */
     public void ensureVisible(int row, boolean sync);
-    
+
     /**
      * Scroll a given number of rows up.
      *

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.build.packager;
 
 import java.net.MalformedURLException;
@@ -37,7 +37,7 @@ import org.jnode.plugin.PluginException;
  *
  */
 public class PluginListInsertor extends PackagerTask {
-   
+
     /**
      * Main method of the task.
      * 
@@ -86,7 +86,7 @@ public class PluginListInsertor extends PackagerTask {
                 }
             }
         }
-        
+
         return pluginIds;
     }
 }

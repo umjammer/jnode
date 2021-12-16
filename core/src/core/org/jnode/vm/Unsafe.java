@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm;
 
 import java.io.PrintWriter;
@@ -755,7 +755,6 @@ public final class Unsafe {
      * @return nanosecond accurate time
      */
     public static native long getCpuCycles();
-
 
     /**
      * <b>DO NOT USE THIS METHOD</b> : it's bogus (especially for 64 bits CPU) and has not yet been tested

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.classmgr;
 
 import java.lang.annotation.Annotation;
@@ -110,7 +110,6 @@ public final class VmAnnotation extends VmSystemObject {
                         vmap.put(name, o);
                     }
                 }
-
 
                 for (ElementValue value1 : values) {
                     vmap.put(value1.name, value1.value);

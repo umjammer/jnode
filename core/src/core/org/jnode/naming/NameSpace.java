@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.naming;
 
 import java.util.Set;
@@ -25,7 +25,6 @@ import java.util.Set;
 import javax.naming.NameAlreadyBoundException;
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
-
 
 public interface NameSpace {
     /**
@@ -35,7 +34,7 @@ public interface NameSpace {
      * @param l
      */
     public <T> void addNameSpaceListener(Class<T> name, NameSpaceListener<T> l);
-    
+
     /**
      * Remove a {@link NameSpaceListener} from the NameSpace
      * @param <T>
@@ -43,7 +42,7 @@ public interface NameSpace {
      * @param l
      */
     public <T> void removeNameSpaceListener(Class<T> name, NameSpaceListener<T> l);
-    
+
     /**
      * Bind a given service in the namespace under a given name.
      *

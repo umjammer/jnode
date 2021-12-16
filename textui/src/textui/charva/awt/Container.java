@@ -216,7 +216,7 @@ public abstract class Container
 
 	if ( !isVisible())
 	    return;
-	
+
 	Enumeration<Component> e = _components.elements();
 	while (e.hasMoreElements()) {
 	    Component c = (Component) e.nextElement();
@@ -368,7 +368,7 @@ public abstract class Container
 		    index = 0;
 		}
 	    }
-	    
+
 	    focusCandidate = (Component) _components.elementAt(index);
 
 	    /* If the next component will not accept the focus, continue
@@ -430,7 +430,7 @@ public abstract class Container
 		    index = _components.size() - 1;
 		}
 	    }
-	    
+
 	    focusCandidate = (Component) _components.elementAt(index);
 
 	    /* If the next component will not accept the focus, continue

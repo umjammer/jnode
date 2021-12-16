@@ -17,10 +17,9 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.filesystem;
 
-import org.jmock.MockObjectTestCase;
 import org.jnode.driver.Device;
 import org.jnode.test.fs.filesystem.config.DeviceParam;
 import org.jnode.test.fs.filesystem.config.FSTestConfig;
@@ -33,7 +32,7 @@ public class FSContext implements Context {
 
     private DeviceParam deviceParam;
 
-    public void init(TestConfig config, MockObjectTestCase testCase) throws Exception {
+    public void init(TestConfig config, Object testCase) throws Exception {
         FSTestConfig cfg = (FSTestConfig) config;
         deviceParam = cfg.getDeviceParam();
         workDevice = deviceParam.createDevice();

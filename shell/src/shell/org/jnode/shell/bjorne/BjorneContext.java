@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import static org.jnode.shell.bjorne.BjorneInterpreter.REDIR_CLOBBER;
@@ -92,7 +92,7 @@ public class BjorneContext {
     private Map<String, VariableSlot> variables;
 
     private TreeMap<String, String> aliases;
-    
+
     private TreeMap<String, CommandNode> functions;
 
     private String command = "";
@@ -106,13 +106,13 @@ public class BjorneContext {
     private int lastAsyncPid;
 
     private boolean tildeExpansion = true;
-    
+
     private boolean globbing = true;
 
     private String options = "";
 
     private CommandIOHolder[] holders;
-    
+
     private List<CommandIOHolder[]> savedHolders;
 
     private boolean echoExpansions;
@@ -131,7 +131,7 @@ public class BjorneContext {
     public BjorneContext(BjorneInterpreter interpreter) {
         this(interpreter, defaultStreamHolders());
     }
-    
+
     private static CommandIOHolder[] defaultStreamHolders() {
         CommandIOHolder[] res = new CommandIOHolder[4];
         res[Command.STD_IN] = new CommandIOHolder(CommandLine.DEFAULT_STDIN, false);
@@ -165,7 +165,7 @@ public class BjorneContext {
         this.tildeExpansion = parent.tildeExpansion;
         this.echoExpansions = parent.echoExpansions;
     }
-    
+
     public boolean isTildeExpansion() {
         return tildeExpansion;
     }
@@ -201,7 +201,7 @@ public class BjorneContext {
     final int getLastReturnCode() {
         return this.lastReturnCode;
     }
-    
+
     final void setLastReturnCode(int rc) {
         this.lastReturnCode = rc;
     }
@@ -209,7 +209,7 @@ public class BjorneContext {
     final int getShellPid() {
         return this.shellPid;
     }
-    
+
     final BjorneContext getParent() {
         return this.parent;
     }
@@ -237,15 +237,15 @@ public class BjorneContext {
         }
         return res;
     }
-    
+
     CommandIOHolder[] getCopyOfHolders() {
         return copyStreamHolders(holders);
     }
-    
+
     CommandIOHolder[] getHolders() {
         return holders;
     }
-    
+
     void setArgs(String[] args) {
         this.args = Arrays.asList(args.clone());
     }
@@ -253,7 +253,7 @@ public class BjorneContext {
     void setCommand(String command) {
         this.command = command;
     }
-    
+
     /**
      * This method implements 'NAME=VALUE'. If variable NAME does not exist, it
      * is created as an unexported shell variable.
@@ -332,7 +332,7 @@ public class BjorneContext {
             var.setExported(exported);
         }
     }
-    
+
     /**
      * Get the complete alias map.
      * @return the alias map
@@ -340,7 +340,7 @@ public class BjorneContext {
     TreeMap<String, String> getAliases() {
         return aliases;
     }
-    
+
     /**
      * Lookup an alias
      * @param aliasName the (possible) alias name
@@ -349,7 +349,7 @@ public class BjorneContext {
     String getAlias(String aliasName) {
         return aliases.get(aliasName);
     }
-    
+
     /**
      * Define an alias
      * @param aliasName the alias name
@@ -366,7 +366,7 @@ public class BjorneContext {
     void undefineAlias(String aliasName) {
         aliases.remove(aliasName);
     }
-    
+
     /**
      * Perform expand-and-split processing on an array of word tokens. The resulting
      * wordTokens are assembled into a CommandLine.  
@@ -386,7 +386,7 @@ public class BjorneContext {
             return new CommandLine(alias, args, null);
         }
     }
-    
+
     /**
      * Perform expand-and-split processing on a list of word tokens.
      * 
@@ -403,7 +403,7 @@ public class BjorneContext {
         wordTokens = dequote(wordTokens);
         return wordTokens;
     }
-    
+
     /**
      * Perform full expand-and-split processing on an array of word tokens.
      * 
@@ -413,7 +413,7 @@ public class BjorneContext {
     public List<BjorneToken> expandAndSplit(BjorneToken ... tokens) throws ShellException {
         return expandAndSplit(Arrays.asList(tokens));
     }
-    
+
     /**
      * Do quote removal on a list of tokens
      * 
@@ -427,7 +427,7 @@ public class BjorneContext {
         }
         return resTokens;
     }
-    
+
     /**
      * Do quote removal on a String
      * 
@@ -486,7 +486,7 @@ public class BjorneContext {
             }
         }
     }
-    
+
     private List<BjorneToken> fileExpand(List<BjorneToken> wordTokens) {
         if (globbing || tildeExpansion) {
             List<BjorneToken> globbedWordTokens = new LinkedList<BjorneToken>();
@@ -505,7 +505,7 @@ public class BjorneContext {
             return wordTokens;
         }
     }
-    
+
     private BjorneToken tildeExpand(BjorneToken wordToken) {
         String word = wordToken.getText();
         if (word.startsWith("~")) {
@@ -523,7 +523,7 @@ public class BjorneContext {
             return wordToken;
         }
     }
-    
+
     private void globAppend(BjorneToken wordToken, List<BjorneToken> globbedWordTokens) {
         // Try to deal with the 'not-a-pattern' case quickly and cheaply.
         String word = wordToken.getText();
@@ -543,7 +543,7 @@ public class BjorneContext {
             }
         }
     }
-    
+
     /**
      * Split a token into a series of word tokens, leaving quoting intact.  
      * The resulting tokens are appended to a supplied list.
@@ -627,7 +627,7 @@ public class BjorneContext {
     public CharSequence dollarBacktickExpand(CharSequence text) throws ShellException {
         return dollarBacktickExpand(new CharIterator(text), -1);
     }
-    
+
     private CharSequence dollarBacktickExpand(CharIterator ci, int terminator) throws ShellException {
         StringBuilder sb = new StringBuilder(ci.nosRemaining());
         int ch = ci.peekCh();
@@ -772,7 +772,7 @@ public class BjorneContext {
                 return value == null ? "" : value;
         }
     }
-    
+
     private CharSequence dollarBraceExpand(CharIterator ci) throws ShellException {
         int ch = ci.peekCh();
         if (ch == '#') {
@@ -938,7 +938,7 @@ public class BjorneContext {
             return value;
         }
     }
-    
+
     @SuppressWarnings("unused")
     private String reverse(String str) {
         StringBuilder sb = new StringBuilder(str.length());
@@ -1024,7 +1024,7 @@ public class BjorneContext {
             return runBacktickCommand(commandLine);
         }
     }
-    
+
     private CharSequence dollarParenParenExpand(CharIterator ci) throws ShellException {
         StringBuilder sb = new StringBuilder();
         int nesting = 0;
@@ -1099,7 +1099,7 @@ public class BjorneContext {
             return null;
         }
     }
-    
+
     void setIO(int index, CommandIO io, boolean mine) {
         if (index < 0 || index >= holders.length) {
             throw new ShellFailureException("bad stream index");
@@ -1107,7 +1107,7 @@ public class BjorneContext {
             holders[index].setIO(io, mine);
         }
     }
-    
+
     void setIO(int index, CommandIOHolder holder) {
         if (index < 0 || index >= holders.length) {
             throw new ShellFailureException("bad stream index");
@@ -1115,19 +1115,18 @@ public class BjorneContext {
             holders[index].setIO(holder);
         }
     }
-    
+
     void closeIOs() {
         for (CommandIOHolder holder : holders) {
             holder.close();
         }
     }
-    
+
     void flushIOs() {
         for (CommandIOHolder holder : holders) {
             holder.flush();
         }
     }
-
 
     CommandIO[] getIOs() {
         CommandIO[] io = new CommandIO[holders.length];
@@ -1166,7 +1165,7 @@ public class BjorneContext {
         evaluateRedirections(redirects, res);
         return res;
     }
-    
+
     /**
      * Evaluate the redirections for this command, saving the context's existing IOs 
      * 
@@ -1181,7 +1180,7 @@ public class BjorneContext {
         holders = copyStreamHolders(holders);
         evaluateRedirections(redirects, holders);
     }
-    
+
     /**
      * Evaluate the redirections for this command against a set of streams, saving the context's existing IOs.
      * 
@@ -1202,7 +1201,7 @@ public class BjorneContext {
         }
         evaluateRedirections(redirects, holders);
     }
-    
+
     /**
      * Close the context's current IO, restoring the previous ones.
      * @throws ShellException
@@ -1211,7 +1210,7 @@ public class BjorneContext {
         closeIOs();
         holders = savedHolders.remove(savedHolders.size() - 1);
     }
-    
+
     /**
      * Evaluate the redirections for this command.
      * 
@@ -1375,7 +1374,7 @@ public class BjorneContext {
         substituteAliases(list, 0, 0);
         return list.toArray(new BjorneToken[list.size()]);
     }
-        
+
     private void substituteAliases(List<BjorneToken> list, int pos, int depth) throws ShellSyntaxException {
         if (depth > 10) {
             throw new ShellFailureException("probable cycle detected in alias expansion");

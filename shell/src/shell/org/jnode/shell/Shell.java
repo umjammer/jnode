@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import java.io.File;
@@ -42,7 +42,7 @@ public interface Shell extends InputCompleter {
      * Gets the alias manager for this shell
      */
     public AliasManager getAliasManager();
-    
+
     /**
      * Gets the syntax manager for this shell
      */
@@ -53,20 +53,20 @@ public interface Shell extends InputCompleter {
      * this method is not modal.
      */
     public InputHistory getCommandHistory();
-    
+
     /**
      * Record all console output from the shell and commands launched by the shell.
      * 
      * @param writer The stream for recording output.
      */
     public void addConsoleOuputRecorder(Writer writer);
-    
+
     /**
      * Returns the console where the shell is running.
      * @return the console
      */
     public Console getConsole();
-    
+
     /**
      * Run a command file in the shell.  If the first line of the file is of the form
      * "#!&lt;interpreter&gt;", where "&lt;interpreter&gt;" has been registered with
@@ -103,7 +103,7 @@ public interface Shell extends InputCompleter {
      * @return the escaped word.
      */
     public String escapeWord(String word);
-    
+
     /**
      * Set a shell property.  Some properties have special meaning to a Shell
      * and may cause its behavior to change.
@@ -114,7 +114,7 @@ public interface Shell extends InputCompleter {
      *     not acceptable.
      */
     public void setProperty(String key, String value) throws ShellException;
-    
+
     /**
      * Get the current value of a shell property.  
      * 
@@ -122,7 +122,7 @@ public interface Shell extends InputCompleter {
      * @return the property value or {@code null}
      */
     public String getProperty(String key);
-    
+
     /**
      * Remove a shell property.  Special properties typically may not be removed,
      * 
@@ -130,7 +130,7 @@ public interface Shell extends InputCompleter {
      * @throws ShellException This may be thrown if the property cannot be removed.
      */
     public void removeProperty(String key) throws ShellException;
-    
+
     /**
      * Get the shell properties for this shell instance.  The result is a copy
      * of the shell properties object; i.e. changes to the result Map object

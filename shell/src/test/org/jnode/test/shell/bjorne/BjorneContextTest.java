@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.bjorne;
 
 import java.io.File;
@@ -31,8 +31,10 @@ import org.jnode.shell.ShellException;
 import org.jnode.shell.bjorne.BjorneContext;
 import org.jnode.shell.bjorne.BjorneToken;
 import org.jnode.shell.io.CommandIOHolder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Some unit tests for the BjorneContext class, focusing on the expansion and
@@ -176,8 +178,8 @@ public class BjorneContextTest {
     public void testExpand15() throws Exception {
         PathnamePattern.clearCache();
         BjorneContext context = new TestBjorneContext();
-        Assert.assertEquals(true, context.isGlobbing());
-        Assert.assertEquals(true, context.isTildeExpansion());
+        assertEquals(true, context.isGlobbing());
+        assertEquals(true, context.isTildeExpansion());
         if (new File("../README.txt").exists()) {
             CommandLine expansion = context.buildCommandLine(new BjorneToken("../README.*"));
             checkExpansion(expansion, new String[] {"../README.txt"});
@@ -200,8 +202,8 @@ public class BjorneContextTest {
     @Test
     public void testExpand16() throws Exception {
         BjorneContext context = new TestBjorneContext();
-        Assert.assertEquals(true, context.isGlobbing());
-        Assert.assertEquals(true, context.isTildeExpansion());
+        assertEquals(true, context.isGlobbing());
+        assertEquals(true, context.isTildeExpansion());
         CommandLine expansion = context.buildCommandLine(new BjorneToken("~"));
         checkExpansion(expansion, new String[] {System.getProperty("user.home")});
         context.setTildeExpansion(false);
@@ -266,15 +268,14 @@ public class BjorneContextTest {
         Iterator<BjorneToken> it = expansion.iterator();
         for (i = 0; i < expected.length; i++) {
             if (it.hasNext()) {
-                Assert.assertEquals("incorrect expansion at word " + i, expected[i], it.next()
-                        .getText());
+                assertEquals(expected[i], it.next().getText(), "incorrect expansion at word " + i);
             } else {
-                Assert.fail("Too few words in expansion at word " + i + ": expecting '" +
+                fail("Too few words in expansion at word " + i + ": expecting '" +
                         expected[i] + "'");
             }
         }
         if (it.hasNext()) {
-            Assert.fail("Too many words in expansion at word " + i + ": '" + it.next() + "'");
+            fail("Too many words in expansion at word " + i + ": '" + it.next() + "'");
         }
     }
 

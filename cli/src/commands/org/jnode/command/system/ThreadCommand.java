@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.PrintWriter;
@@ -41,12 +41,12 @@ import org.jnode.vm.scheduler.VmThread;
  * @author Levente S\u00e1ntha
  */
 public class ThreadCommand extends AbstractCommand {
-    
+
     private static final String help_name = "the name of a specific thread to be printed";
     private static final String help_group = "output a ThreadGroup dump";
     private static final String help_verbose = "show all threads in thread groups";
     private static final String help_super = "View info about all threads, or a specific thread";
-    
+
     private static final String SEPARATOR = ", ";
     private static final String SLASH_T = "\t";
     private static final String GROUP = "Group ";

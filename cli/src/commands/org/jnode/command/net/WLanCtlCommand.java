@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.net;
 
 import org.jnode.driver.ApiNotFoundException;
@@ -41,7 +41,7 @@ public class WLanCtlCommand extends AbstractCommand {
     private static final String help_value = "the value to use in the operations";
     private static final String help_super = "Manage a WLan device";
     private static final String fmt_set = "Setting ESSID on %s to %s%n";
-    
+
     private final FlagArgument argSetEssid;
     private final DeviceArgument argDevice;
     private final StringArgument argValue;
@@ -57,7 +57,7 @@ public class WLanCtlCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new WLanCtlCommand().execute(args);
     }
-    
+
     public void execute() throws ApiNotFoundException, NetworkException {
         final Device dev = argDevice.getValue();
         final WirelessNetDeviceAPI api;

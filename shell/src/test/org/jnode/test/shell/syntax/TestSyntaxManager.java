@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.syntax;
 
 import java.util.Collection;
@@ -38,11 +38,11 @@ public class TestSyntaxManager implements SyntaxManager {
     public void add(SyntaxBundle bundle) {
         syntaxes.put(bundle.getAlias(), bundle);
     }
-    
+
     public void add(String alias, ArgumentSpec<?>[] args) {
         return;
     }
-    
+
     public SyntaxBundle remove(String alias) {
         return syntaxes.remove(alias);
     }
@@ -50,7 +50,7 @@ public class TestSyntaxManager implements SyntaxManager {
     public SyntaxBundle getSyntaxBundle(String alias) {
         return syntaxes.get(alias);
     }
-    
+
     public ArgumentBundle getArgumentBundle(String alias) {
         return null;
     }
@@ -63,6 +63,5 @@ public class TestSyntaxManager implements SyntaxManager {
     public Collection<String> getKeys() {
         throw new UnsupportedOperationException("go away");
     }
-
 
 }

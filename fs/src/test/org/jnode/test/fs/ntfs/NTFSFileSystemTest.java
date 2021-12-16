@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.ntfs;
 
 import org.jnode.driver.Device;
@@ -30,16 +30,17 @@ import org.jnode.fs.ntfs.NTFSFileSystemType;
 import org.jnode.fs.service.FileSystemService;
 import org.jnode.test.fs.DataStructureAsserts;
 import org.jnode.test.fs.FileSystemTestUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NTFSFileSystemTest {
 
     private Device device;
     private FileSystemService fss;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         // create file system service.
         fss = FileSystemTestUtils.createFSService(NTFSFileSystemType.class.getName());
@@ -284,7 +285,7 @@ public class NTFSFileSystemTest {
         String md5 = DataStructureAsserts.getMD5Digest(slackSpace);
 
         // Assert
-        Assert.assertEquals("Wrong length", 650, slackSpace.length);
-        Assert.assertEquals("Wrong MD5", "5f7aec79cc32e8a3a64732e4652b3e32", md5);
+        assertEquals(650, slackSpace.length, "Wrong length");
+        assertEquals("5f7aec79cc32e8a3a64732e4652b3e32", md5, "Wrong MD5");
     }
 }

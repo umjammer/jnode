@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.archive;
 
 import java.io.Closeable;
@@ -40,85 +40,85 @@ import org.jnode.shell.syntax.FlagArgument;
  * @author chris boertien
  */
 public class ArchiveCommand extends AbstractCommand {
-    
+
     private static final String help_verbose = "show the compression ratio for each file compressed";
     private static final String help_debug = "internal debug output";
     private static final String help_quiet = "supress non-essential warning messages";
     private static final String help_stdout = "pipe data to stdout";
     private static final String help_force = "force overwrite of output files";
     protected static final String help_decompress = "force decompression";
-    
+
     protected static final String prompt_overwrite = " already exists. Do you wish to overwrite? [Y/n]: ";
-    
+
     protected static final String err_exception_uncaught = "Unhandled Exception thrown";
     protected static final String err_file_create = "Could not create file: ";
     protected static final String err_file_not_exist = "Could not find file: ";
     protected static final String err_stream_create = "Could not create stream: ";
-    
+
     protected static final String fmt_size_diff = "%s:\t%f.2%% -- replaced with %s";
-    
+
     protected final FlagArgument Quiet = new FlagArgument("quiet", Argument.OPTIONAL, help_quiet);
     protected final FlagArgument Verbose = new FlagArgument("verbose", Argument.OPTIONAL, help_verbose);
     protected final FlagArgument Debug = new FlagArgument("debug", Argument.OPTIONAL, help_debug);
     protected final FlagArgument Stdout = new FlagArgument("stdout", Argument.OPTIONAL, help_stdout);
     protected final FlagArgument Force = new FlagArgument("force", Argument.OPTIONAL, help_force);
-    
+
     protected static final int OUT_FATAL = 0x01;
     protected static final int OUT_ERROR = 0x02;
     protected static final int OUT_WARN  = 0x04;
     protected static final int OUT_NOTICE = 0x08;
     protected static final int OUT_DEBUG = 0x80;
-    
+
     protected static final int BUFFER_SIZE = 4096;
-    
+
     protected int outMode = OUT_ERROR | OUT_WARN;
-    
+
     protected PrintWriter stdoutWriter;
     protected PrintWriter stderrWriter;
     protected Reader stdinReader;
     protected InputStream stdin;
     protected OutputStream stdout;
-    
+
     protected String commandName;
     protected int rc = 1;
     protected boolean use_stdout;
     protected boolean force;
     protected boolean compress;
-    
+
     private byte[] buffer;
-    
+
     protected ArchiveCommand(String s) {
         super(s);
     }
-    
+
     public void execute(String command) {
         stdoutWriter = getOutput().getPrintWriter();
         stderrWriter = getError().getPrintWriter();
         stdinReader  = getInput().getReader();
         stdin = getInput().getInputStream();
         stdout = getOutput().getOutputStream();
-        
+
         // FIXME get rid of this {
         if (command.equals("zcat") || command.equals("bzcat")) return;
-        
+
         if (!command.equals("tar")) {
             if (Quiet.isSet()) outMode = 0;
             force = Force.isSet();
         }
-        
+
         if (!use_stdout) use_stdout = Stdout.isSet();
-        
+
         if (outMode != 0) {
             if (Verbose.isSet()) outMode |= OUT_NOTICE;
             if (Debug.isSet()) outMode |= OUT_DEBUG;
         }
         // }
     }
-    
+
     protected void createStreamBuffer(int size) {
         buffer = new byte[size];
     }
-    
+
     /**
      * Pipes the contents of the InputStream into the OutputStream.
      *
@@ -135,7 +135,7 @@ public class ArchiveCommand extends AbstractCommand {
             out.write(buffer, 0, len);
         }
     }
-    
+
     /**
      * Opens a FileOutputStream for a file.
      *
@@ -155,7 +155,7 @@ public class ArchiveCommand extends AbstractCommand {
                 error(err_file_create + "null");
                 return null;
             }
-            
+
             if (file.exists()) {
                 if (delete) {
                     if (forced) {
@@ -182,7 +182,7 @@ public class ArchiveCommand extends AbstractCommand {
             return null;
         }
     }
-    
+
     /**
      * Opens a FileInputStream on a file.
      *
@@ -204,7 +204,7 @@ public class ArchiveCommand extends AbstractCommand {
             return null;
         }
     }
-    
+
     /**
      * Convenience method for closing streams and writers.
      */
@@ -217,7 +217,7 @@ public class ArchiveCommand extends AbstractCommand {
             }
         }
     }
-    
+
     /**
      * Convenience method for closing org.apache.tools.zip.ZipFile
      */
@@ -230,7 +230,7 @@ public class ArchiveCommand extends AbstractCommand {
             }
         }
     }
-    
+
     /**
      * Prompt the user with a question asking for a yes or no answer.
      *
@@ -257,37 +257,37 @@ public class ArchiveCommand extends AbstractCommand {
             if (choice == 'n') return false;
             if (choice == '\n') return defaultY;
         }
-        
+
         return false;
     }
-    
+
     protected void out(String s) {
         stdoutWriter.println(s);
     }
-    
+
     protected void err(String s) {
         stderrWriter.println(s);
     }
-    
+
     protected void debug(String s) {
         if ((outMode & OUT_DEBUG) == OUT_DEBUG) {
             stderrWriter.print("debug: ");
             stderrWriter.println(s);
         }
     }
-    
+
     protected void notice(String s) {
         if ((outMode & OUT_NOTICE) == OUT_NOTICE) stdoutWriter.println(s);
     }
-    
+
     protected void warn(String s) {
         if ((outMode & OUT_WARN) == OUT_WARN) stdoutWriter.println(s);
     }
-    
+
     protected void error(String s) {
         if ((outMode & OUT_ERROR) == OUT_ERROR) stderrWriter.println(s);
     }
-    
+
     protected void fatal(String s, int exitCode) {
         stderrWriter.println("Fatal error: " + s);
         exit(exitCode);

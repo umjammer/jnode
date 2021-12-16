@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import org.jnode.shell.syntax.Argument;
@@ -35,7 +35,7 @@ import org.jnode.shell.syntax.SyntaxBundle;
 final class BreakBuiltin extends BjorneBuiltin {
     private static final SyntaxBundle SYNTAX =
         new SyntaxBundle("break", new OptionalSyntax(new ArgumentSyntax("count")));
-    
+
     static final Factory FACTORY = new Factory() {
         public BjorneBuiltinCommandInfo buildCommandInfo(BjorneContext context) {
             return new BjorneBuiltinCommandInfo("break", SYNTAX, new BreakBuiltin(), context);
@@ -44,7 +44,7 @@ final class BreakBuiltin extends BjorneBuiltin {
 
     private final IntegerArgument argCount = new IntegerArgument(
             "count", Argument.OPTIONAL, 1, Integer.MAX_VALUE, "the enclosing block count");
-    
+
     private BreakBuiltin() {
         super("Break out of one or more enclosing blocks");
         registerArguments(argCount);

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.command.bsh;
 
 import java.io.BufferedReader;
@@ -46,7 +46,7 @@ public class BshCommand extends AbstractCommand {
         new FileArgument("file", Argument.OPTIONAL, "a BeanShell script file to execute");
     private final FlagArgument FLAG_INTERACTIVE = 
         new FlagArgument("interactive", Argument.OPTIONAL, "go interactive");
-    
+
     public BshCommand() {
         super("run the BeanShell interpreter");
         registerArguments(ARG_CODE, ARG_FILE, FLAG_INTERACTIVE);

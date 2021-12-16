@@ -18,7 +18,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-
 package org.jnode.jnasm;
 
 import java.io.BufferedWriter;
@@ -34,7 +33,7 @@ import org.jnode.assembler.x86.X86TextAssembler;
 import org.jnode.jnasm.assembler.Assembler;
 import org.jnode.jnasm.util.X86DualAssemblerFactory;
 import org.jnode.vm.x86.X86CpuID;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * User: lsantha
@@ -74,7 +73,6 @@ public class DualAssemblerTest {
         x86TextAssembler.flush();
         textWriter.flush();
         textWriter.close();
-
 
         //System.out.println(jnasmOutputFile1.getAbsolutePath());
 

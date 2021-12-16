@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.harness;
 
 import java.io.ByteArrayInputStream;
@@ -49,7 +49,7 @@ import org.jnode.util.Version;
  * @author crawley@jnode.org
  */
 public abstract class TestRunnerBase implements TestRunnable {
-    
+
     private class TeeStream extends FilterOutputStream {
         private OutputStream out2;
 
@@ -76,13 +76,13 @@ public abstract class TestRunnerBase implements TestRunnable {
             out2.write(b);
         }
     }
-    
+
     protected ByteArrayOutputStream outBucket;
     protected ByteArrayOutputStream errBucket;
-    
+
     protected final TestSpecification spec;
     protected final TestHarness harness;
-    
+
     protected final boolean usingEmu;
 
     public TestRunnerBase(TestSpecification spec, TestHarness harness) {
@@ -97,7 +97,7 @@ public abstract class TestRunnerBase implements TestRunnable {
         shell.configureShell();
         return shell;
     }
-    
+
     @Override
     public void cleanup() {
         if (!harness.preserveTempFiles()) {
@@ -141,7 +141,7 @@ public abstract class TestRunnerBase implements TestRunnable {
 
         System.setOut(new PrintStream(out));
         System.setErr(new PrintStream(err));
-        
+
         for (FileSpecification fs : spec.getFiles()) {
             File f = harness.tempFile(fs.getFile());
             if (fs.isInput()) {
@@ -160,13 +160,12 @@ public abstract class TestRunnerBase implements TestRunnable {
             } 
         }
     }
-    
+
     protected void flush() {
         System.out.flush();
         System.err.flush();
     }
 
-    
     protected boolean checkFiles() throws IOException {
         boolean ok = true;
         for (FileSpecification fs : spec.getFiles()) {
@@ -205,7 +204,7 @@ public abstract class TestRunnerBase implements TestRunnable {
         }
         return ok;
     }
-    
+
     private void ensurePluginsLoaded(TestSetSpecification testSet) throws TestRunnerException {
         if (testSet == null) {
             return;

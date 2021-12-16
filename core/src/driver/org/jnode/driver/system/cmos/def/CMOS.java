@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.system.cmos.def;
 
 import javax.naming.NameNotFoundException;
@@ -92,6 +92,5 @@ final class CMOS implements CMOSConstants {
         cmosIO.outPortByte(PRW8_ADDRESS, addr);
         cmosIO.outPortByte(PRW8_DATA, value);
     }
-
 
 }

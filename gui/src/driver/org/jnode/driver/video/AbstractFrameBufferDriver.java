@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.video;
 
 import java.util.Stack;
@@ -44,7 +44,7 @@ public abstract class AbstractFrameBufferDriver extends Driver implements FrameB
     public static final String FB_DEVICE_PREFIX = "fb";
 
     private Stack<FrameBufferAPIOwner> owners = new Stack<FrameBufferAPIOwner>();
-    
+
     /**
      * @see org.jnode.driver.Driver#startDevice()
      */
@@ -61,7 +61,6 @@ public abstract class AbstractFrameBufferDriver extends Driver implements FrameB
         device.registerAPI(FrameBufferAPI.class, this);
     }
 
-    
     /**
      * Request to be the owner of the underlying FrameBuffer device.
      * The old owner (if any) will receive a request to stop using the underlying FrameBuffer device.
@@ -73,16 +72,16 @@ public abstract class AbstractFrameBufferDriver extends Driver implements FrameB
         FrameBufferAPIOwner oldOwner = null;
         if (!owners.isEmpty()) {
             oldOwner = owners.peek();
-            
+
             if (oldOwner == owner) {
                 // already the owner, simply skip
                 // (avoid infinite loop with requestOwnership & releaseOwnership)
                 return;
             }
         }
-        
+
         owners.push(owner);        
-        
+
         if (oldOwner != null) {
             oldOwner.ownershipLost();
         }
@@ -100,7 +99,7 @@ public abstract class AbstractFrameBufferDriver extends Driver implements FrameB
     @Override
     public final void releaseOwnership(FrameBufferAPIOwner owner) {
         FrameBufferAPIOwner newOwner = null;
-        
+
         if (!owners.isEmpty()) {
             if (owners.peek().equals(owner)) {
                 // the owner doesn't need to be notified since the caller knows it
@@ -113,7 +112,7 @@ public abstract class AbstractFrameBufferDriver extends Driver implements FrameB
                 throw new IllegalArgumentException("parameter is not the current owner");
             }
         }            
-        
+
         // notify new owner (if any) that he gained ownership
         if (newOwner != null) {
             newOwner.ownershipGained();

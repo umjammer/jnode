@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.x86.compiler.l2;
 
 import org.jnode.vm.bytecode.BytecodeVisitorSupport;
@@ -34,7 +34,6 @@ import org.jnode.vm.classmgr.VmConstString;
 public class L2ByteCodeSupportChecker extends BytecodeVisitorSupport {
 
     private boolean supported = true;
-
 
     public final void visit_ldc(VmConstClass value) {
         notSupported();
@@ -243,7 +242,7 @@ public class L2ByteCodeSupportChecker extends BytecodeVisitorSupport {
     public void visit_multianewarray(VmConstClass clazz, int dimensions) {
         notSupported();
     }
-    
+
     private void notSupported() {
         supported = false;
         throw new UnsupportedOperationException();

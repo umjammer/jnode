@@ -215,7 +215,6 @@ public class BinaryQuad<T> extends AssignQuad<T> {
         }
     }
 
-
     private Constant<T> compute(Constant<T> c1, Constant<T> c2) {
         Constant<T> c3;
         switch (operation) {

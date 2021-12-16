@@ -17,11 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.service.def;
 
 import java.io.IOException;
-import java.io.VMOpenMode;
+import java.nio.file.OpenOption;
+import java.nio.file.StandardOpenOption;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -46,7 +48,7 @@ final class FileHandleManager {
      * @param mode
      * @throws IOException
      */
-    public synchronized FileHandleImpl open(FSFile file, VMOpenMode mode) throws IOException {
+    public synchronized FileHandleImpl open(FSFile file, OpenOption mode) throws IOException {
         FileData fd = openFiles.get(file);
         if (fd == null) {
             fd = new FileData(file);
@@ -84,7 +86,7 @@ final class FileHandleManager {
      * 
      * @throws IOException if file is not already open.
      */
-    public synchronized FileHandleImpl dup(FileHandleImpl handle, VMOpenMode newMode)
+    public synchronized FileHandleImpl dup(FileHandleImpl handle, OpenOption newMode)
         throws IOException {
         final FSFile file = handle.getFile();
         final FileData fd = openFiles.get(file);
@@ -93,6 +95,14 @@ final class FileHandleManager {
         } else {
             throw new IOException("FileHandle tried to dup an unknown file!!");
         }
+    }
+
+    static boolean isWriting(OpenOption mode) {
+        return EnumSet.of(StandardOpenOption.WRITE,
+                          StandardOpenOption.APPEND,
+                          StandardOpenOption.CREATE,
+                          StandardOpenOption.CREATE_NEW,
+                          StandardOpenOption.TRUNCATE_EXISTING).contains(mode);
     }
 
     class FileData {
@@ -118,8 +128,8 @@ final class FileHandleManager {
          * 
          * @throws IOException if file is already open in write mode.
          */
-        public FileHandleImpl open(VMOpenMode mode) throws IOException {
-            if (mode.canWrite()) {
+        public FileHandleImpl open(OpenOption mode) throws IOException {
+            if (isWriting(mode)) {
                 if (hasWriters) {
                     throw new IOException("File is already open for writing");
                 } else {
@@ -141,9 +151,9 @@ final class FileHandleManager {
          * 
          * @throws IOException if handle doesn't exists or file is already open in write mode.
          */
-        public FileHandleImpl dup(FileHandleImpl handle, VMOpenMode newMode) throws IOException {
+        public FileHandleImpl dup(FileHandleImpl handle, OpenOption newMode) throws IOException {
             if (handles.contains(handle)) {
-                if (newMode.canWrite()) {
+                if (isWriting(newMode)) {
                     if (hasWriters) {
                         throw new IOException("File is already open for writing");
                     } else {
@@ -169,7 +179,7 @@ final class FileHandleManager {
         public void close(FileHandleImpl handle) throws IOException {
             if (handles.contains(handle)) {
                 handles.remove(handle);
-                if (handle.getMode().canWrite()) {
+                if (isWriting(handle.getMode())) {
                     hasWriters = false;
                 }
             } else {

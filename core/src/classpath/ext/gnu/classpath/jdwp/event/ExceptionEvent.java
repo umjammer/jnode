@@ -35,7 +35,6 @@
  obligated to do so.  If you do not wish to do so, delete this
  exception statement from your version. */
 
-
 package gnu.classpath.jdwp.event;
 
 import gnu.classpath.jdwp.JdwpConstants;
@@ -58,7 +57,7 @@ public class ExceptionEvent
 {
   //object instance
   private Object _instance;
-  
+
   // the exception thrown
   private Throwable _exception;
 
@@ -67,10 +66,10 @@ public class ExceptionEvent
 
   // the location where the exception was thrown
   private Location _location;
-  
+
   //the location where the exception was caught
   private Location _catchLocation;
-  
+
   //the class where the exeption was thrown
   private Class _klass;
 
@@ -123,7 +122,7 @@ public class ExceptionEvent
 
     return null;
   }
-  
+
   /**
    * Sets the catchLocation, used for exceptions that are caught in different
    * stack frames from where they are thrown.

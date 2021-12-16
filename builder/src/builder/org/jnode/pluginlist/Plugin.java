@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.pluginlist;
 
 import java.util.Set;
@@ -34,7 +34,6 @@ class Plugin implements Comparable<Object> {
     private Set<Plugin> required = new HashSet<Plugin>();
     private Set<Plugin> used = new HashSet<Plugin>();
     private Set<String> requiredId = new HashSet<String>();
-
 
     public Plugin(String id) {
         this.id = id;

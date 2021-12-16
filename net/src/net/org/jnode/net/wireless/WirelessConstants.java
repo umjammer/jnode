@@ -17,9 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.net.wireless;
 
+package org.jnode.net.wireless;
 
 /**
  * Constants for wireless LAN protocol 802.11
@@ -27,7 +26,7 @@ package org.jnode.net.wireless;
  * @author Ewout Prangsma (epr@users.sourceforge.net)
  */
 public interface WirelessConstants {
-    
+
     // --- Sizes -----------------------------------------------
     public static final int WLAN_ADDR_LEN = 6;
 

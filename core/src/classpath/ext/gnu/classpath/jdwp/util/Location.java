@@ -35,7 +35,6 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 
-
 package gnu.classpath.jdwp.util;
 
 import gnu.classpath.jdwp.VMIdManager;
@@ -117,7 +116,7 @@ public class Location
         os.writeLong((long) 0);
       }
   }
-  
+
   /**
    * Sets up an empty location
    * 

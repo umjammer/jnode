@@ -31,7 +31,7 @@ public class BDFFontPeer extends JNodeFontPeer<BDFFontProvider, BDFFont> {
      * this the char used to replace missing glyphs in BDFFont
      */
     private static final char MISSING_GLYPH_CODE = '\u0020';
-    
+
     public BDFFontPeer(BDFFontProvider provider, String name, Map<?, ?> attrs) {
         super(provider, name, attrs);
     }
@@ -42,11 +42,11 @@ public class BDFFontPeer extends JNodeFontPeer<BDFFontProvider, BDFFont> {
     @Override
     public boolean canDisplay(Font font, char c) {        
         BDFFont bdfFont = getCompatibleFont(font);
-        
+
         //TODO this is a temporary workaround : we should add a method to BDFFont
         BDFGlyph spaceGlyph = bdfFont.getContainer().getGlyph(MISSING_GLYPH_CODE);
         BDFGlyph characterGlyph = bdfFont.getContainer().getGlyph(c);
-        
+
         return (c == MISSING_GLYPH_CODE) || ((c != MISSING_GLYPH_CODE) && (characterGlyph != spaceGlyph));
     }
 
@@ -88,12 +88,12 @@ public class BDFFontPeer extends JNodeFontPeer<BDFFontProvider, BDFFont> {
                                       int begin, int limit, FontRenderContext rc) {
         BDFFont bdfFont = getCompatibleFont(font);
         BDFMetrics fm = bdfFont.getContainer().getFontMetrics();
-        
+
         float ascent = fm.getAscent();
         float descent = fm.getDescent();
         float leading = fm.getLeading();
         float height = fm.getHeight();
-        
+
         // TODO find these metrics
         int baselineIndex = 0;
         float[] baselineOffsets = new float[]{0f};
@@ -103,12 +103,12 @@ public class BDFFontPeer extends JNodeFontPeer<BDFFontProvider, BDFFont> {
         float underlineThickness = 0;
         float ssOffset = 0;
         //
-        
+
         float italicAngle = getItalicAngle(font);
         CoreMetrics cm = new CoreMetrics(ascent, descent, leading, height, baselineIndex, baselineOffsets,
                         strikethroughOffset, strikethroughThickness, underlineOffset,
                         underlineThickness, ssOffset, italicAngle);
-        
+
         return new FontLineMetrics(limit - begin + 1, cm, rc);
     }
 
@@ -119,10 +119,10 @@ public class BDFFontPeer extends JNodeFontPeer<BDFFontProvider, BDFFont> {
     @Override
     public Rectangle2D getMaxCharBounds(Font font, FontRenderContext rc) {
         BDFFont bdfFont = getCompatibleFont(font);
-                        
+
         final Rectangle2D bounds = provider.getMaxCharBounds(bdfFont.getContainer());
         transform(bounds, rc);
-        
+
         return bounds;
     }
 
@@ -167,7 +167,7 @@ public class BDFFontPeer extends JNodeFontPeer<BDFFontProvider, BDFFont> {
         for (char c = ci.setIndex(begin); ci.getIndex() <= limit; c = ci.next()) {
             if (c == CharacterIterator.DONE)
                 break;
-            
+
             BDFGlyph g = container.getGlyph(c);
             if (g != null) {
                 width += g.getDWidth().width;
@@ -175,7 +175,7 @@ public class BDFFontPeer extends JNodeFontPeer<BDFFontProvider, BDFFont> {
             }                
         }
         final Rectangle2D bounds = new Rectangle2D.Double(0, 0, width, height);
-                
+
         transform(bounds, frc);
         return bounds;
     }

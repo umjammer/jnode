@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.core;
 
 import org.jnode.vm.VmAddress;
@@ -39,7 +39,6 @@ public class MagicAddressTest {
         final boolean q1 = (addr.LT(start) || addr.GE(end));
 
     }
-
 
     public static void main(String[] args) {
         final Address a1 = Address.fromIntZeroExtend(0x1234);

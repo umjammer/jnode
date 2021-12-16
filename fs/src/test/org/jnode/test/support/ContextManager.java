@@ -17,18 +17,20 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.support;
 
 import java.net.URL;
+
 import javax.naming.NameAlreadyBoundException;
 import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.jmock.MockObjectTestCase;
 import org.jnode.driver.DeviceManager;
 import org.jnode.driver.block.floppy.support.FloppyDeviceFactory;
 import org.jnode.driver.bus.ide.IDEDeviceFactory;
+import org.jnode.emu.naming.BasicNameSpace;
 import org.jnode.naming.InitialNaming;
 import org.jnode.naming.NameSpace;
 import org.jnode.plugin.PluginException;
@@ -36,8 +38,6 @@ import org.jnode.test.fs.driver.factories.MockFloppyDeviceFactory;
 import org.jnode.test.fs.driver.factories.MockIDEDeviceFactory;
 import org.jnode.test.fs.driver.stubs.StubDeviceManager;
 import org.jnode.test.fs.filesystem.config.OsType;
-import org.jnode.emu.naming.BasicNameSpace;
-
 
 public class ContextManager {
     private static final Logger log = Logger.getLogger(ContextManager.class);
@@ -131,7 +131,7 @@ public class ContextManager {
         return context;
     }
 
-    public void setContext(Class<?> contextClass, TestConfig config, MockObjectTestCase testCase) throws Exception {
+    public void setContext(Class<?> contextClass, TestConfig config, Object testCase) throws Exception {
         // first remove previous context
         clearContext();
 

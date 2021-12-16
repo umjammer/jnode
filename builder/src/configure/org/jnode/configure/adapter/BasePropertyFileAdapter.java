@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.configure.adapter;
 
 import java.io.BufferedInputStream;
@@ -63,7 +63,7 @@ public abstract class BasePropertyFileAdapter implements FileAdapter {
     private final ValueCodec codec;
     private final boolean loadSupported;
     private final boolean saveSupported;
-    
+
     private static final Pattern AT_AT_CONTENTS_PATTERN = 
         Pattern.compile("(" + ScriptParser.NAME_PATTERN.pattern() + ")/?(\\W*)");
 
@@ -94,7 +94,7 @@ public abstract class BasePropertyFileAdapter implements FileAdapter {
     public boolean isSaveSupported() {
         return saveSupported;
     }
-    
+
     public final boolean wasSourceGenerated(PropertySet propSet) throws ConfigureException {
         File propFile = propSet.getFile();
         if (!propFile.exists()) {
@@ -111,7 +111,7 @@ public abstract class BasePropertyFileAdapter implements FileAdapter {
         return (firstLine == null || expectedFirstLine == null || 
                 firstLine.equals(expectedFirstLine.trim()));
     }
-    
+
     /**
      * Return the first non-trivial line in the file; i.e. the first line of the
      * file whose length is > 3 after trimming.  (A trimmed line with 1 to 3 
@@ -144,7 +144,7 @@ public abstract class BasePropertyFileAdapter implements FileAdapter {
             }
         }
     }
-    
+
     /**
      * Override this method to return a fixed 'signature' line that a generated
      * file will started.

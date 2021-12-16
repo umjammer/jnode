@@ -1,7 +1,7 @@
 /* VirtualMachineCommandSet.java -- class to implement the VirtualMachine
    Command Set
    Copyright (C) 2005, 2006 Free Software Foundation
- 
+
 This file is part of GNU Classpath.
 
 GNU Classpath is free software; you can redistribute it and/or modify
@@ -35,7 +35,6 @@ or based on this library.  If you modify this library, you may extend
 this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
-
 
 package gnu.classpath.jdwp.processor;
 
@@ -333,7 +332,7 @@ public class VirtualMachineCommandSet
   {
     String string = JdwpString.readString(bb);
     ObjectId stringId = idMan.getObjectId(string);
-    
+
     // Since this string isn't referenced anywhere we'll disable garbage
     // collection on it so it's still around when the debugger gets back to it.
     stringId.disableCollection();

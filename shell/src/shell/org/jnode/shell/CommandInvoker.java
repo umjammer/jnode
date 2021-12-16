@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import java.util.Map;
@@ -69,5 +69,5 @@ public interface CommandInvoker extends SimpleCommandInvoker {
     CommandThread invokeAsynchronous(CommandLine commandLine, 
             Properties sysProps, Map<String, String> env) 
         throws ShellException;
-    
+
 }

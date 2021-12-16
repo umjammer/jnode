@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.File;
@@ -38,13 +38,13 @@ import org.jnode.util.NumberUtils;
  * @author crawley@jnode.org
  */
 public class HexdumpCommand extends AbstractCommand {
-    
+
     private static final String help_file = "the file to print out";
     private static final String help_url = "the url to print out";
     private static final String help_super = "Print a hexadecimal dump of a given file (or URL)";
     private static final String fmt_cant_open = "Cannot open %s: %s%n";
     private static final String fmt_cant_open_url = "Cannot access URL %s: %s%n";
-    
+
     private final FileArgument argFile;
     private final URLArgument argURL;
 
@@ -58,7 +58,7 @@ public class HexdumpCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new HexdumpCommand().execute(args);
     }
-    
+
     public void execute() throws IOException {
         boolean myInput = false;
         InputStream is = null;

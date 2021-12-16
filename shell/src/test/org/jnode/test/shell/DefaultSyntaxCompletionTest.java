@@ -17,10 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.test.shell;
 
-import static org.jnode.test.shell.CompletionHelper.checkCompletions;
+package org.jnode.test.shell;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -40,10 +38,12 @@ import org.jnode.shell.alias.AliasManager;
 import org.jnode.shell.proclet.ProcletCommandInvoker;
 import org.jnode.test.shell.syntax.TestAliasManager;
 import org.jnode.test.shell.syntax.TestSyntaxManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+import static org.jnode.test.shell.CompletionHelper.checkCompletions;
 
 /**
  * Test command completion using the default syntax created by a command's ArgumentBundle.
@@ -51,7 +51,7 @@ import org.junit.Test;
  * @author crawley@jnode.org
  */
 // FIXME
-@Ignore
+@Disabled
 public class DefaultSyntaxCompletionTest {
 
     private String userDirName = System.getProperty("user.dir");
@@ -66,7 +66,7 @@ public class DefaultSyntaxCompletionTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         // Setup a temporary home directory for filename completion
         File tempDir = new File(System.getProperty("java.io.tmpdir"));
@@ -85,7 +85,7 @@ public class DefaultSyntaxCompletionTest {
         fw.close();
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         for (File f : testDir.listFiles()) {
             f.delete();

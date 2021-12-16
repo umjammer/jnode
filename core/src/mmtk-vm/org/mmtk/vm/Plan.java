@@ -25,7 +25,7 @@ import org.vmmagic.pragma.Uninterruptible;
  * the actual implementation.
  */
 public final class Plan extends NoGC implements Uninterruptible {
-    
+
     /**
      * Gets the plan instance associated with the current processor.
      * 

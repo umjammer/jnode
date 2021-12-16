@@ -10,7 +10,7 @@
  *  See the COPYRIGHT.txt file distributed with this work for information
  *  regarding copyright ownership.
  */
- 
+
 package org.mmtk.vm;
 
 /**
@@ -21,7 +21,7 @@ package org.mmtk.vm;
  * @version $Revision$
  */
 public class Statistics {
-    
+
     /**
      * Returns the number of collections that have occured.
      * 

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import java.io.IOException;
@@ -45,22 +45,21 @@ final class ReadBuiltin extends BjorneBuiltin {
         new SyntaxBundle("read", new SequenceSyntax(
                 new OptionalSyntax(new OptionSyntax("noEscape", 'r')),
                 new RepeatSyntax(new ArgumentSyntax("varName"), 0, Integer.MAX_VALUE)));
-    
+
     static final Factory FACTORY = new Factory() {
         public BjorneBuiltinCommandInfo buildCommandInfo(BjorneContext context) {
             return new BjorneBuiltinCommandInfo("read", SYNTAX, new ReadBuiltin(context), context);
         }
     };
-    
-    
+
     private final VariableNameArgument varNameArg; 
     private final FlagArgument noEscapeArg = new FlagArgument(
             "noEscape", Argument.OPTIONAL, "if set, '\' does not escape a newline");
-    
+
     private final BjorneContext context;
     Pattern ifsSplittingPattern;
     Pattern ifsTrimmingPattern;
-    
+
     ReadBuiltin(BjorneContext context) {
         super("Read a line of input and repopulate the shell 'args'");
         this.context = context;
@@ -81,7 +80,7 @@ final class ReadBuiltin extends BjorneBuiltin {
             }
         }
     }
-    
+
     private String[] extractFields(String line, int nosVars) throws ShellSyntaxException {
         String ifs = context.variable("IFS");
         if (ifs == null) {

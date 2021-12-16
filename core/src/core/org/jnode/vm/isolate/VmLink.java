@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.isolate;
 
 import java.io.IOException;
@@ -28,7 +28,6 @@ import java.util.Queue;
 import javax.isolate.ClosedLinkException;
 import javax.isolate.Link;
 import javax.isolate.LinkMessage;
-
 
 /**
  * Shared implementation of javax.isolate.Link

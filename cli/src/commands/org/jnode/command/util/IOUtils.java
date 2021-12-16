@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.util;
 
 import java.io.BufferedInputStream;
@@ -47,9 +47,9 @@ import java.util.LinkedList;
 public final class IOUtils {
 
     private static final int BUFFER_SIZE = 4096;
-    
+
     private static final String ex_null_param = "A required paramater is null";
-    
+
     /**
      * Call the close method of a list of Closeable objects.
      *
@@ -63,7 +63,7 @@ public final class IOUtils {
     public static void close(Closeable... objs) {
         close(false, objs);
     }
-    
+
     /**
      * Call the close method of a list of Closeable objects.
      *
@@ -99,7 +99,7 @@ public final class IOUtils {
             }
         }
     }
-    
+
     /**
      * Call the flush method of a list of Flushable objects.
      *
@@ -120,7 +120,7 @@ public final class IOUtils {
             }
         }
     }
-    
+
     /**
      * Copies data from an InputStream to an OutputStream.
      *
@@ -137,7 +137,7 @@ public final class IOUtils {
     public static long copyStream(InputStream in, OutputStream out) throws IOException {
         return copyStream(in, out, new byte[BUFFER_SIZE]);
     }
-    
+
     /**
      * Copies data from an InputStream to an OutputStream.
      *
@@ -155,7 +155,7 @@ public final class IOUtils {
     public static long copyStream(InputStream in, OutputStream out, int bufferSize) throws IOException {
         return copyStream(in, out, new byte[bufferSize]);
     }
-    
+
     /**
      * Copies data from an InputStream to an OutputStream
      *
@@ -173,7 +173,7 @@ public final class IOUtils {
      */
     public static long copyStream(InputStream in, OutputStream out, byte[] buffer) throws IOException {
         checkNull(in, out, buffer);
-        
+
         long totalBytes = 0;
         int len = 0;
         while ((len = in.read(buffer)) > 0) {
@@ -183,7 +183,7 @@ public final class IOUtils {
         out.flush();
         return totalBytes;
     }
-    
+
     /**
      * Opens an InputStream on a file for reading.
      *
@@ -197,7 +197,7 @@ public final class IOUtils {
     public static InputStream openInputStream(File file) {
         return openInputStream(file, false);
     }
-    
+
     /**
      * Opens an InputStream on a file for reading.
      *
@@ -212,7 +212,7 @@ public final class IOUtils {
     public static InputStream openInputStream(File file, boolean buffer) {
         return openInputStream(file, buffer, BUFFER_SIZE);
     }
-    
+
     /**
      * Opens an InputStream on a file for reading.
      * 
@@ -228,7 +228,7 @@ public final class IOUtils {
      */
     public static InputStream openInputStream(File file, boolean buffer, int bufferSize) {
         checkNull(file);
-        
+
         try {
             InputStream in = new FileInputStream(file);
             if (buffer) {
@@ -241,7 +241,7 @@ public final class IOUtils {
             return null;
         }
     }
-    
+
     /**
      * Opens a Reader on a file.
      * 
@@ -254,16 +254,16 @@ public final class IOUtils {
      */
     public static Reader openReader(File file) {
         checkNull(file);
-        
+
         try {
             return new FileReader(file);
         } catch (FileNotFoundException e) {
             // fall through
         }
-        
+
         return null;
     }
-    
+
     /**
      * Opens a BufferedReader on a file.
      *
@@ -277,7 +277,7 @@ public final class IOUtils {
     public static BufferedReader openBufferedReader(File file) {
         return openBufferedReader(file, BUFFER_SIZE);
     }
-    
+
     /**
      * Opens a BufferedReader on a file.
      * 
@@ -296,7 +296,7 @@ public final class IOUtils {
         }
         return null;
     }
-    
+
     /**
      * Wraps a {@code Reader} with a {@code BufferedReader}.
      *
@@ -307,7 +307,7 @@ public final class IOUtils {
     public static BufferedReader openBufferedReader(Reader reader) {
         return openBufferedReader(reader, BUFFER_SIZE);
     }
-    
+
     /**
      * Wraps a {@code Reader} with a {@code BufferedReader}.
      *
@@ -320,7 +320,7 @@ public final class IOUtils {
         checkNull(reader);
         return new BufferedReader(reader, bufferSize);
     }
-    
+
     /**
      * Opens a LineNumberReader on a file.
      *
@@ -339,7 +339,7 @@ public final class IOUtils {
         }
         return null;
     }
-    
+
     /**
      * Opens an OutputStream on a file for writing.
      *
@@ -356,7 +356,7 @@ public final class IOUtils {
     public static OutputStream openOutputStream(File file) {
         return openOutputStream(file, false, 0);
     }
-    
+
     /**
      * Opens an OutputStream on a file for writing.
      *
@@ -371,7 +371,7 @@ public final class IOUtils {
     public static OutputStream openOutputstream(File file, boolean append) {
         return openOutputStream(file, append, 0);
     }
-    
+
     /**
      * Opens an OutputStream on a file for writing.
      *
@@ -392,7 +392,7 @@ public final class IOUtils {
     public static OutputStream openOutputStream(File file, int bufferSize) {
         return openOutputStream(file, false, bufferSize);
     }
-    
+
     /**
      * Opens an OutputStream on a file for writing.
      *
@@ -410,10 +410,10 @@ public final class IOUtils {
      */
     public static OutputStream openOutputStream(File file, boolean append, int bufferSize) {
         checkNull(file);
-        
+
         try {
             OutputStream out = new FileOutputStream(file, append);
-            
+
             if (bufferSize > 0) {
                 out = new BufferedOutputStream(out, bufferSize);
             }
@@ -424,7 +424,7 @@ public final class IOUtils {
             return null;
         }
     }
-    
+
     /**
      * Prompt the user with a question, asking for a yes or no response.
      *
@@ -438,7 +438,7 @@ public final class IOUtils {
     public static boolean promptYesOrNo(Reader in, PrintWriter out, String prompt) {
         return promptYesOrNo(in, out, prompt, true);
     }
-    
+
     /**
      * Prompt the user with a question, asking for a yes or no response.
      *
@@ -465,20 +465,20 @@ public final class IOUtils {
     public static boolean promptYesOrNo(Reader in, PrintWriter out, String prompt, boolean defaultChoice) {
         checkNull(in, out, prompt);
         String input;
-        
+
         // put a cap on the loops so it doesn't become an infinite loop
         // this can happen if Reader is not attached to a tty
         for (int i = 0; i < 10; i++) {
             input = prompt(in, out, prompt);
-            
+
             if (input == null) {
                 return false;
             }
-            
+
             if (input.length() == 0) {
                 return defaultChoice;
             }
-            
+
             switch(input.charAt(0)) {
                 case 'y' :
                 case 'Y' :
@@ -488,10 +488,10 @@ public final class IOUtils {
                     return false;
             }
         }
-        
+
         return false;
     }
-    
+
     /**
      * Prompt the user with a question and capture the response.
      *
@@ -509,26 +509,26 @@ public final class IOUtils {
      */
     public static String prompt(Reader in, PrintWriter out, String prompt) {
         checkNull(in, out, prompt);
-        
+
         String input;
         BufferedReader reader;
-        
+
         if (in instanceof BufferedReader) {
             reader = (BufferedReader) in;
         } else {
             reader = new BufferedReader(in);
         }
-        
+
         out.print(prompt);
         try {
             input = reader.readLine();
         } catch (IOException e) {
             return null;
         }
-        
+
         return input;
     }
-    
+
     public static List<String> readLines(File file) {
         BufferedReader reader = openBufferedReader(file);
         if (reader == null) {
@@ -540,15 +540,15 @@ public final class IOUtils {
             close(reader);
         }
     }
-    
+
     public static List<String> readLines(Reader reader) {
         return readLines(new BufferedReader(reader, BUFFER_SIZE), -1);
     }
-    
+
     public static List<String> readLines(BufferedReader reader) {
         return readLines(reader, -1);
     }
-    
+
     /**
      * Read all of the lines from a Reader.
      *
@@ -562,7 +562,7 @@ public final class IOUtils {
     public static List<String> readLines(Reader reader, int max) {
         return readLines(new BufferedReader(reader, BUFFER_SIZE), max);
     }
-     
+
     /**
      * Read all of the lines from a Reader.
      *
@@ -580,7 +580,7 @@ public final class IOUtils {
         List<String> ret = new LinkedList<String>();
         String line;
         int count = 0;
-        
+
         try {
             if (max > 0) {
                 while ((count++ < max) && (line = reader.readLine()) != null) {
@@ -594,10 +594,10 @@ public final class IOUtils {
         } catch (IOException e) {
             return null;
         }
-        
+
         return ret;
     }
-    
+
     /**
      * Check for null objects in a list of objects.
      */

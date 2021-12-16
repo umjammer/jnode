@@ -17,19 +17,20 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.service.def;
 
 import java.io.IOException;
-import java.io.VMFile;
-import java.io.VMIOUtils;
+import java.nio.file.Paths;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
+
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
 import org.jnode.driver.Device;
 import org.jnode.driver.DeviceAlreadyRegisteredException;
@@ -142,9 +143,9 @@ public class FileSystemPlugin extends Plugin implements FileSystemService {
      */
     public void mount(String fullPath, FileSystem<?> fs, String fsPath) throws IOException {
         if (fsPath != null) {
-            fsPath = VMFile.getNormalizedPath(fsPath);
+            fsPath = Paths.get(fsPath).toAbsolutePath().toString();
         }
-        api.mount(VMFile.getNormalizedPath(fullPath), fs, fsPath);
+        api.mount(Paths.get(fullPath).toAbsolutePath().toString(), fs, fsPath);
     }
 
     /**
@@ -171,7 +172,7 @@ public class FileSystemPlugin extends Plugin implements FileSystemService {
      * @return {@code true} if the director is a mount, otherwise {@code false}.
      */
     public boolean isMount(String fullPath) {
-        return api.isMount(VMFile.getNormalizedPath(fullPath));
+        return api.isMount(Paths.get(fullPath).toAbsolutePath().toString());
     }
 
     /**

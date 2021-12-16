@@ -36,7 +36,6 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 
-
 package gnu.classpath.jdwp.event.filters;
 
 import gnu.classpath.jdwp.event.Event;
@@ -88,7 +87,6 @@ public class ExceptionOnlyFilter
     return _refId;
   }
 
-  
   /**
    * Does the given event match the filter?
    *
@@ -112,12 +110,12 @@ public class ExceptionOnlyFilter
             classMatch = false;
           }
   }
-    
+
     // check against the caught and uncaught options
     Boolean caught 
       = (Boolean) event.getParameter(Event.EVENT_EXCEPTION_CAUGHT);
 
     return classMatch && ((caught.booleanValue()) ? _caught : _uncaught);
   }
-  
+
 }

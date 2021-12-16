@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.dev.ant;
 
 import java.io.File;
@@ -31,10 +31,10 @@ import org.apache.tools.ant.Main;
  */
 public class AntCommand {
     // FIXME ... someone ought to complete this.
-    
+
     public static void main(String[] args) throws Exception {
         makeBuildXml("build.xml");
-        
+
         //final Set<Permission> permissions = new HashSet<Permission>();  
 //        SecurityManagerListener l = new SecurityManagerListener()
 //        {
@@ -57,7 +57,7 @@ public class AntCommand {
 //            System.out.println(p);            
 //        }
     }
-    
+
     public static void makeBuildXml(String file) throws Exception {
         File f = new File(file);
         if (!f.exists()) {

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm;
 
 import java.io.IOException;
@@ -783,7 +783,6 @@ public final class VmSystem {
         final Address dstPtr = dstAddr.add(dataOffset + (dstPos * elemsize));
         final Extent size = Extent.fromIntZeroExtend(length * elemsize);
 
-
         if (isObjectArray) {
             Class dst_comp_class = dst_class.getComponentType();
             Class src_comp_class = src_class.getComponentType();
@@ -1148,7 +1147,6 @@ public final class VmSystem {
     public static boolean hasVmIOContext() {
         return getIOContext() instanceof VmIOContext;
     }
-
 
     /**
      * Get the current global (i.e. non-ProcletContext) flavor of System.err.

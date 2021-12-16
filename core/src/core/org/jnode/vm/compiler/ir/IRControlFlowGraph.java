@@ -97,7 +97,6 @@ public class IRControlFlowGraph<T> implements Iterable<IRBasicBlock<T>> {
                     continue;
                 }
 
-
                 AssignQuad dq = u.getKey().getAssignQuad();
                 if (dq instanceof CallAssignQuad ||
                     dq instanceof NewAssignQuad ||

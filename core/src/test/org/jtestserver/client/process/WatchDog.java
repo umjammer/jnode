@@ -1,7 +1,7 @@
 /*
 
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -36,17 +36,17 @@ import org.jtestserver.client.Config;
  */
 public class WatchDog extends Thread {
     private static final Logger LOGGER = Logger.getLogger(WatchDog.class.getName());
-        
+
     /**
      * The list of {@link ServerProcess} to watch.
      */
     private final List<ServerProcess> processes;
-    
+
     /**
      * Configuration of the WatchDog.
      */
     private final Config config;
-    
+
     /**
      * Is the WatchDog actually watching the {@link ServerProcess} ? 
      */
@@ -75,7 +75,7 @@ public class WatchDog extends Thread {
     public void unwatch(ServerProcess process) {
         processes.remove(process);
     }
-    
+
     /**
      * Start watching the {@link ServerProcess}
      */
@@ -89,7 +89,7 @@ public class WatchDog extends Thread {
     public void stopWatching() {
         watch = false;
     }
-    
+
     /**
      * Manage the activity of the WatchDog and notify when the process is dead.
      */
@@ -103,17 +103,17 @@ public class WatchDog extends Thread {
                             processDead(process);
                         }
                     }
-                    
+
                     if (!watch) {
                         break;
                     }
                 }
             }
-            
+
             goSleep();
         }
     }
-    
+
     /**
      * Callback method used to notify that a process is dead.
      * @param process The {@link ServerProcess} that just died.
@@ -126,7 +126,7 @@ public class WatchDog extends Thread {
             LOGGER.log(Level.SEVERE, "error while restarting", e);
         }        
     }
-    
+
     /**
      * Sleep for the amount of time specified in the configuration.
      */
@@ -137,7 +137,7 @@ public class WatchDog extends Thread {
             // ignore
         }
     }
-    
+
     /**
      * Checks if the given process is alive.
      * @param process The process to check.

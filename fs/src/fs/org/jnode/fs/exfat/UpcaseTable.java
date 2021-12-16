@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.exfat;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ public final class UpcaseTable {
                                    long startCluster, long size, long checksum) throws IOException {
 
         Cluster.checkValid(startCluster);
-        
+
         /* validate size */
 
         if ((size == 0) || (size > (0xffff * 2)) || (size % 2) != 0) {
@@ -43,7 +43,7 @@ public final class UpcaseTable {
 
         final UpcaseTable result = new UpcaseTable(sb,
             sb.clusterToOffset(startCluster), size);
-        
+
         /* verify checksum */
         final long actualCs = result.checkSum();
         if (checksum != actualCs) {

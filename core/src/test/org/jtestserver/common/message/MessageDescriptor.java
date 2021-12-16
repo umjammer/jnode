@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -19,22 +19,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 package org.jtestserver.common.message;
 
-
 public class MessageDescriptor {
     private final Class<?> resultClass;
     private final String name;
     private final Class<?>[] paramClasses;
-    
+
     MessageDescriptor(Class<?> resultClass, String name, Class<?>... paramClasses) {
         this.resultClass = resultClass;
         this.name = name;
         this.paramClasses = paramClasses;
     }
-    
+
     public final String getName() {
         return name;
     }
-    
+
     final Class<?> getResultClass() {
         return resultClass;
     }

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.assembler.x86;
 
 import java.io.IOException;
@@ -67,7 +67,6 @@ public class X86TextAssembler extends X86Assembler implements X86Operation {
         public boolean isResolved() {
             return true;
         }
-
 
         @Override
         public boolean isPublic() {
@@ -350,7 +349,7 @@ public class X86TextAssembler extends X86Assembler implements X86Operation {
 
     public void set8(int offset, int v8) {
     }
-     
+
     public ObjectRef setObjectRef(Object label) {
         println(label(label) + ':');
         return new ObjectRefImpl(label);
@@ -1354,7 +1353,7 @@ public class X86TextAssembler extends X86Assembler implements X86Operation {
     public void writeMOVSS(XMM dst, XMM src) {
         println("\tmovss " + dst + ',' + src);
     }
-    
+
     public void writeMOVSX(GPR dstReg, GPR srcReg, int srcSize) {
         println("\tmovsx " + dstReg + ',' + size(srcSize) + ' ' + srcReg);
     }
@@ -1873,7 +1872,6 @@ public class X86TextAssembler extends X86Assembler implements X86Operation {
     public void writeSUB(GPR dstReg, GPR srcReg) {
         println("\tsub " + dstReg + ',' + srcReg);
     }
-
 
     /**
      * @param dstReg

@@ -133,7 +133,6 @@ public final strictfp class NativeStrictMath {
         return (a > b) ? a : b;
     }
 
-
     /**
      * Returns the lower two words of a long. This is intended to be
      * used like this:
@@ -161,7 +160,6 @@ public final strictfp class NativeStrictMath {
                 | (lowDWord & 0xffffffffL));
     }
 
-
     /**
      * Take the nearest integer to the argument.  This is equivalent to
      * <code>(int) Math.floor(f + 0.5f)</code>. If the argument is NaN, the
@@ -176,7 +174,6 @@ public final strictfp class NativeStrictMath {
     public static int round(float f) {
         return (int) floor(f + 0.5f);
     }
-
 
     /**
      * Constants for scaling and comparing doubles by powers of 2. The compiler
@@ -985,7 +982,6 @@ public final strictfp class NativeStrictMath {
         z = hi - ((x * (s1 + s2) - lo) - x);
         return negative ? -z : z;
     }
-
 
     /**
      * @see StrictMath#exp(double)
@@ -2109,6 +2105,5 @@ public final strictfp class NativeStrictMath {
         //todo improve it
         return log(x + 1);
     }
-
 
 }

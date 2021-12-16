@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.video.cirrus;
 
 import org.jnode.vm.Unsafe;
@@ -61,7 +61,7 @@ public class CirrusVGAState implements CirrusConstants {
     public void display() {
 
         // TODO: make it better readable and comparable to the spec...
-        
+
         // SR7
         Unsafe.debug("SR7: " + toHex(SR7) + ":: linear frame buffer "
                 + ((SR7 >> 4) != 0) + ", sequencer and clocking control: ");

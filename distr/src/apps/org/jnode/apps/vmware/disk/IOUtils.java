@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.vmware.disk;
 
 import java.io.BufferedReader;
@@ -62,7 +62,7 @@ public class IOUtils {
      * Size of an int, which is also the size of an entry in a VMware disk.
      */
     public static final int INT_SIZE = 4;
-    
+
     /**
      * {@link ByteOrder} used in VMware disk.
      */
@@ -330,7 +330,7 @@ public class IOUtils {
 
         return values;
     }
-    
+
     /**
      * 
      * @param o1

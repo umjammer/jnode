@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import java.io.InputStream;
@@ -45,8 +45,7 @@ public interface Command {
     public int STD_OUT = 1;
     public int STD_ERR = 2;
     public int SHELL_ERR = 3;
-    
-    
+
     /**
      * This is the old native command entry point method.  The method is
      * (was) called to execute the command, passing the command line arguments
@@ -65,7 +64,7 @@ public interface Command {
      */
     public void execute(CommandLine commandLine, InputStream in,
             PrintStream out, PrintStream err) throws Exception;
-    
+
     /**
      * This is the new native command entry point method.  The command line
      * and streams are typically accessed via getters defined by the 
@@ -77,7 +76,6 @@ public interface Command {
      */
     public void execute() throws Exception;
 
-    
     /**
      * This method is used by the shell to attach command line
      * arguments and streams prior to command execution.

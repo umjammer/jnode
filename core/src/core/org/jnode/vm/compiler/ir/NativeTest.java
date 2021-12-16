@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.compiler.ir;
 
 import java.io.ByteArrayOutputStream;
@@ -152,7 +152,6 @@ public class NativeTest {
 
     private static void generateCode(X86Assembler os, String className)
         throws MalformedURLException, ClassNotFoundException {
-
 
         VmByteCode code = loadByteCode(className);
 

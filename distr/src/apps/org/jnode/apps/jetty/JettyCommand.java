@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.jetty;
 
 import java.io.File;
@@ -40,7 +40,6 @@ public class JettyCommand extends AbstractCommand {
 
     private final PortNumberArgument ARG_PORT =
         new PortNumberArgument("port", Argument.OPTIONAL, "http port (default 8080)");
-
 
     public JettyCommand() {
         super("start the Jetty web server running a web application");

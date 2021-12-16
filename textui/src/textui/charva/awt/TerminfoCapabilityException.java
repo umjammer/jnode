@@ -28,7 +28,7 @@ package charva.awt;
 public class TerminfoCapabilityException extends Exception
 {
     private static final long serialVersionUID = 1L;
-    
+
     public TerminfoCapabilityException()
     {
 	super();

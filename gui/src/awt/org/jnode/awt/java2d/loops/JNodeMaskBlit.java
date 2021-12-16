@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.java2d.loops;
 
 import java.awt.Composite;
@@ -71,7 +71,6 @@ public class JNodeMaskBlit extends MaskBlit {
     Blit convertdst;
     MaskBlit performop;
     Blit convertresult;
-    
 
     public JNodeMaskBlit(SurfaceType srctype, CompositeType comptype, SurfaceType dsttype) {
         super(srctype, comptype, dsttype);
@@ -118,7 +117,6 @@ public class JNodeMaskBlit extends MaskBlit {
                 "mask[]: " + java.util.Arrays.toString(mask) + "\n" +
                 "Composite: " + comp + " clip: " + clip);
 
-
             Raster sr = sbi.getRaster();
             if (sbi.getColorModel().isCompatibleRaster(sr)) {
                 System.out.println("MaskBlit compatible raster");
@@ -149,4 +147,3 @@ public class JNodeMaskBlit extends MaskBlit {
         }
     }
 }
-

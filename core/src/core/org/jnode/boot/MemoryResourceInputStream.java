@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.boot;
 
 import java.io.IOException;
@@ -25,7 +25,6 @@ import java.io.InputStream;
 
 import org.jnode.system.resource.MemoryResource;
 import org.jnode.annotation.MagicPermission;
-
 
 @MagicPermission
 final class MemoryResourceInputStream extends InputStream {

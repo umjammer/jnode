@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.net.MalformedURLException;
@@ -46,7 +46,7 @@ public class URLArgument extends Argument<URL> {
     public URLArgument(String label) {
         this(label, 0, null);
     }
-    
+
     @Override
     protected String argumentKind() {
         return "url";

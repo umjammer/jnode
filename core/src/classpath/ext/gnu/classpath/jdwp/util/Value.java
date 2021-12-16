@@ -35,7 +35,6 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 
-
 package gnu.classpath.jdwp.util;
 
 import gnu.classpath.jdwp.JdwpConstants;
@@ -70,7 +69,7 @@ public class Value
   {
     writeValue(os, obj, false);
   }
-  
+
   /**
    * Will write the given object as a tagged value to the DataOutputStream.
    * 
@@ -84,7 +83,7 @@ public class Value
   {
     writeValue(os, obj, true);
   }
-  
+
   /**
    * Will write the given object as either a value or an untagged value to the
    * DataOutputStream.

@@ -17,13 +17,12 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
-
 
 /**
  * The MuSyntax class and related classes provide an in-memory representation of BNF-like 
@@ -40,37 +39,37 @@ import java.util.HashSet;
  * @author crawley@jnode.org
  */
 public abstract class MuSyntax {
-    
+
     public static enum MuSyntaxKind {
         SYMBOL, ARGUMENT, PRESET, ALTERNATION, SEQUENCE, BACK_REFERENCE
     }
-    
+
     String label;
-    
+
     public MuSyntax(String label) {
         this.label = label;
         if ("".equals(label)) {
             throw new IllegalArgumentException("empty label");
         }
     }
-    
+
     public String getLabel() {
         return label;
     }
-    
+
     public abstract MuSyntaxKind getKind();
-    
+
     static class FormatState {
         final ArrayDeque<MuSyntax> work = new ArrayDeque<MuSyntax>();
         final HashSet<MuSyntax> done = new HashSet<MuSyntax>();
         private final HashMap<MuSyntax, String> syntaxToLabel = new HashMap<MuSyntax, String>();
         private final MuSyntax start;
         private int count = 1;
-        
+
         FormatState(MuSyntax start) {
             this.start = start;
         }
-        
+
         String getLabel(MuSyntax syntax) {
             String ll = syntaxToLabel.get(syntax);
             if (ll == null) {
@@ -122,13 +121,13 @@ public abstract class MuSyntax {
             return format(state);
         }
     }
-    
+
     static class ResolveState {
         public final HashMap<String, MuSyntax> refMap = 
             new HashMap<String, MuSyntax>();
         public final HashSet<MuSyntax> seen = new HashSet<MuSyntax>();
     }
-    
+
     /**
      * Resolve any MuBackReference instances in this syntax tree.
      * <p>
@@ -148,7 +147,7 @@ public abstract class MuSyntax {
     public final void resolveBackReferences() throws SyntaxFailureException {
         resolveBackReferences(new ResolveState());
     }
-    
+
     abstract MuSyntax resolveBackReferences(ResolveState state) throws SyntaxFailureException;
 
     private static long count;

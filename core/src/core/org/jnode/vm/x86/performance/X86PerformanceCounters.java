@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.x86.performance;
 
 import java.util.Collections;
@@ -138,7 +138,6 @@ public class X86PerformanceCounters extends PerformanceCounters implements Unint
         // Force a start by syncing 
         UnsafeX86.restoreMSRs();
     }
-
 
     protected void startCounters(PerformanceCounterEvent[] events,
                                  VmX86Thread thread) throws IllegalArgumentException {

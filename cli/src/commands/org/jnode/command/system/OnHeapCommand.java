@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.BufferedWriter;
@@ -37,13 +37,13 @@ import org.jnode.vm.facade.VmUtils;
  * @author Martin Husted Hartvig (hagar@jnode.org)
  */
 public class OnHeapCommand extends AbstractCommand {
-    
+
     private static final String HELP_INST = "the minimum instance count to show";
     private static final String HELP_SIZE = "the minimum total size to show";
     private static final String HELP_CLASSNAME = "the classname filter";
     private static final String HELP_SUPER = "Show the number of instances on the heap with memory usage";
     private static final String STR_ON_HEAP = "On Heap:";
-    
+
     private final IntegerArgument argMinInstanceCount;
     private final LongArgument argMinTotalSize;
     private final StringArgument className;
@@ -67,16 +67,16 @@ public class OnHeapCommand extends AbstractCommand {
     public void execute() throws Exception {
         PrintWriter out = getOutput().getPrintWriter();
         out.println(STR_ON_HEAP);
-        
+
         ObjectFilter filter = null;
         if (className.isSet()) {
             SimpleObjectFilter f = new SimpleObjectFilter();
             f.setClassName(className.getValues());
             filter = f;
         }
-        
+
         final HeapStatistics stats = VmUtils.getVm().getHeapManager().getHeapStatistics(filter);
-        
+
         if (argMinInstanceCount.isSet()) {
             stats.setMinimumInstanceCount(argMinInstanceCount.getValue());
         }

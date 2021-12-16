@@ -17,14 +17,14 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.syntax;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({ArgumentTypesTest.class, ArgumentBundleTest.class, DefaultTokenizerTest.class,
+@Suite
+@SelectClasses({ArgumentTypesTest.class, ArgumentBundleTest.class, DefaultTokenizerTest.class,
     MuSyntaxTest.class, MuParserTest.class, MuParserTest2.class, ArgumentMultiplicityTest.class,
     CommandLineTest.class, RepeatSyntaxTest.class, SequenceSyntaxTest.class,
     OptionSyntaxTest.class, PowersetSyntaxTest.class, OptionSetSyntaxTest.class,

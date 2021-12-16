@@ -17,15 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.support;
 
 import javax.naming.NameAlreadyBoundException;
 import javax.naming.NamingException;
 
-import junit.framework.TestCase;
-
-import org.jmock.cglib.Mock;
+import org.jmock.Mockery;
 import org.jmock.cglib.MockObjectTestCase;
 import org.jmock.core.stub.ReturnStub;
 import org.jnode.bootlog.BootLogInstance;
@@ -43,8 +41,10 @@ import org.jnode.system.resource.ResourceManager;
 import org.jnode.system.resource.ResourceNotFreeException;
 import org.jnode.test.fs.driver.stubs.StubDeviceManager;
 
+import junit.framework.TestCase;
+
 public class MockObjectFactory {
-    public static IDEDevice createIDEDevice(Device parentDev, TestCase testCase,
+    public static IDEDevice createIDEDevice(Device parentDev, Object testCase,
                                             final boolean supp48bitsAddr, final long deviceSize)
         throws IllegalArgumentException, DriverException, ResourceNotFreeException {
         if ((deviceSize % IDEConstants.SECTOR_SIZE) != 0) {
@@ -65,9 +65,9 @@ public class MockObjectFactory {
         int[] data = new int[256];
         Boolean atapi = Boolean.valueOf(true);
 
-        final MockObjectTestCase mockTestCase = (MockObjectTestCase) testCase;
+        final Object mockTestCase = (Object) testCase;
         MockInitializer initializer = new MockInitializer() {
-            public void init(Mock mockDesc) {
+            public void init(Mockery mockDesc) {
                 BootLogInstance.get().debug("devSize=" + deviceSize);
                 Boolean bSupp48bitsAddr = Boolean.valueOf(supp48bitsAddr);
                 mockDesc.expects(mockTestCase.atLeastOnce()).
@@ -98,11 +98,11 @@ public class MockObjectFactory {
         return device;
     }
 
-    public static void createResourceManager(TestCase testCase) throws NameAlreadyBoundException, NamingException {
-        final MockObjectTestCase mockTestCase = (MockObjectTestCase) testCase;
+    public static void createResourceManager(Object testCase) throws NameAlreadyBoundException, NamingException {
+        final Object mockTestCase = (Object) testCase;
         MockInitializer initializer = new MockInitializer() {
 
-            public void init(Mock mockResMgr) {
+            public void init(Mockery mockResMgr) {
                 mockResMgr.expects(mockTestCase.atLeastOnce()).method("claimIOResource").withAnyArguments();
                 mockResMgr.expects(mockTestCase.atLeastOnce()).method("claimIRQ").withAnyArguments();
             }

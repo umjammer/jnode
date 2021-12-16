@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.build;
 
 import java.io.BufferedReader;
@@ -999,7 +999,6 @@ public abstract class AbstractBootImageBuilder extends AbstractPluginsTask {
         return false;
     }
 
-
     /**
      * Link all undefined symbols from the kernel native code.
      *
@@ -1315,7 +1314,6 @@ public abstract class AbstractBootImageBuilder extends AbstractPluginsTask {
         this.listFile = listFile;
     }
 
-
     /**
      * Returns the textFile which is the bootimage in text format.
      */
@@ -1383,7 +1381,6 @@ public abstract class AbstractBootImageBuilder extends AbstractPluginsTask {
         }
         return classNames;
     }
-
 
     /**
      * Create a set of the names of those classes that can be safely

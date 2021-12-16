@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.net;
 
 import java.io.File;
@@ -36,13 +36,13 @@ import org.jnode.shell.syntax.HostNameArgument;
  * @author crawley
  */
 public class TftpCommand extends AbstractCommand {
-    
+
     private static final String help_put = "if set, transfer a file to the TFTP server";
     private static final String help_get = "if set, fetch a file from the TFTP server";
     private static final String help_host = "the hostname of the TFTP server";
     private static final String help_file = "the file to transfer";
     private static final String help_super = "Do a TFTP get or put, or run an interactive TFTP client";
-    
+
     private final FlagArgument argPut;
     private final FlagArgument argGet;
     private final HostNameArgument argServer;

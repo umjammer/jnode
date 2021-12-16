@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.gui;
 
 import java.awt.BorderLayout;
@@ -30,7 +30,6 @@ import java.awt.event.ActionListener;
 
 @SuppressWarnings("serial")
 public class DialogTest extends Dialog {
-
 
     /**
      * @param title

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.isolate;
 
 import java.io.IOException;
@@ -35,12 +35,12 @@ import java.net.UnknownHostException;
  * @author crawley@jnode.org
  */
 public class IsolateSocketImpl extends SocketImpl {
-    
+
     private final InputStream in;
     private final OutputStream out;
     private boolean closed;
     private final InetAddress dummyAddress;
-    
+
     private IsolateSocketImpl(InputStream in, OutputStream out) {
         super();
         this.in = in;

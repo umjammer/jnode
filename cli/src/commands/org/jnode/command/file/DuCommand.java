@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.File;
@@ -418,7 +418,7 @@ public class DuCommand extends AbstractCommand {
         public long getSize() {
             return size;
         }
-        
+
         @Override
         public int hashCode() {
             return directory.hashCode();

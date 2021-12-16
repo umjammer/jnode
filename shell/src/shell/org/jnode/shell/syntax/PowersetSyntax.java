@@ -17,11 +17,10 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import org.jnode.nanoxml.XMLElement;
-
 
 /**
  * A Powerset syntax allows a group of child Syntaxes to be provided in any order.
@@ -34,9 +33,9 @@ import org.jnode.nanoxml.XMLElement;
  * @author crawley@jnode.org
  */
 public class PowersetSyntax extends GroupSyntax {
-    
+
     private final boolean eager;
-    
+
     public PowersetSyntax(String label, boolean eager, String description, Syntax...syntaxes) {
         super(label, description, syntaxes);
         this.eager = eager;

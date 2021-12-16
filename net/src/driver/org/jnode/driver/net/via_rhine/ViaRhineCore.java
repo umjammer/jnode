@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.net.via_rhine;
 
 import java.io.ByteArrayInputStream;
@@ -255,7 +255,6 @@ class ViaRhineCore extends AbstractDeviceCore implements IRQHandler {
             setReg16(IntrStatus, DEFAULT_INTR | my_INTR);
 
         }
-
 
         setIRQEnabled(true);
     }
@@ -514,7 +513,6 @@ class ViaRhineCore extends AbstractDeviceCore implements IRQHandler {
         int byMIICRbak;
         int byMIItemp;
 
-
         byMIIAdrbak = getReg8(byMIIAD);
 
         byMIICRbak = getReg8(byMIICR);
@@ -537,7 +535,6 @@ class ViaRhineCore extends AbstractDeviceCore implements IRQHandler {
         ReadMIItmp = getReg16(wMIIDATA);
         MIIMask = 0x0001;
         MIIMask = MIIMask << byMIISetBit;
-
 
         if (byMIIOP == 0) {
             MIIMask = ~MIIMask;
@@ -735,7 +732,6 @@ class ViaRhineCore extends AbstractDeviceCore implements IRQHandler {
         io.outPortDword(ioBase + reg, value);
     }
 
-
     String hexDump(byte[] data) {
         try {
             InputStream is = new ByteArrayInputStream(data);
@@ -796,7 +792,6 @@ class ViaRhineCore extends AbstractDeviceCore implements IRQHandler {
             out.flush();
             out.close();
             is.close();
-
 
             return swriter.toString();
         } catch (Exception e) {

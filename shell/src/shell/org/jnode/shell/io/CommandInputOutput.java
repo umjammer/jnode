@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.io;
 
 import java.io.IOException;
@@ -64,7 +64,7 @@ public class CommandInputOutput extends BaseCommandIO implements CommandIO {
         this.reader = reader;
         this.writer = writer;
     }
-    
+
     public synchronized OutputStream getOutputStream() {
         if (outputStream == null) {
             boolean isConsole = writer instanceof ShellConsoleWriter;
@@ -72,7 +72,7 @@ public class CommandInputOutput extends BaseCommandIO implements CommandIO {
         }
         return outputStream;
     }
-    
+
     public PrintStream getPrintStream(boolean autoflush) {
         if (printStream == null) {
             if (outputStream instanceof PrintStream) {
@@ -83,7 +83,7 @@ public class CommandInputOutput extends BaseCommandIO implements CommandIO {
         }
         return printStream;
     }
-    
+
     public synchronized Writer getWriter() throws CommandIOException {
         if (writer == null) {
             try {
@@ -94,7 +94,7 @@ public class CommandInputOutput extends BaseCommandIO implements CommandIO {
         }
         return writer;
     }
-    
+
     public PrintWriter getPrintWriter(boolean autoflush) {
         if (printWriter == null) {
             if (writer instanceof PrintWriter) {
@@ -105,14 +105,14 @@ public class CommandInputOutput extends BaseCommandIO implements CommandIO {
         }
         return printWriter;
     }
-    
+
     public synchronized InputStream getInputStream() {
         if (inputStream == null) {
             inputStream = new ReaderInputStream(reader, getEncoding());
         }
         return inputStream;
     }
-    
+
     public Reader getReader() throws CommandIOException {
         if (reader == null) {
             try {
@@ -123,11 +123,11 @@ public class CommandInputOutput extends BaseCommandIO implements CommandIO {
         }
         return reader;
     }
-    
+
     public final int getDirection() {
         return DIRECTION_INOUT;
     }
-    
+
     @Override
     void doClose() throws IOException {
         flush();
@@ -151,7 +151,7 @@ public class CommandInputOutput extends BaseCommandIO implements CommandIO {
             inputStream.close();
         }
     }
-    
+
     void doFlush() throws IOException {
         if (writer != null) {
             writer.flush();

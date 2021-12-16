@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import org.jnode.shell.CommandRunnable;
@@ -59,11 +59,11 @@ public class FunctionDefinitionNode extends CommandNode {
         context.defineFunction(name, body);
         return 0;
     }
-    
+
     @Override
     public CommandThread fork(CommandShell shell, final BjorneContext context) 
         throws ShellException {
-        
+
         CommandRunnable cr = new BjorneSubshellRunner(context) {
             @Override
             public int doRun() throws ShellException {
@@ -73,5 +73,4 @@ public class FunctionDefinitionNode extends CommandNode {
         return new CommandThreadImpl(cr, context.getName());
     }
 
-    
 }

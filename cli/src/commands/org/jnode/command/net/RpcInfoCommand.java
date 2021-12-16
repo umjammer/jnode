@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.net;
 
 import java.io.IOException;
@@ -71,7 +71,7 @@ public class RpcInfoCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new RpcInfoCommand().execute(args);
     }
-    
+
     public void execute() {
         OncRpcPortmapClient client = null;
         String hostname = argHost.getValue();
@@ -111,7 +111,7 @@ public class RpcInfoCommand extends AbstractCommand {
             }
         }
     }
-    
+
     private String getName(int program) {
         switch (program) {
             case 100000:

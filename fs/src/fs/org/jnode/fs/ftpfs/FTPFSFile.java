@@ -17,14 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.ftpfs;
 
 import com.enterprisedt.net.ftp.FTPFile;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import org.jnode.fs.FSFile;
-
 
 /**
  * @author Levente S\u00e1ntha

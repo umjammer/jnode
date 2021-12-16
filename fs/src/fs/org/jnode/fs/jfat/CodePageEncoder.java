@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.jfat;
 
 import java.nio.CharBuffer;
@@ -26,7 +26,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CoderResult;
 import java.nio.charset.CharacterCodingException;
-
 
 /**
  * @author gvt
@@ -57,7 +56,7 @@ public class CodePageEncoder {
         if (n == 0) {
             return out;
         }
-        
+
         reset();
 
         for (;;) {

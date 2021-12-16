@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.archive;
 
 import java.util.ArrayList;
@@ -41,12 +41,12 @@ public class ZipCommand extends Zip {
     private static final String help_older_than  = "only include files older than the specified time";
     private static final String help_exclude     = "do not includes files matching a pattern";
     private static final String help_include     = "only includes files matching a pattern";
-    
+
     @SuppressWarnings("unused")
     private static final String fatal_bad_newer = "Invalid newer-than date: ";
     @SuppressWarnings("unused")
     private static final String fatal_bad_older = "Invalid older-than date: ";
-    
+
     private final FlagArgument FilesStdin;
     private final FlagArgument NoDirEntry;
     private final FlagArgument Recurse;
@@ -56,14 +56,14 @@ public class ZipCommand extends Zip {
     private final StringArgument OlderThan;
     private final StringArgument Exclude;
     private final StringArgument Include;
-    
+
     public ZipCommand() {
         super("compress files into a zip archive");
         // from ArchiveCommand
         registerArguments(Verbose, Quiet, Debug);
         // from Zip
         registerArguments(Archive, Patterns, NoPath, Delete, Freshen, Move, Update);
-        
+
         FilesStdin   = new FlagArgument("files-stdin", Argument.OPTIONAL, help_files_stdin);
         NoDirEntry   = new FlagArgument("no-dirs", Argument.OPTIONAL, help_no_dir);
         Recurse      = new FlagArgument("recurse", Argument.OPTIONAL, help_recurse);
@@ -75,7 +75,7 @@ public class ZipCommand extends Zip {
         Include      = new StringArgument("include", Argument.OPTIONAL | Argument.MULTIPLE, help_include);
         registerArguments(FilesStdin, TmpDir, NoDirEntry, NoCompress, Recurse, NewerThan, OlderThan, Exclude, Include);
     }
-    
+
     @Override
     public void execute() {
         recurse = Recurse.isSet();

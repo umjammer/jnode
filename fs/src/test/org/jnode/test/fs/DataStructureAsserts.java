@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs;
 
 import java.io.IOException;
@@ -27,14 +27,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.Map;
 
-import jcifs.util.Hexdump;
-
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
 import org.jnode.fs.FSFile;
 import org.jnode.fs.FSFileStreams;
 import org.jnode.fs.FileSystem;
-import org.junit.Assert;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import jcifs.util.Hexdump;
 
 /**
  * Data structure asserts for file system tests.
@@ -48,7 +49,7 @@ public class DataStructureAsserts {
     /**
      * Asserts the data structure for a file system.
      *
-     * @param fileSystem the file system to assert.
+     * @param fileSystem the file system to 
      * @param expected the expected structure.
      * @throws IOException if an error occurs.
      */
@@ -62,20 +63,20 @@ public class DataStructureAsserts {
         FSEntry entry = fileSystem.getRootEntry();
         buildStructure(entry, actual, "  ");
 
-        Assert.assertEquals("Wrong structure", expected, actual.toString());
+        assertEquals(expected, actual.toString(), "Wrong structure");
     }
 
     /**
      * Asserts the data structure for a file entry.
      *
-     * @param entry the entry to assert.
+     * @param entry the entry to 
      * @param expected the expected structure.
      * @throws IOException if an error occurs.
      */
     public static void assertStructure(FSEntry entry, String expected) throws IOException {
         StringBuilder actual = new StringBuilder(expected.length());
         buildStructure(entry, actual, "");
-        Assert.assertEquals("Wrong structure", expected, actual.toString());
+        assertEquals(expected, actual.toString(), "Wrong structure");
     }
 
     /**

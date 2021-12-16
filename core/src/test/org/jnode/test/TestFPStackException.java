@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test;
 
 public class TestFPStackException {
@@ -27,19 +27,19 @@ public class TestFPStackException {
         Matrix m2 = new Matrix(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
 
         System.out.println("calling times(...)");
-        
+
         // without bug fix, here the jnode compiler will fail with a org.jnode.vm.bytecode.StackException
         Matrix m3 = m.times(m2);
-        
+
         System.out.println("end");
     }
-    
+
     private static class Matrix {
         private double m11, m12, m13, m14;
         private double m21, m22, m23, m24;
         private double m31, m32, m33, m34;
         private double m41, m42, m43, m44;
-        
+
         public Matrix(double e11, double e12, double e13, double e14, double e21, double e22, double e23,
                 double e24, double e31, double e32, double e33, double e34, double e41, double e42,
                 double e43, double e44) {
@@ -60,7 +60,7 @@ public class TestFPStackException {
             m43 = e43;
             m44 = e44;
         }
-    
+
         public final Matrix times(Matrix a) {
             return new Matrix(m11 * a.m11 + m12 * a.m21 + m13 * a.m31 + m14 * a.m41, m11 * a.m12 + m12 *
                     a.m22 + m13 * a.m32 + m14 * a.m42, m11 * a.m13 + m12 * a.m23 + m13 * a.m33 + m14 *

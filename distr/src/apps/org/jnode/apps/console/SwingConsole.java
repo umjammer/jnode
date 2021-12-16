@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.console;
 
 import java.awt.event.WindowAdapter;
@@ -52,12 +52,12 @@ public class SwingConsole {
             }
         }
         SwingTextScreenConsoleManager cm = new SwingTextScreenConsoleManager();
-        
+
         TextScreenConsoleManager manager = getParentManager();
         if (manager != null) {
             cm.setParent(manager);
         }
-        
+
         TextConsole console = cm.createConsole(
             null,
             (ConsoleManager.CreateOptions.TEXT |
@@ -76,10 +76,10 @@ public class SwingConsole {
             }
         });
     }
-    
+
     private static TextScreenConsoleManager getParentManager() throws NameNotFoundException {
         TextScreenConsoleManager manager = null;
-        
+
         ShellManager sm = InitialNaming.lookup(ShellManager.NAME);
         if (sm != null) {
             // current shell is null when JNode boot directly in GUI mode, without going 
@@ -88,7 +88,7 @@ public class SwingConsole {
                 manager = (TextScreenConsoleManager) sm.getCurrentShell().getConsole().getManager();
             }
         }
-        
+
         return manager;
     }
 }

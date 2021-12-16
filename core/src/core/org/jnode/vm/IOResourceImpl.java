@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm;
 
 import org.jnode.system.resource.IOResource;
@@ -25,7 +25,6 @@ import org.jnode.system.resource.Resource;
 import org.jnode.system.resource.ResourceNotFreeException;
 import org.jnode.system.resource.ResourceOwner;
 import org.jnode.util.NumberUtils;
-
 
 /**
  * Default implementation of IOResource.

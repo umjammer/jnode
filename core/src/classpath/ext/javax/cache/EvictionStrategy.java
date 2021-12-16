@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package javax.cache;
 
 import java.util.Map;
@@ -41,25 +41,25 @@ public interface EvictionStrategy
      * @return
      */
     public CacheEntry createEntry(Object key, Object value, long ttl);
-    
+
     /**
      * 
      * @param entry
      */
     public void discardEntry(CacheEntry entry);
-    
+
     /**
      * 
      * @param entry
      */
     public void touchEntry(CacheEntry entry);
-    
+
     /**
      * 
      *
      */
     public void clear();
-    
+
     /**
      * 
      * @param cache

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.BufferedReader;
@@ -41,14 +41,13 @@ import org.jnode.shell.syntax.SyntaxManager;
 import org.jnode.shell.syntax.SyntaxSpecLoader;
 import org.jnode.shell.syntax.XMLSyntaxSpecAdapter;
 
-
 /**
  * Shell command to manage command syntaxes
  * 
  * @author crawley@jnode.org
  */
 public class SyntaxCommand extends AbstractCommand {
-    
+
     private static final String help_alias = "the target alias";
     private static final String help_file = "if set, load the syntax from this file";
     private static final String help_remove = "if set, remove the syntaxes for the target alias";
@@ -58,13 +57,13 @@ public class SyntaxCommand extends AbstractCommand {
     private static final String err_no_alias = "No syntax for alias '%s'%n";
     private static final String err_file_read = "Cannot read file '%s': %s%n";
     private static final String ex_syntax_alias = "An alias argument is required for this syntax";
-    
+
     private final AliasArgument argAlias;
     private FileArgument argFile;
     private FlagArgument argRemove;
     private FlagArgument argDump;
     private FlagArgument argDumpAll;
-    
+
     public SyntaxCommand() {
         super(help_super);
         argAlias   = new AliasArgument("alias", Argument.OPTIONAL, help_alias);
@@ -78,7 +77,7 @@ public class SyntaxCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new SyntaxCommand().execute(args);
     }
-    
+
     public void execute()  throws Exception {
         PrintWriter out = getOutput().getPrintWriter();
         PrintWriter err = getError().getPrintWriter();
@@ -127,7 +126,7 @@ public class SyntaxCommand extends AbstractCommand {
             }
         }
     }
-    
+
     private String getAlias() throws SyntaxArgumentMissingException {
         if (!argAlias.isSet()) {
             throw new SyntaxArgumentMissingException(ex_syntax_alias, argAlias);
@@ -151,5 +150,5 @@ public class SyntaxCommand extends AbstractCommand {
         element.write(out);
         out.println();
     }
-    
+
 }

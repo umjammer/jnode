@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.x86.compiler.l2;
 
 import org.jnode.assembler.Label;
@@ -401,7 +401,6 @@ public final class X86StackFrame {
         //os.writePOP(Register.EDI);
         //os.writePOP(Register.EBX);
     }
-
 
     public X86CompilerHelper getHelper() {
         return helper;

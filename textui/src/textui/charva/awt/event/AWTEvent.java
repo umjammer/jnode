@@ -19,7 +19,6 @@
 
 package charva.awt.event;
 
-
 /**
  * This is the base class for all the CHARVA user-interface events.
  * It encapsulates information about the event.

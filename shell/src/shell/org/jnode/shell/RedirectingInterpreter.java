@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import java.io.FileInputStream;
@@ -89,7 +89,7 @@ public class RedirectingInterpreter extends DefaultInterpreter implements
         List<CommandDescriptor> commands = new LinkedList<CommandDescriptor>();
         return parse(tokenizer, commands, true);
     }
-    
+
     @Override
     public boolean help(CommandShell shell, String line, PrintWriter pw) throws ShellException {
         Tokenizer tokenizer = new Tokenizer(line, REDIRECTS_FLAG);
@@ -145,7 +145,7 @@ public class RedirectingInterpreter extends DefaultInterpreter implements
                 throw new ShellSyntaxException("Misplaced '" +
                         commandToken.text + "': expected a command name");
             }
-            
+
             CommandLine.Token from = null;
             CommandLine.Token to = null;
             pipeTo = false;

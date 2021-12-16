@@ -17,10 +17,11 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.ext4;
 
 import java.util.Iterator;
+
 import org.jnode.driver.Device;
 import org.jnode.driver.block.FileDevice;
 import org.jnode.fs.FSDirectory;
@@ -30,16 +31,17 @@ import org.jnode.fs.ext2.Ext2FileSystemType;
 import org.jnode.fs.service.FileSystemService;
 import org.jnode.test.fs.DataStructureAsserts;
 import org.jnode.test.fs.FileSystemTestUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Ext4FileSystemTest {
 
     private Device device;
     private FileSystemService fss;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         // create file system service.
         fss = FileSystemTestUtils.createFSService(Ext2FileSystemType.class.getName());
@@ -99,12 +101,12 @@ public class Ext4FileSystemTest {
             FSEntry entry = iterator.next();
 
             if (entry.isFile()) {
-                Assert.assertEquals("b1946ac92492d2347c6235b4d2611184", DataStructureAsserts.getMD5Digest(entry.getFile()));
+                assertEquals("b1946ac92492d2347c6235b4d2611184", DataStructureAsserts.getMD5Digest(entry.getFile()));
                 childCount++;
             }
         }
 
-        Assert.assertEquals(65001, childCount);
+        assertEquals(65001, childCount);
     }
 
     @Test
@@ -124,12 +126,12 @@ public class Ext4FileSystemTest {
             FSEntry entry = iterator.next();
 
             if (entry.isFile()) {
-                Assert.assertEquals("b1946ac92492d2347c6235b4d2611184", DataStructureAsserts.getMD5Digest(entry.getFile()));
+                assertEquals("b1946ac92492d2347c6235b4d2611184", DataStructureAsserts.getMD5Digest(entry.getFile()));
                 childCount++;
             }
         }
 
-        Assert.assertEquals(65001, childCount);
+        assertEquals(65001, childCount);
     }
 
     @Test
@@ -170,4 +172,3 @@ public class Ext4FileSystemTest {
         DataStructureAsserts.assertStructure(fs, expectedStructure);
     }
 }
-

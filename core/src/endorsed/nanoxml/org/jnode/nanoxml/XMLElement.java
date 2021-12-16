@@ -26,9 +26,7 @@
  *  3. This notice may not be removed or altered from any source distribution.
  *****************************************************************************/
 
-
 package org.jnode.nanoxml;
-
 
 import java.io.ByteArrayOutputStream;
 import java.io.CharArrayReader;
@@ -47,7 +45,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
-
 
 /**
  * XMLElement is a representation of an XML object. The object is able to parse
@@ -113,7 +110,6 @@ public class XMLElement
      */
     static final long serialVersionUID = 6685035139346394777L;
 
-
     /**
      * Major version of NanoXML. Classes with the same major and minor
      * version are binary compatible. Classes with the same major version
@@ -123,7 +119,6 @@ public class XMLElement
      * @see XMLElement#NANOXML_MINOR_VERSION
      */
     public static final int NANOXML_MAJOR_VERSION = 2;
-    
 
     /**
      * Minor version of NanoXML. Classes with the same major and minor
@@ -134,7 +129,6 @@ public class XMLElement
      * @see XMLElement#NANOXML_MAJOR_VERSION
      */
     public static final int NANOXML_MINOR_VERSION = 2;
-
 
     /**
      * The attributes given to the element.
@@ -147,7 +141,6 @@ public class XMLElement
      */
     private Map<String, String> attributes;
 
-
     /**
      * Child elements of the element.
      *
@@ -159,7 +152,6 @@ public class XMLElement
      * </ul></dd></dl>
      */
     private List<XMLElement> children;
-
 
     /**
      * The name of the element.
@@ -174,7 +166,6 @@ public class XMLElement
      */
     private String name;
 
-
     /**
      * The #PCDATA content of the object.
      *
@@ -185,7 +176,6 @@ public class XMLElement
      * </ul></dd></dl>
      */
     private String contents;
-
 
     /**
      * Conversion table for &amp;...; entities. The keys are the entity names
@@ -203,7 +193,6 @@ public class XMLElement
      */
     private Hashtable entities;
 
-
     /**
      * The line number where the element starts.
      *
@@ -213,20 +202,17 @@ public class XMLElement
      */
     private int lineNr;
 
-
     /**
      * <code>true</code> if the case of the element and attribute names
      * are case insensitive.
      */
     private boolean ignoreCase;
 
-
     /**
      * <code>true</code> if the leading and trailing whitespace of #PCDATA
      * sections have to be ignored.
      */
     private boolean ignoreWhitespace;
-
 
     /**
      * Character read too much.
@@ -235,7 +221,6 @@ public class XMLElement
      * If there is no such character, this field is '\0'.
      */
     private char charReadTooMuch;
-
 
     /**
      * The reader provided by the caller of the parse method.
@@ -247,7 +232,6 @@ public class XMLElement
      */
     private Reader reader;
 
-
     /**
      * The current line number in the source content.
      *
@@ -256,7 +240,6 @@ public class XMLElement
      * </ul></dd></dl>
      */
     private int parserLineNr;
-
 
     /**
      * Creates and initializes a new XML element.
@@ -284,7 +267,6 @@ public class XMLElement
     {
         this(new Hashtable(), false, true, true);
     }
-    
 
     /**
      * Creates and initializes a new XML element.
@@ -319,7 +301,6 @@ public class XMLElement
         this(entities, false, true, true);
     }
 
-
     /**
      * Creates and initializes a new XML element.
      * Calling the construction is equivalent to:
@@ -350,7 +331,6 @@ public class XMLElement
     {
         this(new Hashtable(), skipLeadingWhitespace, true, true);
     }
-
 
     /**
      * Creates and initializes a new XML element.
@@ -388,7 +368,6 @@ public class XMLElement
     {
         this(entities, skipLeadingWhitespace, true, true);
     }
-
 
     /**
      * Creates and initializes a new XML element.
@@ -429,7 +408,6 @@ public class XMLElement
     {
         this(entities, skipLeadingWhitespace, true, ignoreCase);
     }
-
 
     /**
      * Creates and initializes a new XML element.
@@ -501,7 +479,6 @@ public class XMLElement
         }
     }
 
-
     /**
      * Adds a child element.
      *
@@ -530,7 +507,6 @@ public class XMLElement
     {
         this.children.add(child);
     }
-
 
     /**
      * Adds or modifies an attribute.
@@ -583,7 +559,6 @@ public class XMLElement
         this.attributes.put(name, value.toString());
     }
 
-
     /**
      * Adds or modifies an attribute.
      *
@@ -599,7 +574,6 @@ public class XMLElement
     {
         this.setAttribute(name, value);
     }
-
 
     /**
      * Adds or modifies an attribute.
@@ -644,7 +618,6 @@ public class XMLElement
         this.attributes.put(name, Integer.toString(value));
     }
 
-
     /**
      * Adds or modifies an attribute.
      *
@@ -660,7 +633,6 @@ public class XMLElement
     {
         this.setIntAttribute(name, value);
     }
-
 
     /**
      * Adds or modifies an attribute.
@@ -705,7 +677,6 @@ public class XMLElement
         this.attributes.put(name, Double.toString(value));
     }
 
-
     /**
      * Adds or modifies an attribute.
      *
@@ -721,7 +692,6 @@ public class XMLElement
     {
         this.setDoubleAttribute(name, value);
     }
-
 
     /**
      * Returns the number of child elements of the element.
@@ -741,7 +711,6 @@ public class XMLElement
     {
         return this.children.size();
     }
-
 
     /**
      * Enumerates the attribute names.
@@ -801,7 +770,6 @@ public class XMLElement
         return Collections.unmodifiableSet(this.attributes.keySet());
     }
 
-
     /**
      * Enumerates the child elements.
      *
@@ -820,7 +788,6 @@ public class XMLElement
     {
         return this.children.iterator();
     }
-
 
     /**
      * Returns the child elements as a Vector. It is safe to modify this
@@ -842,7 +809,6 @@ public class XMLElement
         return new ArrayList<XMLElement>(this.children);
     }
 
-
     /**
      * Returns the PCDATA content of the object. If there is no such content,
      * <CODE>null</CODE> is returned.
@@ -853,7 +819,6 @@ public class XMLElement
     {
         return this.getContent();
     }
-
 
     /**
      * Returns the PCDATA content of the object. If there is no such content,
@@ -867,7 +832,6 @@ public class XMLElement
         return this.contents;
     }
 
-
     /**
      * Returns the line nr in the source data on which the element is found.
      * This method returns <code>0</code> there is no associated source data.
@@ -880,7 +844,6 @@ public class XMLElement
     {
         return this.lineNr;
     }
-
 
     /**
      * Returns an attribute of the element.
@@ -909,7 +872,6 @@ public class XMLElement
     {
         return this.getAttribute(name, null);
     }
-
 
     /**
      * Returns an attribute of the element.
@@ -947,7 +909,6 @@ public class XMLElement
         }
         return value;
     }
-
 
     /**
      * Returns an attribute by looking up a key in a hashtable.
@@ -1010,7 +971,6 @@ public class XMLElement
         return result;
     }
 
-
     /**
      * Returns an attribute of the element.
      * If the attribute doesn't exist, <code>null</code> is returned.
@@ -1039,7 +999,6 @@ public class XMLElement
     {
         return this.getStringAttribute(name, null);
     }
-
 
     /**
      * Returns an attribute of the element.
@@ -1070,7 +1029,6 @@ public class XMLElement
     {
         return (String) this.getAttribute(name, defaultValue);
     }
-
 
     /**
      * Returns an attribute by looking up a key in a hashtable.
@@ -1120,7 +1078,6 @@ public class XMLElement
                                           allowLiterals);
     }
 
-
     /**
      * Returns an attribute of the element.
      * If the attribute doesn't exist, <code>0</code> is returned.
@@ -1146,7 +1103,6 @@ public class XMLElement
     {
         return this.getIntAttribute(name, 0);
     }
-
 
     /**
      * Returns an attribute of the element.
@@ -1187,7 +1143,6 @@ public class XMLElement
             }
         }
     }
-
 
     /**
      * Returns an attribute by looking up a key in a hashtable.
@@ -1257,7 +1212,6 @@ public class XMLElement
         return result.intValue();
     }
 
-
     /**
      * Returns an attribute of the element.
      * If the attribute doesn't exist, <code>0.0</code> is returned.
@@ -1283,7 +1237,6 @@ public class XMLElement
     {
         return this.getDoubleAttribute(name, 0.);
     }
-
 
     /**
      * Returns an attribute of the element.
@@ -1324,7 +1277,6 @@ public class XMLElement
             }
         }
     }
-
 
     /**
      * Returns an attribute by looking up a key in a hashtable.
@@ -1395,7 +1347,6 @@ public class XMLElement
         return result.doubleValue();
     }
 
-
     /**
      * Returns an attribute of the element.
      * If the attribute doesn't exist, <code>defaultValue</code> is returned.
@@ -1444,7 +1395,6 @@ public class XMLElement
         }
     }
 
-
     /**
      * Returns an attribute by looking up a key in a hashtable.
      *
@@ -1458,7 +1408,6 @@ public class XMLElement
         return this.getIntAttribute(name, valueSet, defaultKey, false);
     }
 
-
     /**
      * Returns an attribute.
      *
@@ -1468,7 +1417,6 @@ public class XMLElement
     {
         return this.getStringAttribute(name);
     }
-
 
     /**
      * Returns an attribute.
@@ -1481,7 +1429,6 @@ public class XMLElement
         return this.getStringAttribute(name, defaultValue);
     }
 
-
     /**
      * Returns an attribute.
      *
@@ -1493,7 +1440,6 @@ public class XMLElement
         return this.getIntAttribute(name, defaultValue);
     }
 
-
     /**
      * Returns an attribute.
      *
@@ -1504,7 +1450,6 @@ public class XMLElement
     {
         return this.getDoubleAttribute(name, defaultValue);
     }
-
 
     /**
      * Returns an attribute.
@@ -1521,7 +1466,6 @@ public class XMLElement
                                         defaultValue);
     }
 
-
     /**
      * Returns an attribute by looking up a key in a hashtable.
      *
@@ -1534,7 +1478,6 @@ public class XMLElement
     {
         return this.getAttribute(name, valueSet, defaultKey, false);
     }
-
 
     /**
      * Returns an attribute by looking up a key in a hashtable.
@@ -1549,7 +1492,6 @@ public class XMLElement
         return this.getStringAttribute(name, valueSet, defaultKey, false);
     }
 
-
     /**
      * Returns an attribute by looking up a key in a hashtable.
      *
@@ -1562,7 +1504,6 @@ public class XMLElement
     {
         return this.getIntAttribute(name, valueSet, defaultKey, true);
     }
-
 
     /**
      * Returns an attribute by looking up a key in a hashtable.
@@ -1577,7 +1518,6 @@ public class XMLElement
         return this.getDoubleAttribute(name, valueSet, defaultKey, true);
     }
 
-
     /**
      * Returns the name of the element.
      *
@@ -1588,7 +1528,6 @@ public class XMLElement
         return this.name;
     }
 
-
     /**
      * Returns the name of the element.
      *
@@ -1598,7 +1537,6 @@ public class XMLElement
     {
         return this.getName();
     }
-
 
     /**
      * Reads one XML element from a java.io.Reader and parses it.
@@ -1628,7 +1566,6 @@ public class XMLElement
     {
         this.parseFromReader(reader, /*startingLineNr*/ 1);
     }
-
 
     /**
      * Reads one XML element from a java.io.Reader and parses it.
@@ -1686,7 +1623,6 @@ public class XMLElement
         }
     }
 
-
     /**
      * Reads one XML element from a String and parses it.
      *
@@ -1717,7 +1653,6 @@ public class XMLElement
         }
     }
 
-
     /**
      * Reads one XML element from a String and parses it.
      *
@@ -1746,7 +1681,6 @@ public class XMLElement
     {
         this.parseString(string.substring(offset));
     }
-
 
     /**
      * Reads one XML element from a String and parses it.
@@ -1781,7 +1715,6 @@ public class XMLElement
     {
         this.parseString(string.substring(offset, end));
     }
-
 
     /**
      * Reads one XML element from a String and parses it.
@@ -1825,7 +1758,6 @@ public class XMLElement
         }
     }
 
-
     /**
      * Reads one XML element from a char array and parses it.
      *
@@ -1859,7 +1791,6 @@ public class XMLElement
     {
         this.parseCharArray(input, offset, end, /*startingLineNr*/ 1);
     }
-
 
     /**
      * Reads one XML element from a char array and parses it.
@@ -1903,7 +1834,6 @@ public class XMLElement
         }
     }
 
-
     /**
      * Removes a child element.
      *
@@ -1931,7 +1861,6 @@ public class XMLElement
     {
         this.children.remove(child);
     }
-
 
     /**
      * Removes an attribute.
@@ -2002,7 +1931,6 @@ public class XMLElement
         this.attributes.remove(name);
     }
 
-
     /**
      * Removes an attribute.
      *
@@ -2016,7 +1944,6 @@ public class XMLElement
     {
         this.removeAttribute(name);
     }
-
 
     /**
      * Removes an attribute.
@@ -2032,7 +1959,6 @@ public class XMLElement
         this.removeAttribute(name);
     }
 
-
     /**
      * Creates a new similar XML element.
      * <P>
@@ -2046,7 +1972,6 @@ public class XMLElement
                               this.ignoreCase);
     }
 
-
     /**
      * Changes the content string.
      *
@@ -2057,7 +1982,6 @@ public class XMLElement
     {
         this.contents = content;
     }
-
 
     /**
      * Changes the name of the element.
@@ -2071,7 +1995,6 @@ public class XMLElement
     {
         this.setName(name);
     }
-
 
     /**
      * Changes the name of the element.
@@ -2091,7 +2014,6 @@ public class XMLElement
         this.name = name;
     }
 
-
     /**
      * Writes the XML element to a string.
      *
@@ -2110,7 +2032,6 @@ public class XMLElement
             return super.toString();
         }
     }
-
 
     /**
      * Writes the XML element to a writer.
@@ -2167,7 +2088,6 @@ public class XMLElement
         }
     }
 
-
     /**
      * Writes a string encoded to a writer.
      *
@@ -2223,7 +2143,6 @@ public class XMLElement
         }
     }
 
-
     /**
      * Scans an identifier from the current reader.
      * The scanned identifier is appended to <code>result</code>.
@@ -2257,7 +2176,6 @@ public class XMLElement
         }
     }
 
-
     /**
      * This method scans an identifier from the current reader.
      *
@@ -2279,7 +2197,6 @@ public class XMLElement
             }
         }
     }
-
 
     /**
      * This method scans an identifier from the current reader.
@@ -2308,7 +2225,6 @@ public class XMLElement
             }
         }
     }
-
 
     /**
      * This method scans a delimited string from the current reader.
@@ -2339,7 +2255,6 @@ public class XMLElement
         }
     }
 
-
     /**
      * Scans a #PCDATA element. CDATA sections and entities are resolved.
      * The next &lt; char is skipped.
@@ -2369,7 +2284,6 @@ public class XMLElement
             }
         }
     }
-
 
     /**
      * Scans a special tag and if the tag is a CDATA section, append its
@@ -2428,7 +2342,6 @@ public class XMLElement
         }
     }
 
-
     /**
      * Skips a comment.
      *
@@ -2452,7 +2365,6 @@ public class XMLElement
             throw this.expectedInput(">");
         }
     }
-
 
     /**
      * Skips a special tag or comment.
@@ -2511,7 +2423,6 @@ public class XMLElement
         }
     }
 
-
     /**
      * Scans the data for literal text.
      * Scanning stops when a character does not match or after the complete
@@ -2535,7 +2446,6 @@ public class XMLElement
         return true;
     }
 
-
     /**
      * Reads a character from a reader.
      */
@@ -2558,7 +2468,6 @@ public class XMLElement
             }
         }
     }
-
 
     /**
      * Scans an XML element.
@@ -2676,7 +2585,6 @@ public class XMLElement
         }
     }
 
-
     /**
      * Resolves an entity. The name of the entity is read from the reader.
      * The value of the entity is appended to <code>buf</code>.
@@ -2721,7 +2629,6 @@ public class XMLElement
         }
     }
 
-
     /**
      * Pushes a character back to the read-back buffer.
      *
@@ -2736,7 +2643,6 @@ public class XMLElement
     {
         this.charReadTooMuch = ch;
     }
-
 
     /**
      * Creates a parse exception for when an invalid valueset is given to
@@ -2753,7 +2659,6 @@ public class XMLElement
         String msg = "Invalid value set (entity name = \"" + name + "\")";
         return new XMLParseException(this.getName(), this.parserLineNr, msg);
     }
-
 
     /**
      * Creates a parse exception for when an invalid value is given to a
@@ -2775,7 +2680,6 @@ public class XMLElement
         return new XMLParseException(this.getName(), this.parserLineNr, msg);
     }
 
-
     /**
      * Creates a parse exception for when the end of the data input has been
      * reached.
@@ -2785,7 +2689,6 @@ public class XMLElement
         String msg = "Unexpected end of data reached";
         return new XMLParseException(this.getName(), this.parserLineNr, msg);
     }
-
 
     /**
      * Creates a parse exception for when a syntax error occured.
@@ -2802,7 +2705,6 @@ public class XMLElement
         String msg = "Syntax error while parsing " + context;
         return new XMLParseException(this.getName(), this.parserLineNr, msg);
     }
-
 
     /**
      * Creates a parse exception for when the next character read is not
@@ -2822,7 +2724,6 @@ public class XMLElement
         return new XMLParseException(this.getName(), this.parserLineNr, msg);
     }
 
-
     /**
      * Creates a parse exception for when an entity could not be resolved.
      *
@@ -2838,5 +2739,5 @@ public class XMLElement
         String msg = "Unknown or invalid entity: &" + name + ";";
         return new XMLParseException(this.getName(), this.parserLineNr, msg);
     }
-    
+
 }

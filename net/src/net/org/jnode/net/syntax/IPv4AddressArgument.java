@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.syntax;
 
 import java.util.StringTokenizer;
@@ -63,7 +63,7 @@ public class IPv4AddressArgument extends Argument<IPv4Address> {
             throw new CommandSyntaxException("invalid component in IPv4 address");
         }
     }
-    
+
     /**
      * Parse a number and check it is in the range 0 to 255.
      * 

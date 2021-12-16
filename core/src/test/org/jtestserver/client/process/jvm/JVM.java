@@ -1,7 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
 
- 
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -38,9 +37,9 @@ import org.jtestserver.client.utils.SystemUtils.ProcessStatus;
  */
 public class JVM implements VmManager<JVMConfig> {
     private static final String JAVA_COMMAND = "java";
-    
+
     private final ProcessRunner runner = new ProcessRunner();
-    
+
     /**
      * {@inheritDoc}
      */
@@ -63,7 +62,7 @@ public class JVM implements VmManager<JVMConfig> {
     @Override
     public boolean start(JVMConfig config) throws IOException {        
         //runner.setWorkDir(new File(classesDir));
-        
+
         CommandLineBuilder cmdLine = createStartCommandLine(config);
         config.setVmName(cmdLine.toString());
         return runner.execute(cmdLine);
@@ -80,14 +79,14 @@ public class JVM implements VmManager<JVMConfig> {
                 success &= SystemUtils.getInstance().killProcess(ps.getIdentifier());
             }
         }
-        
+
         return success;
     }
-    
+
     private CommandLineBuilder createStartCommandLine(JVMConfig config) {
         String java = new File(config.getJavaHome(), "bin/" + JAVA_COMMAND).getAbsolutePath();
         CommandLineBuilder cmdLine = new CommandLineBuilder(java);
-        
+
         if (config.getBootClasspath() != null) {
             cmdLine.append("-Xbootclasspath").append(config.getBootClasspath());
         }
@@ -95,7 +94,7 @@ public class JVM implements VmManager<JVMConfig> {
         if (config.getOptions() != null) {
             cmdLine.append(config.getOptions());
         }
-        
+
         cmdLine.append("-D" + ConfigurationUtils.LOGGING_CONFIG_FILE + '=' 
                 + ConfigurationUtils.getLoggingConfigFile());
 

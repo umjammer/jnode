@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.ntfs;
 
 import java.io.File;
@@ -25,7 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-import junit.framework.TestCase;
+
 import org.jnode.driver.Device;
 import org.jnode.driver.block.FileDevice;
 import org.jnode.fs.FSDirectory;
@@ -34,12 +34,15 @@ import org.jnode.fs.FileSystem;
 import org.jnode.fs.FileSystemException;
 import org.jnode.fs.ntfs.NTFSFileSystemType;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 /**
  * Unit tests to ensure sanity of Jnode's NTFS implementation.
  *
  * @author Daniel Noll (daniel@nuix.com.au)
  */
-public class NTFSUnitTest extends TestCase {
+public class NTFSUnitTest {
     private String TEST_IMAGE_PATH = System.getProperty("user.home");
     private String TEST_IMAGE_FILENAME_2 = TEST_IMAGE_PATH + "/ntfs-sparse-files.001";
     private String TEST_IMAGE_FILENAME_1 = TEST_IMAGE_PATH + "/ntfs-extreme-fragmentation.001";
@@ -74,7 +77,7 @@ public class NTFSUnitTest extends TestCase {
             // Check the big file.  Every byte should be readable as zero, hopefully.
             FSFile bigFile = root.getEntry("bigfile.dat").getFile();
             int increment = 1024 * 1024;
-            assertEquals("Wrong file length for big file", 120 * increment, bigFile.getLength());
+            assertEquals(120 * increment, bigFile.getLength(), "Wrong file length for big file");
             byte[] actual = new byte[increment];
             for (int i = 0; i < 120 * increment; i += increment) {
                 bigFile.read(i, ByteBuffer.wrap(actual));
@@ -118,18 +121,18 @@ public class NTFSUnitTest extends TestCase {
                 expectedContents[i] = (byte) i;
             }
             FSFile sparseFile1 = root.getEntry("sparsefile1.dat").getFile();
-            assertEquals("Wrong length for sparse file 2", expectedContents.length, sparseFile1.getLength());
+            assertEquals(expectedContents.length, sparseFile1.getLength(), "Wrong length for sparse file 2");
             byte[] actualContents = new byte[expectedContents.length];
             sparseFile1.read(0, ByteBuffer.wrap(actualContents));
             Arrays.fill(actualContents, 256, 4096, (byte) 0); // slack space contains garbage, so wipe it.
-            assertEquals("Wrong contents for sparse file 1", expectedContents, actualContents);
+            assertEquals(expectedContents, actualContents, "Wrong contents for sparse file 1");
             // The second file is 100% sparse.
             expectedContents = new byte[10240];
             FSFile sparseFile2 = root.getEntry("sparsefile2.dat").getFile();
-            assertEquals("Wrong length for sparse file 2", expectedContents.length, sparseFile2.getLength());
+            assertEquals(expectedContents.length, sparseFile2.getLength(), "Wrong length for sparse file 2");
             actualContents = new byte[expectedContents.length];
             sparseFile2.read(0, ByteBuffer.wrap(actualContents));
-            assertEquals("Wrong contents for sparse file 2", expectedContents, actualContents);
+            assertEquals(expectedContents, actualContents, "Wrong contents for sparse file 2");
             fileSystem.close();
         } catch (FileNotFoundException e) {
             fail("Unexpected exception : " + e.getMessage());

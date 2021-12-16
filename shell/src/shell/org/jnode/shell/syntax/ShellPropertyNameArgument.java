@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import javax.naming.NameNotFoundException;
@@ -26,7 +26,6 @@ import org.jnode.driver.console.CompletionInfo;
 import org.jnode.shell.ShellUtils;
 import org.jnode.shell.CommandLine.Token;
 
-
 /**
  * This argument class accepts property names, with completion against the
  * names in the current shell's property map.
@@ -34,7 +33,7 @@ import org.jnode.shell.CommandLine.Token;
  * @author crawley@jnode.org
  */
 public class ShellPropertyNameArgument extends Argument<String> {
-    
+
     public ShellPropertyNameArgument(String label, int flags, String description) {
         super(label, flags, new String[0], description);
     }
@@ -46,12 +45,12 @@ public class ShellPropertyNameArgument extends Argument<String> {
     public ShellPropertyNameArgument(String label) {
         this(label, 0);
     }
-    
+
     @Override
     protected String doAccept(Token token, int flags) throws CommandSyntaxException {
         return token.text;
     }
-    
+
     @Override
     public void doComplete(CompletionInfo completions, String partial, int flags) {
         try {

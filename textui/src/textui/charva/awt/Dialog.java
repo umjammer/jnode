@@ -19,7 +19,6 @@
 
 package charva.awt;
 
-
 /**
  * The Dialog class is similar to a Frame but includes a blank area
  * around the border frame. This makes the dialog more clearly visible when

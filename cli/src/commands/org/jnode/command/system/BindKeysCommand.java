@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.awt.Toolkit;
@@ -65,7 +65,7 @@ public class BindKeysCommand extends AbstractCommand {
     private static final String ex_inv_char = "invalid character";
     private static final String ex_unknown_vkey = "'%s' is an unknown virtual key name";
     private static final String ex_unknown_mod = "'%s' is an unknown modifier";
-    
+
     private static final Map<String, Integer> VK_NAME_MAP = 
         new HashMap<String, Integer>();
     private static final Map<Integer, String> VK_MAP = 
@@ -74,7 +74,7 @@ public class BindKeysCommand extends AbstractCommand {
         new HashMap<String, Integer>();
     private static final Map<Integer, String> MODIFIER_MAP = 
         new HashMap<Integer, String>();
-    
+
     static {
         // This is the best way I can think of to enumerate all of the VK_ codes
         // defined by the KeyEvent class.
@@ -103,20 +103,20 @@ public class BindKeysCommand extends AbstractCommand {
         initModifier("AWT.button3", "Button 3", KeyEvent.BUTTON3_DOWN_MASK);
         initModifier("AWT.altGraph", "Alt Graph", KeyEvent.ALT_GRAPH_DOWN_MASK);
     }
-    
+
     private static void initModifier(String propName, String dflt, int modifier) {
         String name = constCase(Toolkit.getProperty(propName, dflt));
         MODIFIER_NAME_MAP.put(name,  modifier);
         MODIFIER_MAP.put(modifier, name);
     }
-    
+
     private static final String[] ASCII_NAMES = new String[] {
         "NUL", "SOH", "STC", "ETX", "EOT", "ENQ", "ACK", "BEL", 
         "BS", "HT", "NL", "VT", "FF", "CR", "SO", "SI", 
         "DLE", "DC1", "DC2", "DC3", "DC4", "NAK", "SYN", "ETB",
         "CAN", "EM", "SUB", "ESC", "FS", "GS", "RS", "US", "SP"
     };
-    
+
     private static class ActionArgument extends EnumArgument<KeyboardReaderAction> {
         public ActionArgument(String label, int flags, String description) {
             super(label, flags, KeyboardReaderAction.class, description);
@@ -127,7 +127,7 @@ public class BindKeysCommand extends AbstractCommand {
             return "keyboard reader action";
         }
     }
-    
+
     private static class VirtualKeyArgument extends Argument<VirtualKey> {
 
         protected VirtualKeyArgument(String label, int flags, String description) {
@@ -158,7 +158,7 @@ public class BindKeysCommand extends AbstractCommand {
             return new VirtualKey(vk, modifiers);
         }
     }
-    
+
     private static class CharacterArgument extends Argument<Character> {
 
         protected CharacterArgument(String label, int flags, String description) {
@@ -192,17 +192,17 @@ public class BindKeysCommand extends AbstractCommand {
             throw new CommandSyntaxException(ex_inv_char);
         }
     }
-    
+
     private final FlagArgument argReset;
     private final FlagArgument argAdd;
     private final FlagArgument argRemove;
     private final ActionArgument argAction;
     private final VirtualKeyArgument argVkSpec;
     private final CharacterArgument argCharacter;
-    
+
     private PrintWriter out;
     private PrintWriter err;
-    
+
     public BindKeysCommand() {
         super(help_super);
         argReset     = new FlagArgument("reset", Argument.OPTIONAL, help_reset);
@@ -227,7 +227,7 @@ public class BindKeysCommand extends AbstractCommand {
         }
         return sb.toString();
     }
-    
+
     @Override
     public void execute() throws Exception {
         out = getOutput().getPrintWriter();
@@ -258,7 +258,7 @@ public class BindKeysCommand extends AbstractCommand {
         // This throws an unchecked exception if the action is not supplied.  It signals
         // a bug in the command syntax and should be allowed to propagate to the shell.
         KeyboardReaderAction action = argAction.getValue();
-        
+
         if (argVkSpec.isSet() || argCharacter.isSet()) {
             // If virtual key names were supplied, remove only those bindings.
             if (argVkSpec.isSet()) {
@@ -296,7 +296,7 @@ public class BindKeysCommand extends AbstractCommand {
         console.setKeyEventBindings(bindings);
         out.format(fmt_update, action);
     }
-    
+
     private void addBindings(TextConsole console) {
         ConsoleKeyEventBindings bindings = console.getKeyEventBindings();
         // This throws an unchecked exception if the action is not supplied.  It signals
@@ -326,13 +326,13 @@ public class BindKeysCommand extends AbstractCommand {
         console.setKeyEventBindings(ConsoleKeyEventBindings.createDefault());
         out.println(str_reset);
     }
-    
+
     private void displayBindings(TextConsole console) {
         ConsoleKeyEventBindings bindings = console.getKeyEventBindings();
-        
+
         Map<KeyboardReaderAction, List<Character>> charMap = buildCharMap(bindings);
         Map<KeyboardReaderAction, List<VirtualKey>> vkMap = buildVKMap(bindings);
-        
+
         for (KeyboardReaderAction action : KeyboardReaderAction.values()) {
             List<Character> chars = charMap.get(action);
             List<VirtualKey> vks = vkMap.get(action);
@@ -371,7 +371,7 @@ public class BindKeysCommand extends AbstractCommand {
             out.println(sb);
         }
     }
-    
+
     /**
      * Build a map from actions to the virtual keys that map to them.
      * @param bindings

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.harness;
 
 import java.io.File;
@@ -92,7 +92,7 @@ public class TestSpecificationParser {
         }
         return res;
     }
-    
+
     private TestSpecification parseTestSpecification(IXMLElement elem) 
         throws TestSpecificationException {
         RunMode runMode = RunMode.valueOf(
@@ -178,7 +178,7 @@ public class TestSpecificationParser {
             res.addFile(new TestSpecification.FileSpecification(file, isInput, content));
         }
     }
-    
+
     @SuppressWarnings("unused")
     private String extractElementValue(IXMLElement parent, String name) 
         throws TestSpecificationException {
@@ -197,7 +197,7 @@ public class TestSpecificationParser {
         String content = elem == null ? null : elem.getContent();
         return content == null ? dflt : content;
     }
-    
+
     private String extractAttribute(IXMLElement elem, String name) 
         throws TestSpecificationException {
         String attr = elem.getAttribute(name, null);

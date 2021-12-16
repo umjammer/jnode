@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.jifs.directories;
 
 import java.io.IOException;
@@ -34,7 +34,6 @@ import org.jnode.fs.jifs.files.JIFSFplugin;
 import org.jnode.naming.InitialNaming;
 import org.jnode.plugin.PluginDescriptor;
 import org.jnode.plugin.PluginManager;
-
 
 /**
  * <description>

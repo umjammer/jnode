@@ -17,12 +17,11 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.bus.usb.uhci;
 
 import org.jnode.driver.bus.usb.USBException;
 import org.jnode.driver.bus.usb.USBRequest;
-
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.plugin;
 
 import org.jnode.util.Version;
@@ -81,13 +81,13 @@ public interface PluginDescriptor {
      * @return the version
      */
     public abstract Version getVersion();
-    
+
     /**
      * Get the plugin reference which uniquely identifies a plugin.
      * @return the plugin reference.
      */
     public PluginReference getPluginReference();
-    
+
     /**
      * Gets the required imports.
      *
@@ -215,7 +215,7 @@ public interface PluginDescriptor {
      * @param listener
      */
     public void removeListener(PluginDescriptorListener listener);
-    
+
     /**
      * Fire the pluginStarted event to this descriptor's listeners.
      */

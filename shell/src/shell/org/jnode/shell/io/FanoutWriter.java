@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.io;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class FanoutWriter extends Writer {
         this.writers = writers;
         this.ignoreClose = ignoreClose;
     }
-    
+
     /**
      * Add another Writer to the fanout.
      * 
@@ -57,7 +57,7 @@ public class FanoutWriter extends Writer {
         tmp[len] = writer;
         writers = tmp;
     }
-    
+
     /**
      * Remove a Writer from the fanout.
      * @param writer the Writer to be removed.

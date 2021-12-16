@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -34,12 +34,12 @@ public class JVMServerProcess implements ServerProcess {
      * Configuration of machine to run in a new JVM.
      */
     private final JVMConfig config;
-    
+
     /**
      * Manager for the JVM machine.
      */
     private final JVM jvm; 
-    
+
     /**
      * @param jvmConfig
      */
@@ -48,7 +48,6 @@ public class JVMServerProcess implements ServerProcess {
         jvm = new JVM();
     }
 
-    
     /**
      * {@inheritDoc}
      */
@@ -56,7 +55,7 @@ public class JVMServerProcess implements ServerProcess {
     public synchronized void start() throws IOException {
         jvm.start(config);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -77,7 +76,7 @@ public class JVMServerProcess implements ServerProcess {
                 break;
             }
         }
-        
+
         return isRunning;
     }
 }

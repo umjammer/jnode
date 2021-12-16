@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.PrintWriter;
@@ -36,7 +36,7 @@ import org.jnode.vm.Unsafe;
  * @author crawley@jnode.org
  */
 public class KdbCommand extends AbstractCommand {
-    
+
     private static final String help_on = "Enable the kernel debugger";
     private static final String help_off = "Disable the kernel debugger";
     private static final String help_super = "Control kernel debugging";
@@ -45,7 +45,7 @@ public class KdbCommand extends AbstractCommand {
     private static final String fmt_set = "KDB is %s%n";
     private static final String str_enabled = "enabled";
     private static final String str_disabled = "disabled";
-    
+
     private final FlagArgument argOn;
     private final FlagArgument argOff;
 
@@ -59,7 +59,7 @@ public class KdbCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new KdbCommand().execute(args);
     }
-    
+
     @Override
     public void execute() {
         PrintWriter out = getOutput().getPrintWriter();

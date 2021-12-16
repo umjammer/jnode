@@ -17,11 +17,11 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.support;
 
 import org.apache.log4j.Logger;
-import org.jmock.cglib.Mock;
+import org.jmock.Mockery;
 
 public class MockUtils {
     private static final Logger log = Logger.getLogger(MockUtils.class);
@@ -32,7 +32,7 @@ public class MockUtils {
 
     public static <T> T createMockObject(Class<T> name, MockInitializer initializer) {
         String shortName = getShortName(name);
-        Mock mock = new Mock(name, shortName);
+        Mockery mock = new Mockery(name, shortName);
         log.info("created a Mock for " + shortName);
 
         if (initializer != null) {
@@ -50,7 +50,7 @@ public class MockUtils {
                                           Class<?>[] clsArgs, Object[] args) {
         String shortName = getShortName(name);
         CGLibCoreMockExt cglibMock = new CGLibCoreMockExt(name, shortName);
-        Mock mock = new Mock(cglibMock);
+        Mockery mock = new Mockery(cglibMock);
         log.info("created a Mock for " + shortName);
 
         if (initializer != null) {

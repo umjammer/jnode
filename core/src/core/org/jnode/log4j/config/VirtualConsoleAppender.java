@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.log4j.config;
 
 import java.io.Writer;
@@ -38,9 +38,9 @@ import org.jnode.naming.InitialNaming;
  * @author crawley@jnode.org
  */
 public class VirtualConsoleAppender extends WriterAppender {
-    
+
     private static ConsoleManager mgr;
-    
+
     private Writer writer;
 
     /**
@@ -57,7 +57,7 @@ public class VirtualConsoleAppender extends WriterAppender {
         this.writer = toErr ? console.getErr() : console.getOut();
         super.setWriter(this.writer);
     }
-    
+
     private static synchronized TextConsole getNamedConsole(String name) {
         if (mgr == null) {
             try {
@@ -90,7 +90,7 @@ public class VirtualConsoleAppender extends WriterAppender {
         this.writer = toErr ? console.getErr() : console.getOut();
         super.setWriter(this.writer);
     }
-    
+
     @Override
     protected void closeWriter() {
         // Ignore the close request.  We don't own the writer.
@@ -108,5 +108,5 @@ public class VirtualConsoleAppender extends WriterAppender {
         }
         super.setWriter(writer);
     }
-    
+
 }

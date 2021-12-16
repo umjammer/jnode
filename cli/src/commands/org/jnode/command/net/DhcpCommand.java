@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.net;
 
 import java.io.PrintWriter;
@@ -51,7 +51,7 @@ public class DhcpCommand extends AbstractCommand {
     private static final String err_loopback = "The loopback network device is not bound to IP address 127.0.0.1%n" +
                                                "Run 'ifconfig loopback 127.0.0.1 255.255.255.255' to fix this.%n";
     private static final String fmt_config   = "Configuring network device %s...%n";
-    
+
     private final DeviceArgument argDevice;
 
     public DhcpCommand() {

@@ -17,10 +17,9 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.driver.context;
 
-import org.jmock.MockObjectTestCase;
 import org.jnode.driver.block.ramdisk.RamDiskDevice;
 import org.jnode.driver.block.ramdisk.RamDiskDriver;
 import org.jnode.test.fs.driver.BlockDeviceAPIContext;
@@ -33,7 +32,7 @@ public class RamDiskDriverContext extends BlockDeviceAPIContext {
         super("RamDiskDriver");
     }
 
-    public void init(TestConfig config, MockObjectTestCase testCase) throws Exception {
+    public void init(TestConfig config, Object testCase) throws Exception {
         super.init(config, testCase);
 
         BlockDeviceAPITestConfig cfg = (BlockDeviceAPITestConfig) config;

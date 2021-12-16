@@ -17,16 +17,15 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.ext2;
 
-import gnu.java.security.action.GetPropertyAction;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.security.AccessController;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import org.apache.log4j.Logger;
 import org.jnode.driver.Device;
 import org.jnode.fs.FSDirectory;
@@ -49,8 +48,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
      * The charset used to decode the file and directory names, assuming a default of UTF-8 for now.
      * See: http://unix.stackexchange.com/a/2111
      */
-    public static final Charset ENTRY_NAME_CHARSET = Charset.forName(AccessController.doPrivileged(
-        new GetPropertyAction("org.jnode.fs.ext2.entryNameCharset", "UTF-8")));
+    public static final Charset ENTRY_NAME_CHARSET = Charset.forName("UTF-8");
 
     private Superblock superblock;
 

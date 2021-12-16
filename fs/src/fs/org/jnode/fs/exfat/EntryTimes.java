@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.exfat;
 
 import java.io.IOException;
@@ -45,11 +45,11 @@ final class EntryTimes {
         /* read access date/time */
         final int aTime = DeviceAccess.getUint16(src);
         final int aDate = DeviceAccess.getUint16(src);
-        
+
         /* read c/m centiseconds */
         final int cTimeCs = DeviceAccess.getUint8(src);
         final int mTimeCs = DeviceAccess.getUint8(src);
-        
+
         /* read time zone offsets */
         final int cOffset = DeviceAccess.getUint8(src);
         final int mOffset = DeviceAccess.getUint8(src);

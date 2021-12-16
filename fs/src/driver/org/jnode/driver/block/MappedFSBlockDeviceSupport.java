@@ -17,14 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.block;
 
 import java.io.IOException;
 import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.Device;
 import org.jnode.partitions.PartitionTableEntry;
-
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.textscreen.fb;
 
 import java.awt.Color;
@@ -30,7 +30,6 @@ import java.util.Arrays;
 import org.jnode.driver.textscreen.TextScreen;
 import org.jnode.driver.textscreen.x86.AbstractPcTextScreen;
 import org.jnode.driver.video.Surface;
-
 
 class FbTextScreen extends AbstractPcTextScreen {
     private final Font font;
@@ -46,7 +45,7 @@ class FbTextScreen extends AbstractPcTextScreen {
     private final Graphics graphics;
     private final int xOffset;
     private final int yOffset;
-    
+
     /**
      * 
      * @param g
@@ -58,18 +57,18 @@ class FbTextScreen extends AbstractPcTextScreen {
         super(nbColumns, nbRows);
         buffer = new char[getWidth() * getHeight()];        
         Arrays.fill(buffer, ' ');
-        
+
         this.xOffset = xOffset;
         this.yOffset = yOffset;
 
         //this.background = new DefaultBackground(Color.BLACK);
         this.background = new GradientBackground(bufferedImage.getWidth(), bufferedImage.getHeight());
-        
+
         this.surface = g;
         this.bufferedImage = bufferedImage;
         this.graphics = graphics;
         this.font = font;
-        
+
         open();
     }
 
@@ -124,7 +123,7 @@ class FbTextScreen extends AbstractPcTextScreen {
 
     public int setCursorVisible(boolean visible) {
         cursorVisible = visible;
-        
+
         sync(cursorOffset, 1);
         return cursorOffset;
     }
@@ -181,36 +180,36 @@ class FbTextScreen extends AbstractPcTextScreen {
             }, "FbScreenPainter");
             painterThread.start();
         }
-        
+
         private void stop() {
             this.stop = true; 
         }
-            
+
         protected void paintComponent() {
             // first draw the background
             background.paint(graphics);
-            
+
             graphics.setColor(Color.WHITE);
             graphics.setFont(font);
-            
+
             final FontMetrics fm = graphics.getFontMetrics();
             final int fontHeight = fm.getHeight();
-            
+
             final char[] textBuffer = buffer;
             final int length = getWidth();
             int offset = 0;
             int y = fontHeight;
-            
+
             // draw the text of the console
             for (int i = 0; i < getHeight(); i++) {
                 graphics.drawChars(textBuffer, offset, length, 0, y);
-            
+
                 // draw the cursor
                 if (cursorVisible && (cursorOffset >= offset) && (cursorOffset < (offset + length))) {
                     final int x1 = fm.charsWidth(buffer, offset, cursorOffset - offset);
                     final char charUnderCursor = buffer[cursorOffset];
                     final int width = fm.charWidth(charUnderCursor);
-                    
+
                     graphics.fillRect(x1, y - fontHeight + 1, width, fontHeight);
                     if (charUnderCursor >= ' ') {
                         graphics.setColor(Color.BLACK);
@@ -225,7 +224,7 @@ class FbTextScreen extends AbstractPcTextScreen {
             surface.drawCompatibleRaster(bufferedImage.getRaster(), 0, 0, xOffset, yOffset, bufferedImage.getWidth(), 
                     bufferedImage.getHeight(), Color.BLACK);
         }
-        
+
         public synchronized void repaint() {
             if (!update) {
                 update = true;
@@ -240,7 +239,7 @@ class FbTextScreen extends AbstractPcTextScreen {
             painter = null;
         }
     }
-    
+
     void open() {
         if (painter == null) {
             painter = new FbScreenPainter();

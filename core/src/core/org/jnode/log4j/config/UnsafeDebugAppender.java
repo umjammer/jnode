@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.log4j.config;
 
 import java.io.IOException;
@@ -33,7 +33,7 @@ import org.jnode.vm.Unsafe;
  * @author crawley@jnode.org
  */
 public class UnsafeDebugAppender extends WriterAppender {
-    
+
     private Writer writer;
 
     /**
@@ -46,7 +46,7 @@ public class UnsafeDebugAppender extends WriterAppender {
         this.writer = new UnsafeDebugWriter();
         super.setWriter(this.writer);
     }
-    
+
     @Override
     protected void closeWriter() {
         try {
@@ -68,7 +68,7 @@ public class UnsafeDebugAppender extends WriterAppender {
         }
         super.setWriter(writer);
     }
-    
+
     /**
      * A Writer wrapper for the kernel debug 'stream'.
      */

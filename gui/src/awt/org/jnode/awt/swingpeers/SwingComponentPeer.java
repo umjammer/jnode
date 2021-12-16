@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.swingpeers;
 
 import gnu.classpath.SystemProperties;
@@ -349,7 +349,6 @@ abstract class SwingComponentPeer<awtT extends Component, swingPeerT extends Com
      */
     public final void requestFocus() {
 
-
         peerComponent.requestFocus();
     }
 
@@ -420,7 +419,6 @@ abstract class SwingComponentPeer<awtT extends Component, swingPeerT extends Com
                     JNodeToolkit.postToTarget(fg, (Component) fg.getSource());
                     return true;
 
-
                 } catch (Exception x) {
                     x.printStackTrace();
                     return false;
@@ -461,7 +459,6 @@ abstract class SwingComponentPeer<awtT extends Component, swingPeerT extends Com
             fireComponentEvent(ComponentEvent.COMPONENT_MOVED);
         }
     }
-
 
     /**
      * @see java.awt.peer.ComponentPeer#setCursor(java.awt.Cursor)

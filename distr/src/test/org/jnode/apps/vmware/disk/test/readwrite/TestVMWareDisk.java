@@ -17,22 +17,23 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.vmware.disk.test.readwrite;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import junit.framework.Assert;
-
 import org.apache.log4j.Logger;
 import org.jnode.apps.vmware.disk.IOUtils;
 import org.jnode.apps.vmware.disk.VMWareDisk;
 import org.jnode.apps.vmware.disk.handler.IOHandler;
 import org.jnode.apps.vmware.disk.test.Utils;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Wrote from the 'Virtual Disk Format 1.0' specifications (from VMWare).
@@ -62,28 +63,28 @@ public class TestVMWareDisk extends BaseReadWriteTest {
         ByteBuffer data = IOUtils.allocate(IOHandler.SECTOR_SIZE * 100);
         disk.read(0, data);
 
-        Assert.assertEquals(toString() + ": buffer should be filled", 0, data.remaining());
+        assertEquals(0, data.remaining(), toString() + ": buffer should be filled");
     }
 
     /**
      * Do a write test.
      */
     @Test
-    @Ignore
+    @Disabled
     public void write() throws Exception {
         VMWareDisk disk = new VMWareDisk(diskFile);
 
         ByteBuffer data = IOUtils.allocate(IOHandler.SECTOR_SIZE * 100);
         disk.write(0, data);
 
-        Assert.assertEquals(toString() + ": buffer should be fully copied", 0, data.remaining());
+        assertEquals(0, data.remaining(), toString() + ": buffer should be fully copied");
     }
 
     /**
      * Do writes, just followed by reads on the same file.
      */
     @Test
-    @Ignore
+    @Disabled
     public void writeAndRead() throws Exception {
         Utils.DO_CLEAR = false;
 
@@ -104,9 +105,8 @@ public class TestVMWareDisk extends BaseReadWriteTest {
         // read
         LOG.info("writeAndRead: reading...");
         VMWareDisk disk2 = new VMWareDisk(diskFile);
-        Assert.assertEquals("disk has different size", disk.getLength(), disk2.getLength());
-        Assert.assertEquals("disk has different descriptor", disk.getDescriptor(), disk2
-                .getDescriptor());
+        assertEquals(disk.getLength(), disk2.getLength(), "disk has different size");
+        assertEquals(disk.getDescriptor(), disk2.getDescriptor(), "disk has different descriptor");
 
         expectedData.rewind();
         ByteBuffer actualData = IOUtils.allocate(size);
@@ -116,15 +116,14 @@ public class TestVMWareDisk extends BaseReadWriteTest {
         for (int i = 0; i < nbInts; i++) {
             int actual = actualData.getInt(i);
             int expected = expectedData.getInt();
-            // Assert.assertEquals("bad data at index "+(i*4), expected,
+            // assertEquals("bad data at index "+(i*4), expected,
             // actual);
             if (actual != expected) {
                 nbErrors++;
             }
         }
         double ratio = ((double) ((10000 * nbErrors) / nbInts)) / 100.0;
-        Assert.assertTrue("bad data. nbErrors=" + nbErrors + " (ratio=" + ratio + "%)",
-                (nbErrors == 0));
+        assertTrue((nbErrors == 0), "bad data. nbErrors=" + nbErrors + " (ratio=" + ratio + "%)");
 
         LOG.info("END   writeAndRead");
     }

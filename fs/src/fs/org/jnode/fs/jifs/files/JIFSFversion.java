@@ -17,9 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.fs.jifs.files;
 
+package org.jnode.fs.jifs.files;
 
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.jifs.JIFSFile;

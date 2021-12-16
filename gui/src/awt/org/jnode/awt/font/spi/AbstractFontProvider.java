@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.font.spi;
 
 import java.awt.Font;
@@ -57,42 +57,41 @@ public abstract class AbstractFontProvider<F extends Font, FD> implements FontPr
      * Cache font renderers
      */
     private final HashMap<Font, TextRenderer> renderers = new HashMap<Font, TextRenderer>();
-    
+
     /**
      * Cache font metrics
      */
     private final HashMap<Font, FontMetrics> metrics = new HashMap<Font, FontMetrics>();
-    
+
     /**
      * All loaded fonts (name, Font)
      */
     private final HashMap<String, F> fontsByName = new HashMap<String, F>();
-    
+
     /**
      * Have the system fonts been loaded yet
      */
     private boolean fontsLoaded = false;
-    
+
     private final RenderContext context = new RenderContext();
-    
+
     /**
      * The render cache
      */
     private final RenderCache renderCache = new RenderCache(context);
 
     private final String name;
-    
+
     private final Class<F> fontClass;
-    
+
     private final List<FD> userFontDatas = new Vector<FD>();
 
     private Map<FD, Size> maxCharBounds = new HashMap<FD, Size>(); 
-        
+
     protected AbstractFontProvider(Class<F> fontClass, String name) {
         this.name = name;
         this.fontClass = fontClass;
     }
-
 
     /**
      * Give the name of the font (used for setting the first provider to use
@@ -101,7 +100,6 @@ public abstract class AbstractFontProvider<F extends Font, FD> implements FontPr
     public final String getName() {
         return name;
     }
-
 
     /**
      * Does this provides provide the given font?
@@ -162,7 +160,7 @@ public abstract class AbstractFontProvider<F extends Font, FD> implements FontPr
      */
     public final FontMetrics getFontMetrics(Font font) {
         FontMetrics fm = metrics.get(font);
-        
+
         if (fm == null) {
             try {
                 fm = createFontMetrics(font);
@@ -171,10 +169,10 @@ public abstract class AbstractFontProvider<F extends Font, FD> implements FontPr
                 log.error("Cannot create font metrics for " + font, ex);
             }
         }
-        
+
         return fm;
     }
-    
+
    /*
     * Load all default fonts.
     */
@@ -186,7 +184,7 @@ public abstract class AbstractFontProvider<F extends Font, FD> implements FontPr
     }
 
     protected abstract FontMetrics createFontMetrics(Font font) throws IOException;
-    
+
     /**
      * Load all default fonts.
      */
@@ -201,15 +199,15 @@ public abstract class AbstractFontProvider<F extends Font, FD> implements FontPr
     @Override
     public final F getCompatibleFont(Font font) {
         F f = null;
-        
+
         if (fontClass.isInstance(font)) {
             f = fontClass.cast(font);
         }
-        
+
         if (f == null) {
             f = fontsByName.get(font.getFamily());
         }
-        
+
         if (f == null) {
             f = fontsByName.get(font.getName());
         }
@@ -221,24 +219,24 @@ public abstract class AbstractFontProvider<F extends Font, FD> implements FontPr
         if ((f == null) && (fontsByName.size() > 0)) {
             f = fontsByName.values().iterator().next();
         }
-        
+
         return f;
     }
-    
+
     protected void addUserFontData(FD data) {
         userFontDatas.add(data);
     }
-    
+
     protected List<FD> getUserFontDatas() {
         return userFontDatas;
     }
-    
+
     protected void addFont(F font) {
         //fontsByName.put(font.getName(), font);
         fontsByName.put(font.getFamily(), font);
         //fontsByName.put(font.getFontName(), font);        
     }
-    
+
 //    /**
 //     * Load all default fonts.
 //     */
@@ -267,20 +265,20 @@ public abstract class AbstractFontProvider<F extends Font, FD> implements FontPr
 //            log.error("Cannot find font " + resName, ex);
 //        }
 //    }
-    
+
     public Rectangle2D getMaxCharBounds(FD container) {
         Size size = maxCharBounds.get(container);
-                
+
         if (size == null) {
             size = getMaxCharSize(container);
             maxCharBounds.put(container, size);
         }
-        
+
         return new Rectangle2D.Double(0, 0, size.maxCharWidth, size.maxCharHeight);                
     }
-    
+
     protected abstract Size getMaxCharSize(FD fontData);
-    
+
     public static class Size {
         public int maxCharWidth = 0;
         public int maxCharHeight = 0;

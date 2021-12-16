@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.net;
 
 import java.io.PrintWriter;
@@ -46,7 +46,7 @@ import org.jnode.shell.syntax.HostNameArgument;
  * @author JPG
  */
 public class PingCommand extends AbstractCommand implements ICMPListener {
-    
+
     private static final String help_host = "the target host";
     private static final String help_super = "Ping the specified host";
     private static final String fmt_unknown_host = "Unknown host: %s\n";
@@ -55,7 +55,7 @@ public class PingCommand extends AbstractCommand implements ICMPListener {
     private static final String fmt_stats = "-> Packet statistics%n%s%n";
     private static final String fmt_get_stats = "%d packets transmitted, %d packets received%nround-trip min/avg/max" +
                                                 " = %d/%.3f/%dms";
-    
+
     // FIXME Some of the following could be command parameters ...
     private final Statistics stat = new Statistics();
     private boolean wait = true;
@@ -79,7 +79,7 @@ public class PingCommand extends AbstractCommand implements ICMPListener {
     public static void main(String[] args) throws Exception {
         new PingCommand().execute(args);
     }
-    
+
     public void execute() throws SocketException, InterruptedException {
         try {
             this.dst = new IPv4Address(argHost.getAsInetAddress());
@@ -88,7 +88,7 @@ public class PingCommand extends AbstractCommand implements ICMPListener {
             exit(1);
         }
         final PrintWriter out = getOutput().getPrintWriter();
-        
+
         final IPv4Header netHeader =
                 new IPv4Header(0, this.ttl, IPv4Constants.IPPROTO_ICMP, this.dst, 8);
         netHeader.setDontFragment(this.dontFragment);
@@ -143,10 +143,10 @@ public class PingCommand extends AbstractCommand implements ICMPListener {
         } finally {
             icmpProtocol.removeListener(this);
         }
-        
+
         out.format(fmt_stats, this.stat.getStatistics());
     }
-    
+
     private long match(int id, int seq, Request r) {
         if (r != null && id == r.getId()) {
             return r.getTimestamp();

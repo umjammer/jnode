@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.textscreen.x86;
 
 import javax.naming.NameNotFoundException;
@@ -125,7 +125,7 @@ public class PcTextScreen extends AbstractPcTextScreen {
     @Override
     public void set(int offset, char[] ch, int chOfs, int length, int color) {
         color = (color & 0xFF) << 8;
-        
+
         int chOffset = chOfs;
         int ofs = offset * 2;
         for (int i = 0; i < length; i++) {

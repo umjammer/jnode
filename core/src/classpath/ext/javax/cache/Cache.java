@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package javax.cache;
 
 import java.util.Collection;
@@ -38,7 +38,7 @@ public interface Cache extends Map
      * 
      */
     public Object get(Object key);
-    
+
     /**
      * 
      * @param keys
@@ -46,53 +46,53 @@ public interface Cache extends Map
      * @throws CacheException
      */
     public Map getAll(Collection keys) throws CacheException;
-    
+
     /**
      * 
      * @param key
      * @throws CacheException
      */
     public void load(Object key) throws CacheException;
-    
+
     /**
      * 
      * @param keys
      * @throws CacheException
      */
     public void loadAll(Collection keys) throws CacheException;
-    
+
     /**
      * 
      * @param key
      * @return
      */
     public Object peek(Object key);
-    
+
     /**
      * 
      * @param key
      * @return
      */
     public CacheEntry getCacheEntry(Object key);
-    
+
     /**
      * 
      * @return
      */
     public CacheStatistics getCacheStatistics();
-    
+
     /**
      * 
      *
      */
     public void evict();
-    
+
     /**
      * 
      * @param listener
      */
     public void addListener(CacheListener listener);
-    
+
     /**
      * 
      * @param listener

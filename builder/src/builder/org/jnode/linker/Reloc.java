@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.linker;
 
 import java.io.IOException;
@@ -251,7 +251,6 @@ public class Reloc {
         private final int nr;
 
         private final String name;
-
 
         private Type(String name, int nr) {
             this.name = name;

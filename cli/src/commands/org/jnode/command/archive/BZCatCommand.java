@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.archive;
 
 /**
@@ -30,7 +30,7 @@ public class BZCatCommand extends BZip {
         // from BZip
         registerArguments(Files, Small);
     }
-    
+
     public void execute() {
         super.execute("bzcat");
     }

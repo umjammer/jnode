@@ -19,7 +19,6 @@
 
 package charva.awt;
 
-
 /**
  * Defines an interface for classes that know how to lay out a Container
  * based on a layout-constraints object.

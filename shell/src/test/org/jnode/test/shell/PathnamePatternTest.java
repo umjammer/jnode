@@ -17,15 +17,18 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell;
 
 import java.io.File;
 import java.util.LinkedList;
 
 import org.jnode.shell.PathnamePattern;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test key methods of the PathnamePattern class.
@@ -33,125 +36,125 @@ import org.junit.Test;
  * @author crawley@jnode.org
  */
 public class PathnamePatternTest {
-    
+
     private static final int DF = PathnamePattern.DEFAULT_FLAGS;
 
     @Test
     public void testIsPattern() {
-        Assert.assertTrue(PathnamePattern.isPattern("*"));
-        Assert.assertTrue(PathnamePattern.isPattern("?"));
-        Assert.assertTrue(PathnamePattern.isPattern("[abc]"));
-        Assert.assertTrue(PathnamePattern.isPattern("\"hi\""));
-        Assert.assertTrue(PathnamePattern.isPattern("\'hi\'"));
-        Assert.assertTrue(PathnamePattern.isPattern("hi\\ there"));
-        Assert.assertFalse(PathnamePattern.isPattern("hi there"));
-        Assert.assertFalse(PathnamePattern.isPattern(""));
-        Assert.assertFalse(PathnamePattern.isPattern(" "));
+        assertTrue(PathnamePattern.isPattern("*"));
+        assertTrue(PathnamePattern.isPattern("?"));
+        assertTrue(PathnamePattern.isPattern("[abc]"));
+        assertTrue(PathnamePattern.isPattern("\"hi\""));
+        assertTrue(PathnamePattern.isPattern("\'hi\'"));
+        assertTrue(PathnamePattern.isPattern("hi\\ there"));
+        assertFalse(PathnamePattern.isPattern("hi there"));
+        assertFalse(PathnamePattern.isPattern(""));
+        assertFalse(PathnamePattern.isPattern(" "));
     }
-    
+
     @Test
     public void testCompilePosixShellPattern() {
-        Assert.assertEquals("abc", PathnamePattern.compilePosixShellPattern("abc", 0).toString());
-        Assert.assertEquals("abc", PathnamePattern.compilePosixShellPattern("abc", DF).toString());
-        
-        Assert.assertEquals(".", PathnamePattern.compilePosixShellPattern("?", 0).toString());
-        Assert.assertEquals("[^\\.]", PathnamePattern.compilePosixShellPattern("?", DF).toString());
-        
-        Assert.assertEquals(".*?", PathnamePattern.compilePosixShellPattern("*", 0).toString());
-        Assert.assertEquals("(|[^\\.].*?)", PathnamePattern.compilePosixShellPattern("*", DF)
+        assertEquals("abc", PathnamePattern.compilePosixShellPattern("abc", 0).toString());
+        assertEquals("abc", PathnamePattern.compilePosixShellPattern("abc", DF).toString());
+
+        assertEquals(".", PathnamePattern.compilePosixShellPattern("?", 0).toString());
+        assertEquals("[^\\.]", PathnamePattern.compilePosixShellPattern("?", DF).toString());
+
+        assertEquals(".*?", PathnamePattern.compilePosixShellPattern("*", 0).toString());
+        assertEquals("(|[^\\.].*?)", PathnamePattern.compilePosixShellPattern("*", DF)
                 .toString());
 
-        Assert.assertEquals(".*?a.*?", PathnamePattern.compilePosixShellPattern("*a*", 0)
+        assertEquals(".*?a.*?", PathnamePattern.compilePosixShellPattern("*a*", 0)
                 .toString());
-        Assert.assertEquals("(|[^\\.].*?)a.*?", PathnamePattern.compilePosixShellPattern("*a*", DF)
-                .toString());
-
-        Assert.assertEquals("a.*?a.*?a", PathnamePattern.compilePosixShellPattern("a*a*a", 0)
-                .toString());
-        Assert.assertEquals("a.*?a.*?a", PathnamePattern.compilePosixShellPattern("a*a*a", DF)
+        assertEquals("(|[^\\.].*?)a.*?", PathnamePattern.compilePosixShellPattern("*a*", DF)
                 .toString());
 
-        Assert.assertEquals("\".*?a.*?\"", PathnamePattern.compilePosixShellPattern("\"*a*\"", 0)
+        assertEquals("a.*?a.*?a", PathnamePattern.compilePosixShellPattern("a*a*a", 0)
                 .toString());
-        Assert.assertEquals("\\*a\\*", PathnamePattern.compilePosixShellPattern("\"*a*\"", DF)
-                .toString());
-
-        Assert.assertEquals("\'.*?a.*?\'", PathnamePattern.compilePosixShellPattern("\'*a*\'", 0)
-                .toString());
-        Assert.assertEquals("\\*a\\*", PathnamePattern.compilePosixShellPattern("\'*a*\'", DF)
+        assertEquals("a.*?a.*?a", PathnamePattern.compilePosixShellPattern("a*a*a", DF)
                 .toString());
 
-        Assert.assertEquals("\\\\.*?a.*?", PathnamePattern.compilePosixShellPattern("\\*a*", 0)
+        assertEquals("\".*?a.*?\"", PathnamePattern.compilePosixShellPattern("\"*a*\"", 0)
                 .toString());
-        Assert.assertEquals("\\*a.*?", PathnamePattern.compilePosixShellPattern("\\*a*", DF)
+        assertEquals("\\*a\\*", PathnamePattern.compilePosixShellPattern("\"*a*\"", DF)
+                .toString());
+
+        assertEquals("\'.*?a.*?\'", PathnamePattern.compilePosixShellPattern("\'*a*\'", 0)
+                .toString());
+        assertEquals("\\*a\\*", PathnamePattern.compilePosixShellPattern("\'*a*\'", DF)
+                .toString());
+
+        assertEquals("\\\\.*?a.*?", PathnamePattern.compilePosixShellPattern("\\*a*", 0)
+                .toString());
+        assertEquals("\\*a.*?", PathnamePattern.compilePosixShellPattern("\\*a*", DF)
                 .toString());
     }
 
     @Test
     public void testCompilePathPattern() {
-        Assert.assertEquals("PathnamePattern{source='abc',absolute=false,patterns=['abc']}",
+        assertEquals("PathnamePattern{source='abc',absolute=false,patterns=['abc']}",
                 PathnamePattern.compilePathPattern("abc", DF).toRegexString());
 
-        Assert.assertEquals("PathnamePattern{source='?',absolute=false,patterns=['^[^\\.]$']}",
+        assertEquals("PathnamePattern{source='?',absolute=false,patterns=['^[^\\.]$']}",
             PathnamePattern.compilePathPattern("?", DF).toRegexString());
 
         // The following (which matches an empty pathname component) is
         // suboptimal but
         // not incorrect. In practice, we should never encounter an empty
         // pathname component.
-        Assert.assertEquals(
+        assertEquals(
                 "PathnamePattern{source='*',absolute=false,patterns=['^(|[^\\.].*)$']}",
                 PathnamePattern.compilePathPattern("*", DF).toRegexString());
 
-        Assert.assertEquals("PathnamePattern{source='\"*\"',absolute=false,patterns=['^\\*$']}",
+        assertEquals("PathnamePattern{source='\"*\"',absolute=false,patterns=['^\\*$']}",
                 PathnamePattern.compilePathPattern("\"*\"", DF).toRegexString());
 
-        Assert.assertEquals("PathnamePattern{source='a/b',absolute=false,patterns=['a','b']}",
+        assertEquals("PathnamePattern{source='a/b',absolute=false,patterns=['a','b']}",
                 PathnamePattern.compilePathPattern("a/b", DF).toRegexString());
 
-        Assert.assertEquals(
+        assertEquals(
                 "PathnamePattern{source='a/*',absolute=false,patterns=['a','^(|[^\\.].*)$']}",
                 PathnamePattern.compilePathPattern("a/*", DF).toRegexString());
 
-        Assert.assertEquals(
+        assertEquals(
                 "PathnamePattern{source='/a/*',absolute=true,patterns=['a','^(|[^\\.].*)$']}",
                 PathnamePattern.compilePathPattern("/a/*", DF).toRegexString());
 
-        Assert.assertEquals(
+        assertEquals(
                 "PathnamePattern{source='/a/\\*',absolute=true,patterns=['a','^\\*$']}",
                 PathnamePattern.compilePathPattern("/a/\\*", DF).toRegexString());
 
-        Assert.assertEquals(
+        assertEquals(
                 "PathnamePattern{source='a//\"*\"',absolute=false,patterns=['a','^\\*$']}",
                 PathnamePattern.compilePathPattern("a//\"*\"", DF).toRegexString());
 
-        Assert.assertEquals(
+        assertEquals(
                 "PathnamePattern{source='/a/\"*\"',absolute=true,patterns=['a','^\\*$']}",
                 PathnamePattern.compilePathPattern("/a/\"*\"", DF).toRegexString());
 
-        Assert.assertEquals(
+        assertEquals(
                 "PathnamePattern{source='\"/a/*\"',absolute=true,patterns=['a','^\\*$']}",
                 PathnamePattern.compilePathPattern("\"/a/*\"", DF).toRegexString());
 
-        Assert.assertEquals(
+        assertEquals(
                 "PathnamePattern{source='\"/a/*\"',absolute=true,patterns=['a','^\\*$']}",
                 PathnamePattern.compilePathPattern("\"/a/*\"", DF).toRegexString());
-        
-        Assert.assertEquals("PathnamePattern{source='{print \\$1}',absolute=false,patterns=['^\\{print \\$1\\}$']}",
+
+        assertEquals("PathnamePattern{source='{print \\$1}',absolute=false,patterns=['^\\{print \\$1\\}$']}",
                 PathnamePattern.compilePathPattern("{print \\$1}", DF).toRegexString());
     }
-    
+
     @Test
     public void testExpand() {
         PathnamePattern pat = PathnamePattern.compilePathPattern("/tmp/*");
         LinkedList<String> list = pat.expand(new File("."));
         for (String path : list) {
-            Assert.assertTrue(new File(path).exists());
+            assertTrue(new File(path).exists());
         }
         pat = PathnamePattern.compilePathPattern("*");
         list = pat.expand(new File("."));
         for (String path : list) {
-            Assert.assertTrue(new File(path).exists());
+            assertTrue(new File(path).exists());
         }
     }
 }

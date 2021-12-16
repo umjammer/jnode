@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2009  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -47,21 +47,21 @@ public class LoggingFormatter extends Formatter {
             if (idx >= 0) {
                 message = message.substring(idx + serverLogger.length() + 1);
                 message = message.trim();
-                
+
                 System.err.println("message1=" + message.replace(':', '#'));
                 idx = message.indexOf(':');                
                 if (idx >= 0) {
                     try {
                         level = Level.parse(message.substring(0, idx)).getName();
-                        
+
                         message = message.substring(idx + 1);
                         message = message.trim();
-                        
+
                         System.err.println("message2=" + message.replace(':', '#'));
                         idx = message.indexOf(':');                        
                         if (idx >= 0) {
                             loggerName = message.substring(0, idx);
-                            
+
                             message = message.substring(idx + 1);
                             message = message.trim();
                         }
@@ -74,7 +74,7 @@ public class LoggingFormatter extends Formatter {
 */        
         StringBuilder sb = new StringBuilder(level);
         sb.append(": ").append(loggerName);            
-        
+
         //sb.append(record.getSourceMethodName());        
         sb.append(": ").append(message);
         if (record.getThrown() != null) {

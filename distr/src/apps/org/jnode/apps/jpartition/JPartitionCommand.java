@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.jpartition;
 
 import java.io.InputStream;
@@ -70,7 +70,7 @@ public class JPartitionCommand extends AbstractCommand {
         InputStream in = getInput().getInputStream();
         PrintStream out = getOutput().getPrintStream();
         PrintStream err = getError().getPrintStream();
-        
+
         boolean consoleView = FLAG_CONSOLE.isSet();
         boolean swingView = FLAG_SWING.isSet();
         doExecute(install, in, out, err, consoleView, swingView);
@@ -88,7 +88,7 @@ public class JPartitionCommand extends AbstractCommand {
             err.println("No UI selected");
             exit(1);
         }
- 
+
         JPartition jpartition = new JPartition(viewFactory, in, out, err, install);
         jpartition.launch();
     } 

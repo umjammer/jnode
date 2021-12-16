@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.ntfs;
 
 import java.io.File;
@@ -35,7 +35,6 @@ import org.jnode.fs.ntfs.NTFSFileSystem;
 import org.jnode.fs.ntfs.NTFSFileSystemType;
 import org.jnode.fs.service.FileSystemService;
 import org.jnode.naming.InitialNaming;
-
 
 /**
  * Ext2 fs test, reads a disk image
@@ -85,7 +84,6 @@ public class NTFSTest {
             e.printStackTrace();
             System.exit(-1);
         }
-
 
     }
 
@@ -156,7 +154,6 @@ public class NTFSTest {
               "( 0x"+ Integer.toHexString(volume.getBootRecord().MFTPointer * volume.getClusterSize()) + ")");
               System.out.println("Cluster size = " + volume.getClusterSize());
 
-
           } catch (FileNotFoundException e)
           {
               // TODO Auto-generated catch block
@@ -168,7 +165,6 @@ public class NTFSTest {
           }*/
 
     }
-
 
     public static void main(String[] args) {
         NTFSTest test = new NTFSTest();

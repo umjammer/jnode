@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt;
 
 import org.jnode.driver.video.HardwareCursor;
@@ -270,7 +270,6 @@ public class JNodeCursors {
     };
     */
 
-
     private static final String HAND_IMAGE_20x20 =
         "TTTTTBBTTTTTTTTTTTTT" +
             "TTTTBWWBTTTTTTTTTTTT" +
@@ -480,7 +479,6 @@ public class JNodeCursors {
         new HardwareCursorImage(32, 32, RESIZE_VERTICAL_IMAGE_32x32, 5, 9);
     public static HardwareCursor RESIZE_VERTICAL =
         new HardwareCursor(new HardwareCursorImage[]{RESIZE_VERTICAL_20x20, RESIZE_VERTICAL_32x32});
-
 
     private static final String RESIZE_NORTHWEST_IMAGE_20x20 =
         "BBBBBBBBBTTTTTTTTTTT" +

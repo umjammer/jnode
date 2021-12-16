@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.emu.plugin.model;
 
 import java.util.ArrayList;
@@ -80,7 +80,7 @@ public class DummyPluginDescriptor implements PluginDescriptor {
             return extensionPoints.toArray(new ExtensionPoint[extensionPoints.size()]);
         }
     }
-    
+
     public void addExtensionPoint(ExtensionPoint ep) {
         if (extensionPoints == null) {
             extensionPoints = new ArrayList<ExtensionPoint>(1);

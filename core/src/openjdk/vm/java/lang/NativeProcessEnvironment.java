@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package java.lang;
 
 import org.jnode.vm.VmSystem;
@@ -34,7 +34,7 @@ public class NativeProcessEnvironment {
     // This is the initial environment encoded in a format that matches
     // the expectations of the ProcessEnvironment static initializer.
     private static byte[][] isolateInitialEnv;
-    
+
     /**
      * Set the 'binary' environment that will be returned by {@link #environ()}.
      * This can only be done once, and only 
@@ -47,7 +47,7 @@ public class NativeProcessEnvironment {
         }
         isolateInitialEnv = env;
     }
-    
+
     /**
      * This method gets called just once (per isolate) by the static initializer 
      * for ProcessEnvironment.  It returns the bootstrap environment to be for 

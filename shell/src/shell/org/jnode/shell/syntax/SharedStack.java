@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.util.Collection;
@@ -45,9 +45,9 @@ class SharedStack<E> implements Deque<E> {
     private int baseStackSize;
     private Deque<E> baseStack;
     private Deque<E> myStack;
-    
+
     private static final boolean DEBUG = true;
-    
+
     /**
      * Create a new working stack with an initial state taken from the supplied Deque.
      * It is assumed that the supplied Deque is not be changed for the lifetime of
@@ -99,7 +99,7 @@ class SharedStack<E> implements Deque<E> {
         if (DEBUG) check();
         final Iterator<E> it1 = myStack.iterator();
         final Iterator<E> it2 = baseStack == null ? null : baseStack.iterator();
-        
+
         return new Iterator<E>() {
 
             public boolean hasNext() {
@@ -119,7 +119,7 @@ class SharedStack<E> implements Deque<E> {
             public void remove() {
                 throw new UnsupportedOperationException("remove");
             }
-            
+
         };
     }
 
@@ -247,7 +247,7 @@ class SharedStack<E> implements Deque<E> {
     public <T> T[] toArray(T[] a) {
         throw new UnsupportedOperationException();
     }
-    
+
     private void check() {
         if (baseStack != null && baseStack.size() != baseStackSize) {
             throw new AssertionError("base stack has been updated!");

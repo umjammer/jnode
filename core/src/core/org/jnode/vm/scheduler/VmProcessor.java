@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.scheduler;
 
 import java.io.PrintWriter;
@@ -126,7 +126,7 @@ public abstract class VmProcessor extends VmSystemObject implements org.jnode.vm
      * The kernel debugger that is used.
      */
     private final KernelDebugger kernelDebugger;
-    
+
     /**
      * The architecture of this processor.
      */

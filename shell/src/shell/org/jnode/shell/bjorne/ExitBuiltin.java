@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import java.util.Iterator;
@@ -39,21 +39,21 @@ import org.jnode.shell.syntax.SyntaxBundle;
 final class ExitBuiltin extends BjorneBuiltin {
     private static final SyntaxBundle SYNTAX = 
         new SyntaxBundle("exit", new OptionalSyntax(new ArgumentSyntax("status")));
-    
+
     static final Factory FACTORY = new Factory() {
         public BjorneBuiltinCommandInfo buildCommandInfo(BjorneContext context) {
             return new BjorneBuiltinCommandInfo("exit", SYNTAX, new ExitBuiltin(), context);
         }
     };
-    
+
     private final IntegerArgument argStatus = new IntegerArgument("status", Argument.OPTIONAL, 
             "The exit status");
-    
+
     private ExitBuiltin() {
         super("Exit the current context (shell, shell function or script)");
         registerArguments(argStatus);
     }
-    
+
     @Override
     public void execute() throws Exception {
         if (argStatus.isSet()) {

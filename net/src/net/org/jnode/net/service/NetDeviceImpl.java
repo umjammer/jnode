@@ -17,13 +17,12 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.service;
 
 import java.net.VMNetDevice;
 
 import org.jnode.driver.Device;
-
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)
@@ -31,18 +30,18 @@ import org.jnode.driver.Device;
 public final class NetDeviceImpl extends VMNetDevice {
 
     private final Device device;
-    
+
     public NetDeviceImpl(Device device) {
         this.device = device;
     }
-    
+
     /**
      * @see java.net.VMNetDevice#getId()
      */
     public String getId() {
         return device.getId();
     }
-    
+
     /**
      * @return Returns the device.
      */

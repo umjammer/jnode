@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.bus.pci;
 
 import org.jnode.util.NumberUtils;
@@ -31,12 +31,12 @@ public abstract class Capability {
      * Offset of this capability in the device config space
      */
     private final int offset;
-    
+
     /**
      * The device this is a capability of
      */
     private final PCIDevice device;
-    
+
     /**
      * The capability id
      */
@@ -52,27 +52,27 @@ public abstract class Capability {
          * Power Management
          */
         public static final int PM = 0x01;
-        
+
         /**
          * Accelerated Graphics Port
          */
         public static final int AGP = 0x02;
-        
+
         /**
          * Vital Product Data
          */
         public static final int VPD = 0x03;
-        
+
         /**
          * Slot Identification
          */
         public static final int SLOTID = 0x04;
-        
+
         /**
          * Message Signalled Interrupts
          */
         public static final int MSI = 0x05;
-        
+
         /**
          * CompactPCI HotSwap
          */

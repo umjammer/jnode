@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package java.util.prefs;
 
 /**
@@ -53,7 +53,7 @@ public class TransientPreferences extends AbstractPreferences {
      */
     protected void flushSpi() throws BackingStoreException {
         // TODO Auto-generated method stub
-        
+
     }
 
     /**
@@ -77,7 +77,7 @@ public class TransientPreferences extends AbstractPreferences {
      */
     protected void putSpi(String key, String value) {
         // TODO Auto-generated method stub
-        
+
     }
 
     /**
@@ -85,7 +85,7 @@ public class TransientPreferences extends AbstractPreferences {
      */
     protected void removeNodeSpi() throws BackingStoreException {
         // TODO Auto-generated method stub
-        
+
     }
 
     /**
@@ -93,7 +93,7 @@ public class TransientPreferences extends AbstractPreferences {
      */
     protected void removeSpi(String key) {
         // TODO Auto-generated method stub
-        
+
     }
 
     /**
@@ -101,8 +101,7 @@ public class TransientPreferences extends AbstractPreferences {
      */
     protected void syncSpi() throws BackingStoreException {
         // TODO Auto-generated method stub
-        
+
     }
-    
-    
+
 }

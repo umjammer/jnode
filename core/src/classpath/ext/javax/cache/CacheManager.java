@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package javax.cache;
 
 import java.util.HashMap;
@@ -41,7 +41,7 @@ public class CacheManager
      * use a synchronized map. (not specified in JSR)
      */
     private Map<String, Cache> caches = new Hashtable<String, Cache>();
-    
+
     /**
      * 
      */
@@ -67,7 +67,7 @@ public class CacheManager
         }
         return instance;
     }
-       
+
     /**
      * 
      * @param cacheName
@@ -77,7 +77,7 @@ public class CacheManager
     {
         return caches.get(cacheName);
     }
-    
+
     /**
      * 
      * @param cacheName
@@ -87,7 +87,7 @@ public class CacheManager
     {
         caches.put(cacheName, cache);
     }
-    
+
     /**
      * 
      * @return
@@ -103,7 +103,7 @@ public class CacheManager
             throw new CacheException("The property " + property + 
                                     " must specify a valid class name"); 
         }
-        
+
         try
         {
             Class<?> clazz = Class.forName(className);

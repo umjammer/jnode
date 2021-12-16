@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.swingpeers;
 
 import java.awt.AWTError;
@@ -300,7 +300,6 @@ public final class SwingToolkit extends JNodeToolkit {
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
 
-
                 //peer frames should be created in the same app context where the desktop is
                 //todo refactor this into a generic inter-appcontext invoke and wait
                 AppContext ac = SunToolkit.targetToAppContext(target);
@@ -363,12 +362,9 @@ public final class SwingToolkit extends JNodeToolkit {
 
                  // --invoke and wait
 
-
                 return null;
             }
         });
-
-
 
         synchronized (ret) {
             return ret[0];

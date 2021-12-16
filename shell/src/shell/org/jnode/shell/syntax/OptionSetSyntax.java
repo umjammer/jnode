@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.util.ArrayList;
@@ -27,7 +27,6 @@ import java.util.TreeSet;
 
 import org.jnode.nanoxml.XMLElement;
 import org.jnode.shell.CommandLine.Token;
-
 
 /**
  * An OptionSet syntax is like a Powerset syntax, except that:
@@ -39,12 +38,12 @@ import org.jnode.shell.CommandLine.Token;
  * @author crawley@jnode.org
  */
 public class OptionSetSyntax extends GroupSyntax {
-    
+
     private static class FlagSetArgument extends Argument<Boolean> {
-        
+
         private final List<OptionSyntax> flagOptions;
         private final ArgumentBundle bundle;
-        
+
         FlagSetArgument(String label, ArgumentBundle bundle, List<OptionSyntax> flagOptions) {
             super(label, OPTIONAL + MULTIPLE, new Boolean[0], null);
             this.flagOptions = flagOptions;
@@ -81,7 +80,7 @@ public class OptionSetSyntax extends GroupSyntax {
             return "flags";
         }
     }
-    
+
     private static Comparator<OptionSyntax> SHORT_NAME_ORDER =
         new Comparator<OptionSyntax>() {
 
@@ -97,9 +96,9 @@ public class OptionSetSyntax extends GroupSyntax {
                 }
             }
         };
-    
+
     private final OptionSyntax[] optionSyntaxes;
-    
+
     public OptionSetSyntax(String label, String description, OptionSyntax... syntaxes) {
         super(label, description, syntaxes);
         this.optionSyntaxes = syntaxes;

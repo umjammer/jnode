@@ -17,9 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.vm.facade;
 
+package org.jnode.vm.facade;
 
 /**
  * An {@link ObjectFilter} that accepts objects whose class name contains
@@ -50,13 +49,13 @@ public class SimpleObjectFilter implements ObjectFilter {
         if (className == null) {
             return true;
         }
-        
+
         for (String f : this.className) {
             if (className.contains(f)) {
                 return true;
             }
         }
-        
+
         return false;
     }
 }

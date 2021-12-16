@@ -17,13 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.nfs.nfs2;
 
 public class NFS2Exception extends Exception {
 
     private static final long serialVersionUID = -2769208550243772629L;
-    
+
     private ResultCode resultCode;
 
     public NFS2Exception(String message, Throwable e) {

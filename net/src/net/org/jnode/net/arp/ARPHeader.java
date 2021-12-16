@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.arp;
 
 import java.net.SocketException;
@@ -221,7 +221,6 @@ public class ARPHeader implements NetworkLayerHeader {
         sourceHardwareAddress = hwTmp;
         sourceProtocolAddress = pTmp;
     }
-
 
     /**
      * @param operation

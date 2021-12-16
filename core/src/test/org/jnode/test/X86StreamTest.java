@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test;
 
 import java.io.FileOutputStream;
@@ -140,7 +140,6 @@ public class X86StreamTest implements X86Constants {
         os.setObjectRef(jt);
         os.write32(0x1234ABCD);
         os.write32(0xFFEEDDCC);
-
 
         os.writeJMP(X86Register.EDX, 15);
         os.writeADD(X86Register.EDX, X86Register.EBX, 5);

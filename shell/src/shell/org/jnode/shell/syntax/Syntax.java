@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.util.Collections;
@@ -35,13 +35,12 @@ import org.jnode.nanoxml.XMLElement;
  * @author crawley@jnode.org
  */
 public abstract class Syntax {
-    
+
     private static final Syntax[] NO_CHILDREN = new Syntax[0];
-    
+
     protected final String label;
     private Syntax parent;
     private String description;
-
 
     public Syntax(String label, String description) {
         this.label = label;

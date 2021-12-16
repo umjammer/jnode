@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.apps.jpartition;
 
 import java.io.InputStream;
@@ -35,7 +35,7 @@ public class JPartition {
      * The view factory used to create the user interface.
      */
     private final ViewFactory viewFactory;
-    
+
     /**
      * True if we are trying to install jnode, false in other cases.
      */
@@ -45,7 +45,7 @@ public class JPartition {
      * The input stream to use.
      */
     private final InputStream in;
-    
+
     /**
      * The output stream to use.
      */
@@ -55,7 +55,7 @@ public class JPartition {
      * The error stream to use.
      */
     private final PrintStream err;
-    
+
     /**
      * Constructor for a new instance of JPartition application.
      * @param viewFactory The view factory used to create the user interface.
@@ -80,7 +80,6 @@ public class JPartition {
         Context context = new Context(in, out, errorReporter);        
         UserFacade.getInstance().setContext(context);
 
-        
         // CommandProcessor
         Object cmdProcessorView = viewFactory.createCommandProcessorView(context);
 

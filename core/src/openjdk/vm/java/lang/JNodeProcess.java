@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package java.lang;
 
 import java.io.OutputStream;
@@ -32,7 +32,7 @@ class JNodeProcess extends Process {
 
     static Process start(String[] cmdarray, java.util.Map<String, String> environment, String dir,
                                 boolean redirectErrorStream) throws IOException {
-        
+
         System.out.println("cmdarray: " + Arrays.asList(cmdarray));
         System.out.println("environment: " + environment);
         System.out.println("dir: " + dir);
@@ -40,7 +40,7 @@ class JNodeProcess extends Process {
 
         return new JNodeProcess();
     }
-    
+
     @Override
     public OutputStream getOutputStream() {
         return null;

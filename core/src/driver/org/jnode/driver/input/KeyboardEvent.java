@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.input;
 
 import java.awt.event.InputEvent;
@@ -31,7 +31,7 @@ import org.jnode.system.event.SystemEvent;
 public class KeyboardEvent extends SystemEvent {
     /** This value is returned by getKeyChar() when a KeyboardEvent has no char */
     public static final int NO_CHAR = KeyEvent.CHAR_UNDEFINED;
-    
+
     private int modifiers;
     private int keyCode;
     private char keyChar;

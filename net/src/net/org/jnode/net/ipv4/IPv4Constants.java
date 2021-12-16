@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.ipv4;
 
 /**
@@ -53,9 +53,9 @@ public interface IPv4Constants {
     public static final int IP_MF            = 0x2000;  /* More fragment will follow */
     public static final int IP_DF            = 0x4000;  /* Don't fragment */
     public static final int IP_FRAGOFS_MASK  = 0x1FFF;  /* Mask to get fragment offset */
-    
+
     public static final long IP_FRAGTIMEOUT  = 120000;  /* Number of ms till a fragment list is timed out. */
-    
+
     public static final int IP_MIN_FRAG_SIZE = 8;       /* Minimum size of a fragment */
 
     // Route flags

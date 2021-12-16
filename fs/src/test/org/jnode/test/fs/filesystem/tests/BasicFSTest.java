@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs.filesystem.tests;
 
 import java.util.Iterator;
@@ -29,8 +29,14 @@ import org.jnode.fs.util.FSUtils;
 import org.jnode.test.fs.filesystem.AbstractFSTest;
 import org.jnode.test.fs.filesystem.config.FSTestConfig;
 import org.jnode.test.support.TestUtils;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Fabien DUMINY
@@ -39,7 +45,7 @@ public class BasicFSTest extends AbstractFSTest {
     public BasicFSTest(FSTestConfig config) {
         super(config);
     }
-    
+
     @Test
     public void testGetRootEntry() throws Exception {
         setUp();
@@ -83,8 +89,8 @@ public class BasicFSTest extends AbstractFSTest {
             assertContainsOnly("must contain " + dirName, rootDir.iterator(),
                 TestUtils.append(getEmptyDirNames(config, true), new String[]{dirName}));
             FSEntry gotEntry = rootDir.getEntry(dirName);
-            assertNotNull("must contain the added directory", gotEntry);
-            assertEquals("returned bad entry", dirName, gotEntry.getName());
+            assertNotNull(gotEntry, "must contain the added directory");
+            assertEquals(dirName, gotEntry.getName(), "returned bad entry");
         }
         log.debug("Root dir after testAddDirectory :\n" + rootDir);
         TestUtils.listEntries(rootDir.iterator());
@@ -119,8 +125,8 @@ public class BasicFSTest extends AbstractFSTest {
             assertContainsOnly("must contain " + fileName, rootDir.iterator(),
                 TestUtils.append(getEmptyDirNames(config, true), new String[]{fileName}));
             FSEntry gotEntry = rootDir.getEntry(fileName);
-            assertNotNull("must contain the added file", gotEntry);
-            assertEquals("returned bad entry", fileName, gotEntry.getName());
+            assertNotNull(gotEntry, "must contain the added file");
+            assertEquals(fileName, gotEntry.getName(), "returned bad entry");
         }
         log.debug("Root dir after testAddFile :\n" + rootDir);
         TestUtils.listEntries(rootDir.iterator());
@@ -135,24 +141,24 @@ public class BasicFSTest extends AbstractFSTest {
             FSDirectory rootDir = getFs().getRootEntry().getDirectory();
             FSEntry entry = rootDir.addFile(filename);
             FSEntry gotEntry = rootDir.getEntry(filename);
-            assertNotNull("must contain the added file", gotEntry);
-            assertEquals("returned bad entry", filename, gotEntry.getName());
+            assertNotNull(gotEntry, "must contain the added file");
+            assertEquals(filename, gotEntry.getName(), "returned bad entry");
 
             log.debug("entry before remount=" + FSUtils.toString(entry, true));
             remountFS(config, config.isReadOnly());
 
             FSDirectory rootDir2 = getFs().getRootEntry().getDirectory();
             TestUtils.listEntries(rootDir2.iterator());
-            assertFalse("same ref (rootDir) after remount", rootDir == rootDir2);
+            assertFalse(rootDir == rootDir2, "same ref (rootDir) after remount");
             FSEntry gotEntry2 = rootDir2.getEntry(filename);
-            assertFalse("same ref (gotEntry2) after remount", gotEntry == gotEntry2);
-            assertNotNull("must contain the added file", gotEntry2);
-            assertEquals("returned bad entry", filename, gotEntry2.getName());
+            assertFalse(gotEntry == gotEntry2, "same ref (gotEntry2) after remount");
+            assertNotNull(gotEntry2, "must contain the added file");
+            assertEquals(filename, gotEntry2.getName(), "returned bad entry");
             log.debug("entry after remount=" + FSUtils.toString(gotEntry2, true));
         }
     }
 
-    @Test @Ignore("Test fails")
+    @Test @Disabled("Test fails")
     public void testRemoveThenRemountFSAndGetEntry() throws Exception {
 
         if (!config.isReadOnly()) {
@@ -163,19 +169,19 @@ public class BasicFSTest extends AbstractFSTest {
             /*FSEntry entry =*/
             rootDir.addFile(filename);
             FSEntry gotEntry = rootDir.getEntry(filename);
-            assertNotNull("must contain the added file", gotEntry);
-            assertEquals("returned bad entry", filename, gotEntry.getName());
+            assertNotNull(gotEntry, "must contain the added file");
+            assertEquals(filename, gotEntry.getName(), "returned bad entry");
 
             rootDir.remove(filename);
-            assertNull("must not contain the removed file", rootDir.getEntry(filename));
+            assertNull(rootDir.getEntry(filename), "must not contain the removed file");
 
             remountFS(config, config.isReadOnly());
 
             FSDirectory rootDir2 = getFs().getRootEntry().getDirectory();
             TestUtils.listEntries(rootDir2.iterator());
-            assertFalse("same ref (rootDir) after remount", rootDir == rootDir2);
+            assertFalse(rootDir == rootDir2, "same ref (rootDir) after remount");
             FSEntry gotEntry2 = rootDir2.getEntry(filename);
-            assertNull("must not contain the removed file: FS=" + getFs().getType().getName(), gotEntry2);
+            assertNull(gotEntry2, "must not contain the removed file: FS=" + getFs().getType().getName());
         }
     }
 }

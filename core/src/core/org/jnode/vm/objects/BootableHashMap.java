@@ -17,14 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.vm.objects;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 
 /**
  * @author epr
@@ -178,7 +177,6 @@ public class BootableHashMap<K, V> extends VmSystemObject implements Map<K, V> {
         return getMapCache().containsValue(value);
     }
 
-
     static final class Entry<eK, eV> extends VmSystemObject {
         private final eK key;
         private final eV value;
@@ -219,13 +217,13 @@ public class BootableHashMap<K, V> extends VmSystemObject implements Map<K, V> {
         if (mapCache == null) {
             if (entryArray != null) {
                 final int max = entryArray.length;
-                
+
                 mapCache = new HashMap<K, V>(max);                
                 for (int i = 0; i < max; i++) {
                     final Entry<K, V> e = entryArray[i];
                     mapCache.put(e.getKey(), e.getValue());
                 }
-                
+
                 entryArray = null;
             } else {
                 mapCache = new HashMap<K, V>();                

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package sun.font;
 
 import java.awt.geom.GeneralPath;
@@ -34,7 +34,7 @@ class NativeFreetypeFontScaler {
     private static void initIDs(Class<?> arg1) {
         //todo implement it
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#initNativeScaler(sun.font.Font2D, int, int, boolean, int)
      */
@@ -43,7 +43,7 @@ class NativeFreetypeFontScaler {
         //todo implement it
         return 0;
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#getFontMetricsNative(sun.font.Font2D, long, long)
      */
@@ -52,7 +52,7 @@ class NativeFreetypeFontScaler {
         //todo implement it
         return null;
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#getGlyphAdvanceNative(sun.font.Font2D, long, long, int)
      */
@@ -61,7 +61,7 @@ class NativeFreetypeFontScaler {
         //todo implement it
         return 0;
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#getGlyphMetricsNative(sun.font.Font2D, long, long, int, java.awt.geom.Point2D.Float)
      */
@@ -70,7 +70,7 @@ class NativeFreetypeFontScaler {
             Point2D.Float arg5) {
         //todo implement it
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#getGlyphImageNative(sun.font.Font2D, long, long, int)
      */
@@ -79,7 +79,7 @@ class NativeFreetypeFontScaler {
         //todo implement it
         return 0;
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#getGlyphOutlineBoundsNative(sun.font.Font2D, long, long, int)
      */
@@ -88,7 +88,7 @@ class NativeFreetypeFontScaler {
         //todo implement it
         return null;
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#getGlyphOutlineNative(sun.font.Font2D, long, long, int, float, float)
      */
@@ -98,7 +98,7 @@ class NativeFreetypeFontScaler {
         //todo implement it
         return null;
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#getGlyphVectorOutlineNative(sun.font.Font2D, long, long, int[], int, float, float)
      */
@@ -108,7 +108,7 @@ class NativeFreetypeFontScaler {
         //todo implement it
         return null;
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#getGlyphPointNative(sun.font.Font2D, long, long, int, int)
      */
@@ -117,7 +117,7 @@ class NativeFreetypeFontScaler {
         //todo implement it
         return null;
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#getLayoutTableCacheNative(long)
      */
@@ -125,14 +125,14 @@ class NativeFreetypeFontScaler {
         //todo implement it
         return 0;
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#disposeNativeScaler(long)
      */
     private static void disposeNativeScaler(FreetypeFontScaler instance, long arg1) {
         //todo implement it
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#getGlyphCodeNative(long, char)
      */
@@ -140,7 +140,7 @@ class NativeFreetypeFontScaler {
         //todo implement it
         return 0;
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#getNumGlyphsNative(long)
      */
@@ -148,7 +148,7 @@ class NativeFreetypeFontScaler {
         //todo implement it
         return 0;
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#getMissingGlyphCodeNative(long)
      */
@@ -156,7 +156,7 @@ class NativeFreetypeFontScaler {
         //todo implement it
         return 0;
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#getUnitsPerEMNative(long)
      */
@@ -164,7 +164,7 @@ class NativeFreetypeFontScaler {
         //todo implement it
         return 0;
     }
-    
+
     /**
      * @see sun.font.FreetypeFontScaler#createScalerContextNative(long, double[], boolean, int, int, float, float)
      */

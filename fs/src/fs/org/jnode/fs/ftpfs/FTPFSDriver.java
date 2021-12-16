@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.ftpfs;
 
 import org.jnode.driver.Driver;
@@ -50,6 +50,6 @@ public class FTPFSDriver extends Driver {
      *
      */
     protected void stopDevice() throws DriverException {
-        
+
     }
 }

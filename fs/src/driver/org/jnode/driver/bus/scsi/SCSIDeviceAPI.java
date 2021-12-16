@@ -17,13 +17,12 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.bus.scsi;
 
 import org.jnode.driver.DeviceAPI;
 import org.jnode.driver.bus.scsi.cdb.spc.InquiryData;
 import org.jnode.util.TimeoutException;
-
 
 /**
  * API implemented by SCSI device for performing low-level SCSI commands.

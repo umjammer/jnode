@@ -60,7 +60,6 @@ public class MultiLineLabel
 	 */
 	Point origin = getLocationOnScreen();
 
-
 	// we'll sort out justification and video-attributes etc later.
 	Enumeration<String> e = _labeltext.elements();
 	for (int row=0; e.hasMoreElements(); row++) {

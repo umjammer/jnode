@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 package org.jtestserver.server.commands;
 
-
-
 import gnu.testlet.runner.RunResult;
 import gnu.testlet.runner.XMLReportWriter;
 
@@ -36,7 +34,7 @@ import org.jtestserver.server.TestFailureException;
 
 public class RunMauveTestCommand extends AbstractTestServerCommand<String> {
     private static final Logger LOGGER = Logger.getLogger(RunMauveTestCommand.class.getName());
-    
+
     public RunMauveTestCommand() {
         super(Descriptors.RUN_MAUVE_TEST);
     }
@@ -46,7 +44,7 @@ public class RunMauveTestCommand extends AbstractTestServerCommand<String> {
         String result = "";
         String test = (String) params[0];
         LOGGER.finer("running test " + test);
-        
+
         MauveTestRunner runner = MauveTestRunner.getInstance();
         try {
             RunResult runResult = runner.runTest(test);
@@ -61,7 +59,7 @@ public class RunMauveTestCommand extends AbstractTestServerCommand<String> {
         } catch (Throwable t) {
             LOGGER.log(Level.SEVERE, "error in execute", t);            
         }
-        
+
         return result;
     }
 }

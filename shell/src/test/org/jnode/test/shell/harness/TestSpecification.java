@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.harness;
 
 import java.io.File;
@@ -30,19 +30,19 @@ import java.util.List;
  * @author crawley@jnode
  */
 public class TestSpecification {
-    
+
     public static enum RunMode {
         AS_SCRIPT,
         AS_CLASS,
         AS_ALIAS
     }
-    
+
     public static class FileSpecification {
         private final File file;
         private final boolean directory;
         private final boolean input;
         private final String fileContent;
-        
+
         public FileSpecification(File file, boolean input) {
             this.file = file;
             this.input = input;
@@ -73,7 +73,7 @@ public class TestSpecification {
             return directory;
         }
     }
-    
+
     private final RunMode runMode;
     private final String command;
     private final List<String> args = new ArrayList<String>();
@@ -87,7 +87,7 @@ public class TestSpecification {
     private final List<FileSpecification> files = new ArrayList<FileSpecification>();
     private TestSetSpecification testSet;
     private final Class<? extends Throwable> exception;
-    
+
     public TestSpecification(RunMode runMode, String command, String scriptContent,
             String inputContent, String outputContent, String errorContent,
             String title, int rc, Class<? extends Throwable>  exception) {
@@ -114,7 +114,7 @@ public class TestSpecification {
     public int getRc() {
         return rc;
     }
-    
+
     public void addArg(String arg) {
         args.add(arg);
     }
@@ -142,7 +142,7 @@ public class TestSpecification {
     public List<String> getArgs() {
         return args;
     }
-    
+
     public String getScriptContent() {
         return scriptContent;
     }
@@ -158,7 +158,7 @@ public class TestSpecification {
     public List<PluginSpecification> getPlugins() {
         return plugins;
     }
-    
+
     public TestSetSpecification getTestSet() {
         return testSet;
     }

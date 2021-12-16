@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.console.spi;
 
 import java.awt.event.InputEvent;
@@ -410,7 +410,6 @@ public abstract class AbstractConsoleManager implements ConsoleManager {
     public Collection<Console> getConsoles() {
         return new ArrayList<Console>(consoles.values());
     }
-
 
     public AbstractConsoleManager getParent() {
         return parent;

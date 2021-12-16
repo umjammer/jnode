@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.input;
 
 import java.util.Collection;
@@ -40,7 +40,7 @@ import org.jnode.plugin.ExtensionPointListener;
  * @author crawley@jnode.org
  */
 public class KeyboardLayoutManager implements ExtensionPointListener {
-    
+
     private final Logger log = Logger.getLogger(KeyboardLayoutManager.class);
 
     /**
@@ -49,13 +49,12 @@ public class KeyboardLayoutManager implements ExtensionPointListener {
     public static Class<KeyboardLayoutManager> NAME = KeyboardLayoutManager.class;
 
     public static final String EP_NAME = "org.jnode.driver.input.keyboard-layouts";
-    
+
     private final HashMap<String, KeyboardInterpreter.Factory> map = 
         new HashMap<String, KeyboardInterpreter.Factory>();
 
     private final ExtensionPoint keyboardLayoutEP;
-    
-    
+
     public KeyboardLayoutManager(ExtensionPoint keyboardLayoutEP) {
         this.keyboardLayoutEP = keyboardLayoutEP;
         keyboardLayoutEP.addListener(this);
@@ -63,7 +62,7 @@ public class KeyboardLayoutManager implements ExtensionPointListener {
             addLayoutsToMap(extension);
         }
     }
-    
+
     /**
      * Load the default keyboard layout as specified in the 'org.jnode.driver.input.KeyboardLayout'
      * resource bundle.  If none is specified or the specified layout cannot be used, we use the
@@ -108,7 +107,7 @@ public class KeyboardLayoutManager implements ExtensionPointListener {
             throw new KeyboardInterpreterException("Cannot create a keyboard interpreter", ex);
         }
     }
-    
+
     /**
      * Get a String-valued property value from the resource bundle, dealing
      * with empty and missing values.
@@ -158,7 +157,7 @@ public class KeyboardLayoutManager implements ExtensionPointListener {
             } 
         }
     }
-    
+
     /**
      * Create a new keyboard interpreter object.  Note that keyboard interpreter
      * objects are stateful and therefore cannot be shared by multiple keyboards.
@@ -175,7 +174,7 @@ public class KeyboardLayoutManager implements ExtensionPointListener {
         return createKeyboardInterpreter(
                 makeKeyboardInterpreterID(country, language, variant));
     }
-    
+
     /**
      * Convert a country / language / variant keyboard triple into a keyboard
      * layout identifier.
@@ -203,7 +202,7 @@ public class KeyboardLayoutManager implements ExtensionPointListener {
         }
         return id;
     }
-    
+
     /**
      * Register a keyboard interpreter factory object.  This factory could be an 
      * instance of {@link KIClassWrapper} or some other factory.
@@ -214,7 +213,7 @@ public class KeyboardLayoutManager implements ExtensionPointListener {
     public synchronized void add(String name, KeyboardInterpreter.Factory factory) {
         map.put(name, factory);
     }
-    
+
     /**
      * Register a keyboard interpreter class.  The classname will be wrapped in
      * a new KeyboardInterpreter.Factory.
@@ -225,7 +224,7 @@ public class KeyboardLayoutManager implements ExtensionPointListener {
     public void add(String name, String className) {
         add(name, new KIClassWrapper(className));
     }
-    
+
     /**
      * Remove the keyboard interpreter factory for a given layout identifier.
      * @param name keyboard layout identifier.
@@ -234,7 +233,7 @@ public class KeyboardLayoutManager implements ExtensionPointListener {
     public synchronized KeyboardInterpreter.Factory remove(String name) {
         return map.remove(name);
     }
-    
+
     /**
      * Gets a collection of all layout identifiers known to this manager.
      */
@@ -270,7 +269,7 @@ public class KeyboardLayoutManager implements ExtensionPointListener {
             removeLayoutsFromMap(extension);
         }
     }
-    
+
     private synchronized void addLayoutsToMap(Extension extension) {
         for (ConfigurationElement element : extension.getConfigurationElements()) {
             if (element.getName().equals("layout")) {
@@ -282,7 +281,7 @@ public class KeyboardLayoutManager implements ExtensionPointListener {
             }
         }
     }
-    
+
     private synchronized void removeLayoutsFromMap(Extension extension) {
         for (ConfigurationElement element : extension.getConfigurationElements()) {
             if (element.getName().equals("layout")) {
@@ -299,14 +298,14 @@ public class KeyboardLayoutManager implements ExtensionPointListener {
             }
         }
     }
-    
+
     /**
      * This wrapper class allows us to treat a class name as a keyboard interpreter
      * factory.
      */
     public static class KIClassWrapper implements KeyboardInterpreter.Factory {
         private final String className;
-        
+
         /**
          * Create a wrapper object for a class.  
          * 
@@ -316,7 +315,7 @@ public class KeyboardLayoutManager implements ExtensionPointListener {
         public KIClassWrapper(String className) {
             this.className = className;
         }
-        
+
         /**
          * Create an instance corresponding to the wrapped class name.
          * 

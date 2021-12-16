@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import javax.naming.NameNotFoundException;
@@ -26,7 +26,6 @@ import org.jnode.driver.console.CompletionInfo;
 import org.jnode.driver.input.KeyboardLayoutManager;
 import org.jnode.naming.InitialNaming;
 import org.jnode.shell.CommandLine.Token;
-
 
 /**
  * This argument accepts any string as a potential keyboard layout id, and completes
@@ -44,7 +43,7 @@ public class KeyboardLayoutArgument extends StringArgument {
     protected String argumentKind() {
         return "keyboard layout";
     }
-    
+
     @Override
     protected String doAccept(Token token, int flags) throws CommandSyntaxException {
         return token.text; 

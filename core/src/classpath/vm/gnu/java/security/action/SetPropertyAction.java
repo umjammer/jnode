@@ -17,11 +17,10 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package gnu.java.security.action;
 
 import java.security.PrivilegedAction;
-
 
 /**
  * Utility class for setting properties in a privileged action.
@@ -32,7 +31,7 @@ public class SetPropertyAction implements PrivilegedAction<Void> {
 
     private final String key;
     private final String value;
-    
+
     /**
      * Initialize this instance.
      * @param key
@@ -41,7 +40,7 @@ public class SetPropertyAction implements PrivilegedAction<Void> {
         this.key = key;
         this.value = value;
     }
-    
+
     /**
      * Set the property
      * @see java.security.PrivilegedAction#run()

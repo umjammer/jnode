@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.awt.font.truetype.tables;
 
 import java.io.IOException;
@@ -35,7 +35,6 @@ public final class HorizontalMetricsTable extends TTFTable {
     private int[] advanceWidth;
     private short[] leftSideBearing;
     private short[] leftSideBearing2;
-
 
     /**
      * @param font

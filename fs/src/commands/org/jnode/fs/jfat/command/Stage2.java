@@ -17,14 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.jfat.command;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.jnode.util.FileUtils;
-
 
 /**
  * That class installs Grub's Stage 2 on a partition.
@@ -35,7 +34,6 @@ public class Stage2 {
     private static final String GRUB_STAGE_2 = MBRFormatter.GRUB_HOME + "grub.s2";
     private static final String GRUB_MENU_LST = MBRFormatter.GRUB_HOME + "menu.lst";
 
-    
     public void format(String path) throws GrubException {
         // writing of the stage2 and menu.LST
         try {

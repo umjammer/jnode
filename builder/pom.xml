@@ -1,0 +1,99 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jnode</groupId>
+    <artifactId>jnode</artifactId>
+    <version>0.2.9v-SNAPSHOT</version>
+  </parent>
+  <artifactId>jnode-builder</artifactId>
+
+  <build>
+    <sourceDirectory>src/builder</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>src/builder</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <version>2.5</version>
+        <executions>
+          <execution>
+            <id>jjtree-javacc</id>
+            <goals>
+              <goal>jjtree-javacc</goal>
+            </goals>
+            <configuration>
+              <!-- options for JJTree and JavaCC go here -->
+            </configuration>
+          </execution>
+          <execution>
+            <id>javacc</id>
+            <goals>
+              <goal>javacc</goal>
+            </goals>
+            <configuration>
+              <lookAhead>2</lookAhead>
+              <isStatic>false</isStatic>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jnode</groupId>
+      <artifactId>jnode-core</artifactId>
+      <version>0.2.9v-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jnode</groupId>
+      <artifactId>jnode-shell</artifactId>
+      <version>0.2.9v-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.bcel</groupId>
+      <artifactId>bcel</artifactId>
+      <version>6.5.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>3.3.0</version>
+    </dependency>
+  </dependencies>
+</project>

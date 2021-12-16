@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.Collection;
+
 import org.jnode.partitions.ibm.IBMPartitionTable;
 import org.jnode.test.fs.FileSystemTestUtils;
 import org.jnode.util.FileUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test for {@link org.jnode.partitions.ibm.IBMPartitionTable}.
@@ -45,8 +48,8 @@ public class IBMPartitionTableTest {
             byte[] buffer = FileUtils.load(new FileInputStream(testFile), true);
 
             System.out.println("Testing: " + testFileName);
-            Assert.assertTrue("Expected a valid partition for: " + testFileName,
-                IBMPartitionTable.containsPartitionTable(buffer));
+            assertTrue(IBMPartitionTable.containsPartitionTable(buffer),
+               "Expected a valid partition for: " + testFileName);
         }
     }
 
@@ -63,8 +66,8 @@ public class IBMPartitionTableTest {
             byte[] buffer = FileUtils.load(new FileInputStream(testFile), true);
 
             System.out.println("Testing: " + testFileName);
-            Assert.assertFalse("Not expected a valid partition for: " + testFileName,
-                IBMPartitionTable.containsPartitionTable(buffer));
+            assertFalse(IBMPartitionTable.containsPartitionTable(buffer),
+                "Not expected a valid partition for: " + testFileName);
         }
     }
 }

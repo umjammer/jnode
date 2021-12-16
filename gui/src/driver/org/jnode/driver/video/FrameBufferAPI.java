@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.video;
 
 import org.jnode.driver.DeviceAPI;
@@ -56,7 +56,7 @@ public interface FrameBufferAPI extends DeviceAPI {
      * @return {@code true} if there is, otherwise {@code false}
      */
     public boolean isOpen();
-    
+
     /**
      * Request to be the owner of the underlying FrameBuffer device.
      * The old owner (if any) will receive a request to stop using the underlying FrameBuffer device.
@@ -71,7 +71,7 @@ public interface FrameBufferAPI extends DeviceAPI {
      * @param owner
      */
     public void releaseOwnership(FrameBufferAPIOwner owner);
-    
+
     /**
      * Gets the currently opened framebuffer configuration.
      * 

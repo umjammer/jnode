@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -25,10 +25,10 @@ import org.jtestserver.client.Config;
 import org.jtestserver.client.ConfigReader;
 import org.jtestserver.client.process.jvm.JVM;
 import org.jtestserver.client.process.jvm.JVMConfig;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public class TestJVM extends TestVmManager<JVMConfig> {
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         Config config = new CustomConfigReader(ConfigReader.JVM_TYPE).read(AllTests.CONFIG_DIRECTORY);
         this.config = (JVMConfig) config.getVMConfig();

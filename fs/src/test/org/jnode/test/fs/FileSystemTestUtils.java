@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.fs;
 
 import java.io.File;
@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
+
 import org.jnode.emu.plugin.model.DummyConfigurationElement;
 import org.jnode.emu.plugin.model.DummyExtension;
 import org.jnode.emu.plugin.model.DummyExtensionPoint;
@@ -34,9 +35,9 @@ import org.jnode.emu.plugin.model.DummyPluginDescriptor;
 import org.jnode.fs.service.FileSystemService;
 import org.jnode.fs.service.def.FileSystemPlugin;
 import org.jnode.util.FileUtils;
-import org.junit.Assert;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * File system test utilities.
@@ -64,7 +65,7 @@ public class FileSystemTestUtils {
             return file;
         }
 
-        Assert.fail("Expected a gzipped file: " + gzipFile.getAbsolutePath());
+        fail("Expected a gzipped file: " + gzipFile.getAbsolutePath());
         return null;
     }
 
@@ -81,7 +82,7 @@ public class FileSystemTestUtils {
         if (!outputFile.exists() || gzipFile.lastModified() > outputFile.lastModified()) {
             if (outputFile.exists()) {
                 // Force deletion if it's out of date or the renameTo further down will fail.
-                Assert.assertTrue(outputFile.delete());
+                assertTrue(outputFile.delete());
             }
 
             InputStream in = new GZIPInputStream(new FileInputStream(gzipFile));
@@ -97,8 +98,8 @@ public class FileSystemTestUtils {
             }
 
             assertTrue(
-                String.format("Temp data file couldn't be renamed.\nOld name: %s\nNew name: %s", tempFile, outputFile),
-                tempFile.renameTo(outputFile));
+                tempFile.renameTo(outputFile),
+                String.format("Temp data file couldn't be renamed.\nOld name: %s\nNew name: %s", tempFile, outputFile));
         }
     }
 

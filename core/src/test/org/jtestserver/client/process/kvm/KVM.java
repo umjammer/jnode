@@ -1,7 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
 
- 
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -41,14 +40,14 @@ public class KVM implements VmManager<KVMConfig> {
      * Option used to specify the actual operating system to run in KVM.
      */
     private static final String OPTION_CDROM = "-cdrom";
-    
+
     private static final String KVM_COMMAND = "kvm";
-    
+
     /**
      * The {@link ProcessRunner} used to manage the new KVM process.
      */
     private final ProcessRunner runner = new ProcessRunner();
-    
+
     /**
      * {@inheritDoc}
      * The implementation is launching {@code ps} through a command line.
@@ -89,10 +88,10 @@ public class KVM implements VmManager<KVMConfig> {
                 success &= SystemUtils.getInstance().killProcess(ps.getIdentifier());
             }
         }
-        
+
         return success;
     }
-    
+
     private CommandLineBuilder createStartCommandLine(KVMConfig config) {
         CommandLineBuilder cmdLine = new CommandLineBuilder(KVM_COMMAND); 
         cmdLine.append("-m").append(config.getMemory());

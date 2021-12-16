@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.argument;
 
 import java.util.Arrays;
@@ -58,12 +58,12 @@ import org.jnode.shell.syntax.CommandSyntaxException;
  * @author chris boertien
  */
 public class NumberListArgument extends Argument<NumberRange> {
-    
+
     private final String listDelim;
     private final String rangeDelim;
     private final int min;
     private final int max;
-    
+
     public NumberListArgument(String label, int flags, int min, int max, String desc) {
         super(label, flags | Argument.MULTIPLE, new NumberRange[0], desc);
         this.rangeDelim = "-";
@@ -71,20 +71,20 @@ public class NumberListArgument extends Argument<NumberRange> {
         this.min = min;
         this.max = max;
     }
-    
+
     public NumberListArgument(String label, int flags, String desc) {
         this(label, flags, Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1, desc);
     }
-    
+
     @Override
     protected NumberRange doAccept(Token token, int flags) throws CommandSyntaxException {
         NumberRange[] ranges = parseList(token.text);
         if (ranges.length == 1) {
             return ranges[0];
         }
-        
+
         Arrays.sort(ranges);
-        
+
         // concat
         for (int i = 1; i < ranges.length;) {
             if (ranges[i - 1].end() >= (ranges[i].start() - 1)) {
@@ -96,7 +96,7 @@ public class NumberListArgument extends Argument<NumberRange> {
         values.addAll(Arrays.asList(ranges).subList(0, ranges.length - 1));
         return ranges[ranges.length - 1];
     }
-    
+
     private NumberRange[] concat(NumberRange[] ranges, int i, int j) {
         NumberRange[] newRanges = new NumberRange[ranges.length - (j - i)];
         System.arraycopy(ranges, 0, newRanges, 0, i);
@@ -106,14 +106,14 @@ public class NumberListArgument extends Argument<NumberRange> {
         newRanges[i] = new NumberRange(ranges[i].start(), ranges[j].end(), min - 1, max + 1);
         return newRanges;
     }
-    
+
     private static final boolean debug = false;
-    
+
     @SuppressWarnings("unused")
     private void error(String s) {
         if (debug) System.err.println(s);
     }
-    
+
     /**
      * Parse a number list
      *
@@ -132,7 +132,7 @@ public class NumberListArgument extends Argument<NumberRange> {
             return ranges;
         }
     }
-    
+
     /**
      * Parse a number range.
      *
@@ -164,7 +164,7 @@ public class NumberListArgument extends Argument<NumberRange> {
             throw new CommandSyntaxException("Invalid number range");
         }
     }
-    
+
     private int parseInt(String text) throws CommandSyntaxException {
         int n;
         try {
@@ -177,12 +177,12 @@ public class NumberListArgument extends Argument<NumberRange> {
         }
         return n;
     }
-    
+
     @Override
     protected String state() {
         return "min=" + min + ",max=" + max;
     }
-    
+
     @Override
     protected String argumentKind() {
         return "number-list";

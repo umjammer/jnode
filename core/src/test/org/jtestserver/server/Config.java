@@ -1,7 +1,7 @@
 /*
 
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -27,20 +27,20 @@ public class Config {
 
     public static Config read() throws IOException {
         Properties properties = new Properties();
-        
+
         //TODO get server's config
         //properties.load(new FileInputStream(ConfigurationUtils.getConfigurationFile()));
-        
+
         return new Config(properties);
     }
-    
+
     private Config(Properties properties) {
     }
 
     public int getMauveQueueSize() {
         return 100000; //TODO externalize config
     }
-    
+
     public int getPort() {
         return 10000; //TODO externalize config
     }

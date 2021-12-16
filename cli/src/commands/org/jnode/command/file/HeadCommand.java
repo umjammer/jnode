@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import org.jnode.shell.AbstractCommand;
@@ -51,21 +51,21 @@ public class HeadCommand extends AbstractCommand {
     private static final String help_lines = "output the first <int> lines, or output all but the last -<int> lines.";
     private static final String help_quiet = "never output headers giving file names";
     private static final String help_verbose = "always output headers giving file names";
-    
+
     private final FileArgument Files;
     private final StringArgument Lines;
     private final StringArgument Bytes;
     private final FlagArgument Quiet;
     private final FlagArgument Verbose;
-    
+
     private PrintWriter err;
-    
+
     private int count;
     private boolean headers;
     private boolean useLines;
     private boolean reverse;
     private boolean first = true;
-    
+
     public HeadCommand() {
         super("Print the head of a list of files, or stdin");
         Files   = new FileArgument("files", Argument.MULTIPLE | Argument.OPTIONAL, help_files);
@@ -75,7 +75,7 @@ public class HeadCommand extends AbstractCommand {
         Verbose = new FlagArgument("verbose", Argument.OPTIONAL, help_verbose);
         registerArguments(Files, Lines, Bytes, Quiet, Verbose);
     }
-    
+
     public void execute() {
         File[] files;
         err      = getError().getPrintWriter();
@@ -83,14 +83,14 @@ public class HeadCommand extends AbstractCommand {
         useLines = getCountType();
         count    = getCount();
         reverse  = getReversed();
-        
+
         if (!Files.isSet()) {
             files = new File[1];
             files[0] = new File("-");
         } else {
             files = Files.getValues();
         }
-        
+
         try {
             for (File file : files) {
                 printHeader(file.getPath());
@@ -113,7 +113,7 @@ public class HeadCommand extends AbstractCommand {
             exit(1);
         }
     }
-    
+
     private void printStdinLines() {
         try {
             printLines(new LineNumberReader(new InputStreamReader(getInput().getInputStream())));
@@ -121,7 +121,7 @@ public class HeadCommand extends AbstractCommand {
             err.println(ex);
         }
     }
-    
+
     private void printStdinBytes() {
         try {
             printBytes(getInput().getInputStream(), -1);
@@ -129,7 +129,7 @@ public class HeadCommand extends AbstractCommand {
             err.println(ex);
         }
     }
-    
+
     private void printFileLines(File file) {
         LineNumberReader reader = null;
         try {
@@ -147,7 +147,7 @@ public class HeadCommand extends AbstractCommand {
             }
         }
     }
-    
+
     private void printFileBytes(File file) {
         InputStream in = null;
         try {
@@ -165,7 +165,7 @@ public class HeadCommand extends AbstractCommand {
             }
         }
     }
-    
+
     private void printLines(LineNumberReader reader) throws IOException {
         PrintWriter out = getOutput().getPrintWriter();
         String line;
@@ -176,25 +176,25 @@ public class HeadCommand extends AbstractCommand {
             }
         } else {
             List<String> lines = new ArrayList<String>();
-            
+
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
             }
-            
+
             int numLines = lines.size() - count;
             for (int n = 0; n < numLines; n++) {
                 out.println(lines.get(n));
             }
         }
     }
-    
+
     private void printBytes(InputStream in, int size) throws IOException {
         OutputStream out = getOutput().getOutputStream();
         byte[] buffer;
         int len;
         int n;
         int bufsize = 8 * 1024;
-        
+
         if (!reverse) {
             n = count;
         } else if (size != -1) {
@@ -203,7 +203,7 @@ public class HeadCommand extends AbstractCommand {
             // FIXME
             throw new UnsupportedOperationException("Cannot do -count byte reads on stdin yet");
         }
-        
+
         buffer = new byte[Math.min(n, bufsize)];
         while (n > 0 && (len = in.read(buffer)) > 0) {
             len = Math.min(n, len);
@@ -211,7 +211,7 @@ public class HeadCommand extends AbstractCommand {
             n -= len;
         }
     }
-    
+
     private void printHeader(String name) {
         PrintWriter out = getOutput().getPrintWriter();
         if (headers) {
@@ -226,7 +226,7 @@ public class HeadCommand extends AbstractCommand {
             }
         }
     }
-    
+
     private boolean getHeaders() {
         if (Quiet.isSet()) {
             return false;
@@ -236,11 +236,11 @@ public class HeadCommand extends AbstractCommand {
             return headers = Files.isSet() && Files.getValues().length > 1;
         }
     }
-    
+
     private boolean getCountType() {
         return !Bytes.isSet();
     }
-    
+
     private int getCount() {
         int count = 10;
         if (Bytes.isSet()) {
@@ -251,7 +251,7 @@ public class HeadCommand extends AbstractCommand {
         }
         return count < 0 ? 10 : count;
     }
-    
+
     private boolean getReversed() {
         if (Bytes.isSet()) {
             return Bytes.getValue().charAt(0) == '-';
@@ -260,7 +260,7 @@ public class HeadCommand extends AbstractCommand {
         }
         return false;
     }
-    
+
     private int parseInt(String s) {
         if (s.charAt(0) == '-') {
             s = s.substring(1);

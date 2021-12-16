@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell;
 
 import gnu.java.security.action.InvokeAction;
@@ -74,7 +74,7 @@ public class DefaultCommandInvoker implements SimpleCommandInvoker {
     public String getName() {
         return "default";
     }
-    
+
     /**
      * Invoke the command, running is by calling the entry point method from the
      * current thread.  No redirection is allowed.
@@ -158,7 +158,7 @@ public class DefaultCommandInvoker implements SimpleCommandInvoker {
         }
         return 1;
     }
-    
+
     /**
      * This method is not supported for the DefaultCommandInvoker.
      */

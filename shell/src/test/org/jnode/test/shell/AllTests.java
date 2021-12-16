@@ -17,15 +17,15 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell;
 
 import org.jnode.test.shell.help.DefaultHelpTest;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({CompletionInfoTest.class, PathnamePatternTest.class, CompletionTest.class,
+@Suite
+@SelectClasses({CompletionInfoTest.class, PathnamePatternTest.class, CompletionTest.class,
     DefaultSyntaxCompletionTest.class, DefaultHelpTest.class,
     org.jnode.test.shell.bjorne.AllTests.class, org.jnode.test.shell.syntax.AllTests.class })
 public class AllTests {

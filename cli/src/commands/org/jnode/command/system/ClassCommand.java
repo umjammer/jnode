@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.system;
 
 import java.io.PrintWriter;
@@ -36,7 +36,7 @@ import org.jnode.vm.classmgr.VmType;
  * @author crawley@jnode.org
  */
 public class ClassCommand extends AbstractCommand {
-    
+
     private static final String help_class = "the fully qualified Java name of the class to be viewed";
     private static final String help_super = "View a Java class";
     private static final String err_no_class = "Cannot find the requested class: %s%n";
@@ -50,7 +50,7 @@ public class ClassCommand extends AbstractCommand {
     private static final String str_len = "Total Length";
     private static final String str_max_len = "Maximum length";
     private static final String str_instance = "#Instances";
-    
+
     private final ClassNameArgument argClass;
 
     public ClassCommand() {
@@ -74,7 +74,7 @@ public class ClassCommand extends AbstractCommand {
     public static void main(String[] args) throws Exception {
         new ClassCommand().execute(args);
     }
-    
+
     private void showClass(final Class<?> type, final PrintWriter out) {
         final VmType<?> vmType = AccessController.doPrivileged(
                 new PrivilegedAction<VmType<?>>() {

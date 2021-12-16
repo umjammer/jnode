@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class CommandSyntaxException extends ShellException {
         public final MuSyntax syntax;
         public final int sourcePos;
         public final CommandSyntaxException exception;
-        
+
         public Context(Token token, MuSyntax syntax, int sourcePos, 
                 CommandSyntaxException exception) {
             super();
@@ -48,11 +48,11 @@ public class CommandSyntaxException extends ShellException {
             this.exception = exception;
         }
     }
-    
+
     private static final long serialVersionUID = 1L;
 
     private List<Context> argErrors;
-    
+
     public CommandSyntaxException(String message) {
         super(message);
     }

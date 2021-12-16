@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.command.file;
 
 import java.io.BufferedReader;
@@ -78,7 +78,7 @@ public class CpCommand extends AbstractCommand {
     private static final String ERR_COPY_IOEX = "IO Error - abandoning copying";
     private static final String STR_ASK_AGAIN = "Answer 'y' or 'n'";
     private static final String FMT_SKIP = "%s: skipping%n";
-    
+
     static final byte MODE_NORMAL = 0;
     static final byte MODE_INTERACTIVE = 1;
     static final byte MODE_FORCE = 2;
@@ -113,7 +113,7 @@ public class CpCommand extends AbstractCommand {
         argVerbose     = new FlagArgument("verbose", Argument.OPTIONAL, HELP_VERBOSE);
         registerArguments(argSource, argTarget, argForce, argInteractive, argRecursive, argUpdate, argVerbose);
     }
-    
+
     public static void main(String[] args) throws Exception {
         new CpCommand().execute(args);
     }
@@ -157,7 +157,7 @@ public class CpCommand extends AbstractCommand {
             out.format(FMT_VERBOSE_COPY, filesCopied, directoriesCreated);
         }
     }
-    
+
     private void processFlags() {
         recursive = argRecursive.isSet();
         verbose = argVerbose.isSet();
@@ -178,7 +178,7 @@ public class CpCommand extends AbstractCommand {
             mode = MODE_UPDATE;
         }
     }
-    
+
     /**
      * Copy a file or directory into a supplied target directory.
      * 
@@ -226,7 +226,7 @@ public class CpCommand extends AbstractCommand {
             copyToFile(source, newFile);
         }
     }
-    
+
     /**
      * Copy a file to (as) a file
      * 
@@ -243,7 +243,7 @@ public class CpCommand extends AbstractCommand {
         if (verbose) {
             out.format(FMT_COPY_FILE, sourceFile, targetFile);
         }
-        
+
         InputStream sin = null;
         OutputStream tout = null;
         try {
@@ -385,12 +385,12 @@ public class CpCommand extends AbstractCommand {
         err.println(msg);
         exit(1);
     }
-    
+
     private boolean skip(String msg) {
         err.format(FMT_SKIP, msg);
         return false;
     }
-    
+
     private boolean vskip(String msg) {
         if (verbose) {
             err.format(FMT_SKIP, msg);

@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.harness;
 
 import java.util.ArrayList;
@@ -27,16 +27,16 @@ public class TestSetSpecification {
 
     private final List<TestSpecification> specs = 
         new ArrayList<TestSpecification>();
-    
+
     private final List<TestSetSpecification> sets = 
         new ArrayList<TestSetSpecification>();
-    
+
     private final List<PluginSpecification> plugins = 
         new ArrayList<PluginSpecification>();
-    
+
     private final String title;
     private final String base;
-    
+
     private TestSetSpecification parentSet;
 
     public TestSetSpecification(String title, String base) {
@@ -60,7 +60,7 @@ public class TestSetSpecification {
     public String getTitle() {
         return title;
     }
-    
+
     public String getBase() {
         return base;
     }
@@ -68,7 +68,7 @@ public class TestSetSpecification {
     public void addPluginSpec(PluginSpecification plugin) {
         plugins.add(plugin);
     }
-    
+
     public void addTestSpec(TestSpecification spec) {
         specs.add(spec);
         spec.setTestSet(this);

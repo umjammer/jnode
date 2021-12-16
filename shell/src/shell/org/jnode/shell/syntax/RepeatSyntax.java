@@ -17,11 +17,10 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.syntax;
 
 import org.jnode.nanoxml.XMLElement;
-
 
 /**
  * A RepeatedSyntax instance specifies that a given 'child' syntax may be repeated
@@ -33,7 +32,7 @@ import org.jnode.nanoxml.XMLElement;
  * @author crawley@jnode.org
  */
 public class RepeatSyntax extends GroupSyntax {
-    
+
     private final Syntax child;
     private final int minCount;
     private final int maxCount;
@@ -61,7 +60,7 @@ public class RepeatSyntax extends GroupSyntax {
         this.maxCount = maxCount;
         this.eager = eager;
     }
-    
+
     /**
      * Construct syntax with caller-specified repetition count range and a label.
      * 
@@ -84,7 +83,7 @@ public class RepeatSyntax extends GroupSyntax {
     public RepeatSyntax(Syntax child, int minCount, int maxCount) {
         this(null, child, minCount, maxCount, false, null);
     }
-    
+
     /**
      * Construct syntax which can repeated from zero to many times.
      * 
@@ -93,7 +92,7 @@ public class RepeatSyntax extends GroupSyntax {
     public RepeatSyntax(Syntax child) {
         this(null, child, 0, Integer.MAX_VALUE, false, null);
     }
-    
+
     @Override
     public String toString() {
         return "RepeatedSyntax{" + super.toString() + 
@@ -178,8 +177,6 @@ public class RepeatSyntax extends GroupSyntax {
             }
         }
     }
-    
-
 
     @Override
     public XMLElement toXML() {

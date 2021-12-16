@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.core;
 
 import gnu.java.lang.reflect.TypeSignature;
@@ -1163,7 +1163,7 @@ public class ProxyBuilder {
                     sb.append(c);
                 else if (c <= '\u07ff') {
                     // includes '\0'
-                    
+
                     sb.append((char) (0xc0 | (c >> 6)));
                     sb.append((char) (0x80 | (c & 0x6f)));
                 } else {

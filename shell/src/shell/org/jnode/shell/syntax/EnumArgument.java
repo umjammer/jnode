@@ -17,9 +17,8 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
-package org.jnode.shell.syntax;
 
+package org.jnode.shell.syntax;
 
 import java.lang.reflect.Array;
 
@@ -37,7 +36,7 @@ import org.jnode.shell.CommandLine.Token;
  * to have an overloaded toString() method.
  */
 public abstract class EnumArgument<E extends Enum<E>> extends Argument<E> {
-    
+
     private final Class<E> clazz;
 
     /**
@@ -58,7 +57,7 @@ public abstract class EnumArgument<E extends Enum<E>> extends Argument<E> {
     public EnumArgument(String label, int flags, Class<E> clazz) {
         this(label, flags, clazz, null);
     }
-    
+
     @Override
     protected E doAccept(Token token, int flags) throws CommandSyntaxException {
         try {
@@ -67,7 +66,7 @@ public abstract class EnumArgument<E extends Enum<E>> extends Argument<E> {
             throw new CommandSyntaxException("not a valid <" + argumentKind() + ">");
         }
     }
-    
+
     @Override
     public void doComplete(CompletionInfo completions, String partial, int flags) {
         for (E e : clazz.getEnumConstants()) {

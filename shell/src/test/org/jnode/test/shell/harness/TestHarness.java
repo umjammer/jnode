@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.harness;
 
 import java.io.File;
@@ -117,9 +117,9 @@ public class TestHarness {
             usage();
             return;
         }
-        
+
         prepareTmpDir();
-        
+
         for (int i = firstArg; i < args.length; i++) {
             String arg = args[i];
             try {
@@ -141,7 +141,7 @@ public class TestHarness {
         report("Ran " + testCount + " tests with " + failureCount +
             " test failures and " + exceptionCount + " errors (exceptions)");
     }
-    
+
     private void prepareTmpDir() {
         tempDir = new File(System.getProperty("java.io.tmpdir"), "jnodeTestDir");
         if (tempDir.isDirectory()) {
@@ -153,7 +153,7 @@ public class TestHarness {
             tempDir.mkdirs();
         }
     }
-    
+
     void cleanDir(File directory) {
         for (File f : directory.listFiles()) {
             if (f.isDirectory()) {
@@ -346,7 +346,7 @@ public class TestHarness {
     public boolean isDebug() {
         return debug;
     }
-    
+
     public boolean preserveTempFiles() {
         return preserveTempFiles;
     }

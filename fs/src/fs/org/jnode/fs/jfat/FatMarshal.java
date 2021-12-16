@@ -17,14 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.fs.jfat;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.jnode.util.LittleEndian;
 import org.jnode.util.NumberUtils;
-
 
 /**
  * @author gvt

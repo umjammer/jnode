@@ -101,7 +101,6 @@ public class JTextField
 	_bold = ((font_.getStyle() & Font.BOLD) != 0);
     }
 
-
     /** Set the action command
      */
     public void setActionCommand(String cmd_) { _actionCommand = cmd_; }

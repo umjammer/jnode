@@ -17,8 +17,13 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.test.shell.bjorne;
+
+import org.jnode.shell.ShellSyntaxException;
+import org.jnode.shell.bjorne.BjorneToken;
+import org.jnode.shell.bjorne.BjorneTokenizer;
+import org.junit.jupiter.api.Test;
 
 import static org.jnode.shell.bjorne.BjorneToken.RULE_1_CONTEXT;
 import static org.jnode.shell.bjorne.BjorneToken.RULE_5_CONTEXT;
@@ -65,12 +70,7 @@ import static org.jnode.shell.bjorne.BjorneToken.TOK_THEN;
 import static org.jnode.shell.bjorne.BjorneToken.TOK_UNTIL;
 import static org.jnode.shell.bjorne.BjorneToken.TOK_WHILE;
 import static org.jnode.shell.bjorne.BjorneToken.TOK_WORD;
-
-import org.jnode.shell.ShellSyntaxException;
-import org.jnode.shell.bjorne.BjorneToken;
-import org.jnode.shell.bjorne.BjorneTokenizer;
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BjorneTokenizerTest {
 
@@ -83,274 +83,274 @@ public class BjorneTokenizerTest {
     public void testEmpty() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("");
         BjorneToken token = tokenizer.peek();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
         token = tokenizer.peek(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testNewline() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("\n");
         BjorneToken token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_LINE, token.getTokenType());
+        assertEquals(TOK_END_OF_LINE, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testBlanksAndNewlines() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("  \n\t\n  ");
         BjorneToken token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_LINE, token.getTokenType());
+        assertEquals(TOK_END_OF_LINE, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_LINE, token.getTokenType());
+        assertEquals(TOK_END_OF_LINE, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testComments() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("# comment\n  #comment 2\n # comment # 3");
         BjorneToken token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_LINE, token.getTokenType());
+        assertEquals(TOK_END_OF_LINE, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_LINE, token.getTokenType());
+        assertEquals(TOK_END_OF_LINE, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testContinuation() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("hello\\\nthere");
         BjorneToken token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("hellothere", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("hellothere", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testBackslashAtEnd() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("hello\\");
         BjorneToken token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("hello", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("hello", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testSymbols() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("; | & < > ( )");
         BjorneToken token = tokenizer.next();
-        Assert.assertEquals(TOK_SEMI, token.getTokenType());
+        assertEquals(TOK_SEMI, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_BAR, token.getTokenType());
+        assertEquals(TOK_BAR, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_AMP, token.getTokenType());
+        assertEquals(TOK_AMP, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_LESS, token.getTokenType());
+        assertEquals(TOK_LESS, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_GREAT, token.getTokenType());
+        assertEquals(TOK_GREAT, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_LPAREN, token.getTokenType());
+        assertEquals(TOK_LPAREN, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_RPAREN, token.getTokenType());
+        assertEquals(TOK_RPAREN, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testSymbols2() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("; ;; | || & && < << > >>");
         BjorneToken token = tokenizer.next();
-        Assert.assertEquals(TOK_SEMI, token.getTokenType());
+        assertEquals(TOK_SEMI, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_DSEMI, token.getTokenType());
+        assertEquals(TOK_DSEMI, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_BAR, token.getTokenType());
+        assertEquals(TOK_BAR, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_OR_IF, token.getTokenType());
+        assertEquals(TOK_OR_IF, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_AMP, token.getTokenType());
+        assertEquals(TOK_AMP, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_AND_IF, token.getTokenType());
+        assertEquals(TOK_AND_IF, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_LESS, token.getTokenType());
+        assertEquals(TOK_LESS, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_DLESS, token.getTokenType());
+        assertEquals(TOK_DLESS, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_GREAT, token.getTokenType());
+        assertEquals(TOK_GREAT, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_DGREAT, token.getTokenType());
+        assertEquals(TOK_DGREAT, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testSymbols3() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer(";;;|||&&&<<<>>>");
         BjorneToken token = tokenizer.next();
-        Assert.assertEquals(TOK_DSEMI, token.getTokenType());
+        assertEquals(TOK_DSEMI, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_SEMI, token.getTokenType());
+        assertEquals(TOK_SEMI, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_OR_IF, token.getTokenType());
+        assertEquals(TOK_OR_IF, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_BAR, token.getTokenType());
+        assertEquals(TOK_BAR, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_AND_IF, token.getTokenType());
+        assertEquals(TOK_AND_IF, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_AMP, token.getTokenType());
+        assertEquals(TOK_AMP, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_DLESS, token.getTokenType());
+        assertEquals(TOK_DLESS, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_LESSGREAT, token.getTokenType());
+        assertEquals(TOK_LESSGREAT, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_DGREAT, token.getTokenType());
+        assertEquals(TOK_DGREAT, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testSymbols4() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("< << <<- <& <> > >> >| >&");
         BjorneToken token = tokenizer.next();
-        Assert.assertEquals(TOK_LESS, token.getTokenType());
+        assertEquals(TOK_LESS, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_DLESS, token.getTokenType());
+        assertEquals(TOK_DLESS, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_DLESSDASH, token.getTokenType());
+        assertEquals(TOK_DLESSDASH, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_LESSAND, token.getTokenType());
+        assertEquals(TOK_LESSAND, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_LESSGREAT, token.getTokenType());
+        assertEquals(TOK_LESSGREAT, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_GREAT, token.getTokenType());
+        assertEquals(TOK_GREAT, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_DGREAT, token.getTokenType());
+        assertEquals(TOK_DGREAT, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_CLOBBER, token.getTokenType());
+        assertEquals(TOK_CLOBBER, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_GREATAND, token.getTokenType());
+        assertEquals(TOK_GREATAND, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testWords() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("hello there");
         BjorneToken token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("hello", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("hello", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("there", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("there", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testWords2() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("hello\\ there\\\n friend");
         BjorneToken token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("hello\\ there", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("hello\\ there", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("friend", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("friend", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
 
         tokenizer = new BjorneTokenizer("hello\\ there\\\n\\ friend");
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("hello\\ there\\ friend", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("hello\\ there\\ friend", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
 
         tokenizer = new BjorneTokenizer("hello\\\nthere\\\n friend");
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("hellothere", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("hellothere", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("friend", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("friend", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testWords3() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("'1 2' \"3 4\" `5 6`");
         BjorneToken token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("'1 2'", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("'1 2'", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("\"3 4\"", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("\"3 4\"", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("`5 6`", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("`5 6`", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testWords4() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("'1 \"2\"' \"3\\\"4\"");
         BjorneToken token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("'1 \"2\"'", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("'1 \"2\"'", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("\"3\\\"4\"", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("\"3\\\"4\"", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testWords5() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("1<2>3&4;5|6)7");
         BjorneToken token = tokenizer.next();
-        Assert.assertEquals(TOK_IO_NUMBER, token.getTokenType());
-        Assert.assertEquals("1", token.getText());
+        assertEquals(TOK_IO_NUMBER, token.getTokenType());
+        assertEquals("1", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_LESS, token.getTokenType());
+        assertEquals(TOK_LESS, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_IO_NUMBER, token.getTokenType());
-        Assert.assertEquals("2", token.getText());
+        assertEquals(TOK_IO_NUMBER, token.getTokenType());
+        assertEquals("2", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_GREAT, token.getTokenType());
+        assertEquals(TOK_GREAT, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("3", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("3", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_AMP, token.getTokenType());
+        assertEquals(TOK_AMP, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("4", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("4", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_SEMI, token.getTokenType());
+        assertEquals(TOK_SEMI, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("5", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("5", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_BAR, token.getTokenType());
+        assertEquals(TOK_BAR, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("6", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("6", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_RPAREN, token.getTokenType());
+        assertEquals(TOK_RPAREN, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("7", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("7", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
@@ -359,75 +359,75 @@ public class BjorneTokenizerTest {
                 new BjorneTokenizer(
                         "if then else elif fi for done while until case { } ! do in esac");
         BjorneToken token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_IF, token.getTokenType());
+        assertEquals(TOK_IF, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_THEN, token.getTokenType());
+        assertEquals(TOK_THEN, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_ELSE, token.getTokenType());
+        assertEquals(TOK_ELSE, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_ELIF, token.getTokenType());
+        assertEquals(TOK_ELIF, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_FI, token.getTokenType());
+        assertEquals(TOK_FI, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_FOR, token.getTokenType());
+        assertEquals(TOK_FOR, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_DONE, token.getTokenType());
+        assertEquals(TOK_DONE, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_WHILE, token.getTokenType());
+        assertEquals(TOK_WHILE, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_UNTIL, token.getTokenType());
+        assertEquals(TOK_UNTIL, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_CASE, token.getTokenType());
+        assertEquals(TOK_CASE, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_LBRACE, token.getTokenType());
+        assertEquals(TOK_LBRACE, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_RBRACE, token.getTokenType());
+        assertEquals(TOK_RBRACE, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_BANG, token.getTokenType());
+        assertEquals(TOK_BANG, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_DO, token.getTokenType());
+        assertEquals(TOK_DO, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_ESAC, token.getTokenType());
+        assertEquals(TOK_ESAC, token.getTokenType());
         token = tokenizer.next(RULE_1_CONTEXT);
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testRule5() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("if a a1 9a a_b a,b AB A=b");
         BjorneToken token = tokenizer.next(RULE_5_CONTEXT);
-        Assert.assertEquals(TOK_NAME, token.getTokenType());
+        assertEquals(TOK_NAME, token.getTokenType());
         token = tokenizer.next(RULE_5_CONTEXT);
-        Assert.assertEquals(TOK_NAME, token.getTokenType());
+        assertEquals(TOK_NAME, token.getTokenType());
         token = tokenizer.next(RULE_5_CONTEXT);
-        Assert.assertEquals(TOK_NAME, token.getTokenType());
+        assertEquals(TOK_NAME, token.getTokenType());
         token = tokenizer.next(RULE_5_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_5_CONTEXT);
-        Assert.assertEquals(TOK_NAME, token.getTokenType());
+        assertEquals(TOK_NAME, token.getTokenType());
         token = tokenizer.next(RULE_5_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_5_CONTEXT);
-        Assert.assertEquals(TOK_NAME, token.getTokenType());
+        assertEquals(TOK_NAME, token.getTokenType());
         token = tokenizer.next(RULE_5_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_5_CONTEXT);
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testRule6() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("if in do");
         BjorneToken token = tokenizer.next(RULE_6_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_6_CONTEXT);
-        Assert.assertEquals(TOK_IN, token.getTokenType());
+        assertEquals(TOK_IN, token.getTokenType());
         token = tokenizer.next(RULE_6_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_6_CONTEXT);
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
@@ -436,47 +436,47 @@ public class BjorneTokenizerTest {
                 new BjorneTokenizer(
                         "if then else elif fi for done while until case { } ! do in esac a= a=b 1a=b =c");
         BjorneToken token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_IF, token.getTokenType());
+        assertEquals(TOK_IF, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_THEN, token.getTokenType());
+        assertEquals(TOK_THEN, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_ELSE, token.getTokenType());
+        assertEquals(TOK_ELSE, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_ELIF, token.getTokenType());
+        assertEquals(TOK_ELIF, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_FI, token.getTokenType());
+        assertEquals(TOK_FI, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_FOR, token.getTokenType());
+        assertEquals(TOK_FOR, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_DONE, token.getTokenType());
+        assertEquals(TOK_DONE, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_WHILE, token.getTokenType());
+        assertEquals(TOK_WHILE, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_UNTIL, token.getTokenType());
+        assertEquals(TOK_UNTIL, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_CASE, token.getTokenType());
+        assertEquals(TOK_CASE, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_LBRACE, token.getTokenType());
+        assertEquals(TOK_LBRACE, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_RBRACE, token.getTokenType());
+        assertEquals(TOK_RBRACE, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_BANG, token.getTokenType());
+        assertEquals(TOK_BANG, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_DO, token.getTokenType());
+        assertEquals(TOK_DO, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_ESAC, token.getTokenType());
+        assertEquals(TOK_ESAC, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_ASSIGNMENT, token.getTokenType());
+        assertEquals(TOK_ASSIGNMENT, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_ASSIGNMENT, token.getTokenType());
+        assertEquals(TOK_ASSIGNMENT, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
@@ -485,47 +485,47 @@ public class BjorneTokenizerTest {
                 new BjorneTokenizer(
                         "if then else elif fi for done while until case { } ! do in esac a= a=b 1a=b =c");
         BjorneToken token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_ASSIGNMENT, token.getTokenType());
+        assertEquals(TOK_ASSIGNMENT, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_ASSIGNMENT, token.getTokenType());
+        assertEquals(TOK_ASSIGNMENT, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_7b_CONTEXT);
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
@@ -534,71 +534,71 @@ public class BjorneTokenizerTest {
                 new BjorneTokenizer(
                         "if then else elif fi for done while until case { } ! do in esac a a_b a= a=b 1a=b =c");
         BjorneToken token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_IF, token.getTokenType());
+        assertEquals(TOK_IF, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_THEN, token.getTokenType());
+        assertEquals(TOK_THEN, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_ELSE, token.getTokenType());
+        assertEquals(TOK_ELSE, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_ELIF, token.getTokenType());
+        assertEquals(TOK_ELIF, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_FI, token.getTokenType());
+        assertEquals(TOK_FI, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_FOR, token.getTokenType());
+        assertEquals(TOK_FOR, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_DONE, token.getTokenType());
+        assertEquals(TOK_DONE, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_WHILE, token.getTokenType());
+        assertEquals(TOK_WHILE, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_UNTIL, token.getTokenType());
+        assertEquals(TOK_UNTIL, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_CASE, token.getTokenType());
+        assertEquals(TOK_CASE, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_LBRACE, token.getTokenType());
+        assertEquals(TOK_LBRACE, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_RBRACE, token.getTokenType());
+        assertEquals(TOK_RBRACE, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_BANG, token.getTokenType());
+        assertEquals(TOK_BANG, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_DO, token.getTokenType());
+        assertEquals(TOK_DO, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_NAME, token.getTokenType()); // yes: in -> NAME
+        assertEquals(TOK_NAME, token.getTokenType()); // yes: in -> NAME
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_ESAC, token.getTokenType());
+        assertEquals(TOK_ESAC, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_NAME, token.getTokenType());
+        assertEquals(TOK_NAME, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_NAME, token.getTokenType());
+        assertEquals(TOK_NAME, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_ASSIGNMENT, token.getTokenType());
+        assertEquals(TOK_ASSIGNMENT, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_ASSIGNMENT, token.getTokenType());
+        assertEquals(TOK_ASSIGNMENT, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals(TOK_WORD, token.getTokenType());
         token = tokenizer.next(RULE_8_CONTEXT);
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 
     @Test
     public void testRegress() throws ShellSyntaxException {
         BjorneTokenizer tokenizer = new BjorneTokenizer("ls -l");
         BjorneToken token = tokenizer.peek(RULE_7a_CONTEXT);
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("ls", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("ls", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("ls", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("ls", token.getText());
         token = tokenizer.peek();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("-l", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("-l", token.getText());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_WORD, token.getTokenType());
-        Assert.assertEquals("-l", token.getText());
+        assertEquals(TOK_WORD, token.getTokenType());
+        assertEquals("-l", token.getText());
         token = tokenizer.peek();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
         token = tokenizer.next();
-        Assert.assertEquals(TOK_END_OF_STREAM, token.getTokenType());
+        assertEquals(TOK_END_OF_STREAM, token.getTokenType());
     }
 }

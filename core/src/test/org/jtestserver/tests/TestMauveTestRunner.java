@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -19,10 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 package org.jtestserver.tests;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import gnu.testlet.runner.RunResult;
-
 import java.io.IOException;
 import java.net.InetAddress;
 
@@ -38,13 +34,18 @@ import org.jtestserver.server.TestFailureException;
 import org.jtestserver.server.TestServer;
 import org.jtestserver.server.commands.MauveTestRunner;
 import org.jtestserver.server.commands.RunMauveTestCommand;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import gnu.testlet.runner.RunResult;
 
 public class TestMauveTestRunner {
     //private static final String MAUVE_TEST = "gnu.testlet.java.io.BufferedInputStream.SimpleRead";
     private static final String MAUVE_TEST = "gnu.testlet.java.io.DataOutputStream.WriteRead";
-    
-    @Test    
+
+    @Test
     public void testRunTest() throws IOException {
         MauveTestRunner runner = MauveTestRunner.getInstance();
         try {
@@ -54,7 +55,7 @@ public class TestMauveTestRunner {
             fail(e.getMessage());
         }
     }
-    
+
     @Test
     public void testRunMauveTestCommand() throws ProtocolException, TimeoutException {
         final String xmlReport = new RunMauveTestCommand() {
@@ -62,9 +63,9 @@ public class TestMauveTestRunner {
                 return execute(new Object[]{test});
             }
         } .runTest(MAUVE_TEST);
-        
+
         assertNotNull(xmlReport);
-        
+
         RunResult result = new DefaultTestClient(null) {
             public RunResult parseReport() throws ProtocolException {
                 return parseMauveReport(xmlReport);
@@ -72,15 +73,15 @@ public class TestMauveTestRunner {
         } .parseReport();
         assertNotNull(result);
     }
-    
+
     @Test
     public void testRunMauveThroughClient() throws ProtocolException, TimeoutException, IOException {
         Protocol<?> protocol = new UDPProtocol();
         int port = Config.read().getPort();
         Client<?, ?> client = null;
         TestServer server = null;
-        
-        try {            
+
+        try {
             server = new TestServer();
             final TestServer s = server;
             new Thread() {
@@ -91,14 +92,14 @@ public class TestMauveTestRunner {
 
             client = protocol.createClient(InetAddress.getLocalHost(), port);
             TestClient testClient = new DefaultTestClient(client);
-            
+
             RunResult result = testClient.runMauveTest(MAUVE_TEST);
             assertNotNull(result);
         } finally {
             if (client != null) {
                 client.close();
             }
-            
+
             if (server != null) {
                 server.requestShutdown();
             }

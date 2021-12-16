@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import static org.jnode.shell.bjorne.BjorneToken.RULE_1_CONTEXT;
@@ -81,7 +81,7 @@ public class BjorneTokenizer {
 
     private static final int EOS = -1;
     private static final int INVALID = -2;
-    
+
     private int pos = 0;
     private int lastCh = INVALID;
     private int nextCh = INVALID;
@@ -217,7 +217,7 @@ public class BjorneTokenizer {
     public void remove() {
         throw new UnsupportedOperationException("remove not supported");
     }
-    
+
     /**
      * This method bypasses normal tokenization and reads a raw line of
      * text up to the next NL (or the end of stream).
@@ -455,7 +455,7 @@ public class BjorneTokenizer {
             throw new ShellFailureException("Unexpected exception", ex);
         }
     }
-    
+
     private int getPos() {
         return pos;
     }

@@ -1,6 +1,6 @@
 /*
 JTestServer is a client/server framework for testing any JVM implementation.
- 
+
 Copyright (C) 2008  Fabien DUMINY (fduminy@jnode.org)
 
 JTestServer is free software; you can redistribute it and/or
@@ -37,17 +37,17 @@ public class PipeInputStream {
      * Input stream that will be redirected to a logger.
      */
     private final InputStream input;
-    
+
     /**
      * Logger to use for the redirection of the input stream.
      */
     private final Logger logger;
-    
+
     /**
      * Logging level to use.
      */
     private final Level level;
-    
+
     /**
      * Thread that will get messages from the input stream and redirect them to the logger.
      */
@@ -76,14 +76,14 @@ public class PipeInputStream {
         this.logger = logger;
         this.pipeThread = new PipeThread(listener);
     }
-    
+
     /**
      * Starts the redirection process.
      */
     public void start() {
         pipeThread.start();
     }
-    
+
     /**
      * Waits that there is no more data to read from the {@link InputStream}.
      */
@@ -94,7 +94,7 @@ public class PipeInputStream {
             // ignore
         }
     }
-    
+
     /**
      * Interface to implement for doing additional processing on the received lines. 
      * @author Fabien DUMINY (fduminy@jnode.org)
@@ -103,7 +103,7 @@ public class PipeInputStream {
     public static interface Listener {
         void lineReceived(String line);
     }
-    
+
     /**
      * Thread class that is doing the actual redirection of the input stream lines.
      * @author Fabien DUMINY (fduminy@jnode.org)
@@ -114,7 +114,7 @@ public class PipeInputStream {
          * 
          */
         private Listener listener;
-        
+
         /**
          * 
          * @param listener
@@ -122,7 +122,7 @@ public class PipeInputStream {
         private PipeThread(Listener listener) {
             this.listener = listener;
         }
-        
+
         /**
          * 
          */
@@ -134,7 +134,7 @@ public class PipeInputStream {
                 try {
                     while ((line = br.readLine()) != null) {
                         logger.log(level, line);
-                        
+
                         if (listener != null) {
                             listener.lineReceived(line);
                         }
@@ -145,7 +145,7 @@ public class PipeInputStream {
                 br.close();
             } catch (IOException e) {
                 // ignore
-                
+
             }
         }
     }

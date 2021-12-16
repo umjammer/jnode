@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.video.cirrus;
 
 import org.apache.log4j.Logger;
@@ -32,12 +32,12 @@ public final class CirrusMMIO implements CirrusConstants, DisplayDataChannelAPI 
 
     /** My logger */
     private static final Logger log = Logger.getLogger(CirrusMMIO.class);
-    
+
     @SuppressWarnings("unused")
     private final MemoryResource mmio;
 
     private final IOResource ports;
-    
+
     /**
      * Create a new instance
      * 

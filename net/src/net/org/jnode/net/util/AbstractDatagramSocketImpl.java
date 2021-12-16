@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.net.util;
 
 import java.io.IOException;
@@ -45,25 +45,25 @@ public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl impl
 
     /** The receive queue of SocketBuffer instances */
     private final Queue<SocketBuffer> receiveQueue = new Queue<SocketBuffer>();
-    
+
     /** Have I been closed? */
     private boolean closed;
-    
+
     /** Time to live */
     private int ttl = 0xFF;
-    
+
     /** Type of service */
     private int tos = 0;
-    
+
     /** Timeout of network operations */
     private int timeout = 0;
-    
+
     /** Local address */
     private InetAddress laddr;
-    
+
     /** Send using broadcast addresses? */
     private boolean broadcast = true;
-    
+
     /** Device used for transmission (can be null) */
     private Device device;
 

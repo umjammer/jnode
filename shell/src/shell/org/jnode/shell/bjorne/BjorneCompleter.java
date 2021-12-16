@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.shell.bjorne;
 
 import static org.jnode.shell.bjorne.BjorneToken.TOK_ASSIGNMENT;
@@ -55,7 +55,7 @@ import org.jnode.shell.syntax.FileArgument;
  * @author crawley@jnode.org
  */
 public class BjorneCompleter implements Completable {
-    
+
     private BjorneToken endToken;
     private BjorneToken penultimateToken;
     private long endExpectedSet;
@@ -150,7 +150,7 @@ public class BjorneCompleter implements Completable {
             }
         }
     }
-    
+
     private void completeCommandWord(CompletionInfo completions, CommandShell shell, BjorneToken token) {
         // FIXME ... do functions ...
         for (String builtinName : BjorneInterpreter.BUILTINS.keySet()) {
@@ -193,7 +193,7 @@ public class BjorneCompleter implements Completable {
     public long getEndExpectedSet() {
         return endExpectedSet;
     }
-    
+
     public void setPenultimateExpectedSet(long expectedSet) {
         this.penultimateExpectedSet = expectedSet;
     }
@@ -213,7 +213,7 @@ public class BjorneCompleter implements Completable {
     public SimpleCommandNode getCommand() {
         return command;
     }
-    
+
     @Override
     public String toString() {
         return "BjorneCompleter{endToken=" + BjorneToken.toString(endToken) +
@@ -222,5 +222,5 @@ public class BjorneCompleter implements Completable {
             ",penultimateExpectedSet={" + BjorneToken.formatExpectedSet(penultimateExpectedSet) + 
             "},command=" + command + "}";
     }
-    
+
 }

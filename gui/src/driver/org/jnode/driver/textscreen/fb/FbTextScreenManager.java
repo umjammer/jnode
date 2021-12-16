@@ -17,7 +17,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc., 
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package org.jnode.driver.textscreen.fb;
 
 import java.awt.Color;
@@ -91,19 +91,19 @@ final class FbTextScreenManager implements TextScreenManager, FrameBufferAPIOwne
         final int consoleHeight = h * nbRows;
         final int xOffset = (conf.getScreenWidth() - consoleWidth) / 2;
         final int yOffset = (conf.getScreenHeight() - consoleHeight) / 2;
-        
+
         BufferedImage bufferedImage = new BufferedImage(consoleWidth, consoleHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics graphics = bufferedImage.getGraphics();
-        
+
         //TODO wait for SurfaceGraphics2D implementation + textscreen supporting something else that 80x25
 /*        
         final Rectangle2D bounds = graphics.getFontMetrics().getStringBounds("Z", graphics);
         final int fontHeight = (int) bounds.getHeight();
         final int fontWidth = (int) bounds.getWidth();
-        
+
         int nbColumns = (width - 2 * MARGIN) / fontWidth;
         Unsafe.debug("getHeight: height=" + height + " font.width=" + fontWidth + " result=" + nbColumns);
-        
+
         int nbRows = (height - 2 * MARGIN) / fontHeight;
         Unsafe.debug("getWidth: width=" + width + " font.height=" + fontHeight + " result=" + nbRows);        
 */
@@ -116,13 +116,13 @@ final class FbTextScreenManager implements TextScreenManager, FrameBufferAPIOwne
 
         systemScreen = new FbTextScreen(surface, bufferedImage, graphics, font, nbColumns, nbRows, xOffset, yOffset);
     }
-    
+
     private final void clearScreen() {
         // initial painting of all the screen area
         final Rectangle r = new Rectangle(0, 0, conf.getScreenWidth(), conf.getScreenHeight());
         surface.fill(r, null, new AffineTransform(), Color.BLACK, Surface.PAINT_MODE);
     }
-    
+
     /**
      * @see org.jnode.driver.textscreen.TextScreenManager#getSystemScreen()
      */
@@ -138,7 +138,7 @@ final class FbTextScreenManager implements TextScreenManager, FrameBufferAPIOwne
             systemScreen.close();
         }
     }
-    
+
     @Override
     public void ownershipGained() {
         // systemScreen might be null at construction time
