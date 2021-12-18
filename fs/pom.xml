@@ -10,24 +10,6 @@
   <packaging>jar</packaging>
 
   <build>
-    <sourceDirectory>src/fs</sourceDirectory>
-    <testSourceDirectory>src/test</testSourceDirectory>
-    <resources>
-      <resource>
-        <directory>src/fs</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </resource>
-    </resources>
-    <testResources>
-      <testResource>
-        <directory>src/test</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </testResource>
-    </testResources>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -52,23 +34,21 @@
       <artifactId>jnode-net</artifactId>
       <version>0.2.9v-SNAPSHOT</version>
     </dependency>
-    <dependency>
-      <!--for commands -->
-      <groupId>org.jnode</groupId>
-      <artifactId>jnode-shell</artifactId>
-      <version>0.2.9v-SNAPSHOT</version>
-    </dependency>
 
     <dependency>
       <groupId>eu.agno3.jcifs</groupId>
       <artifactId>jcifs-ng</artifactId>
       <version>2.1.6</version>
     </dependency>
+    <dependency>
+      <groupId>com.enterprisedt</groupId>
+      <artifactId>edtFTPj</artifactId>
+      <version>1.5.3</version>
+    </dependency>
 
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
-      <version>1.2.17</version>
     </dependency>
 
     <dependency>
@@ -91,17 +71,5 @@
       <artifactId>junit-platform-suite-engine</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-      <version>1.10.19</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jmock</groupId>
-      <artifactId>jmock</artifactId>
-      <version>2.12.0</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+ </dependencies>
 </project>
