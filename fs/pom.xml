@@ -36,6 +36,12 @@
     </dependency>
 
     <dependency>
+      <groupId>com.github.fge</groupId> <!-- com.github.umjammer -->
+      <artifactId>java7-fs-base</artifactId>
+      <version>0.0.12v-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
       <groupId>eu.agno3.jcifs</groupId>
       <artifactId>jcifs-ng</artifactId>
       <version>2.1.6</version>
