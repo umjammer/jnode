@@ -59,4 +59,9 @@ public class SMBFileSystemType implements FileSystemType<SMBFileSystem> {
     public String getName() {
         return "SMBFS";
     }
+
+    /** */
+    public String getScheme() {
+        return "smb";
+    }
 }

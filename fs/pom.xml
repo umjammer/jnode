@@ -9,6 +9,11 @@
   <artifactId>jnode-fs</artifactId>
   <packaging>jar</packaging>
 
+  <properties>
+    <vavi-net-fuse.groupId>vavi</vavi-net-fuse.groupId> <!-- com.github.umjammer.vavi-apps-fuse -->
+    <vavi-net-fuse.version>0.1.7-SNAPSHOT</vavi-net-fuse.version>
+  </properties>
+
   <build>
     <plugins>
       <plugin>
@@ -75,6 +80,20 @@
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-suite-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>${vavi-net-fuse.groupId}</groupId>
+      <artifactId>vavi-net-fuse</artifactId>
+      <version>${vavi-net-fuse.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>${vavi-net-fuse.groupId}</groupId>
+      <artifactId>vavi-net-fuse</artifactId>
+      <version>${vavi-net-fuse.version}</version>
+      <type>test-jar</type>
       <scope>test</scope>
     </dependency>
  </dependencies>

@@ -32,13 +32,6 @@ import java.io.IOException;
 public interface FileSystem<T extends FSEntry> {
 
     /**
-     * Return type of the file system.
-     *
-     * @return {@link FileSystemType} corresponding to this file system
-     */
-    public FileSystemType<? extends FileSystem<T>> getType();
-
-    /**
      * Gets the root entry of this filesystem. This is usually a directory, but this is not required.
      *
      * @return {@link FSEntry} corresponding to root entry.

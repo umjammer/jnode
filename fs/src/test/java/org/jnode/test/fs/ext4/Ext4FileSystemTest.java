@@ -26,12 +26,11 @@ import org.jnode.driver.Device;
 import org.jnode.driver.block.FileDevice;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
+import org.jnode.fs.FileSystemType;
 import org.jnode.fs.ext2.Ext2FileSystem;
 import org.jnode.fs.ext2.Ext2FileSystemType;
-import org.jnode.fs.service.FileSystemService;
 import org.jnode.test.fs.DataStructureAsserts;
 import org.jnode.test.fs.FileSystemTestUtils;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,19 +38,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class Ext4FileSystemTest {
 
     private Device device;
-    private FileSystemService fss;
-
-    @BeforeEach
-    public void setUp() throws Exception {
-        // create file system service.
-        fss = FileSystemTestUtils.createFSService(Ext2FileSystemType.class.getName());
-    }
 
     @Test
     public void testReadExt4SpecialFiles() throws Exception {
 
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ext4/test-special-files.ext4"), "r");
-        Ext2FileSystemType type = fss.getFileSystemType(Ext2FileSystemType.ID);
+        Ext2FileSystemType type = FileSystemType.lookup(Ext2FileSystemType.class);
         Ext2FileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -73,7 +65,7 @@ public class Ext4FileSystemTest {
     public void testReadExt4Mmp() throws Exception {
 
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ext4/ext4-mmp.dd"), "r");
-        Ext2FileSystemType type = fss.getFileSystemType(Ext2FileSystemType.ID);
+        Ext2FileSystemType type = FileSystemType.lookup(Ext2FileSystemType.class);
         Ext2FileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -89,7 +81,7 @@ public class Ext4FileSystemTest {
 
         // Filesystem created without the 'dir_index' feature
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ext4/ext4-large-directory.dd"), "r");
-        Ext2FileSystemType type = fss.getFileSystemType(Ext2FileSystemType.ID);
+        Ext2FileSystemType type = FileSystemType.lookup(Ext2FileSystemType.class);
         Ext2FileSystem fs = type.create(device, true);
 
         FSDirectory rootDirectory = fs.getRootEntry().getDirectory();
@@ -114,7 +106,7 @@ public class Ext4FileSystemTest {
 
         // Filesystem created with the 'dir_index' feature
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ext4/ext4-large-dir-with-index.dd"), "r");
-        Ext2FileSystemType type = fss.getFileSystemType(Ext2FileSystemType.ID);
+        Ext2FileSystemType type = FileSystemType.lookup(Ext2FileSystemType.class);
         Ext2FileSystem fs = type.create(device, true);
 
         FSDirectory rootDirectory = fs.getRootEntry().getDirectory();
@@ -138,7 +130,7 @@ public class Ext4FileSystemTest {
     public void testReadExt4FlexBG() throws Exception {
 
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ext4/ext4-flex-bg.img"), "r");
-        Ext2FileSystemType type = fss.getFileSystemType(Ext2FileSystemType.ID);
+        Ext2FileSystemType type = FileSystemType.lookup(Ext2FileSystemType.class);
         Ext2FileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -159,7 +151,7 @@ public class Ext4FileSystemTest {
     public void testReadExt4MetaBG() throws Exception {
 
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ext4/ext4-meta-bg.dd"), "r");
-        Ext2FileSystemType type = fss.getFileSystemType(Ext2FileSystemType.ID);
+        Ext2FileSystemType type = FileSystemType.lookup(Ext2FileSystemType.class);
         Ext2FileSystem fs = type.create(device, true);
 
         String expectedStructure =

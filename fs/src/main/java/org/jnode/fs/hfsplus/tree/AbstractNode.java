@@ -121,6 +121,7 @@ public abstract class AbstractNode<K extends Key, T extends NodeRecord> implemen
     public final T find(K key) {
         for (T record : records) {
             log.debug("Record: " + record.toString() + " Key: " + key);
+            @SuppressWarnings("unchecked")
             K recordKey = (K) record.getKey();
             if (recordKey != null && recordKey.equals(key)) {
                 return record;

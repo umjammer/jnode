@@ -41,8 +41,8 @@ public class ISO9660FileSystem extends AbstractFileSystem<ISO9660Entry> {
     /**
      * @see org.jnode.fs.FileSystem#getDevice()
      */
-    public ISO9660FileSystem(Device device, boolean readOnly, ISO9660FileSystemType type) throws FileSystemException {
-        super(device, readOnly, type);
+    public ISO9660FileSystem(Device device, boolean readOnly) throws FileSystemException {
+        super(device, readOnly);
 
         try {
             volume = new ISO9660Volume(getFSApi());

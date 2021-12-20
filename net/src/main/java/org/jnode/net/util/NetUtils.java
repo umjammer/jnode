@@ -20,10 +20,8 @@
 
 package org.jnode.net.util;
 
-import javax.naming.NameNotFoundException;
+import java.io.IOException;
 
-import org.jnode.driver.net.NetworkException;
-import org.jnode.naming.InitialNaming;
 import org.jnode.net.NetworkLayerManager;
 import org.jnode.net.SocketBuffer;
 
@@ -39,7 +37,7 @@ public class NetUtils {
      * 
      * @param skbuf
      */
-    public static void sendToPTM(SocketBuffer skbuf) throws NetworkException {
+    public static void sendToPTM(SocketBuffer skbuf) throws IOException {
         final NetworkLayerManager ptm = getNLM();
         ptm.receive(skbuf);
     }
@@ -47,11 +45,7 @@ public class NetUtils {
     /**
      * Gets the packet-type-manager
      */
-    public static NetworkLayerManager getNLM() throws NetworkException {
-        try {
-            return InitialNaming.lookup(NetworkLayerManager.NAME);
-        } catch (NameNotFoundException ex) {
-            throw new NetworkException("Cannot find NetworkLayerManager", ex);
-        }
+    public static NetworkLayerManager getNLM() throws IOException {
+        return null;// TODO
     }
 }

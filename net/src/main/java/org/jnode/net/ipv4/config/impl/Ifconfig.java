@@ -25,7 +25,6 @@ import java.util.Collection;
 
 import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.Device;
-import org.jnode.driver.DeviceUtils;
 import org.jnode.driver.net.NetDeviceAPI;
 import org.jnode.driver.net.NetworkException;
 import org.jnode.net.ethernet.EthernetConstants;
@@ -76,7 +75,7 @@ final class Ifconfig {
      * @throws UnknownHostException No local address could be found
      */
     public static IPv4Address getLocalAddress() throws UnknownHostException {
-        final Collection<Device> devices = DeviceUtils.getDevicesByAPI(NetDeviceAPI.class);
+        Collection<Device> devices = null; // TODO
         for (Device dev : devices) {
             try {
                 final NetDeviceAPI api = dev.getAPI(NetDeviceAPI.class);

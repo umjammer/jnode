@@ -31,10 +31,14 @@ import org.jnode.partitions.PartitionTableEntry;
  * @author Tango
  */
 public class FatFileSystemType implements BlockDeviceFileSystemType<FatFileSystem> {
-    public static final Class<FatFileSystemType> ID = FatFileSystemType.class;
 
     public String getName() {
         return "JFAT";
+    }
+
+    /** */
+    public String getScheme() {
+        return "jfat";
     }
 
     public boolean supports(PartitionTableEntry pte, byte[] firstSectors, FSBlockDeviceAPI devApi) {
@@ -94,7 +98,7 @@ public class FatFileSystemType implements BlockDeviceFileSystemType<FatFileSyste
     }
 
     public FatFileSystem create(Device device, boolean readOnly) throws FileSystemException {
-        return new FatFileSystem(device, readOnly, this);
+        return new FatFileSystem(device, readOnly);
     }
 
 }

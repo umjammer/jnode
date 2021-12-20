@@ -23,14 +23,13 @@ package org.jnode.fs.hfsplus;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.jnode.driver.Device;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
 import org.jnode.fs.FSFile;
-import org.jnode.fs.FileSystem;
 import org.jnode.fs.FileSystemException;
-import org.jnode.fs.FileSystemType;
 import org.jnode.fs.hfsplus.attributes.Attributes;
 import org.jnode.fs.hfsplus.catalog.Catalog;
 import org.jnode.fs.hfsplus.catalog.CatalogKey;
@@ -86,9 +85,9 @@ public class HfsPlusFileSystem extends AbstractFileSystem<HfsPlusEntry> {
      * @param type
      * @throws FileSystemException
      */
-    public HfsPlusFileSystem(Device device, boolean readOnly, FileSystemType<? extends FileSystem<HfsPlusEntry>> type)
+    public HfsPlusFileSystem(Device device, boolean readOnly)
         throws FileSystemException {
-        super(device, readOnly, type);
+        super(device, readOnly);
     }
 
     /**

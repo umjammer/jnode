@@ -1,0 +1,3 @@
+org.jnode.partitions.apm.ApmPartitionTableType
+org.jnode.partitions.gpt.GptPartitionTableType
+org.jnode.partitions.ibm.IBMPartitionTableType

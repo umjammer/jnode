@@ -20,12 +20,8 @@
 
 package org.jnode.net.ipv4.config.impl;
 
-import java.util.Collection;
-
 import org.apache.log4j.Logger;
 import org.jnode.driver.Device;
-import org.jnode.driver.DeviceListener;
-import org.jnode.driver.DeviceManager;
 import org.jnode.driver.net.NetDeviceAPI;
 
 /**
@@ -33,7 +29,7 @@ import org.jnode.driver.net.NetDeviceAPI;
  * 
  * @author Ewout Prangsma (epr@users.sourceforge.net)
  */
-final class NetDeviceMonitor implements DeviceListener {
+final class NetDeviceMonitor {
 
     /** My logger */
     private static final Logger log = Logger.getLogger(NetDeviceMonitor.class);
@@ -46,19 +42,6 @@ final class NetDeviceMonitor implements DeviceListener {
     public NetDeviceMonitor(ConfigurationProcessor processor, NetConfigurationData config) {
         this.processor = processor;
         this.config = config;
-    }
-
-    /**
-     * Configure all netdevices already started by the given devman.
-     * @param devMan
-     */
-    public void configureDevices(DeviceManager devMan) {
-        final Collection<Device> devs = devMan.getDevicesByAPI(NetDeviceAPI.class);
-        for (Device dev : devs) {
-            if (dev.implementsAPI(NetDeviceAPI.class)) {
-                configureDevice(dev);
-            }
-        }
     }
 
     /**

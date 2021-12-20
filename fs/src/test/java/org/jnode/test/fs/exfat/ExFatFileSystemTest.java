@@ -2,34 +2,26 @@ package org.jnode.test.fs.exfat;
 
 import org.jnode.driver.Device;
 import org.jnode.driver.block.FileDevice;
+import org.jnode.fs.FileSystemType;
 import org.jnode.fs.exfat.ExFatFileSystem;
 import org.jnode.fs.exfat.ExFatFileSystemType;
-import org.jnode.fs.service.FileSystemService;
 import org.jnode.test.fs.DataStructureAsserts;
 import org.jnode.test.fs.FileSystemTestUtils;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ExFatFileSystemTest {
 
     private Device device;
-    private FileSystemService fss;
-
-    @BeforeEach
-    public void setUp() throws Exception {
-        // create file system service.
-        fss = FileSystemTestUtils.createFSService(ExFatFileSystemType.class.getName());
-    }
 
     @Test
     public void testReadSmallDisk() throws Exception {
 
-        device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/exfat/test.exfat"), "r");
-        ExFatFileSystemType type = fss.getFileSystemType(ExFatFileSystemType.ID);
+        device = new FileDevice(FileSystemTestUtils.getTestFile("org/jnode/test/fs/exfat/test.exfat"), "r");
+        ExFatFileSystemType type = FileSystemType.lookup(ExFatFileSystemType.class);
         ExFatFileSystem fs = type.create(device, true);
 
         String expectedStructure =
-            "type: ExFAT vol:Disk Image total:-1 free:-1\n" +
+            "vol:Disk Image total:-1 free:-1\n" +
                 "  null; \n" +
                 "    .DS_Store; 6148; f4ca5ca925aae4c51cf564b7e8fc5ead\n" +
                 "    test.txt; 179; 73ced839d7039cc88c03ddc225159bd5\n" +

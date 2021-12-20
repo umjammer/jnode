@@ -28,7 +28,6 @@ import org.jnode.fs.FileSystemType;
  * @author Andrei Dore
  */
 public class NFS2FileSystemType implements FileSystemType<NFS2FileSystem> {
-    public static final Class<NFS2FileSystemType> ID = NFS2FileSystemType.class;
 
     /**
      * Create a filesystem from a given device.
@@ -45,5 +44,10 @@ public class NFS2FileSystemType implements FileSystemType<NFS2FileSystem> {
      */
     public String getName() {
         return "NFS2";
+    }
+
+    /** */
+    public String getScheme() {
+        return "nfs2";
     }
 }

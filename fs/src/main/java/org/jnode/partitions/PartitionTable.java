@@ -25,8 +25,4 @@ package org.jnode.partitions;
  */
 public interface PartitionTable<PTE extends PartitionTableEntry> extends Iterable<PTE> {
 
-    /**
-     * Gets the type of this partition table
-     */
-    public PartitionTableType getType();
 }

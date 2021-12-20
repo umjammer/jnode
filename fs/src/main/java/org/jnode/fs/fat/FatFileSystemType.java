@@ -30,13 +30,17 @@ import org.jnode.partitions.PartitionTableEntry;
  * @author epr
  */
 public class FatFileSystemType implements BlockDeviceFileSystemType<FatFileSystem> {
-    public static final Class<FatFileSystemType> ID = FatFileSystemType.class;
 
     /**
      * Gets the unique name of this file system type.
      */
     public String getName() {
         return "FAT";
+    }
+
+    /** */
+    public String getScheme() {
+        return "fat";
     }
 
     /**
@@ -92,6 +96,6 @@ public class FatFileSystemType implements BlockDeviceFileSystemType<FatFileSyste
      * @param readOnly
      */
     public FatFileSystem create(Device device, boolean readOnly) throws FileSystemException {
-        return new FatFileSystem(device, readOnly, this);
+        return new FatFileSystem(device, readOnly);
     }
 }

@@ -31,7 +31,6 @@ import org.jnode.driver.block.FileDevice;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSFile;
 import org.jnode.fs.FileSystem;
-import org.jnode.fs.FileSystemException;
 import org.jnode.fs.ntfs.NTFSFileSystemType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -88,8 +87,6 @@ public class NTFSUnitTest {
             fail("Unexpected exception : " + e.getMessage());
         } catch (IOException e) {
             fail("Unexpected exception : " + e.getMessage());
-        } catch (FileSystemException e) {
-            fail("Unexpected exception : " + e.getMessage());
         }
     }
 
@@ -137,8 +134,6 @@ public class NTFSUnitTest {
         } catch (FileNotFoundException e) {
             fail("Unexpected exception : " + e.getMessage());
         } catch (IOException e) {
-            fail("Unexpected exception : " + e.getMessage());
-        } catch (FileSystemException e) {
             fail("Unexpected exception : " + e.getMessage());
         }
     }

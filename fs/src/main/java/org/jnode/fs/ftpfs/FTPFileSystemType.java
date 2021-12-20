@@ -28,7 +28,6 @@ import org.jnode.fs.FileSystemType;
  * @author Levente S\u00e1ntha
  */
 public class FTPFileSystemType implements FileSystemType<FTPFileSystem> {
-    public static final Class<FTPFileSystemType> ID = FTPFileSystemType.class;
 
     /**
      * Create a filesystem from a given device.
@@ -45,5 +44,10 @@ public class FTPFileSystemType implements FileSystemType<FTPFileSystem> {
      */
     public String getName() {
         return "FTPFS";
+    }
+
+    /** */
+    public String getScheme() {
+        return "ftp";
     }
 }

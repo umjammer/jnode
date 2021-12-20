@@ -20,6 +20,7 @@
 
 package org.jnode.net.ipv4.layer;
 
+import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -400,7 +401,7 @@ public class IPv4NetworkLayer implements NetworkLayer, IPv4Constants, IPv4Servic
                 arp = (ARPNetworkLayer) NetUtils.getNLM().getNetworkLayer(EthernetConstants.ETH_P_ARP);
             } catch (NoSuchProtocolException ex) {
                 log.error("Cannot find ARP layer", ex);
-            } catch (NetworkException ex) {
+            } catch (IOException ex) {
                 log.error("Cannot network layer manager", ex);
             }
         }

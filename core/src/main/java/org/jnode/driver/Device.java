@@ -20,11 +20,8 @@
 
 package org.jnode.driver;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-
-import org.jnode.util.StopWatch;
 
 /**
  * A software representation of a hardware device.
@@ -33,15 +30,9 @@ import org.jnode.util.StopWatch;
  * instances.
  *
  * @author Ewout Prangsma (epr@users.sourceforge.net)
- * @see org.jnode.driver.Driver
- * @see org.jnode.driver.DeviceToDriverMapper
  */
 public class Device {
 
-    /**
-     * My driver
-     */
-    private Driver driver;
     /**
      * My identifier
      */
@@ -64,29 +55,6 @@ public class Device {
      */
     public Device(String id) {
         this.id = id;
-    }
-
-    /**
-     * Gets the driver of this device.
-     *
-     * @return My driver, can be null
-     */
-    public final Driver getDriver() {
-        return driver;
-    }
-
-    /**
-     * Gets the classname of my driver.
-     *
-     * @return String can be null.
-     */
-    public final String getDriverClassName() {
-        final Driver driver = this.driver;
-        if (driver != null) {
-            return driver.getClass().getName();
-        } else {
-            return null;
-        }
     }
 
     /**
@@ -131,7 +99,7 @@ public class Device {
         apis.put(apiInterface, apiImplementation);
         final Class[] interfaces = apiInterface.getInterfaces();
         if (interfaces != null) {
-            for (Class intf : interfaces) {
+            for (Class<?> intf : interfaces) {
                 if (DeviceAPI.class.isAssignableFrom(intf)) {
                     if (!apis.containsKey(intf)) {
                         apis.put((Class<? extends DeviceAPI>) intf, apiImplementation);
@@ -158,7 +126,7 @@ public class Device {
      */
     public final boolean implementsAPI(Class<? extends DeviceAPI> apiInterface) {
         //lookup is classname based to handle multi isolate uscases
-        for (Class clazz : apis.keySet()) {
+        for (Class<?> clazz : apis.keySet()) {
             if (clazz.getName().equals(apiInterface.getName())) {
                 return true;
             }
@@ -184,8 +152,8 @@ public class Device {
      */
     public final <T extends DeviceAPI> T getAPI(Class<T> apiInterface) throws ApiNotFoundException {
         //lookup is classname based to handle multi isolate uscases
-        Class apiInterface2 = null;
-        for (Class clazz : apis.keySet()) {
+        Class<?> apiInterface2 = null;
+        for (Class<?> clazz : apis.keySet()) {
             if (clazz.getName().equals(apiInterface.getName())) {
                 apiInterface2 = clazz;
                 break;

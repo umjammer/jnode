@@ -20,20 +20,21 @@
 
 package org.jnode.test.fs.hfsplus;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Random;
 
 import org.jnode.driver.Device;
 import org.jnode.driver.block.FileDevice;
 import org.jnode.fs.FSDirectory;
+import org.jnode.fs.FileSystemType;
 import org.jnode.fs.hfsplus.HFSPlusParams;
 import org.jnode.fs.hfsplus.HfsPlusFileSystem;
 import org.jnode.fs.hfsplus.HfsPlusFileSystemType;
 import org.jnode.fs.hfsplus.SuperBlock;
-import org.jnode.fs.service.FileSystemService;
 import org.jnode.test.fs.DataStructureAsserts;
 import org.jnode.test.fs.FileSystemTestUtils;
-import org.jnode.test.support.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,21 +45,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class HfsPlusFileSystemTest {
 
     private Device device;
-    private FileSystemService fss;
 
     @BeforeEach
     public void setUp() throws Exception {
         // create test device.
         device = createTestDisk(false);
-        // create file system service.
-        fss = FileSystemTestUtils.createFSService(HfsPlusFileSystemType.class.getName());
     }
 
     @Test
     public void testReadSmallDisk() throws Exception {
 
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/hfsplus/test.hfsplus"), "r");
-        HfsPlusFileSystemType type = fss.getFileSystemType(HfsPlusFileSystemType.ID);
+        HfsPlusFileSystemType type = FileSystemType.lookup(HfsPlusFileSystemType.class);
         HfsPlusFileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -75,7 +73,7 @@ public class HfsPlusFileSystemTest {
     public void testReadDiskWithDirectoryHardLinks() throws Exception {
 
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/hfsplus/hard-linked-directories.dmg"), "r");
-        HfsPlusFileSystemType type = fss.getFileSystemType(HfsPlusFileSystemType.ID);
+        HfsPlusFileSystemType type = FileSystemType.lookup(HfsPlusFileSystemType.class);
         HfsPlusFileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -107,7 +105,7 @@ public class HfsPlusFileSystemTest {
     public void testReadDiskWithFileHardLinks() throws Exception {
 
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/hfsplus/hard-linked-files.dmg"), "r");
-        HfsPlusFileSystemType type = fss.getFileSystemType(HfsPlusFileSystemType.ID);
+        HfsPlusFileSystemType type = FileSystemType.lookup(HfsPlusFileSystemType.class);
         HfsPlusFileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -134,7 +132,7 @@ public class HfsPlusFileSystemTest {
     public void testReadDiskWithCompressedFiles() throws Exception {
 
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/hfsplus/compressed.dd"), "r");
-        HfsPlusFileSystemType type = fss.getFileSystemType(HfsPlusFileSystemType.ID);
+        HfsPlusFileSystemType type = FileSystemType.lookup(HfsPlusFileSystemType.class);
         HfsPlusFileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -163,7 +161,7 @@ public class HfsPlusFileSystemTest {
         // This HFS+ image was created under Linux and it seems like the 'quote.txt' file has the UF_COMPRESSED
         // flag set on it incorrectly
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/hfsplus/wrong-compressed-flag.dd"), "r");
-        HfsPlusFileSystemType type = fss.getFileSystemType(HfsPlusFileSystemType.ID);
+        HfsPlusFileSystemType type = FileSystemType.lookup(HfsPlusFileSystemType.class);
         HfsPlusFileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -179,7 +177,7 @@ public class HfsPlusFileSystemTest {
     @Test
     public void testDiskCompressedHardlinks() throws Exception {
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/hfsplus/compressed-hardlinks.dd"), "r");
-        HfsPlusFileSystemType type = fss.getFileSystemType(HfsPlusFileSystemType.ID);
+        HfsPlusFileSystemType type = FileSystemType.lookup(HfsPlusFileSystemType.class);
         HfsPlusFileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -205,7 +203,7 @@ public class HfsPlusFileSystemTest {
     @Test
     public void testDiskWithLargeCompressedFile() throws Exception {
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/hfsplus/large-compressed.dmg"), "r");
-        HfsPlusFileSystemType type = fss.getFileSystemType(HfsPlusFileSystemType.ID);
+        HfsPlusFileSystemType type = FileSystemType.lookup(HfsPlusFileSystemType.class);
         HfsPlusFileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -229,7 +227,7 @@ public class HfsPlusFileSystemTest {
     @Test
     public void testDiskWithLzvnCompression() throws Exception {
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/hfsplus/rle-compression.dmg"), "r");
-        HfsPlusFileSystemType type = fss.getFileSystemType(HfsPlusFileSystemType.ID);
+        HfsPlusFileSystemType type = FileSystemType.lookup(HfsPlusFileSystemType.class);
         HfsPlusFileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -252,8 +250,8 @@ public class HfsPlusFileSystemTest {
 
     @Test
     public void testCreate() throws Exception {
-        HfsPlusFileSystemType type = fss.getFileSystemType(HfsPlusFileSystemType.ID);
-        HfsPlusFileSystem fs = new HfsPlusFileSystem(device, false, type);
+        HfsPlusFileSystemType type = FileSystemType.lookup(HfsPlusFileSystemType.class);
+        HfsPlusFileSystem fs = type.create(device, false);
         HFSPlusParams params = new HFSPlusParams();
         params.setVolumeName("testdrive");
         params.setBlockSize(HFSPlusParams.OPTIMAL_BLOCK_SIZE);
@@ -268,8 +266,8 @@ public class HfsPlusFileSystemTest {
 
     @Test
     public void testRead() throws Exception {
-        HfsPlusFileSystemType type = fss.getFileSystemType(HfsPlusFileSystemType.ID);
-        HfsPlusFileSystem fs = new HfsPlusFileSystem(device, false, type);
+        HfsPlusFileSystemType type = FileSystemType.lookup(HfsPlusFileSystemType.class);
+        HfsPlusFileSystem fs = type.create(device, false);
         HFSPlusParams params = new HFSPlusParams();
         params.setVolumeName("testdrive");
         params.setBlockSize(HFSPlusParams.OPTIMAL_BLOCK_SIZE);
@@ -294,8 +292,12 @@ public class HfsPlusFileSystemTest {
     }
 
     private Device createTestDisk(boolean formatted) throws IOException {
-        File file = TestUtils.makeTempFile("hfsDevice", "10M");
-        Device device = new FileDevice(file, "rw");
+        Path source = Files.createTempFile("hfsDevice", "tmp");
+        byte[] bytes = new byte[10 * 1024 * 1024];
+        Random random = new Random(System.currentTimeMillis());
+        random.nextBytes(bytes);
+        Files.write(source, bytes);
+        Device device = new FileDevice(source.toFile(), "rw");
         return device;
 
     }

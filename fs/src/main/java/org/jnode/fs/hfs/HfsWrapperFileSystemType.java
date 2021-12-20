@@ -38,7 +38,6 @@ import org.jnode.partitions.PartitionTableEntry;
  * @author Luke Quinane
  */
 public class HfsWrapperFileSystemType implements BlockDeviceFileSystemType<HfsPlusFileSystem> {
-    public static final Class<HfsWrapperFileSystemType> ID = HfsWrapperFileSystemType.class;
 
     @Override
     public final HfsPlusFileSystem create(final Device device, final boolean readOnly) throws FileSystemException {
@@ -73,7 +72,7 @@ public class HfsWrapperFileSystemType implements BlockDeviceFileSystemType<HfsPl
             throw new FileSystemException("Error creating sub-device for HFS+", e);
         }
 
-        HfsPlusFileSystem fs = new HfsPlusFileSystem(subDevice, readOnly, this);
+        HfsPlusFileSystem fs = new HfsPlusFileSystem(subDevice, readOnly);
         fs.read();
         return fs;
     }
@@ -81,6 +80,11 @@ public class HfsWrapperFileSystemType implements BlockDeviceFileSystemType<HfsPl
     @Override
     public final String getName() {
         return "HFS Wrapper";
+    }
+
+    /** */
+    public String getScheme() {
+        return "hfs";
     }
 
     @Override

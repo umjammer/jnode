@@ -1,0 +1,11 @@
+org.jnode.fs.nfs.nfs2.NFS2FileSystemType
+org.jnode.fs.exfat.ExFatFileSystemType
+org.jnode.fs.iso9660.ISO9660FileSystemType
+org.jnode.fs.ext2.Ext2FileSystemType
+org.jnode.fs.jfat.FatFileSystemType
+org.jnode.fs.hfs.HfsWrapperFileSystemType
+org.jnode.fs.ftpfs.FTPFileSystemType
+org.jnode.fs.smbfs.SMBFileSystemType
+org.jnode.fs.ntfs.NTFSFileSystemType
+org.jnode.fs.fat.FatFileSystemType
+org.jnode.fs.hfsplus.HfsPlusFileSystemType

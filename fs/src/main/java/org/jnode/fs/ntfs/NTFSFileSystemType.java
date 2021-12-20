@@ -31,11 +31,15 @@ import org.jnode.partitions.PartitionTableEntry;
  * @author Ewout Prangsma (epr@users.sourceforge.net)
  */
 public class NTFSFileSystemType implements BlockDeviceFileSystemType<NTFSFileSystem> {
-    public static final Class<NTFSFileSystemType> ID = NTFSFileSystemType.class;
     public static final String TAG = "NTFS    ";
 
     public String getName() {
         return "NTFS";
+    }
+
+    /** */
+    public String getScheme() {
+        return "ntfs";
     }
 
     /**
@@ -56,6 +60,6 @@ public class NTFSFileSystemType implements BlockDeviceFileSystemType<NTFSFileSys
      * @see org.jnode.fs.FileSystemType#create(Device, boolean)
      */
     public NTFSFileSystem create(Device device, boolean readOnly) throws FileSystemException {
-        return new NTFSFileSystem(device, readOnly, this);
+        return new NTFSFileSystem(device, readOnly);
     }
 }

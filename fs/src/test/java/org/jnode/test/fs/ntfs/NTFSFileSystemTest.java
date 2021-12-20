@@ -23,14 +23,13 @@ package org.jnode.test.fs.ntfs;
 import org.jnode.driver.Device;
 import org.jnode.driver.block.FileDevice;
 import org.jnode.fs.FSFileSlackSpace;
+import org.jnode.fs.FileSystemType;
 import org.jnode.fs.ntfs.FileRecord;
 import org.jnode.fs.ntfs.NTFSEntry;
 import org.jnode.fs.ntfs.NTFSFileSystem;
 import org.jnode.fs.ntfs.NTFSFileSystemType;
-import org.jnode.fs.service.FileSystemService;
 import org.jnode.test.fs.DataStructureAsserts;
 import org.jnode.test.fs.FileSystemTestUtils;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,19 +37,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class NTFSFileSystemTest {
 
     private Device device;
-    private FileSystemService fss;
-
-    @BeforeEach
-    public void setUp() throws Exception {
-        // create file system service.
-        fss = FileSystemTestUtils.createFSService(NTFSFileSystemType.class.getName());
-    }
 
     @Test
     public void testReadSmallDisk() throws Exception {
 
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ntfs/test.ntfs"), "r");
-        NTFSFileSystemType type = fss.getFileSystemType(NTFSFileSystemType.ID);
+        NTFSFileSystemType type = FileSystemType.lookup(NTFSFileSystemType.class);
         NTFSFileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -85,7 +77,7 @@ public class NTFSFileSystemTest {
     public void testReadCompressedDisk() throws Exception {
 
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ntfs/compressed.dd"), "r");
-        NTFSFileSystemType type = fss.getFileSystemType(NTFSFileSystemType.ID);
+        NTFSFileSystemType type = FileSystemType.lookup(NTFSFileSystemType.class);
         NTFSFileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -221,7 +213,7 @@ public class NTFSFileSystemTest {
     public void testLinks() throws Exception {
 
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ntfs/ntfs-links.dd"), "r");
-        NTFSFileSystemType type = fss.getFileSystemType(NTFSFileSystemType.ID);
+        NTFSFileSystemType type = FileSystemType.lookup(NTFSFileSystemType.class);
         NTFSFileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -274,7 +266,7 @@ public class NTFSFileSystemTest {
 
         // Arrange
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ntfs/compressed.dd"), "r");
-        NTFSFileSystemType type = fss.getFileSystemType(NTFSFileSystemType.ID);
+        NTFSFileSystemType type = FileSystemType.lookup(NTFSFileSystemType.class);
         NTFSFileSystem fs = type.create(device, true);
 
         // Act

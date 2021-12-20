@@ -33,7 +33,6 @@ import org.jnode.fs.FSEntry;
 import org.jnode.fs.FSFile;
 import org.jnode.fs.FileSystem;
 import org.jnode.fs.FileSystemException;
-import org.jnode.fs.FileSystemType;
 
 /**
  * This class provide a basic implementation of {@link FileSystem} interface.
@@ -43,10 +42,10 @@ import org.jnode.fs.FileSystemType;
 public abstract class AbstractFileSystem<T extends FSEntry> implements FileSystem<T> {
     /** My logger */
     private static final Logger log = Logger.getLogger(AbstractFileSystem.class);
+    /** The device that contains the file system */
+    private final Device device;
     /** API of the block device */
     private final BlockDeviceAPI api;
-    /** Type of the file system */
-    private final FileSystemType<? extends FileSystem<T>> type;
     /** Root enntry of the file system */
     private T rootEntry;
     /** The file system is read-only */
@@ -66,21 +65,20 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
      * 
      * @throws FileSystemException device is null or device has no {@link BlockDeviceAPI} defined.
      */
-    public AbstractFileSystem(BlockDeviceAPI api, boolean readOnly,
-            FileSystemType<? extends FileSystem<T>> type) throws FileSystemException {
+    public AbstractFileSystem(Device device, boolean readOnly) throws FileSystemException {
+        if (device == null)
+            throw new FileSystemException("Device cannot be null.");
 
-        this.api = api;
+        this.device = device;
+
+        try {
+            api = device.getAPI(BlockDeviceAPI.class);
+        } catch (ApiNotFoundException e) {
+            throw new FileSystemException("Device is not a partition!", e);
+        }
 
         this.closed = false;
         this.readOnly = readOnly;
-        this.type = type;
-    }
-
-    /**
-     * @see org.jnode.fs.FileSystem#getType()
-     */
-    public final FileSystemType<? extends FileSystem<T>> getType() {
-        return type;
     }
 
     /**

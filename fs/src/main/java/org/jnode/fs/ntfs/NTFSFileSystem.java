@@ -22,6 +22,7 @@ package org.jnode.fs.ntfs;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
 import org.jnode.driver.Device;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
@@ -45,8 +46,8 @@ public class NTFSFileSystem extends AbstractFileSystem<FSEntry> {
     /**
      * @see org.jnode.fs.FileSystem#getDevice()
      */
-    public NTFSFileSystem(Device device, boolean readOnly, NTFSFileSystemType type) throws FileSystemException {
-        super(device, readOnly, type);
+    public NTFSFileSystem(Device device, boolean readOnly) throws FileSystemException {
+        super(device, readOnly);
 
         try {
             // initialize the NTFS volume

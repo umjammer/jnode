@@ -34,7 +34,6 @@ import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.Device;
 import org.jnode.driver.block.BlockDeviceAPI;
 import org.jnode.partitions.PartitionTable;
-import org.jnode.partitions.PartitionTableType;
 import org.jnode.util.BigEndian;
 import org.jnode.util.LittleEndian;
 
@@ -63,11 +62,6 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
         // NTFS
         FILESYSTEM_OEM_NAMES.add("NTFS    ");
     }
-
-    /**
-     * The type of partition table
-     */
-    private final IBMPartitionTableType tableType;
 
     /**
      * The partition entries
@@ -100,9 +94,8 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
      *
      * @param bootSector
      */
-    public IBMPartitionTable(IBMPartitionTableType tableType, byte[] bootSector, Device device) {
+    public IBMPartitionTable(byte[] bootSector, Device device) {
         // this.bootSector = bootSector;
-        this.tableType = tableType;
         this.driveDevice = device;
         if (containsPartitionTable(bootSector)) {
             this.partitions = new IBMPartitionTableEntry[TABLE_SIZE];
@@ -374,12 +367,5 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
      */
     public List<IBMPartitionTableEntry> getExtendedPartitions() {
         return extendedPartitions;
-    }
-
-    /**
-     * @see org.jnode.partitions.PartitionTable#getType()
-     */
-    public PartitionTableType getType() {
-        return tableType;
     }
 }

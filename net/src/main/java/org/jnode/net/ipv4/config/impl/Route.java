@@ -20,17 +20,12 @@
 
 package org.jnode.net.ipv4.config.impl;
 
-import javax.naming.NameNotFoundException;
-import org.jnode.driver.ApiNotFoundException;
+import java.io.IOException;
+
 import org.jnode.driver.Device;
-import org.jnode.driver.DeviceManager;
-import org.jnode.driver.net.NetDeviceAPI;
 import org.jnode.driver.net.NetworkException;
-import org.jnode.naming.InitialNaming;
-import org.jnode.net.NoSuchProtocolException;
 import org.jnode.net.ethernet.EthernetConstants;
 import org.jnode.net.ipv4.IPv4Address;
-import org.jnode.net.ipv4.IPv4ProtocolAddressInfo;
 import org.jnode.net.ipv4.IPv4Route;
 import org.jnode.net.ipv4.IPv4RoutingTable;
 import org.jnode.net.ipv4.layer.IPv4NetworkLayer;
@@ -53,20 +48,13 @@ final class Route {
         throws NetworkException {
 
         if (device == null) {
-            // Find the device ourselves
-            final DeviceManager dm;
-            try {
-                dm = InitialNaming.lookup(DeviceManager.NAME);
-            } catch (NameNotFoundException ex) {
-                throw new NetworkException("Cannot find DeviceManager", ex);
-            }
-            device = findDevice(dm, target, target.getDefaultSubnetmask());
+            // TODO
         }
 
         final IPv4NetworkLayer ipNL;
         try {
             ipNL = (IPv4NetworkLayer) NetUtils.getNLM().getNetworkLayer(EthernetConstants.ETH_P_IP);
-        } catch (NoSuchProtocolException ex) {
+        } catch (IOException ex) {
             throw new NetworkException("Cannot find IPv4 network layer", ex);
         }
         final IPv4RoutingTable rt = ipNL.getRoutingTable();
@@ -86,7 +74,7 @@ final class Route {
         final IPv4NetworkLayer ipNL;
         try {
             ipNL = (IPv4NetworkLayer) NetUtils.getNLM().getNetworkLayer(EthernetConstants.ETH_P_IP);
-        } catch (NoSuchProtocolException ex) {
+        } catch (IOException ex) {
             throw new NetworkException("Cannot find IPv4 network layer", ex);
         }
         final IPv4RoutingTable rt = ipNL.getRoutingTable();
@@ -110,34 +98,4 @@ final class Route {
             return;
         }
     }
-
-    /**
-     * Search for a suitable device for the given target address.
-     * 
-     * @param dm
-     * @param target
-     * @param mask
-     * @return
-     * @throws NetworkException
-     */
-    private static Device findDevice(DeviceManager dm, IPv4Address target, IPv4Address mask)
-        throws NetworkException {
-        for (Device dev : dm.getDevicesByAPI(NetDeviceAPI.class)) {
-            try {
-                final NetDeviceAPI api = dev.getAPI(NetDeviceAPI.class);
-                final IPv4ProtocolAddressInfo addrInfo;
-                addrInfo = (IPv4ProtocolAddressInfo) api.getProtocolAddressInfo(EthernetConstants.ETH_P_IP);
-                if (addrInfo != null) {
-                    final IPv4Address devAddr = (IPv4Address) addrInfo.getDefaultAddress();
-                    if (devAddr.matches(target, mask)) {
-                        return dev;
-                    }
-                }
-            } catch (ApiNotFoundException ex) {
-                // Should not happen, but if it happens anyway, just ignore it.
-            }
-        }
-        throw new NetworkException("No device found for " + target + '/' + mask);
-    }
-
 }

@@ -22,15 +22,14 @@ package org.jnode.fs.fat;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
-import java.util.ServiceLoader;
 
 import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.Device;
 import org.jnode.driver.block.BlockDeviceAPI;
 import org.jnode.driver.block.FSBlockDeviceAPI;
 import org.jnode.fs.FileSystemException;
+import org.jnode.fs.FileSystemType;
 import org.jnode.fs.Formatter;
-import org.jnode.fs.service.FileSystemService;
 import org.jnode.partitions.PartitionTableEntry;
 import org.jnode.partitions.ibm.IBMPartitionTableEntry;
 
@@ -79,10 +78,8 @@ public class FatFileSystemFormatter extends Formatter<FatFileSystem> {
                             NB_HEADS, fatSize, (int) offset, 1, FAT_STANDARD_BS);
             ff.format(api);
 
-            ServiceLoader<FileSystemService> sl = ServiceLoader.load(FileSystemService.NAME);
-            FileSystemService fSS = sl.iterator().next();
-            FatFileSystemType type = fSS.getFileSystemType(FatFileSystemType.ID);
-            return new FatFileSystem(device, false, type); // not readOnly !
+            FatFileSystemType type = FileSystemType.lookup(FatFileSystemType.class);
+            return type.create(device, false); // not readOnly !
         } catch (IOException ioe) {
             throw new FileSystemException("Formating problem", ioe);
         } catch (ApiNotFoundException e) {

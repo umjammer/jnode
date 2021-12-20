@@ -21,12 +21,11 @@
 package org.jnode.fs.hfsplus;
 
 import java.util.NoSuchElementException;
-import java.util.ServiceLoader;
 
 import org.jnode.driver.Device;
 import org.jnode.fs.FileSystemException;
+import org.jnode.fs.FileSystemType;
 import org.jnode.fs.Formatter;
-import org.jnode.fs.service.FileSystemService;
 
 public class HfsPlusFileSystemFormatter extends Formatter<HfsPlusFileSystem> {
 
@@ -40,10 +39,8 @@ public class HfsPlusFileSystemFormatter extends Formatter<HfsPlusFileSystem> {
     @Override
     public final HfsPlusFileSystem format(final Device device) throws FileSystemException {
         try {
-            ServiceLoader<FileSystemService> sl = ServiceLoader.load(FileSystemService.NAME);
-            FileSystemService fss = sl.iterator().next();
-            HfsPlusFileSystemType type = fss.getFileSystemType(HfsPlusFileSystemType.ID);
-            HfsPlusFileSystem fs = new HfsPlusFileSystem(device, false, type);
+            HfsPlusFileSystemType type = FileSystemType.lookup(HfsPlusFileSystemType.class);
+            HfsPlusFileSystem fs = type.create(device, false);
             fs.create(params);
             return fs;
         } catch (NoSuchElementException e) {

@@ -57,6 +57,7 @@ public abstract class AbstractLeafNode<K extends Key> extends AbstractNode<K, Le
         List<LeafRecord> list = new LinkedList<LeafRecord>();
         for (LeafRecord record : records) {
             log.debug("Record: " + record.toString() + " Key: " + key);
+            @SuppressWarnings("unchecked")
             K recordKey = (K) record.getKey();
             if (recordKey != null && recordKey.equals(key)) {
                 list.add(record);

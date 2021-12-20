@@ -21,11 +21,8 @@
 package org.jnode.fs.hfsplus.tree;
 
 import java.util.LinkedList;
-import org.apache.log4j.Logger;
 
 public abstract class AbstractIndexNode<K extends Key> extends AbstractNode<K, IndexRecord> {
-
-    private static final Logger log = Logger.getLogger(AbstractIndexNode.class);
 
     /**
      * Create a new node.
@@ -64,6 +61,7 @@ public abstract class AbstractIndexNode<K extends Key> extends AbstractNode<K, I
         K largestMatchingKey = null;
 
         for (IndexRecord record : records) {
+            @SuppressWarnings("unchecked")
             K recordKey = (K) record.getKey();
 
             if (recordKey.compareTo(key) < 0) {

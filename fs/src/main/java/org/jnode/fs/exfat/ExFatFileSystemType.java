@@ -30,16 +30,20 @@ import org.jnode.partitions.PartitionTableEntry;
  * @author Luke Quinane
  */
 public class ExFatFileSystemType implements BlockDeviceFileSystemType<ExFatFileSystem> {
-    public static final Class<ExFatFileSystemType> ID = ExFatFileSystemType.class;
 
     @Override
     public ExFatFileSystem create(Device device, boolean readOnly) throws FileSystemException {
-        return new ExFatFileSystem(device, readOnly, this);
+        return new ExFatFileSystem(device, readOnly);
     }
 
     @Override
     public String getName() {
         return "exFAT";
+    }
+
+    /** */
+    public String getScheme() {
+        return "exfat";
     }
 
     @Override

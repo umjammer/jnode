@@ -82,8 +82,8 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
      *
      * @throws FileSystemException
      */
-    public Ext2FileSystem(Device device, boolean readOnly, Ext2FileSystemType type) throws FileSystemException {
-        super(device, readOnly, type);
+    public Ext2FileSystem(Device device, boolean readOnly) throws FileSystemException {
+        super(device, readOnly);
 
         blockCache = new BlockCache(50, (float) 0.75);
         inodeCache = new INodeCache(50, (float) 0.75);

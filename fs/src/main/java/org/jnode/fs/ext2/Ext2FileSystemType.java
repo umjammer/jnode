@@ -33,13 +33,12 @@ import org.jnode.util.LittleEndian;
  * @author Andras Nagy
  */
 public class Ext2FileSystemType implements BlockDeviceFileSystemType<Ext2FileSystem> {
-    public static final Class<Ext2FileSystemType> ID = Ext2FileSystemType.class;
 
     /**
      * @see org.jnode.fs.FileSystemType#create(Device, boolean)
      */
     public Ext2FileSystem create(Device device, boolean readOnly) throws FileSystemException {
-        Ext2FileSystem fs = new Ext2FileSystem(device, readOnly, this);
+        Ext2FileSystem fs = new Ext2FileSystem(device, readOnly);
         fs.read();
         return fs;
     }
@@ -49,6 +48,11 @@ public class Ext2FileSystemType implements BlockDeviceFileSystemType<Ext2FileSys
      */
     public String getName() {
         return "EXT2";
+    }
+
+    /** */
+    public String getScheme() {
+        return "ext2";
     }
 
     /**

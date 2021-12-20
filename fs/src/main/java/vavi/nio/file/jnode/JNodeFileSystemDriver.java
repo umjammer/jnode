@@ -24,7 +24,6 @@ import java.util.Spliterators;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
 import org.jnode.fs.FSFile;
 import org.jnode.fs.FileSystem;
@@ -71,7 +70,7 @@ public final class JNodeFileSystemDriver<T extends FSEntry> extends ExtendedFile
 
     @Override
     protected boolean isFolder(T entry) {
-        return FSDirectory.class.isInstance(entry);
+        return entry.isDirectory();
     }
 
     @Override

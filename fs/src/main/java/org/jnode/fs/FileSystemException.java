@@ -20,18 +20,17 @@
 
 package org.jnode.fs;
 
+import java.io.IOException;
+
 /**
  * @author epr
  */
-public class FileSystemException extends Exception {
+public class FileSystemException extends IOException {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 
-     */
+    /** */
     public FileSystemException() {
-        super();
     }
 
     /**

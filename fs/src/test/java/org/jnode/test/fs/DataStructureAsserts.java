@@ -53,11 +53,11 @@ public class DataStructureAsserts {
      * @param expected the expected structure.
      * @throws IOException if an error occurs.
      */
-    public static void assertStructure(FileSystem fileSystem, String expected) throws IOException {
+    public static void assertStructure(FileSystem<?> fileSystem, String expected) throws IOException {
         StringBuilder actual = new StringBuilder(expected.length());
 
-        actual.append(String.format("type: %s vol:%s total:%d free:%d\n",
-            fileSystem.getType().getName(), fileSystem.getVolumeName(),
+        actual.append(String.format("vol:%s total:%d free:%d\n",
+            fileSystem.getVolumeName(),
             fileSystem.getTotalSpace(), fileSystem.getFreeSpace()));
 
         FSEntry entry = fileSystem.getRootEntry();
@@ -102,6 +102,7 @@ public class DataStructureAsserts {
             if (file instanceof FSFileStreams) {
                 Map<String, FSFile> streams = ((FSFileStreams) file).getStreams();
 
+                // TODO map's entrySet is no particular order
                 for (Map.Entry<String, FSFile> streamEntry : streams.entrySet()) {
                     actual.append(indent);
                     actual.append(entry.getName());
@@ -160,7 +161,7 @@ public class DataStructureAsserts {
         }
 
         byte[] digest = md5.digest();
-        return Hexdump.toHexString(digest, 0, digest.length * 2).toLowerCase();
+        return Hexdump.toHexString(digest, 0, digest.length).toLowerCase();
     }
 
     /**
@@ -182,6 +183,6 @@ public class DataStructureAsserts {
         md5.update(buffer, 0, buffer.length);
 
         byte[] digest = md5.digest();
-        return Hexdump.toHexString(digest, 0, digest.length * 2).toLowerCase();
+        return Hexdump.toHexString(digest, 0, digest.length).toLowerCase();
     }
 }

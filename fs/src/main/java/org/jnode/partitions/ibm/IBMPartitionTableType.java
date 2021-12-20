@@ -34,11 +34,16 @@ import org.jnode.partitions.PartitionTableType;
 public class IBMPartitionTableType implements PartitionTableType {
 
     public PartitionTable<?> create(byte[] firstSector, Device device) throws PartitionTableException {
-        return new IBMPartitionTable(this, firstSector, device);
+        return new IBMPartitionTable(firstSector, device);
     }
 
     public String getName() {
         return "IBM";
+    }
+
+    /** */
+    public String getScheme() {
+        return "ibm";
     }
 
     public boolean supports(byte[] firstSector, BlockDeviceAPI devApi) {

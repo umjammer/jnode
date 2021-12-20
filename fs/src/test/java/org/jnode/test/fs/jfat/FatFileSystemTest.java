@@ -22,30 +22,22 @@ package org.jnode.test.fs.jfat;
 
 import org.jnode.driver.Device;
 import org.jnode.driver.block.FileDevice;
+import org.jnode.fs.FileSystemType;
 import org.jnode.fs.jfat.FatFileSystem;
 import org.jnode.fs.jfat.FatFileSystemType;
-import org.jnode.fs.service.FileSystemService;
 import org.jnode.test.fs.DataStructureAsserts;
 import org.jnode.test.fs.FileSystemTestUtils;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class FatFileSystemTest {
 
     private Device device;
-    private FileSystemService fss;
-
-    @BeforeEach
-    public void setUp() throws Exception {
-        // create file system service.
-        fss = FileSystemTestUtils.createFSService(FatFileSystemType.class.getName());
-    }
 
     @Test
     public void testReadFat32Disk() throws Exception {
 
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/jfat/test.fat32"), "r");
-        FatFileSystemType type = fss.getFileSystemType(FatFileSystemType.ID);
+        FatFileSystemType type = FileSystemType.lookup(FatFileSystemType.class);
         FatFileSystem fs = type.create(device, true);
 
         String expectedStructure =
@@ -64,7 +56,7 @@ public class FatFileSystemTest {
     public void testReadFat16Disk() throws Exception {
 
         device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/jfat/test.fat16"), "r");
-        FatFileSystemType type = fss.getFileSystemType(FatFileSystemType.ID);
+        FatFileSystemType type = FileSystemType.lookup(FatFileSystemType.class);
         FatFileSystem fs = type.create(device, true);
 
         String expectedStructure =

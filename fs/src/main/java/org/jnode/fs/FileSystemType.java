@@ -20,6 +20,8 @@
 
 package org.jnode.fs;
 
+import java.util.ServiceLoader;
+
 import org.jnode.driver.Device;
 
 /**
@@ -34,7 +36,7 @@ public interface FileSystemType<T extends FileSystem<?>> {
 
     /**
      * Gets the unique name of this file system type.
-     * 
+     *
      * @return name of the file system.
      */
     public String getName();
@@ -50,4 +52,31 @@ public interface FileSystemType<T extends FileSystem<?>> {
      *             file system.
      */
     public T create(Device device, boolean readOnly) throws FileSystemException;
+
+    /** */
+    public String getScheme();
+
+    /** factory */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    static <T extends FileSystemType> T lookup(Class<T> clazz) {
+        ServiceLoader<FileSystemType> sl = ServiceLoader.load(FileSystemType.class);
+        for (FileSystemType fst : sl) {
+            if (clazz.isInstance(fst)) {
+                return (T) fst;
+            }
+        }
+        throw new IllegalArgumentException(clazz.getName());
+    }
+
+    /** factory */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    static <T extends FileSystemType> T lookup(String scheme) {
+        ServiceLoader<FileSystemType> sl = ServiceLoader.load(FileSystemType.class);
+        for (FileSystemType fst : sl) {
+            if (fst.getScheme().equals(scheme)) {
+                return (T) fst;
+            }
+        }
+        throw new IllegalArgumentException(scheme);
+    }
 }

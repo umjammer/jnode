@@ -8,13 +8,16 @@ package vavi.nio.file.jnode;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.logging.Level;
 
+import org.jnode.driver.Device;
+import org.jnode.driver.block.FileDevice;
 import org.jnode.fs.FileSystem;
+import org.jnode.fs.FileSystemType;
 
 import com.github.fge.filesystem.driver.FileSystemDriver;
 import com.github.fge.filesystem.provider.FileSystemRepositoryBase;
@@ -39,32 +42,29 @@ public final class JNodeFileSystemRepository extends FileSystemRepositoryBase {
     }
 
     /**
-     * @param uri use {@link DuFileSystemProvider#createURI(String)}
-     * @throws IllegalArgumentException only "file" scheme is supported, or uri syntax error
-     * @throws NoSuchElementException required values are not in env
-     * @throws IndexOutOfBoundsException no suitable {@link LogicalVolumeInfo} or {@link FileSystemInfo}
+     * @param uri "jnode:scheme:sub_url", sub url (after "jnode:") parts will be replaced by properties.
      */
     @Override
     public FileSystemDriver createDriver(final URI uri, final Map<String, ?> env) throws IOException {
-        try {
-            String[] rawSchemeSpecificParts = uri.getRawSchemeSpecificPart().split("!");
-Debug.println(Level.FINE, "part[0]: " + rawSchemeSpecificParts[0]);
-            URI filePart = new URI(rawSchemeSpecificParts[0]);
-            if (!"file".equals(filePart.getScheme())) {
-                // currently only support "file"
-                throw new IllegalArgumentException(filePart.toString());
-            }
-            String file = rawSchemeSpecificParts[0].substring("file:".length());
-            // TODO virtual relative directory from rawSchemeSpecificParts[1]
+        String uriString = uri.toString();
+        URI subUri = URI.create(uriString.substring(uriString.indexOf(':') + 1));
+        String scheme = subUri.getScheme();
+Debug.println("scheme: " + scheme);
+Debug.println("subUri: " + subUri);
 
-Debug.println(Level.FINE, "file: " + file);
-
-            FileSystem<?> fs = null;
-            final JNodeFileStore fileStore = new JNodeFileStore(fs, factoryProvider.getAttributesFactory());
-            return new JNodeFileSystemDriver<>(fileStore, factoryProvider, fs, env);
-        } catch (URISyntaxException e) {
-            throw new IllegalArgumentException(e);
+        URI subSubUri = URI.create(subUri.toString().substring(scheme.length() + 1));
+Debug.println("subSubUri: " + subSubUri);
+        if (!subSubUri.getScheme().equals("file")) {
+            throw new IllegalArgumentException("only file is supported: " + subSubUri);
         }
+        Path path = Paths.get(subSubUri);
+Debug.println("path: " + path + ", " + Files.exists(path));
+        Device device = new FileDevice(path.toFile(), "r");
+
+        FileSystemType<?> type = FileSystemType.lookup(scheme);
+        FileSystem<?> fs = type.create(device, true);
+        final JNodeFileStore fileStore = new JNodeFileStore(fs, factoryProvider.getAttributesFactory());
+        return new JNodeFileSystemDriver<>(fileStore, factoryProvider, fs, env);
     }
 
     /* ad-hoc hack for ignoring checking opacity */

@@ -56,12 +56,17 @@ public class GptPartitionTableType implements PartitionTableType {
 
     @Override
     public PartitionTable<?> create(byte[] firstSector, Device device) throws PartitionTableException {
-        return new GptPartitionTable(this, firstSector, device);
+        return new GptPartitionTable(firstSector, device);
     }
 
     @Override
     public String getName() {
         return "EFI PART";
+    }
+
+    /** */
+    public String getScheme() {
+        return "gpt";
     }
 
     @Override

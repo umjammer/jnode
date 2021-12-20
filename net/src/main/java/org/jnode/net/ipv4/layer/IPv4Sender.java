@@ -20,6 +20,7 @@
 
 package org.jnode.net.ipv4.layer;
 
+import java.io.IOException;
 import java.net.NoRouteToHostException;
 
 import org.jnode.driver.ApiNotFoundException;
@@ -27,7 +28,6 @@ import org.jnode.driver.Device;
 import org.jnode.driver.net.NetDeviceAPI;
 import org.jnode.driver.net.NetworkException;
 import org.jnode.net.HardwareAddress;
-import org.jnode.net.NoSuchProtocolException;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.arp.ARPNetworkLayer;
 import org.jnode.net.ethernet.EthernetConstants;
@@ -304,7 +304,7 @@ public class IPv4Sender implements IPv4Constants, EthernetConstants {
             try {
                 arp = (ARPNetworkLayer) NetUtils.getNLM().getNetworkLayer(
                                 EthernetConstants.ETH_P_ARP);
-            } catch (NoSuchProtocolException ex) {
+            } catch (IOException ex) {
                 throw new NetworkException("Cannot find ARP layer", ex);
             }
         }

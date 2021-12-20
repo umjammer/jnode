@@ -39,8 +39,8 @@ public final class ExFatFileSystem extends AbstractFileSystem<NodeEntry> {
     private final String label;
     private final ClusterBitMap bitmap;
 
-    public ExFatFileSystem(Device device, boolean readOnly, ExFatFileSystemType type) throws FileSystemException {
-        super(device, readOnly, type);
+    public ExFatFileSystem(Device device, boolean readOnly) throws FileSystemException {
+        super(device, readOnly);
 
         try {
             sb = ExFatSuperBlock.read(this);

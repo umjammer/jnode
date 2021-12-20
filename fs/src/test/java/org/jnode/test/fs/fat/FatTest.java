@@ -27,19 +27,16 @@ import java.io.PrintWriter;
 import java.net.URLConnection;
 import java.nio.ByteBuffer;
 
-import javax.naming.NameNotFoundException;
-
 import org.jnode.driver.block.FileDevice;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSFile;
 import org.jnode.fs.FileSystemException;
+import org.jnode.fs.FileSystemType;
 import org.jnode.fs.fat.BootSector;
 import org.jnode.fs.fat.FatDirectory;
 import org.jnode.fs.fat.FatFileSystem;
 import org.jnode.fs.fat.FatFileSystemType;
 import org.jnode.fs.fat.GrubFatFormatter;
-import org.jnode.fs.service.FileSystemService;
-import org.jnode.naming.InitialNaming;
 import org.jnode.util.FileUtils;
 
 /**
@@ -66,54 +63,49 @@ public class FatTest {
     public static void printInfo(File file, PrintWriter out)
         throws IOException, FileSystemException {
         FileDevice fd = new FileDevice(file, "r");
+        FatFileSystemType type = FileSystemType.lookup(FatFileSystemType.class);
+        FatFileSystem fs = type.create(fd, false);
         try {
-            final FileSystemService fSS = InitialNaming.lookup(FileSystemService.NAME);
-            FatFileSystemType type = fSS.getFileSystemType(FatFileSystemType.ID);
-            FatFileSystem fs = new FatFileSystem(fd, false, type);
+            BootSector bs = fs.getBootSector();
+            bs.read(fd);
+
+            out.println("OEM name          " + bs.getOemName());
+            out.println("bytes/sector      " + bs.getBytesPerSector());
+            out.println("sectors/cluster   " + bs.getSectorsPerCluster());
+            out.println("#reserved sectors " + bs.getNrReservedSectors());
+            out.println("#fats             " + bs.getNrFats());
+            out.println("#rootdir entries  " + bs.getNrRootDirEntries());
+            out.println("#logical sectors  " + bs.getNrLogicalSectors());
+            out.println("Medium descriptor 0x" + Integer.toHexString(bs.getMediumDescriptor()));
+            out.println("sectors/fat       " + bs.getSectorsPerFat());
+            out.println("sectors/track     " + bs.getSectorsPerTrack());
+            out.println("#heads            " + bs.getNrHeads());
+            out.println("#hidden sectors   " + bs.getNrHiddenSectors());
+
+            fs.getFat().printTo(out);
+            fs.getRootDir().printTo(out);
+
             try {
-                BootSector bs = fs.getBootSector();
-                bs.read(fd);
-
-                out.println("OEM name          " + bs.getOemName());
-                out.println("bytes/sector      " + bs.getBytesPerSector());
-                out.println("sectors/cluster   " + bs.getSectorsPerCluster());
-                out.println("#reserved sectors " + bs.getNrReservedSectors());
-                out.println("#fats             " + bs.getNrFats());
-                out.println("#rootdir entries  " + bs.getNrRootDirEntries());
-                out.println("#logical sectors  " + bs.getNrLogicalSectors());
-                out.println("Medium descriptor 0x" + Integer.toHexString(bs.getMediumDescriptor()));
-                out.println("sectors/fat       " + bs.getSectorsPerFat());
-                out.println("sectors/track     " + bs.getSectorsPerTrack());
-                out.println("#heads            " + bs.getNrHeads());
-                out.println("#hidden sectors   " + bs.getNrHiddenSectors());
-
-                fs.getFat().printTo(out);
-                fs.getRootDir().printTo(out);
-
-                try {
-                    FatDirectory dir =
-                            (FatDirectory) fs.getRootEntry().getDirectory().getEntry("AAP")
-                                    .getDirectory();
-                    dir.printTo(out);
-                } catch (FileNotFoundException ex) {
-                    out.println("No AAP directory");
-                }
-
-                try {
-                    FatDirectory dir =
-                            (FatDirectory) fs.getRootEntry().getDirectory().getEntry("boot")
-                                    .getDirectory();
-                    dir.printTo(out);
-                } catch (FileNotFoundException ex) {
-                    out.println("No boot directory");
-                }
-
-            } finally {
-                // fd.stop();
-                fd.close();
+                FatDirectory dir =
+                        (FatDirectory) fs.getRootEntry().getDirectory().getEntry("AAP")
+                                .getDirectory();
+                dir.printTo(out);
+            } catch (FileNotFoundException ex) {
+                out.println("No AAP directory");
             }
-        } catch (NameNotFoundException e) {
-            throw new FileSystemException(e);
+
+            try {
+                FatDirectory dir =
+                        (FatDirectory) fs.getRootEntry().getDirectory().getEntry("boot")
+                                .getDirectory();
+                dir.printTo(out);
+            } catch (FileNotFoundException ex) {
+                out.println("No boot directory");
+            }
+
+        } finally {
+            // fd.stop();
+            fd.close();
         }
     }
 
@@ -125,9 +117,8 @@ public class FatTest {
         ff.format(newFd);
 
         // newFd.start();
-        final FileSystemService fSS = InitialNaming.lookup(FileSystemService.NAME);
-        FatFileSystemType type = fSS.getFileSystemType(FatFileSystemType.ID);
-        FatFileSystem fs = new FatFileSystem(newFd, false, type);
+        FatFileSystemType type = FileSystemType.lookup(FatFileSystemType.class);
+        FatFileSystem fs = type.create(newFd, false);
 
         FSDirectory dir = fs.getRootEntry().getDirectory();
         FSDirectory bDir = dir.addDirectory("boot").getDirectory();

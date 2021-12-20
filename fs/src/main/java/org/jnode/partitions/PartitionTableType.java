@@ -20,6 +20,8 @@
 
 package org.jnode.partitions;
 
+import java.util.ServiceLoader;
+
 import org.jnode.driver.Device;
 import org.jnode.driver.block.BlockDeviceAPI;
 
@@ -36,7 +38,7 @@ public interface PartitionTableType {
     /**
      * Can this partition table type be used on the given first sector of a
      * blockdevice?
-     * 
+     *
      * @param devApi
      * @param firstSectors
      */
@@ -44,10 +46,36 @@ public interface PartitionTableType {
 
     /**
      * Create a partition table for a given device.
-     * 
+     *
      * @param device
      * @param firstSectors
      */
     public PartitionTable<?> create(byte[] firstSectors, Device device) throws PartitionTableException;
 
+    /** */
+    public String getScheme();
+
+    /** factory */
+    @SuppressWarnings({ "unchecked" })
+    static <T extends PartitionTableType> T lookup(Class<T> clazz) {
+        ServiceLoader<PartitionTableType> sl = ServiceLoader.load(PartitionTableType.class);
+        for (PartitionTableType ptt : sl) {
+            if (clazz.isInstance(ptt)) {
+                return (T) ptt;
+            }
+        }
+        throw new IllegalArgumentException(clazz.getName());
+    }
+
+    /** factory */
+    @SuppressWarnings({ "unchecked" })
+    static <T extends PartitionTableType> T lookup(String scheme) {
+        ServiceLoader<PartitionTableType> sl = ServiceLoader.load(PartitionTableType.class);
+        for (PartitionTableType ptt : sl) {
+            if (ptt.getScheme().equals(scheme)) {
+                return (T) ptt;
+            }
+        }
+        throw new IllegalArgumentException(scheme);
+    }
 }

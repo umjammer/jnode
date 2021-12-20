@@ -35,12 +35,17 @@ public class ApmPartitionTableType implements PartitionTableType {
 
     @Override
     public PartitionTable<?> create(byte[] firstSector, Device device) throws PartitionTableException {
-        return new ApmPartitionTable(this, firstSector, device);
+        return new ApmPartitionTable(firstSector, device);
     }
 
     @Override
     public String getName() {
         return "APM";
+    }
+
+    /** */
+    public String getScheme() {
+        return "apm";
     }
 
     @Override

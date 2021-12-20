@@ -30,16 +30,20 @@ import org.jnode.partitions.PartitionTableEntry;
 import org.jnode.util.BigEndian;
 
 public class HfsPlusFileSystemType implements BlockDeviceFileSystemType<HfsPlusFileSystem> {
-    public static final Class<HfsPlusFileSystemType> ID = HfsPlusFileSystemType.class;
 
     public final HfsPlusFileSystem create(final Device device, final boolean readOnly) throws FileSystemException {
-        HfsPlusFileSystem fs = new HfsPlusFileSystem(device, readOnly, this);
+        HfsPlusFileSystem fs = new HfsPlusFileSystem(device, readOnly);
         fs.read();
         return fs;
     }
 
     public final String getName() {
         return "HFS+";
+    }
+
+    /** */
+    public String getScheme() {
+        return "hfsp";
     }
 
     public final boolean supports(final PartitionTableEntry pte, final byte[] firstSector,

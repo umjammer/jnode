@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.jnode.driver.Device;
 import org.jnode.partitions.PartitionTable;
-import org.jnode.partitions.PartitionTableType;
 import org.jnode.partitions.ibm.IBMPartitionTable;
 import org.jnode.partitions.ibm.IBMPartitionTableEntry;
 import org.jnode.partitions.ibm.IBMPartitionTypes;
@@ -40,9 +40,6 @@ import org.jnode.util.LittleEndian;
  * @author Luke Quinane
  */
 public class GptPartitionTable implements PartitionTable<GptPartitionTableEntry> {
-
-    /** The type of partition table */
-    private final GptPartitionTableType tableType;
 
     /** The detected block size. */
     private final int blockSize;
@@ -60,9 +57,7 @@ public class GptPartitionTable implements PartitionTable<GptPartitionTableEntry>
      * @param first16KiB the first 16,384 bytes of the disk.
      * @param device the drive device.
      */
-    public GptPartitionTable(GptPartitionTableType tableType, byte[] first16KiB, Device device) {
-        this.tableType = tableType;
-
+    public GptPartitionTable(byte[] first16KiB, Device device) {
         blockSize = detectBlockSize(first16KiB);
 
         if (blockSize != -1) {
@@ -150,13 +145,5 @@ public class GptPartitionTable implements PartitionTable<GptPartitionTableEntry>
      */
     public int getBlockSize() {
         return blockSize;
-    }
-
-    /**
-     * @see org.jnode.partitions.PartitionTable#getType()
-     */
-    @Override
-    public PartitionTableType getType() {
-        return tableType;
     }
 }

@@ -408,8 +408,6 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
                     dr.getFileOffset(), dr.getName(), dr.getType(), fs, Ext2Directory.this);
             } catch (IOException e) {
                 throw new NoSuchElementException("Root cause: " + e.getMessage());
-            } catch (FileSystemException e) {
-                throw new NoSuchElementException("Root cause: " + e.getMessage());
             }
         }
 

@@ -28,12 +28,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
 
-import org.jnode.emu.plugin.model.DummyConfigurationElement;
-import org.jnode.emu.plugin.model.DummyExtension;
-import org.jnode.emu.plugin.model.DummyExtensionPoint;
-import org.jnode.emu.plugin.model.DummyPluginDescriptor;
-import org.jnode.fs.service.FileSystemService;
-import org.jnode.fs.service.def.FileSystemPlugin;
 import org.jnode.util.FileUtils;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -52,7 +46,7 @@ public class FileSystemTestUtils {
      * @throws IOException if an error occurs.
      */
     public static File getTestFile(String testFile) throws IOException {
-        File file = new File("fs/src/test/org/jnode/", testFile);
+        File file = new File("src/test/resources/", testFile);
 
         if (file.exists()) {
             return file;
@@ -101,23 +95,5 @@ public class FileSystemTestUtils {
                 tempFile.renameTo(outputFile),
                 String.format("Temp data file couldn't be renamed.\nOld name: %s\nNew name: %s", tempFile, outputFile));
         }
-    }
-
-    /**
-     * Creates a file system service for testing.
-     *
-     * @param fileSystemTypeClassName the class name of the file system type.
-     * @return the file system service.
-     */
-    public static FileSystemService createFSService(String fileSystemTypeClassName) {
-        DummyPluginDescriptor desc = new DummyPluginDescriptor(true);
-        DummyExtensionPoint ep = new DummyExtensionPoint("types", "org.jnode.fs.types", "types");
-        desc.addExtensionPoint(ep);
-        DummyExtension extension = new DummyExtension();
-        DummyConfigurationElement element = new DummyConfigurationElement();
-        element.addAttribute("class", fileSystemTypeClassName);
-        extension.addElement(element);
-        ep.addExtension(extension);
-        return new FileSystemPlugin(desc);
     }
 }

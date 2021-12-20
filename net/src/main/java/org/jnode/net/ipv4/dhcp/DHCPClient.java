@@ -21,7 +21,6 @@
 package org.jnode.net.ipv4.dhcp;
 
 import java.io.IOException;
-import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
@@ -146,8 +145,7 @@ public class DHCPClient extends AbstractDHCPClient {
             AccessController.doPrivileged(new PrivilegedAction<Object>() {
                 public Object run() {
                     try {
-                        final PluginManager pm = InitialNaming.lookup(PluginManager.class);
-                        pm.getLoaderManager().addPluginLoader(new URLPluginLoader(new URL(pluginLoaderURL)));
+                        // TODO
                     } catch (Throwable ex) {
                         log.error("Failed to configure plugin loader");
                         log.debug("Failed to configure plugin loader", ex);
