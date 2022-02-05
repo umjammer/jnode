@@ -23,7 +23,8 @@ package org.jnode.fs.spi;
 import java.io.IOException;
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.Device;
 import org.jnode.driver.block.BlockDeviceAPI;
@@ -41,7 +42,7 @@ import org.jnode.fs.FileSystemException;
  */
 public abstract class AbstractFileSystem<T extends FSEntry> implements FileSystem<T> {
     /** My logger */
-    private static final Logger log = Logger.getLogger(AbstractFileSystem.class);
+    private static final Logger log = LogManager.getLogger(AbstractFileSystem.class);
     /** The device that contains the file system */
     private final Device device;
     /** API of the block device */

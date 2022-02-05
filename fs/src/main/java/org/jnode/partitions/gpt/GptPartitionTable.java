@@ -26,7 +26,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.driver.Device;
 import org.jnode.partitions.PartitionTable;
 import org.jnode.partitions.ibm.IBMPartitionTable;
@@ -48,7 +49,7 @@ public class GptPartitionTable implements PartitionTable<GptPartitionTableEntry>
     private final List<GptPartitionTableEntry> partitions = new ArrayList<GptPartitionTableEntry>();
 
     /** My logger */
-    private static final Logger log = Logger.getLogger(GptPartitionTable.class);
+    private static final Logger log = LogManager.getLogger(GptPartitionTable.class);
 
     /**
      * Create a new instance

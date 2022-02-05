@@ -24,7 +24,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.fs.FileSystemException;
 import org.jnode.fs.ext2.exception.UnallocatedBlockException;
 import org.jnode.fs.ext2.xattr.XAttrEntry;
@@ -42,7 +44,7 @@ import org.jnode.util.LittleEndian;
 public class INode {
     public static final int EXT2_GOOD_OLD_INODE_SIZE = 128;
 
-    private final Logger log = Logger.getLogger(getClass());
+    private final Logger log = LogManager.getLogger(getClass());
 
     /**
      * the data constituting the inode itself

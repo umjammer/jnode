@@ -24,7 +24,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Calendar;
 import java.util.Date;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.fs.FileSystemException;
 import org.jnode.fs.hfsplus.catalog.CatalogNodeId;
 import org.jnode.fs.hfsplus.extent.ExtentDescriptor;
@@ -35,7 +37,6 @@ import org.jnode.util.NumberUtils;
  * HFS+ volume header definition.
  *
  * @author Fabien Lesire
- *
  */
 public class SuperBlock extends HfsPlusObject {
 
@@ -54,7 +55,7 @@ public class SuperBlock extends HfsPlusObject {
     public static final int HFSPLUS_VOL_JOURNALED_BIT = 13;
     public static final int HFSPLUS_VOL_SOFTLOCK_BIT = 15;
 
-    private final Logger log = Logger.getLogger(getClass());
+    private final Logger log = LogManager.getLogger(getClass());
 
     /**
      * Volume header data length
@@ -67,9 +68,9 @@ public class SuperBlock extends HfsPlusObject {
     /**
      * Create the volume header and load information for the file system passed
      * as parameter.
-     * 
+     *
      * @param fs The file system contains HFS+ partition.
-     * 
+     *
      * @throws FileSystemException If magic number (0X482B) is incorrect or not
      *             available.
      */
@@ -98,7 +99,7 @@ public class SuperBlock extends HfsPlusObject {
 
     /**
      * Create a new volume header.
-     * 
+     *
      * @param params File system format parameters.
      * @throws IOException
      */

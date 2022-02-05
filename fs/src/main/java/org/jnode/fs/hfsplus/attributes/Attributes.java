@@ -22,7 +22,9 @@ package org.jnode.fs.hfsplus.attributes;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.fs.hfsplus.HfsPlusFileSystem;
 import org.jnode.fs.hfsplus.HfsPlusForkData;
 import org.jnode.fs.hfsplus.SuperBlock;
@@ -43,7 +45,7 @@ public class Attributes {
     /**
      * The logger.
      */
-    private static final Logger log = Logger.getLogger(Attributes.class);
+    private static final Logger log = LogManager.getLogger(Attributes.class);
 
     /**
      * B-Tree Header record

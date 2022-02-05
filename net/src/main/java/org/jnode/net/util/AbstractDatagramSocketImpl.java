@@ -29,7 +29,8 @@ import java.net.SocketAddress;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.driver.Device;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.ethernet.EthernetConstants;
@@ -40,7 +41,7 @@ import org.jnode.util.Queue;
  */
 public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl {
 
-    private static final Logger bootlog = Logger.getLogger("bootlog");
+    private static final Logger bootlog = LogManager.getLogger("bootlog");
 
     /** The receive queue of SocketBuffer instances */
     private final Queue<SocketBuffer> receiveQueue = new Queue<SocketBuffer>();

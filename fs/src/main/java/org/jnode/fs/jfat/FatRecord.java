@@ -22,11 +22,13 @@ package org.jnode.fs.jfat;
 
 import java.io.IOException;
 import java.util.Vector;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.util.NumberUtils;
 
 public class FatRecord {
-    private static final Logger log = Logger.getLogger(FatRecord.class);
+    private static final Logger log = LogManager.getLogger(FatRecord.class);
 
     private static final int MAXLONGENTRIES = 20;
 

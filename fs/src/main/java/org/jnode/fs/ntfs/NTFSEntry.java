@@ -22,6 +22,7 @@ package org.jnode.fs.ntfs;
 
 import java.io.IOException;
 import java.util.Iterator;
+
 import org.jnode.fs.FSAccessRights;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;

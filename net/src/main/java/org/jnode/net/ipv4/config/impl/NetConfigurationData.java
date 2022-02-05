@@ -25,7 +25,8 @@ import java.security.PrivilegedAction;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.driver.Device;
 
 /**
@@ -34,7 +35,7 @@ import org.jnode.driver.Device;
 final class NetConfigurationData {
 
     /** My logger */
-    static final Logger log = Logger.getLogger(NetConfigurationData.class);
+    static final Logger log = LogManager.getLogger(NetConfigurationData.class);
 
     /** The preferences that contain my data */
     private final Preferences prefs;

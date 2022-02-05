@@ -32,7 +32,8 @@ import java.security.PrivilegedExceptionAction;
 import java.util.HashMap;
 import java.util.Random;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.driver.net.NetworkException;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.ipv4.IPv4Constants;
@@ -51,7 +52,7 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
     /**
      * My logger
      */
-    private static final Logger log = Logger.getLogger(UDPProtocol.class);
+    private static final Logger log = LogManager.getLogger(UDPProtocol.class);
 
     /**
      * The underlying IP service

@@ -1,7 +1,9 @@
 package org.jnode.fs.ext4;
 
 import java.io.IOException;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.util.LittleEndian;
 
 /**
@@ -11,7 +13,7 @@ public class MultipleMountProtection {
     /**
      * Logger
      */
-    private static final Logger log = Logger.getLogger(MultipleMountProtection.class);
+    private static final Logger log = LogManager.getLogger(MultipleMountProtection.class);
 
     /**
      * The length of the MMP structure.

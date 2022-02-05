@@ -31,7 +31,8 @@ import java.net.SocketImpl;
 import java.net.SocketOptions;
 import java.nio.channels.UnresolvedAddressException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.net.ipv4.IPv4Address;
 
 /**
@@ -63,7 +64,7 @@ public class TCPSocketImpl extends SocketImpl {
     /**
      * My logger
      */
-    private static final Logger log = Logger.getLogger(TCPSocketImpl.class);
+    private static final Logger log = LogManager.getLogger(TCPSocketImpl.class);
 
     /**
      * Initialize a new instance

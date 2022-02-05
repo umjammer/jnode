@@ -2,7 +2,9 @@ package org.jnode.fs.ext2.xattr;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.fs.ext2.Ext2FileSystem;
 import org.jnode.util.LittleEndian;
 
@@ -16,7 +18,7 @@ public class XAttrEntry {
     /**
      * The logger.
      */
-    private final Logger log = Logger.getLogger(getClass());
+    private final Logger log = LogManager.getLogger(getClass());
 
     /**
      * The minimum size of the entry structure.

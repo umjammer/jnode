@@ -22,7 +22,8 @@ package org.jnode.fs.jfat;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.driver.Device;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
@@ -34,7 +35,7 @@ import org.jnode.fs.spi.AbstractFileSystem;
  * @author gvt
  */
 public class FatFileSystem extends AbstractFileSystem<FatRootDirectory> {
-    private static final Logger log = Logger.getLogger(FatFileSystem.class);
+    private static final Logger log = LogManager.getLogger(FatFileSystem.class);
 
     private Fat fat;
     private final CodePage cp;
@@ -95,16 +96,6 @@ public class FatFileSystem extends AbstractFileSystem<FatRootDirectory> {
     @Override
     public String toString() {
         return String.format("FAT File System: %s", getFat());
-    }
-
-    public String toDebugString() {
-        StrWriter out = new StrWriter();
-
-        out.println("********************** FatFileSystem ************************");
-        out.println(getFat());
-        out.print("*************************************************************");
-
-        return out.toString();
     }
 
     public long getFreeSpace() {

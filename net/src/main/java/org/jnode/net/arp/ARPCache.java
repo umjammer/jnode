@@ -25,7 +25,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.net.HardwareAddress;
 import org.jnode.net.ProtocolAddress;
 
@@ -36,7 +37,7 @@ import org.jnode.net.ProtocolAddress;
  */
 public class ARPCache {
 
-    private static final Logger log = Logger.getLogger(ARPCache.class);
+    private static final Logger log = LogManager.getLogger(ARPCache.class);
 
     private final Map<HardwareAddress, ARPCacheEntry> networkToProtocolAddresses =
             new HashMap<HardwareAddress, ARPCacheEntry>();

@@ -20,7 +20,10 @@
 
 package org.jnode.partitions.ibm;
 
-import org.apache.log4j.Logger;
+import java.util.logging.Level;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.driver.block.CHS;
 import org.jnode.partitions.PartitionTableEntry;
 import org.jnode.util.LittleEndian;
@@ -32,7 +35,7 @@ import org.jnode.util.NumberUtils;
 public class IBMPartitionTableEntry implements PartitionTableEntry {
     private static final int BOOTABLE = 0x80;
 
-    private final Logger log = Logger.getLogger(getClass());
+    private final Logger log = LogManager.getLogger(getClass());
 
     private final byte[] bs;
     private final int ofs;

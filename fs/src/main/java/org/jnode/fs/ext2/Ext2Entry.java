@@ -21,7 +21,9 @@
 package org.jnode.fs.ext2;
 
 import java.io.IOException;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntryLastAccessed;
 import org.jnode.fs.FSEntryLastChanged;
@@ -39,7 +41,7 @@ import org.jnode.fs.spi.AbstractFSEntry;
  */
 public class Ext2Entry extends AbstractFSEntry implements FSEntryLastChanged, FSEntryLastAccessed {
 
-    private final Logger log = Logger.getLogger(getClass());
+    private final Logger log = LogManager.getLogger(getClass());
     private INode iNode = null;
     private long directoryRecordId;
     private int type;

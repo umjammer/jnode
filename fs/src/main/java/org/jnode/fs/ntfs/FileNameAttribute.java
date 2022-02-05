@@ -21,6 +21,7 @@
 package org.jnode.fs.ntfs;
 
 import java.io.UnsupportedEncodingException;
+
 import org.jnode.fs.ntfs.attribute.NTFSResidentAttribute;
 
 /**

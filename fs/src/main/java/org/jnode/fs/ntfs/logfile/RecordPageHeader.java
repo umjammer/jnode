@@ -1,6 +1,7 @@
 package org.jnode.fs.ntfs.logfile;
 
 import java.io.IOException;
+
 import org.jnode.fs.ntfs.NTFSRecord;
 import org.jnode.fs.ntfs.NTFSVolume;
 

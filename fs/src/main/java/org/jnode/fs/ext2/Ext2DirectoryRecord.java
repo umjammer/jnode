@@ -22,7 +22,8 @@ package org.jnode.fs.ext2;
 
 import java.util.Arrays;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.fs.FileSystemException;
 import org.jnode.util.LittleEndian;
 
@@ -33,7 +34,7 @@ import org.jnode.util.LittleEndian;
  * @author Andras Nagy
  */
 public class Ext2DirectoryRecord {
-    private final Logger log = Logger.getLogger(getClass());
+    private final Logger log = LogManager.getLogger(getClass());
     /*
      * private int iNodeNr; private int recLen; private short nameLen; private
      * short type; private StringBuffer name;

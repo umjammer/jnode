@@ -24,7 +24,6 @@ import java.util.NoSuchElementException;
 
 import org.jnode.driver.Device;
 import org.jnode.fs.FileSystemException;
-import org.jnode.fs.FileSystemType;
 import org.jnode.fs.Formatter;
 
 public class HfsPlusFileSystemFormatter extends Formatter<HfsPlusFileSystem> {
@@ -39,13 +38,11 @@ public class HfsPlusFileSystemFormatter extends Formatter<HfsPlusFileSystem> {
     @Override
     public final HfsPlusFileSystem format(final Device device) throws FileSystemException {
         try {
-            HfsPlusFileSystemType type = FileSystemType.lookup(HfsPlusFileSystemType.class);
-            HfsPlusFileSystem fs = type.create(device, false);
+            HfsPlusFileSystem fs = new HfsPlusFileSystem(device, false);
             fs.create(params);
             return fs;
         } catch (NoSuchElementException e) {
             throw new FileSystemException(e);
         }
     }
-
 }

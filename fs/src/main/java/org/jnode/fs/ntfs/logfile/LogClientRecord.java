@@ -1,6 +1,7 @@
 package org.jnode.fs.ntfs.logfile;
 
 import java.io.UnsupportedEncodingException;
+
 import org.jnode.fs.ntfs.NTFSStructure;
 
 /**

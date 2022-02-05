@@ -26,7 +26,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.driver.Device;
 import org.jnode.partitions.PartitionTable;
 import org.jnode.util.BigEndian;
@@ -42,7 +43,7 @@ public class ApmPartitionTable implements PartitionTable<ApmPartitionTableEntry>
     private final List<ApmPartitionTableEntry> partitions = new ArrayList<ApmPartitionTableEntry>();
 
     /** My logger */
-    private static final Logger log = Logger.getLogger(ApmPartitionTable.class);
+    private static final Logger log = LogManager.getLogger(ApmPartitionTable.class);
 
     /**
      * Create a new instance

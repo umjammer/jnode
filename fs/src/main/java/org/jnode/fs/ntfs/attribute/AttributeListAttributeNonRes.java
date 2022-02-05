@@ -22,6 +22,7 @@ package org.jnode.fs.ntfs.attribute;
 
 import java.io.IOException;
 import java.util.Iterator;
+
 import org.jnode.fs.ntfs.FileRecord;
 
 /**

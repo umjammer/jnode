@@ -23,7 +23,8 @@ package org.jnode.net.ipv4.tcp;
 import java.net.SocketException;
 import java.util.LinkedList;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.ipv4.IPv4Header;
 
@@ -35,7 +36,7 @@ public class TCPInChannel {
     /**
      * My logger
      */
-    private static final Logger log = Logger.getLogger(TCPInChannel.class);
+    private static final Logger log = LogManager.getLogger(TCPInChannel.class);
 
     /**
      * Segments that have been received, but are out of order

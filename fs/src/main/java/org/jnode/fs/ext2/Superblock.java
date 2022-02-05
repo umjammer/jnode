@@ -21,7 +21,9 @@
 package org.jnode.fs.ext2;
 
 import java.io.IOException;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.fs.FileSystemException;
 import org.jnode.util.LittleEndian;
 
@@ -51,7 +53,7 @@ public class Superblock {
     private byte data[];
     private boolean dirty;
     private Ext2FileSystem fs;
-    private final Logger log = Logger.getLogger(getClass());
+    private final Logger log = LogManager.getLogger(getClass());
 
     public Superblock() {
         data = new byte[SUPERBLOCK_LENGTH];

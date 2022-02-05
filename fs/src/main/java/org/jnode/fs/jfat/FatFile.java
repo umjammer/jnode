@@ -23,12 +23,14 @@ package org.jnode.fs.jfat;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.NoSuchElementException;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.fs.FSFile;
 import org.jnode.fs.FSFileSlackSpace;
 
 public class FatFile extends FatEntry implements FSFile, FSFileSlackSpace {
-    private static final Logger log = Logger.getLogger(FatFile.class);
+    private static final Logger log = LogManager.getLogger(FatFile.class);
 
     public FatFile(FatFileSystem fs, FatDirectory parent, FatRecord record) {
         super(fs, parent, record);

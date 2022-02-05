@@ -22,7 +22,9 @@ package org.jnode.fs.ntfs;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.driver.block.BlockDeviceAPI;
 
 /**
@@ -30,7 +32,7 @@ import org.jnode.driver.block.BlockDeviceAPI;
  */
 public class NTFSVolume {
 
-    private static final Logger log = Logger.getLogger(NTFSVolume.class);
+    private static final Logger log = LogManager.getLogger(NTFSVolume.class);
 
     public static final byte LONG_FILE_NAMES = 0x01;
 

@@ -24,7 +24,8 @@ import java.net.DatagramSocketImplFactory;
 import java.net.SocketException;
 import java.net.SocketImplFactory;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.ipv4.IPv4Constants;
 import org.jnode.net.ipv4.IPv4Protocol;
@@ -36,7 +37,7 @@ import org.jnode.vm.objects.Statistics;
  */
 public class RAWProtocol implements IPv4Protocol, IPv4Constants {
     /** My logger */
-    private static final Logger log = Logger.getLogger(RAWProtocol.class);
+    private static final Logger log = LogManager.getLogger(RAWProtocol.class);
 
     /** The service i'm a part of */
     // private final IPv4Service ipService;

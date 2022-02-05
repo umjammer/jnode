@@ -20,14 +20,15 @@
 
 package org.jnode.util;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author epr
  */
 public class QueueProcessorThread<T> extends Thread {
 
-    private static final Logger bootlog = Logger.getLogger("bootlog");
+    private static final Logger bootlog = LogManager.getLogger("bootlog");
 
     /**
      * The queue i'm processing

@@ -31,7 +31,9 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.nanoxml.XMLElement;
 import org.jnode.net.ipv4.IPv4Address;
 
@@ -40,7 +42,7 @@ import org.jnode.net.ipv4.IPv4Address;
  */
 public class BOOTPServer {
 
-    private static final Logger log = Logger.getLogger(BOOTPServer.class);
+    private static final Logger log = LogManager.getLogger(BOOTPServer.class);
 
     public static final int SERVER_PORT = 67;
     public static final int CLIENT_PORT = 68;
@@ -57,7 +59,7 @@ public class BOOTPServer {
             server.loadTable(filename);
             server.run();
         } catch (IOException ex) {
-            Logger.getLogger(BOOTPServer.class).debug("I/O exception", ex);
+            LogManager.getLogger(BOOTPServer.class).debug("I/O exception", ex);
         }
     }
 

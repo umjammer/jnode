@@ -20,14 +20,15 @@
 
 package org.jnode.net.ipv4.dhcp;
 
-import org.apache.log4j.Logger;
-import org.jnode.net.ipv4.IPv4Address;
-import org.jnode.net.ipv4.bootp.AbstractBOOTPClient;
-import org.jnode.net.ipv4.bootp.BOOTPHeader;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jnode.net.ipv4.IPv4Address;
+import org.jnode.net.ipv4.bootp.AbstractBOOTPClient;
+import org.jnode.net.ipv4.bootp.BOOTPHeader;
 
 /**
  * System independent base class.
@@ -37,7 +38,7 @@ import java.net.InetAddress;
  */
 public class AbstractDHCPClient extends AbstractBOOTPClient {
 
-    private static final Logger log = Logger.getLogger(AbstractDHCPClient.class);
+    private static final Logger log = LogManager.getLogger(AbstractDHCPClient.class);
 
     /**
      * Create a DHCP discovery packet

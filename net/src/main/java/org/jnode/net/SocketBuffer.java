@@ -20,7 +20,8 @@
 
 package org.jnode.net;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.driver.Device;
 
 /**
@@ -42,7 +43,7 @@ public class SocketBuffer {
     private static final int INITIAL_SIZE = 256;
 
     /** My logger */
-    private static final Logger log = Logger.getLogger(SocketBuffer.class);
+    private static final Logger log = LogManager.getLogger(SocketBuffer.class);
     /** Actual data */
     private byte[] data;
     /** Size of the buffer that is in use */

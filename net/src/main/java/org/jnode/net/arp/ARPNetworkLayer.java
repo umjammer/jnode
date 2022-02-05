@@ -24,7 +24,8 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.Device;
 import org.jnode.driver.net.NetDeviceAPI;
@@ -57,7 +58,7 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * My logger
      */
-    private static final Logger log = Logger.getLogger(ARPNetworkLayer.class);
+    private static final Logger log = LogManager.getLogger(ARPNetworkLayer.class);
 
     private static final boolean DEBUG = false;
 

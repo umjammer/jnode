@@ -20,7 +20,8 @@
 
 package org.jnode.net.ipv4.udp;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.TransportLayerHeader;
 import org.jnode.net.ipv4.IPv4Header;
@@ -35,7 +36,7 @@ import org.jnode.util.NumberUtils;
 public class UDPHeader implements TransportLayerHeader, UDPConstants {
 
     /** My logger */
-    private static final Logger log = Logger.getLogger(UDPHeader.class);
+    private static final Logger log = LogManager.getLogger(UDPHeader.class);
     /** The port of the sending process or 0 if not used. */
     private final int srcPort;
     /** The destination port within the context of a particular internet address */

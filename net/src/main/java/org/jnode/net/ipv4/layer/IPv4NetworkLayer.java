@@ -27,7 +27,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.driver.Device;
 import org.jnode.driver.net.NetDeviceAPI;
 import org.jnode.driver.net.NetworkException;
@@ -66,7 +67,7 @@ public class IPv4NetworkLayer implements NetworkLayer, IPv4Constants, IPv4Servic
     /**
      * My logger
      */
-    private static final Logger log = Logger.getLogger(IPv4NetworkLayer.class);
+    private static final Logger log = LogManager.getLogger(IPv4NetworkLayer.class);
 
     private final HashMap<Integer, IPv4Protocol> protocols = new HashMap<Integer, IPv4Protocol>();
 

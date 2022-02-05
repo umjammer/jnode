@@ -27,7 +27,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.fs.FSEntry;
 
 /**
@@ -40,7 +42,7 @@ import org.jnode.fs.FSEntry;
  */
 public class FSEntryTable extends AbstractFSObject {
 
-    private static final Logger log = Logger.getLogger(FSEntryTable.class);
+    private static final Logger log = LogManager.getLogger(FSEntryTable.class);
 
     /**
      * An empty table that's used as a default table (that can't be modified)

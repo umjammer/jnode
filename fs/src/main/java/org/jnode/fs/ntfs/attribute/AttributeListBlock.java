@@ -22,6 +22,7 @@ package org.jnode.fs.ntfs.attribute;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
 import org.jnode.fs.ntfs.NTFSStructure;
 
 /**

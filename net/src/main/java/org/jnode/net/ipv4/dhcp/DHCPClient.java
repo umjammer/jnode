@@ -28,7 +28,8 @@ import java.security.PrivilegedExceptionAction;
 import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.Device;
 import org.jnode.driver.net.NetDeviceAPI;
@@ -47,7 +48,7 @@ import org.jnode.net.ipv4.util.ResolverImpl;
  */
 public class DHCPClient extends AbstractDHCPClient {
 
-    private static final Logger log = Logger.getLogger(DHCPClient.class);
+    private static final Logger log = LogManager.getLogger(DHCPClient.class);
 
     private Device device;
     private NetDeviceAPI api;

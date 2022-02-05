@@ -22,6 +22,7 @@ package org.jnode.fs.ntfs;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+
 import org.jnode.fs.ntfs.attribute.NTFSResidentAttribute;
 
 /**

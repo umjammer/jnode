@@ -27,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
+
 import org.apache.commons.net.tftp.TFTP;
 import org.apache.commons.net.tftp.TFTPAckPacket;
 import org.apache.commons.net.tftp.TFTPDataPacket;
@@ -35,7 +36,8 @@ import org.apache.commons.net.tftp.TFTPPacket;
 import org.apache.commons.net.tftp.TFTPPacketException;
 import org.apache.commons.net.tftp.TFTPReadRequestPacket;
 import org.apache.commons.net.tftp.TFTPWriteRequestPacket;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * TFTP server. Currently only supports one client at a time.
@@ -44,7 +46,7 @@ import org.apache.log4j.Logger;
  */
 public class TFTPServer extends TFTP {
 
-    private static final Logger log = Logger.getLogger(TFTPServer.class);
+    private static final Logger log = LogManager.getLogger(TFTPServer.class);
 
     /** current client address */
     private InetAddress clientAddress;
@@ -65,7 +67,7 @@ public class TFTPServer extends TFTP {
         try {
             server.run();
         } catch (SocketException ex) {
-            Logger.getLogger(TFTPServer.class).fatal("Socket exception", ex);
+            LogManager.getLogger(TFTPServer.class).fatal("Socket exception", ex);
         }
     }
 

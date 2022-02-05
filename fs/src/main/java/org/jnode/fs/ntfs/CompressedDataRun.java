@@ -22,7 +22,9 @@ package org.jnode.fs.ntfs;
 
 import java.io.IOException;
 import java.util.Arrays;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.util.LittleEndian;
 
 /**
@@ -38,7 +40,7 @@ public final class CompressedDataRun implements DataRunInterface {
     /**
      * Logger.
      */
-    private static final Logger log = Logger.getLogger(CompressedDataRun.class);
+    private static final Logger log = LogManager.getLogger(CompressedDataRun.class);
 
     /**
      * The underlying data run containing the compressed data.

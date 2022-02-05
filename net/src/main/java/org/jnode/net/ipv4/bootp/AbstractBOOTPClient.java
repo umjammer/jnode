@@ -26,7 +26,8 @@ import java.net.Inet4Address;
 import java.net.MulticastSocket;
 import java.net.NetworkInterface;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.net.HardwareAddress;
 import org.jnode.net.ipv4.IPv4Address;
 
@@ -41,7 +42,7 @@ public class AbstractBOOTPClient {
     /**
      * My logger
      */
-    private static final Logger log = Logger.getLogger(AbstractBOOTPClient.class);
+    private static final Logger log = LogManager.getLogger(AbstractBOOTPClient.class);
 
     private static final int RECEIVE_TIMEOUT = 10 * 1000; // 10 seconds
     public static final int SERVER_PORT = 67;

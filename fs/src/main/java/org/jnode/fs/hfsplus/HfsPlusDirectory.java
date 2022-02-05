@@ -25,7 +25,9 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSDirectoryId;
 import org.jnode.fs.FSEntry;
@@ -41,7 +43,7 @@ import org.jnode.fs.spi.FSEntryTable;
 
 public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
 
-    private static final Logger log = Logger.getLogger(HfsPlusDirectory.class);
+    private static final Logger log = LogManager.getLogger(HfsPlusDirectory.class);
 
     /**
      * The directory entry

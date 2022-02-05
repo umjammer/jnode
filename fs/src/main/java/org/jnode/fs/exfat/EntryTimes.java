@@ -1,4 +1,5 @@
 /*
+
  * $Id$
  *
  * Copyright (C) 2003-2015 JNode.org
@@ -25,7 +26,8 @@ import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
 
 /**
  * @author Matthias Treydte &lt;waldheinz at gmail.com&gt;
@@ -114,7 +116,7 @@ final class EntryTimes {
 
             return cal.getTime();
         } catch (Exception e) {
-            Logger.getLogger(EntryTimes.class).error("Error getting entry times", e);
+            LogManager.getLogger(EntryTimes.class).error("Error getting entry times", e);
             return null;
         }
     }

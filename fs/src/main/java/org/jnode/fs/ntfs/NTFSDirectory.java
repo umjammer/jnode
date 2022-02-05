@@ -22,7 +22,9 @@ package org.jnode.fs.ntfs;
 
 import java.io.IOException;
 import java.util.Iterator;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSDirectoryId;
 import org.jnode.fs.FSEntry;
@@ -39,7 +41,7 @@ import org.jnode.fs.ntfs.index.NTFSIndex;
  */
 public class NTFSDirectory implements FSDirectory, FSDirectoryId {
 
-    private static final Logger log = Logger.getLogger(NTFSDirectory.class);
+    private static final Logger log = LogManager.getLogger(NTFSDirectory.class);
 
     /**
      * The file record for the directory.
