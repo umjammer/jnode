@@ -47,12 +47,14 @@ public class FatTest {
 
         PrintWriter out = new PrintWriter(System.out, true);
 
-        /*
-         * String fn; if (args.length == 0) { fn = "lib/floppy.img"; } else { fn =
-         * args[0]; } printInfo(new File(fn), out);
-         * 
-         * System.out.println("\nGenerating new floppy");
-         */
+//        String fn;
+//        if (args.length == 0) {
+//            fn = "lib/floppy.img";
+//        } else {
+//            fn = args[0];
+//        }
+//        printInfo(new File(fn), out);
+//        System.out.println("\nGenerating new floppy");
 
         File f = new File("build/testfloppy.img");
 

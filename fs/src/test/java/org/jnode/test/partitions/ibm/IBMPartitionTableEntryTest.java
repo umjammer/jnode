@@ -48,7 +48,9 @@ public class IBMPartitionTableEntryTest {
     @Test
     public void testIsValid() {
         byte[] bootSector = getBootSector();
-        LittleEndian.setInt8(bootSector, 450, 0x85);
+        LittleEndian.setInt32(bootSector, 446, 0x80); // bootable
+        LittleEndian.setInt32(bootSector, 450, 0x85); // valid system id
+        LittleEndian.setInt32(bootSector, 458, 1); // has sectors
         IBMPartitionTableEntry pte = new IBMPartitionTableEntry(null, bootSector, 0);
         assertTrue(pte.isValid());
     }

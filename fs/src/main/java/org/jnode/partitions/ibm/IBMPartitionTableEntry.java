@@ -29,6 +29,8 @@ import org.jnode.partitions.PartitionTableEntry;
 import org.jnode.util.LittleEndian;
 import org.jnode.util.NumberUtils;
 
+import vavi.util.Debug;
+
 /**
  * @author epr
  */
@@ -51,7 +53,7 @@ public class IBMPartitionTableEntry implements PartitionTableEntry {
 
     public boolean isValid() {
         int bootIndicatorValue = getBootIndicatorValue();
-
+Debug.println(Level.FINE, "bootIndicatorValue:" + bootIndicatorValue + ", empty: " + isEmpty() + ", nrSectors: " + getNrSectors());
         return
             !isEmpty() &&
             (bootIndicatorValue == 0 || bootIndicatorValue == BOOTABLE) &&
@@ -91,6 +93,7 @@ public class IBMPartitionTableEntry implements PartitionTableEntry {
     }
 
     public int getBootIndicatorValue() {
+Debug.println(Level.FINE, "getBootIndicatorValue: ofs: " + (ofs + 0) + ", value: " + LittleEndian.getUInt8(bs, ofs + 0));
         return LittleEndian.getUInt8(bs, ofs + 0);
     }
 

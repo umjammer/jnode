@@ -42,12 +42,12 @@ public class Ext4FileSystemTest {
     @Test
     public void testReadExt4SpecialFiles() throws Exception {
 
-        device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ext4/test-special-files.ext4"), "r");
+        device = new FileDevice(FileSystemTestUtils.getTestFile("org/jnode/test/fs/ext4/test-special-files.ext4"), "r");
         Ext2FileSystemType type = FileSystemType.lookup(Ext2FileSystemType.class);
         Ext2FileSystem fs = type.create(device, true);
 
         String expectedStructure =
-            "type: EXT2 vol: total:15728640 free:13918208\n" +
+            "vol: total:15728640 free:13918208\n" +
                 "  /; \n" +
                 "    lost+found; \n" +
                 "    console; 0; d41d8cd98f00b204e9800998ecf8427e\n" +
@@ -64,12 +64,12 @@ public class Ext4FileSystemTest {
     @Test
     public void testReadExt4Mmp() throws Exception {
 
-        device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ext4/ext4-mmp.dd"), "r");
+        device = new FileDevice(FileSystemTestUtils.getTestFile("org/jnode/test/fs/ext4/ext4-mmp.dd"), "r");
         Ext2FileSystemType type = FileSystemType.lookup(Ext2FileSystemType.class);
         Ext2FileSystem fs = type.create(device, true);
 
         String expectedStructure =
-            "type: EXT2 vol: total:2998272 free:1870848\n" +
+            "vol: total:2998272 free:1870848\n" +
                 "  /; \n" +
                 "    lost+found; \n";
 
@@ -80,7 +80,7 @@ public class Ext4FileSystemTest {
     public void testReadExt4LargeDirectory() throws Exception {
 
         // Filesystem created without the 'dir_index' feature
-        device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ext4/ext4-large-directory.dd"), "r");
+        device = new FileDevice(FileSystemTestUtils.getTestFile("org/jnode/test/fs/ext4/ext4-large-directory.dd"), "r");
         Ext2FileSystemType type = FileSystemType.lookup(Ext2FileSystemType.class);
         Ext2FileSystem fs = type.create(device, true);
 
@@ -105,7 +105,7 @@ public class Ext4FileSystemTest {
     public void testReadExt4LargeDirectoryWithIndex() throws Exception {
 
         // Filesystem created with the 'dir_index' feature
-        device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ext4/ext4-large-dir-with-index.dd"), "r");
+        device = new FileDevice(FileSystemTestUtils.getTestFile("org/jnode/test/fs/ext4/ext4-large-dir-with-index.dd"), "r");
         Ext2FileSystemType type = FileSystemType.lookup(Ext2FileSystemType.class);
         Ext2FileSystem fs = type.create(device, true);
 
@@ -129,12 +129,12 @@ public class Ext4FileSystemTest {
     @Test
     public void testReadExt4FlexBG() throws Exception {
 
-        device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ext4/ext4-flex-bg.img"), "r");
+        device = new FileDevice(FileSystemTestUtils.getTestFile("org/jnode/test/fs/ext4/ext4-flex-bg.img"), "r");
         Ext2FileSystemType type = FileSystemType.lookup(Ext2FileSystemType.class);
         Ext2FileSystem fs = type.create(device, true);
 
         String expectedStructure =
-            "type: EXT2 vol:ext4-ftw-omgz total:127926272 free:123949056\n" +
+            "vol:ext4-ftw-omgz total:127926272 free:123949056\n" +
             "  /; \n" +
             "    lost+found; \n" +
             "    wolf_slice_1.jpg; 6606; a28d342db2d2081f9d2eb287d49c1110\n" +
@@ -150,12 +150,12 @@ public class Ext4FileSystemTest {
     @Test
     public void testReadExt4MetaBG() throws Exception {
 
-        device = new FileDevice(FileSystemTestUtils.getTestFile("test/fs/ext4/ext4-meta-bg.dd"), "r");
+        device = new FileDevice(FileSystemTestUtils.getTestFile("org/jnode/test/fs/ext4/ext4-meta-bg.dd"), "r");
         Ext2FileSystemType type = FileSystemType.lookup(Ext2FileSystemType.class);
         Ext2FileSystem fs = type.create(device, true);
 
         String expectedStructure =
-            "type: EXT2 vol: total:4997120 free:3680256\n" +
+            "vol: total:4997120 free:3680256\n" +
                 "  /; \n" +
                 "    lost+found; \n" +
                 "    Fairy-Penguin.jpg; 60472; 78da81a8cf672de95d27214d44a5ea59\n" +

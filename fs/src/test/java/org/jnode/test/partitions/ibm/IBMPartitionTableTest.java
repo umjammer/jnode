@@ -44,7 +44,7 @@ public class IBMPartitionTableTest {
             "win-xp.dd");
 
         for (String testFileName : testFileNames) {
-            File testFile = FileSystemTestUtils.getTestFile("test/partitions/ibm/" + testFileName);
+            File testFile = FileSystemTestUtils.getTestFile("org/jnode/test/partitions/ibm/" + testFileName);
             byte[] buffer = FileUtils.load(new FileInputStream(testFile), true);
 
             System.out.println("Testing: " + testFileName);
@@ -62,7 +62,7 @@ public class IBMPartitionTableTest {
             "sco.dd");
 
         for (String testFileName : testFileNames) {
-            File testFile = FileSystemTestUtils.getTestFile("test/partitions/ibm/" + testFileName);
+            File testFile = FileSystemTestUtils.getTestFile("org/jnode/test/partitions/ibm/" + testFileName);
             byte[] buffer = FileUtils.load(new FileInputStream(testFile), true);
 
             System.out.println("Testing: " + testFileName);
