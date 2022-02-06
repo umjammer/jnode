@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<Configuration status="warn">
+<Configuration status="off">
   <Appenders>
     <Console name="Console" target="SYSTEM_ERR">
-      <PatternLayout disableAnsi="false" pattern="%highlight{%d{ISO8601} [%p]} %m%n\t%highlight{at %t%x %c.%M(%F:%L)}\n"/>
+      <PatternLayout pattern="%d{ISO8601} [%p] %m%n\tat %t%x %c.%M(%F:%L)\n"/>
     </Console>
   </Appenders>
   <Loggers>
-    <Root level="info">
+    <Root level="off">
       <AppenderRef ref="Console"/>
     </Root>
   </Loggers>

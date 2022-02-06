@@ -30,7 +30,6 @@
         <configuration>
           <argLine>
             -Djava.util.logging.config.file=${project.build.testOutputDirectory}/logging.properties
-            -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager
           </argLine>
           <trimStackTrace>false</trimStackTrace>
         </configuration>
@@ -70,7 +69,7 @@
 
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
+      <artifactId>log4j-api</artifactId>
     </dependency>
 
     <dependency>
@@ -105,6 +104,17 @@
       <artifactId>vavi-net-fuse</artifactId>
       <version>${vavi-net-fuse.version}</version>
       <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-jul</artifactId>
       <scope>test</scope>
     </dependency>
  </dependencies>
