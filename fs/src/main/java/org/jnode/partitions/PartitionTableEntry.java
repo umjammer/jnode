@@ -20,6 +20,19 @@
 
 package org.jnode.partitions;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+
+import org.jnode.driver.ApiNotFoundException;
+import org.jnode.driver.block.FSBlockDeviceAPI;
+import org.jnode.driver.block.FileDevice;
+import org.jnode.driver.block.VirtualDiskDevice;
+import org.jnode.fs.BlockDeviceFileSystemType;
+import org.jnode.fs.FileSystem;
+
+import vavi.util.Debug;
+import vavi.util.StringUtil;
+
 /**
  * @author epr
  */
@@ -28,20 +41,71 @@ public interface PartitionTableEntry {
     /**
      * Is this a valid entry, if not it must be ignored.
      */
-    public boolean isValid();
+    boolean isValid();
 
     /**
      * Does this partition actually is a set of partitions with a partition
      * table of itself.
      */
-    public boolean hasChildPartitionTable();
+    boolean hasChildPartitionTable();
 
     /**
      * Gets the partition table that describes the partitions within this
      * partition.
-     * 
+     *
      * @return null of {{@link #hasChildPartitionTable()} is false.
      */
-    public PartitionTable<?> getChildPartitionTable();
+    PartitionTable<?> getChildPartitionTable();
 
+    /** */
+    long getStartOffset(int sectorSize);
+
+    /** */
+    long getEndOffset(int sectorSize);
+
+    /**
+     * works! don't touch
+     * @param device TODO only {@link FileDevice}
+     */
+    default FileSystem<?> getFileSystem(FileDevice device) throws IOException {
+        try {
+            int sectorSize = device.getAPI(FSBlockDeviceAPI.class).getSectorSize();
+
+            long offset = getStartOffset(sectorSize);
+Debug.printf("entry offset: %08x", offset);
+            device.addOffset(offset);
+
+            byte[] bytes = new byte[sectorSize];
+            device.getAPI(FSBlockDeviceAPI.class).read(0, ByteBuffer.wrap(bytes));
+Debug.println("entry heads\n" + StringUtil.getDump(bytes, 128));
+
+            BlockDeviceFileSystemType<?> bdfst = BlockDeviceFileSystemType.lookup(this, bytes, device.getAPI(FSBlockDeviceAPI.class));
+            return bdfst.create(device, true);
+        } catch (ApiNotFoundException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    /**
+     * works! don't touch
+     * @param device TODO only {@link VirtualDiskDevice}
+     */
+    default FileSystem<?> getFileSystem(VirtualDiskDevice device) throws IOException {
+        try {
+            int sectorSize = device.getAPI(FSBlockDeviceAPI.class).getSectorSize();
+
+            long offset = getStartOffset(sectorSize);
+Debug.printf("entry offset: %08x", offset);
+            device.addOffset(offset);
+
+            byte[] bytes = new byte[sectorSize];
+            device.getAPI(FSBlockDeviceAPI.class).read(0, ByteBuffer.wrap(bytes));
+Debug.println("entry heads\n" + StringUtil.getDump(bytes, 128));
+
+            BlockDeviceFileSystemType<?> bdfst = BlockDeviceFileSystemType.lookup(this, bytes, device.getAPI(FSBlockDeviceAPI.class));
+            return bdfst.create(device, true);
+        } catch (ApiNotFoundException e) {
+            throw new IllegalStateException(e);
+        }
+    }
 }

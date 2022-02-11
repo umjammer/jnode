@@ -61,28 +61,30 @@ public class ApmPartitionTableEntry implements PartitionTableEntry {
         return first16KiB.length > offset + 128;
     }
 
-    /**
-     * @see org.jnode.partitions.PartitionTableEntry#getChildPartitionTable()
-     */
     @Override
     public IBMPartitionTable getChildPartitionTable() {
         throw new UnsupportedOperationException("No child partitions.");
     }
 
-    /**
-     * @see org.jnode.partitions.PartitionTableEntry#hasChildPartitionTable()
-     */
     @Override
     public boolean hasChildPartitionTable() {
         return false;
     }
 
-    public long getStartOffset() {
+    /**
+     * @param sectorSize ignored
+     */
+    @Override
+    public long getStartOffset(int sectorSize) {
         return BigEndian.getUInt32(first16KiB, offset + 0x8) * 0x200L;
     }
 
-    public long getEndOffset() {
-        return getStartOffset() + BigEndian.getUInt32(first16KiB, offset + 0xc) * 0x200L;
+    /**
+     * @param sectorSize ignored
+     */
+    @Override
+    public long getEndOffset(int sectorSize) {
+        return getStartOffset(0) + BigEndian.getUInt32(first16KiB, offset + 0xc) * 0x200L;
     }
 
     public String getName() {
@@ -111,8 +113,8 @@ public class ApmPartitionTableEntry implements PartitionTableEntry {
         StringBuilder builder = new StringBuilder(32);
         builder.append('[').append(getName()).append(' ');
         builder.append("t:").append(getType()).append(' ');
-        builder.append("s:").append(getStartOffset()).append(' ');
-        builder.append("e:").append(getEndOffset()).append(']');
+        builder.append("s:").append(getStartOffset(0)).append(' ');
+        builder.append("e:").append(getEndOffset(0)).append(']');
         return builder.toString();
     }
 }

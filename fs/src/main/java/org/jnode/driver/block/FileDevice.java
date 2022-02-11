@@ -25,9 +25,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jnode.driver.Device;
 import org.jnode.partitions.PartitionTableEntry;
 import org.jnode.util.ByteBufferUtils;
+
+import vavi.util.Debug;
 
 /**
  * This class is a device wrapping a simple file
@@ -36,17 +41,30 @@ import org.jnode.util.ByteBufferUtils;
  */
 public class FileDevice extends Device implements FSBlockDeviceAPI {
 
+    private static final Logger logger = LogManager.getLogger(FileDevice.class);
+
     private RandomAccessFile raf;
+
+    /** virtual offset */
+    private long offset = 0;
+
+    /**
+     * for partition entry
+     * works! don't touch
+     */
+    public void addOffset(long offset) {
+        this.offset += offset;
+Debug.printf("offset: %08x + %08x -> %08x", (this.offset - offset), offset, this.offset);
+    }
 
     /**
      * Create a new FileDevice
      *
      * @param file
-     * @param mode
+     * @param mode see {@link RandomAccessFile}
      * @throws FileNotFoundException
-     * @throws IOException
      */
-    public FileDevice(File file, String mode) throws FileNotFoundException, IOException {
+    public FileDevice(File file, String mode) throws IOException {
         super("file" + System.currentTimeMillis());
         raf = new RandomAccessFile(file, mode);
         //registerAPI(BlockDeviceAPI.class, this);
@@ -54,21 +72,27 @@ public class FileDevice extends Device implements FSBlockDeviceAPI {
     }
 
     /**
-     * @return The length
-     * @throws IOException
-     * @see org.jnode.driver.block.BlockDeviceAPI#getLength()
+     * Create a new FileDevice with virtual offset
+     *
+     * @param file
+     * @param mode see {@link RandomAccessFile}
+     * @param offset virtual offset
+     * @throws FileNotFoundException
      */
-    public long getLength() throws IOException {
-        return raf.length();
+    public FileDevice(File file, String mode, int offset) throws IOException {
+        this(file, mode);
+        this.offset = offset;
     }
 
-    /**
-     * (non-Javadoc)
-     *
-     * @see org.jnode.driver.block.BlockDeviceAPI#read(long, java.nio.ByteBuffer)
-     */
+    @Override
+    public long getLength() throws IOException {
+        return raf.length() - offset;
+    }
+
+    @Override
     public void read(long devOffset, ByteBuffer destBuf) throws IOException {
-        raf.seek(devOffset);
+        raf.seek(devOffset + offset);
+logger.debug(String.format("offset: %08x (%08x)", devOffset + offset, offset));
 
         //TODO optimize it also to use ByteBuffer at lower level
         ByteBufferUtils.ByteArray destBA = ByteBufferUtils.toByteArray(destBuf);
@@ -77,23 +101,17 @@ public class FileDevice extends Device implements FSBlockDeviceAPI {
         destBA.refreshByteBuffer();
     }
 
-    /**
-     * (non-Javadoc)
-     *
-     * @see org.jnode.driver.block.BlockDeviceAPI#write(long, java.nio.ByteBuffer)
-     */
+    @Override
     public void write(long devOffset, ByteBuffer srcBuf) throws IOException {
         //log.debug("fd.write devOffset=" + devOffset + ", length=" + length);
-        raf.seek(devOffset);
+        raf.seek(devOffset + offset);
 
         //TODO optimize it also to use ByteBuffer at lower level
         byte[] src = ByteBufferUtils.toArray(srcBuf);
         raf.write(src, 0, src.length);
     }
 
-    /**
-     * @see org.jnode.driver.block.BlockDeviceAPI#flush()
-     */
+    @Override
     public void flush() {
         // Nothing to flush
     }
@@ -101,32 +119,31 @@ public class FileDevice extends Device implements FSBlockDeviceAPI {
     /**
      * change the length of the underlaying file
      *
-     * @param length
-     * @throws IOException
+     * @param length real file length
      */
     public void setLength(long length) throws IOException {
+        if (offset > 0) {
+            logger.warn("this device has virtual offset (" + offset + "), so length you sepcified might be different as your expectation.");
+        }
         raf.setLength(length);
+        if (offset > 0) {
+            logger.warn("now real file length is " + length + ", virtual offset is " + offset);
+        }
     }
 
     /**
      * close the underlaying file
-     *
-     * @throws IOException
      */
     public void close() throws IOException {
         raf.close();
     }
 
-    /**
-     * @see org.jnode.driver.block.FSBlockDeviceAPI#getPartitionTableEntry()
-     */
+    @Override
     public PartitionTableEntry getPartitionTableEntry() {
         return null;
     }
 
-    /**
-     * @see org.jnode.driver.block.FSBlockDeviceAPI#getSectorSize()
-     */
+    @Override
     public int getSectorSize() throws IOException {
         return 512;
     }

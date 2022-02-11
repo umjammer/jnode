@@ -20,6 +20,8 @@
 
 package org.jnode.partitions.apm;
 
+import java.nio.charset.Charset;
+
 import org.jnode.driver.Device;
 import org.jnode.driver.block.BlockDeviceAPI;
 import org.jnode.partitions.PartitionTable;
@@ -48,8 +50,33 @@ public class ApmPartitionTableType implements PartitionTableType {
         return "apm";
     }
 
+    /**
+     * Checks if the given boot sector contain a APM partition table.
+     *
+     * @param first16KiB the first 16,384 bytes of the disk.
+     */
     @Override
     public boolean supports(byte[] first16KiB, BlockDeviceAPI devApi) {
-        return ApmPartitionTable.containsPartitionTable(first16KiB);
+        if (first16KiB.length < 0x250) {
+            // Not enough data for detection
+            return false;
+        }
+
+        if ((first16KiB[0x200] & 0xFF) != 0x50) {
+            return false;
+        }
+        if ((first16KiB[0x201] & 0xFF) != 0x4d) {
+            return false;
+        }
+
+        byte[] typeBytes = new byte[31];
+        System.arraycopy(first16KiB, 0x230, typeBytes, 0, typeBytes.length);
+        String type = new String(typeBytes, Charset.forName("ASCII")).replace("\u0000", "");
+
+        if (!"Apple_partition_map".equalsIgnoreCase(type)) {
+            return false;
+        }
+
+        return true;
     }
 }

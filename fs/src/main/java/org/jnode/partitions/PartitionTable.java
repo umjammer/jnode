@@ -20,9 +20,74 @@
 
 package org.jnode.partitions;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+
+import org.jnode.driver.block.FSBlockDeviceAPI;
+import org.jnode.driver.block.FileDevice;
+import org.jnode.driver.block.VirtualDiskDevice;
+import org.jnode.fs.FileSystem;
+
+import vavi.util.Debug;
+
 /**
  * @author epr
  */
 public interface PartitionTable<PTE extends PartitionTableEntry> extends Iterable<PTE> {
 
+    /**
+     * @param device only {@link FileDevice} is acceptable
+     * @param n partition number 0 origin
+     * @throws IllegalStateException when the specified number's partition is invalid.
+     * @throws IndexOutOfBoundsException partition number is wrong
+     */
+    static FileSystem<?> getFileSystem(FileDevice device, int n) throws IOException {
+        byte[] bytes = new byte[1024];
+        device.getAPI(FSBlockDeviceAPI.class).read(0, ByteBuffer.wrap(bytes));
+
+        PartitionTableType type = PartitionTableType.lookup(bytes, device);
+        PartitionTable<?> table = type.create(bytes, device);
+Debug.println("PARTITION: " + table);
+        int i = 0;
+        for (PartitionTableEntry entry : table) {
+Debug.println("partition entry[" + i + "]: " + entry);
+            if (i == n) {
+                if (entry.isValid()) {
+                    return entry.getFileSystem(device);
+                } else {
+                    throw new IllegalStateException(entry + "[" + i + "] is not valid");
+                }
+            }
+            i++;
+        }
+        throw new IndexOutOfBoundsException(n + "/" + i);
+    }
+
+    /**
+     * @param device only {@link VirtualDiskDevice} is acceptable
+     * @param n partition number 0 origin
+     * @throws IllegalStateException when the specified number's partition is invalid.
+     * @throws IndexOutOfBoundsException partition number is wrong
+     */
+    static FileSystem<?> getFileSystem(VirtualDiskDevice device, int n) throws IOException {
+        byte[] bytes = new byte[1024];
+        device.getAPI(FSBlockDeviceAPI.class).read(0, ByteBuffer.wrap(bytes));
+
+        PartitionTableType type = PartitionTableType.lookup(bytes, device);
+        PartitionTable<?> table = type.create(bytes, device);
+Debug.println("PARTITION: " + table);
+        int i = 0;
+        for (PartitionTableEntry entry : table) {
+Debug.println("partition entry[" + i + "]: " + entry);
+            if (i == n) {
+                if (entry.isValid()) {
+                    return entry.getFileSystem(device);
+                } else {
+                    throw new IllegalStateException(entry + "[" + i + "] is not valid");
+                }
+            }
+            i++;
+        }
+        throw new IndexOutOfBoundsException(n + "/" + i);
+    }
 }

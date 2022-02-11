@@ -21,25 +21,51 @@
 package org.jnode.test.fs.jfat;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.jnode.driver.Device;
 import org.jnode.driver.block.FileDevice;
+import org.jnode.fs.FileSystem;
 import org.jnode.fs.FileSystemType;
 import org.jnode.fs.jfat.FatFileSystem;
 import org.jnode.fs.jfat.FatFileSystemType;
+import org.jnode.partitions.PartitionTable;
 import org.jnode.test.fs.DataStructureAsserts;
 import org.jnode.test.fs.FileSystemTestUtils;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIf;
 
+import vavi.util.Debug;
+import vavi.util.properties.annotation.Property;
+import vavi.util.properties.annotation.PropsEntity;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+@PropsEntity(url = "file://${user.dir}/local.properties")
 public class FatFileSystemTest {
 
-    private Device device;
+    @Property
+    String dmg;
+
+    @Property
+    String nhd;
+
+    @BeforeEach
+    void before() throws IOException {
+        PropsEntity.Util.bind(this);
+    }
+
+    static boolean localPropertiesExists() {
+        return Files.exists(Paths.get("local.properties"));
+    }
 
     @Test
     public void testReadFat32Disk() throws Exception {
 
-        device = new FileDevice(FileSystemTestUtils.getTestFile("org/jnode/test/fs/jfat/test.fat32"), "r");
+        Device device = new FileDevice(FileSystemTestUtils.getTestFile("org/jnode/test/fs/jfat/test.fat32"), "r");
         FatFileSystemType type = FileSystemType.lookup(FatFileSystemType.class);
         FatFileSystem fs = type.create(device, true);
 
@@ -58,7 +84,7 @@ public class FatFileSystemTest {
     @Test
     public void testReadFat16Disk() throws Exception {
 
-        device = new FileDevice(FileSystemTestUtils.getTestFile("org/jnode/test/fs/jfat/test.fat16"), "r");
+        Device device = new FileDevice(FileSystemTestUtils.getTestFile("org/jnode/test/fs/jfat/test.fat16"), "r");
         FatFileSystemType type = FileSystemType.lookup(FatFileSystemType.class);
         FatFileSystem fs = type.create(device, true);
 
@@ -75,24 +101,20 @@ public class FatFileSystemTest {
     }
 
     @Test
-    @Disabled
-    public void testReadFat32Disk2() throws Exception {
+    @EnabledIf("localPropertiesExists")
+    public void testReadFromPartition() throws Exception {
+//        File file = new File(nhd);
+        File file = new File(dmg);
+//        File file = FileSystemTestUtils.getTestFile("org/jnode/test/fs/jfat/test.fat32");
+        FileDevice device = new FileDevice(file, "r");
 
-        device = new FileDevice(new File("/Users/nsano/src/vavi/vavi-nio-file-fat/src/test/resources/fat32.dmg"), "r");
+        FileSystem<?> fs = PartitionTable.getFileSystem(device, 0);
+Debug.println("\nfile system: " + fs);
 
+        StringBuilder actual = new StringBuilder();
+        DataStructureAsserts.buildStructure(fs.getRootEntry(), actual, "");
+Debug.println("\n: " + actual);
 
-        FatFileSystemType type = FileSystemType.lookup(FatFileSystemType.class);
-        FatFileSystem fs = type.create(device, true);
-
-        String expectedStructure =
-            "tvol: total:-1 free:-1\n" +
-                "  ; \n" +
-                "    dir1; \n" +
-                "      test.txt; 18; 80aeb09eb86de4c4a7d1f877451dc2a2\n" +
-                "    dir2; \n" +
-                "      test.txt; 18; 1b20f937ce4a3e9241cc907086169ad7\n" +
-                "    test.txt; 18; fd99fcfc86ba71118bd64c2d9f4b54a4\n";
-
-        DataStructureAsserts.assertStructure(fs, expectedStructure);
+        assertNotNull(fs);
     }
 }

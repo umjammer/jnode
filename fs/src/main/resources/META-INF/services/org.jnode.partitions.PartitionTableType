@@ -1,3 +1,4 @@
 org.jnode.partitions.apm.ApmPartitionTableType
 org.jnode.partitions.gpt.GptPartitionTableType
 org.jnode.partitions.ibm.IBMPartitionTableType
+org.jnode.partitions.pc98.PC98PartitionTableType

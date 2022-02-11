@@ -62,17 +62,11 @@ public class GptPartitionTableEntry implements PartitionTableEntry {
         return first16KiB.length > offset + 128 && !isEmpty();
     }
 
-    /**
-     * @see org.jnode.partitions.PartitionTableEntry#getChildPartitionTable()
-     */
     @Override
     public PartitionTable<?> getChildPartitionTable() {
         throw new UnsupportedOperationException("No child partitions.");
     }
 
-    /**
-     * @see org.jnode.partitions.PartitionTableEntry#hasChildPartitionTable()
-     */
     @Override
     public boolean hasChildPartitionTable() {
         return false;
@@ -94,11 +88,19 @@ public class GptPartitionTableEntry implements PartitionTableEntry {
         return guid;
     }
 
-    public long getStartOffset() {
+    /**
+     * @param sectorSize ignored
+     */
+    @Override
+    public long getStartOffset(int sectorSize) {
         return LittleEndian.getInt64(first16KiB, offset + 0x20) * blockSize;
     }
 
-    public long getEndOffset() {
+    /**
+     * @param sectorSize ignored
+     */
+    @Override
+    public long getEndOffset(int sectorSize) {
         return (LittleEndian.getInt64(first16KiB, offset + 0x28) + 1) * blockSize;
     }
 
@@ -133,8 +135,8 @@ public class GptPartitionTableEntry implements PartitionTableEntry {
         builder.append('[').append(getName()).append(' ');
         builder.append(NumberUtils.hex(getPartitionTypeGuid())).append(' ');
         builder.append(NumberUtils.hex(getPartitionGuid())).append(' ');
-        builder.append("s:").append(getStartOffset()).append(' ');
-        builder.append("e:").append(getEndOffset()).append(']');
+        builder.append("s:").append(getStartOffset(0)).append(' ');
+        builder.append("e:").append(getEndOffset(0)).append(']');
         return builder.toString();
     }
 }

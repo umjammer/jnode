@@ -24,6 +24,9 @@ import java.util.ServiceLoader;
 
 import org.jnode.driver.Device;
 import org.jnode.driver.block.BlockDeviceAPI;
+import org.jnode.partitions.raw.RawPartitionTableType;
+
+import vavi.util.Debug;
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)
@@ -33,7 +36,7 @@ public interface PartitionTableType {
     /**
      * Gets the unique name of this partition table type.
      */
-    public String getName();
+    String getName();
 
     /**
      * Can this partition table type be used on the given first sector of a
@@ -42,7 +45,7 @@ public interface PartitionTableType {
      * @param devApi
      * @param firstSectors
      */
-    public boolean supports(byte[] firstSectors, BlockDeviceAPI devApi);
+    boolean supports(byte[] firstSectors, BlockDeviceAPI devApi);
 
     /**
      * Create a partition table for a given device.
@@ -50,10 +53,10 @@ public interface PartitionTableType {
      * @param device
      * @param firstSectors
      */
-    public PartitionTable<?> create(byte[] firstSectors, Device device) throws PartitionTableException;
+    PartitionTable<?> create(byte[] firstSectors, Device device) throws PartitionTableException;
 
     /** */
-    public String getScheme();
+    String getScheme();
 
     /** factory */
     @SuppressWarnings({ "unchecked" })
@@ -64,7 +67,7 @@ public interface PartitionTableType {
                 return (T) ptt;
             }
         }
-        throw new IllegalArgumentException(clazz.getName());
+        return (T) new RawPartitionTableType();
     }
 
     /** factory */
@@ -76,6 +79,19 @@ public interface PartitionTableType {
                 return (T) ptt;
             }
         }
-        throw new IllegalArgumentException(scheme);
+        return (T) new RawPartitionTableType();
+    }
+
+    /** factory */
+    @SuppressWarnings({ "unchecked" })
+    static <T extends PartitionTableType> T lookup(byte[] firstSectors, Device device) {
+        ServiceLoader<PartitionTableType> sl = ServiceLoader.load(PartitionTableType.class);
+        for (PartitionTableType ptt : sl) {
+Debug.println("partition table type: " + ptt);
+            if (ptt.supports(firstSectors, device.getAPI(BlockDeviceAPI.class))) {
+                return (T) ptt;
+            }
+        }
+        return (T) new RawPartitionTableType();
     }
 }

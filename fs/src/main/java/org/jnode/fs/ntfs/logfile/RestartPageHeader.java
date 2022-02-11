@@ -108,7 +108,7 @@ public class RestartPageHeader extends NTFSRecord {
      * @return the debug string.
      */
     public String toDebugString() {
-        StringBuilder builder = new StringBuilder("Restart Page Header:[\n");
+        StringBuilder builder = new StringBuilder("Restart Page FDIHeader:[\n");
         builder.append("chkdsk-lsn: " + getCheckDiskLsn() + "\n");
         builder.append("system-page-size: " + getSystemPageSize() + "\n");
         builder.append("log-page-size: " + getLogPageSize() + "\n");

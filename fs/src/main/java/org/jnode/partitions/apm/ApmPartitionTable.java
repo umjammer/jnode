@@ -20,7 +20,6 @@
 
 package org.jnode.partitions.apm;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -67,36 +66,6 @@ public class ApmPartitionTable implements PartitionTable<ApmPartitionTableEntry>
                 partitions.add(entry);
             }
         }
-    }
-
-    /**
-     * Checks if the given boot sector contain a APM partition table.
-     *
-     * @param first16KiB the first 16,384 bytes of the disk.
-     * @return {@code true} if the boot sector contains a APM partition table.
-     */
-    public static boolean containsPartitionTable(byte[] first16KiB) {
-        if (first16KiB.length < 0x250) {
-            // Not enough data for detection
-            return false;
-        }
-
-        if ((first16KiB[0x200] & 0xFF) != 0x50) {
-            return false;
-        }
-        if ((first16KiB[0x201] & 0xFF) != 0x4d) {
-            return false;
-        }
-
-        byte[] typeBytes = new byte[31];
-        System.arraycopy(first16KiB, 0x230, typeBytes, 0, typeBytes.length);
-        String type = new String(typeBytes, Charset.forName("ASCII")).replace("\u0000", "");
-
-        if (!"Apple_partition_map".equalsIgnoreCase(type)) {
-            return false;
-        }
-
-        return true;
     }
 
     @Override

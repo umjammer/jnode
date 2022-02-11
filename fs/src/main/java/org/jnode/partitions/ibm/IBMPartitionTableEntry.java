@@ -45,12 +45,14 @@ public class IBMPartitionTableEntry implements PartitionTableEntry {
     @SuppressWarnings("unused")
     private final IBMPartitionTable parent;
 
+    /** */
     public IBMPartitionTableEntry(IBMPartitionTable parent, byte[] bs, int partNr) {
         this.parent = parent;
         this.bs = bs;
         this.ofs = 446 + (partNr * 16);
     }
 
+    @Override
     public boolean isValid() {
         int bootIndicatorValue = getBootIndicatorValue();
 Debug.println(Level.FINE, "bootIndicatorValue:" + bootIndicatorValue + ", empty: " + isEmpty() + ", nrSectors: " + getNrSectors());
@@ -60,24 +62,22 @@ Debug.println(Level.FINE, "bootIndicatorValue:" + bootIndicatorValue + ", empty:
             getNrSectors() > 0;
     }
 
-    /**
-     * @see org.jnode.partitions.PartitionTableEntry#getChildPartitionTable()
-     */
+    @Override
     public IBMPartitionTable getChildPartitionTable() {
-        throw new Error("Not implemented yet");
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    /**
-     * @see org.jnode.partitions.PartitionTableEntry#hasChildPartitionTable()
-     */
+    @Override
     public boolean hasChildPartitionTable() {
         return isExtended();
     }
 
+    /** */
     public boolean isEmpty() {
         return (getSystemIndicator() == IBMPartitionTypes.PARTTYPE_EMPTY);
     }
 
+    /** */
     public boolean isExtended() {
         final IBMPartitionTypes id = getSystemIndicator();
         // pgwiasda
@@ -200,9 +200,7 @@ Debug.println(Level.FINE, "getBootIndicatorValue: ofs: " + (ofs + 0) + ", value:
         return b.toString();
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
+    @Override
     public String toString() {
         StringBuilder b = new StringBuilder(32);
         b.append('[').append(getBootIndicator() ? 'A' : '-').append(' ');
@@ -213,4 +211,13 @@ Debug.println(Level.FINE, "getBootIndicatorValue: ofs: " + (ofs + 0) + ", value:
         return b.toString();
     }
 
+    @Override
+    public long getStartOffset(int sectorSize) {
+        return getStartLba() * sectorSize;
+    }
+
+    @Override
+    public long getEndOffset(int sectorSize) {
+        return (getStartLba() + getNrSectors()) * sectorSize;
+    }
 }

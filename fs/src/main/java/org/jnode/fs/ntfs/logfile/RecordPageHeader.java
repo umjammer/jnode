@@ -126,7 +126,7 @@ public class RecordPageHeader extends NTFSRecord {
      * @return the debug string.
      */
     public String toDebugString() {
-        StringBuilder builder = new StringBuilder("Record Page Header:[\n");
+        StringBuilder builder = new StringBuilder("Record Page FDIHeader:[\n");
         builder.append("update-sequence-offset: " + getUpdateSequenceOffset() + "\n");
         builder.append("update-sequence-count: " + getUpdateSequenceCount() + "\n");
         builder.append("lsn-or-file-offset: " + getLastLsnOrFileOffset() + "\n");

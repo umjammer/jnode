@@ -37,7 +37,7 @@ public interface BlockDeviceAPI extends DeviceAPI {
      * @return long
      * @throws IOException
      */
-    public abstract long getLength()
+    long getLength()
         throws IOException;
 
     /**
@@ -47,7 +47,7 @@ public interface BlockDeviceAPI extends DeviceAPI {
      * @param dest
      * @throws IOException
      */
-    public abstract void read(long devOffset, ByteBuffer dest) throws IOException;
+    void read(long devOffset, ByteBuffer dest) throws IOException;
 
     /**
      * Write a block of data
@@ -56,12 +56,12 @@ public interface BlockDeviceAPI extends DeviceAPI {
      * @param src
      * @throws IOException
      */
-    public abstract void write(long devOffset, ByteBuffer src) throws IOException;
+    void write(long devOffset, ByteBuffer src) throws IOException;
 
     /**
      * flush data in caches to the block device
      *
      * @throws IOException
      */
-    public abstract void flush() throws IOException;
+    void flush() throws IOException;
 }

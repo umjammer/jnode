@@ -7,5 +7,6 @@ org.jnode.fs.hfs.HfsWrapperFileSystemType
 org.jnode.fs.ftpfs.FTPFileSystemType
 org.jnode.fs.smbfs.SMBFileSystemType
 org.jnode.fs.ntfs.NTFSFileSystemType
-org.jnode.fs.fat.FatFileSystemType
 org.jnode.fs.hfsplus.HfsPlusFileSystemType
+org.jnode.fs.pc98.PC98FileSystemType
+org.jnode.fs.fat.FatFileSystemType

@@ -25,7 +25,7 @@ package org.jnode.driver;
  *
  * @author Ewout Prangsma (epr@users.sourceforge.net)
  */
-public class DeviceException extends Exception {
+public class DeviceException extends RuntimeException {
 
     /**
      *

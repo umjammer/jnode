@@ -20,22 +20,42 @@
 
 package org.jnode.fs;
 
+import java.util.ServiceLoader;
+
 import org.jnode.driver.block.FSBlockDeviceAPI;
 import org.jnode.partitions.PartitionTableEntry;
 
+import vavi.util.Debug;
+
 /**
  * Specific kind of FileSystemType for block devices
- * 
+ *
  * @author epr
  */
 public interface BlockDeviceFileSystemType<T extends FileSystem<?>> extends FileSystemType<T> {
     /**
      * Can this file system type be used on the given first sector of a
      * blockdevice?
-     * 
+     *
      * @param pte The partition table entry, if any. If null, there is no
      *            partition table entry.
      * @param firstSector
      */
-    public boolean supports(PartitionTableEntry pte, byte[] firstSector, FSBlockDeviceAPI devApi);
+    boolean supports(PartitionTableEntry pte, byte[] firstSector, FSBlockDeviceAPI devApi);
+
+    /** factory */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    static <T extends FileSystemType> T lookup(PartitionTableEntry pte, byte[] firstSector, FSBlockDeviceAPI devApi) {
+        ServiceLoader<FileSystemType> sl = ServiceLoader.load(FileSystemType.class);
+        for (FileSystemType fst : sl) {
+            if (fst instanceof BlockDeviceFileSystemType) {
+Debug.println("filesystem type: " + fst);
+                BlockDeviceFileSystemType bfst = BlockDeviceFileSystemType.class.cast(fst);
+                if (bfst.supports(pte, firstSector, devApi)) {
+                    return (T) fst;
+                }
+            }
+        }
+        throw new IllegalArgumentException("no suitable file system type for particuler parametaers.");
+    }
 }
