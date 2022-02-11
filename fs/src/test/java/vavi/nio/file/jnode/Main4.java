@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -46,7 +47,7 @@ public class Main4 {
     }
 
     @Property
-    String discImage;
+    String discImageForFuse;
     @Property
     String mountPoint;
 
@@ -57,23 +58,23 @@ public class Main4 {
     public void before() throws Exception {
         PropsEntity.Util.bind(this);
 
-        URI uri = URI.create(discImage);
+        URI uri = URI.create(discImageForFuse);
 
         Map<String, Object> env = new HashMap<>();
         env.put(CachedFileSystemDriver.ENV_IGNORE_APPLE_DOUBLE, true); // mandatory
-        env.put("volumeNumber", 1);
 
         fs = FileSystems.newFileSystem(uri, env);
 //Files.list(fs.getRootDirectories().iterator().next()).forEach(System.err::println);
 
         options = new HashMap<>();
-        options.put("fsname", "discutils_fs" + "@" + System.currentTimeMillis());
+        options.put("fsname", "jnode_fs" + "@" + System.currentTimeMillis());
         options.put("noappledouble", null);
 //        options.put("noapplexattr", null);
         options.put(vavi.net.fuse.javafs.JavaFSFuse.ENV_DEBUG, false);
         options.put(vavi.net.fuse.javafs.JavaFSFuse.ENV_READ_ONLY, false);
     }
 
+    @Disabled
     @ParameterizedTest
     @ValueSource(strings = {
         "vavi.net.fuse.javafs.JavaFSFuseProvider",

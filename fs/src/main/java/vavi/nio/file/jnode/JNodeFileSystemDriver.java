@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.file.CopyOption;
 import java.nio.file.FileStore;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.Iterator;
@@ -59,13 +60,9 @@ public final class JNodeFileSystemDriver<T extends FSEntry> extends ExtendedFile
         return toPathString(path).replace(File.separator, "\\").substring(1);
     }
 
-    private static String toJavaPathString(String path) {
-        return File.separator + path.replace("\\", File.separator);
-    }
-
     @Override
     protected String getFilenameString(T entry) {
-        return toJavaPathString(entry.getName());
+        return entry.getName();
     }
 
     @Override
@@ -98,7 +95,7 @@ public final class JNodeFileSystemDriver<T extends FSEntry> extends ExtendedFile
                     return entry;
                 }
             } catch (IOException e) {
-                return null;
+                throw new NoSuchFileException(path.toString());
             }
         }
         return fs.getRootEntry();
@@ -143,7 +140,10 @@ public final class JNodeFileSystemDriver<T extends FSEntry> extends ExtendedFile
         @SuppressWarnings("unchecked")
         Iterator<T> iterator = (Iterator<T>) dirEntry.getDirectory().iterator();
         Spliterator<T> spliterator = Spliterators.spliteratorUnknownSize(iterator, 0);
-        return StreamSupport.stream(spliterator, false).collect(Collectors.toList()); 
+        List<T> result = StreamSupport.stream(spliterator, false)
+                .filter(e -> !e.getName().equals(".") && !e.getName().equals(".."))
+                .collect(Collectors.toList());
+        return result;
     }
 
     @Override

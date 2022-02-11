@@ -7,8 +7,31 @@
     </Console>
   </Appenders>
   <Loggers>
-    <Root level="info">
+    <Root level="debug">
       <AppenderRef ref="Console"/>
     </Root>
+    <Logger name="org.jnode.fs.spi" level="info" additivity="false">
+        <AppenderRef ref="Console"/>
+    </Logger>
+    <Logger name="org.jnode.fs.ext2" level="info" additivity="false">
+        <AppenderRef ref="Console"/>
+    </Logger>
+    <Logger name="org.jnode.fs.ntfs" level="info" additivity="false">
+        <AppenderRef ref="Console"/>
+    </Logger>
+    <Logger name="org.jnode.fs.hfsplus" level="info" additivity="false">
+        <AppenderRef ref="Console"/>
+    </Logger>
+    <Logger name="org.jnode.fs.jfat" level="info" additivity="false">
+        <AppenderRef ref="Console"/>
+    </Logger>
+    <Logger name="org.jnode.test" level="info" additivity="false">
+        <AppenderRef ref="Console"/>
+    </Logger>
+    <Logger name="org.jnode.driver" level="info" additivity="false">
+        <AppenderRef ref="Console"/>
+    </Logger>
+    <!-- 
+     -->
   </Loggers>
 </Configuration>

@@ -14,10 +14,11 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Objects;
 
-import org.jnode.driver.Device;
-import org.jnode.driver.block.FileDevice;
+import org.jnode.driver.block.VirtualDisk;
+import org.jnode.driver.block.VirtualDiskDevice;
 import org.jnode.fs.FileSystem;
 import org.jnode.fs.FileSystemType;
+import org.jnode.partitions.PartitionTable;
 
 import com.github.fge.filesystem.driver.FileSystemDriver;
 import com.github.fge.filesystem.provider.FileSystemRepositoryBase;
@@ -52,17 +53,35 @@ public final class JNodeFileSystemRepository extends FileSystemRepositoryBase {
 Debug.println("scheme: " + scheme);
 Debug.println("subUri: " + subUri);
 
-        URI subSubUri = URI.create(subUri.toString().substring(scheme.length() + 1));
-Debug.println("subSubUri: " + subSubUri);
-        if (!subSubUri.getScheme().equals("file")) {
-            throw new IllegalArgumentException("only file is supported: " + subSubUri);
-        }
-        Path path = Paths.get(subSubUri);
-Debug.println("path: " + path + ", " + Files.exists(path));
-        Device device = new FileDevice(path.toFile(), "r");
+        FileSystem<?> fs = null;
+        if ("file".equals(scheme)) {
 
-        FileSystemType<?> type = FileSystemType.lookup(scheme);
-        FileSystem<?> fs = type.create(device, true);
+            // not specified
+
+            Path path = Paths.get(subUri);
+Debug.println("path: " + path + ", " + Files.exists(path));
+            VirtualDisk virtualDisk = new MyVirtualDisk(path);
+            VirtualDiskDevice device = new VirtualDiskDevice(virtualDisk);
+
+            fs = PartitionTable.getFileSystem(device, 0); // TODO partition number
+
+        } else {
+
+            // scheme specified
+            URI subSubUri = URI.create(subUri.toString().substring(scheme.length() + 1));
+Debug.println("subSubUri: " + subSubUri);
+            if (!subSubUri.getScheme().equals("file")) {
+                throw new IllegalArgumentException("only file is supported: " + subSubUri);
+            }
+            Path path = Paths.get(subSubUri);
+Debug.println("path: " + path + ", " + Files.exists(path));
+            VirtualDisk virtualDisk = new MyVirtualDisk(path);
+            VirtualDiskDevice device = new VirtualDiskDevice(virtualDisk);
+
+            FileSystemType<?> type = FileSystemType.lookup(scheme);
+            fs = type.create(device, true); // TODO read only
+        }
+
         final JNodeFileStore fileStore = new JNodeFileStore(fs, factoryProvider.getAttributesFactory());
         return new JNodeFileSystemDriver<>(fileStore, factoryProvider, fs, env);
     }

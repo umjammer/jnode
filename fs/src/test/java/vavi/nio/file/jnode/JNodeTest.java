@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIf;
 
@@ -37,7 +38,9 @@ class JNodeTest {
     }
 
     @Property
-    String diskImage;
+    String exfat;
+    @Property
+    String dmg;
 
     @BeforeEach
     void before() throws IOException {
@@ -45,12 +48,57 @@ class JNodeTest {
     }
 
     @Test
+    @DisplayName("by scheme, raw disk")
     void test() throws Exception {
-Debug.println("diskImage: " + diskImage + ", " + Files.exists(Paths.get(diskImage)));
-        URI uri = URI.create("jnode:exfat:file://" + diskImage);
+Debug.println("disc: " + exfat + ", " + Files.exists(Paths.get(exfat)));
+        URI uri = URI.create("jnode:exfat:file://" + exfat);
         FileSystem fs = new JNodeFileSystemProvider().newFileSystem(uri, Collections.emptyMap());
 //        Files.list(fs.getRootDirectories().iterator().next()).forEach(System.err::println);
-        Files.list(fs.getRootDirectories().iterator().next()).forEach(p -> {
+        Files.walk(fs.getRootDirectories().iterator().next()).forEach(p -> {
+            try {
+                System.err.println(p + ", " + Files.getLastModifiedTime(p));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Test
+    @DisplayName("by partition, parted disk")
+    void test2() throws Exception {
+Debug.println("disc: " + dmg + ", " + Files.exists(Paths.get(dmg)));
+        URI uri = URI.create("jnode:file://" + dmg);
+        FileSystem fs = new JNodeFileSystemProvider().newFileSystem(uri, Collections.emptyMap());
+        Files.walk(fs.getRootDirectories().iterator().next()).forEach(p -> {
+            try {
+                System.err.println(p + ", " + Files.getLastModifiedTime(p));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Test
+    @DisplayName("by partition, raw disk")
+    void test3() throws Exception {
+Debug.println("disc: " + exfat + ", " + Files.exists(Paths.get(exfat)));
+        URI uri = URI.create("jnode:file://" + exfat);
+        FileSystem fs = new JNodeFileSystemProvider().newFileSystem(uri, Collections.emptyMap());
+        Files.walk(fs.getRootDirectories().iterator().next()).forEach(p -> {
+            try {
+                System.err.println(p + ", " + Files.getLastModifiedTime(p));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Test
+    void test4() throws Exception {
+Debug.println("disc: " + dmg + ", " + Files.exists(Paths.get(dmg)));
+        URI uri = URI.create("jnode:file://" + dmg);
+        FileSystem fs = new JNodeFileSystemProvider().newFileSystem(uri, Collections.emptyMap());
+        Files.walk(fs.getRootDirectories().iterator().next()).forEach(p -> {
             try {
                 System.err.println(p + ", " + Files.getLastModifiedTime(p));
             } catch (IOException e) {

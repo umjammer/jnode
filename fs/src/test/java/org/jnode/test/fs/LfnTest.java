@@ -38,7 +38,7 @@ public class LfnTest {
             "short.one",
             ".ext"};
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         String directory = args[0];
         System.out.println("Create some files in directory = " + directory);
 
@@ -59,21 +59,20 @@ public class LfnTest {
         listFiles(directory);
 
         // delete a directory
-        /*System.out.println("------------ delete dir");
-          File directoryToDelete = new File(directory + "/this is a long file name directory");
-          directoryToCreate.delete();
+//        System.out.println("------------ delete dir");
+//        File directoryToDelete = new File(directory + "/this is a long file name directory");
+//        directoryToCreate.delete();
 
-          listFiles(directory);
+//        listFiles(directory);
 
-          // delete files
-          System.out.println("------------ remove Files dir");
-          for (int i = 0; i < fileNames.length; i++) {
-              System.out.println("remove file entry = " + directory + "/" + fileNames[i]);
-              new File(directory + "/" + fileNames[i]).delete();
-          }
+        // delete files
+//        System.out.println("------------ remove Files dir");
+//        for (int i = 0; i < fileNames.length; i++) {
+//            System.out.println("remove file entry = " + directory + "/" + fileNames[i]);
+//            new File(directory + "/" + fileNames[i]).delete();
+//        }
 
-          listFiles(directory);*/
-
+//        listFiles(directory);
     }
 
     private static void listFiles(String directory) {
