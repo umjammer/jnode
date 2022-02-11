@@ -179,7 +179,7 @@ public class FatFormatter {
             BlockDeviceAPI api) throws IOException {
 
         FatFsInfo fsInfo = new FatFsInfo(sectorSize);
-        BootSector bs = new BootSector(sectorSize);
+        BootSector bs = new ATBootSector(sectorSize);
         api.flush();
         int DiskSize = getDiskSize(nbTotalSectors, sectorSize);
         int SectorPerCluster = get_spc(ClusterSize, sectorSize);

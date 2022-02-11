@@ -49,8 +49,8 @@ public class FatFile extends FatEntry implements FSFile, FSFileSlackSpace {
     }
 
     private void freeClusters(long oldLength, long newLength) throws IOException {
-        if (newLength >= oldLength) throw new UnsupportedOperationException("new[" + newLength + "] >= old["
-            + oldLength + "]");
+        if (newLength >= oldLength)
+            throw new UnsupportedOperationException("new[" + newLength + "] >= old[" + oldLength + "]");
 
         long clusterSize = getFatFileSystem().getFat().getClusterSize();
 
@@ -147,16 +147,17 @@ public class FatFile extends FatEntry implements FSFile, FSFileSlackSpace {
     }
 
     public String toDebugString() {
-        StrWriter out = new StrWriter();
+        try (StrWriter out = new StrWriter()) {
 
-        out.println("*******************************************");
-        out.println("FatFile");
-        out.println("*******************************************");
-        out.println("Index\t\t" + getIndex());
-        out.println(toStringValue());
-        out.println("Length\t\t" + getLength());
-        out.print("*******************************************");
+            out.println("*******************************************");
+            out.println("FatFile");
+            out.println("*******************************************");
+            out.println("Index\t\t" + getIndex());
+            out.println(toStringValue());
+            out.println("Length\t\t" + getLength());
+            out.print("*******************************************");
 
-        return out.toString();
+            return out.toString();
+        }
     }
 }

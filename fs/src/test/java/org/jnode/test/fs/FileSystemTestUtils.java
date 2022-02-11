@@ -21,14 +21,17 @@
 package org.jnode.test.fs;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.zip.GZIPInputStream;
 
 import org.jnode.util.FileUtils;
+
+import vavi.util.Debug;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -46,20 +49,28 @@ public class FileSystemTestUtils {
      * @throws IOException if an error occurs.
      */
     public static File getTestFile(String testFile) throws IOException {
-        File file = new File("src/test/resources/", testFile);
+        Path dir = Paths.get("tmp/images");
+        Path file = dir.resolve(testFile);
+Debug.println("result out: " + file);
+        if (Files.exists(file)) {
+            return file.toFile();
+        }
 
-        if (file.exists()) {
-            return file;
+        Path srcDir = Paths.get("src/test/resources");
+        Path normalFile = srcDir.resolve(testFile);
+        if (Files.exists(normalFile)) {
+            return normalFile.toFile();
         }
 
         // Look for the gzip file.
-        File gzipFile = new File(file.getParent(), file.getName() + ".gz");
-        if (gzipFile.exists()) {
+        Path gzipFile = srcDir.resolve(testFile + ".gz");
+Debug.println("source gz: " + file);
+        if (Files.exists(gzipFile)) {
             explodeGzip(gzipFile, file);
-            return file;
+            return file.toFile();
         }
 
-        fail("Expected a gzipped file: " + gzipFile.getAbsolutePath());
+        fail("Expected a gzipped file: " + gzipFile.toAbsolutePath());
         return null;
     }
 
@@ -70,18 +81,21 @@ public class FileSystemTestUtils {
      * @param outputFile the destination file.
      * @throws java.io.IOException if there was an error exploding the GZIP file.
      */
-    private static synchronized void explodeGzip(File gzipFile, File outputFile) throws IOException {
-        File tempFile = new File(outputFile.getParentFile(), outputFile.getName() + ".tmp");
+    private static synchronized void explodeGzip(Path gzipFile, Path outputFile) throws IOException {
+        Path tempFile = outputFile.getParent().resolve(outputFile.getFileName() + ".tmp");
 
-        if (!outputFile.exists() || gzipFile.lastModified() > outputFile.lastModified()) {
-            if (outputFile.exists()) {
+        if (!Files.exists(outputFile) || Files.getLastModifiedTime(gzipFile).compareTo(Files.getLastModifiedTime(outputFile)) > 0) {
+            if (Files.exists(outputFile)) {
                 // Force deletion if it's out of date or the renameTo further down will fail.
-                assertTrue(outputFile.delete());
+                Files.delete(outputFile);
+            }
+            if (!Files.exists(outputFile.getParent())) {
+                Files.createDirectories(outputFile.getParent());
             }
 
-            InputStream in = new GZIPInputStream(new FileInputStream(gzipFile));
+            InputStream in = new GZIPInputStream(Files.newInputStream(gzipFile));
             try {
-                OutputStream out = new FileOutputStream(tempFile);
+                OutputStream out = Files.newOutputStream(tempFile);
                 try {
                     FileUtils.copy(in, out, new byte[0x10000], false);
                 } finally {
@@ -91,9 +105,9 @@ public class FileSystemTestUtils {
                 in.close();
             }
 
-            assertTrue(
-                tempFile.renameTo(outputFile),
-                String.format("Temp data file couldn't be renamed.\nOld name: %s\nNew name: %s", tempFile, outputFile));
+            Files.move(tempFile, outputFile);
+            assertTrue(Files.exists(outputFile),
+                       String.format("Temp data file couldn't be renamed.\nOld name: %s\nNew name: %s", tempFile, outputFile));
         }
     }
 }

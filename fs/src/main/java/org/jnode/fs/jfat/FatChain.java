@@ -102,10 +102,8 @@ public class FatChain {
 
     private int getEndCluster() throws IOException {
         int last = 0;
-        /*
-         * not cheap: we have to follow the whole chain to get the last cluster
-         * value
-         */
+        // not cheap: we have to follow the whole chain to get the last cluster
+        // value
         for (ChainIterator i = listIterator(0); i.hasNext(); last = i.next())
             ;
 
@@ -114,9 +112,7 @@ public class FatChain {
 
     public int size() throws IOException {
         int count = 0;
-        /*
-         * not cheap: we have to follow the whole chain to know the chain size
-         */
+        // not cheap: we have to follow the whole chain to know the chain size
         for (ChainIterator i = listIterator(0); i.hasNext(); i.next())
             count++;
 
@@ -241,16 +237,6 @@ public class FatChain {
         return allocateTail(n, 0, 0);
     }
 
-    /*
-     * private void allocate ( int n ) throws IOException { try { int last =
-     * allocateTail ( n ); int first = getEndCluster();
-     * 
-     * if ( dolog ) mylog ( first + ":" + last );
-     * 
-     * if ( first != 0 ) fat.set ( first, last ); else { if ( dolog ) mylog (
-     * "allocate chain" ); setStartCluster ( last ); } } finally { fat.flush(); } }
-     */
-
     public void allocateAndClear(int n) throws IOException {
         try {
             int last = allocateTail(n, n - 1, 0, true);
@@ -346,9 +332,7 @@ public class FatChain {
         try {
             i.setPosition(p.getIndex());
         } catch (NoSuchElementException ex) {
-            final IOException ioe = new IOException("attempt to seek after End Of Chain " + offset);
-            ioe.initCause(ex);
-            throw ioe;
+            throw new IOException("attempt to seek after End Of Chain " + offset, ex);
         }
 
         for (int l = dst.remaining(), sz = p.getPartial(), ofs = p.getOffset(), size; l > 0; l -=
@@ -372,10 +356,10 @@ public class FatChain {
         }
     }
 
-    /*
+    /**
      * length is used to zero the last cluster allocated to a chain when this is
      * required i.e. from FatFile
-     * 
+     *
      * when there is no need to zero the cluster at the end of the chain, last
      * cluster, we can use any clsize multiple or zero
      */
@@ -396,18 +380,18 @@ public class FatChain {
         // int last;
         // int cluster = 0;
 
-        // ChainIterator i = listIterator ( 0 );
+        // ChainIterator i = listIterator (0);
         ChainIterator i = iterator;
         int cluster = i.getCluster(clidx);
         int last = i.nextIndex();
 
-        // System.out.println ( "head=" + head + " clidx=" + clidx + " cluster="
-        // + cluster + " last=" + last );
+        // System.out.println("head=" + head + " clidx=" + clidx + " cluster=" + cluster + " last=" + last);
 
-        /*
-         * for ( last = 0; last < clidx; last++ ) if ( i.hasNext() ) cluster =
-         * i.next(); else break;
-         */
+//        for (last = 0; last < clidx; last++)
+//            if (i.hasNext())
+//                cluster = i.next();
+//            else
+//                break;
 
         try {
             if (last != clidx) {
@@ -426,13 +410,11 @@ public class FatChain {
                     ((ChainIterator) i).appendChain(last);
                 } else {
                     setStartCluster(last);
-                    // i = listIterator ( clidx );
+                    // i = listIterator (clidx);
                 }
 
-                /*
-                 * here length is used to decide if we have to zero the data
-                 * inside the last cluster tail
-                 */
+                // here length is used to decide if we have to zero the data
+                // inside the last cluster tail
                 int ofs = (int) (length % clsize);
 
                 if (ofs != 0)
@@ -483,7 +465,7 @@ public class FatChain {
         }
     }
 
-    /*
+    /**
      * used when we don't need to zero the data inside the last cluster tail
      */
     public void write(long offset, ByteBuffer src) throws IOException {
@@ -491,58 +473,57 @@ public class FatChain {
     }
 
     public long getLength() throws IOException {
-        /*
-         * not cheap: we have to follow the whole chain to know the chain length
-         */
+        // not cheap: we have to follow the whole chain to know the chain length
         return size() * fat.getClusterSize();
     }
 
     public String toString() {
-        StrWriter out = new StrWriter();
+        try (StrWriter out = new StrWriter()) {
 
-        boolean first = true;
+            boolean first = true;
 
-        int prev = 0;
-        int last = 0;
+            int prev = 0;
+            int last = 0;
 
-        try {
-            ChainIterator i = listIterator(0);
+            try {
+                ChainIterator i = listIterator(0);
 
-            out.print("[(Start:" + head + ",Size:" + size() + ") ");
+                out.print("[(Start:" + head + ",Size:" + size() + ") ");
 
-            out.print("<");
+                out.print("<");
 
-            while (i.hasNext()) {
-                int curr = i.next();
+                while (i.hasNext()) {
+                    int curr = i.next();
 
-                if (first) {
-                    first = false;
-                    out.print(curr);
-                    last = curr;
-                } else if (curr != prev + 1) {
-                    if (prev != last)
-                        out.print("-" + prev);
-                    out.print("> <" + curr);
-                    last = curr;
+                    if (first) {
+                        first = false;
+                        out.print(curr);
+                        last = curr;
+                    } else if (curr != prev + 1) {
+                        if (prev != last)
+                            out.print("-" + prev);
+                        out.print("> <" + curr);
+                        last = curr;
+                    }
+
+                    prev = curr;
                 }
 
-                prev = curr;
+                if (prev != last)
+                    out.print("-" + prev);
+
+                out.print(">]");
+            } catch (IOException ex) {
+                log.debug("error in chain");
+                out.print("error in chain");
             }
 
-            if (prev != last)
-                out.print("-" + prev);
-
-            out.print(">]");
-        } catch (IOException ex) {
-            log.debug("error in chain");
-            out.print("error in chain");
+            return out.toString();
         }
-
-        return out.toString();
     }
 
-    /*
-     * dump a chain on a file: used for debugging and testing inside the
+    /**
+     * Dumps a chain on a file: used for debugging and testing inside the
      * FatChain class size() can and must be used
      */
     public void dump(String fileName) throws IOException, FileNotFoundException {
@@ -560,8 +541,8 @@ public class FatChain {
         f.close();
     }
 
-    /*
-     * dump a chain cluster: used for debugging and testing "inside" the
+    /**
+     * Dumps a chain cluster: used for debugging and testing "inside" the
      * FatChain class
      */
     public void dumpCluster(String fileName, int index) throws IOException, FileNotFoundException {
@@ -683,7 +664,7 @@ public class FatChain {
          * 
          * it can be used if and only if cursor is an EndOfChain it will throw
          * an exception otherwise
-         * 
+         *
          * chain index is not changed ... the chain remains positioned where it
          * was ...
          */
@@ -720,13 +701,13 @@ public class FatChain {
             return !(cursor == head);
         }
 
-        /*
+        /**
          * Take care: this method is implemented for the sake of interface
-         * completness, but it is expensive ... this a "true forward only list"
+         * completeness, but it is expensive ... this a "true forward only list"
          * ... the previous element can be recovered only by a complete list
          * scan
-         * 
-         * ... peraphs an UnsupportedOperationException would be better here ...
+         *
+         * ... perhaps an UnsupportedOperationException would be better here ...
          * but who knows? ;-)
          */
         @SuppressWarnings("unused")

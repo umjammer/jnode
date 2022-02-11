@@ -21,7 +21,11 @@
 package org.jnode.fs.jfat;
 
 import java.io.IOException;
+import java.util.logging.Level;
+
 import org.jnode.driver.block.BlockDeviceAPI;
+
+import vavi.util.Debug;
 
 /**
  * A FAT implementation for FAT-16.
@@ -53,7 +57,7 @@ public class Fat16 extends Fat {
         BootSector bootSector = getBootSector();
 
         long rootDirectoryOffset = bootSector.getFirstDataSector() * bootSector.getBytesPerSector();
-
+Debug.printf(Level.FINE, "fat[" + index + "]: offset: %08x%n", rootDirectoryOffset);
         if (index == 0) {
             return rootDirectoryOffset;
         }

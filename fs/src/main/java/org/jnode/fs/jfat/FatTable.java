@@ -37,7 +37,7 @@ public class FatTable {
     public FatEntry put(FatEntry entry) {
         FatKey key = new FatKey(entry.getName());
         if (table.containsKey(key)) {
-            throw new IllegalArgumentException("shouldn't happen");
+            throw new IllegalStateException("shouldn't happen");
         }
         table.put(key, entry);
         return entry;
@@ -47,7 +47,7 @@ public class FatTable {
         FatKey key = new FatKey(entry.getName());
 
         if (!table.containsKey(key))
-            throw new IllegalArgumentException("shouldn't happen");
+            throw new IllegalStateException("shouldn't happen");
 
         return table.remove(key);
     }
@@ -56,7 +56,7 @@ public class FatTable {
         FatKey key = new FatKey(name);
 
         if (table.containsKey(key))
-            throw new IllegalArgumentException("shouldn't happen");
+            throw new IllegalStateException("shouldn't happen");
 
         table.put(key, entry);
 

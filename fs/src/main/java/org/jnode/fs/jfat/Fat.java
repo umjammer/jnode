@@ -23,8 +23,12 @@ package org.jnode.fs.jfat;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.logging.Level;
+
 import org.jnode.driver.block.BlockDeviceAPI;
 import org.jnode.fs.FileSystemException;
+
+import vavi.util.Debug;
 
 /**
  * @author gvt
@@ -66,8 +70,7 @@ public abstract class Fat {
         clearbuf = ByteBuffer.wrap(cleardata).asReadOnlyBuffer();
     }
 
-    public static Fat create(BlockDeviceAPI api) throws IOException, FileSystemException {
-        BootSector bs = new BootSector(512);
+    public static Fat create(BlockDeviceAPI api, BootSector bs) throws IOException, FileSystemException {
 
         bs.read(api);
 
@@ -133,7 +136,7 @@ public abstract class Fat {
         if (offset < 0) {
             throw new IllegalArgumentException("offset<0");
         }
-
+Debug.println(Level.FINE, "cluster: " + cluster);
         if ((offset + dst.remaining()) > getClusterSize()) {
             throw new IllegalArgumentException("length[" + (offset + dst.remaining()) + "] " +
                 "exceed clusterSize[" + getClusterSize() + "]");
@@ -188,6 +191,8 @@ public abstract class Fat {
             throw new IllegalArgumentException("illegal cluster # : " + index);
         }
 
+Debug.println(Level.FINE, "sector: " + (long) (index - firstCluster()) * (long) bs.getSectorsPerCluster() +
+              getBootSector().getFirstDataSector());
         return (long) (index - firstCluster()) * (long) bs.getSectorsPerCluster() +
             getBootSector().getFirstDataSector();
     }
@@ -205,9 +210,7 @@ public abstract class Fat {
     public abstract int eofChain();
 
     public boolean hasNext(int entry) {
-        /*
-         * cluster 0(zero) and 1(one) are EndOfChains!
-         */
+        // cluster 0(zero) and 1(one) are EndOfChains!
         if ((entry == 0) || (entry == 1)) {
             return false;
         }
@@ -285,33 +288,35 @@ public abstract class Fat {
     }
 
     public String getCacheStat() {
-        StrWriter out = new StrWriter();
-        out.println("Access: " + cache.getAccess() + " Hits: " + cache.getHit() + " Ratio: " +
-            cache.getRatio() * 100 + "%");
-        return out.toString();
+        try (StrWriter out = new StrWriter()) {
+            out.println("Access: " + cache.getAccess() + " Hits: " + cache.getHit() + " Ratio: " +
+                cache.getRatio() * 100 + "%");
+            return out.toString();
+        }
     }
 
     public String toString() {
-        return String.format("FAT cluster:%d boot sector: %s", getClusterSize(), getBootSector());
+        return String.format("FAT cluster:%d\nboot sector:\n%s", getClusterSize(), getBootSector());
     }
 
     public String toDebugString() {
-        StrWriter out = new StrWriter();
+        try (StrWriter out = new StrWriter()) {
 
-        out.println("***************************  Fat   **************************");
-        out.println(getBootSector());
-        out.println("ClusterSize\t" + getClusterSize());
-        out.println("Size\t\t" + size());
-        out.print("FirstSector");
-        for (int i = 0; i < getBootSector().getNrFats(); i++)
-            out.print("\t" + getFirstSector(i));
-        out.println();
-        out.print("LastSector");
-        for (int i = 0; i < getBootSector().getNrFats(); i++)
-            out.print("\t" + getLastSector(i));
-        out.println();
-        //out.println ( "FreeEntries\t" + freeEntries() );
-        out.print("*************************************************************");
-        return out.toString();
+            out.println("***************************  Fat   **************************");
+            out.println(getBootSector());
+            out.println("ClusterSize\t" + getClusterSize());
+            out.println("Size\t\t" + size());
+            out.print("FirstSector");
+            for (int i = 0; i < getBootSector().getNrFats(); i++)
+                out.print("\t" + getFirstSector(i));
+            out.println();
+            out.print("LastSector");
+            for (int i = 0; i < getBootSector().getNrFats(); i++)
+                out.print("\t" + getLastSector(i));
+            out.println();
+            //out.println ( "FreeEntries\t" + freeEntries() );
+            out.print("*************************************************************");
+            return out.toString();
+        }
     }
 }

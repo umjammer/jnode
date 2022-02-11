@@ -381,14 +381,15 @@ public class FatDirectory extends FatEntry implements FSDirectory, FSDirectoryId
     }
 
     public String toDebugString() {
-        StrWriter out = new StrWriter();
-        out.println("*******************************************");
-        out.println("FatDirectory");
-        out.println("*******************************************");
-        out.println("Index\t\t" + getIndex());
-        out.println(toStringValue());
-        out.println("Visited\t\t" + getVisitedChildren());
-        out.print("*******************************************");
-        return out.toString();
+        try (StrWriter out = new StrWriter()) {
+            out.println("*******************************************");
+            out.println("FatDirectory");
+            out.println("*******************************************");
+            out.println("Index\t\t" + getIndex());
+            out.println(toStringValue());
+            out.println("Visited\t\t" + getVisitedChildren());
+            out.print("*******************************************");
+            return out.toString();
+        }
     }
 }

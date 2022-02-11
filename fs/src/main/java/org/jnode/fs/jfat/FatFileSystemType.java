@@ -26,21 +26,25 @@ import org.jnode.fs.BlockDeviceFileSystemType;
 import org.jnode.fs.FileSystemException;
 import org.jnode.partitions.PartitionTableEntry;
 
+import vavi.util.Debug;
+
 /**
  * @author gvt
  * @author Tango
  */
 public class FatFileSystemType implements BlockDeviceFileSystemType<FatFileSystem> {
 
+    @Override
     public String getName() {
         return "JFAT";
     }
 
-    /** */
+    @Override
     public String getScheme() {
         return "jfat";
     }
 
+    @Override
     public boolean supports(PartitionTableEntry pte, byte[] firstSectors, FSBlockDeviceAPI devApi) {
 /*
         if (pte != null) {
@@ -63,11 +67,13 @@ public class FatFileSystemType implements BlockDeviceFileSystemType<FatFileSyste
 */
         if (firstSectors.length < 512) {
             // Not enough data for detection
+Debug.printf("Not enough data for detection: %04x/%04x%n", firstSectors.length, 512);
             return false;
         }
 
         if (firstSectors[510] != (byte) 0x55 || firstSectors[511] != (byte) 0xaa) {
             // Missing magic number
+Debug.printf("Missing magic number 0x55aa: %02x%02x%n", firstSectors[510], firstSectors[511]);
             return false;
         }
 
@@ -97,8 +103,9 @@ public class FatFileSystemType implements BlockDeviceFileSystemType<FatFileSyste
             firstSectors[61] == ' ');
     }
 
+    @Override
     public FatFileSystem create(Device device, boolean readOnly) throws FileSystemException {
-        return new FatFileSystem(device, readOnly);
+        BootSector bs = new ATBootSector(512);
+        return new FatFileSystem(device, bs, readOnly);
     }
-
 }

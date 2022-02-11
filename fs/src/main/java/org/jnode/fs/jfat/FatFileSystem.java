@@ -40,12 +40,12 @@ public class FatFileSystem extends AbstractFileSystem<FatRootDirectory> {
     private Fat fat;
     private final CodePage cp;
 
-    public FatFileSystem(Device device, String codePageName, boolean readOnly)
+    public FatFileSystem(Device device, BootSector bs, String codePageName, boolean readOnly)
         throws FileSystemException {
         super(device, readOnly);
 
         try {
-            fat = Fat.create(getApi());
+            fat = Fat.create(getApi(), bs);
         } catch (IOException ex) {
             throw new FileSystemException(ex);
         } catch (Exception e) {
@@ -55,8 +55,8 @@ public class FatFileSystem extends AbstractFileSystem<FatRootDirectory> {
         cp = CodePage.forName(codePageName);
     }
 
-    public FatFileSystem(Device device, boolean readOnly) throws FileSystemException {
-        this(device, "ISO_8859_1", readOnly);
+    public FatFileSystem(Device device, BootSector bs, boolean readOnly) throws FileSystemException {
+        this(device, bs, "ISO_8859_1", readOnly);
     }
 
     public int getClusterSize() {
@@ -95,7 +95,7 @@ public class FatFileSystem extends AbstractFileSystem<FatRootDirectory> {
 
     @Override
     public String toString() {
-        return String.format("FAT File System: %s", getFat());
+        return String.format("FAT File System: %s", fat);
     }
 
     public long getFreeSpace() {
