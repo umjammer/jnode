@@ -21,6 +21,7 @@
 package org.jnode.fs.exfat;
 
 import java.io.IOException;
+
 import org.jnode.fs.FSAccessRights;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
@@ -67,17 +68,17 @@ public final class NodeEntry extends AbstractFSObject implements FSEntry, FSEntr
 
     @Override
     public long getLastModified() throws IOException {
-        return node.getTimes().getModified() == null ? 0 : node.getTimes().getModified().getTime();
+        return node.getTimes() == null ? 0 : node.getTimes().getModified().getTime();
     }
 
     @Override
     public long getCreated() throws IOException {
-        return node.getTimes().getCreated() == null ? 0 : node.getTimes().getCreated().getTime();
+        return node.getTimes() == null ? 0 : node.getTimes().getCreated().getTime();
     }
 
     @Override
     public long getLastAccessed() throws IOException {
-        return node.getTimes().getAccessed() == null ? 0 : node.getTimes().getAccessed().getTime();
+        return node.getTimes() == null ? 0 : node.getTimes().getAccessed().getTime();
     }
 
     @Override
