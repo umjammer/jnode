@@ -20,6 +20,8 @@
 
 package org.jnode.fs.jfat;
 
+import java.nio.charset.Charset;
+
 import org.jnode.driver.Device;
 import org.jnode.driver.block.FSBlockDeviceAPI;
 import org.jnode.fs.BlockDeviceFileSystemType;
@@ -29,6 +31,9 @@ import org.jnode.partitions.PartitionTableEntry;
 import vavi.util.Debug;
 
 /**
+ * <p>
+ * system property<br/>
+ * "org.jnode.file.encoding" ... filename encoding for {@link Charset#forName(String)}, default is "ISO_8859_1"
  * @author gvt
  * @author Tango
  */
@@ -106,6 +111,6 @@ Debug.printf("Missing magic number 0x55aa: %02x%02x%n", firstSectors[510], first
     @Override
     public FatFileSystem create(Device device, boolean readOnly) throws FileSystemException {
         BootSector bs = new ATBootSector(512);
-        return new FatFileSystem(device, bs, readOnly);
+        return new FatFileSystem(device, bs, System.getProperty("org.jnode.file.encoding", "ISO_8859_1"), readOnly);
     }
 }

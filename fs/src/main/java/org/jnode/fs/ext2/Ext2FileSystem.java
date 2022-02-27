@@ -23,6 +23,7 @@ package org.jnode.fs.ext2;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -49,7 +50,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
      * The charset used to decode the file and directory names, assuming a default of UTF-8 for now.
      * See: http://unix.stackexchange.com/a/2111
      */
-    public static final Charset ENTRY_NAME_CHARSET = Charset.forName("UTF-8");
+    public static final Charset ENTRY_NAME_CHARSET = StandardCharsets.UTF_8;
 
     private Superblock superblock;
 

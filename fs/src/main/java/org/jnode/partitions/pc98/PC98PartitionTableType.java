@@ -8,7 +8,7 @@ package org.jnode.partitions.pc98;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import org.jnode.driver.Device;
@@ -65,13 +65,13 @@ Debug.printf("No aa55 magic: %04x%n", LittleEndian.getUInt16(bootSector, 510));
         }
 
         if (!Arrays.asList(iplSignatures).stream().anyMatch(s -> 
-            new String(bootSector, 4, s.length(), Charset.forName("ascii")).equals(s)
+            new String(bootSector, 4, s.length(), StandardCharsets.US_ASCII).equals(s)
         )) {
-Debug.println("no maching signature is found: " + new String(bootSector, 4, 4, Charset.forName("ascii")));
+Debug.println("no maching signature is found: " + new String(bootSector, 4, 4, StandardCharsets.US_ASCII));
             return false;
         }
 
-        if (new String(bootSector, 0x36, 3, Charset.forName("ascii")).equals("FAT")) {
+        if (new String(bootSector, 0x36, 3, StandardCharsets.US_ASCII).equals("FAT")) {
 Debug.println("strings FAT is found, this partition might be for AT");
             return false;
         }

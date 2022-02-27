@@ -61,13 +61,14 @@ public class CodePage {
     }
 
     public String toString() {
-        StrWriter out = new StrWriter();
+        try (StrWriter out = new StrWriter()) {
 
-        out.println("*******************************************");
-        out.println("CodePage");
-        out.println("*******************************************");
-        out.print("Charset\t" + charset);
+            out.println("*******************************************");
+            out.println("CodePage");
+            out.println("*******************************************");
+            out.print("Charset\t" + charset);
 
-        return out.toString();
+            return out.toString();
+        }
     }
 }
