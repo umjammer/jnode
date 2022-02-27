@@ -34,6 +34,8 @@ import com.github.fge.filesystem.driver.ExtendedFileSystemDriver;
 import com.github.fge.filesystem.exceptions.IsDirectoryException;
 import com.github.fge.filesystem.provider.FileSystemFactoryProvider;
 
+import vavi.nio.file.Util;
+
 import static vavi.nio.file.Util.toPathString;
 
 
@@ -92,6 +94,9 @@ public final class JNodeFileSystemDriver<T extends FSEntry> extends ExtendedFile
                     parent = entry;
                     continue;
                 } else {
+                    if (ignoreAppleDouble && path.getFileName() != null && Util.isAppleDouble(path)) {
+                        throw new NoSuchFileException("ignore apple double file: " + path);
+                    }
                     return entry;
                 }
             } catch (IOException e) {
