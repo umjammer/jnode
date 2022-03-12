@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.jnode</groupId>
-    <artifactId>jnode</artifactId>
-    <version>0.2.9v-SNAPSHOT</version>
+    <groupId>vavi</groupId>
+    <artifactId>vavi-nio-file-jnode</artifactId>
+    <version>0.2.9v</version>
   </parent>
   <artifactId>jnode-fs</artifactId>
   <packaging>jar</packaging>
@@ -48,7 +48,7 @@
     </repository>
   </repositories>
 
- <dependencies>
+  <dependencies>
     <dependency>
       <groupId>vavi</groupId>
       <artifactId>jnode-core</artifactId>
