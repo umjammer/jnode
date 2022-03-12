@@ -23,6 +23,7 @@ import org.jnode.partitions.pc98.PC98PartitionTableType;
 import org.jnode.test.fs.DataStructureAsserts;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIf;
 
 import vavi.nio.file.jnode.MyVirtualDisk;
 import vavi.util.Debug;
@@ -39,6 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2022/02/07 umjammer initial version <br>
  */
+@EnabledIf("localPropertiesExists")
 @PropsEntity(url = "file://${user.dir}/local.properties")
 class PC98PartitionTableEntryTest {
 

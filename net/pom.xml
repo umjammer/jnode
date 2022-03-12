@@ -20,8 +20,11 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.2</version>
+        <version>3.0.0-M5</version>
         <configuration>
+          <argLine>
+            -Djava.util.logging.config.file=${project.build.testOutputDirectory}/logging.properties
+          </argLine>
           <trimStackTrace>false</trimStackTrace>
         </configuration>
       </plugin>
@@ -37,9 +40,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.jnode</groupId>
+      <groupId>vavi</groupId>
       <artifactId>jnode-core</artifactId>
-      <version>0.2.9v-SNAPSHOT</version>
+      <version>0.2.9v</version>
     </dependency>
 
     <dependency>

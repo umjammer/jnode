@@ -1,3 +1,7 @@
+[![Release](https://jitpack.io/v/umjammer/vavi-nio-file-jnode.svg)](https://jitpack.io/#umjammer/vavi-nio-file-jnode)
+[![Java CI with Maven](https://github.com/umjammer/vavi-nio-file-jnode/workflows/Java%20CI%20with%20Maven/badge.svg)](https://github.com/umjammer/vavi-nio-file-jnode/actions)
+[![CodeQL](https://github.com/umjammer/vavi-nio-file-jnode/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/umjammer/vavi-nio-file-jnode/actions/workflows/codeql-analysis.yml)
+
 # vavi-nio-file-jnode
 
 A Java NIO FileSystem implementation based on [jnode](https://github.com/jnode/jnode).
@@ -6,24 +10,24 @@ A Java NIO FileSystem implementation based on [jnode](https://github.com/jnode/j
 
 | fs       | list | upload | download | copy | move | rm | mkdir | cache | watch | comment |
 |----------|------|--------|----------|------|------|----|-------|-------|-------|---------|
-| nfs2     |            |     |        |    |   |  |    |    |       | 
-| exfat                 | ✅  |     |        |    |   |  |    |    |       | 
-| iso9660  |            |     |        |    |   |  |    |    |       | 
-| jfat     |            |     |        |    |   |  |    |    |       | 
-| ext2     |            |     |        |    |   |  |    |    |       | 
-| hfs      |            |     |        |    |   |  |    |    |       | 
-| ftpfs    |            |     |        |    |   |  |    |    |       | 
-| smbfs    |            |     |        |    |   |  |    |    |       | 
-| ntfs     |            |     |        |    |   |  |    |    |       | 
-| fat      |            |     |        |    |   |  |    |    |       | 
-| hfsplus  |            |     |        |    |   |  |    |    |       | 
-| apm      |            |     |        |    |   |  |    |    |       | partition
-| gpt      |            |     |        |    |   |  |    |    |       | partition
-| ibm (dmg:jfat(fat16)) | ✅ |     |        |    |   |  |    |    |       | partition
-| pc98 (jfat(fat16))    | ✅ |     |        |    |   |  |    |    |       | partition
-| raw (exfat)           | ✅ |     |        |    |   |  |    |    |       | virtual partition
-| virtualDisk (nhd:pc98:fat16) | ✅ |     |        |    |   |  |    |    |       | [virtual disk](vavi-nio-file-emu), partition
-| fuse (virtualDisk(nhd):pc98:fat16) | ✅ |     |        |    |   |  |    |    |       | [fuse](vavi-net-fuse), virtualDisk, partition
+| nfs2     |            |     |        |    |   |  |    |    |       | |
+| exfat                 | ✅  |     |        |    |   |  |    |    |       | |
+| iso9660  |            |     |        |    |   |  |    |    |       | |
+| jfat     |            |     |        |    |   |  |    |    |       | |
+| ext2     |            |     |        |    |   |  |    |    |       | |
+| hfs      |            |     |        |    |   |  |    |    |       | |
+| ftpfs    |            |     |        |    |   |  |    |    |       | |
+| smbfs    |            |     |        |    |   |  |    |    |       | |
+| ntfs     |            |     |        |    |   |  |    |    |       | |
+| fat      |            |     |        |    |   |  |    |    |       | |
+| hfsplus  |            |     |        |    |   |  |    |    |       | |
+| apm      |            |     |        |    |   |  |    |    |       | partition |
+| gpt      |            |     |        |    |   |  |    |    |       | partition |
+| ibm (dmg:jfat(fat16)) | ✅ |     |        |    |   |  |    |    |       | partition |
+| pc98 (jfat(fat16))    | ✅ |     |        |    |   |  |    |    |       | partition |
+| raw (exfat)           | ✅ |     |        |    |   |  |    |    |       | virtual partition |
+| virtualDisk (nhd:pc98:fat16) | ✅ |     |        |    |   |  |    |    |       | [virtual disk](vavi-nio-file-emu), partition |
+| fuse (virtualDisk(nhd):pc98:fat16) | ✅ |     |        |    |   |  |    |    |       | [fuse](vavi-net-fuse), virtualDisk, partition |
 
 
 ## for emulator user
