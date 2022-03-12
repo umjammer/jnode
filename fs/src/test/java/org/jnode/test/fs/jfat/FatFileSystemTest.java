@@ -55,7 +55,9 @@ public class FatFileSystemTest {
 
     @BeforeEach
     void before() throws IOException {
-        PropsEntity.Util.bind(this);
+        if (localPropertiesExists()) {
+            PropsEntity.Util.bind(this);
+        }
     }
 
     static boolean localPropertiesExists() {
