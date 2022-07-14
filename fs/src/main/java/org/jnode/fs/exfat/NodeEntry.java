@@ -140,16 +140,15 @@ public final class NodeEntry extends AbstractFSObject implements FSEntry, FSEntr
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
 
-        sb.append(NodeEntry.class.getName());
-        sb.append(" [node=");
-        sb.append(this.node);
-        sb.append(", parent=");
-        sb.append(this.parent);
-        sb.append("]");
+        String sb = NodeEntry.class.getName() +
+                " [node=" +
+                this.node +
+                ", parent=" +
+                this.parent +
+                "]";
 
-        return sb.toString();
+        return sb;
     }
 
 }

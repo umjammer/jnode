@@ -1,6 +1,7 @@
 package org.jnode.fs.ext4;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -78,8 +79,8 @@ public class MultipleMountProtection {
 
         sequenceNumber = LittleEndian.getInt32(data, 0x4);
         time = LittleEndian.getInt64(data, 0x8);
-        nodeName = new String(data, 0x10, 64, "UTF-8").replace("\u0000", "");
-        blockDeviceName = new String(data, 0x50, 64, "UTF-8").replace("\u0000", "");
+        nodeName = new String(data, 0x10, 64, StandardCharsets.UTF_8).replace("\u0000", "");
+        blockDeviceName = new String(data, 0x50, 64, StandardCharsets.UTF_8).replace("\u0000", "");
         checkInterval = LittleEndian.getInt16(data, 0x70);
         checksum = LittleEndian.getInt32(data, 0x3fc);
     }

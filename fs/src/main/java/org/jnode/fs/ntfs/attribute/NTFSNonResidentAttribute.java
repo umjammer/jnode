@@ -43,7 +43,7 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
 
     private int numberOfVCNs = 0;
 
-    private final List<DataRunInterface> dataRuns = new ArrayList<DataRunInterface>();
+    private final List<DataRunInterface> dataRuns = new ArrayList<>();
 
     /**
      * Creates a new non-resident attribute and reads in the associated data runs.
@@ -331,9 +331,9 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
                 builder.append("\n");
             }
         } catch (Exception e) {
-            builder.append("Error: " + e);
+            builder.append("Error: ").append(e);
         }
 
-        return String.format("%s\nData runs:\n%s\nData: %s", toString(), builder.toString(), hexDump());
+        return String.format("%s\nData runs:\n%s\nData: %s", this, builder, hexDump());
     }
 }

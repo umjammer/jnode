@@ -30,7 +30,7 @@ public class OsUtils {
      *
      * @return boolean
      */
-    public static final boolean isJNode() {
+    public static boolean isJNode() {
         final String osName = System.getProperty("os.name", "");
         return osName.equals("JNode");
     }

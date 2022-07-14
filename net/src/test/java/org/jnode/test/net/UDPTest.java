@@ -30,8 +30,7 @@ public class UDPTest {
 
     public static void main(String[] args) throws Exception {
         // Listen to netbios messages
-        final DatagramSocket socket = new DatagramSocket(2237);
-        try {
+        try (DatagramSocket socket = new DatagramSocket(2237)) {
             final byte[] buf = new byte[256];
             final DatagramPacket dp = new DatagramPacket(buf, buf.length);
 
@@ -44,8 +43,6 @@ public class UDPTest {
             }
 
             System.out.println("I'm stopping now");
-        } finally {
-            socket.close();
         }
     }
 }

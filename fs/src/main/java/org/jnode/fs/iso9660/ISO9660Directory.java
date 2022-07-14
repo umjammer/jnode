@@ -117,14 +117,14 @@ public final class ISO9660Directory implements FSDirectory {
     /**
      * @see org.jnode.fs.FSObject#isValid()
      */
-    public final boolean isValid() {
+    public boolean isValid() {
         return true;
     }
 
     /**
      * @see org.jnode.fs.FSObject#getFileSystem()
      */
-    public final FileSystem<?> getFileSystem() {
+    public FileSystem<?> getFileSystem() {
         return entry.getFileSystem();
     }
 

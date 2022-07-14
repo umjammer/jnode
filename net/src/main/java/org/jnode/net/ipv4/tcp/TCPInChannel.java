@@ -41,7 +41,7 @@ public class TCPInChannel {
     /**
      * Segments that have been received, but are out of order
      */
-    private final LinkedList<TCPInSegment> futureSegments = new LinkedList<TCPInSegment>();
+    private final LinkedList<TCPInSegment> futureSegments = new LinkedList<>();
 
     /**
      * The next expected sequence number

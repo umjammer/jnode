@@ -20,7 +20,7 @@
 
 package org.jnode.partitions.gpt;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import org.jnode.partitions.PartitionTable;
 import org.jnode.partitions.PartitionTableEntry;
@@ -111,7 +111,7 @@ public class GptPartitionTableEntry implements PartitionTableEntry {
     public String getName() {
         byte[] nameBytes = new byte[72];
         System.arraycopy(first16KiB, offset + 0x38, nameBytes, 0, nameBytes.length);
-        String rawName = new String(nameBytes, Charset.forName("UTF-16LE"));
+        String rawName = new String(nameBytes, StandardCharsets.UTF_16LE);
 
         if (rawName.contains("\u0000")) {
             return rawName.substring(0, rawName.indexOf("\u0000"));
@@ -131,12 +131,11 @@ public class GptPartitionTableEntry implements PartitionTableEntry {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(32);
-        builder.append('[').append(getName()).append(' ');
-        builder.append(NumberUtils.hex(getPartitionTypeGuid())).append(' ');
-        builder.append(NumberUtils.hex(getPartitionGuid())).append(' ');
-        builder.append("s:").append(getStartOffset(0)).append(' ');
-        builder.append("e:").append(getEndOffset(0)).append(']');
-        return builder.toString();
+        String builder = '[' + getName() + ' ' +
+                NumberUtils.hex(getPartitionTypeGuid()) + ' ' +
+                NumberUtils.hex(getPartitionGuid()) + ' ' +
+                "s:" + getStartOffset(0) + ' ' +
+                "e:" + getEndOffset(0) + ']';
+        return builder;
     }
 }

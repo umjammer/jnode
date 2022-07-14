@@ -22,6 +22,7 @@ package org.jnode.fs.hfsplus;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -441,40 +442,39 @@ public class SuperBlock extends HfsPlusObject {
     }
 
     public final String toString() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("Magic: 0x").append(NumberUtils.hex(getMagic(), 4)).append("\n");
-        buffer.append("Version: ").append(getVersion()).append("\n").append("\n");
-        buffer.append("Attributes: ").append(getAttributesAsString()).append(" (").append(
-            getAttributes()).append(")").append("\n").append("\n");
-        buffer.append("Create date: ").append(
-            HfsUtils.printDate(getCreateDate(), "EEE MMM d HH:mm:ss yyyy")).append("\n");
-        buffer.append("Modify date: ").append(
-            HfsUtils.printDate(getModifyDate(), "EEE MMM d HH:mm:ss yyyy")).append("\n");
-        buffer.append("Backup date: ").append(
-            HfsUtils.printDate(getBackupDate(), "EEE MMM d HH:mm:ss yyyy")).append("\n");
-        buffer.append("Checked date: ").append(
-            HfsUtils.printDate(getCheckedDate(), "EEE MMM d HH:mm:ss yyyy")).append("\n")
-            .append("\n");
-        buffer.append("File count: ").append(getFileCount()).append("\n");
-        buffer.append("Folder count: ").append(getFolderCount()).append("\n").append("\n");
-        buffer.append("Block size: ").append(getBlockSize()).append("\n");
-        buffer.append("Total blocks: ").append(getTotalBlocks()).append("\n");
-        buffer.append("Free blocks: ").append(getFreeBlocks()).append("\n").append("\n");
-        buffer.append("Next catalog ID: ").append(getNextCatalogId()).append("\n");
-        buffer.append("Write count: ").append(getWriteCount()).append("\n");
-        buffer.append("Encoding bmp: ").append(getEncodingsBmp()).append("\n");
-        buffer.append("Finder Infos: ").append(getFinderInfo()).append("\n").append("\n");
-        buffer.append("Journal block: ").append(getJournalInfoBlock()).append("\n").append("\n");
-        buffer.append("Allocation file").append("\n");
-        buffer.append(getAllocationFile().toString()).append("\n");
-        buffer.append("Extents file").append("\n");
-        buffer.append(getExtentsFile().toString()).append("\n");
-        buffer.append("Catalog file").append("\n");
-        buffer.append(getCatalogFile().toString()).append("\n");
-        buffer.append("Attributes file").append("\n");
-        buffer.append(getAttributesFile().toString()).append("\n");
-        buffer.append("Startup file").append("\n");
-        buffer.append(getStartupFile().toString()).append("\n");
-        return buffer.toString();
+        String buffer = "Magic: 0x" + NumberUtils.hex(getMagic(), 4) + "\n" +
+                "Version: " + getVersion() + "\n" + "\n" +
+                "Attributes: " + getAttributesAsString() + " (" +
+                getAttributes() + ")" + "\n" + "\n" +
+                "Create date: " +
+                HfsUtils.printDate(getCreateDate(), "EEE MMM d HH:mm:ss yyyy") + "\n" +
+                "Modify date: " +
+                HfsUtils.printDate(getModifyDate(), "EEE MMM d HH:mm:ss yyyy") + "\n" +
+                "Backup date: " +
+                HfsUtils.printDate(getBackupDate(), "EEE MMM d HH:mm:ss yyyy") + "\n" +
+                "Checked date: " +
+                HfsUtils.printDate(getCheckedDate(), "EEE MMM d HH:mm:ss yyyy") + "\n" +
+                "\n" +
+                "File count: " + getFileCount() + "\n" +
+                "Folder count: " + getFolderCount() + "\n" + "\n" +
+                "Block size: " + getBlockSize() + "\n" +
+                "Total blocks: " + getTotalBlocks() + "\n" +
+                "Free blocks: " + getFreeBlocks() + "\n" + "\n" +
+                "Next catalog ID: " + getNextCatalogId() + "\n" +
+                "Write count: " + getWriteCount() + "\n" +
+                "Encoding bmp: " + getEncodingsBmp() + "\n" +
+                "Finder Infos: " + Arrays.toString(getFinderInfo()) + "\n" + "\n" +
+                "Journal block: " + getJournalInfoBlock() + "\n" + "\n" +
+                "Allocation file" + "\n" +
+                getAllocationFile() + "\n" +
+                "Extents file" + "\n" +
+                getExtentsFile() + "\n" +
+                "Catalog file" + "\n" +
+                getCatalogFile() + "\n" +
+                "Attributes file" + "\n" +
+                getAttributesFile() + "\n" +
+                "Startup file" + "\n" +
+                getStartupFile() + "\n";
+        return buffer;
     }
 }

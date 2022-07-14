@@ -217,7 +217,7 @@ public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
      * @throws IOException
      */
     private FSEntryTable readEntries() throws IOException {
-        List<FSEntry> pathList = new LinkedList<FSEntry>();
+        List<FSEntry> pathList = new LinkedList<>();
         HfsPlusFileSystem fs = getFileSystem();
         if (fs.getVolumeHeader().getFolderCount() > 0) {
             LeafRecord[] records;
@@ -308,7 +308,7 @@ public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
         HfsPlusEntry newEntry = new HfsPlusEntry(getFileSystem(), this, name, node.getNodeRecord(0));
         newEntry.setDirty();
         volumeHeader.incrementFolderCount();
-        log.debug("New volume header :\n" + volumeHeader.toString());
+        log.debug("New volume header :\n" + volumeHeader);
         volumeHeader.update();
 
         return newEntry;

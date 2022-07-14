@@ -23,12 +23,12 @@ public class ZlibForkCompressionDetails {
     /**
      * The list of compressed chunk lengths.
      */
-    private List<Integer> lengthArray = new ArrayList<Integer>();
+    private List<Integer> lengthArray = new ArrayList<>();
 
     /**
      * The list of chunk offsets.
      */
-    private List<Long> offsetArray = new ArrayList<Long>();
+    private List<Long> offsetArray = new ArrayList<>();
 
     /**
      * Creates a new instance.

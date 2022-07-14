@@ -36,22 +36,22 @@ public interface ProtocolAddressInfo {
      * Is the given address one of the addresses of this object?
      * @param address
      */
-    public boolean contains(ProtocolAddress address);
+    boolean contains(ProtocolAddress address);
 
     /**
      * Is the given address one of the addresses of this object?
      * @param address
      */
-    public boolean contains(InetAddress address);
+    boolean contains(InetAddress address);
 
     /**
      * Gets the default protocol address
      */
-    public ProtocolAddress getDefaultAddress();
+    ProtocolAddress getDefaultAddress();
 
     /**
      * Gets a collection of all protocol addresses of this interface.
      * @return A Set of ProtocolAddress instances
      */
-    public Set<ProtocolAddress> addresses();
+    Set<ProtocolAddress> addresses();
 }

@@ -61,7 +61,7 @@ public class NFS2Directory extends NFS2Object implements FSDirectory {
 
     };
 
-    private static final boolean DEFAULT_PERMISSION[] =
+    private static final boolean[] DEFAULT_PERMISSION =
         new boolean[]{true, true, false, true, false, false, true, false, false};
 
     private TableEntry tableEntry;
@@ -120,18 +120,14 @@ public class NFS2Directory extends NFS2Object implements FSDirectory {
         FileAttribute fileAttribute;
         try {
             fileAttribute =
-                AccessController.doPrivileged(new PrivilegedExceptionAction<FileAttribute>() {
-                    public FileAttribute run() throws Exception {
-                        return nfsClient.getAttribute(getNFS2Entry().getFileHandle());
-                    }
-                });
+                AccessController.doPrivileged((PrivilegedExceptionAction<FileAttribute>) () -> nfsClient.getAttribute(getNFS2Entry().getFileHandle()));
 
         } catch (PrivilegedActionException e) {
             Exception x = e.getException();
             if (x instanceof NFS2Exception)
                 throw new IOException(
                     "An error occurs when the nfs file system tried to retrieve " +
-                        "the file attributes for directory", (NFS2Exception) x);
+                        "the file attributes for directory", x);
             else if (x instanceof IOException) {
                 throw (IOException) x;
             } else {
@@ -175,47 +171,45 @@ public class NFS2Directory extends NFS2Object implements FSDirectory {
 
         try {
             nfsEntrySet =
-                AccessController.doPrivileged(new PrivilegedExceptionAction<Set<NFS2Entry>>() {
-                    public Set<NFS2Entry> run() throws Exception {
-                        Set<Entry> entrySet = new LinkedHashSet<Entry>();
-                        boolean eof = false;
-                        byte[] cookie = new byte[NFS2Client.COOKIE_SIZE];
-                        while (!eof) {
-                            ListDirectoryResult result = nfsClient.listDirectory(
-                                directoryEntry.getFileHandle(), cookie, 2048);
-                            entrySet.addAll(result.getEntryList());
-                            if (result.isEof()) {
-                                eof = true;
-                            } else {
-                                // I guess that the list contains at least one entry.
-                                cookie = result.getEntryList().get(
-                                    result.getEntryList().size() - 1).getCookie();
-                            }
+                AccessController.doPrivileged((PrivilegedExceptionAction<Set<NFS2Entry>>) () -> {
+                    Set<Entry> entrySet = new LinkedHashSet<>();
+                    boolean eof = false;
+                    byte[] cookie = new byte[NFS2Client.COOKIE_SIZE];
+                    while (!eof) {
+                        ListDirectoryResult result = nfsClient.listDirectory(
+                            directoryEntry.getFileHandle(), cookie, 2048);
+                        entrySet.addAll(result.getEntryList());
+                        if (result.isEof()) {
+                            eof = true;
+                        } else {
+                            // I guess that the list contains at least one entry.
+                            cookie = result.getEntryList().get(
+                                result.getEntryList().size() - 1).getCookie();
                         }
-
-                        if (entrySet.size() == 0) {
-                            return new HashSet<NFS2Entry>();
-                        }
-
-                        Set<NFS2Entry> nfsEntrySet =
-                            new LinkedHashSet<NFS2Entry>(entrySet.size());
-
-                        for (Entry entry : entrySet) {
-                            LookupResult lookupResult = nfsClient.lookup(
-                                directoryEntry.getFileHandle(), entry.getName());
-
-                            NFS2Entry nfsEntry = new NFS2Entry(
-                                (NFS2FileSystem) getFileSystem(),
-                                NFS2Directory.this, entry.getName(), lookupResult.getFileHandle(),
-                                lookupResult.getFileAttribute());
-
-                            if (!(nfsEntry.isDirectory() || nfsEntry.isFile())) {
-                                continue;
-                            }
-                            nfsEntrySet.add(nfsEntry);
-                        }
-                        return nfsEntrySet;
                     }
+
+                    if (entrySet.size() == 0) {
+                        return new HashSet<>();
+                    }
+
+                    Set<NFS2Entry> nfsEntrySet1 =
+                            new LinkedHashSet<>(entrySet.size());
+
+                    for (Entry entry : entrySet) {
+                        LookupResult lookupResult = nfsClient.lookup(
+                            directoryEntry.getFileHandle(), entry.getName());
+
+                        NFS2Entry nfsEntry = new NFS2Entry(
+                            (NFS2FileSystem) getFileSystem(),
+                            NFS2Directory.this, entry.getName(), lookupResult.getFileHandle(),
+                            lookupResult.getFileAttribute());
+
+                        if (!(nfsEntry.isDirectory() || nfsEntry.isFile())) {
+                            continue;
+                        }
+                        nfsEntrySet1.add(nfsEntry);
+                    }
+                    return nfsEntrySet1;
                 });
 
         } catch (PrivilegedActionException e) {
@@ -223,7 +217,7 @@ public class NFS2Directory extends NFS2Object implements FSDirectory {
             if (x instanceof NFS2Exception)
                 throw new IOException(
                     "An error occurs when the nfs file system tried to fetch the content of the  directory",
-                    (NFS2Exception) x);
+                        x);
             else if (x instanceof IOException)
                 throw (IOException) x;
             else

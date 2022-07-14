@@ -66,7 +66,7 @@ public class BootableArrayList<T> extends VmSystemObject implements List<T>, Ran
      * @param initialCapacity
      */
     public BootableArrayList(int initialCapacity) {
-        listCache = new ArrayList<T>(initialCapacity);
+        listCache = new ArrayList<>(initialCapacity);
         hashCode = listCache.hashCode();
     }
 
@@ -75,12 +75,12 @@ public class BootableArrayList<T> extends VmSystemObject implements List<T>, Ran
      *
      * @return
      */
-    private final ArrayList<T> getListCache() {
+    private ArrayList<T> getListCache() {
         if (locked) {
             throw new RuntimeException("Cannot change a locked BootableArrayList");
         }
         if (listCache == null) {
-            listCache = new ArrayList<T>();
+            listCache = new ArrayList<>();
             if (array != null) {
                 listCache.addAll(Arrays.asList(array));
             }

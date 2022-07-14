@@ -34,11 +34,11 @@ public interface FSObject {
      * filesystem. All invocations on methods (exception this method) of invalid
      * objects must throw an IOException.
      */
-    public boolean isValid();
+    boolean isValid();
 
     /**
      * Gets the filesystem to which this object belongs.
      */
-    public FileSystem<?> getFileSystem();
+    FileSystem<?> getFileSystem();
 
 }

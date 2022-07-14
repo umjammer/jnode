@@ -33,7 +33,7 @@ import org.jnode.util.LittleEndian;
 public class GroupDescriptor {
     public static final int GROUPDESCRIPTOR_LENGTH = 32;
 
-    private byte data[];
+    private byte[] data;
     private Ext2FileSystem fs;
     private int groupNr;
     private boolean dirty;
@@ -50,8 +50,8 @@ public class GroupDescriptor {
     public void read(int groupNr, Ext2FileSystem fs) throws IOException {
         // read the group descriptors from the main copy in block group 0
         long baseBlock = fs.getSuperblock().getFirstDataBlock() + 1;
-        long blockOffset = (groupNr * GROUPDESCRIPTOR_LENGTH) / fs.getBlockSize();
-        long offset = (groupNr * GROUPDESCRIPTOR_LENGTH) % fs.getBlockSize();
+        long blockOffset = ((long) groupNr * GROUPDESCRIPTOR_LENGTH) / fs.getBlockSize();
+        long offset = ((long) groupNr * GROUPDESCRIPTOR_LENGTH) % fs.getBlockSize();
         byte[] blockData = fs.getBlock(baseBlock + blockOffset);
         System.arraycopy(blockData, (int) offset, data, 0, GROUPDESCRIPTOR_LENGTH);
         this.groupNr = groupNr;
@@ -74,7 +74,7 @@ public class GroupDescriptor {
         else
             desc =
                     1 + /* superblock */
-                    Ext2Utils.ceilDiv(fs.getGroupCount() * GroupDescriptor.GROUPDESCRIPTOR_LENGTH,
+                    Ext2Utils.ceilDiv((long) fs.getGroupCount() * GroupDescriptor.GROUPDESCRIPTOR_LENGTH,
                             fs.getBlockSize()); /* GDT */
         Superblock superblock = fs.getSuperblock();
         setBlockBitmap(superblock.getFirstDataBlock() + groupNr * superblock.getBlocksPerGroup() + desc);
@@ -129,7 +129,7 @@ public class GroupDescriptor {
                     continue;
 
                 long block = superblock.getFirstDataBlock() + 1 + superblock.getBlocksPerGroup() * i; 
-                long pos = groupNr * GROUPDESCRIPTOR_LENGTH;
+                long pos = (long) groupNr * GROUPDESCRIPTOR_LENGTH;
                 block += pos / fs.getBlockSize();
                 long offset = pos % fs.getBlockSize();
                 byte[] blockData = fs.getBlock(block);

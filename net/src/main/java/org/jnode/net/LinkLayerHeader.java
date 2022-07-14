@@ -31,11 +31,11 @@ public interface LinkLayerHeader extends LayerHeader {
     /**
      * Gets the source address of the packet described in this header
      */
-    public HardwareAddress getSourceAddress();
+    HardwareAddress getSourceAddress();
 
     /**
      * Gets the source address of the packet described in this header
      */
-    public HardwareAddress getDestinationAddress();
+    HardwareAddress getDestinationAddress();
 
 }

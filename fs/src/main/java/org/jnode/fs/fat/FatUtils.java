@@ -81,7 +81,7 @@ public class FatUtils {
     public static long getFilesOffset(BootSector bs) {
         long offset = getRootDirOffset(bs);
 
-        offset += bs.getNrRootDirEntries() * 32;
+        offset += bs.getNrRootDirEntries() * 32L;
 
         return offset;
     }
@@ -251,7 +251,7 @@ public class FatUtils {
         sb.append(unicodechar, 0, index + 1);
 
         if (log.isDebugEnabled()) {
-            log.debug("<<< END appendSubstring buffer=" + sb.toString() + ">>>");
+            log.debug("<<< END appendSubstring buffer=" + sb + ">>>");
         }
     }
 

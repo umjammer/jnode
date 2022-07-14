@@ -44,11 +44,9 @@ abstract class NetDeviceConfig {
      */
     public final void apply(final Device device) throws NetworkException {
         try {
-            AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
-                public Object run() throws NetworkException {
-                    doApply(device);
-                    return null;
-                }
+            AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
+                doApply(device);
+                return null;
             });
         } catch (PrivilegedActionException ex) {
             throw (NetworkException) ex.getException();

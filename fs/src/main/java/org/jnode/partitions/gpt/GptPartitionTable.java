@@ -20,7 +20,7 @@
 
 package org.jnode.partitions.gpt;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -46,7 +46,7 @@ public class GptPartitionTable implements PartitionTable<GptPartitionTableEntry>
     private final int blockSize;
 
     /** The partition entries */
-    private final List<GptPartitionTableEntry> partitions = new ArrayList<GptPartitionTableEntry>();
+    private final List<GptPartitionTableEntry> partitions = new ArrayList<>();
 
     /** My logger */
     private static final Logger log = LogManager.getLogger(GptPartitionTable.class);
@@ -97,7 +97,7 @@ public class GptPartitionTable implements PartitionTable<GptPartitionTableEntry>
 
             byte[] signatureBytes = new byte[8];
             System.arraycopy(first16KiB, blockSize, signatureBytes, 0, signatureBytes.length);
-            String signature = new String(signatureBytes, Charset.forName("US-ASCII"));
+            String signature = new String(signatureBytes, StandardCharsets.US_ASCII);
 
             if ("EFI PART".equals(signature)) {
                 return blockSize;
@@ -116,7 +116,7 @@ public class GptPartitionTable implements PartitionTable<GptPartitionTableEntry>
      */
     public static boolean containsPartitionTable(byte[] first16KiB, boolean requireProtectiveMbr) {
         if (requireProtectiveMbr) {
-            List<IBMPartitionTableEntry> entries = new ArrayList<IBMPartitionTableEntry>();
+            List<IBMPartitionTableEntry> entries = new ArrayList<>();
             for (int partitionNumber = 0; partitionNumber < IBMPartitionTable.TABLE_SIZE; partitionNumber++) {
                 IBMPartitionTableEntry partition = new IBMPartitionTableEntry(null, first16KiB, partitionNumber);
 

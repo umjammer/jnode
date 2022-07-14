@@ -65,7 +65,7 @@ public class Fat12 extends Fat {
 
         // Need to account for the size of the root directory entry for following clusters
         long filesOffset = rootDirectoryOffset + bootSector.getNrRootDirEntries() * 32;
-        return filesOffset + ((index - firstCluster()) * getClusterSize());
+        return filesOffset + ((long) (index - firstCluster()) * getClusterSize());
     }
 
     @Override

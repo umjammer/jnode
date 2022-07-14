@@ -31,7 +31,7 @@ public enum ResultCode {
     NFS_ERROR_DIRECTORY_NOT_EMPTY(66), NFS_ERROR_DISK_QUOTA(69), NFS_ERROR_STALE(70),
     NFS_ERROR_WRITE_FLUSH(99);
 
-    private int code;
+    private final int code;
 
     ResultCode(int code) {
         this.code = code;

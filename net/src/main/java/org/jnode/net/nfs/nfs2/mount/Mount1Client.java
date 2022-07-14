@@ -84,7 +84,7 @@ public class Mount1Client {
         this.protocol = protocol;
         this.uid = uid;
         this.gid = gid;
-        rpcClientPool = new LinkedList<OncRpcClient>();
+        rpcClientPool = new LinkedList<>();
     }
 
     private OncRpcClient createRpcClient() throws OncRpcException, IOException {
@@ -154,7 +154,6 @@ public class Mount1Client {
                         LOGGER
                                 .warn("An error occurs when nfs file system try to call the rpc method. Reason : " +
                                         e.getMessage() + ". It will try again");
-                        continue;
                     }
 
                 } else {
@@ -218,7 +217,7 @@ public class Mount1Client {
 
     public List<RemoteMountFileSystem> dump() throws IOException, MountException {
         final List<RemoteMountFileSystem> remoteMountFileSystemList =
-                new ArrayList<RemoteMountFileSystem>();
+                new ArrayList<>();
         XdrAble dumpResult = new Result() {
             public void xdrDecode(XdrDecodingStream xdrDecodingStream)
                 throws OncRpcException, IOException {
@@ -236,7 +235,7 @@ public class Mount1Client {
     }
 
     public List<ExportEntry> export() throws IOException, MountException {
-        final List<ExportEntry> exportEntryList = new ArrayList<ExportEntry>();
+        final List<ExportEntry> exportEntryList = new ArrayList<>();
         XdrAble dumpResult = new Result() {
             public void xdrDecode(XdrDecodingStream xdrDecodingStream)
                 throws OncRpcException, IOException {
@@ -250,7 +249,7 @@ public class Mount1Client {
 
             private List<String> readGroup(XdrDecodingStream xdrDecodingStream)
                 throws OncRpcException, IOException {
-                List<String> groupList = new ArrayList<String>();
+                List<String> groupList = new ArrayList<>();
                 while (xdrDecodingStream.xdrDecodeBoolean()) {
                     String group = readName(xdrDecodingStream);
                     groupList.add(group);
@@ -287,17 +286,17 @@ public class Mount1Client {
         return xdrDecodingStream.xdrDecodeOpaque(Mount1Client.FILE_HANDLE_SIZE);
     }
 
-    private abstract class Parameter implements XdrAble {
+    private abstract static class Parameter implements XdrAble {
         public void xdrDecode(XdrDecodingStream arg0) throws OncRpcException, IOException {
         }
     }
 
-    private abstract class Result implements XdrAble {
+    private abstract static class Result implements XdrAble {
         public void xdrEncode(XdrEncodingStream arg0) throws OncRpcException, IOException {
         }
     }
 
-    private class ResultWithCode implements XdrAble {
+    private static class ResultWithCode implements XdrAble {
         private int resultCode;
         private XdrAble xdrAble;
 
@@ -326,7 +325,7 @@ public class Mount1Client {
     // TODO Remove the synch in the future
     public synchronized void close() throws IOException {
         closed = true;
-        List<OncRpcException> exceptionList = new ArrayList<OncRpcException>();
+        List<OncRpcException> exceptionList = new ArrayList<>();
         for (OncRpcClient client : rpcClientPool) {
             try {
                 client.close();

@@ -26,9 +26,9 @@ public enum ARPOperation {
     RARP_REQUEST(3),
     RARP_REPLY(4);
 
-    private int id;
+    private final int id;
 
-    private ARPOperation(int id) {
+    ARPOperation(int id) {
         this.id = id;
     }
 

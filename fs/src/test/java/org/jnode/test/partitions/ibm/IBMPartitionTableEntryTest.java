@@ -69,9 +69,6 @@ public class IBMPartitionTableEntryTest {
 
     private byte[] getBootSector() {
         byte[] bs = new byte[500];
-        for (int i = 0; i < bs.length; i++) {
-            bs[i] = 0;
-        }
         return bs;
     }
 

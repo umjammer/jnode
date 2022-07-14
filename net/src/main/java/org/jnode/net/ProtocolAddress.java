@@ -32,42 +32,42 @@ public interface ProtocolAddress {
      * Is this address equal to the given address.
      * @param o
      */
-    public boolean equals(ProtocolAddress o);
+    boolean equals(ProtocolAddress o);
 
     /**
      * Gets the length of this address in bytes
      */
-    public int getLength();
+    int getLength();
 
     /**
      * Gets the address-byte at a given index
      * @param index
      */
-    public byte get(int index);
+    byte get(int index);
 
     /**
      * Write this address to a given offset in the given buffer
      * @param skbuf
      * @param skbufOffset
      */
-    public void writeTo(SocketBuffer skbuf, int skbufOffset);
+    void writeTo(SocketBuffer skbuf, int skbufOffset);
 
     /**
      * Gets the type of this address.
      * This type is used by (e.g.) ARP.
      */
-    public int getType();
+    int getType();
 
     /**
      * Convert to a java.net.InetAddress
      * @see java.net.InetAddress
      * @return This address as java.net.InetAddress
      */
-    public InetAddress toInetAddress();
+    InetAddress toInetAddress();
 
     /**
      * Convert to a new byte array.
      * @return This address as byte array.
-     */ 
-    public byte[] toByteArray();
+     */
+    byte[] toByteArray();
 }

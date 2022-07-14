@@ -48,14 +48,13 @@ public final class UpcaseTable {
         final long actualCs = result.checkSum();
         if (checksum != actualCs) {
 
-            final StringBuilder msg = new StringBuilder();
-            msg.append("checksum mismatch (expected 0x");
-            msg.append(Long.toHexString(checksum));
-            msg.append(", got 0x");
-            msg.append(Long.toHexString(actualCs));
-            msg.append(")");
+            String msg = "checksum mismatch (expected 0x" +
+                    Long.toHexString(checksum) +
+                    ", got 0x" +
+                    Long.toHexString(actualCs) +
+                    ")";
 
-            throw new IOException(msg.toString());
+            throw new IOException(msg);
         }
 
         return result;
@@ -112,7 +111,7 @@ public final class UpcaseTable {
 
         for (int i = 0; i < size; i++) {
             sum = ((sum << 31) | (sum >> 1)) + da.getUint8(offset + i);
-            sum &= 0xffffffffl;
+            sum &= 0xffffffffL;
         }
 
         return sum;

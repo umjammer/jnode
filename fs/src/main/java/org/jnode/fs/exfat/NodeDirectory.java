@@ -53,8 +53,8 @@ public class NodeDirectory extends AbstractFSObject implements FSDirectory, FSDi
 
         this.node = node;
         this.upcase = fs.getUpcase();
-        this.nameToNode = new LinkedHashMap<String, NodeEntry>();
-        this.idToNode = new LinkedHashMap<String, NodeEntry>();
+        this.nameToNode = new LinkedHashMap<>();
+        this.idToNode = new LinkedHashMap<>();
 
         DirectoryParser.
             create(node, showDeleted).

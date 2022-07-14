@@ -50,7 +50,6 @@ public class PC98PartitionTable implements PartitionTable<PC98PartitionTableEntr
 //Debug.println("[" + i + "]: " + pe);
                 partitions.add(new PC98PartitionTableEntry(pe, device));
             } catch (IOException e) {
-                continue;
             }
         }
     }

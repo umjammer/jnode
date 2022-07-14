@@ -21,6 +21,7 @@
 package org.jnode.net.ipv4.dhcp;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
@@ -67,17 +68,15 @@ public class DHCPClient extends AbstractDHCPClient {
         }
 
         try {
-            AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
-                public Object run() throws IOException {
-                    // Get the API.
-                    try {
-                        api = device.getAPI(NetDeviceAPI.class);
-                    } catch (ApiNotFoundException ex) {
-                        throw new NetworkException("Device is not a network device", ex);
-                    }
-                    configureDevice(device.getId(), api.getAddress());
-                    return null;
+            AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
+                // Get the API.
+                try {
+                    api = device.getAPI(NetDeviceAPI.class);
+                } catch (ApiNotFoundException ex) {
+                    throw new NetworkException("Device is not a network device", ex);
                 }
+                configureDevice(device.getId(), api.getAddress());
+                return null;
             });
         } catch (PrivilegedActionException ex) {
             throw (IOException) ex.getException();
@@ -141,18 +140,16 @@ public class DHCPClient extends AbstractDHCPClient {
         // Find the plugin loader option
         final byte[] pluginLoaderValue = msg.getOption(DHCPMessage.PLUGIN_LOADER_OPTION);
         if (pluginLoaderValue != null) {
-            final String pluginLoaderURL = new String(pluginLoaderValue, "UTF8");
+            final String pluginLoaderURL = new String(pluginLoaderValue, StandardCharsets.UTF_8);
             log.info("Got plugin loader url : " + pluginLoaderURL);
-            AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                public Object run() {
-                    try {
-                        // TODO
-                    } catch (Throwable ex) {
-                        log.error("Failed to configure plugin loader");
-                        log.debug("Failed to configure plugin loader", ex);
-                    }
-                    return null;
+            AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+                try {
+                    // TODO
+                } catch (Throwable ex) {
+                    log.error("Failed to configure plugin loader");
+                    log.debug("Failed to configure plugin loader", ex);
                 }
+                return null;
             });
         }
     }

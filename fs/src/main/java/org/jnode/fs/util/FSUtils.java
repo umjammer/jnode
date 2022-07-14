@@ -80,37 +80,37 @@ public class FSUtils {
 
         StringBuilder sb = new StringBuilder(2048);
         sb.append("<FSEntry>");
-        sb.append(" name=" + entry.getName());
+        sb.append(" name=").append(entry.getName());
         try {
             sb.append(toStringDate(" lastModified=", entry.getLastModified()));
         } catch (IOException e) {
-            sb.append(" lastModified=###" + e.getMessage() + "###");
+            sb.append(" lastModified=###").append(e.getMessage()).append("###");
             log.error("error in lastModified", e);
         }
         try {
-            sb.append(" isDirty=" + entry.isDirty());
+            sb.append(" isDirty=").append(entry.isDirty());
         } catch (IOException e1) {
-            sb.append(" isDirty=###" + e1.getMessage() + "###");
+            sb.append(" isDirty=###").append(e1.getMessage()).append("###");
             log.error("error in isDirty", e1);
         }
-        sb.append(" isValid=" + entry.isValid());
+        sb.append(" isValid=").append(entry.isValid());
 
-        sb.append(" isFile=" + entry.isFile());
+        sb.append(" isFile=").append(entry.isFile());
         if (deep && entry.isFile()) {
             try {
                 sb.append(toString(entry.getFile()));
             } catch (IOException e2) {
-                sb.append(" getFile=###" + e2.getMessage() + "###");
+                sb.append(" getFile=###").append(e2.getMessage()).append("###");
                 log.error("error in getFile", e2);
             }
         }
 
-        sb.append(" isDir=" + entry.isDirectory());
+        sb.append(" isDir=").append(entry.isDirectory());
         if (deep && entry.isDirectory())
             try {
                 sb.append(toString(entry.getDirectory()));
             } catch (IOException e3) {
-                sb.append(" getDirectory=###" + e3.getMessage() + "###");
+                sb.append(" getDirectory=###").append(e3.getMessage()).append("###");
                 log.error("error in getDirectory", e3);
             }
         sb.append("</FSEntry>");
@@ -139,7 +139,7 @@ public class FSUtils {
 
         String str = "<FSDirectory>isValid=" + dir.isValid() + "</FSDirectory>";
         if (deep)
-            str += "\n" + dir.toString(); // also print entry table
+            str += "\n" + dir; // also print entry table
 
         return str;
     }
@@ -152,12 +152,11 @@ public class FSUtils {
         if (file == null)
             return "<FSEntry>NULL</FSEntry>";
 
-        StringBuilder sb = new StringBuilder(32);
-        sb.append("<FSFile>");
-        sb.append(" isValid" + file.isValid());
-        sb.append(" length" + file.getLength());
-        sb.append("</FSFile>");
-        return sb.toString();
+        String sb = "<FSFile>" +
+                " isValid" + file.isValid() +
+                " length" + file.getLength() +
+                "</FSFile>";
+        return sb;
     }
 
     /**
@@ -240,10 +239,10 @@ public class FSUtils {
         if (str.length() >= size)
             return str;
 
-        String pad = "";
+        StringBuilder pad = new StringBuilder();
         int nbBlanks = size - str.length();
         for (int i = 0; i < nbBlanks; i++)
-            pad += " ";
+            pad.append(" ");
 
         return pad + str;
     }

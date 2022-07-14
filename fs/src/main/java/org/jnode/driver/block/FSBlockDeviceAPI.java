@@ -36,13 +36,13 @@ public interface FSBlockDeviceAPI extends BlockDeviceAPI {
      * @return The sector size in bytes
      * @throws IOException
      */
-    public int getSectorSize() throws IOException;
+    int getSectorSize() throws IOException;
 
     /**
      * Gets the partition table entry specifying this device.
      *
      * @return A PartitionTableEntry or null if no partition table entry exists.
      */
-    public PartitionTableEntry getPartitionTableEntry();
+    PartitionTableEntry getPartitionTableEntry();
 
 }

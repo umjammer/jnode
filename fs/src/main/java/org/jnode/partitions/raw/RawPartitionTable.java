@@ -6,7 +6,7 @@
 
 package org.jnode.partitions.raw;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.jnode.partitions.PartitionTable;
@@ -32,6 +32,6 @@ public class RawPartitionTable implements PartitionTable<RawPartitionTableEntry>
 
     @Override
     public Iterator<RawPartitionTableEntry> iterator() {
-        return Arrays.asList(entry).iterator();
+        return Collections.singletonList(entry).iterator();
     }
 }

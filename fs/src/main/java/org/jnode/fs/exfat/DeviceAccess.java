@@ -72,7 +72,7 @@ final class DeviceAccess {
     }
 
     public static long getUint32(ByteBuffer src) {
-        return (src.getInt() & 0xffffffffl);
+        return (src.getInt() & 0xffffffffL);
     }
 
     public static long getUint64(ByteBuffer src) throws IOException {

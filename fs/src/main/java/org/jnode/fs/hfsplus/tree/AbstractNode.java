@@ -37,20 +37,20 @@ public abstract class AbstractNode<K extends Key, T extends NodeRecord> implemen
     public AbstractNode(NodeDescriptor descriptor, final int nodeSize) {
         this.descriptor = descriptor;
         this.size = nodeSize;
-        this.records = new ArrayList<T>(descriptor.getNumRecords());
-        this.offsets = new ArrayList<Integer>(descriptor.getNumRecords() + 1);
-        this.offsets.add(Integer.valueOf(NodeDescriptor.BT_NODE_DESCRIPTOR_LENGTH));
+        this.records = new ArrayList<>(descriptor.getNumRecords());
+        this.offsets = new ArrayList<>(descriptor.getNumRecords() + 1);
+        this.offsets.add(NodeDescriptor.BT_NODE_DESCRIPTOR_LENGTH);
     }
 
     public AbstractNode(final byte[] nodeData, final int nodeSize) {
         this.descriptor = new NodeDescriptor(nodeData, 0);
         this.size = nodeSize;
-        this.records = new ArrayList<T>(this.descriptor.getNumRecords());
-        this.offsets = new ArrayList<Integer>(this.descriptor.getNumRecords() + 1);
+        this.records = new ArrayList<>(this.descriptor.getNumRecords());
+        this.offsets = new ArrayList<>(this.descriptor.getNumRecords() + 1);
         int offset;
         for (int i = 0; i < this.descriptor.getNumRecords() + 1; i++) {
             offset = BigEndian.getUInt16(nodeData, size - ((i + 1) * 2));
-            offsets.add(Integer.valueOf(offset));
+            offsets.add(offset);
         }
 
         if (log.isDebugEnabled()) {
@@ -188,10 +188,9 @@ public abstract class AbstractNode<K extends Key, T extends NodeRecord> implemen
 
     @Override
     public String toString() {
-        StringBuffer b = new StringBuffer();
-        b.append((this.getNodeDescriptor().isLeafNode()) ? "Leaf node" : "Index node").append("\n");
-        b.append(this.getNodeDescriptor().toString()).append("\n");
-        b.append("Offsets : ").append(offsets.toString());
-        return b.toString();
+        String b = ((this.getNodeDescriptor().isLeafNode()) ? "Leaf node" : "Index node") + "\n" +
+                this.getNodeDescriptor().toString() + "\n" +
+                "Offsets : " + offsets.toString();
+        return b;
     }
 }

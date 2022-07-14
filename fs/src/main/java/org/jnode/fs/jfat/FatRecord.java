@@ -38,7 +38,7 @@ public class FatRecord {
 
     public FatRecord() {
         init();
-        longEntries = new Vector<FatLongDirEntry>(MAXLONGENTRIES);
+        longEntries = new Vector<>(MAXLONGENTRIES);
     }
 
     public FatRecord(FatDirectory parent, FatName name) throws IOException {
@@ -55,10 +55,10 @@ public class FatRecord {
 
         if (name.isMangled()) {
             free = parent.getFatFreeEntries(n + 1);
-            longEntries = new Vector<FatLongDirEntry>(n + 1);
+            longEntries = new Vector<>(n + 1);
         } else {
             free = parent.getFatFreeEntries(1);
-            longEntries = new Vector<FatLongDirEntry>(0);
+            longEntries = new Vector<>(0);
         }
 
         s = new FatShortDirEntry(fs, name, free[free.length - 1].getIndex());

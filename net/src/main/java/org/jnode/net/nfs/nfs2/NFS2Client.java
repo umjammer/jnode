@@ -129,7 +129,7 @@ public class NFS2Client {
         this.protocol = protocol;
         this.uid = uid;
         this.gid = gid;
-        rpcClientPool = new LinkedList<OncRpcClient>();
+        rpcClientPool = new LinkedList<>();
     }
 
     private OncRpcClient createRpcClient() throws OncRpcException, IOException {
@@ -222,7 +222,6 @@ public class NFS2Client {
                     } else {
                         LOGGER.warn("An error occurs when nfs file system try to call the rpc method. Reason: " +
                                         e.getMessage() + " . It will try again");
-                        continue;
                     }
                 } else {
                     throw new NFS2Exception(e.getMessage(), e);
@@ -242,7 +241,7 @@ public class NFS2Client {
 
     public synchronized void close() throws IOException {
         closed = true;
-        List<OncRpcException> exceptionList = new ArrayList<OncRpcException>();
+        List<OncRpcException> exceptionList = new ArrayList<>();
         for (OncRpcClient client : rpcClientPool) {
             try {
                 client.close();
@@ -304,7 +303,7 @@ public class NFS2Client {
         final ListDirectoryResult result = new ListDirectoryResult();
         XdrAble nfsResult = new NFSResult() {
             public void xdrDecode(XdrDecodingStream xdr) throws OncRpcException, IOException {
-                List<Entry> entryList = new ArrayList<Entry>();
+                List<Entry> entryList = new ArrayList<>();
                 while (xdr.xdrDecodeBoolean()) {
                     int fileId = xdr.xdrDecodeInt();
                     String name = xdr.xdrDecodeString();
@@ -650,21 +649,21 @@ public class NFS2Client {
     private long xdrDecodeUnsignedInt(XdrDecodingStream xdr) throws OncRpcException, IOException {
         byte[] buffer = new byte[4];
         xdr.xdrDecodeOpaque(buffer);
-        return ((buffer[0] & 0xFF) << 24 | (buffer[1] & 0xFF) << 16 | 
+        return ((long) (buffer[0] & 0xFF) << 24 | (buffer[1] & 0xFF) << 16 |
                 (buffer[2] & 0xFF) << 8 | (buffer[3] & 0xFF));
     }
 
-    private abstract class NFSParameter implements XdrAble {
+    private abstract static class NFSParameter implements XdrAble {
         public void xdrDecode(XdrDecodingStream arg0) throws OncRpcException, IOException {
         }
     }
 
-    private abstract class NFSResult implements XdrAble {
+    private abstract static class NFSResult implements XdrAble {
         public void xdrEncode(XdrEncodingStream arg0) throws OncRpcException, IOException {
         }
     }
 
-    private class ResultWithCode implements XdrAble {
+    private static class ResultWithCode implements XdrAble {
 
         private ResultCode resultCode;
 

@@ -37,7 +37,7 @@ import org.jnode.fs.FSEntry;
  */
 public class SMBFSDirectory extends SMBFSEntry implements FSDirectory {
     private static final long REFRESH_TIMEOUT = 5000;
-    private Map<String, SMBFSEntry> entries = new HashMap<String, SMBFSEntry>();
+    private Map<String, SMBFSEntry> entries = new HashMap<>();
 
     protected SMBFSDirectory(SMBFSDirectory parent, SmbFile smbFile) {
         super(parent, smbFile);
@@ -48,14 +48,12 @@ public class SMBFSDirectory extends SMBFSEntry implements FSDirectory {
      */
     public SMBFSEntry addDirectory(final String name) throws IOException {
         try {
-            return AccessController.doPrivileged(new PrivilegedExceptionAction<SMBFSEntry>() {
-                public SMBFSEntry run() throws Exception {
-                    SmbFile dir = new SmbFile(smbFile, dirName(name));
-                    dir.mkdir();
-                    SMBFSDirectory sdir = new SMBFSDirectory(SMBFSDirectory.this, dir);
-                    entries.put(name, sdir);
-                    return sdir;
-                }
+            return AccessController.doPrivileged((PrivilegedExceptionAction<SMBFSEntry>) () -> {
+                SmbFile dir = new SmbFile(smbFile, dirName(name));
+                dir.mkdir();
+                SMBFSDirectory sdir = new SMBFSDirectory(SMBFSDirectory.this, dir);
+                entries.put(name, sdir);
+                return sdir;
             });
         } catch (PrivilegedActionException pae) {
             Exception e = pae.getException();
@@ -72,14 +70,12 @@ public class SMBFSDirectory extends SMBFSEntry implements FSDirectory {
      */
     public SMBFSEntry addFile(final String name) throws IOException {
         try {
-            return AccessController.doPrivileged(new PrivilegedExceptionAction<SMBFSEntry>() {
-                public SMBFSEntry run() throws Exception {
-                    SmbFile file = new SmbFile(smbFile, name);
-                    file.createNewFile();
-                    SMBFSFile sfile = new SMBFSFile(SMBFSDirectory.this, file);
-                    entries.put(name, sfile);
-                    return sfile;
-                }
+            return AccessController.doPrivileged((PrivilegedExceptionAction<SMBFSEntry>) () -> {
+                SmbFile file = new SmbFile(smbFile, name);
+                file.createNewFile();
+                SMBFSFile sfile = new SMBFSFile(SMBFSDirectory.this, file);
+                entries.put(name, sfile);
+                return sfile;
             });
         } catch (PrivilegedActionException pae) {
             Exception e = pae.getException();
@@ -137,29 +133,27 @@ public class SMBFSDirectory extends SMBFSEntry implements FSDirectory {
             return;
 
         try {
-            AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
-                public Object run() throws Exception {
-                    SmbFile[] smb_list;
-                    try {
-                        smb_list = smbFile.listFiles();
-                    } catch (SmbException e) {
-                        e.printStackTrace();
-                        throw e;
-                    }
-                    entries.clear();
-
-                    for (SmbFile f : smb_list) {
-                        if (f.isDirectory()) {
-                            String name = getSimpleName(f);
-                            entries.put(name, new SMBFSDirectory(SMBFSDirectory.this, f));
-                        } else if (f.isFile()) {
-                            String name = getSimpleName(f);
-                            entries.put(name, new SMBFSFile(SMBFSDirectory.this, f));
-                        }
-                    }
-                    lastRefresh = System.currentTimeMillis();
-                    return null;
+            AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
+                SmbFile[] smb_list;
+                try {
+                    smb_list = smbFile.listFiles();
+                } catch (SmbException e) {
+                    e.printStackTrace();
+                    throw e;
                 }
+                entries.clear();
+
+                for (SmbFile f : smb_list) {
+                    if (f.isDirectory()) {
+                        String name = getSimpleName(f);
+                        entries.put(name, new SMBFSDirectory(SMBFSDirectory.this, f));
+                    } else if (f.isFile()) {
+                        String name = getSimpleName(f);
+                        entries.put(name, new SMBFSFile(SMBFSDirectory.this, f));
+                    }
+                }
+                lastRefresh = System.currentTimeMillis();
+                return null;
             });
         } catch (PrivilegedActionException pae) {
             Exception e = pae.getException();

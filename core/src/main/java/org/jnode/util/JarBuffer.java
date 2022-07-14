@@ -102,8 +102,8 @@ public class JarBuffer implements JarConstants {
         final int centralOffset = buffer.getInt(pos + ENDOFF);
 //        System.out.println("centralOffset=" + centralOffset);
 
-        HashMap<String, ByteBuffer> entries = new HashMap<String, ByteBuffer>(
-            count + count / 2);
+        HashMap<String, ByteBuffer> entries = new HashMap<>(
+                count + count / 2);
         buffer.position(centralOffset);
 
         byte[] strBuf = new byte[16];

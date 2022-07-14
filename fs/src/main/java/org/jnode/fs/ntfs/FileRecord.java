@@ -28,6 +28,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 import org.jnode.fs.ntfs.attribute.AttributeListAttribute;
 import org.jnode.fs.ntfs.attribute.AttributeListEntry;
@@ -136,9 +137,9 @@ public class FileRecord extends NTFSRecord {
             for (int off = 0; off < getBuffer().length; off += 32) {
                 StringBuilder builder = new StringBuilder();
                 for (int i = off; i < off + 32 && i < getBuffer().length; i++) {
-                    String hex = Integer.toHexString(getBuffer()[i]);
+                    StringBuilder hex = new StringBuilder(Integer.toHexString(getBuffer()[i]));
                     while (hex.length() < 2) {
-                        hex = '0' + hex;
+                        hex.insert(0, '0');
                     }
 
                     builder.append(' ').append(hex);
@@ -402,12 +403,12 @@ public class FileRecord extends NTFSRecord {
      */
     public synchronized List<NTFSAttribute> getAllAttributes() {
         if (attributeList == null) {
-            attributeList = new ArrayList<NTFSAttribute>();
+            attributeList = new ArrayList<>();
 
             try {
                 if (attributeListAttribute == null) {
                     log.debug("All attributes stored");
-                    attributeList = new ArrayList<NTFSAttribute>(getAllStoredAttributes());
+                    attributeList = new ArrayList<>(getAllStoredAttributes());
                 } else {
                     log.debug("Attributes in attribute list");
                     readAttributeListAttributes();
@@ -471,7 +472,7 @@ public class FileRecord extends NTFSRecord {
             protected boolean matches(NTFSAttribute attr) {
                 if (attr.getAttributeType() == attrTypeID) {
                     String attrName = attr.getAttributeName();
-                    if (name == null ? attrName == null : name.equals(attrName)) {
+                    if (Objects.equals(name, attrName)) {
                         log.debug("findAttributesByTypeAndName(0x" + NumberUtils.hex(attrTypeID, 4) + "," + name
                             + ") found");
                         return true;
@@ -615,7 +616,7 @@ public class FileRecord extends NTFSRecord {
 
                 if (endOffset > initialisedSize && limitToInitialised) {
                     int delta = (int)(endOffset - initialisedSize);
-                    int startIndex = Math.max((int)(tmp.length - delta), 0);
+                    int startIndex = Math.max(tmp.length - delta, 0);
 
                     if (startIndex < tmp.length) {
                         Arrays.fill(tmp, startIndex, tmp.length, (byte) 0);
@@ -675,7 +676,7 @@ public class FileRecord extends NTFSRecord {
         }
 
         Map<Integer, NTFSNonResidentAttribute> compressedByType =
-            new LinkedHashMap<Integer, NTFSNonResidentAttribute>();
+                new LinkedHashMap<>();
 
         while (entryIterator.hasNext()) {
             AttributeListEntry entry = entryIterator.next();
@@ -739,7 +740,7 @@ public class FileRecord extends NTFSRecord {
      * @return the stored attributes.
      */
     private List<NTFSAttribute> readStoredAttributes() {
-        List<NTFSAttribute> attributes = new ArrayList<NTFSAttribute>();
+        List<NTFSAttribute> attributes = new ArrayList<>();
         int offset = getFirstAttributeOffset();
 
         while (true) {
@@ -773,7 +774,7 @@ public class FileRecord extends NTFSRecord {
     /**
      * An iterator for filtering another iterator.
      */
-    private abstract class FilteredAttributeIterator implements Iterator<NTFSAttribute> {
+    private abstract static class FilteredAttributeIterator implements Iterator<NTFSAttribute> {
         private Iterator<NTFSAttribute> attributes;
         private NTFSAttribute cached;
         private boolean hasCached;

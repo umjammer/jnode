@@ -172,9 +172,7 @@ public class SocketBuffer {
             size += count;
         } else {
             setSize(size + count);
-            for (int i = size - 1; i >= count; i--) {
-                data[start + i] = data[start + i - count];
-            }
+            System.arraycopy(data, start + count - count, data, start + count, size - count);
         }
         for (int i = 0; i < count; i++) {
             data[start + i] = 0;
@@ -601,14 +599,14 @@ public class SocketBuffer {
         testBuffer();
     }
 
-    private final int alignSize(int size) {
+    private int alignSize(int size) {
         return (size + (INITIAL_SIZE - 1)) & ~(INITIAL_SIZE - 1);
     }
 
     /**
      * Test the parameters of this buffer for illegal combinations.
      */
-    private final void testBuffer() {
+    private void testBuffer() {
         if (data == null) {
             if (size != 0) {
                 throw new RuntimeException("size(" + size + ") must be 0 when data is null");

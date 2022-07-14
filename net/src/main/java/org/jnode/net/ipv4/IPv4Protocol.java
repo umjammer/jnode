@@ -41,5 +41,5 @@ public interface IPv4Protocol extends TransportLayer {
      * @param skbuf
      * @throws SocketException
      */
-    public void receiveError(SocketBuffer skbuf) throws SocketException;
+    void receiveError(SocketBuffer skbuf) throws SocketException;
 }

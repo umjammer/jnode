@@ -39,7 +39,7 @@ public interface FileSystemType<T extends FileSystem<?>> {
      *
      * @return name of the file system.
      */
-    public String getName();
+    String getName();
 
     /**
      * Create a file system from a given device.
@@ -51,10 +51,10 @@ public interface FileSystemType<T extends FileSystem<?>> {
      * @throws FileSystemException if error occurs during creation of the new
      *             file system.
      */
-    public T create(Device device, boolean readOnly) throws FileSystemException;
+    T create(Device device, boolean readOnly) throws FileSystemException;
 
     /** */
-    public String getScheme();
+    String getScheme();
 
     /** factory */
     @SuppressWarnings({ "rawtypes", "unchecked" })

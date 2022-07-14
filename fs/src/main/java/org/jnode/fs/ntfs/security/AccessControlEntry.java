@@ -89,13 +89,13 @@ public class AccessControlEntry extends NTFSStructure {
     /**
      * ACE types.
      */
-    public static enum Type {
+    public enum Type {
         ALLOW(0x00, "Allow"),
         DENY(0x01, "Deny"),
         AUDIT(0x02, "Audit");
 
-        int type;
-        String name;
+        final int type;
+        final String name;
 
         Type(int type, String name) {
             this.type = type;
@@ -103,7 +103,7 @@ public class AccessControlEntry extends NTFSStructure {
         }
 
         public static List<String> namesForType(int type) {
-            List<String> names = new ArrayList<String>();
+            List<String> names = new ArrayList<>();
 
             for (Type aceType : values()) {
                 if ((aceType.type & type) == aceType.type) {
@@ -123,7 +123,7 @@ public class AccessControlEntry extends NTFSStructure {
     /**
      * ACE flags.
      */
-    public static enum Flags {
+    public enum Flags {
         OBJECT_INHERITS(0x01, "Object Inherits"),
         CONTAINER_INHERITS(0x02, "Container Inherits"),
         DONT_PROPAGATE_INHERIT_ACE(0x04, "No Propagate Inherit ACE"),
@@ -132,8 +132,8 @@ public class AccessControlEntry extends NTFSStructure {
         AUDIT_SUCCESS(0x40, "Audit Success"),
         AUDIT_FAILURE(0x80, "Audit Failure");
 
-        int flags;
-        String name;
+        final int flags;
+        final String name;
 
         Flags(int flags, String name) {
             this.flags = flags;
@@ -147,7 +147,7 @@ public class AccessControlEntry extends NTFSStructure {
          * @return the list of names.
          */
         public static List<String> namesForFlags(int flags) {
-            List<String> names = new ArrayList<String>();
+            List<String> names = new ArrayList<>();
 
             for (Flags aceFlags : values()) {
                 if ((aceFlags.flags & flags) == aceFlags.flags) {
@@ -167,7 +167,7 @@ public class AccessControlEntry extends NTFSStructure {
     /**
      * ACE mask.
      */
-    public static enum Mask {
+    public enum Mask {
         READ(0x01, "Read", "List Contents"),
         WRITE(0x02, "Write", "Add File"),
         APPEND(0x04, "Write", "Add Subdirectory"),
@@ -186,17 +186,17 @@ public class AccessControlEntry extends NTFSStructure {
         /**
          * The mask value.
          */
-        int mask;
+        final int mask;
 
         /**
          * The name of the associated file permission.
          */
-        String filePermission;
+        final String filePermission;
 
         /**
          * The name of the associated directory permission.
          */
-        String directoryPermission;
+        final String directoryPermission;
 
         Mask(int mask, String permission) {
             this(mask, permission, permission);
@@ -217,7 +217,7 @@ public class AccessControlEntry extends NTFSStructure {
          * @return the list of names.
          */
         public static List<String> namesForMask(int mask, boolean isDirectory) {
-            List<String> names = new ArrayList<String>();
+            List<String> names = new ArrayList<>();
 
             for (Mask aceMask : values()) {
                 if ((aceMask.mask & mask) == aceMask.mask) {

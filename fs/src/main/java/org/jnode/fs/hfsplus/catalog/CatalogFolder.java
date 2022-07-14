@@ -106,17 +106,16 @@ public class CatalogFolder {
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        StringBuffer s = new StringBuffer();
-        s.append("Record type: ").append(recordType).append("\n");
-        s.append("Valence: ").append(valence).append("\n");
-        s.append("Folder ID: ").append(folderId.getId()).append("\n");
-        s.append("Creation Date :").append(
-            HfsUtils.printDate(createDate, "EEE MMM d HH:mm:ss yyyy")).append("\n");
-        s.append("Content Mod Date  :").append(
-            HfsUtils.printDate(contentModDate, "EEE MMM d HH:mm:ss yyyy")).append("\n");
-        s.append("Attr Mod Date  :").append(
-            HfsUtils.printDate(attrModDate, "EEE MMM d HH:mm:ss yyyy")).append("\n");
-        return s.toString();
+        String s = "Record type: " + recordType + "\n" +
+                "Valence: " + valence + "\n" +
+                "Folder ID: " + folderId.getId() + "\n" +
+                "Creation Date :" +
+                HfsUtils.printDate(createDate, "EEE MMM d HH:mm:ss yyyy") + "\n" +
+                "Content Mod Date  :" +
+                HfsUtils.printDate(contentModDate, "EEE MMM d HH:mm:ss yyyy") + "\n" +
+                "Attr Mod Date  :" +
+                HfsUtils.printDate(attrModDate, "EEE MMM d HH:mm:ss yyyy") + "\n";
+        return s;
     }
 
     public int getRecordType() {

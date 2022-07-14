@@ -397,7 +397,7 @@ public class FatChain {
             if (last != clidx) {
                 int m = clidx - last;
 
-                long lst = offset + src.remaining() - last * clsize;
+                long lst = offset + src.remaining() - (long) last * clsize;
 
                 int n = (int) (lst / clsize);
                 if ((lst % clsize) != 0)
@@ -407,7 +407,7 @@ public class FatChain {
 
                 if (cluster != 0) {
                     fat.set(cluster, last);
-                    ((ChainIterator) i).appendChain(last);
+                    i.appendChain(last);
                 } else {
                     setStartCluster(last);
                     // i = listIterator (clidx);
@@ -437,7 +437,7 @@ public class FatChain {
 
                     if (cluster != 0) {
                         fat.set(cluster, last);
-                        ((ChainIterator) i).appendChain(last);
+                        i.appendChain(last);
                     } else {
                         setStartCluster(last);
                         // i = listIterator ( 0 );
@@ -474,7 +474,7 @@ public class FatChain {
 
     public long getLength() throws IOException {
         // not cheap: we have to follow the whole chain to know the chain length
-        return size() * fat.getClusterSize();
+        return (long) size() * fat.getClusterSize();
     }
 
     public String toString() {
@@ -533,7 +533,7 @@ public class FatChain {
 
         for (int i = 0; i < size; i++) {
             buf.clear();
-            read(i * fat.getClusterSize(), buf);
+            read((long) i * fat.getClusterSize(), buf);
             buf.flip();
             f.getChannel().write(buf);
         }
@@ -550,7 +550,7 @@ public class FatChain {
         ByteBuffer buf = ByteBuffer.allocate(fat.getClusterSize());
 
         buf.clear();
-        read(index * fat.getClusterSize(), buf);
+        read((long) index * fat.getClusterSize(), buf);
         buf.flip();
         f.getChannel().write(buf);
 
@@ -572,28 +572,28 @@ public class FatChain {
             setPosition(pos);
         }
 
-        private final int getIndex() {
+        private int getIndex() {
             return index;
         }
 
-        private final int getOffset() {
+        private int getOffset() {
             return offset;
         }
 
-        private final int getSize() {
+        private int getSize() {
             return size;
         }
 
-        private final int getPartial() {
+        private int getPartial() {
             return (size - offset);
         }
 
         @SuppressWarnings("unused")
-        private final long getPosition() {
+        private long getPosition() {
             return position;
         }
 
-        private final void setPosition(long value) {
+        private void setPosition(long value) {
             if (value < 0L || value > 0xFFFFFFFFL)
                 throw new IllegalArgumentException();
             this.position = value;

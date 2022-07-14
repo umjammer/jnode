@@ -59,22 +59,22 @@ public final class SystemInputStream extends InputStream {
 
     private final ThreadLocalInputStream localeIn = new ThreadLocalInputStream();
 
-    public final InputStream getIn() {
+    public InputStream getIn() {
         return getLocalIn();
     }
 
-    public final void setIn(InputStream in) {
+    public void setIn(InputStream in) {
         if (in != this) {
             localeIn.set(in);
         }
     }
 
-    public final void claimSystemIn() {
+    public void claimSystemIn() {
         // TODO must be protected by the SecurityManager
         setIn(systemIn);
     }
 
-    public final void releaseSystemIn() {
+    public void releaseSystemIn() {
         this.systemIn = EMPTY;
     }
 
@@ -109,7 +109,7 @@ public final class SystemInputStream extends InputStream {
      *
      * @param readlimit The parameter passed to <code>in.mark(int)</code>
      */
-    public final void mark(int readlimit) {
+    public void mark(int readlimit) {
         getLocalIn().mark(readlimit);
     }
 
@@ -119,7 +119,7 @@ public final class SystemInputStream extends InputStream {
      * @return <code>true</code> if mark/reset is supported, <code>false</code>
      *         otherwise
      */
-    public final boolean markSupported() {
+    public boolean markSupported() {
         return getLocalIn().markSupported();
     }
 
@@ -128,7 +128,7 @@ public final class SystemInputStream extends InputStream {
      *
      * @throws IOException If an error occurs
      */
-    public final void reset() throws IOException {
+    public void reset() throws IOException {
         getLocalIn().reset();
     }
 
@@ -138,7 +138,7 @@ public final class SystemInputStream extends InputStream {
      * @return The value returned from <code>in.available()</code>
      * @throws IOException If an error occurs
      */
-    public final int available() throws IOException {
+    public int available() throws IOException {
         return getLocalIn().available();
     }
 
@@ -149,7 +149,7 @@ public final class SystemInputStream extends InputStream {
      * @return The value returned from <code>in.skip(long)</code>
      * @throws IOException If an error occurs
      */
-    public final long skip(long numBytes) throws IOException {
+    public long skip(long numBytes) throws IOException {
         return getLocalIn().skip(numBytes);
     }
 
@@ -159,7 +159,7 @@ public final class SystemInputStream extends InputStream {
      * @return The value returned from <code>in.read()</code>
      * @throws IOException If an error occurs
      */
-    public final int read() throws IOException {
+    public int read() throws IOException {
         return getLocalIn().read();
     }
 
@@ -174,7 +174,7 @@ public final class SystemInputStream extends InputStream {
      * @return The value retured from <code>in.read(byte[], int, int)</code>
      * @throws IOException If an error occurs
      */
-    public final int read(byte[] buf) throws IOException {
+    public int read(byte[] buf) throws IOException {
         return read(buf, 0, buf.length);
     }
 
@@ -187,7 +187,7 @@ public final class SystemInputStream extends InputStream {
      * @return The value retured from <code>in.read(byte[], int, int)</code>
      * @throws IOException If an error occurs
      */
-    public final int read(byte[] buf, int offset, int len) throws IOException {
+    public int read(byte[] buf, int offset, int len) throws IOException {
         return getLocalIn().read(buf, offset, len);
     }
 
@@ -198,7 +198,7 @@ public final class SystemInputStream extends InputStream {
      *
      * @throws IOException If an error occurs
      */
-    public final void close() throws IOException {
+    public void close() throws IOException {
         getLocalIn().close();
     }
 

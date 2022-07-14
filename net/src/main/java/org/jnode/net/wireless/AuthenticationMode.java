@@ -26,5 +26,5 @@ public enum AuthenticationMode {
     /** Open system mode */
     OPENSYSTEM,
     /** Shared key mode */
-    SHAREDKEY;
+    SHAREDKEY
 }

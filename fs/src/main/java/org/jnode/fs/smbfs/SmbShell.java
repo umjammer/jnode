@@ -61,7 +61,7 @@ public class SmbShell extends NtlmAuthenticator {
 
     public static String readLine() throws Exception {
         int c;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         while ((c = System.in.read()) != '\n') {
             if (c == -1) return "";
             sb.append((char) c);
@@ -147,17 +147,17 @@ public class SmbShell extends NtlmAuthenticator {
                     SmbFile[] list = d.listFiles(wildcard);
                     t0 = System.currentTimeMillis() - t0;
                     if (list != null) {
-                        for (int j = 0; j < list.length; j++) {
-                            StringBuffer sb = new StringBuffer();
-                            Date date = new Date(list[j].lastModified());
-                            Format.print(System.out, "%-40s", list[j].getName());
-                            sb.append(list[j].isDirectory() ? 'd' : '-');
-                            sb.append(list[j].canRead() ? 'r' : '-');
-                            sb.append(list[j].canWrite() ? 'w' : '-');
-                            sb.append(list[j].isHidden() ? 'h' : '-');
-                            sb.append(list[j].getType() == SmbFile.TYPE_WORKGROUP ? 'g' : '-');
+                        for (SmbFile smbFile : list) {
+                            StringBuilder sb = new StringBuilder();
+                            Date date = new Date(smbFile.lastModified());
+                            Format.print(System.out, "%-40s", smbFile.getName());
+                            sb.append(smbFile.isDirectory() ? 'd' : '-');
+                            sb.append(smbFile.canRead() ? 'r' : '-');
+                            sb.append(smbFile.canWrite() ? 'w' : '-');
+                            sb.append(smbFile.isHidden() ? 'h' : '-');
+                            sb.append(smbFile.getType() == SmbFile.TYPE_WORKGROUP ? 'g' : '-');
                             Format.print(System.out, "%-6s", sb.toString());
-                            Format.print(System.out, "%10d ", list[j].length());
+                            Format.print(System.out, "%10d ", smbFile.length());
 
                             System.out.print(sdf1.format(date));
                             Format.print(System.out, "%3s ", sdf2.format(date));

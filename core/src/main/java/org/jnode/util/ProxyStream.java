@@ -36,7 +36,7 @@ public interface ProxyStream<T extends Closeable> extends Closeable {
      * 
      * @return a real (non-proxied) stream.
      */
-    public T getRealStream() throws ProxyStreamException;
+    T getRealStream() throws ProxyStreamException;
 
     /**
      * Get the stream that this proxy stream wraps. The result may also be a
@@ -44,5 +44,5 @@ public interface ProxyStream<T extends Closeable> extends Closeable {
      * 
      * @return the wrapped stream for this proxy.
      */
-    public T getProxiedStream() throws ProxyStreamException;
+    T getProxiedStream() throws ProxyStreamException;
 }

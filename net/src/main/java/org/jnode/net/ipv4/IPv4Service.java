@@ -33,7 +33,7 @@ public interface IPv4Service {
     /**
      * Gets the routing table
      */
-    public IPv4RoutingTable getRoutingTable();
+    IPv4RoutingTable getRoutingTable();
 
     /**
      * Transmit an IP packet.
@@ -56,12 +56,12 @@ public interface IPv4Service {
      * @param skbuf
      * @throws SocketException The packet cannot be transmitted
      */
-    public void transmit(IPv4Header hdr, SocketBuffer skbuf) throws SocketException;
+    void transmit(IPv4Header hdr, SocketBuffer skbuf) throws SocketException;
 
     /**
      * Gets the protocol for a given ID
      * @param protocolID
      * @throws NoSuchProtocolException No protocol with the given ID was found.
      */
-    public IPv4Protocol getProtocol(int protocolID) throws NoSuchProtocolException;
+    IPv4Protocol getProtocol(int protocolID) throws NoSuchProtocolException;
 }

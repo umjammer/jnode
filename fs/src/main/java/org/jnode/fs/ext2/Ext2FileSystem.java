@@ -54,9 +54,9 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
 
     private Superblock superblock;
 
-    private GroupDescriptor groupDescriptors[];
+    private GroupDescriptor[] groupDescriptors;
 
-    private INodeTable iNodeTables[];
+    private INodeTable[] iNodeTables;
 
     private int groupCount;
 
@@ -313,8 +313,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
                     iNode.flush();
                 }
             } catch (FileSystemException ex) {
-                final IOException ioe = new IOException();
-                ioe.initCause(ex);
+                final IOException ioe = new IOException(ex);
                 throw ioe;
             }
         }
@@ -352,8 +351,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         try {
             return new Ext2Entry(getINode(Ext2Constants.EXT2_ROOT_INO), 0, "/", Ext2Constants.EXT2_FT_DIR, this, null);
         } catch (FileSystemException ex) {
-            final IOException ioe = new IOException();
-            ioe.initCause(ex);
+            final IOException ioe = new IOException(ex);
             throw ioe;
         }
     }
@@ -398,7 +396,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         int blockSize = superblock.getBlockSize();
         Block result;
 
-        Integer key = Integer.valueOf((int) nr);
+        Integer key = (int) nr;
         synchronized (blockCache) {
             // check if the block has already been retrieved
             if (blockCache.containsKey(key)) {
@@ -453,7 +451,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
 
         Block block;
 
-        Integer key = Integer.valueOf((int) nr);
+        Integer key = (int) nr;
         int blockSize = superblock.getBlockSize();
         // check if the block is in the cache
         synchronized (blockCache) {
@@ -524,7 +522,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         if ((iNodeNr < 1) || (iNodeNr > superblock.getINodesCount())) throw new FileSystemException("INode number ("
             + iNodeNr + ") out of range (0-" + superblock.getINodesCount() + ")");
 
-        Long key = Long.valueOf(iNodeNr);
+        Long key = iNodeNr;
 
         log.debug("iNodeCache size: " + inodeCache.size());
 
@@ -641,7 +639,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
 
         // put the inode into the cache
         synchronized (inodeCache) {
-            Long key = Long.valueOf(iNodeNr);
+            Long key = iNodeNr;
             if (inodeCache.containsKey(key)) throw new FileSystemException(
                 "Newly allocated inode is already in the inode cache!?");
             else inodeCache.put(key, iNode);
@@ -927,7 +925,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
 
         // add the inode to the inode cache
         synchronized (inodeCache) {
-            inodeCache.put(Long.valueOf(Ext2Constants.EXT2_ROOT_INO), iNode);
+            inodeCache.put((long) Ext2Constants.EXT2_ROOT_INO, iNode);
         }
 
         modifyUsedDirsCount(0, 1);

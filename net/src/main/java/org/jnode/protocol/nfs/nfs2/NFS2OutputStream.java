@@ -40,7 +40,7 @@ import org.jnode.net.nfs.nfs2.mount.MountException;
 import org.jnode.net.nfs.nfs2.mount.MountResult;
 
 public class NFS2OutputStream extends OutputStream {
-    private static final boolean DEFAULT_PERMISSION[] =
+    private static final boolean[] DEFAULT_PERMISSION =
             new boolean[] {true, true, false, true, false, false, true, false, false};
     private static final int DEFAULT_BUFFER_SIZE = NFS2Client.MAX_DATA;
     private Mount1Client mountClient;
@@ -108,7 +108,7 @@ public class NFS2OutputStream extends OutputStream {
         try {
             String filePath = path.substring(exportEntry.getDirectory().length());
             StringTokenizer tokenizer = new StringTokenizer(filePath, "/");
-            List<String> tokenList = new ArrayList<String>();
+            List<String> tokenList = new ArrayList<>();
             while (tokenizer.hasMoreElements()) {
                 String t = tokenizer.nextToken();
                 tokenList.add(t);
@@ -141,7 +141,7 @@ public class NFS2OutputStream extends OutputStream {
             throw new IOException(e.getMessage());
         }
         if (fileHandle == null) {
-            throw new IOException("The target of the " + url.toString() + " it is not a file.");
+            throw new IOException("The target of the " + url + " it is not a file.");
         }
         buffer = new byte[DEFAULT_BUFFER_SIZE];
     }

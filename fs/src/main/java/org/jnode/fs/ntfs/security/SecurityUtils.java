@@ -55,7 +55,7 @@ public class SecurityUtils {
         byte[] authorityBuffer = new byte[6];
         structure.getData(offset + 2, authorityBuffer, 0, authorityBuffer.length);
         long authority = BigEndian.getUInt48(authorityBuffer, 0); // Why is this big endian??
-        List<Long> subAuthorities = new ArrayList<Long>();
+        List<Long> subAuthorities = new ArrayList<>();
 
         for (int i = 0; i < subAuthorityCount; i++) {
             subAuthorities.add(structure.getUInt32(offset + 8 + (4 * i)));

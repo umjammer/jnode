@@ -79,22 +79,20 @@ final class NetConfigurationData {
                 final Preferences devPrefs = devConfigsPrefs.node(device.getId());
                 final String clsName = devPrefs.get(CONFIG_CLASS_NAME_KEY, null);
                 if (clsName != null) {
-                    final PrivilegedAction<Object> action = new PrivilegedAction<Object>() {
-                        public Object run() {
-                            try {
-                                final Class<?> cls = 
-                                    Thread.currentThread().getContextClassLoader().loadClass(clsName);
-                                return cls.newInstance();
-                            } catch (ClassNotFoundException ex) {
-                                log.warn("NetDeviceConfig class not found", ex);
-                                return null;
-                            } catch (InstantiationException ex) {
-                                log.warn("Cannot instantiate NetDeviceConfig class", ex);
-                                return null;
-                            } catch (IllegalAccessException ex) {
-                                log.warn("Cannot access NetDeviceConfig class", ex);
-                                return null;
-                            }
+                    final PrivilegedAction<Object> action = () -> {
+                        try {
+                            final Class<?> cls =
+                                Thread.currentThread().getContextClassLoader().loadClass(clsName);
+                            return cls.newInstance();
+                        } catch (ClassNotFoundException ex) {
+                            log.warn("NetDeviceConfig class not found", ex);
+                            return null;
+                        } catch (InstantiationException ex) {
+                            log.warn("Cannot instantiate NetDeviceConfig class", ex);
+                            return null;
+                        } catch (IllegalAccessException ex) {
+                            log.warn("Cannot access NetDeviceConfig class", ex);
+                            return null;
                         }
                     };
                     cfg = (NetDeviceConfig) AccessController.doPrivileged(action);

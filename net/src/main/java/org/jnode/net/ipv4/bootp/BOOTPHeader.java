@@ -25,9 +25,10 @@ import org.jnode.net.SocketBuffer;
 import org.jnode.net.ethernet.EthernetAddress;
 import org.jnode.net.ipv4.IPv4Address;
 
-import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
 import java.net.Inet4Address;
+import java.nio.charset.StandardCharsets;
+
 
 /**
  * @author epr
@@ -65,19 +66,11 @@ public class BOOTPHeader {
     private String bootFileName;
 
     private static String asciiBytesToString(byte[] asciiBytes) {
-        try {
-            return new String(asciiBytes, "US-ASCII");
-        } catch (UnsupportedEncodingException ex) {
-            throw new RuntimeException(ex);
-        }
+        return new String(asciiBytes, StandardCharsets.US_ASCII);
     }
 
     private static byte[] stringToAsciiBytes(String str) {
-        try {
-            return str.getBytes("US-ASCII");
-        } catch (UnsupportedEncodingException ex) {
-            throw new RuntimeException(ex);
-        }
+        return str.getBytes(StandardCharsets.US_ASCII);
     }
 
     /**

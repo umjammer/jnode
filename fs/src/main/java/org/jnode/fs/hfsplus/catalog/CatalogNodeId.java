@@ -66,8 +66,8 @@ public class CatalogNodeId implements Comparable<CatalogNodeId> {
 
     @Override
     public int compareTo(CatalogNodeId o) {
-        Long currentId = Long.valueOf(this.getId());
-        Long compareId = Long.valueOf(o.getId());
+        Long currentId = this.getId();
+        Long compareId = o.getId();
         return currentId.compareTo(compareId);
     }
 

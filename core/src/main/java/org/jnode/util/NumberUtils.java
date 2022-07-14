@@ -248,12 +248,12 @@ public class NumberUtils {
     public static String size(long v) {
         for (SizeUnit unit : SizeUnit.values()) {
             if ((v < 1024) && (v >= 0)) {
-                return String.valueOf(v) + unit.getUnit();
+                return v + unit.getUnit();
             }
 
             v = v >>> 10;
         }
-        return String.valueOf(v >>> 10) + SizeUnit.MAX.getUnit();
+        return (v >>> 10) + SizeUnit.MAX.getUnit();
     }
 
     /**

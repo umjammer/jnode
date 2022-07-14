@@ -75,7 +75,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * List of connections that are established, but have not been "accepted"
      */
-    private LinkedList<TCPControlBlock> readyToAcceptList = new LinkedList<TCPControlBlock>();
+    private LinkedList<TCPControlBlock> readyToAcceptList = new LinkedList<>();
 
     /**
      * Has this connection be reset?
@@ -711,7 +711,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     public synchronized TCPControlBlock appAccept() {
         while (true) {
             if (!readyToAcceptList.isEmpty()) {
-                final TCPControlBlock child = (TCPControlBlock) readyToAcceptList.getFirst();
+                final TCPControlBlock child = readyToAcceptList.getFirst();
                 readyToAcceptList.remove(child);
                 return child;
             } else {

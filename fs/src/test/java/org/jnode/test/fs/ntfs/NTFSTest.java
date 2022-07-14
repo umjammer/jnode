@@ -89,7 +89,7 @@ public class NTFSTest {
         if (!entry.isDirectory()) {
             throw new IOException("Cannot list on non-directories " + directory);
         }
-        final ArrayList<String> list = new ArrayList<String>();
+        final ArrayList<String> list = new ArrayList<>();
         for (Iterator<? extends FSEntry> i = entry.getDirectory().iterator(); i.hasNext();) {
             final FSEntry child = i.next();
             final String name = child.getName();
@@ -110,7 +110,7 @@ public class NTFSTest {
                     "Name = \"" + name + "\" , IsDirectory = " + child.isDirectory());
         }
 
-        return list.toArray(new String[list.size()]);
+        return list.toArray(new String[0]);
     }
 
     public void iterateRoot(FSDirectory root) {

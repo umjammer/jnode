@@ -60,7 +60,7 @@ public class HfsWrapperFileSystemType implements BlockDeviceFileSystemType<HfsPl
         // Calculate the offset and length of the embedded HFS+ file system
         // Limit the length of the embedded file system to the size of the device; some wrappers seem to report the
         // wrong length otherwise.
-        long offset = mdb.getAllocationBlockStart() * 512 +
+        long offset = mdb.getAllocationBlockStart() * 512L +
             mdb.getEmbeddedVolumeStartBlock() * mdb.getAllocationBlockSize();
         long length = Math.min(deviceLength - offset, mdb.getEmbeddedVolumeBlockCount() * mdb.getAllocationBlockSize());
 

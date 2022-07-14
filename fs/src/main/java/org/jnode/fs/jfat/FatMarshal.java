@@ -169,7 +169,7 @@ public class FatMarshal {
         checkOffset(offset, length);
 
         for (int i = 0; i < length; i++)
-            LittleEndian.setInt8(array, offset + i, (int) value[i]);
+            LittleEndian.setInt8(array, offset + i, value[i]);
 
         setDirty();
     }
@@ -209,7 +209,7 @@ public class FatMarshal {
         out.println("length =\t" + length());
         out.println("dirty  =\t" + isDirty());
         out.println("array");
-        out.println(array);
+        out.println(Arrays.toString(array));
         out.print("*************************************************");
 
         return out.toString();

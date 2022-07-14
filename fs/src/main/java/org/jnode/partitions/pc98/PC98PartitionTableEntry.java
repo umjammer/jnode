@@ -35,8 +35,8 @@ public class PC98PartitionTableEntry implements PartitionTableEntry {
     public PC98PartitionTableEntry(PC98PartitionEntry pe, Device device) {
         this.pe = pe;
         if (device instanceof VirtualDiskDevice) {
-            heads = VirtualDiskDevice.class.cast(device).getHeads();
-            secs = VirtualDiskDevice.class.cast(device).getSectors();
+            heads = ((VirtualDiskDevice) device).getHeads();
+            secs = ((VirtualDiskDevice) device).getSectors();
         }
 Debug.printf("heads: %d, secs: %d, device: ", heads, secs, device.getClass().getName());
     }
@@ -68,7 +68,7 @@ Debug.printf("heads: %d, secs: %d, device: ", heads, secs, device.getClass().get
 Debug.printf("s.c: %d, s.h: %d, s.s: %d, heads: %d, secs: %d, bps: %d", pe.startCylinder, pe.startHeader, pe.startSector, heads, secs, sectorSize);
 //        return toLBA(pe.startCylinder, pe.startHeader, pe.startSector, heads, secs) * sectorSize;
         if (heads != 0 && secs != 0) {
-            return secs * heads * pe.startCylinder * sectorSize;
+            return (long) secs * heads * pe.startCylinder * sectorSize;
         } else {
 Debug.println(Level.WARNING, "@@@@@@@@@@@@@@@@@@@@@@@@ mgick number is used @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             return 0x20000;
@@ -78,6 +78,6 @@ Debug.println(Level.WARNING, "@@@@@@@@@@@@@@@@@@@@@@@@ mgick number is used @@@@
     @Override
     public long getEndOffset(int sectorSize) {
 Debug.printf("e.c: %d, e.h: %d, e.s: %d, heads: %d, secs: %d, bps: %d", pe.endCylinder, pe.endHeader, pe.endSector, heads, secs, sectorSize);
-        return toLBA(pe.endCylinder, pe.endHeader, pe.endSector, heads, secs) * sectorSize;
+        return (long) toLBA(pe.endCylinder, pe.endHeader, pe.endSector, heads, secs) * sectorSize;
     }
 }

@@ -22,7 +22,6 @@ package org.jnode.net.ipv4.icmp;
 
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.TransportLayerHeader;
-import org.jnode.net.ipv4.IPv4Header;
 import org.jnode.net.ipv4.IPv4Utils;
 
 /**
@@ -57,7 +56,7 @@ public abstract class ICMPHeader implements TransportLayerHeader, ICMPConstants 
     public ICMPHeader(SocketBuffer skbuf) {
         this.type = ICMPType.getType(skbuf.get(0));
         this.code = skbuf.get(1);
-        final int dataLength = ((IPv4Header) skbuf.getNetworkLayerHeader()).getDataLength();
+        final int dataLength = skbuf.getNetworkLayerHeader().getDataLength();
         final int ccs = IPv4Utils.calcChecksum(skbuf, 0, dataLength);
         this.checksumOk = (ccs == 0);
     }

@@ -30,7 +30,7 @@ import org.jnode.net.ipv4.IPv4Address;
 public interface IPv4ConfigurationService {
 
     /** Name used to register this service in the initial naming namespace */
-    public static final Class<IPv4ConfigurationService> NAME = IPv4ConfigurationService.class;
+    Class<IPv4ConfigurationService> NAME = IPv4ConfigurationService.class;
 
     /**
      * Configure the device using BOOTP.
@@ -39,7 +39,7 @@ public interface IPv4ConfigurationService {
      * @param persistent
      * @throws NetworkException
      */
-    public void configureDeviceBootp(Device device, boolean persistent) throws NetworkException;
+    void configureDeviceBootp(Device device, boolean persistent) throws NetworkException;
 
     /**
      * Configure the device using DHCP.
@@ -48,7 +48,7 @@ public interface IPv4ConfigurationService {
      * @param persistent
      * @throws NetworkException
      */
-    public void configureDeviceDhcp(Device device, boolean persistent) throws NetworkException;
+    void configureDeviceDhcp(Device device, boolean persistent) throws NetworkException;
 
     /**
      * Set a static configuration for the given device.
@@ -59,7 +59,7 @@ public interface IPv4ConfigurationService {
      * @param persistent
      * @throws NetworkException
      */
-    public void configureDeviceStatic(Device device, IPv4Address address, IPv4Address netmask,
+    void configureDeviceStatic(Device device, IPv4Address address, IPv4Address netmask,
             boolean persistent) throws NetworkException;
 
     /**
@@ -71,7 +71,7 @@ public interface IPv4ConfigurationService {
      * @param persistent
      * @throws NetworkException
      */
-    public void addRoute(IPv4Address target, IPv4Address gateway, Device device, boolean persistent)
+    void addRoute(IPv4Address target, IPv4Address gateway, Device device, boolean persistent)
         throws NetworkException;
 
     /**
@@ -82,6 +82,6 @@ public interface IPv4ConfigurationService {
      * @param device
      * @throws NetworkException
      */
-    public void deleteRoute(IPv4Address target, IPv4Address gateway, Device device)
+    void deleteRoute(IPv4Address target, IPv4Address gateway, Device device)
         throws NetworkException;
 }

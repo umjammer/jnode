@@ -154,7 +154,7 @@ public class NFS2InputStream extends InputStream {
             throw e;
         }
         if (fileHandle == null) {
-            throw new IOException("The target of the " + url.toString() + " it is not a file.");
+            throw new IOException("The target of the " + url + " it is not a file.");
         }
         buffer = new byte[DEFAULT_BUFFER_SIZE];
     }

@@ -22,13 +22,13 @@ package org.jnode.fs.hfsplus.tree;
 
 public interface Node<T extends NodeRecord> {
 
-    public static final int OFFSET_SIZE = 2;
+    int OFFSET_SIZE = 2;
 
-    public NodeDescriptor getNodeDescriptor();
+    NodeDescriptor getNodeDescriptor();
 
-    public int getRecordOffset(int index);
+    int getRecordOffset(int index);
 
-    public T getNodeRecord(int index);
+    T getNodeRecord(int index);
 
     /**
      * Insert a record in the node.
@@ -37,5 +37,5 @@ public interface Node<T extends NodeRecord> {
      * @return True if record is correctly inserted, false if there is not
      *         enough place to insert the record.
      */
-    public boolean addNodeRecord(T record);
+    boolean addNodeRecord(T record);
 }

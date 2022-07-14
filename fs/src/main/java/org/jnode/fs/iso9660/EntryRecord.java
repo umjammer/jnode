@@ -126,7 +126,7 @@ public class EntryRecord extends Descriptor {
         return volume;
     }
 
-    private final String getFileIdentifier(byte[] buff, int offset, boolean isDir, String encoding) {
+    private String getFileIdentifier(byte[] buff, int offset, boolean isDir, String encoding) {
         final int fidLength = getUInt8(buff, offset + 33);
         if (isDir) {
             final int buff34 = getUInt8(buff, offset + 34);

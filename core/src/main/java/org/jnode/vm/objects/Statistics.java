@@ -30,6 +30,6 @@ public interface Statistics {
      *
      * @return All statistics
      */
-    public Statistic[] getStatistics();
+    Statistic[] getStatistics();
 
 }

@@ -37,14 +37,14 @@ public interface FileSystem<T extends FSEntry> {
      * @return {@link FSEntry} corresponding to root entry.
      * @throws IOException if an I/O error occurs
      */
-    public T getRootEntry() throws IOException;
+    T getRootEntry() throws IOException;
 
     /**
      * Returns <tt>true</tt> if the file system is mounted in read-only mode.
      *
      * @return <tt>true</tt> if it's a read-only file system.
      */
-    public boolean isReadOnly();
+    boolean isReadOnly();
 
     /**
      * Close this file system. After a close, all invocations of method of this file system or objects created by this
@@ -52,14 +52,14 @@ public interface FileSystem<T extends FSEntry> {
      *
      * @throws IOException if an I/O error occurs
      */
-    public void close() throws IOException;
+    void close() throws IOException;
 
     /**
      * Returns <tt>true</tt> if this file system is close.
      *
      * @return <tt>true</tt> if file system is closed.
      */
-    public boolean isClosed();
+    boolean isClosed();
 
     /**
      * Return The total size in bytes of this file system.
@@ -67,7 +67,7 @@ public interface FileSystem<T extends FSEntry> {
      * @return total size in bytes or -1 if this feature is unsupported.
      * @throws IOException if an I/O error occurs
      */
-    public long getTotalSpace() throws IOException;
+    long getTotalSpace() throws IOException;
 
     /**
      * The total free space in bytes of this file system.
@@ -75,7 +75,7 @@ public interface FileSystem<T extends FSEntry> {
      * @return total free space in bytes or -1 if this feature is unsupported
      * @throws IOException if an I/O error occurs
      */
-    public long getFreeSpace() throws IOException;
+    long getFreeSpace() throws IOException;
 
     /**
      * The usable space of this file system.
@@ -83,7 +83,7 @@ public interface FileSystem<T extends FSEntry> {
      * @return usable space in bytes or -1 if this feature is unsupported
      * @throws IOException if an I/O error occurs
      */
-    public long getUsableSpace() throws IOException;
+    long getUsableSpace() throws IOException;
 
     /**
      * Gets the volume name for this file system.
@@ -91,5 +91,5 @@ public interface FileSystem<T extends FSEntry> {
      * @return the volume name.
      * @throws IOException if an error occurs reading the volume name.
      */
-    public String getVolumeName() throws IOException;
+    String getVolumeName() throws IOException;
 }

@@ -36,8 +36,7 @@ public class TCPTest {
 
     public static void main(String[] args) throws Exception {
         // Listen to http messages
-        final ServerSocket socket = new ServerSocket(80);
-        try {
+        try (ServerSocket socket = new ServerSocket(80)) {
             for (int i = 0; i < 5; i++) {
                 Socket s = socket.accept();
                 System.out.println("Received call on port 80 from " + s.getRemoteSocketAddress());
@@ -58,8 +57,6 @@ public class TCPTest {
             }
 
             System.out.println("I'm stopping now");
-        } finally {
-            socket.close();
         }
     }
 }

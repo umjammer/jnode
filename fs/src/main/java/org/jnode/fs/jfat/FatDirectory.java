@@ -38,7 +38,7 @@ public class FatDirectory extends FatEntry implements FSDirectory, FSDirectoryId
     /**
      * The map of ID -> entry.
      */
-    private final Map<String, FatEntry> idMap = new HashMap<String, FatEntry>();
+    private final Map<String, FatEntry> idMap = new HashMap<>();
 
     /*
      * for root directory
@@ -81,7 +81,7 @@ public class FatDirectory extends FatEntry implements FSDirectory, FSDirectoryId
      */
     public FatDirEntry getFatDirEntry(int index, boolean allowDeleted) throws IOException {
         FatMarshal entry = new FatMarshal(FatDirEntry.LENGTH);
-        getChain().read(index * entry.length(), entry.getByteBuffer());
+        getChain().read((long) index * entry.length(), entry.getByteBuffer());
         return createDirEntry(entry, index, allowDeleted);
     }
 
@@ -159,7 +159,7 @@ public class FatDirectory extends FatEntry implements FSDirectory, FSDirectoryId
      * this instead is a "write" method: it needs a "created" entry
      */
     public void setFatDirEntry(FatDirEntry entry) throws IOException {
-        getChain().write(entry.getIndex() * entry.length(), entry.getByteBuffer());
+        getChain().write((long) entry.getIndex() * entry.length(), entry.getByteBuffer());
     }
 
     public FatDirEntry[] getFatFreeEntries(int n) throws IOException {

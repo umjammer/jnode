@@ -143,7 +143,7 @@ Debug.println(Level.FINE, "bpb:\n" + StringUtil.getDump(sector, 256));
     }
 
     private void compute() {
-        RootDirSectors = ((BPB_RootEntCnt * 32) + (BPB_BytsPerSec - 1)) / BPB_BytsPerSec;
+        RootDirSectors = ((BPB_RootEntCnt * 32L) + (BPB_BytsPerSec - 1)) / BPB_BytsPerSec;
 
         if (BPB_FATSz16 != 0)
             FATSz = BPB_FATSz16;

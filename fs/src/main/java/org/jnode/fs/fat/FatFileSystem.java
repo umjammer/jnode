@@ -39,7 +39,7 @@ public class FatFileSystem extends AbstractFileSystem<FatRootEntry> {
     private Fat fat;
     private final FatDirectory rootDir;
     private final FatRootEntry rootEntry;
-    private final HashMap<FatDirEntry, FatFile> files = new HashMap<FatDirEntry, FatFile>();
+    private final HashMap<FatDirEntry, FatFile> files = new HashMap<>();
 
     /**
      * Constructor for FatFileSystem in specified readOnly mode

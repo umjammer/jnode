@@ -51,7 +51,7 @@ public class INodeReservation {
 
     public long getINodeNr(int iNodesPerGroup) {
         // iNodes start with 1
-        return iNodesPerGroup * group + index + 1;
+        return (long) iNodesPerGroup * group + index + 1;
     }
 
     /**

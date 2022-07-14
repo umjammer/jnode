@@ -21,7 +21,6 @@
 package org.jnode.test.fs.ntfs;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -83,8 +82,6 @@ public class NTFSUnitTest {
             }
 
             fileSystem.close();
-        } catch (FileNotFoundException e) {
-            fail("Unexpected exception : " + e.getMessage());
         } catch (IOException e) {
             fail("Unexpected exception : " + e.getMessage());
         }
@@ -131,8 +128,6 @@ public class NTFSUnitTest {
             sparseFile2.read(0, ByteBuffer.wrap(actualContents));
             assertEquals(expectedContents, actualContents, "Wrong contents for sparse file 2");
             fileSystem.close();
-        } catch (FileNotFoundException e) {
-            fail("Unexpected exception : " + e.getMessage());
         } catch (IOException e) {
             fail("Unexpected exception : " + e.getMessage());
         }

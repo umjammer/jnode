@@ -28,7 +28,7 @@ public class XAttrEntry {
     /**
      * The map of name index to well-known name prefixes.
      */
-    private static final Map<Integer, String> NAME_INDEX_PREFIX_MAP = new HashMap<Integer, String>();
+    private static final Map<Integer, String> NAME_INDEX_PREFIX_MAP = new HashMap<>();
 
     static {
         NAME_INDEX_PREFIX_MAP.put(1, "user.");

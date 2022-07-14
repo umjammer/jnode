@@ -142,8 +142,7 @@ public class INode {
                 dirty = false;
             }
         } catch (FileSystemException ex) {
-            final IOException ioe = new IOException();
-            ioe.initCause(ex);
+            final IOException ioe = new IOException(ex);
             throw ioe;
         }
     }
@@ -192,7 +191,7 @@ public class INode {
      * @return the list of attributes.
      */
     public List<XAttrEntry> getAttributes() {
-        List<XAttrEntry> attributes = new ArrayList<XAttrEntry>();
+        List<XAttrEntry> attributes = new ArrayList<>();
         attributes.addAll(getInlineAttributes());
         attributes.addAll(getAttributesInBlock());
         return attributes;
@@ -204,7 +203,7 @@ public class INode {
      * @return the list of attributes.
      */
     public List<XAttrEntry> getInlineAttributes() {
-        List<XAttrEntry> attributes = new ArrayList<XAttrEntry>();
+        List<XAttrEntry> attributes = new ArrayList<>();
         int inodeSize = getExt2FileSystem().getSuperblock().getINodeSize();
         int xattrAvailableSize = inodeSize - (EXT2_GOOD_OLD_INODE_SIZE + getExtraISize());
 
@@ -237,7 +236,7 @@ public class INode {
      * @return the list of attributes.
      */
     public List<XAttrEntry> getAttributesInBlock() {
-        List<XAttrEntry> attributes = new ArrayList<XAttrEntry>();
+        List<XAttrEntry> attributes = new ArrayList<>();
         long xAttrBlockNumber = getXAttrBlock();
 
         if (xAttrBlockNumber != 0) {
@@ -270,7 +269,7 @@ public class INode {
      *
      * @return the count
      */
-    private final int getIndirectCount() {
+    private int getIndirectCount() {
         return fs.getSuperblock().getBlockSize() >> 2; //a block index is 4
         // bytes long
     }
@@ -287,7 +286,7 @@ public class INode {
      * @param indirectionLevel 0 is a direct block, 1 is a simple indirect block, and
      *                         so on.
      */
-    private final long indirectRead(long dataBlockNr, long offset, int indirectionLevel)
+    private long indirectRead(long dataBlockNr, long offset, int indirectionLevel)
         throws IOException {
         byte[] data = fs.getBlock(dataBlockNr);
         if (indirectionLevel == 1)
@@ -308,8 +307,8 @@ public class INode {
      *
      * @param allocatedBlocks (the number of blocks allocated so far)-1
      */
-    private final void indirectWrite(long dataBlockNr, long offset, long allocatedBlocks,
-                                     long value, int indirectionLevel) throws IOException, FileSystemException {
+    private void indirectWrite(long dataBlockNr, long offset, long allocatedBlocks,
+                               long value, int indirectionLevel) throws IOException, FileSystemException {
         log.debug("indirectWrite(blockNr=" + dataBlockNr + ", offset=" + offset + "...)");
         byte[] data = fs.getBlock(dataBlockNr);
         if (indirectionLevel == 1) {
@@ -348,7 +347,7 @@ public class INode {
      * @param indirectionLevel
      * @throws IOException
      */
-    private final void indirectFree(long dataBlockNr, long offset, int indirectionLevel)
+    private void indirectFree(long dataBlockNr, long offset, int indirectionLevel)
         throws IOException, FileSystemException {
         log.debug("indirectFree(datablockNr=" + dataBlockNr + ", offset=" + offset + ", ind=" +
             indirectionLevel + ")");
@@ -449,15 +448,15 @@ public class INode {
 
         //see the double indirect blocks (indirectCount; doubleIndirectCount-1)
         i -= indirectCount;
-        if (i < indirectCount * indirectCount) {
+        if (i < (long) indirectCount * indirectCount) {
             //the 13th index points to the double indirect block
             return indirectRead(LittleEndian.getUInt32(data, 40 + 13 * 4), i, 2);
         }
 
         //see the triple indirect blocks (doubleIndirectCount;
         // tripleIndirectCount-1)
-        i -= indirectCount * indirectCount;
-        if (i < indirectCount * indirectCount * indirectCount) {
+        i -= (long) indirectCount * indirectCount;
+        if (i < (long) indirectCount * indirectCount * indirectCount) {
             //the 14th index points to the triple indirect block
             return indirectRead(LittleEndian.getUInt32(data, 40 + 14 * 4), i, 3);
         }
@@ -491,7 +490,7 @@ public class INode {
      * @param i       the ith block of the inode has been reserved
      * @param blockNr the block (in the filesystem) that has been reserved
      */
-    private final void registerBlockIndex(long i, long blockNr)
+    private void registerBlockIndex(long i, long blockNr)
         throws FileSystemException, IOException {
         final long blockCount = getSizeInBlocks();
         final int indirectCount = getIndirectCount();
@@ -611,7 +610,7 @@ public class INode {
             return;
         }
 
-        long prealloc512 = preallocCount * (fs.getBlockSize() / 512);
+        long prealloc512 = (long) preallocCount * (fs.getBlockSize() / 512);
         setBlocks(getBlocks() - prealloc512);
 
         while (desc.getPreallocCount() > 0) {
@@ -672,7 +671,7 @@ public class INode {
 
         //see the double indirect blocks (indirectCount; doubleIndirectCount-1)
         i -= indirectCount;
-        if (i < indirectCount * indirectCount) {
+        if (i < (long) indirectCount * indirectCount) {
             //the 13th index points to the double indirect block
             indirectFree(LittleEndian.getUInt32(data, 40 + 13 * 4), i, 2);
             //if this was the last block on the double indirect block, then
@@ -686,8 +685,8 @@ public class INode {
 
         //see the triple indirect blocks (doubleIndirectCount;
         // tripleIndirectCount-1)
-        i -= indirectCount * indirectCount;
-        if (i < indirectCount * indirectCount * indirectCount) {
+        i -= (long) indirectCount * indirectCount;
+        if (i < (long) indirectCount * indirectCount * indirectCount) {
             //the 14th index points to the triple indirect block
             indirectFree(LittleEndian.getUInt32(data, 40 + 14 * 4), i, 3);
             //if this was the last block on the triple indirect block, then
@@ -799,7 +798,7 @@ public class INode {
                     desc.setPreallocCount(reservation.getPreallocCount());
 
                     long prealloc512 =
-                        (1 + reservation.getPreallocCount()) * (fs.getBlockSize() / 512);
+                            (long) (1 + reservation.getPreallocCount()) * (fs.getBlockSize() / 512);
                     setBlocks(getBlocks() + prealloc512);
 
                     return lastBlock + i;
@@ -813,7 +812,7 @@ public class INode {
                     desc.setPreallocCount(reservation.getPreallocCount());
 
                     long prealloc512 =
-                        (1 + reservation.getPreallocCount()) * (fs.getBlockSize() / 512);
+                            (long) (1 + reservation.getPreallocCount()) * (fs.getBlockSize() / 512);
                     setBlocks(getBlocks() + prealloc512);
 
                     return lastBlock + i;
@@ -829,7 +828,7 @@ public class INode {
             desc.setPreallocBlock(reservation.getBlock() + 1);
             desc.setPreallocCount(reservation.getPreallocCount());
 
-            long prealloc512 = (1 + reservation.getPreallocCount()) * (fs.getBlockSize() / 512);
+            long prealloc512 = (long) (1 + reservation.getPreallocCount()) * (fs.getBlockSize() / 512);
             setBlocks(getBlocks() + prealloc512);
 
             return reservation.getBlock();
@@ -851,7 +850,7 @@ public class INode {
                 desc.setPreallocBlock(reservation.getBlock() + 1);
                 desc.setPreallocCount(reservation.getPreallocCount());
 
-                long prealloc512 = (1 + reservation.getPreallocCount()) * (fs.getBlockSize() / 512);
+                long prealloc512 = (long) (1 + reservation.getPreallocCount()) * (fs.getBlockSize() / 512);
                 setBlocks(getBlocks() + prealloc512);
 
                 return reservation.getBlock();
@@ -871,7 +870,7 @@ public class INode {
                 desc.setPreallocBlock(reservation.getBlock() + 1);
                 desc.setPreallocCount(reservation.getPreallocCount());
 
-                long prealloc512 = (1 + reservation.getPreallocCount()) * (fs.getBlockSize() / 512);
+                long prealloc512 = (long) (1 + reservation.getPreallocCount()) * (fs.getBlockSize() / 512);
                 setBlocks(getBlocks() + prealloc512);
 
                 return reservation.getBlock();

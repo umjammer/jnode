@@ -50,7 +50,7 @@ public class BootableHashMap<K, V> extends VmSystemObject implements Map<K, V> {
      * @param initialCapacity
      */
     public BootableHashMap(int initialCapacity) {
-        mapCache = new HashMap<K, V>(initialCapacity);
+        mapCache = new HashMap<>(initialCapacity);
         this.hashCode = mapCache.hashCode();
     }
 
@@ -210,7 +210,7 @@ public class BootableHashMap<K, V> extends VmSystemObject implements Map<K, V> {
      *
      * @return
      */
-    private final HashMap<K, V> getMapCache() {
+    private HashMap<K, V> getMapCache() {
         if (locked) {
             throw new RuntimeException("Cannot change a locked BootableHashMap");
         }
@@ -218,15 +218,14 @@ public class BootableHashMap<K, V> extends VmSystemObject implements Map<K, V> {
             if (entryArray != null) {
                 final int max = entryArray.length;
 
-                mapCache = new HashMap<K, V>(max);                
-                for (int i = 0; i < max; i++) {
-                    final Entry<K, V> e = entryArray[i];
+                mapCache = new HashMap<>(max);
+                for (final Entry<K, V> e : entryArray) {
                     mapCache.put(e.getKey(), e.getValue());
                 }
 
                 entryArray = null;
             } else {
-                mapCache = new HashMap<K, V>();                
+                mapCache = new HashMap<>();
             }
         }
         return mapCache;
@@ -243,7 +242,7 @@ public class BootableHashMap<K, V> extends VmSystemObject implements Map<K, V> {
             entryArray = new Entry[mapCache.size()];
             int index = 0;
             for (Map.Entry<K, V> entry : mapCache.entrySet()) {
-                entryArray[index++] = new Entry<K, V>(entry);
+                entryArray[index++] = new Entry<>(entry);
             }
             hashCode = mapCache.hashCode();
             mapCache = null;

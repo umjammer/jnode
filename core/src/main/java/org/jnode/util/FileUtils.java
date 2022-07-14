@@ -23,12 +23,12 @@ package org.jnode.util;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
+
 
 /**
  * <description>
@@ -64,7 +64,7 @@ public class FileUtils {
      * @param close If true, is is closed after the copy.
      * @throws IOException
      */
-    public static final void copy(InputStream is, OutputStream os, byte[] buf, boolean close) throws IOException {
+    public static void copy(InputStream is, OutputStream os, byte[] buf, boolean close) throws IOException {
         try {
             int len;
             if (buf == null) {
@@ -89,7 +89,7 @@ public class FileUtils {
      * @param close If true, is is closed after the copy.
      * @throws IOException
      */
-    public static final byte[] load(InputStream is, boolean close) throws IOException {
+    public static byte[] load(InputStream is, boolean close) throws IOException {
         final ByteArrayOutputStream os = new ByteArrayOutputStream();
         copy(is, os, null, close);
         return os.toByteArray();
@@ -102,7 +102,7 @@ public class FileUtils {
      * @param close If true, is is closed after the copy.
      * @throws IOException
      */
-    public static final ByteBuffer loadToBuffer(InputStream is, boolean close) throws IOException {
+    public static ByteBuffer loadToBuffer(InputStream is, boolean close) throws IOException {
         return ByteBuffer.wrap(load(is, close));
     }
 
@@ -112,7 +112,7 @@ public class FileUtils {
      * @param closeable the stream to close, might be null
      * @return true if the stream was null or was closed properly
      */
-    public static final boolean close(Closeable closeable) {
+    public static boolean close(Closeable closeable) {
         boolean ok = false;
 
         try {
@@ -128,13 +128,13 @@ public class FileUtils {
         return ok;
     }
 
-    public static final void copyFile(File srcFile, File destFile) throws IOException {
+    public static void copyFile(File srcFile, File destFile) throws IOException {
         InputStream in = null;
         OutputStream out = null;
 
         try {
-            in = new FileInputStream(srcFile);
-            out = new FileOutputStream(destFile);
+            in = Files.newInputStream(srcFile.toPath());
+            out = Files.newOutputStream(destFile.toPath());
 
             byte[] buffer = new byte[1024];
             int bytesRead;
@@ -147,7 +147,7 @@ public class FileUtils {
         }
     }
 
-    public static final void copyFile(String srcFileCopy, String destFileCopy, String destFileName) throws IOException {
+    public static void copyFile(String srcFileCopy, String destFileCopy, String destFileName) throws IOException {
 
         // make sure the source file is indeed a readable file
         File srcFile = new File(srcFileCopy);

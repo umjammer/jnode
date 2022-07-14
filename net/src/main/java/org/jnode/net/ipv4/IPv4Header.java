@@ -219,15 +219,14 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
      * identification, protocol, srcAddress, dstAddress
      */
     public Object getFragmentListKey() {
-        final StringBuilder b = new StringBuilder();
-        b.append(identification);
-        b.append('-');
-        b.append(protocol);
-        b.append('-');
-        b.append(srcAddress);
-        b.append('-');
-        b.append(dstAddress);
-        return b.toString();
+        String b = String.valueOf(identification) +
+                '-' +
+                protocol +
+                '-' +
+                srcAddress +
+                '-' +
+                dstAddress;
+        return b;
     }
 
     /**

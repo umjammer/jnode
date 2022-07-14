@@ -48,7 +48,7 @@ public class BOOTPServer {
     public static final int CLIENT_PORT = 68;
 
     private DatagramSocket socket;
-    private final Map<String, TableEntry> table = new HashMap<String, TableEntry>();
+    private final Map<String, TableEntry> table = new HashMap<>();
 
     public static void main(String[] args) {
         String filename = "bootptab.xml";
@@ -78,8 +78,7 @@ public class BOOTPServer {
     }
 
     private void loadTable(String filename) throws IOException {
-        FileReader reader = new FileReader(filename);
-        try {
+        try (FileReader reader = new FileReader(filename)) {
             XMLElement xml = new XMLElement();
             xml.parseFromReader(reader);
             List<XMLElement> children = xml.getChildren();
@@ -87,13 +86,11 @@ public class BOOTPServer {
                 XMLElement child = (XMLElement) aChildren;
                 try {
                     table.put(child.getStringAttribute("ethernetAddress").toUpperCase(),
-                        new TableEntry(child));
+                            new TableEntry(child));
                 } catch (IllegalArgumentException ex) {
                     log.debug("Invalid IP address", ex);
                 }
             }
-        } finally {
-            reader.close();
         }
     }
 
@@ -136,7 +133,7 @@ public class BOOTPServer {
         log.debug("Got Hardware address   : " + hdr.getClientHwAddress());
 
         TableEntry entry =
-                (TableEntry) table.get(hdr.getClientHwAddress().toString().toUpperCase());
+                table.get(hdr.getClientHwAddress().toString().toUpperCase());
         if (entry == null) {
             // no entry in table
             log.debug("No match for hardware address found in table");

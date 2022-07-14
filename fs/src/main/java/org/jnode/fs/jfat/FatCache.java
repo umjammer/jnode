@@ -128,7 +128,7 @@ public class FatCache {
     }
 
     private long getUInt32(long offset) throws IOException {
-        long addr = (long) (offset / elementSize);
+        long addr = offset / elementSize;
         int ofs = (int) (offset % elementSize);
 
         byte[] data = get(addr).getData();
@@ -148,7 +148,7 @@ public class FatCache {
     }
 
     private void setInt32(long offset, int value) throws IOException {
-        long addr = (long) (offset / elementSize);
+        long addr = offset / elementSize;
         int ofs = (int) (offset % elementSize);
 
         CacheElement c = get(addr);
@@ -219,7 +219,7 @@ public class FatCache {
         private static final long serialVersionUID = 1L;
         private final int cacheSize;
         private final CacheKey key = new CacheKey();
-        private final Stack<CacheElement> free = new Stack<CacheElement>();
+        private final Stack<CacheElement> free = new Stack<>();
 
         private CacheMap(int cacheSize) {
             super((int) Math.ceil(cacheSize / loadFactor) + 1, loadFactor, true);
@@ -303,7 +303,7 @@ public class FatCache {
      * Here we need to "wrap" a long because Java Long wrapper is an "immutable"
      * type
      */
-    private class CacheKey {
+    private static class CacheKey {
         private static final long FREE = -1;
 
         private long key;

@@ -123,16 +123,17 @@ public class SupplementaryVolumeDescriptor extends VolumeDescriptor {
      * @return the encoding name
      */
     private String getEncoding(String escapeSequences) throws UnsupportedEncodingException {
-        if (escapeSequences.equals("%/@")) {
+        switch (escapeSequences) {
+        case "%/@":
             // UCS-2 level 1
             return "UTF-16BE";
-        } else if (escapeSequences.equals("%/C")) {
+        case "%/C":
             // UCS-2 level 2
             return "UTF-16BE";
-        } else if (escapeSequences.equals("%/E")) {
+        case "%/E":
             // UCS-2 level 3
             return "UTF-16BE";
-        } else {
+        default:
             // Unknown
             throw new UnsupportedEncodingException(escapeSequences);
         }

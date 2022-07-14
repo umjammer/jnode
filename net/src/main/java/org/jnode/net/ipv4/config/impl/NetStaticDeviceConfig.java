@@ -108,7 +108,7 @@ public class NetStaticDeviceConfig extends NetDeviceConfig {
      * @param key
      * @return
      */
-    private final IPv4Address loadAddress(Preferences prefs, String key) {
+    private IPv4Address loadAddress(Preferences prefs, String key) {
         final String addrStr = prefs.get(key, null);
         if (addrStr == null) {
             return null;
@@ -124,7 +124,7 @@ public class NetStaticDeviceConfig extends NetDeviceConfig {
      * @param key
      * @param address
      */
-    private final void storeAddress(Preferences prefs, String key, IPv4Address address) {
+    private void storeAddress(Preferences prefs, String key, IPv4Address address) {
         if (address != null) {
             prefs.put(key, address.toString());
         } else {

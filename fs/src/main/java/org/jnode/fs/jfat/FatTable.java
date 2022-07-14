@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FatTable {
-    private final Map<FatKey, FatEntry> table = new HashMap<FatKey, FatEntry>();
+    private final Map<FatKey, FatEntry> table = new HashMap<>();
 
     public FatTable() {
     }
@@ -80,9 +80,7 @@ public class FatTable {
      * Print FAT table content.
      */
     public String toString() {
-        StrWriter out = null;
-        try {
-            out = new StrWriter();
+        try (StrWriter out = new StrWriter()) {
 
             Iterator<FatKey> i = table.keySet().iterator();
 
@@ -92,12 +90,10 @@ public class FatTable {
             out.print("\t\t]");
 
             return out.toString();
-        } finally {
-            out.close();
         }
     }
 
-    private class FatKey {
+    private static class FatKey {
         private final String key;
 
         private FatKey(String value) {

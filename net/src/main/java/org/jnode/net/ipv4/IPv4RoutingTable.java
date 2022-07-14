@@ -32,7 +32,7 @@ import java.util.Vector;
 public class IPv4RoutingTable {
 
     /** All entries as instanceof IPv4Route */
-    private final Vector<IPv4Route> entries = new Vector<IPv4Route>();
+    private final Vector<IPv4Route> entries = new Vector<>();
 
     /**
      * Create a new instance
@@ -53,7 +53,7 @@ public class IPv4RoutingTable {
      * @param index
      */
     public IPv4Route get(int index) {
-        return (IPv4Route) entries.get(index);
+        return entries.get(index);
     }
 
     /**
@@ -81,7 +81,7 @@ public class IPv4RoutingTable {
      * @return a list of IPv4Route entries.
      */
     public List<IPv4Route> entries() {
-        return new ArrayList<IPv4Route>(entries);
+        return new ArrayList<>(entries);
     }
 
     /**

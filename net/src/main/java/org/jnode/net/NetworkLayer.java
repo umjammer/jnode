@@ -37,17 +37,17 @@ public interface NetworkLayer {
     /**
      * Gets the name of this type
      */
-    public String getName();
+    String getName();
 
     /**
      * Gets the protocol ID this layer handles
      */
-    public int getProtocolID();
+    int getProtocolID();
 
     /**
      * Can this packet type process packets received from the given device?
      */
-    public boolean isAllowedForDevice(Device dev);
+    boolean isAllowedForDevice(Device dev);
 
     /**
      * Process a packet that has been received and matches getType()
@@ -56,12 +56,12 @@ public interface NetworkLayer {
      * @param deviceAPI
      * @throws SocketException
      */
-    public void receive(SocketBuffer skbuf, NetDeviceAPI deviceAPI) throws SocketException;
+    void receive(SocketBuffer skbuf, NetDeviceAPI deviceAPI) throws SocketException;
 
     /**
      * Gets the statistics of this protocol
      */
-    public Statistics getStatistics();
+    Statistics getStatistics();
 
     /**
      * Register a transportlayer as possible destination of packets received by
@@ -69,7 +69,7 @@ public interface NetworkLayer {
      * 
      * @param layer
      */
-    public void registerTransportLayer(TransportLayer layer)
+    void registerTransportLayer(TransportLayer layer)
         throws LayerAlreadyRegisteredException, InvalidLayerException;
 
     /**
@@ -77,12 +77,12 @@ public interface NetworkLayer {
      * 
      * @param layer
      */
-    public void unregisterTransportLayer(TransportLayer layer);
+    void unregisterTransportLayer(TransportLayer layer);
 
     /**
      * Gets all registered transport-layers
      */
-    public Collection<TransportLayer> getTransportLayers();
+    Collection<TransportLayer> getTransportLayers();
 
     /**
      * Gets a registered transportlayer by its protocol ID.
@@ -90,7 +90,7 @@ public interface NetworkLayer {
      * @param protocolID
      * @throws NoSuchProtocolException No protocol with the given ID was found.
      */
-    public TransportLayer getTransportLayer(int protocolID) throws NoSuchProtocolException;
+    TransportLayer getTransportLayer(int protocolID) throws NoSuchProtocolException;
 
     /**
      * Gets the protocol addresses for a given name, or null if not found.
@@ -98,5 +98,5 @@ public interface NetworkLayer {
      * @param hostname
      * @return the addresses or {@code null}
      */
-    public ProtocolAddress[] getHostByName(String hostname);
+    ProtocolAddress[] getHostByName(String hostname);
 }

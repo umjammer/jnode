@@ -47,7 +47,7 @@ public class PC98PartitionTableType implements PartitionTableType {
         return "pc98";
     }
 
-    static String iplSignatures[] = {
+    private static final String[] iplSignatures = {
         "IPL1", "Linux 98", "GRUB/98 "
     };
 
@@ -64,7 +64,7 @@ Debug.printf("No aa55 magic: %04x%n", LittleEndian.getUInt16(bootSector, 510));
             return false;
         }
 
-        if (!Arrays.asList(iplSignatures).stream().anyMatch(s -> 
+        if (Arrays.stream(iplSignatures).noneMatch(s ->
             new String(bootSector, 4, s.length(), StandardCharsets.US_ASCII).equals(s)
         )) {
 Debug.println("no maching signature is found: " + new String(bootSector, 4, 4, StandardCharsets.US_ASCII));

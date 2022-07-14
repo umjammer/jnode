@@ -33,13 +33,10 @@ public class SMBFileSystemType implements FileSystemType<SMBFileSystem> {
     public static final Class<SMBFileSystemType> ID = SMBFileSystemType.class;
 
     static {
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            @Override
-            public Object run() {
-                System.setProperty("jcifs.smb.client.attrExpirationPeriod", "10");
-                System.setProperty("jcifs.smb.client.responseTimeout", "10000");
-                return null;
-            }
+        AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+            System.setProperty("jcifs.smb.client.attrExpirationPeriod", "10");
+            System.setProperty("jcifs.smb.client.responseTimeout", "10000");
+            return null;
         });
     }
 

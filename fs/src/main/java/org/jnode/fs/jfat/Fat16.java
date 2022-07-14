@@ -38,7 +38,7 @@ public class Fat16 extends Fat {
     }
 
     protected long offset(int index) {
-        return (long) (2 * index);
+        return 2L * index;
     }
 
     public int get(int index) throws IOException {
@@ -64,7 +64,7 @@ Debug.printf(Level.FINE, "fat[" + index + "]: offset: %08x%n", rootDirectoryOffs
 
         // Need to account for the size of the root directory entry for following clusters
         long filesOffset = rootDirectoryOffset + bootSector.getNrRootDirEntries() * 32;
-        return filesOffset + ((index - firstCluster()) * getClusterSize());
+        return filesOffset + ((long) (index - firstCluster()) * getClusterSize());
     }
 
     @Override

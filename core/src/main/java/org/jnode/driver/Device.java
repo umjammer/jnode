@@ -45,7 +45,7 @@ public class Device {
      * The API's implemented by this device
      */
     private final HashMap<Class<? extends DeviceAPI>, DeviceAPI> apis =
-        new HashMap<Class<? extends DeviceAPI>, DeviceAPI>();
+            new HashMap<>();
 
     /**
      * Create a new instance

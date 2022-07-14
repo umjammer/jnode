@@ -99,10 +99,9 @@ public final class Counter extends Statistic implements Comparable<Counter> {
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        StringBuilder sb = new StringBuilder(getName());
-        sb.append(is);
-        sb.append(counter);
+        String sb = getName() + is +
+                counter;
 
-        return sb.toString();
+        return sb;
     }
 }

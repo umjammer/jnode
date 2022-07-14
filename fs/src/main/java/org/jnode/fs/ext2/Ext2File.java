@@ -134,11 +134,9 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
 
                     iNode.setMtime(System.currentTimeMillis() / 1000);
 
-                    return;
                 }
             } catch (Throwable ex) {
-                final IOException ioe = new IOException();
-                ioe.initCause(ex);
+                final IOException ioe = new IOException(ex);
                 throw ioe;
             } finally {
                 // setLength done, unlock the inode from the cache
@@ -219,8 +217,7 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
                     }
                 }
             } catch (Throwable ex) {
-                final IOException ioe = new IOException();
-                ioe.initCause(ex);
+                final IOException ioe = new IOException(ex);
                 throw ioe;
             } finally {
                 // read done, unlock the inode from the cache
@@ -297,8 +294,7 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
                         try {
                             iNode.allocateDataBlock(blockIndex);
                         } catch (FileSystemException ex) {
-                            final IOException ioe = new IOException("Internal filesystem exception");
-                            ioe.initCause(ex);
+                            final IOException ioe = new IOException("Internal filesystem exception", ex);
                             throw ioe;
                         }
                         blocksAllocated++;
@@ -317,8 +313,7 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
             // ... this avoids wrapping an IOException inside another one.
             throw ex;
         } catch (Throwable ex) {
-            final IOException ioe = new IOException();
-            ioe.initCause(ex);
+            final IOException ioe = new IOException(ex);
             throw ioe;
         } finally {
             // write done, unlock the inode from the cache
@@ -344,8 +339,7 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
         try {
             iNode = ((Ext2FileSystem) getFileSystem()).getINode(iNodeNr);
         } catch (FileSystemException ex) {
-            final IOException ioe = new IOException();
-            ioe.initCause(ex);
+            final IOException ioe = new IOException(ex);
             throw ioe;
         }
     }

@@ -304,7 +304,7 @@ public class FatFormatter {
          */
         for (int i = 0; i < 2; i++) {
             int SectorStart = (i == 0) ? 0 : (BackupBootSector * 512);
-            bs.write(api, (long) SectorStart); // Write the BootSector
+            bs.write(api, SectorStart); // Write the BootSector
             fsInfo.write(api, (long) SectorStart + 512);
         }
         /** Write the first fat sector in the right places */
@@ -330,7 +330,7 @@ public class FatFormatter {
     private void setQuickSectorFree(int systemAreaSize, BlockDeviceAPI api) throws IOException {
         byte[] reserveArray = new byte[512];
         for (int i = 0; i < systemAreaSize; i++) {
-            api.write(i * 512, ByteBuffer.wrap(reserveArray));
+            api.write(i * 512L, ByteBuffer.wrap(reserveArray));
         }
     }
 
@@ -389,7 +389,7 @@ public class FatFormatter {
         long FATsz;
 
         Numerator = FATElementSize * (TotalSectorNumber - ReservedSecCnt);
-        Denominator = (SecPerClus * BytesPerSect) + (FATElementSize * NumFATs);
+        Denominator = ((long) SecPerClus * BytesPerSect) + (FATElementSize * NumFATs);
 
         FATsz = Numerator / Denominator;
         // round up

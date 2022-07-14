@@ -32,8 +32,7 @@ public class UDPSendTest {
 
     public static void main(String[] args) throws Exception {
 
-        final DatagramSocket socket = new DatagramSocket();
-        try {
+        try (DatagramSocket socket = new DatagramSocket()) {
             final int size;
             if (args.length > 1) {
                 size = Integer.parseInt(args[1]);
@@ -50,8 +49,6 @@ public class UDPSendTest {
 
             System.out.println("Sending packet of size " + dp.getLength());
             socket.send(dp);
-        } finally {
-            socket.close();
         }
     }
 }

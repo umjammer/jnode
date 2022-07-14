@@ -87,7 +87,7 @@ System.err.println("■ bootRecord ----\n" + bpb);
 
     @Override
     public int fatSize() {
-        return Integer.valueOf(fatType().replaceFirst("^FAT", ""));
+        return Integer.parseInt(fatType().replaceFirst("^FAT", ""));
     }
 
     @Override

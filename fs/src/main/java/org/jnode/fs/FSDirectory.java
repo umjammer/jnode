@@ -37,7 +37,7 @@ public interface FSDirectory extends FSObject {
      * @return an iterator over the entries of this directory.
      * @throws IOException if error occurs during iteration.
      */
-    public Iterator<? extends FSEntry> iterator() throws IOException;
+    Iterator<? extends FSEntry> iterator() throws IOException;
 
     /**
      * Gets the entry with the given name.
@@ -46,7 +46,7 @@ public interface FSDirectory extends FSObject {
      * @return {@link FSEntry} corresponding to the name passed as parameter.
      * @throws IOException if no entry exists with this name.
      */
-    public FSEntry getEntry(String name) throws IOException;
+    FSEntry getEntry(String name) throws IOException;
 
     /**
      * Gets the entry with the given ID, as given by {@link FSEntry#getId}.
@@ -55,7 +55,7 @@ public interface FSDirectory extends FSObject {
      * @return {@link FSEntry} corresponding to the name passed as parameter.
      * @throws IOException if no entry exists with this name.
      */
-    public FSEntry getEntryById(String id) throws IOException;
+    FSEntry getEntryById(String id) throws IOException;
 
     /**
      * Add a new file with a given name to this directory.
@@ -64,7 +64,7 @@ public interface FSDirectory extends FSObject {
      * @return {@link FSEntry} corresponding to new created file.
      * @throws IOException if a directory already exists with this name
      */
-    public FSEntry addFile(String name) throws IOException;
+    FSEntry addFile(String name) throws IOException;
 
     /**
      * Add a new (sub-)directory with a given name to this directory.
@@ -73,7 +73,7 @@ public interface FSDirectory extends FSObject {
      * @return {@link FSEntry} corresponding to new created directory.
      * @throws IOException if a directory already exists with this name.
      */
-    public FSEntry addDirectory(String name) throws IOException;
+    FSEntry addDirectory(String name) throws IOException;
 
     /**
      * Remove the entry with the given name from this directory.
@@ -81,13 +81,13 @@ public interface FSDirectory extends FSObject {
      * @param name identify the entry that should be remove.
      * @throws IOException if there is no entry with this name.
      */
-    public void remove(String name) throws IOException;
+    void remove(String name) throws IOException;
 
     /**
      * Save all unsaved data to the device.
      *
      * @throws IOException if error occurs during write of the data.
      */
-    public void flush() throws IOException;
+    void flush() throws IOException;
 
 }

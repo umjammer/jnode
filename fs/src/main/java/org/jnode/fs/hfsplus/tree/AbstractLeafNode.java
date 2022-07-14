@@ -56,7 +56,7 @@ public abstract class AbstractLeafNode<K extends Key> extends AbstractNode<K, Le
     }
 
     public final LeafRecord[] findAll(K key) {
-        List<LeafRecord> list = new LinkedList<LeafRecord>();
+        List<LeafRecord> list = new LinkedList<>();
         for (LeafRecord record : records) {
             log.debug("Record: " + record.toString() + " Key: " + key);
             @SuppressWarnings("unchecked")
@@ -65,6 +65,6 @@ public abstract class AbstractLeafNode<K extends Key> extends AbstractNode<K, Le
                 list.add(record);
             }
         }
-        return list.toArray(new LeafRecord[list.size()]);
+        return list.toArray(new LeafRecord[0]);
     }
 }

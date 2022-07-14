@@ -386,28 +386,27 @@ public class LogRecord extends NTFSStructure {
      * @return the debug string.
      */
     public String toDebugString() {
-        StringBuilder builder = new StringBuilder("Log Record:[\n");
-        builder.append("lsn: " + getLsn() + "\n");
-        builder.append("prev-lsn: " + getClientPreviousLsn() + "\n");
-        builder.append("undo-lsn: " + getClientUndoNextLsn() + "\n");
-        builder.append("data-length: " + getClientDataLength() + "\n");
-        builder.append("client-id: " + getClientId() + "\n");
-        builder.append("record-type: " + getRecordType() + "\n");
-        builder.append("transaction-id: " + getTransactionId() + "\n");
-        builder.append("flags: " + getFlags() + "\n");
-        builder.append("redo: " + getRedoOperation() + "\n");
-        builder.append("undo: " + getUndoOperation() + "\n");
-        builder.append("redo-offset: " + getRedoOffset() + "\n");
-        builder.append("redo-length: " + getRedoLength() + "\n");
-        builder.append("undo-offset: " + getUndoOffset() + "\n");
-        builder.append("undo-length: " + getUndoLength() + "\n");
-        builder.append("target-attribute: " + getTargetAttribute() + "\n");
-        builder.append("lcns-to-follow: " + getLcnsToFollow() + "\n");
-        builder.append("record-offset: " + getRecordOffset() + "\n");
-        builder.append("attribute-offset: " + getAttributeOffset() + "\n");
-        builder.append("MFT-cluster-index: " + getMftClusterIndex() + "\n");
-        builder.append("target-vcn: " + getTargetVcn() + "\n");
-        builder.append("target-lcn: " + getTargetLcn() + "]");
-        return builder.toString();
+        String builder = "Log Record:[\n" + "lsn: " + getLsn() + "\n" +
+                "prev-lsn: " + getClientPreviousLsn() + "\n" +
+                "undo-lsn: " + getClientUndoNextLsn() + "\n" +
+                "data-length: " + getClientDataLength() + "\n" +
+                "client-id: " + getClientId() + "\n" +
+                "record-type: " + getRecordType() + "\n" +
+                "transaction-id: " + getTransactionId() + "\n" +
+                "flags: " + getFlags() + "\n" +
+                "redo: " + getRedoOperation() + "\n" +
+                "undo: " + getUndoOperation() + "\n" +
+                "redo-offset: " + getRedoOffset() + "\n" +
+                "redo-length: " + getRedoLength() + "\n" +
+                "undo-offset: " + getUndoOffset() + "\n" +
+                "undo-length: " + getUndoLength() + "\n" +
+                "target-attribute: " + getTargetAttribute() + "\n" +
+                "lcns-to-follow: " + getLcnsToFollow() + "\n" +
+                "record-offset: " + getRecordOffset() + "\n" +
+                "attribute-offset: " + getAttributeOffset() + "\n" +
+                "MFT-cluster-index: " + getMftClusterIndex() + "\n" +
+                "target-vcn: " + getTargetVcn() + "\n" +
+                "target-lcn: " + getTargetLcn() + "]";
+        return builder;
     }
 }

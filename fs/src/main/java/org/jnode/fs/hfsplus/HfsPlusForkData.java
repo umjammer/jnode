@@ -119,12 +119,12 @@ public class HfsPlusForkData {
     }
 
     public final String toString() {
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
         s.append("Total size : ").append(totalSize).append("\n");
         s.append("Clump size : ").append(clumpSize).append("\n");
         s.append("Total Blocks : ").append(totalBlock).append("\n");
         for (int i = 0; i < extents.length; i++) {
-            s.append("Extent[" + i + "]: " + extents[i].toString());
+            s.append("Extent[").append(i).append("]: ").append(extents[i].toString());
         }
         return s.toString();
     }
@@ -153,7 +153,7 @@ public class HfsPlusForkData {
      * @throws IOException if an error occurs.
      */
     public Collection<ExtentDescriptor> getAllExtents(HfsPlusFileSystem fileSystem) throws IOException {
-        List<ExtentDescriptor> allExtents = new ArrayList<ExtentDescriptor>();
+        List<ExtentDescriptor> allExtents = new ArrayList<>();
         Collections.addAll(allExtents, extents);
 
         // Only check for overflow extents if the last non-overflow extent is in use

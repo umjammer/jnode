@@ -56,7 +56,7 @@ public abstract class AbstractIndexNode<K extends Key> extends AbstractNode<K, I
      * @return an array of NodeRecords
      */
     public final IndexRecord[] findAll(final K key) {
-        LinkedList<IndexRecord> result = new LinkedList<IndexRecord>();
+        LinkedList<IndexRecord> result = new LinkedList<>();
         IndexRecord largestMatchingRecord = null;
         K largestMatchingKey = null;
 
@@ -77,6 +77,6 @@ public abstract class AbstractIndexNode<K extends Key> extends AbstractNode<K, I
             result.addFirst(largestMatchingRecord);
         }
 
-        return result.toArray(new IndexRecord[result.size()]);
+        return result.toArray(new IndexRecord[0]);
     }
 }

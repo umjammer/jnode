@@ -57,10 +57,10 @@ public class TimeUtils {
         }
 
         return ((((
-            ((long) (year / 4 - year / 100 + year / 400 + 367 * mon / 12 + day) + year * 365 - 719499)) /* days */
-            * 24l + hours) /* hours */
-            * 60l + mins) /* minutes */
-            * 60l + secs) /* seconds */
-            * 1000l; /* milliseconds */
+            ((long) (year / 4 - year / 100 + year / 400 + 367L * mon / 12 + day) + year * 365L - 719499)) /* days */
+            * 24L + hours) /* hours */
+            * 60L + mins) /* minutes */
+            * 60L + secs) /* seconds */
+            * 1000L; /* milliseconds */
     }
 }

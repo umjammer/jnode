@@ -34,8 +34,8 @@ import org.jnode.fs.ReadOnlyFileSystemException;
  * @author gbin
  */
 public class FatLfnDirectory extends FatDirectory {
-    private HashMap<String, LfnEntry> shortNameIndex = new HashMap<String, LfnEntry>();
-    private HashMap<String, LfnEntry> longFileNameIndex = new HashMap<String, LfnEntry>();
+    private HashMap<String, LfnEntry> shortNameIndex = new HashMap<>();
+    private HashMap<String, LfnEntry> longFileNameIndex = new HashMap<>();
 
     /**
      * @param fs
@@ -167,7 +167,7 @@ public class FatLfnDirectory extends FatDirectory {
     }
 
     private void updateLFN() throws IOException {
-        Vector<FatBasicDirEntry> destination = new Vector<FatBasicDirEntry>();
+        Vector<FatBasicDirEntry> destination = new Vector<>();
 
         for (LfnEntry currentEntry : shortNameIndex.values()) {
             FatBasicDirEntry[] encoded = currentEntry.compactForm();
@@ -274,14 +274,14 @@ public class FatLfnDirectory extends FatDirectory {
                     if (toTest == ' ')
                         break valid;
                     if (toTest >= 'A' && toTest <= 'Z')
-                        continue loop;
+                        continue;
                     if (toTest >= '0' && toTest <= '9')
-                        continue loop;
+                        continue;
                     if (toTest == '_' || toTest == '^' || toTest == '$' || toTest == '~' ||
                         toTest == '!' || toTest == '#' || toTest == '%' || toTest == '&' ||
                         toTest == '-' || toTest == '{' || toTest == '}' || toTest == '(' ||
                         toTest == ')' || toTest == '@' || toTest == '\'' || toTest == '`')
-                        continue loop;
+                        continue;
 
                 }
                 shortNameChar[i] = '_';

@@ -20,7 +20,7 @@
 
 package org.jnode.fs.ntfs;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -143,11 +143,7 @@ public class UsnJournalEntry extends NTFSStructure {
         byte[] buffer = new byte[getFileNameSize()];
         getData(0x3c, buffer, 0, buffer.length);
 
-        try {
-            return new String(buffer, "UTF-16LE");
-        } catch (UnsupportedEncodingException e) {
-            throw new IllegalStateException("UTF-16LE charset missing from JRE", e);
-        }
+        return new String(buffer, StandardCharsets.UTF_16LE);
     }
 
     @Override
@@ -166,7 +162,7 @@ public class UsnJournalEntry extends NTFSStructure {
         /**
          * The lookup map for file attributes.
          */
-        private static final Map<Long, String> attributeMap = new LinkedHashMap<Long, String>();
+        private static final Map<Long, String> attributeMap = new LinkedHashMap<>();
 
         /**
          * Registers a value in the map.
@@ -187,7 +183,7 @@ public class UsnJournalEntry extends NTFSStructure {
          * @return the attributes or "unknown-xXYZ" if the value is not known.
          */
         public static List<String> lookupAttributes(long value) {
-            List<String> reasons = new ArrayList<String>();
+            List<String> reasons = new ArrayList<>();
 
             for (Map.Entry<Long, String> entry : attributeMap.entrySet()) {
                 if ((value & entry.getKey()) != 0) {
@@ -228,7 +224,7 @@ public class UsnJournalEntry extends NTFSStructure {
         /**
          * The lookup map for reasons.
          */
-        private static final Map<Long, String> reasonMap = new HashMap<Long, String>();
+        private static final Map<Long, String> reasonMap = new HashMap<>();
 
         /**
          * Registers a value in the map.
@@ -249,7 +245,7 @@ public class UsnJournalEntry extends NTFSStructure {
          * @return the reasons or "unknown-xXYZ" if the value is not known.
          */
         public static List<String> lookupReasons(long value) {
-            List<String> reasons = new ArrayList<String>();
+            List<String> reasons = new ArrayList<>();
 
             for (Map.Entry<Long, String> entry : reasonMap.entrySet()) {
                 if ((value & entry.getKey()) != 0) {

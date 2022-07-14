@@ -43,7 +43,7 @@ public final class BlockCache extends LinkedHashMap<Object, Block> {
 
     public BlockCache(int initialCapacity, float loadFactor) {
         super(Math.min(MAX_SIZE, initialCapacity), loadFactor, true);
-        cacheListeners = new ArrayList<CacheListener>();
+        cacheListeners = new ArrayList<>();
     }
 
     public void addCacheListener(CacheListener listener) {

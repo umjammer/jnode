@@ -35,7 +35,7 @@ public class IPv4ProtocolAddressInfo implements ProtocolAddressInfo {
 
     /** Mapping between address and address&mask */
     private final HashMap<IPv4Address, IPv4IfAddress> addresses =
-            new HashMap<IPv4Address, IPv4IfAddress>();
+            new HashMap<>();
 
     /** The default address */
     private IPv4IfAddress defaultAddress;
@@ -106,7 +106,7 @@ public class IPv4ProtocolAddressInfo implements ProtocolAddressInfo {
      * @param address
      */
     public IPv4Address getSubnetMask(IPv4Address address) {
-        IPv4IfAddress ifAddr = (IPv4IfAddress) addresses.get(address);
+        IPv4IfAddress ifAddr = addresses.get(address);
         return ifAddr.getSubnetMask();
     }
 
@@ -123,7 +123,7 @@ public class IPv4ProtocolAddressInfo implements ProtocolAddressInfo {
      * @return A Set of IPv4Address instances
      */
     public Set<ProtocolAddress> addresses() {
-        return new HashSet<ProtocolAddress>(addresses.keySet());
+        return new HashSet<>(addresses.keySet());
     }
 
     /**

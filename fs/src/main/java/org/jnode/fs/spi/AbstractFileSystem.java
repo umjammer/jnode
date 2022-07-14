@@ -54,9 +54,9 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
     /** The file system is closed */
     private boolean closed;
     /** The cache of files */
-    private HashMap<FSEntry, FSFile> files = new HashMap<FSEntry, FSFile>();
+    private HashMap<FSEntry, FSFile> files = new HashMap<>();
     /** The cache of directory */
-    private HashMap<FSEntry, FSDirectory> directories = new HashMap<FSEntry, FSDirectory>();
+    private HashMap<FSEntry, FSDirectory> directories = new HashMap<>();
 
     /**
      * Construct an AbstractFileSystem in specified readOnly mode
@@ -205,7 +205,7 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
      * 
      * @throws IOException if error occurs during write of datas on the device.
      */
-    private final void flushFiles() throws IOException {
+    private void flushFiles() throws IOException {
         log.info("flushing files ...");
         for (FSFile f : files.values()) {
             if (log.isDebugEnabled()) {
@@ -249,7 +249,7 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
     /**
      * Save all unsaved files from entry cache.
      */
-    private final void flushDirectories() {
+    private void flushDirectories() {
         log.info("flushing directories ...");
         for (FSDirectory d : directories.values()) {
             if (log.isDebugEnabled()) {

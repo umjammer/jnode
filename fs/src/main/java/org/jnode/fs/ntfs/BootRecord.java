@@ -174,7 +174,7 @@ public final class BootRecord extends NTFSStructure {
         return clusterSize;
     }
 
-    private final int calcByteSize(int clusters) {
+    private int calcByteSize(int clusters) {
         if (clusters > 0) {
             return clusters * clusterSize;
         } else {

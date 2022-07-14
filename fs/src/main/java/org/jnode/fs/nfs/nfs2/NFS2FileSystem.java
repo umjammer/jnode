@@ -66,21 +66,7 @@ public class NFS2FileSystem implements FileSystem<NFS2RootEntry> {
         try {
             result = mountClient.mount(device.getRemoteDirectory());
             fileAttribute = nfsClient.getAttribute(result.getFileHandle());
-        } catch (IOException e) {
-            try {
-                close();
-            } catch (IOException e1) {
-                // ignore
-            }
-            throw new FileSystemException(e.getMessage(), e);
-        } catch (MountException e) {
-            try {
-                close();
-            } catch (IOException e1) {
-                // ignore
-            }
-            throw new FileSystemException(e.getMessage(), e);
-        } catch (NFS2Exception e) {
+        } catch (IOException | MountException | NFS2Exception e) {
             try {
                 close();
             } catch (IOException e1) {

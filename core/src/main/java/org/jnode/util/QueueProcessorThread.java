@@ -65,7 +65,7 @@ public class QueueProcessorThread<T> extends Thread {
      * @see #getQueue()
      */
     public QueueProcessorThread(String name, QueueProcessor<T> processor) {
-        this(name, new Queue<T>(), processor);
+        this(name, new Queue<>(), processor);
     }
 
     /**

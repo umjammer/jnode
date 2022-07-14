@@ -83,8 +83,8 @@ public class Geometry {
      */
     public long getLogicalSector(CHS chs) {
         //ls = c*H*S + h*S + s - 1
-        long v = chs.getCylinder() * heads * sectors;
-        v += chs.getHead() * sectors;
+        long v = (long) chs.getCylinder() * heads * sectors;
+        v += (long) chs.getHead() * sectors;
         v += chs.getSector();
         return v - 1;
     }

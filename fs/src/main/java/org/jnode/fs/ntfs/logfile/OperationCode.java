@@ -38,7 +38,7 @@ public enum OperationCode {
     private final int code;
     private final String description;
 
-    private OperationCode(int code, String description) {
+    OperationCode(int code, String description) {
         this.code = code;
         this.description = description;
     }
