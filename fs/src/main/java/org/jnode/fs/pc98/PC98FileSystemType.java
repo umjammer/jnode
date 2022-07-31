@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 by Naohide Sano, All rights reserved.
+ * Copyright (c) 2022 by Naohide Sano, All rights reserved.
  *
  * Programmed by Naohide Sano
  */
@@ -24,8 +24,12 @@ import vavi.util.StringUtil;
 /**
  * PC98FileSystemType.
  * <p>
- * system property<br/>
- * "org.jnode.file.encoding" ... filename encoding for {@link Charset#forName(String)}, default is "MS932"
+ * nhd, hdi etc. are detected by {@link org.jnode.driver.block.VirtualDiskDevice}
+ * </p>
+ * <p>
+ * system property
+ * <li>"org.jnode.file.encoding" ... filename encoding for {@link Charset#forName(String)}, default is "MS932"</li>
+ * </p>
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2022/02/08 umjammer initial version <br>

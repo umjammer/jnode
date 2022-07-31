@@ -67,7 +67,7 @@ Debug.printf("No aa55 magic: %04x%n", LittleEndian.getUInt16(bootSector, 510));
         if (Arrays.stream(iplSignatures).noneMatch(s ->
             new String(bootSector, 4, s.length(), StandardCharsets.US_ASCII).equals(s)
         )) {
-Debug.println("no maching signature is found: " + new String(bootSector, 4, 4, StandardCharsets.US_ASCII));
+Debug.println("no matching signature is found: " + new String(bootSector, 4, 4, StandardCharsets.US_ASCII));
             return false;
         }
 

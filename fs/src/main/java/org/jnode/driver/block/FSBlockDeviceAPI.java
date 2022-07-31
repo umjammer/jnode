@@ -24,7 +24,7 @@ import java.io.IOException;
 import org.jnode.partitions.PartitionTableEntry;
 
 /**
- * An FSBlockDeviceAPI is an API for blockdevices that (may) contain a filesystem.
+ * An FSBlockDeviceAPI is an API for block devices that (may) contain a filesystem.
  *
  * @author epr
  */
@@ -34,7 +34,7 @@ public interface FSBlockDeviceAPI extends BlockDeviceAPI {
      * Gets the sector size for this device.
      *
      * @return The sector size in bytes
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     int getSectorSize() throws IOException;
 
