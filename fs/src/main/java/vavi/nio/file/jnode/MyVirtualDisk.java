@@ -21,7 +21,9 @@ import vavi.util.Debug;
 
 /**
  * MyVirtualDisk.
- *
+ * <p>
+ * virtual disk detector using "vavi-nio-file-emu".
+ * </p>
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2022/02/12 umjammer initial version <br>
  */
@@ -32,18 +34,9 @@ public class MyVirtualDisk implements VirtualDisk {
     private SeekableByteChannel sbc;
 
     public MyVirtualDisk(Path path) throws IOException {
-        Disk.View view = new Disk.View() {
-            @Override public void updateSelection(String selection) {}
-            @Override public void log(String message) {
-                Debug.print(message);
-            }
-            @Override public String header(String base, String warn) { return "dummy"; }
-                @Override public void enableButton2() {}
-                @Override public boolean dndMode() { return false; }
-            };
-            try {
-                disk = Disk.read(path, view);
-            } catch (IllegalArgumentException e) {
+        try {
+            disk = Disk.read(path);
+        } catch (IllegalArgumentException e) {
 Debug.println("raw disk?: " + e);
             disk = new Disk() {
                 {
