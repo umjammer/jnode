@@ -27,7 +27,8 @@ public class PC98PartitionTableEntry implements PartitionTableEntry {
 
     private PC98PartitionEntry pe;
 
-    int heads = 0, secs = 0;
+    // disk geometries
+    private int heads = 0, secs = 0;
 
     /**
      * Creates a new entry.
@@ -41,9 +42,8 @@ public class PC98PartitionTableEntry implements PartitionTableEntry {
 Debug.printf("heads: %d, secs: %d, device: ", heads, secs, device.getClass().getName());
     }
 
-    // TODO
     // @see "https://github.com/aaru-dps/Aaru.Helpers/blob/4640bb88d3eb907d0f0617d5ee5159fbc13c5653/CHS.cs"
-    public static int toLBA(int cyl, int head, int sector, int maxHead, int maxSector) {
+    private static int toLBA(int cyl, int head, int sector, int maxHead, int maxSector) {
         return maxHead == 0 || maxSector == 0 ? (((cyl * 16)      + head) * 63)        + sector - 1
                                               : (((cyl * maxHead) + head) * maxSector) + sector - 1;
     }
@@ -66,11 +66,11 @@ Debug.printf("heads: %d, secs: %d, device: ", heads, secs, device.getClass().get
     @Override
     public long getStartOffset(int sectorSize) {
 Debug.printf("s.c: %d, s.h: %d, s.s: %d, heads: %d, secs: %d, bps: %d", pe.startCylinder, pe.startHeader, pe.startSector, heads, secs, sectorSize);
-//        return toLBA(pe.startCylinder, pe.startHeader, pe.startSector, heads, secs) * sectorSize;
         if (heads != 0 && secs != 0) {
-            return (long) secs * heads * pe.startCylinder * sectorSize;
+            return (long) toLBA(pe.startCylinder, pe.startHeader, pe.startSector + 1, heads, secs) * sectorSize;
         } else {
-Debug.println(Level.WARNING, "@@@@@@@@@@@@@@@@@@@@@@@@ mgick number is used @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            // when device is not VirtualDiskDevice
+Debug.println(Level.WARNING, "@@@@@@@@@@@@@@@@@@@@@@@@ magic number is used @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             return 0x20000;
         }
     }
@@ -78,6 +78,6 @@ Debug.println(Level.WARNING, "@@@@@@@@@@@@@@@@@@@@@@@@ mgick number is used @@@@
     @Override
     public long getEndOffset(int sectorSize) {
 Debug.printf("e.c: %d, e.h: %d, e.s: %d, heads: %d, secs: %d, bps: %d", pe.endCylinder, pe.endHeader, pe.endSector, heads, secs, sectorSize);
-        return (long) toLBA(pe.endCylinder, pe.endHeader, pe.endSector, heads, secs) * sectorSize;
+        return (long) toLBA(pe.endCylinder, pe.endHeader, pe.endSector + 1, heads, secs) * sectorSize;
     }
 }
