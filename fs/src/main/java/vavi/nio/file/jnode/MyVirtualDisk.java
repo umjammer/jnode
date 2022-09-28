@@ -75,7 +75,7 @@ Debug.printf(Level.FINE, "offset: %08x (%08x)", disk.getOffset() + offset, disk.
 
     @Override
     public int getSectorSize() {
-        return disk.getSctorSize();
+        return disk.getSectorSize();
     }
 
     @Override

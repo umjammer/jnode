@@ -157,7 +157,7 @@ System.err.println("■ bootRecord ----\n" + bpb);
 
     @Override
     public String getOEMName() {
-        return bpb.oemLavel;
+        return bpb.oemLabel;
     }
 
     @Override
