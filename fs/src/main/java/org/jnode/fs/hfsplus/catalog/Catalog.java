@@ -62,7 +62,7 @@ public class Catalog {
     /**
      * Create Catalog based on meta-data that exist on the file system.
      *
-     * @param fs HFS+ file system that contains catalog informations.
+     * @param fs HFS+ file system that contains catalog information.
      * @throws IOException
      */
     public Catalog(final HfsPlusFileSystem fs) throws IOException {
@@ -116,7 +116,7 @@ public class Catalog {
         bufferLength += BTHeaderRecord.BT_HEADER_RECORD_LENGTH;
         log.debug("Create root node.");
         long rootNodePosition = bthr.getRootNode() * nodeSize;
-        bufferLength += (rootNodePosition - bufferLength);
+        bufferLength += (int) (rootNodePosition - bufferLength);
         CatalogLeafNode rootNode = createRootNode(params);
         buffer = ByteBuffer.allocate(bufferLength + bthr.getNodeSize());
         buffer.put(btnd.getBytes());
