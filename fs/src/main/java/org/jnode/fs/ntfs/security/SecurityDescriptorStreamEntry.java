@@ -92,7 +92,7 @@ public class SecurityDescriptorStreamEntry extends NTFSStructure {
 
         // Round up to a 16-byte boundary
         long rounding = length % 16 == 0 ? 0 : 16 - length % 16;
-        length += rounding;
+        length += (int) rounding;
 
         return length;
     }
