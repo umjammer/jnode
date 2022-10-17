@@ -255,7 +255,7 @@ public class NFS2InputStream extends InputStream {
         }
         if (n < bufferCount - bufferPosition) {
             // It is inside of the buffer
-            bufferPosition += n;
+            bufferPosition += (int) n;
             return n;
         } else {
             // It is outside of the buffer: reset the buffer
