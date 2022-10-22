@@ -30,12 +30,12 @@ final class Cluster {
     /**
      * Marks a cluster containing a bad block.
      */
-    private static final long BAD = 0xfffffff7l;
+    private static final long BAD = 0xfffffff7L;
 
     /**
      * Marks the final cluster of a file or directory.
      */
-    private static final long END = 0xffffffffl;
+    private static final long END = 0xffffffffL;
 
     /**
      * The first data cluster that can be used on exFAT file systems.
@@ -65,10 +65,9 @@ final class Cluster {
         final long maxCluster = sblk.getClusterCount() + 1;
 
         if (cluster > maxCluster) {
-            final StringBuilder sb = new StringBuilder();
-            sb.append("cluster ").append(cluster);
-            sb.append(" exceeds maximum of ").append(maxCluster);
-            throw new IOException(sb.toString());
+            String sb = "cluster " + cluster +
+                    " exceeds maximum of " + maxCluster;
+            throw new IOException(sb);
         }
     }
 

@@ -88,9 +88,9 @@ public class FSEntryTable extends AbstractFSObject {
         super(fs);
         // As a value may be null (a free entry)
         // we must use HashMap and not Hashtable
-        this.entries = new HashMap<String, FSEntry>();
-        this.entriesById = new HashMap<String, FSEntry>();
-        this.entryNames = new ArrayList<String>();
+        this.entries = new HashMap<>();
+        this.entriesById = new HashMap<>();
+        this.entryNames = new ArrayList<>();
 
         for (FSEntry entry : entryList) {
             if (entry == null) {
@@ -200,10 +200,9 @@ public class FSEntryTable extends AbstractFSObject {
      */
     protected List<FSEntry> getUsedEntries() {
         int nbEntries = entryNames.size();
-        ArrayList<FSEntry> used = new ArrayList<FSEntry>(nbEntries / 2);
+        ArrayList<FSEntry> used = new ArrayList<>(nbEntries / 2);
 
-        for (int i = 0; i < nbEntries; i++) {
-            String name = entryNames.get(i);
+        for (String name : entryNames) {
             if (name != null) {
                 used.add(entries.get(name));
             }
@@ -319,7 +318,7 @@ public class FSEntryTable extends AbstractFSObject {
      */
     public int rename(String oldName, String newName) {
         log.debug("<<< BEGIN rename oldName=" + oldName + " newName=" + newName + " >>>");
-        log.debug("rename: table=" + toString());
+        log.debug("rename: table=" + this);
         oldName = normalizeName(oldName);
         newName = normalizeName(newName);
         log.debug("rename oldName=" + oldName + " newName=" + newName);
@@ -398,7 +397,7 @@ public class FSEntryTable extends AbstractFSObject {
      * @return a list of FSEntries
      */
     public List<FSEntry> toList(boolean compacted) {
-        ArrayList<FSEntry> entryList = new ArrayList<FSEntry>();
+        ArrayList<FSEntry> entryList = new ArrayList<>();
 
         int nbEntries = entryNames.size();
         for (int i = 0; i < nbEntries; i++) {
@@ -420,8 +419,8 @@ public class FSEntryTable extends AbstractFSObject {
         int nbEntries = entryNames.size();
         String name;
         StringBuilder sb = new StringBuilder(nbEntries * 16);
-        for (int i = 0; i < nbEntries; i++) {
-            name = entryNames.get(i);
+        for (String entryName : entryNames) {
+            name = entryName;
             sb.append("name:").append(name);
             sb.append("->entry:").append(entries.get(name));
             sb.append('\n');

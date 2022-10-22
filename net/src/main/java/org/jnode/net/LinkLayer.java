@@ -32,12 +32,12 @@ public interface LinkLayer {
     /**
      * Gets the name of this layer
      */
-    public String getName();
+    String getName();
 
     /**
      * Gets the type of frames this layer handles
      */
-    public int getType();
+    int getType();
 
     /**
      * Process a packet that has been received and matches the type of this
@@ -46,6 +46,6 @@ public interface LinkLayer {
      * @param skbuf
      * @throws SocketException
      */
-    public void receive(SocketBuffer skbuf) throws SocketException;
+    void receive(SocketBuffer skbuf) throws SocketException;
 
 }

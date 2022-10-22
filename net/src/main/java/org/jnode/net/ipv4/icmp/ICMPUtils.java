@@ -65,7 +65,7 @@ public class ICMPUtils {
      * 
      * @param srcBuf
      */
-    private final void sendUnreachable(SocketBuffer srcBuf, int code) throws SocketException {
+    private void sendUnreachable(SocketBuffer srcBuf, int code) throws SocketException {
         // Do not respond to linklayer broadcast messages
         if (srcBuf.getLinkLayerHeader().getDestinationAddress().isBroadcast()) {
             return;

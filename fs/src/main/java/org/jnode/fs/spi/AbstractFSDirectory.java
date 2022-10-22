@@ -149,7 +149,6 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
         if (entries.remove(name) >= 0) {
             setDirty();
             flush();
-            return;
         } else
             throw new FileNotFoundException(name);
     }
@@ -236,7 +235,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
      * 
      * @return if the entries are allready loaded from the device
      */
-    private final boolean isEntriesLoaded() {
+    private boolean isEntriesLoaded() {
         return (entries != FSEntryTable.EMPTY_TABLE);
     }
 
@@ -284,14 +283,13 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
      * @param newEntry
      * @throws IOException
      */
-    private final void setFreeEntry(FSEntry newEntry) throws IOException {
+    private void setFreeEntry(FSEntry newEntry) throws IOException {
         checkEntriesLoaded();
         if (entries.setFreeEntry(newEntry) >= 0) {
             log.debug("setFreeEntry: free entry found !");
             // a free entry has been found
             setDirty();
             flush();
-            return;
         }
     }
 

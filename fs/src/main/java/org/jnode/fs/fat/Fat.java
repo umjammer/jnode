@@ -269,7 +269,7 @@ public class Fat {
      */
     public synchronized long[] allocNew(int nrClusters) throws IOException {
 
-        long rc[] = new long[nrClusters];
+        long[] rc = new long[nrClusters];
 
         rc[0] = allocNew();
         for (int i = 1; i < nrClusters; i++) {

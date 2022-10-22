@@ -21,7 +21,7 @@
 package org.jnode.fs.ntfs;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import org.jnode.driver.Device;
 import org.jnode.fs.FSDirectory;
@@ -87,12 +87,8 @@ public class NTFSFileSystem extends AbstractFileSystem<FSEntry> {
 
             residentAttribute.getData(residentAttribute.getAttributeOffset(), nameBuffer, 0, nameBuffer.length);
 
-            try {
-                // XXX: For Java 6, should use the version that accepts a Charset.
-                return new String(nameBuffer, "UTF-16LE");
-            } catch (UnsupportedEncodingException e) {
-                throw new IllegalStateException("UTF-16LE charset missing from JRE", e);
-            }
+            // XXX: For Java 6, should use the version that accepts a Charset.
+            return new String(nameBuffer, StandardCharsets.UTF_16LE);
         }
 
         return "";

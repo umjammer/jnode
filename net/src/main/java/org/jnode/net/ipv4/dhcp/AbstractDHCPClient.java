@@ -75,7 +75,7 @@ public class AbstractDHCPClient extends AbstractBOOTPClient {
                         log.debug("Option " + n + " : " + ((value[0] << 8) | value[1]));
                     } else if (value.length == 4) {
                         log.debug("Option " + n + " : " +
-                                InetAddress.getByAddress(value).toString());
+                                InetAddress.getByAddress(value));
                     } else {
                         log.debug("Option " + n + " : " + new String(value));
                     }

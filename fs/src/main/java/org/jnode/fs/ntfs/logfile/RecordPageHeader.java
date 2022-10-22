@@ -126,15 +126,14 @@ public class RecordPageHeader extends NTFSRecord {
      * @return the debug string.
      */
     public String toDebugString() {
-        StringBuilder builder = new StringBuilder("Record Page FDIHeader:[\n");
-        builder.append("update-sequence-offset: " + getUpdateSequenceOffset() + "\n");
-        builder.append("update-sequence-count: " + getUpdateSequenceCount() + "\n");
-        builder.append("lsn-or-file-offset: " + getLastLsnOrFileOffset() + "\n");
-        builder.append("flags: " + getFlags() + "\n");
-        builder.append("page-count: " + getPageCount() + "\n");
-        builder.append("page-position: " + getPagePosition() + "\n");
-        builder.append("next-record: " + getNextRecordOffset() + "\n");
-        builder.append("last-end-lsn: " + getLastEndLsn() + "]");
-        return builder.toString();
+        String builder = "Record Page Header:[\n" + "update-sequence-offset: " + getUpdateSequenceOffset() + "\n" +
+                "update-sequence-count: " + getUpdateSequenceCount() + "\n" +
+                "lsn-or-file-offset: " + getLastLsnOrFileOffset() + "\n" +
+                "flags: " + getFlags() + "\n" +
+                "page-count: " + getPageCount() + "\n" +
+                "page-position: " + getPagePosition() + "\n" +
+                "next-record: " + getNextRecordOffset() + "\n" +
+                "last-end-lsn: " + getLastEndLsn() + "]";
+        return builder;
     }
 }

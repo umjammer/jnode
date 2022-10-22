@@ -130,8 +130,7 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
             //update the new inode
             newINode.update();
         } catch (FileSystemException ex) {
-            final IOException ioe = new IOException();
-            ioe.initCause(ex);
+            final IOException ioe = new IOException(ex);
             throw ioe;
         }
 
@@ -167,8 +166,7 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
             newINode.setLinksCount(newINode.getLinksCount() + 1);
 
         } catch (FileSystemException ex) {
-            final IOException ioe = new IOException();
-            ioe.initCause(ex);
+            final IOException ioe = new IOException(ex);
             throw ioe;
         }
         return new Ext2Entry(newINode, dr.getFileOffset(), name, Ext2Constants.EXT2_FT_REG_FILE, fs, this);
@@ -204,8 +202,7 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
             return new Ext2Entry(linkedINode, dr.getFileOffset(), linkName, fileType, fs, this);
 
         } catch (FileSystemException ex) {
-            final IOException ioe = new IOException();
-            ioe.initCause(ex);
+            final IOException ioe = new IOException(ex);
             throw ioe;
         }
     }
@@ -304,10 +301,8 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
                 // update the directory inode
                 iNode.update();
 
-                return;
             } catch (Throwable ex) {
-                final IOException ioe = new IOException();
-                ioe.initCause(ex);
+                final IOException ioe = new IOException(ex);
                 throw ioe;
             } finally {
                 //unlock the inode from the cache
@@ -446,7 +441,7 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
      */
     protected FSEntryTable readEntries() throws IOException {
         Ext2FSEntryIterator it = new Ext2FSEntryIterator(entry);
-        ArrayList<FSEntry> entries = new ArrayList<FSEntry>();
+        ArrayList<FSEntry> entries = new ArrayList<>();
 
         while (it.hasNext()) {
             final FSEntry entry = it.next();

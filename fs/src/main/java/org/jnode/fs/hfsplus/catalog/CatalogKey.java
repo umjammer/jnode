@@ -163,11 +163,10 @@ public class CatalogKey extends AbstractKey {
      * @see java.lang.Object#toString()
      */
     public final String toString() {
-        StringBuffer s = new StringBuffer();
-        s.append("[length, Parent ID, Node name]:").append(getKeyLength()).append(",")
-            .append(getParentId().getId()).append(",")
-            .append((getNodeName() != null) ? getNodeName().getUnicodeString() : "");
-        return s.toString();
+        String s = "[length, Parent ID, Node name]:" + getKeyLength() + "," +
+                getParentId().getId() + "," +
+                ((getNodeName() != null) ? getNodeName().getUnicodeString() : "");
+        return s;
     }
 
 }

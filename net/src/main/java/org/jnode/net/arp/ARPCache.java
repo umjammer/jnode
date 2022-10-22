@@ -40,10 +40,10 @@ public class ARPCache {
     private static final Logger log = LogManager.getLogger(ARPCache.class);
 
     private final Map<HardwareAddress, ARPCacheEntry> networkToProtocolAddresses =
-            new HashMap<HardwareAddress, ARPCacheEntry>();
+            new HashMap<>();
 
     private final Map<ProtocolAddress, ARPCacheEntry> protocolToNetworkAddresses =
-            new HashMap<ProtocolAddress, ARPCacheEntry>();
+            new HashMap<>();
 
     /**
      * Remove all cached entries
@@ -114,7 +114,7 @@ public class ARPCache {
      * Return all cache-entries.
      */
     public synchronized Collection<ARPCacheEntry> entries() {
-        return new ArrayList<ARPCacheEntry>(networkToProtocolAddresses.values());
+        return new ArrayList<>(networkToProtocolAddresses.values());
     }
 
     /**

@@ -47,13 +47,13 @@ public interface NetDeviceAPI extends DeviceAPI {
     /**
      * Gets the hardware address of this device
      */
-    public HardwareAddress getAddress();
+    HardwareAddress getAddress();
 
     /**
      * Gets the maximum transfer unit, the number of bytes this device can
      * transmit at a time.
      */
-    public int getMTU();
+    int getMTU();
 
     /**
      * Add the given frame to the transmit queue of this device.
@@ -67,7 +67,7 @@ public interface NetDeviceAPI extends DeviceAPI {
      * @param destination The destination address, or null for a broadcast.
      * @throws NetworkException
      */
-    public void transmit(SocketBuffer packet, HardwareAddress destination)
+    void transmit(SocketBuffer packet, HardwareAddress destination)
         throws NetworkException;
 
     /**
@@ -76,12 +76,12 @@ public interface NetDeviceAPI extends DeviceAPI {
      * @param protocolID
      * @return The protocol address information, or null if not found.
      */
-    public ProtocolAddressInfo getProtocolAddressInfo(int protocolID);
+    ProtocolAddressInfo getProtocolAddressInfo(int protocolID);
 
     /**
      * Sets the protocol address information for a given protocol.
      *
      * @param protocolID
      */
-    public void setProtocolAddressInfo(int protocolID, ProtocolAddressInfo addressInfo);
+    void setProtocolAddressInfo(int protocolID, ProtocolAddressInfo addressInfo);
 }

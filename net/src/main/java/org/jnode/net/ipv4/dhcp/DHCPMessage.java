@@ -20,9 +20,9 @@
 
 package org.jnode.net.ipv4.dhcp;
 
-import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
 import java.net.Inet4Address;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import org.jnode.net.SocketBuffer;
@@ -161,7 +161,7 @@ public class DHCPMessage {
 
     private int messageType;
 
-    private final Map<Integer, byte[]> options = new HashMap<Integer, byte[]>();
+    private final Map<Integer, byte[]> options = new HashMap<>();
 
     /**
      * Create a new message
@@ -232,11 +232,7 @@ public class DHCPMessage {
      * Sets a DHCP option with a string. Convenience method.
      */
     public void setOption(int code, String value) {
-        try {
-            setOption(code, value.getBytes("US-ASCII"));
-        } catch (UnsupportedEncodingException ex) {
-            throw new RuntimeException(ex);
-        }
+        setOption(code, value.getBytes(StandardCharsets.US_ASCII));
     }
 
     /**
@@ -253,7 +249,7 @@ public class DHCPMessage {
         if (code == MESSAGE_TYPE_OPTION)
             return new byte[] {(byte) messageType};
         else
-            return (byte[]) options.get(code);
+            return options.get(code);
     }
 
     /**
@@ -274,7 +270,7 @@ public class DHCPMessage {
         int n = 7;
         for (Map.Entry<Integer, byte[]> entry : options.entrySet()) {
             final int optionCode = entry.getKey();
-            final byte optionValue[] = entry.getValue();
+            final byte[] optionValue = entry.getValue();
             skbuf.set(n, optionCode);
             skbuf.set(n + 1, optionValue.length);
             skbuf.set(n + 2, optionValue, 0, optionValue.length);

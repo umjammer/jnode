@@ -58,7 +58,7 @@ public class FatRootDirectory extends FatDirectory {
         long rootDirectoryOffset = bootSector.getFirstDataSector() * bootSector.getBytesPerSector();
 
         dest.limit(dest.position() + entry.length());
-        getFatFileSystem().getApi().read(rootDirectoryOffset + 32 * index, dest);
+        getFatFileSystem().getApi().read(rootDirectoryOffset + 32L * index, dest);
 
         return createDirEntry(entry, index, allowDeleted);
     }

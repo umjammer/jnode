@@ -27,7 +27,7 @@ public enum BlockSize {
 
     private final int size;
 
-    private BlockSize(int blockSizeKb) {
+    BlockSize(int blockSizeKb) {
         /* The size is converted to kilobytes */
         this.size = (int) (blockSizeKb * BinaryScaleFactor.K.getMultiplier()); 
     }

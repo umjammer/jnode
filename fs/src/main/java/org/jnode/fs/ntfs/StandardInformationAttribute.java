@@ -151,7 +151,7 @@ public class StandardInformationAttribute extends NTFSResidentAttribute {
     /**
      * The file attribute flags.
      */
-    public static enum Flags {
+    public enum Flags {
 
         READ_ONLY("Read-only", 0x1),
         HIDDEN("Hidden", 0x2),
@@ -205,7 +205,7 @@ public class StandardInformationAttribute extends NTFSResidentAttribute {
          * @return the set of names.
          */
         public static Set<String> getNames(int value) {
-            Set<String> names = new LinkedHashSet<String>();
+            Set<String> names = new LinkedHashSet<>();
 
             for (Flags flag : values()) {
                 if (flag.isSet(value)) {

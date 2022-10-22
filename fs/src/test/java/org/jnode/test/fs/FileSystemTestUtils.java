@@ -93,16 +93,10 @@ Debug.println("source gz: " + file);
                 Files.createDirectories(outputFile.getParent());
             }
 
-            InputStream in = new GZIPInputStream(Files.newInputStream(gzipFile));
-            try {
-                OutputStream out = Files.newOutputStream(tempFile);
-                try {
+            try (InputStream in = new GZIPInputStream(Files.newInputStream(gzipFile))) {
+                try (OutputStream out = Files.newOutputStream(tempFile)) {
                     FileUtils.copy(in, out, new byte[0x10000], false);
-                } finally {
-                    out.close();
                 }
-            } finally {
-                in.close();
             }
 
             Files.move(tempFile, outputFile);

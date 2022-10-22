@@ -25,7 +25,7 @@ import java.nio.ByteBuffer;
 import org.jnode.driver.DeviceAPI;
 
 /**
- * <description>
+ * The API for block devices.
  *
  * @author epr
  */
@@ -34,8 +34,8 @@ public interface BlockDeviceAPI extends DeviceAPI {
     /**
      * Gets the total length in bytes
      *
-     * @return long
-     * @throws IOException
+     * @return the total length of the device
+     * @throws IOException when an error occurs
      */
     long getLength()
         throws IOException;
@@ -43,25 +43,25 @@ public interface BlockDeviceAPI extends DeviceAPI {
     /**
      * Read a block of data
      *
-     * @param devOffset
-     * @param dest
-     * @throws IOException
+     * @param devOffset offset position of the device
+     * @param dest buffer to read
+     * @throws IOException when an error occurs
      */
     void read(long devOffset, ByteBuffer dest) throws IOException;
 
     /**
      * Write a block of data
      *
-     * @param devOffset
-     * @param src
-     * @throws IOException
+     * @param devOffset offset position of the device
+     * @param src buffer to write
+     * @throws IOException when an error occurs
      */
     void write(long devOffset, ByteBuffer src) throws IOException;
 
     /**
      * flush data in caches to the block device
      *
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     void flush() throws IOException;
 }

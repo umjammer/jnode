@@ -49,12 +49,12 @@ public class FillTest {
         fos.close();
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         String fname = null;
         int kilos = 0;
         if (args.length >= 2) {
             fname = args[0];
-            kilos = Integer.valueOf(args[1]).intValue();
+            kilos = Integer.parseInt(args[1]);
         } else {
             System.out.println("2 args: [FILENAME] [MEGABYTES TO WRITE]");
         }

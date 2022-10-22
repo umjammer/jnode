@@ -31,12 +31,12 @@ public interface NetworkLayerHeader extends LayerHeader {
     /**
      * Gets the source address of the packet described in this header
      */
-    public ProtocolAddress getSourceAddress();
+    ProtocolAddress getSourceAddress();
 
     /**
      * Gets the source address of the packet described in this header
      */
-    public ProtocolAddress getDestinationAddress();
+    ProtocolAddress getDestinationAddress();
 
-    public int getDataLength();
+    int getDataLength();
 }

@@ -40,7 +40,7 @@ public interface FSFile extends FSObject {
      * 
      * @return the number of byte in this file.
      */
-    public long getLength();
+    long getLength();
 
     /**
      * Sets the length in bytes of this file.
@@ -49,7 +49,7 @@ public interface FSFile extends FSObject {
      *  
      * @throws IOException if error occurs during set of file's length.
      */
-    public void setLength(long length) throws IOException;
+    void setLength(long length) throws IOException;
 
     /**
      * Read from this file starting at offset <code>fileOffset</code> and
@@ -60,7 +60,7 @@ public interface FSFile extends FSObject {
      * 
      * @throws IOException if error occurs during reading of the data.
      */
-    public void read(long fileOffset, ByteBuffer dest) throws IOException;
+    void read(long fileOffset, ByteBuffer dest) throws IOException;
 
     /**
      * Read bytes from  <code>src</code> byte buffer and written
@@ -71,12 +71,12 @@ public interface FSFile extends FSObject {
      * 
      * @throws IOException if error occurs during write of the datas.
      */
-    public void write(long fileOffset, ByteBuffer src) throws IOException;
+    void write(long fileOffset, ByteBuffer src) throws IOException;
 
     /**
      * Save all unsaved datas from the cache to the device.
      * 
      * @throws IOException if error occurs during flush of datas.
      */
-    public void flush() throws IOException;
+    void flush() throws IOException;
 }

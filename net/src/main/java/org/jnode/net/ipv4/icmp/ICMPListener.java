@@ -26,5 +26,5 @@ import org.jnode.net.SocketBuffer;
  * @author JPG
  */
 public interface ICMPListener {
-    public void packetReceived(SocketBuffer skbuf);
+    void packetReceived(SocketBuffer skbuf);
 }

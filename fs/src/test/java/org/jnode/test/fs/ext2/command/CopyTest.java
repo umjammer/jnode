@@ -45,7 +45,7 @@ public class CopyTest {
         fos.close();
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         String fname, fname2;
         if (args.length >= 2) {
             fname = args[0];

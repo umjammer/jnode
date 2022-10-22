@@ -75,17 +75,16 @@ public class FileSystemAttribute {
     @Override
     public String toString() {
 
-        StringBuilder buffer = new StringBuilder();
-        buffer.append("FileSystemAttribute ");
-        buffer.append("transferSize:");
-        buffer.append(transferSize);
-        buffer.append(";blockSize:");
-        buffer.append(blockSize);
-        buffer.append(";blockCount:");
-        buffer.append(blockCount);
-        buffer.append(";freeBlockCount:");
-        buffer.append(freeBlockCount);
-        return buffer.toString();
+        String buffer = "FileSystemAttribute " +
+                "transferSize:" +
+                transferSize +
+                ";blockSize:" +
+                blockSize +
+                ";blockCount:" +
+                blockCount +
+                ";freeBlockCount:" +
+                freeBlockCount;
+        return buffer;
     }
 
 }

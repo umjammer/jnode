@@ -61,7 +61,7 @@ public class SecurityDescriptorStream {
      */
     public List<SecurityDescriptorStreamEntry> getEntries() throws IOException {
         if (entries == null) {
-            entries = new ArrayList<SecurityDescriptorStreamEntry>();
+            entries = new ArrayList<>();
             long offset = 0;
             long streamLength = sdsFile.getLength();
 

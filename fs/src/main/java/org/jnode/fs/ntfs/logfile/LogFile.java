@@ -38,7 +38,7 @@ public class LogFile {
     /**
      * The list of open log clients.
      */
-    private final List<LogClientRecord> logClients = new ArrayList<LogClientRecord>();
+    private final List<LogClientRecord> logClients = new ArrayList<>();
 
     /**
      * The offset to the oldest page.
@@ -48,7 +48,7 @@ public class LogFile {
     /**
      * The map of offset to record page headers.
      */
-    private Map<Integer, RecordPageHeader> offsetPageMap = new LinkedHashMap<Integer, RecordPageHeader>();
+    private Map<Integer, RecordPageHeader> offsetPageMap = new LinkedHashMap<>();
 
     /**
      * The map of LSN to log record.
@@ -139,7 +139,7 @@ public class LogFile {
             return;
         }
 
-        lsnLogRecordMap = new LinkedHashMap<Long, LogRecord>();
+        lsnLogRecordMap = new LinkedHashMap<>();
 
         // The first whole record in the oldest page can start mid-page, so just skip all records in the first page and
         // use the last record to calculate the offset to the first record in the next page.
@@ -273,8 +273,8 @@ public class LogFile {
      * @throws IOException if an error occurs.
      */
     private int findOldestPageOffset(NTFSVolume volume) throws IOException {
-        TreeMap<Long, RecordPageHeader> lsnPageMap = new TreeMap<Long, RecordPageHeader>();
-        Map<RecordPageHeader, Integer> pageOffsetMap = new HashMap<RecordPageHeader, Integer>();
+        TreeMap<Long, RecordPageHeader> lsnPageMap = new TreeMap<>();
+        Map<RecordPageHeader, Integer> pageOffsetMap = new HashMap<>();
 
         // Read in all the page header records. The first two pages are the restart area, and the next two pages are the
         // buffer page area, so start reading in page headers from the fifth page. This is the start of the 'normal
@@ -376,7 +376,7 @@ public class LogFile {
      */
     public String dumpLogChain(long lsn) {
         parseRecords();
-        List<LogRecord> records = new ArrayList<LogRecord>();
+        List<LogRecord> records = new ArrayList<>();
         LogRecord midRecord = lsnLogRecordMap.get(lsn);
         records.add(midRecord);
 

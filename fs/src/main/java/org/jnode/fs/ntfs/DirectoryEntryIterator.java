@@ -77,7 +77,7 @@ final class DirectoryEntryIterator implements Iterator<FSEntry> {
     /**
      * Read the next entry.
      */
-    private final void readNextEntry() {
+    private void readNextEntry() {
         while (true) {
             if (!indexIterator.hasNext()) {
                 nextEntry = null;

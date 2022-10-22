@@ -25,21 +25,21 @@ public interface NodeRecord {
     /** 
      * Key identify the record 
      */
-    public Key getKey();
+    Key getKey();
 
     /** 
      * Get record data as byte array. 
      */
-    public byte[] getData();
+    byte[] getData();
 
     /**  
      * Get node record size
      */
-    public int getSize();
+    int getSize();
 
     /** 
      * Get node record as byte array 
      */
-    public byte[] getBytes();
+    byte[] getBytes();
 
 }

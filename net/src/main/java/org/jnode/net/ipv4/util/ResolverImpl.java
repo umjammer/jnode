@@ -58,11 +58,11 @@ public class ResolverImpl implements Resolver {
 
     static {
         // FIXME should this come from a hosts file?
-        hosts = new HashMap<String, ProtocolAddress[]>();
+        hosts = new HashMap<>();
         final String localhost = "localhost";
         ProtocolAddress[] protocolAddresses = new ProtocolAddress[] {new IPv4Address("127.0.0.1")};
         hosts.put(localhost, protocolAddresses);
-        resolvers = new HashMap<String, org.xbill.DNS.Resolver>();
+        resolvers = new HashMap<>();
     }
 
     private ResolverImpl() {
@@ -76,12 +76,10 @@ public class ResolverImpl implements Resolver {
     public static Resolver getInstance() {
         if (res == null) {
             // FIXME ... do we REALLY have to do this???
-            AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                public Object run() {
-                    System.setProperty("dns.server", "127.0.0.1");
-                    System.setProperty("dns.search", "localdomain");
-                    return null;
-                }
+            AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+                System.setProperty("dns.server", "127.0.0.1");
+                System.setProperty("dns.search", "localdomain");
+                return null;
             });
             res = new ResolverImpl();
         }
@@ -106,12 +104,10 @@ public class ResolverImpl implements Resolver {
             if (resolver == null) {
                 final String[] server = new String[] {_dnsserver.toString()};
                 try {
-                    AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
-                        public Object run() throws Exception {
-                            resolver = new ExtendedResolver(server);
-                            Lookup.setDefaultResolver(resolver);
-                            return null;
-                        }
+                    AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
+                        resolver = new ExtendedResolver(server);
+                        Lookup.setDefaultResolver(resolver);
+                        return null;
                     });
                 } catch (PrivilegedActionException x) {
                     Exception ee = x.getException();
@@ -167,7 +163,7 @@ public class ResolverImpl implements Resolver {
      */
     private ProtocolAddress[] getFromHostsFile(String _hostname) {
         // FIXME ... check for changes to the hosts file?
-        return (ProtocolAddress[]) hosts.get(_hostname);
+        return hosts.get(_hostname);
     }
 
     /**
@@ -191,45 +187,43 @@ public class ResolverImpl implements Resolver {
         }
 
         final PrivilegedExceptionAction<ProtocolAddress[]> action =
-                new PrivilegedExceptionAction<ProtocolAddress[]>() {
-                    public ProtocolAddress[] run() throws UnknownHostException {
-                        ProtocolAddress[] protocolAddresses;
+                () -> {
+                    ProtocolAddress[] protocolAddresses;
 
-                        // FIXME ... hard-wired policy that 'hosts' file would
-                        // be consulted
-                        // first. Should be configurable.
-                        protocolAddresses = getFromHostsFile(hostname);
-                        if (protocolAddresses != null) {
-                            return protocolAddresses;
-                        }
-
-                        Lookup.setDefaultResolver(resolver);
-
-                        final Lookup lookup;
-                        try {
-                            lookup = new Lookup(hostname);
-                        } catch (TextParseException e) {
-                            throw new UnknownHostException(hostname);
-                        }
-
-                        lookup.run();
-
-                        if (lookup.getResult() == Lookup.SUCCESSFUL) {
-                            final Record[] records = lookup.getAnswers();
-                            final int recordCount = records.length;
-
-                            protocolAddresses = new ProtocolAddress[recordCount];
-
-                            for (int i = 0; i < recordCount; i++) {
-                                final Record record = records[i];
-                                protocolAddresses[i] = new IPv4Address(record.rdataToString());
-                            }
-                        } else {
-                            throw new UnknownHostException(lookup.getErrorString());
-                        }
-
+                    // FIXME ... hard-wired policy that 'hosts' file would
+                    // be consulted
+                    // first. Should be configurable.
+                    protocolAddresses = getFromHostsFile(hostname);
+                    if (protocolAddresses != null) {
                         return protocolAddresses;
                     }
+
+                    Lookup.setDefaultResolver(resolver);
+
+                    final Lookup lookup;
+                    try {
+                        lookup = new Lookup(hostname);
+                    } catch (TextParseException e) {
+                        throw new UnknownHostException(hostname);
+                    }
+
+                    lookup.run();
+
+                    if (lookup.getResult() == Lookup.SUCCESSFUL) {
+                        final Record[] records = lookup.getAnswers();
+                        final int recordCount = records.length;
+
+                        protocolAddresses = new ProtocolAddress[recordCount];
+
+                        for (int i = 0; i < recordCount; i++) {
+                            final Record record = records[i];
+                            protocolAddresses[i] = new IPv4Address(record.rdataToString());
+                        }
+                    } else {
+                        throw new UnknownHostException(lookup.getErrorString());
+                    }
+
+                    return protocolAddresses;
                 };
         try {
             return AccessController.doPrivileged(action);

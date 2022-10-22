@@ -163,16 +163,15 @@ public final class Node {
 
     @Override
     public String toString() {
-        final StringBuilder result = new StringBuilder();
 
-        result.append(Node.class.getName());
-        result.append(" [name=");
-        result.append(this.name);
-        result.append(", contiguous=");
-        result.append(this.isContiguous);
-        result.append("]");
+        String result = Node.class.getName() +
+                " [name=" +
+                this.name +
+                ", contiguous=" +
+                this.isContiguous +
+                "]";
 
-        return result.toString();
+        return result;
     }
 
 }

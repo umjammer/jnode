@@ -23,7 +23,7 @@ public class LzvnForkCompressionDetails {
     /**
      * The list of chunk offsets.
      */
-    private List<Long> offsetArray = new ArrayList<Long>();
+    private List<Long> offsetArray = new ArrayList<>();
 
     /**
      * Creates a new instance.

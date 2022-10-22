@@ -33,12 +33,9 @@ import org.jnode.fs.ntfs.attribute.NTFSNonResidentAttribute;
 public final class DataRun implements DataRunInterface {
 
     /**
-     * Type of this datarun
-     */
-    /**
      * logger
      */
-    protected static final Logger log = LogManager.getLogger(DataRun.class);
+    private static final Logger log = LogManager.getLogger(DataRun.class);
 
     /**
      * Cluster number of first cluster of this run. If this is zero, the run

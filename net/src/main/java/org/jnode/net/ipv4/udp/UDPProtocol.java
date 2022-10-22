@@ -63,7 +63,7 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
      * Socket bindings (lport, socket)
      */
     private final HashMap<Integer, UDPDatagramSocketImpl> sockets =
-            new HashMap<Integer, UDPDatagramSocketImpl>();
+            new HashMap<>();
 
     /**
      * DatagramSocketImplFactor instance
@@ -100,11 +100,9 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
         try {
             dsiFactory = new UDPDatagramSocketImplFactory(this);
             try {
-                AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
-                    public Object run() throws IOException {
-                        DatagramSocket.setDatagramSocketImplFactory(dsiFactory);
-                        return null;
-                    }
+                AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
+                    DatagramSocket.setDatagramSocketImplFactory(dsiFactory);
+                    return null;
                 });
             } catch (SecurityException ex) {
                 log.error("No permission to set DatagramSocketImplFactory", ex);
@@ -199,7 +197,7 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
     private synchronized void deliver(UDPHeader hdr, SocketBuffer skbuf) throws SocketException {
         final Integer lport = hdr.getDstPort();
         final IPv4Header ipHdr = (IPv4Header) skbuf.getNetworkLayerHeader();
-        final UDPDatagramSocketImpl socket = (UDPDatagramSocketImpl) sockets.get(lport);
+        final UDPDatagramSocketImpl socket = sockets.get(lport);
         if (socket != null) {
             final InetAddress laddr = socket.getLocalAddress();
             if (laddr.isAnyLocalAddress() || laddr.equals(ipHdr.getDestination().toInetAddress())) {
@@ -227,7 +225,7 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
         if (lport.compareTo(zero) != 0 && sockets.containsKey(lport)) {
             throw new SocketException("Port already bound (" + lport + ')');
         } else {
-            Integer ran;
+            int ran;
 
             while (lport.compareTo(zero) == 0) {
                 ran = random.nextInt(stopRandom) + startRandom;

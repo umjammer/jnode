@@ -47,7 +47,7 @@ public class TCPOutChannel {
     /**
      * All unacked segments
      */
-    private final LinkedList<TCPOutSegment> unackedSegments = new LinkedList<TCPOutSegment>();
+    private final LinkedList<TCPOutSegment> unackedSegments = new LinkedList<>();
 
     /**
      * The outgoing databuffer
@@ -126,7 +126,7 @@ public class TCPOutChannel {
         // Remove data from the databuffer
         dataBuffer.pull(diff);
         for (Iterator<TCPOutSegment> i = unackedSegments.iterator(); i.hasNext();) {
-            final TCPOutSegment seg = (TCPOutSegment) i.next();
+            final TCPOutSegment seg = i.next();
             final int seqNr = seg.getSeqNr();
             if (TCPUtils.SEQ_LT(seqNr, ackNr)) {
                 // Remove the segment

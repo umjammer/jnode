@@ -70,21 +70,18 @@ public class FTPFSDirectory extends FTPFSEntry implements FSDirectory {
     private void ensureEntries() throws IOException {
         try {
             if (entries == null) {
-                AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
-                    @Override
-                    public Object run() throws Exception {
-                        entries = new HashMap<String, FTPFSEntry>();
-                        FTPFile[] ftpFiles = null;
-                        synchronized (fileSystem) {
-                            ftpFiles = fileSystem.dirDetails(path());
-                        }
-                        for (FTPFile f : ftpFiles) {
-                            FTPFSEntry e = f.isDir() ? new FTPFSDirectory(fileSystem, f) : new FTPFSFile(fileSystem, f);
-                            e.setParent(FTPFSDirectory.this);
-                            entries.put(f.getName(), e);
-                        }
-                        return null;
+                AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
+                    entries = new HashMap<>();
+                    FTPFile[] ftpFiles = null;
+                    synchronized (fileSystem) {
+                        ftpFiles = fileSystem.dirDetails(path());
                     }
+                    for (FTPFile f : ftpFiles) {
+                        FTPFSEntry e = f.isDir() ? new FTPFSDirectory(fileSystem, f) : new FTPFSFile(fileSystem, f);
+                        e.setParent(FTPFSDirectory.this);
+                        entries.put(f.getName(), e);
+                    }
+                    return null;
                 });
             }
         } catch (Exception e) {

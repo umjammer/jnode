@@ -36,14 +36,14 @@ import java.util.Collection;
 public interface NetworkLayerManager {
 
     /** Name used to bind the ptm in the InitialNaming namespace */
-    public static final Class<NetworkLayerManager> NAME = NetworkLayerManager.class;
+    Class<NetworkLayerManager> NAME = NetworkLayerManager.class;
 
     /**
      * Get all register packet types.
      * 
      * @return A collection of PacketType instances
      */
-    public Collection<NetworkLayer> getNetworkLayers();
+    Collection<NetworkLayer> getNetworkLayers();
 
     /**
      * Gets the packet type for a given protocol ID
@@ -51,7 +51,7 @@ public interface NetworkLayerManager {
      * @param protocolID
      * @throws NoSuchProtocolException
      */
-    public NetworkLayer getNetworkLayer(int protocolID) throws NoSuchProtocolException;
+    NetworkLayer getNetworkLayer(int protocolID) throws NoSuchProtocolException;
 
     /**
      * Process a packet that has been received. The receive method of all those
@@ -61,5 +61,5 @@ public interface NetworkLayerManager {
      * 
      * @param skbuf
      */
-    public void receive(SocketBuffer skbuf) throws IOException;
+    void receive(SocketBuffer skbuf) throws IOException;
 }

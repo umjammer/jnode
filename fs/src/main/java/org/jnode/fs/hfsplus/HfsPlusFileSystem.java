@@ -78,7 +78,7 @@ public class HfsPlusFileSystem extends AbstractFileSystem<HfsPlusEntry> {
      * The map of registered compression types.
      */
     private Map<Long, HfsPlusCompressionFactory> registeredCompressionTypes =
-        new LinkedHashMap<Long, HfsPlusCompressionFactory>(CompressedAttributeData.getDefaultTypes());
+            new LinkedHashMap<>(CompressedAttributeData.getDefaultTypes());
 
     /**
      * @param device

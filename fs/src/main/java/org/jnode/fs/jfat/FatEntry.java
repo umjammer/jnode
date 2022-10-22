@@ -60,7 +60,7 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
         this.chain = new FatChain(fs, entry.getStartCluster());
     }
 
-    private final void setRoot() {
+    private void setRoot() {
         this.name = "";
         this.record = null;
         this.entry = null;
@@ -85,8 +85,7 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
 
         Vector<FatLongDirEntry> v = record.getLongEntries();
 
-        for (int i = 0; i < v.size(); i++) {
-            FatLongDirEntry l = v.get(i);
+        for (FatLongDirEntry l : v) {
             l.delete();
             parent.setFatDirEntry(l);
             l.flush();
@@ -222,7 +221,7 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
 
     public String getPath() {
         StringBuilder path = new StringBuilder(1024);
-        FatDirectory parent = (FatDirectory) getParent();
+        FatDirectory parent = getParent();
 
         if (getName().length() != 0)
             path.append(getName());
@@ -231,7 +230,7 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
 
         while (parent != null) {
             path.insert(0, parent.getName() + "\\");
-            parent = (FatDirectory) parent.getParent();
+            parent = parent.getParent();
         }
 
         return path.toString();

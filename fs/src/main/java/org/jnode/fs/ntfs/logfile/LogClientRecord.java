@@ -1,6 +1,6 @@
 package org.jnode.fs.ntfs.logfile;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import org.jnode.fs.ntfs.NTFSStructure;
 
@@ -84,11 +84,7 @@ public class LogClientRecord extends NTFSStructure {
         int length = getClientNameLength();
         byte[] buffer = new byte[length];
         getData(0x20, buffer, 0, length);
-        try {
-            return new String(buffer, "UTF-16LE");
-        } catch (UnsupportedEncodingException e) {
-            throw new IllegalStateException("UTF-16LE charset missing from JRE", e);
-        }
+        return new String(buffer, StandardCharsets.UTF_16LE);
     }
 
     /**
@@ -97,14 +93,13 @@ public class LogClientRecord extends NTFSStructure {
      * @return the debug string.
      */
     public String toDebugString() {
-        StringBuilder builder = new StringBuilder("Log Client Record:[\n");
-        builder.append("oldest-lsn: " + getOldestLsn() + "\n");
-        builder.append("restart-lsn: " + getRestartLsn() + "\n");
-        builder.append("previous-client: " + getPreviousClientOffset() + "\n");
-        builder.append("next-client: " + getNextClientOffset() + "\n");
-        builder.append("sequence-number: " + getSequenceNumber() + "\n");
-        builder.append("name-length: " + getClientNameLength() + "\n");
-        builder.append("name: " + getClientName() + "]");
-        return builder.toString();
+        String builder = "Log Client Record:[\n" + "oldest-lsn: " + getOldestLsn() + "\n" +
+                "restart-lsn: " + getRestartLsn() + "\n" +
+                "previous-client: " + getPreviousClientOffset() + "\n" +
+                "next-client: " + getNextClientOffset() + "\n" +
+                "sequence-number: " + getSequenceNumber() + "\n" +
+                "name-length: " + getClientNameLength() + "\n" +
+                "name: " + getClientName() + "]";
+        return builder;
     }
 }

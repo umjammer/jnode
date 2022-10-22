@@ -31,7 +31,7 @@ public interface QueueProcessor<T> {
      * @param object
      * @throws Exception
      */
-    public abstract void process(T object)
+    void process(T object)
         throws Exception;
 
 }

@@ -35,9 +35,9 @@ public enum ICMPType {
     ICMP_ADDRESS(17), /* Address Mask Request */
     ICMP_ADDRESSREPLY(18); /* Address Mask Reply */
 
-    private int id;
+    private final int id;
 
-    private ICMPType(int id) {
+    ICMPType(int id) {
         this.id = id;
     }
 

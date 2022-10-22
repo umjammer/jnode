@@ -25,6 +25,6 @@ package org.jnode.net.ipv4.udp;
  */
 public interface UDPConstants {
 
-    public static final int UDP_HLEN = 8;
+    int UDP_HLEN = 8;
 
 }

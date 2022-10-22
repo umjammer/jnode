@@ -68,7 +68,7 @@ public class ExtentLeafNode extends AbstractLeafNode<ExtentKey> {
      * @return the overflow extents.
      */
     public ExtentDescriptor[] getOverflowExtents(ExtentKey key) {
-        List<ExtentDescriptor> overflowExtents = new LinkedList<ExtentDescriptor>();
+        List<ExtentDescriptor> overflowExtents = new LinkedList<>();
 
         for (LeafRecord record : findAll(key)) {
             for (
@@ -78,6 +78,6 @@ public class ExtentLeafNode extends AbstractLeafNode<ExtentKey> {
             }
         }
 
-        return overflowExtents.toArray(new ExtentDescriptor[overflowExtents.size()]);
+        return overflowExtents.toArray(new ExtentDescriptor[0]);
     }
 }

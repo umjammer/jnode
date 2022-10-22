@@ -59,19 +59,17 @@ public class BOOTPClient extends AbstractBOOTPClient {
         }
 
         try {
-            AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
-                public Object run() throws IOException {
-                    // Get the API.
-                    try {
-                        api = device.getAPI(NetDeviceAPI.class);
-                    } catch (ApiNotFoundException ex) {
-                        throw new NetworkException("Device is not a network device", ex);
-                    }
-
-                    configureDevice(device.getId(), api.getAddress());
-
-                    return null;
+            AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
+                // Get the API.
+                try {
+                    api = device.getAPI(NetDeviceAPI.class);
+                } catch (ApiNotFoundException ex) {
+                    throw new NetworkException("Device is not a network device", ex);
                 }
+
+                configureDevice(device.getId(), api.getAddress());
+
+                return null;
             });
         } catch (PrivilegedActionException ex) {
             throw (IOException) ex.getException();

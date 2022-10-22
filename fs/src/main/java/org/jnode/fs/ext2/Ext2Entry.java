@@ -63,7 +63,7 @@ public class Ext2Entry extends AbstractFSEntry implements FSEntryLastChanged, FS
 
     @Override
     public String getId() {
-        return Long.toString(iNode.getINodeNr()) + '-' + Long.toString(directoryRecordId);
+        return Long.toString(iNode.getINodeNr()) + '-' + directoryRecordId;
     }
 
     public long getLastModified() throws IOException {

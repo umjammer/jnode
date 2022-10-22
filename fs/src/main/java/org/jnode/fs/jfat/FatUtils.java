@@ -109,11 +109,11 @@ public class FatUtils {
         return date.format(javaDateTime);
     }
 
-    public static final boolean compareIgnoreCase(String s1, String s2) {
+    public static boolean compareIgnoreCase(String s1, String s2) {
         return s1.equalsIgnoreCase(s2);
     }
 
-    public static final String toIgnoreCase(String s) {
+    public static String toIgnoreCase(String s) {
         //
         // it may be the right solution for what
         // the spec (pag 29) ditctate and to
@@ -123,37 +123,37 @@ public class FatUtils {
         return s.toUpperCase().toLowerCase();
     }
 
-    public static final String toUpperCase(String s) {
+    public static String toUpperCase(String s) {
         return toIgnoreCase(s).toUpperCase();
     }
 
-    public static final boolean isLowerCase(String s) {
+    public static boolean isLowerCase(String s) {
         if (s.length() == 0)
             return false;
 
         char[] ca = s.toCharArray();
 
-        for (int i = 0; i < ca.length; i++)
-            if (!(Character.toLowerCase(ca[i]) == ca[i]))
+        for (char c : ca)
+            if (!(Character.toLowerCase(c) == c))
                 return false;
 
         return true;
     }
 
-    public static final boolean isUpperCase(String s) {
+    public static boolean isUpperCase(String s) {
         if (s.length() == 0)
             return false;
 
         char[] ca = s.toCharArray();
 
-        for (int i = 0; i < ca.length; i++)
-            if (!(Character.toUpperCase(ca[i]) == ca[i]))
+        for (char c : ca)
+            if (!(Character.toUpperCase(c) == c))
                 return false;
 
         return true;
     }
 
-    public static final String longName(String name) {
+    public static String longName(String name) {
         String lname = name.trim();
         lname = lname.replaceAll("\\.*$", "");
         return lname;

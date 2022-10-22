@@ -43,8 +43,8 @@ public class LfnTest {
         System.out.println("Create some files in directory = " + directory);
 
         // create files
-        for (int i = 0; i < fileNames.length; i++) {
-            args[0] = directory + "/" + fileNames[i];
+        for (String fileName : fileNames) {
+            args[0] = directory + "/" + fileName;
             FileTest.main(args);
         }
 
@@ -78,22 +78,19 @@ public class LfnTest {
     private static void listFiles(String directory) {
         File dir = new File(directory);
         String[] all = dir.list();
-        for (int i = 0; i < all.length; i++) {
-            File toTest = new File(all[i]);
-            System.out.println("dir entry = " + all[i] + " isDirectory = " + toTest.isDirectory());
+        for (String s : all) {
+            File toTest = new File(s);
+            System.out.println("dir entry = " + s + " isDirectory = " + toTest.isDirectory());
             if (!toTest.isDirectory()) {
                 System.out.print("MiniDump content :");
                 byte[] raw = new byte[4];
                 FileInputStream fis;
                 try {
-                    fis = new FileInputStream(directory + "/" + all[i]);
+                    fis = new FileInputStream(directory + "/" + s);
                     fis.read(raw);
-                } catch (IOException e1) {
+                } catch (IOException | SecurityException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
-                } catch (SecurityException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
                 }
 
                 System.out.println("hexdata = " + NumberUtils.hex(raw));

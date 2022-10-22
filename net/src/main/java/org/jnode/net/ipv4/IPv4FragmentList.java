@@ -54,7 +54,7 @@ public class IPv4FragmentList implements IPv4Constants {
      */
     public IPv4FragmentList(SocketBuffer firstFragment) {
         this.creationTime = System.currentTimeMillis();
-        this.fragments = new ArrayList<SocketBuffer>();
+        this.fragments = new ArrayList<>();
         this.haveFirstFragment = false;
         this.haveLastFragment = false;
         final IPv4Header hdr = (IPv4Header) firstFragment.getNetworkLayerHeader();
@@ -81,7 +81,7 @@ public class IPv4FragmentList implements IPv4Constants {
 
         // Insert the fragment at the correct index in the list
         for (Iterator<SocketBuffer> i = fragments.iterator(); i.hasNext();) {
-            final SocketBuffer f = (SocketBuffer) i.next();
+            final SocketBuffer f = i.next();
             final IPv4Header fhdr = (IPv4Header) f.getNetworkLayerHeader();
             final int fOfs = fhdr.getFragmentOffset();
             final int fSize = f.getSize();
@@ -92,7 +92,7 @@ public class IPv4FragmentList implements IPv4Constants {
 
                 // See if we can attach the following fragment directly to me
                 if (i.hasNext()) {
-                    final SocketBuffer f2 = (SocketBuffer) i.next();
+                    final SocketBuffer f2 = i.next();
                     final IPv4Header f2hdr = (IPv4Header) f2.getNetworkLayerHeader();
                     final int f2Ofs = f2hdr.getFragmentOffset();
                     if (f2Ofs == (myFrOfs + skbuf.getSize())) {
@@ -144,7 +144,7 @@ public class IPv4FragmentList implements IPv4Constants {
      * This method can only be called when <code>isComplete</code> returns true.
      */
     public SocketBuffer getPacket() {
-        return (SocketBuffer) fragments.get(0);
+        return fragments.get(0);
     }
 
     /**

@@ -103,7 +103,7 @@ public class CompressedAttributeData extends AttributeData implements Closeable 
      * @return the map.
      */
     public static Map<Long, HfsPlusCompressionFactory> getDefaultTypes() {
-        Map<Long, HfsPlusCompressionFactory> compressionTypeMap = new LinkedHashMap<Long, HfsPlusCompressionFactory>();
+        Map<Long, HfsPlusCompressionFactory> compressionTypeMap = new LinkedHashMap<>();
         compressionTypeMap.put(DecmpfsDiskHeader.COMPRESSION_TYPE1, new AttributeType1Compression.Factory());
         compressionTypeMap.put(DecmpfsDiskHeader.COMPRESSION_TYPE_ZLIB, new AttributeZlibCompression.Factory());
         compressionTypeMap.put(DecmpfsDiskHeader.COMPRESSION_TYPE_ZLIB_FORK, new ZlibForkCompression.Factory());

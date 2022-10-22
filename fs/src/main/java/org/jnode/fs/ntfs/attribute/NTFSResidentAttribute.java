@@ -78,6 +78,6 @@ public class NTFSResidentAttribute extends NTFSAttribute {
 
     @Override
     public String toDebugString() {
-        return toString() + " data:" + hexDump();
+        return this + " data:" + hexDump();
     }
 }

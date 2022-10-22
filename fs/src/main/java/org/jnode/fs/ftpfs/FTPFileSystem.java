@@ -45,42 +45,33 @@ public class FTPFileSystem implements FileSystem<FTPFSDirectory> {
 
     FTPFileSystem(final FTPFSDevice device, final FTPFileSystemType type) {
         this.type = type;
-        this.client = AccessController.doPrivileged(new PrivilegedAction<FTPClient>() {
-            @Override
-            public FTPClient run() {
-                return new FTPClient();
-            }
-        });
+        this.client = AccessController.doPrivileged((PrivilegedAction<FTPClient>) FTPClient::new);
         this.device = device;
         try {
             client.setRemoteHost(device.getHost());
             client.setTimeout(300000);
-            AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                public Object run() {
-                    try {
-                        client.connect();
-                        return null;
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+            AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+                try {
+                    client.connect();
+                    return null;
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             });
 
             client.login(device.getUser(), device.getPassword());
-            thread = new Thread(new Runnable() {
-                public void run() {
-                    try {
-                        while (!isClosed()) {
-                            try {
-                                Thread.sleep(100000);
-                                nop();
-                            } catch (InterruptedException x) {
-                                // ignore
-                            }
+            thread = new Thread(() -> {
+                try {
+                    while (!isClosed()) {
+                        try {
+                            Thread.sleep(100000);
+                            nop();
+                        } catch (InterruptedException x) {
+                            // ignore
                         }
-                    } catch (Exception x) {
-                        x.printStackTrace();
                     }
+                } catch (Exception x) {
+                    x.printStackTrace();
                 }
             }, "ftpfs_keepalive");
             thread.start();

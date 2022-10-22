@@ -77,7 +77,7 @@ public class FatFormatter {
 
     private static int calculateDefaultSectorsPerCluster(int bps, int nbTotalSectors) {
         // Apply the default cluster size from MS
-        long sizeInMB = (nbTotalSectors * bps) / (1024 * 1024);
+        long sizeInMB = ((long) nbTotalSectors * bps) / (1024 * 1024);
 
         int spc;
 

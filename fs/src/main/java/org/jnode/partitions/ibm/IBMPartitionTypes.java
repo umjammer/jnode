@@ -222,7 +222,7 @@ public enum IBMPartitionTypes {
     private final int code;
     private final String name;
 
-    private IBMPartitionTypes(int code, String name) {
+    IBMPartitionTypes(int code, String name) {
         this.code = code;
         this.name = name;
     }

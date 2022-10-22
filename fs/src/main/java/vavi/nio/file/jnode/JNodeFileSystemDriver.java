@@ -92,7 +92,6 @@ public final class JNodeFileSystemDriver<T extends FSEntry> extends ExtendedFile
                 T entry = (T) parent.getDirectory().getEntry(name.toString());
                 if (i < path.getNameCount() - 1) {
                     parent = entry;
-                    continue;
                 } else {
                     if (ignoreAppleDouble && path.getFileName() != null && Util.isAppleDouble(path)) {
                         throw new NoSuchFileException("ignore apple double file: " + path);

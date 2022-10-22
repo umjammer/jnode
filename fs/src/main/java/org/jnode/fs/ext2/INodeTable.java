@@ -98,11 +98,11 @@ public class INodeTable {
      */
     public synchronized byte[] getInodeData(int index) throws IOException, FileSystemException {
         int iNodeSize = fs.getSuperblock().getINodeSize();
-        byte data[] = new byte[iNodeSize];
+        byte[] data = new byte[iNodeSize];
 
         int indexCopied = 0;
         while (indexCopied < iNodeSize) {
-            long blockNo = (index * iNodeSize + indexCopied) / blockSize;
+            long blockNo = ((long) index * iNodeSize + indexCopied) / blockSize;
             int blockOffset = (index * iNodeSize + indexCopied) % blockSize;
             int copyLength = Math.min(blockSize - blockOffset, iNodeSize);
             System.arraycopy(getINodeTableBlock(blockNo), blockOffset, data, indexCopied,

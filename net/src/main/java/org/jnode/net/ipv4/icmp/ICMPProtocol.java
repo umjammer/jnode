@@ -65,14 +65,14 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
     /**
      * Queue<SocketBuffer> for requests that need a reply
      */
-    private final Queue<SocketBuffer> replyRequestQueue = new Queue<SocketBuffer>();
+    private final Queue<SocketBuffer> replyRequestQueue = new Queue<>();
 
     private final QueueProcessorThread<SocketBuffer> replyRequestsThread;
 
     /**
      * ICMP packet listeners
      */
-    private final Vector<ICMPListener> listeners = new Vector<ICMPListener>();
+    private final Vector<ICMPListener> listeners = new Vector<>();
 
     /**
      * Create a new instance
@@ -82,7 +82,7 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
     public ICMPProtocol(IPv4Service ipService) {
         this.ipService = ipService;
         this.replyRequestsThread =
-            new QueueProcessorThread<SocketBuffer>("icmp-reply", replyRequestQueue, this);
+                new QueueProcessorThread<>("icmp-reply", replyRequestQueue, this);
         replyRequestsThread.start();
     }
 

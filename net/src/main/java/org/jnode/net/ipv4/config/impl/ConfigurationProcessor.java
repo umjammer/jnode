@@ -32,7 +32,7 @@ import org.jnode.util.QueueProcessorThread;
  */
 public class ConfigurationProcessor implements QueueProcessor<ConfigurationQueueEntry> {
 
-    private final Queue<ConfigurationQueueEntry> queue = new Queue<ConfigurationQueueEntry>();
+    private final Queue<ConfigurationQueueEntry> queue = new Queue<>();
 
     static final Logger log = LogManager.getLogger(ConfigurationProcessor.class);
 
@@ -54,7 +54,7 @@ public class ConfigurationProcessor implements QueueProcessor<ConfigurationQueue
     }
 
     public void start() {
-        thread = new QueueProcessorThread<ConfigurationQueueEntry>(
+        thread = new QueueProcessorThread<>(
                 "Net configuration processor", queue, this);
         thread.start();
     }

@@ -33,14 +33,14 @@ public interface LayerHeader {
     /**
      * Gets the length of this header in bytes
      */
-    public int getLength();
+    int getLength();
 
     /**
      * Prefix this header to the front of the given buffer
      * 
      * @param skbuf
      */
-    public void prefixTo(SocketBuffer skbuf);
+    void prefixTo(SocketBuffer skbuf);
 
     /**
      * Finalize the header in the given buffer. This method is called when all
@@ -51,5 +51,5 @@ public interface LayerHeader {
      * @param offset The offset to the first byte (in the buffer) of this header
      *            (since low layer headers are already prefixed)
      */
-    public void finalizeHeader(SocketBuffer skbuf, int offset);
+    void finalizeHeader(SocketBuffer skbuf, int offset);
 }

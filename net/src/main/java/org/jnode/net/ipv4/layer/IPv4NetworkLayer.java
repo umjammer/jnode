@@ -69,13 +69,13 @@ public class IPv4NetworkLayer implements NetworkLayer, IPv4Constants, IPv4Servic
      */
     private static final Logger log = LogManager.getLogger(IPv4NetworkLayer.class);
 
-    private final HashMap<Integer, IPv4Protocol> protocols = new HashMap<Integer, IPv4Protocol>();
+    private final HashMap<Integer, IPv4Protocol> protocols = new HashMap<>();
 
     /**
      * List of in-complete fragments
      */
     private final HashMap<Object, IPv4FragmentList> fragments =
-            new HashMap<Object, IPv4FragmentList>();
+            new HashMap<>();
 
     /**
      * System time of last call to removeDeadFragments
@@ -244,7 +244,7 @@ public class IPv4NetworkLayer implements NetworkLayer, IPv4Constants, IPv4Servic
      */
     private void deliverFragment(IPv4Header hdr, SocketBuffer skbuf) throws SocketException {
         final Object key = hdr.getFragmentListKey();
-        final IPv4FragmentList flist = (IPv4FragmentList) fragments.get(key);
+        final IPv4FragmentList flist = fragments.get(key);
         if (flist == null) {
             // This is a fragment for a new list
             fragments.put(key, new IPv4FragmentList(skbuf));
@@ -268,8 +268,8 @@ public class IPv4NetworkLayer implements NetworkLayer, IPv4Constants, IPv4Servic
     /**
      * Remove all dead fragments from the fragment list
      */
-    private final void removeDeadFragments() {
-        final ArrayList<Object> deadFragmentKeys = new ArrayList<Object>();
+    private void removeDeadFragments() {
+        final ArrayList<Object> deadFragmentKeys = new ArrayList<>();
         // First collect all dead fragment keys
         // Do not remove the directly, since that will create an error
         // in the iterator.
@@ -299,7 +299,7 @@ public class IPv4NetworkLayer implements NetworkLayer, IPv4Constants, IPv4Servic
      */
     public IPv4Protocol getProtocol(int protocolID) throws NoSuchProtocolException {
         final IPv4Protocol protocol;
-        protocol = (IPv4Protocol) protocols.get(protocolID);
+        protocol = protocols.get(protocolID);
         if (protocol == null) {
             throw new NoSuchProtocolException("with ID " + protocolID);
         }
@@ -354,7 +354,7 @@ public class IPv4NetworkLayer implements NetworkLayer, IPv4Constants, IPv4Servic
      * Gets all registered transport-layers
      */
     public Collection<TransportLayer> getTransportLayers() {
-        final ArrayList<TransportLayer> result = new ArrayList<TransportLayer>(protocols.values());
+        final ArrayList<TransportLayer> result = new ArrayList<>(protocols.values());
         return result;
     }
 

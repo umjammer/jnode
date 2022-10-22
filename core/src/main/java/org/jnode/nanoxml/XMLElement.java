@@ -457,8 +457,8 @@ public class XMLElement
         this.ignoreCase = ignoreCase;
         this.name = null;
         this.contents = "";
-        this.attributes = new HashMap<String, String>();
-        this.children = new ArrayList<XMLElement>();
+        this.attributes = new HashMap<>();
+        this.children = new ArrayList<>();
         this.entities = entities;
         this.lineNr = 0;
         Enumeration e = this.entities.keys();
@@ -806,7 +806,7 @@ public class XMLElement
      */
     public List<XMLElement> getChildren()
     {
-        return new ArrayList<XMLElement>(this.children);
+        return new ArrayList<>(this.children);
     }
 
     /**
@@ -955,7 +955,7 @@ public class XMLElement
         if (this.ignoreCase) {
             name = name.toUpperCase();
         }
-        Object key = this.attributes.get(name);
+        String key = this.attributes.get(name);
         Object result;
         if (key == null) {
             key = defaultKey;
@@ -965,7 +965,7 @@ public class XMLElement
             if (allowLiterals) {
                 result = key;
             } else {
-                throw this.invalidValue(name, (String) key);
+                throw this.invalidValue(name, key);
             }
         }
         return result;
@@ -1132,7 +1132,7 @@ public class XMLElement
         if (this.ignoreCase) {
             name = name.toUpperCase();
         }
-        String value = (String) this.attributes.get(name);
+        String value = this.attributes.get(name);
         if (value == null) {
             return defaultValue;
         } else {
@@ -1189,7 +1189,7 @@ public class XMLElement
         if (this.ignoreCase) {
             name = name.toUpperCase();
         }
-        Object key = this.attributes.get(name);
+        String key = this.attributes.get(name);
         Integer result;
         if (key == null) {
             key = defaultKey;
@@ -1201,15 +1201,15 @@ public class XMLElement
         }
         if (result == null) {
             if (! allowLiteralNumbers) {
-                throw this.invalidValue(name, (String) key);
+                throw this.invalidValue(name, key);
             }
             try {
-                result = Integer.valueOf((String) key);
+                result = Integer.valueOf(key);
             } catch (NumberFormatException e) {
-                throw this.invalidValue(name, (String) key);
+                throw this.invalidValue(name, key);
             }
         }
-        return result.intValue();
+        return result;
     }
 
     /**
@@ -1266,12 +1266,12 @@ public class XMLElement
         if (this.ignoreCase) {
             name = name.toUpperCase();
         }
-        String value = (String) this.attributes.get(name);
+        String value = this.attributes.get(name);
         if (value == null) {
             return defaultValue;
         } else {
             try {
-                return Double.valueOf(value).doubleValue();
+                return Double.parseDouble(value);
             } catch (NumberFormatException e) {
                 throw this.invalidValue(name, value);
             }
@@ -1324,7 +1324,7 @@ public class XMLElement
         if (this.ignoreCase) {
             name = name.toUpperCase();
         }
-        Object key = this.attributes.get(name);
+        String key = this.attributes.get(name);
         Double result;
         if (key == null) {
             key = defaultKey;
@@ -1336,15 +1336,15 @@ public class XMLElement
         }
         if (result == null) {
             if (! allowLiteralNumbers) {
-                throw this.invalidValue(name, (String) key);
+                throw this.invalidValue(name, key);
             }
             try {
-                result = Double.valueOf((String) key);
+                result = Double.valueOf(key);
             } catch (NumberFormatException e) {
-                throw this.invalidValue(name, (String) key);
+                throw this.invalidValue(name, key);
             }
         }
-        return result.doubleValue();
+        return result;
     }
 
     /**
@@ -1383,7 +1383,7 @@ public class XMLElement
         if (this.ignoreCase) {
             name = name.toUpperCase();
         }
-        Object value = this.attributes.get(name);
+        String value = this.attributes.get(name);
         if (value == null) {
             return defaultValue;
         } else if (value.equals(trueValue)) {
@@ -1391,7 +1391,7 @@ public class XMLElement
         } else if (value.equals(falseValue)) {
             return false;
         } else {
-            throw this.invalidValue(name, (String) value);
+            throw this.invalidValue(name, value);
         }
     }
 
@@ -2026,7 +2026,7 @@ public class XMLElement
             OutputStreamWriter writer = new OutputStreamWriter(out);
             this.write(writer);
             writer.flush();
-            return new String(out.toByteArray());
+            return out.toString();
         } catch (IOException e) {
             // Java exception handling suxx
             return super.toString();
@@ -2130,7 +2130,7 @@ public class XMLElement
                     writer.write('o'); writer.write('s'); writer.write(';');
                     break;
                 default:
-                    int unicode = (int) ch;
+                    int unicode = ch;
                     if ((unicode < 32) || (unicode > 126)) {
                         writer.write('&'); writer.write('#');
                         writer.write('x');
@@ -2600,7 +2600,7 @@ public class XMLElement
         throws IOException
     {
         char ch = '\0';
-        StringBuffer keyBuf = new StringBuffer();
+        StringBuilder keyBuf = new StringBuilder();
         for (;;) {
             ch = this.readChar();
             if (ch == ';') {

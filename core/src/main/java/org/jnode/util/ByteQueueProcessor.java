@@ -31,7 +31,7 @@ public interface ByteQueueProcessor {
      * @param value
      * @throws Exception
      */
-    public abstract void process(byte value)
+    void process(byte value)
         throws Exception;
 
 }

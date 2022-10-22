@@ -39,7 +39,7 @@ import org.jnode.util.BigEndian;
 public class ApmPartitionTable implements PartitionTable<ApmPartitionTableEntry> {
 
     /** The partition entries */
-    private final List<ApmPartitionTableEntry> partitions = new ArrayList<ApmPartitionTableEntry>();
+    private final List<ApmPartitionTableEntry> partitions = new ArrayList<>();
 
     /** My logger */
     private static final Logger log = LogManager.getLogger(ApmPartitionTable.class);

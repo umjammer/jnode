@@ -142,19 +142,18 @@ public class RestartArea extends NTFSStructure {
      * @return the debug string.
      */
     public String toDebugString() {
-        StringBuilder builder = new StringBuilder("Restart Area:[\n");
-        builder.append("current-lsn: " + getCurrentLsn() + "\n");
-        builder.append("log-clients: " + getLogClients() + "\n");
-        builder.append("client-free-list: " + getClientFreeList() + "\n");
-        builder.append("client-in-use-list: " + getClientInUseList() + "\n");
-        builder.append("flags: " + getFlags() + "\n");
-        builder.append("seq-number-bits: " + getSequenceNumberBits() + "\n");
-        builder.append("restart-area-length: " + getRestartAreaLength() + "\n");
-        builder.append("client-array-offset: " + getClientArrayOffset() + "\n");
-        builder.append("file-size: " + getFileSize() + "\n");
-        builder.append("last-lsn-data-length: " + getLastLsnDataLength() + "\n");
-        builder.append("record-length: " + getRecordLength() + "\n");
-        builder.append("log-page-data-offset: " + getLogPageDataOffset() + "]");
-        return builder.toString();
+        String builder = "Restart Area:[\n" + "current-lsn: " + getCurrentLsn() + "\n" +
+                "log-clients: " + getLogClients() + "\n" +
+                "client-free-list: " + getClientFreeList() + "\n" +
+                "client-in-use-list: " + getClientInUseList() + "\n" +
+                "flags: " + getFlags() + "\n" +
+                "seq-number-bits: " + getSequenceNumberBits() + "\n" +
+                "restart-area-length: " + getRestartAreaLength() + "\n" +
+                "client-array-offset: " + getClientArrayOffset() + "\n" +
+                "file-size: " + getFileSize() + "\n" +
+                "last-lsn-data-length: " + getLastLsnDataLength() + "\n" +
+                "record-length: " + getRecordLength() + "\n" +
+                "log-page-data-offset: " + getLogPageDataOffset() + "]";
+        return builder;
     }
 }

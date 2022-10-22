@@ -29,7 +29,7 @@ public class TableEntry {
     private Map<String, EntryInfo> entryMap;
 
     public TableEntry() {
-        entryMap = new HashMap<String, EntryInfo>();
+        entryMap = new HashMap<>();
     }
 
     public synchronized NFS2Entry getEntry(String name) {
@@ -54,10 +54,10 @@ public class TableEntry {
 
     public synchronized Set<NFS2Entry> getEntrySet() {
         if (entryMap.size() == 0) {
-            return new HashSet<NFS2Entry>();
+            return new HashSet<>();
         }
 
-        Set<NFS2Entry> entrySet = new HashSet<NFS2Entry>(entryMap.size());
+        Set<NFS2Entry> entrySet = new HashSet<>(entryMap.size());
         for (String name : entryMap.keySet()) {
             NFS2Entry entry = getEntry(name);
             if (entry != null) {
@@ -76,7 +76,7 @@ public class TableEntry {
         return entryMap.size();
     }
 
-    private class EntryInfo {
+    private static class EntryInfo {
 
         private NFS2Entry entry;
         private long expirationTime;

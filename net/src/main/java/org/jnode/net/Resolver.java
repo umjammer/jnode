@@ -35,7 +35,7 @@ public interface Resolver {
      *         least 1 address long.
      * @throws UnknownHostException
      */
-    public ProtocolAddress[] getByName(String hostname) throws UnknownHostException;
+    ProtocolAddress[] getByName(String hostname) throws UnknownHostException;
 
     /**
      * Gets the hostname of the given address.
@@ -45,6 +45,6 @@ public interface Resolver {
      *         least 1 hostname long.
      * @throws UnknownHostException
      */
-    public String[] getByAddress(ProtocolAddress address) throws UnknownHostException;
+    String[] getByAddress(ProtocolAddress address) throws UnknownHostException;
 
 }

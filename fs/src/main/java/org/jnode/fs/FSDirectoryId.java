@@ -31,5 +31,5 @@ public interface FSDirectoryId {
      *
      * @return the unique ID for this directory.
      */
-    public String getDirectoryId();
+    String getDirectoryId();
 }

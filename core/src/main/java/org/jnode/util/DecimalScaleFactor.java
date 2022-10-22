@@ -21,13 +21,13 @@
 package org.jnode.util;
 
 public enum DecimalScaleFactor implements ScaleFactor {
-    B(1l, ""),
-    K(1000l, "k"),
-    M(1000l * 1000l, "M"),
-    G(1000l * 1000l * 1000l, "G"),
-    T(1000l * 1000l * 1000l * 1000l, "T"),
-    P(1000l * 1000l * 1000l * 1000l * 1000l, "P"),
-    E(1000l * 1000l * 1000l * 1000l * 1000l * 1000l, "E");
+    B(1L, ""),
+    K(1000L, "k"),
+    M(1000L * 1000L, "M"),
+    G(1000L * 1000L * 1000L, "G"),
+    T(1000L * 1000L * 1000L * 1000L, "T"),
+    P(1000L * 1000L * 1000L * 1000L * 1000L, "P"),
+    E(1000L * 1000L * 1000L * 1000L * 1000L * 1000L, "E");
     //these units have too big multipliers to fit in a long
     // (aka they are greater than 2^64) :
     //Z(1000l*1000l*1000l*1000l*1000l*1000l*1000l, "Z"),
@@ -39,7 +39,7 @@ public enum DecimalScaleFactor implements ScaleFactor {
     private final long multiplier;
     private final String unit;
 
-    private DecimalScaleFactor(long multiplier, String unit) {
+    DecimalScaleFactor(long multiplier, String unit) {
         this.multiplier = multiplier;
         this.unit = unit;
     }
@@ -67,12 +67,12 @@ public enum DecimalScaleFactor implements ScaleFactor {
         long v = value;
         DecimalScaleFactor unit = null;
         for (DecimalScaleFactor u : values()) {
-            if ((v < 1000l) && (v >= 0l)) {
+            if ((v < 1000L) && (v >= 0L)) {
                 unit = u;
                 break;
             }
 
-            v = v / 1000l;
+            v = v / 1000L;
         }
         unit = (unit == null) ? MAX : unit;
         float dv = ((float) value) / unit.getMultiplier();

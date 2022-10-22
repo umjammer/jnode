@@ -46,7 +46,7 @@ public interface DataRunInterface {
      * @return the number of clusters read.
      * @throws IOException if an error occurs reading.
      */
-    public int readClusters(long vcn, byte[] dst, int dstOffset, int nrClusters, int clusterSize, NTFSVolume volume)
+    int readClusters(long vcn, byte[] dst, int dstOffset, int nrClusters, int clusterSize, NTFSVolume volume)
         throws IOException;
 
     /**
@@ -54,12 +54,12 @@ public interface DataRunInterface {
      *
      * @return the first VCN.
      */
-    public long getFirstVcn();
+    long getFirstVcn();
 
     /**
      * Gets the last virtual cluster in this data run.
      *
      * @return the last VCN.
      */
-    public long getLastVcn();
+    long getLastVcn();
 }

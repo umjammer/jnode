@@ -124,16 +124,15 @@ public class CatalogFile {
     }
 
     public final String toString() {
-        StringBuffer s = new StringBuffer();
-        s.append("Record type:").append(recordType).append("\t");
-        s.append("File ID  :").append(fileId.getId()).append("\n");
-        s.append("Creation Date :").append(
-            HfsUtils.printDate(createDate, "EEE MMM d HH:mm:ss yyyy")).append("\n");
-        s.append("Content Mod Date  :").append(
-            HfsUtils.printDate(contentModDate, "EEE MMM d HH:mm:ss yyyy")).append("\n");
-        s.append("Attr Mod Date  :").append(
-            HfsUtils.printDate(attrModDate, "EEE MMM d HH:mm:ss yyyy")).append("\n");
-        return s.toString();
+        String s = "Record type:" + recordType + "\t" +
+                "File ID  :" + fileId.getId() + "\n" +
+                "Creation Date :" +
+                HfsUtils.printDate(createDate, "EEE MMM d HH:mm:ss yyyy") + "\n" +
+                "Content Mod Date  :" +
+                HfsUtils.printDate(contentModDate, "EEE MMM d HH:mm:ss yyyy") + "\n" +
+                "Attr Mod Date  :" +
+                HfsUtils.printDate(attrModDate, "EEE MMM d HH:mm:ss yyyy") + "\n";
+        return s;
     }
 
     public int getRecordType() {

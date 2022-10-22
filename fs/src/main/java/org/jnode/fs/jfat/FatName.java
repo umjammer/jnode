@@ -194,8 +194,8 @@ public class FatName {
                 continue;
             }
 
-            for (int j = 0; j < short_illegal.length; j++) {
-                if ((n[i] == short_illegal[j])) {
+            for (byte b : short_illegal) {
+                if ((n[i] == b)) {
                     n[i] = underscore;
                     lossy = true;
                     break;

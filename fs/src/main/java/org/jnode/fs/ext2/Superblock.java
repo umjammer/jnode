@@ -50,7 +50,7 @@ public class Superblock {
     // whatever
     private static final long JNODE = 42;
 
-    private byte data[];
+    private byte[] data;
     private boolean dirty;
     private Ext2FileSystem fs;
     private final Logger log = LogManager.getLogger(getClass());
@@ -59,7 +59,7 @@ public class Superblock {
         data = new byte[SUPERBLOCK_LENGTH];
     }
 
-    public void read(byte src[], Ext2FileSystem fs) throws FileSystemException {
+    public void read(byte[] src, Ext2FileSystem fs) throws FileSystemException {
         System.arraycopy(src, 0, data, 0, SUPERBLOCK_LENGTH);
 
         this.fs = fs;
@@ -98,7 +98,7 @@ public class Superblock {
         // a block bitmap is 1 block long, so blockSize*8 blocks can be indexed
         // by a bitmap
         // and thus be in a group
-        long blocksPerGroup = blockSize.getSize() << 3;
+        long blocksPerGroup = (long) blockSize.getSize() << 3;
         setBlocksPerGroup(blocksPerGroup);
         setFragsPerGroup(blocksPerGroup);
         long groupCount = Ext2Utils.ceilDiv(blocks, blocksPerGroup);
@@ -621,7 +621,7 @@ public class Superblock {
     }
 
     public String getVolumeName() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         if (getRevLevel() == Ext2Constants.EXT2_DYNAMIC_REV)
             for (int i = 0; i < 16; i++) {
                 char c = (char) data[120 + i];
@@ -634,7 +634,7 @@ public class Superblock {
     }
 
     public String getLastMounted() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         if (getRevLevel() == Ext2Constants.EXT2_DYNAMIC_REV)
             for (int i = 0; i < 64; i++) {
                 char c = (char) data[136 + i];

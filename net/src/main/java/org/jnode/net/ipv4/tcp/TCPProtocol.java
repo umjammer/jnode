@@ -94,12 +94,10 @@ public class TCPProtocol implements IPv4Protocol, IPv4Constants, TCPConstants {
         try {
             socketImplFactory = new TCPSocketImplFactory(this);
             try {
-                AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
-                    public Object run() throws IOException {
-                        Socket.setSocketImplFactory(socketImplFactory);
-                        ServerSocket.setSocketFactory(socketImplFactory);
-                        return null;
-                    }
+                AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
+                    Socket.setSocketImplFactory(socketImplFactory);
+                    ServerSocket.setSocketFactory(socketImplFactory);
+                    return null;
                 });
             } catch (SecurityException ex) {
                 log.error("No permission for set socket factory.", ex);

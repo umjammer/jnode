@@ -65,7 +65,7 @@ public class Format {
     public Format(String s) {
         width = 0;
         precision = -1;
-        pre = "";
+        StringBuilder _pre = new StringBuilder();
         post = "";
         leading_zeroes = false;
         show_plus = false;
@@ -85,15 +85,16 @@ public class Format {
             else if (s.charAt(i) == '%') {
                 if (i < length - 1) {
                     if (s.charAt(i + 1) == '%') {
-                        pre = pre + '%';
+                        _pre.append('%');
                         i++;
                     } else
                         parse_state = 1;
                 } else throw new java.lang.IllegalArgumentException();
             } else
-                pre = pre + s.charAt(i);
+                _pre.append(s.charAt(i));
             i++;
         }
+        pre = _pre.toString();
         while (parse_state == 1) {
             if (i >= length) parse_state = 5;
             else if (s.charAt(i) == ' ') show_space = true;
@@ -437,19 +438,19 @@ public class Format {
 
     private static String repeat(char c, int n) {
         if (n <= 0) return "";
-        StringBuffer s = new StringBuffer(n);
+        StringBuilder s = new StringBuilder(n);
         for (int i = 0; i < n; i++) s.append(c);
         return s.toString();
     }
 
     private static String convert(long x, int n, int m, String d) {
         if (x == 0) return "0";
-        String r = "";
+        StringBuilder r = new StringBuilder();
         while (x != 0) {
-            r = d.charAt((int) (x & m)) + r;
+            r.insert(0, d.charAt((int) (x & m)));
             x = x >>> n;
         }
-        return r;
+        return r.toString();
     }
 
     private String pad(String r) {
@@ -492,10 +493,10 @@ public class Format {
         if (fr >= 1 || fr < 0) return exp_format(d);
 
         double factor = 1;
-        String leading_zeroes = "";
+        StringBuilder leading_zeroes = new StringBuilder();
         for (int i = 1; i <= precision && factor <= 0x7FFFFFFFFFFFFFFFL; i++) {
             factor *= 10;
-            leading_zeroes = leading_zeroes + "0";
+            leading_zeroes.append("0");
         }
         long l = (long) (factor * fr + 0.5);
         if (l >= factor) {
@@ -503,8 +504,8 @@ public class Format {
             whole++;
         } // CSH 10-25-97
 
-        String z = leading_zeroes + l;
-        z = "." + z.substring(z.length() - precision, z.length());
+        String z = leading_zeroes.toString() + l;
+        z = "." + z.substring(z.length() - precision);
 
         if (removeTrailing) {
             int t = z.length() - 1;
@@ -553,7 +554,7 @@ public class Format {
             p = p + (-e);
         }
 
-        return f + p.substring(p.length() - 3, p.length());
+        return f + p.substring(p.length() - 3);
     }
 
     private int width;

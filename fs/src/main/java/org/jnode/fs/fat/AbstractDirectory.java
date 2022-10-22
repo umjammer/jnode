@@ -37,7 +37,7 @@ import org.jnode.fs.ReadOnlyFileSystemException;
  */
 public abstract class AbstractDirectory extends FatObject implements FSDirectory, FSDirectoryId {
 
-    protected Vector<FatBasicDirEntry> entries = new Vector<FatBasicDirEntry>();
+    protected Vector<FatBasicDirEntry> entries = new Vector<>();
     private boolean _dirty;
     protected FatFile file;
 
@@ -185,8 +185,7 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
         final String name = splitName(nameExt);
         final String ext = splitExt(nameExt);
         int size = entries.size();
-        for (int i = 0; i < size; i++) {
-            final FatBasicDirEntry entry = entries.get(i);
+        for (final FatBasicDirEntry entry : entries) {
             if (entry != null && entry instanceof FatDirEntry) {
                 FatDirEntry fde = (FatDirEntry) entry;
                 if (name.equalsIgnoreCase(fde.getNameOnly()) && ext.equalsIgnoreCase(fde.getExt())) {
@@ -307,8 +306,7 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
             return true;
         }
         int size = entries.size();
-        for (int i = 0; i < size; i++) {
-            FatBasicDirEntry entry = entries.get(i);
+        for (FatBasicDirEntry entry : entries) {
             if ((entry != null) && (entry instanceof FatDirEntry)) {
                 if (((FatDirEntry) entry).isDirty()) {
                     return true;

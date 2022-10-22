@@ -75,7 +75,7 @@ public class SecurityIdentifier {
             subAuthorityBuilder.append(subAuthorities.get(i));
         }
 
-        return String.format("S-1-%d-%s", authority, subAuthorityBuilder.toString());
+        return String.format("S-1-%d-%s", authority, subAuthorityBuilder);
     }
 
     @Override
@@ -109,8 +109,8 @@ public class SecurityIdentifier {
         text = text.substring(4);
 
         String[] parts = text.split("\\-");
-        Long authority = Long.parseLong(parts[0]);
-        List<Long> subAuthorities = new ArrayList<Long>();
+        long authority = Long.parseLong(parts[0]);
+        List<Long> subAuthorities = new ArrayList<>();
 
         for (int i = 1; i < parts.length; i++) {
             subAuthorities.add(Long.parseLong(parts[i]));

@@ -20,7 +20,7 @@
 
 package org.jnode.fs.ntfs;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -247,12 +247,8 @@ public class NTFSStructure {
         final byte[] bytes = new byte[length * 2];
         getData(offset, bytes, 0, bytes.length);
 
-        try {
-            //XXX: For Java 6, should use the version that accepts a Charset.
-            return new String(bytes, "UTF-16LE");
-        } catch (UnsupportedEncodingException e) {
-            throw new IllegalStateException("UTF-16LE charset missing from JRE", e);
-        }
+        //XXX: For Java 6, should use the version that accepts a Charset.
+        return new String(bytes, StandardCharsets.UTF_16LE);
     }
 
     /**

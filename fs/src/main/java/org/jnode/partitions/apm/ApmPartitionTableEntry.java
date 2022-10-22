@@ -110,11 +110,10 @@ public class ApmPartitionTableEntry implements PartitionTableEntry {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(32);
-        builder.append('[').append(getName()).append(' ');
-        builder.append("t:").append(getType()).append(' ');
-        builder.append("s:").append(getStartOffset(0)).append(' ');
-        builder.append("e:").append(getEndOffset(0)).append(']');
-        return builder.toString();
+        String builder = '[' + getName() + ' ' +
+                "t:" + getType() + ' ' +
+                "s:" + getStartOffset(0) + ' ' +
+                "e:" + getEndOffset(0) + ']';
+        return builder;
     }
 }

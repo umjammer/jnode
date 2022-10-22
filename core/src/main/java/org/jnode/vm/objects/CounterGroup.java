@@ -121,7 +121,7 @@ public class CounterGroup extends Statistic {
 
     private void addStatistic(String name, Statistic stat) {
         if (statistics == null) {
-            statistics = new TreeMap<String, Statistic>();
+            statistics = new TreeMap<>();
         }
         statistics.put(name, stat);
     }

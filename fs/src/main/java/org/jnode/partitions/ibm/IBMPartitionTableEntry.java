@@ -202,13 +202,12 @@ Debug.println(Level.FINE, "getBootIndicatorValue: ofs: " + (ofs + 0) + ", value:
 
     @Override
     public String toString() {
-        StringBuilder b = new StringBuilder(32);
-        b.append('[').append(getBootIndicator() ? 'A' : '-').append(' ');
-        b.append(NumberUtils.hex(getSystemIndicatorCode(), 2)).append(" \'");
-        b.append(getSystemIndicator().getName()).append("\' ");
-        b.append("s:").append(getStartLba()).append(' ');
-        b.append("e:").append(getStartLba() + getNrSectors() - 1).append(']');
-        return b.toString();
+        String b = "[" + (getBootIndicator() ? 'A' : '-') + ' ' +
+                NumberUtils.hex(getSystemIndicatorCode(), 2) + " '" +
+                getSystemIndicator().getName() + "' " +
+                "s:" + getStartLba() + ' ' +
+                "e:" + (getStartLba() + getNrSectors() - 1) + ']';
+        return b;
     }
 
     @Override

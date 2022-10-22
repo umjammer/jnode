@@ -85,7 +85,8 @@ public class TFTPClient extends org.apache.commons.net.tftp.TFTPClient {
 
         boolean success = false;
         final String cmd = args[0];
-        if (cmd.equals(CONNECT_CMD)) { // connect
+        switch (cmd) {
+        case CONNECT_CMD:  // connect
             if (args.length < 2) {
                 out.println("Please specify a host name.");
             } else {
@@ -98,7 +99,8 @@ public class TFTPClient extends org.apache.commons.net.tftp.TFTPClient {
                     out.println("Unknown host " + args[1] + '.');
                 }
             }
-        } else if (cmd.equals(GET_CMD)) { // get
+            break;
+        case GET_CMD:  // get
             if (serverAddress == null) {
                 out.println("Not connected.");
             } else if (args.length < 2) {
@@ -106,8 +108,7 @@ public class TFTPClient extends org.apache.commons.net.tftp.TFTPClient {
             } else {
                 String filename = args[1];
                 try {
-                    FileOutputStream fileOut = new FileOutputStream(filename);
-                    try {
+                    try (FileOutputStream fileOut = new FileOutputStream(filename)) {
                         open();
                         try {
                             int bytesTransferred =
@@ -116,15 +117,14 @@ public class TFTPClient extends org.apache.commons.net.tftp.TFTPClient {
                         } finally {
                             close();
                         }
-                    } finally {
-                        fileOut.close();
                     }
                     success = true;
                 } catch (IOException ex) {
                     diagnose(ex, "Error transferring file");
                 }
             }
-        } else if (cmd.equals(PUT_CMD)) { // put
+            break;
+        case PUT_CMD:  // put
             if (serverAddress == null) {
                 out.println("Not connected.");
             } else if (args.length < 2) {
@@ -132,29 +132,29 @@ public class TFTPClient extends org.apache.commons.net.tftp.TFTPClient {
             } else {
                 String filename = args[1];
                 try {
-                    FileInputStream fileIn = new FileInputStream(filename);
-                    try {
+                    try (FileInputStream fileIn = new FileInputStream(filename)) {
                         open();
                         try {
                             sendFile(filename, mode, fileIn, serverAddress);
                         } finally {
                             close();
                         }
-                    } finally {
-                        fileIn.close();
                     }
                     success = true;
                 } catch (IOException ex) {
                     diagnose(ex, "Error transferring file");
                 }
             }
-        } else if (cmd.equals(ASCII_CMD)) { // ascii
+            break;
+        case ASCII_CMD:  // ascii
             mode = ASCII_MODE;
             success = true;
-        } else if (cmd.equals(BINARY_CMD)) { // binary
+            break;
+        case BINARY_CMD:  // binary
             mode = BINARY_MODE;
             success = true;
-        } else if (cmd.equals(TIMEOUT_CMD)) { // timeout
+            break;
+        case TIMEOUT_CMD:  // timeout
             if (args.length < 2) {
                 out.println("Please specify a timeout value.");
             } else {
@@ -165,7 +165,8 @@ public class TFTPClient extends org.apache.commons.net.tftp.TFTPClient {
                     out.println("Invalid timeout value.");
                 }
             }
-        } else if (cmd.equals(RETRIES_CMD)) { // retries
+            break;
+        case RETRIES_CMD:  // retries
             if (args.length < 2) {
                 out.println("Please specify a retries value.");
             } else {
@@ -176,7 +177,8 @@ public class TFTPClient extends org.apache.commons.net.tftp.TFTPClient {
                     out.println("Invalid retries value.");
                 }
             }
-        } else if (cmd.equals(STATUS_CMD)) { // status
+            break;
+        case STATUS_CMD:  // status
             if (serverAddress != null) {
                 out.println("Connected to " + serverAddress.getHostName() + '.');
             } else {
@@ -190,7 +192,8 @@ public class TFTPClient extends org.apache.commons.net.tftp.TFTPClient {
             out.print("   timeout: " + getDefaultTimeout());
             out.println("   retries: " + getMaxTimeouts());
             success = true;
-        } else if (cmd.equals(HELP_CMD)) { // help
+            break;
+        case HELP_CMD:  // help
             out.println(ASCII_CMD + " - set mode to ASCII");
             out.println(CONNECT_CMD + " - connect to a tftp server");
             out.println(BINARY_CMD + " - set mode to binary");
@@ -202,11 +205,14 @@ public class TFTPClient extends org.apache.commons.net.tftp.TFTPClient {
             out.println(STATUS_CMD + " - display current status");
             out.println(TIMEOUT_CMD + " - set timeout");
             success = true;
-        } else if (cmd.equals(QUIT_CMD)) { // quit
+            break;
+        case QUIT_CMD:  // quit
             quit = true;
             success = true;
-        } else {
+            break;
+        default:
             out.println("Unrecognised command.");
+            break;
         }
         return success;
     }

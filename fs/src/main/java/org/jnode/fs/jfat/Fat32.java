@@ -33,7 +33,7 @@ public class Fat32 extends Fat {
     }
 
     protected long offset(int index) {
-        return (long) (4 * index);
+        return 4L * index;
     }
 
     public long getClusterPosition(int index) {

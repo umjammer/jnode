@@ -133,13 +133,13 @@ public enum GptPartitionTypes {
     private static final Logger log = LogManager.getLogger(GptPartitionTypes.class);
 
     private UUID uuid;
-    private String name;
+    private final String name;
 
-    private GptPartitionTypes() {
+    GptPartitionTypes() {
         this.name = "Unknown";
     }
 
-    private GptPartitionTypes(String guid, String name) {
+    GptPartitionTypes(String guid, String name) {
         this.name = name;
         this.uuid = UUID.fromString(guid);
     }
@@ -188,7 +188,7 @@ public enum GptPartitionTypes {
                 }
             }
         } catch (Exception e) {
-            log.warn("Exception checking uuid: " + uuidBuilder.toString());
+            log.warn("Exception checking uuid: " + uuidBuilder);
         }
 
         return UNKNOWN;

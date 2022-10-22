@@ -513,7 +513,7 @@ public class FatShortDirEntry extends FatDirEntry {
         out.println("*******************************************");
         out.println("Index\t\t" + getIndex());
         out.println("Entry");
-        out.println(entry.getArray());
+        out.println(Arrays.toString(entry.getArray()));
         out.println("Name\t\t" + "<" + new String(lName) + ">");
         out.println("Attr\t\t" + NumberUtils.hex(lAttr, 2));
         out.println("NTRes\t\t" + NumberUtils.hex(lNTRes, 2));

@@ -85,7 +85,7 @@ public class HFSPlusParams {
                 if (blockSize > DEFAULT_BLOCK_SIZE) {
                     clumpSize = round(RESOURCE_CLUMP_FACTOR * DEFAULT_BLOCK_SIZE, blockSize);
                 } else {
-                    clumpSize = RESOURCE_CLUMP_FACTOR * blockSize;
+                    clumpSize = (long) RESOURCE_CLUMP_FACTOR * blockSize;
                 }
             } else {
                 clumpSize = clumpSizeCalculation(resourceClumpBlocks);
@@ -95,7 +95,7 @@ public class HFSPlusParams {
                 if (blockSize > DEFAULT_BLOCK_SIZE) {
                     clumpSize = round(DATA_CLUMP_FACTOR * DEFAULT_BLOCK_SIZE, blockSize);
                 } else {
-                    clumpSize = DATA_CLUMP_FACTOR * blockSize;
+                    clumpSize = (long) DATA_CLUMP_FACTOR * blockSize;
                 }
             } else {
                 clumpSize = clumpSizeCalculation(dataClumpBlocks);
@@ -170,16 +170,16 @@ public class HFSPlusParams {
         long clumpSize = 0;
         if (sectors < 0x200000) {
             clumpSize = (sectors << 2);
-            if (clumpSize < (8 * nodeSize)) {
-                clumpSize = (8 * nodeSize);
+            if (clumpSize < (8L * nodeSize)) {
+                clumpSize = (8L * nodeSize);
             }
         } else {
             sectors = sectors >> 22;
             for (int i = 0; sectors != 0 && (i < 14); ++i) {
                 if (catalog) {
-                    clumpSize = catalogClumpTable[i] * 1024 * 1024;
+                    clumpSize = (long) catalogClumpTable[i] * 1024 * 1024;
                 } else {
-                    clumpSize = extentClumpTable[i] * 1024 * 1024;
+                    clumpSize = (long) extentClumpTable[i] * 1024 * 1024;
                 }
                 sectors = sectors >> 1;
             }

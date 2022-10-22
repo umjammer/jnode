@@ -197,7 +197,7 @@ public class NTFSFile implements FSFile, FSFileSlackSpace, FSFileStreams {
 
     @Override
     public Map<String, FSFile> getStreams() {
-        Set<String> streamNames = new LinkedHashSet<String>();
+        Set<String> streamNames = new LinkedHashSet<>();
 
         Iterator<NTFSAttribute> dataAttributes = getFileRecord().findAttributesByType(NTFSAttribute.Types.DATA);
 
@@ -211,7 +211,7 @@ public class NTFSFile implements FSFile, FSFileSlackSpace, FSFileStreams {
             }
         }
 
-        Map<String, FSFile> streams = new HashMap<String, FSFile>();
+        Map<String, FSFile> streams = new HashMap<>();
         for (String streamName : streamNames) {
             streams.put(streamName, new StreamFile(streamName));
         }

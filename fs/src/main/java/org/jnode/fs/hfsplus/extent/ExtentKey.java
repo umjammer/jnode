@@ -107,14 +107,14 @@ public class ExtentKey extends AbstractKey {
     }
 
     private int compareForkType(int fork) {
-        Integer currentForkType = Integer.valueOf(forkType);
-        Integer forkType = Integer.valueOf(fork);
+        Integer currentForkType = forkType;
+        Integer forkType = fork;
         return currentForkType.compareTo(forkType);
     }
 
     private int compareStartBlock(long block) {
-        Long currentStartBlock = Long.valueOf(startBlock);
-        Long startBlock = Long.valueOf(block);
+        Long currentStartBlock = startBlock;
+        Long startBlock = block;
         return currentStartBlock.compareTo(startBlock);
     }
 

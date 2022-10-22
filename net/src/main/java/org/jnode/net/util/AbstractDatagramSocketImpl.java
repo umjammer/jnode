@@ -44,7 +44,7 @@ public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl {
     private static final Logger bootlog = LogManager.getLogger("bootlog");
 
     /** The receive queue of SocketBuffer instances */
-    private final Queue<SocketBuffer> receiveQueue = new Queue<SocketBuffer>();
+    private final Queue<SocketBuffer> receiveQueue = new Queue<>();
 
     /** Have I been closed? */
     private boolean closed;
@@ -232,7 +232,7 @@ public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl {
         if (closed) {
             throw new SocketException("DatagramSocket has been closed");
         }
-        final SocketBuffer skbuf = (SocketBuffer) receiveQueue.get(timeout);
+        final SocketBuffer skbuf = receiveQueue.get(timeout);
         if (skbuf == null) {
             if (closed) {
                 throw new SocketException("DatagramSocket has been closed");

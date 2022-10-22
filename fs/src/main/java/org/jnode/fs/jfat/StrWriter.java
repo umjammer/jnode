@@ -22,6 +22,7 @@ package org.jnode.fs.jfat;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Arrays;
 
 import org.jnode.util.NumberUtils;
 
@@ -87,12 +88,12 @@ public class StrWriter extends PrintWriter {
      * provided to dump hex data from byte arrays
      */
     public void println(byte[] b) {
-        print(b);
+        print(Arrays.toString(b));
         super.println();
     }
 
     public String toString() {
         flush();
-        return ((StringWriter) out).toString();
+        return out.toString();
     }
 }

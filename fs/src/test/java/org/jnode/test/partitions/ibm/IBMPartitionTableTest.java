@@ -1,7 +1,7 @@
 package org.jnode.test.partitions.ibm;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -45,7 +45,7 @@ public class IBMPartitionTableTest {
 
         for (String testFileName : testFileNames) {
             File testFile = FileSystemTestUtils.getTestFile("org/jnode/test/partitions/ibm/" + testFileName);
-            byte[] buffer = FileUtils.load(new FileInputStream(testFile), true);
+            byte[] buffer = FileUtils.load(Files.newInputStream(testFile.toPath()), true);
 
             System.out.println("Testing: " + testFileName);
             assertTrue(IBMPartitionTable.containsPartitionTable(buffer),
@@ -63,7 +63,7 @@ public class IBMPartitionTableTest {
 
         for (String testFileName : testFileNames) {
             File testFile = FileSystemTestUtils.getTestFile("org/jnode/test/partitions/ibm/" + testFileName);
-            byte[] buffer = FileUtils.load(new FileInputStream(testFile), true);
+            byte[] buffer = FileUtils.load(Files.newInputStream(testFile.toPath()), true);
 
             System.out.println("Testing: " + testFileName);
             assertFalse(IBMPartitionTable.containsPartitionTable(buffer),

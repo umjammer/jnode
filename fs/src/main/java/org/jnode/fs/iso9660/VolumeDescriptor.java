@@ -65,7 +65,7 @@ public abstract class VolumeDescriptor extends Descriptor {
      * @param buffer
      * @return the type
      */
-    public static final int getType(byte[] buffer) {
+    public static int getType(byte[] buffer) {
         return getUInt8(buffer, 1);
     }
 

@@ -40,7 +40,7 @@ public abstract class Descriptor implements ISO9660Constants {
      * @param bp
      * @return an unsigned byte
      */
-    protected static final int getUInt8(byte[] buffer, int bp) {
+    protected static int getUInt8(byte[] buffer, int bp) {
         return LittleEndian.getUInt8(buffer, bp - 1);
     }
 
@@ -51,7 +51,7 @@ public abstract class Descriptor implements ISO9660Constants {
      * @param bp
      * @return a signed byte
      */
-    protected static final int getInt8(byte[] buffer, int bp) {
+    protected static int getInt8(byte[] buffer, int bp) {
         return LittleEndian.getInt8(buffer, bp - 1);
     }
 
@@ -62,7 +62,7 @@ public abstract class Descriptor implements ISO9660Constants {
      * @param bp
      * @return an unsigned little-endian short
      */
-    protected static final int getUInt16LE(byte[] buffer, int bp) {
+    protected static int getUInt16LE(byte[] buffer, int bp) {
         return LittleEndian.getUInt16(buffer, bp - 1);
     }
 
@@ -73,7 +73,7 @@ public abstract class Descriptor implements ISO9660Constants {
      * @param bp
      * @return an unsigned big-endian short
      */
-    protected static final int getUInt16BE(byte[] buffer, int bp) {
+    protected static int getUInt16BE(byte[] buffer, int bp) {
         return BigEndian.getUInt16(buffer, bp - 1);
     }
 
@@ -84,7 +84,7 @@ public abstract class Descriptor implements ISO9660Constants {
      * @param bp
      * @return an unsigned short
      */
-    protected static final int getUInt16Both(byte[] buffer, int bp) {
+    protected static int getUInt16Both(byte[] buffer, int bp) {
         return LittleEndian.getUInt16(buffer, bp - 1);
     }
 
@@ -95,7 +95,7 @@ public abstract class Descriptor implements ISO9660Constants {
      * @param bp
      * @return an unsigned little-endian int
      */
-    protected static final long getUInt32LE(byte[] buffer, int bp) {
+    protected static long getUInt32LE(byte[] buffer, int bp) {
         return LittleEndian.getUInt32(buffer, bp - 1);
     }
 
@@ -106,7 +106,7 @@ public abstract class Descriptor implements ISO9660Constants {
      * @param bp
      * @return an unsigned big-endian int
      */
-    protected static final long getUInt32BE(byte[] buffer, int bp) {
+    protected static long getUInt32BE(byte[] buffer, int bp) {
         return BigEndian.getUInt32(buffer, bp - 1);
     }
 
@@ -117,7 +117,7 @@ public abstract class Descriptor implements ISO9660Constants {
      * @param bp
      * @return an unsigned int
      */
-    protected static final long getUInt32Both(byte[] buffer, int bp) {
+    protected static long getUInt32Both(byte[] buffer, int bp) {
         return LittleEndian.getUInt32(buffer, bp - 1);
     }
 
@@ -129,7 +129,7 @@ public abstract class Descriptor implements ISO9660Constants {
      * @param length
      * @return the String representation
      */
-    protected static final String getAChars(byte[] buffer, int bp, int length) {
+    protected static String getAChars(byte[] buffer, int bp, int length) {
         return new String(buffer, bp - 1, length).trim();
     }
 
@@ -141,7 +141,7 @@ public abstract class Descriptor implements ISO9660Constants {
      * @param length
      * @return the String representation
      */
-    protected static final String getDChars(byte[] buffer, int bp, int length) {
+    protected static String getDChars(byte[] buffer, int bp, int length) {
         return new String(buffer, bp - 1, length).trim();
     }
 
@@ -154,7 +154,7 @@ public abstract class Descriptor implements ISO9660Constants {
      * @param encoding
      * @return the String representation
      */
-    protected static final String getAChars(byte[] buffer, int bp, int length, String encoding)
+    protected static String getAChars(byte[] buffer, int bp, int length, String encoding)
         throws UnsupportedEncodingException {
         return new String(buffer, bp - 1, length, encoding).trim();
     }
@@ -167,7 +167,7 @@ public abstract class Descriptor implements ISO9660Constants {
      * @param length
      * @return the String representation
      */
-    protected static final String getDChars(byte[] buffer, int bp, int length, String encoding)
+    protected static String getDChars(byte[] buffer, int bp, int length, String encoding)
         throws UnsupportedEncodingException {
         return new String(buffer, bp - 1, length, encoding).trim();
     }

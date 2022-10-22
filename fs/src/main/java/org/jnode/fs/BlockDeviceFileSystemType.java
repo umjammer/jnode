@@ -50,7 +50,7 @@ public interface BlockDeviceFileSystemType<T extends FileSystem<?>> extends File
         for (FileSystemType fst : sl) {
             if (fst instanceof BlockDeviceFileSystemType) {
 Debug.println("filesystem type: " + fst);
-                BlockDeviceFileSystemType bfst = BlockDeviceFileSystemType.class.cast(fst);
+                BlockDeviceFileSystemType bfst = (BlockDeviceFileSystemType) fst;
                 if (bfst.supports(pte, firstSector, devApi)) {
                     return (T) fst;
                 }

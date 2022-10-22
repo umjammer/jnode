@@ -104,7 +104,7 @@ final class EntryTimes {
             cal.add(GregorianCalendar.MINUTE, min);
             cal.add(GregorianCalendar.SECOND, twoSec * 2);
 
-            cal.setTimeInMillis(cal.getTimeInMillis() + (cs * 10));
+            cal.setTimeInMillis(cal.getTimeInMillis() + (cs * 10L));
 
             /* adjust for TZ offset */
 

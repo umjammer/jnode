@@ -62,7 +62,7 @@ public class Catalog {
     /**
      * Create Catalog based on meta-data that exist on the file system.
      *
-     * @param fs HFS+ file system that contains catalog informations.
+     * @param fs HFS+ file system that contains catalog information.
      * @throws IOException
      */
     public Catalog(final HfsPlusFileSystem fs) throws IOException {
@@ -116,7 +116,7 @@ public class Catalog {
         bufferLength += BTHeaderRecord.BT_HEADER_RECORD_LENGTH;
         log.debug("Create root node.");
         long rootNodePosition = bthr.getRootNode() * nodeSize;
-        bufferLength += (rootNodePosition - bufferLength);
+        bufferLength += (int) (rootNodePosition - bufferLength);
         CatalogLeafNode rootNode = createRootNode(params);
         buffer = ByteBuffer.allocate(bufferLength + bthr.getNodeSize());
         buffer.put(btnd.getBytes());
@@ -224,7 +224,7 @@ public class Catalog {
 
         while (nd.isIndexNode()) {
             CatalogIndexNode node = new CatalogIndexNode(data, nodeSize);
-            IndexRecord record = (IndexRecord) node.find(new CatalogKey(parentID));
+            IndexRecord record = node.find(new CatalogKey(parentID));
             currentOffset = record.getIndex() * nodeSize;
             nodeData = ByteBuffer.allocate(nodeSize);
             catalogFile.read(fs, currentOffset, nodeData);
@@ -235,7 +235,7 @@ public class Catalog {
 
         if (nd.isLeafNode()) {
             CatalogLeafNode node = new CatalogLeafNode(data, nodeSize);
-            lr = (LeafRecord) node.find(new CatalogKey(parentID));
+            lr = node.find(new CatalogKey(parentID));
         }
         return lr;
     }
@@ -273,12 +273,12 @@ public class Catalog {
             if (nd.isIndexNode()) {
                 CatalogIndexNode node = new CatalogIndexNode(datas, nodeSize);
                 IndexRecord[] records = node.findAll(new CatalogKey(parentID));
-                List<LeafRecord> lfList = new LinkedList<LeafRecord>();
+                List<LeafRecord> lfList = new LinkedList<>();
                 for (IndexRecord rec : records) {
                     LeafRecord[] lfr = getRecords(parentID, rec.getIndex());
                     Collections.addAll(lfList, lfr);
                 }
-                return lfList.toArray(new LeafRecord[lfList.size()]);
+                return lfList.toArray(new LeafRecord[0]);
             } else if (nd.isLeafNode()) {
                 CatalogLeafNode node = new CatalogLeafNode(nodeData.array(), nodeSize);
                 return node.findAll(new CatalogKey(parentID));

@@ -21,6 +21,8 @@
 package org.jnode.fs.jfat;
 
 import java.io.IOException;
+import java.util.Arrays;
+
 import org.jnode.util.NumberUtils;
 
 /**
@@ -314,10 +316,10 @@ public class FatLongDirEntry extends FatDirEntry {
         out.println("*******************************************");
         out.println("Index\t\t" + getIndex());
         out.println("Entry");
-        out.println(entry.getArray());
+        out.println(Arrays.toString(entry.getArray()));
         out.println("Ord\t\t" + NumberUtils.hex(lOrd, 2));
         out.println("Name");
-        out.println(lName);
+        out.println(Arrays.toString(lName));
         out.println("Attr\t\t" + NumberUtils.hex(lAttr, 2));
         out.println("Type\t\t" + lType);
         out.println("Chksum\t\t" + NumberUtils.hex(lChksum, 2));

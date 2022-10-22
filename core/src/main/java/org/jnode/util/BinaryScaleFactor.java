@@ -21,13 +21,13 @@
 package org.jnode.util;
 
 public enum BinaryScaleFactor implements ScaleFactor {
-    B(1l, ""),
-    K(1024l, "K"),
-    M(1024l * 1024l, "M"),
-    G(1024l * 1024l * 1024l, "G"),
-    T(1024l * 1024l * 1024l * 1024l, "T"),
-    P(1024l * 1024l * 1024l * 1024l * 1024l, "P"),
-    E(1024l * 1024l * 1024l * 1024l * 1024l * 1024l, "E");
+    B(1L, ""),
+    K(1024L, "K"),
+    M(1024L * 1024L, "M"),
+    G(1024L * 1024L * 1024L, "G"),
+    T(1024L * 1024L * 1024L * 1024L, "T"),
+    P(1024L * 1024L * 1024L * 1024L * 1024L, "P"),
+    E(1024L * 1024L * 1024L * 1024L * 1024L * 1024L, "E");
     //these units have too big multipliers to fit in a long
     // (aka they are greater than 2^64) :
     //Z(1024l*1024l*1024l*1024l*1024l*1024l*1024l, "Z"),
@@ -39,7 +39,7 @@ public enum BinaryScaleFactor implements ScaleFactor {
     private final long multiplier;
     private final String unit;
 
-    private BinaryScaleFactor(long multiplier, String unit) {
+    BinaryScaleFactor(long multiplier, String unit) {
         this.multiplier = multiplier;
         this.unit = unit;
     }

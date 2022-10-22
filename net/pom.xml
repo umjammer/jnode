@@ -4,23 +4,26 @@
   <parent>
     <groupId>vavi</groupId>
     <artifactId>vavi-nio-file-jnode</artifactId>
-    <version>0.2.9v</version>
+    <version>0.2.10v</version>
   </parent>
   <artifactId>jnode-net</artifactId>
 
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.10.1</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
+          <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M5</version>
+        <version>3.0.0-M7</version>
         <configuration>
           <argLine>
             -Djava.util.logging.config.file=${project.build.testOutputDirectory}/logging.properties
@@ -42,7 +45,7 @@
     <dependency>
       <groupId>vavi</groupId>
       <artifactId>jnode-core</artifactId>
-      <version>0.2.9v</version>
+      <version>0.2.10v</version>
     </dependency>
 
     <dependency>
@@ -58,12 +61,7 @@
     <dependency>
       <groupId>org.acplt.remotetea</groupId>
       <artifactId>remotetea-oncrpc</artifactId>
-      <version>1.1.1</version>
-    </dependency>
-    <dependency>
-      <groupId>com.jcraft</groupId>
-      <artifactId>jsch</artifactId>
-      <version>0.1.55</version>
+      <version>1.1.4</version>
     </dependency>
 
     <dependency>
@@ -84,6 +82,13 @@
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-suite-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+      <version>0.1.55</version>
       <scope>test</scope>
     </dependency>
 

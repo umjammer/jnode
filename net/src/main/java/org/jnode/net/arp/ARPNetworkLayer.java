@@ -240,7 +240,7 @@ public class ARPNetworkLayer implements NetworkLayer {
      * Gets all registered transport-layers
      */
     public Collection<TransportLayer> getTransportLayers() {
-        return new ArrayList<TransportLayer>(0);
+        return new ArrayList<>(0);
     }
 
     /**

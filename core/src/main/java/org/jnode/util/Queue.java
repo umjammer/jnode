@@ -32,7 +32,7 @@ public class Queue<T> {
     /**
      * The actual queue
      */
-    private final ArrayList<T> queue = new ArrayList<T>();
+    private final ArrayList<T> queue = new ArrayList<>();
     private boolean closed = false;
 
     /**

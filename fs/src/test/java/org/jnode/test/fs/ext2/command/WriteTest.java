@@ -45,7 +45,7 @@ public class WriteTest {
         writer.close();
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         String fname;
         if (args.length > 0)
             fname = args[0];

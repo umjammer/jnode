@@ -129,12 +129,12 @@ public class Extent {
                 ExtentNode extentNode = new ExtentNode(data, nodeSize);
 
                 IndexRecord[] records = extentNode.findAll(key);
-                List<ExtentDescriptor> overflowExtents = new LinkedList<ExtentDescriptor>();
+                List<ExtentDescriptor> overflowExtents = new LinkedList<>();
                 for (IndexRecord record : records) {
                     Collections.addAll(overflowExtents, getOverflowExtents(key, record.getIndex()));
                 }
 
-                return overflowExtents.toArray(new ExtentDescriptor[overflowExtents.size()]);
+                return overflowExtents.toArray(new ExtentDescriptor[0]);
 
             } else if (nd.isLeafNode()) {
                 ExtentLeafNode node = new ExtentLeafNode(nodeData.array(), nodeSize);

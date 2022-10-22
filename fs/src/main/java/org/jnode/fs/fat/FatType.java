@@ -29,7 +29,7 @@ public enum FatType {
     private final long eofMarker;
     private final float entrySize;
 
-    private FatType(long bitMask, float entrySize) {
+    FatType(long bitMask, float entrySize) {
         this.minReservedEntry = (0xFFFFFFF0 & bitMask);
         this.maxReservedEntry = (0xFFFFFFF6 & bitMask);
         this.eofCluster = (0xFFFFFFF8 & bitMask);

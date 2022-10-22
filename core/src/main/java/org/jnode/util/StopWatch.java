@@ -32,16 +32,16 @@ public final class StopWatch {
         start();
     }
 
-    public final void start() {
+    public void start() {
         this.stopTime = 0;
         this.startTime = System.currentTimeMillis();
     }
 
-    public final void stop() {
+    public void stop() {
         this.stopTime = System.currentTimeMillis();
     }
 
-    public final long getElapsedTimed() {
+    public long getElapsedTimed() {
         if (stopTime != 0) {
             return stopTime - startTime;
         } else {
@@ -49,11 +49,11 @@ public final class StopWatch {
         }
     }
 
-    public final boolean isElapsedLongerThen(long ms) {
+    public boolean isElapsedLongerThen(long ms) {
         return getElapsedTimed() > ms;
     }
 
     public String toString() {
-        return String.valueOf(getElapsedTimed()) + "ms";
+        return getElapsedTimed() + "ms";
     }
 }
