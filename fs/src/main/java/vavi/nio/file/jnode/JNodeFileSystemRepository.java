@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Level;
 
 import org.jnode.driver.block.VirtualDisk;
 import org.jnode.driver.block.VirtualDiskDevice;
@@ -50,17 +51,17 @@ public final class JNodeFileSystemRepository extends FileSystemRepositoryBase {
         String uriString = uri.toString();
         URI subUri = URI.create(uriString.substring(uriString.indexOf(':') + 1));
         String scheme = subUri.getScheme();
-Debug.println("scheme: " + scheme);
-Debug.println("subUri: " + subUri);
+Debug.println(Level.FINE, "scheme: " + scheme);
+Debug.println(Level.FINE, "subUri: " + subUri);
 
-        FileSystem<?> fs = null;
+        FileSystem<?> fs;
         if ("file".equals(scheme)) {
 
             // not specified
 
             Path path = Paths.get(subUri);
-Debug.println("path: " + path + ", " + Files.exists(path));
-            VirtualDisk virtualDisk = new MyVirtualDisk(path);
+Debug.println(Level.FINE, "path: " + path + ", " + Files.exists(path));
+            VirtualDisk virtualDisk = VirtualDiskFactory.getInstance().createVirtualDiskFactory(path);
             VirtualDiskDevice device = new VirtualDiskDevice(virtualDisk);
 
             fs = PartitionTable.getFileSystem(device, 0); // TODO partition number
@@ -69,13 +70,13 @@ Debug.println("path: " + path + ", " + Files.exists(path));
 
             // scheme specified
             URI subSubUri = URI.create(subUri.toString().substring(scheme.length() + 1));
-Debug.println("subSubUri: " + subSubUri);
+Debug.println(Level.FINE, "subSubUri: " + subSubUri);
             if (!subSubUri.getScheme().equals("file")) {
                 throw new IllegalArgumentException("only file is supported: " + subSubUri);
             }
             Path path = Paths.get(subSubUri);
-Debug.println("path: " + path + ", " + Files.exists(path));
-            VirtualDisk virtualDisk = new MyVirtualDisk(path);
+Debug.println(Level.FINE, "path: " + path + ", " + Files.exists(path));
+            VirtualDisk virtualDisk = VirtualDiskFactory.getInstance().createVirtualDiskFactory(path);
             VirtualDiskDevice device = new VirtualDiskDevice(virtualDisk);
 
             FileSystemType<?> type = FileSystemType.lookup(scheme);

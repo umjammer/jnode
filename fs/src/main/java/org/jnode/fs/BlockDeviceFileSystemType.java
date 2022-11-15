@@ -21,6 +21,7 @@
 package org.jnode.fs;
 
 import java.util.ServiceLoader;
+import java.util.logging.Level;
 
 import org.jnode.driver.block.FSBlockDeviceAPI;
 import org.jnode.partitions.PartitionTableEntry;
@@ -49,7 +50,7 @@ public interface BlockDeviceFileSystemType<T extends FileSystem<?>> extends File
         ServiceLoader<FileSystemType> sl = ServiceLoader.load(FileSystemType.class);
         for (FileSystemType fst : sl) {
             if (fst instanceof BlockDeviceFileSystemType) {
-Debug.println("filesystem type: " + fst);
+Debug.println(Level.FINE, "filesystem type: " + fst);
                 BlockDeviceFileSystemType bfst = (BlockDeviceFileSystemType) fst;
                 if (bfst.supports(pte, firstSector, devApi)) {
                     return (T) fst;

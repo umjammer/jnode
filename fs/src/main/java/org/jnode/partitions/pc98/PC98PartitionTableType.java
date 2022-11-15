@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.logging.Level;
 
 import org.jnode.driver.Device;
 import org.jnode.driver.block.BlockDeviceAPI;
@@ -19,6 +20,7 @@ import org.jnode.partitions.PartitionTableType;
 import org.jnode.util.LittleEndian;
 
 import vavi.util.Debug;
+import vavi.util.StringUtil;
 import vavi.util.serdes.Serdes;
 
 import vavix.io.partition.PC98PartitionEntry;
@@ -54,6 +56,7 @@ public class PC98PartitionTableType implements PartitionTableType {
     // works don't touch
     @Override
     public boolean supports(byte[] bootSector, BlockDeviceAPI devApi) {
+Debug.println(Level.FINER, "bootSector: \n" + StringUtil.getDump(bootSector));
         if (bootSector.length < 0x400) {
 Debug.printf("Not enough data for detection: %04x/%04x%n", bootSector.length, 0x400);
             return false;

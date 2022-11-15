@@ -22,6 +22,7 @@ package org.jnode.partitions;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.logging.Level;
 
 import org.jnode.driver.block.FSBlockDeviceAPI;
 import org.jnode.driver.block.FileDevice;
@@ -75,10 +76,10 @@ Debug.println("partition entry[" + i + "]: " + entry);
 
         PartitionTableType type = PartitionTableType.lookup(bytes, device);
         PartitionTable<?> table = type.create(bytes, device);
-Debug.println("PARTITION: " + table);
+Debug.println(Level.FINE, "PARTITION: " + table);
         int i = 0;
         for (PartitionTableEntry entry : table) {
-Debug.println("partition entry[" + i + "]: " + entry);
+Debug.println(Level.FINE, "partition entry[" + i + "]: " + entry);
             if (i == n) {
                 if (entry.isValid()) {
                     return entry.getFileSystem(device);

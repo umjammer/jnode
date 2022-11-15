@@ -9,10 +9,12 @@ package org.jnode.fs.pc98;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.logging.Level;
 
 import org.jnode.driver.block.BlockDeviceAPI;
 import org.jnode.fs.jfat.BootSector;
 
+import vavi.util.Debug;
 import vavi.util.serdes.Serdes;
 
 import vavix.io.fat.PC98BiosParameterBlock;
@@ -47,9 +49,9 @@ public class PC98BootSector implements BootSector {
 
         this.bpb = new PC98BiosParameterBlock();
         Serdes.Util.deserialize(bais, bpb);
-System.err.println("■ bootRecord ----\n" + bpb);
+Debug.println(Level.FINE, "■ bootRecord ----\n" + bpb);
         bpb.compute();
-System.err.println("■ bootRecord ----\n" + bpb);
+Debug.println(Level.FINE, "■ bootRecord ----\n" + bpb);
 
         dirty = false;
     }
