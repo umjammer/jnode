@@ -51,10 +51,10 @@ jobs:
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Build
+    - name: Build with Maven
       run: |
         mkdir tmp
-        mvn -B package --file pom.xml -DskipTest
+        mvn -B package --file pom.xml -Dmaven.test.skip=true
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
