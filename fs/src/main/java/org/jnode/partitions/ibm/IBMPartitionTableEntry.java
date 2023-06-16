@@ -176,7 +176,7 @@ Debug.println(Level.FINE, "getBootIndicatorValue: ofs: " + (ofs + 0) + ", value:
             blocks /= (1024f / sectorSize);
             odd = getNrSectors() % (1024 / sectorSize);
         } else {
-            blocks *= (sectorSize / 1024f);
+            blocks = (long) (blocks * (sectorSize / 1024f));
         }
         return blocks;
     }
