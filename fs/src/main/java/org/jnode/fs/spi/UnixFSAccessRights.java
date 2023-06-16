@@ -26,9 +26,9 @@ import java.security.acl.Group;
 import org.jnode.fs.FSAccessRights;
 import org.jnode.fs.FileSystem;
 
-import com.sun.security.auth.UserPrincipal;
+import com.sun.security.auth.UserPrincipal; // TODO uses an internal class
 
-import sun.security.acl.GroupImpl;
+import sun.security.acl.GroupImpl; // TODO uses an internal class
 
 /**
  * 
