@@ -58,24 +58,24 @@ public class PC98PartitionTableType implements PartitionTableType {
     public boolean supports(byte[] bootSector, BlockDeviceAPI devApi) {
 Debug.println(Level.FINER, "bootSector: \n" + StringUtil.getDump(bootSector));
         if (bootSector.length < 0x400) {
-Debug.printf("Not enough data for detection: %04x/%04x%n", bootSector.length, 0x400);
+Debug.printf(Level.FINE, "Not enough data for detection: %04x/%04x%n", bootSector.length, 0x400);
             return false;
         }
 
         if (LittleEndian.getUInt16(bootSector, 510) != 0xaa55) {
-Debug.printf("No aa55 magic: %04x%n", LittleEndian.getUInt16(bootSector, 510));
+Debug.printf(Level.FINE, "No aa55 magic: %04x%n", LittleEndian.getUInt16(bootSector, 510));
             return false;
         }
 
         if (Arrays.stream(iplSignatures).noneMatch(s ->
             new String(bootSector, 4, s.length(), StandardCharsets.US_ASCII).equals(s)
         )) {
-Debug.println("no matching signature is found: " + new String(bootSector, 4, 4, StandardCharsets.US_ASCII));
+Debug.println(Level.FINE, "no matching signature is found: " + new String(bootSector, 4, 4, StandardCharsets.US_ASCII));
             return false;
         }
 
         if (new String(bootSector, 0x36, 3, StandardCharsets.US_ASCII).equals("FAT")) {
-Debug.println("strings FAT is found, this partition might be for AT");
+Debug.println(Level.FINE, "strings FAT is found, this partition might be for AT");
             return false;
         }
 

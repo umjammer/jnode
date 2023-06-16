@@ -54,7 +54,7 @@ Debug.println(Level.FINER, "\n" + StringUtil.getDump(firstSectors));
             firstSectors[0x4] != 'E' ||
             firstSectors[0x5] != 'C') {
             // Missing magic number
-Debug.printf("Missing magic number 'NEC': %c%c%c%n", firstSectors[0x3] & 0xff, firstSectors[0x4] & 0xff, firstSectors[0x5] & 0xff);
+Debug.printf(Level.FINE, "Missing magic number 'NEC': %c%c%c%n", firstSectors[0x3] & 0xff, firstSectors[0x4] & 0xff, firstSectors[0x5] & 0xff);
             return false;
         }
 
