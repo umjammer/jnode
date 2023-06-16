@@ -98,9 +98,8 @@ public class Main4 {
         Main4 app = new Main4();
         app.before();
 
-        try (Fuse fuse = Fuse.getFuse()) {
-            fuse.mount(app.fs, app.mountPoint, app.options);
-        }
+        Fuse fuse = Fuse.getFuse();
+        fuse.mount(app.fs, app.mountPoint, app.options);
     }
 }
 
