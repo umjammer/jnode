@@ -58,10 +58,11 @@ Debug.printf(Level.FINE, "Missing magic number 'NEC': %c%c%c%n", firstSectors[0x
             return false;
         }
 
-        if (!new String(firstSectors, 0x36, 3, StandardCharsets.US_ASCII).equals("FAT")) {
-Debug.println("strings FAT is not found");
-            return false;
-        }
+        // TODO fat12 doesn't work
+//        if (!new String(firstSectors, 0x36, 3, StandardCharsets.US_ASCII).equals("FAT")) {
+//Debug.println("strings FAT is not found");
+//            return false;
+//        }
 
         return true;
     }
