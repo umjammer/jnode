@@ -16,16 +16,18 @@ import java.nio.file.Paths;
 import org.jnode.driver.block.BlockDeviceAPI;
 import org.jnode.driver.block.FSBlockDeviceAPI;
 import org.jnode.driver.block.FileDevice;
+import org.jnode.driver.block.VirtualDisk;
 import org.jnode.driver.block.VirtualDiskDevice;
 import org.jnode.fs.FileSystem;
 import org.jnode.partitions.PartitionTable;
 import org.jnode.partitions.pc98.PC98PartitionTableType;
 import org.jnode.test.fs.DataStructureAsserts;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIf;
 
-import vavi.nio.file.jnode.MyVirtualDisk;
+import vavi.nio.file.jnode.VirtualDiskFactory;
 import vavi.util.Debug;
 import vavi.util.properties.annotation.Property;
 import vavi.util.properties.annotation.PropsEntity;
@@ -44,6 +46,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @PropsEntity(url = "file://${user.dir}/local.properties")
 class PC98PartitionTableEntryTest {
 
+    static boolean localPropertiesExists() {
+        return Files.exists(Paths.get("local.properties"));
+    }
+
     @Property
     String nhd;
 
@@ -52,11 +58,8 @@ class PC98PartitionTableEntryTest {
         PropsEntity.Util.bind(this);
     }
 
-    static boolean localPropertiesExists() {
-        return Files.exists(Paths.get("local.properties"));
-    }
-
     @Test
+    @DisplayName("nhd direct")
     void test() throws Exception {
         File file = new File(nhd);
         FileDevice device = new FileDevice(file, "r");
@@ -72,6 +75,7 @@ class PC98PartitionTableEntryTest {
     }
 
     @Test
+    @DisplayName("nhd spi, FileDevice, pc98:fat16")
     void test2() throws Exception {
         File file = new File(nhd);
         FileDevice device = new FileDevice(file, "r");
@@ -90,9 +94,10 @@ Debug.println("\n: " + actual);
     }
 
     @Test
+    @DisplayName("nhd spi, VirtualDiskDevice, pc98:fat16")
     void test3() throws Exception {
         Path path = Paths.get(nhd);
-        MyVirtualDisk virtualDisk = new MyVirtualDisk(path);
+        VirtualDisk virtualDisk = VirtualDiskFactory.getInstance().createVirtualDiskFactory(path);
         VirtualDiskDevice device = new VirtualDiskDevice(virtualDisk);
 
         FileSystem<?> fs = PartitionTable.getFileSystem(device, 0);

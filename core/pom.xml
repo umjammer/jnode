@@ -4,8 +4,9 @@
   <parent>
     <groupId>vavi</groupId>
     <artifactId>vavi-nio-file-jnode</artifactId>
-    <version>0.2.10v</version>
+    <version>0.2.11v</version>
   </parent>
+
   <artifactId>jnode-core</artifactId>
   <packaging>jar</packaging>
 

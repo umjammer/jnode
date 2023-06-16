@@ -52,7 +52,7 @@ public final class JNodeFileSystemDriver<T extends FSEntry> extends ExtendedFile
     public JNodeFileSystemDriver(final FileStore fileStore,
             FileSystemFactoryProvider provider,
             FileSystem<T> fs,
-            Map<String, ?> env) {
+            Map<String, ?> env) throws IOException {
         super(fileStore, provider);
         this.fs = fs;
         setEnv(env);

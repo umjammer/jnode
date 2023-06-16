@@ -26,7 +26,8 @@ import org.jnode.driver.DeviceAPI;
 
 /**
  * The API for block devices.
- *
+ * <p>
+ * this api is able to access only solid disk images.
  * @author epr
  */
 public interface BlockDeviceAPI extends DeviceAPI {

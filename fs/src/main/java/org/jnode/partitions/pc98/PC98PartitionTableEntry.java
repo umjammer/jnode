@@ -39,7 +39,7 @@ public class PC98PartitionTableEntry implements PartitionTableEntry {
             heads = ((VirtualDiskDevice) device).getHeads();
             secs = ((VirtualDiskDevice) device).getSectors();
         }
-Debug.printf("heads: %d, secs: %d, device: ", heads, secs, device.getClass().getName());
+Debug.printf(Level.FINE, "heads: %d, secs: %d, device: ", heads, secs, device.getClass().getName());
     }
 
     // @see "https://github.com/aaru-dps/Aaru.Helpers/blob/4640bb88d3eb907d0f0617d5ee5159fbc13c5653/CHS.cs"
@@ -65,7 +65,7 @@ Debug.printf("heads: %d, secs: %d, device: ", heads, secs, device.getClass().get
 
     @Override
     public long getStartOffset(int sectorSize) {
-Debug.printf("s.c: %d, s.h: %d, s.s: %d, heads: %d, secs: %d, bps: %d", pe.startCylinder, pe.startHeader, pe.startSector, heads, secs, sectorSize);
+Debug.printf(Level.FINE, "s.c: %d, s.h: %d, s.s: %d, heads: %d, secs: %d, bps: %d", pe.startCylinder, pe.startHeader, pe.startSector, heads, secs, sectorSize);
         if (heads != 0 && secs != 0) {
             return (long) toLBA(pe.startCylinder, pe.startHeader, pe.startSector + 1, heads, secs) * sectorSize;
         } else {
@@ -77,7 +77,7 @@ Debug.println(Level.WARNING, "@@@@@@@@@@@@@@@@@@@@@@@@ magic number is used @@@@
 
     @Override
     public long getEndOffset(int sectorSize) {
-Debug.printf("e.c: %d, e.h: %d, e.s: %d, heads: %d, secs: %d, bps: %d", pe.endCylinder, pe.endHeader, pe.endSector, heads, secs, sectorSize);
+Debug.printf(Level.FINE, "e.c: %d, e.h: %d, e.s: %d, heads: %d, secs: %d, bps: %d", pe.endCylinder, pe.endHeader, pe.endSector, heads, secs, sectorSize);
         return (long) toLBA(pe.endCylinder, pe.endHeader, pe.endSector + 1, heads, secs) * sectorSize;
     }
 }

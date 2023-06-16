@@ -22,6 +22,7 @@ package org.jnode.partitions;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.logging.Level;
 
 import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.block.FSBlockDeviceAPI;
@@ -72,12 +73,12 @@ public interface PartitionTableEntry {
             int sectorSize = device.getAPI(FSBlockDeviceAPI.class).getSectorSize();
 
             long offset = getStartOffset(sectorSize);
-Debug.printf("entry offset: %08x", offset);
+Debug.printf(Level.FINE, "entry offset: %08x", offset);
             device.addOffset(offset);
 
             byte[] bytes = new byte[sectorSize];
             device.getAPI(FSBlockDeviceAPI.class).read(0, ByteBuffer.wrap(bytes));
-Debug.println("entry heads\n" + StringUtil.getDump(bytes, 128));
+Debug.println(Level.FINE, "entry heads\n" + StringUtil.getDump(bytes, 128));
 
             BlockDeviceFileSystemType<?> bdfst = BlockDeviceFileSystemType.lookup(this, bytes, device.getAPI(FSBlockDeviceAPI.class));
             return bdfst.create(device, true);
@@ -95,12 +96,12 @@ Debug.println("entry heads\n" + StringUtil.getDump(bytes, 128));
             int sectorSize = device.getAPI(FSBlockDeviceAPI.class).getSectorSize();
 
             long offset = getStartOffset(sectorSize);
-Debug.printf("entry offset: %08x", offset);
+Debug.printf(Level.FINE, "entry offset: %08x", offset);
             device.addOffset(offset);
 
             byte[] bytes = new byte[sectorSize];
             device.getAPI(FSBlockDeviceAPI.class).read(0, ByteBuffer.wrap(bytes));
-Debug.println("entry heads\n" + StringUtil.getDump(bytes, 128));
+Debug.println(Level.FINER, "entry heads\n" + StringUtil.getDump(bytes, 128));
 
             BlockDeviceFileSystemType<?> bdfst = BlockDeviceFileSystemType.lookup(this, bytes, device.getAPI(FSBlockDeviceAPI.class));
             return bdfst.create(device, true);

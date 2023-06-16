@@ -91,7 +91,7 @@ public class HfsWrapperFileSystemType implements BlockDeviceFileSystemType<HfsPl
     public final boolean supports(final PartitionTableEntry pte, final byte[] firstSectors,
                                   final FSBlockDeviceAPI devApi) {
 
-        if (firstSectors.length < 0x400) {
+        if (firstSectors.length < 0x400 + 162) {
             // Not enough data for detection
             return false;
         }

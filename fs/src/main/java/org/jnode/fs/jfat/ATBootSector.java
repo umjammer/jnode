@@ -343,26 +343,17 @@ Debug.println(Level.INFO, "type: " + type);
 
     @Override
     public boolean isFat12() {
-        if (type == IFAT12)
-            return true;
-        else
-            return false;
+        return type == IFAT12;
     }
 
     @Override
     public boolean isFat16() {
-        if (type == IFAT16)
-            return true;
-        else
-            return false;
+        return type == IFAT16;
     }
 
     @Override
     public boolean isFat32() {
-        if (type == IFAT32)
-            return true;
-        else
-            return false;
+        return type == IFAT32;
     }
 
     @Override

@@ -58,7 +58,7 @@ public class Main4 {
     public void before() throws Exception {
         PropsEntity.Util.bind(this);
 
-        URI uri = URI.create(discImageForFuse);
+        URI uri = URI.create("jnode:" + Paths.get(discImageForFuse).toUri());
 
         Map<String, Object> env = new HashMap<>();
         env.put(CachedFileSystemDriver.ENV_IGNORE_APPLE_DOUBLE, true); // mandatory
@@ -89,8 +89,7 @@ public class Main4 {
         fs.close();
     }
 
-    //
-
+    // nhd pc98 fat16 ok
     public static void main(String[] args) throws Exception {
 //        System.setProperty("vavi.net.fuse.FuseProvider.class", "vavi.net.fuse.javafs.JavaFSFuseProvider");
 //        System.setProperty("vavi.net.fuse.FuseProvider.class", "vavi.net.fuse.jnrfuse.JnrFuseFuseProvider");
@@ -99,12 +98,8 @@ public class Main4 {
         Main4 app = new Main4();
         app.before();
 
-        try (Fuse fuse = Fuse.getFuse()) {
-            fuse.mount(app.fs, app.mountPoint, app.options);
-while (true) { // for jnrfuse
-    Thread.yield();
-}
-        }
+        Fuse fuse = Fuse.getFuse();
+        fuse.mount(app.fs, app.mountPoint, app.options);
     }
 }
 

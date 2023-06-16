@@ -9,6 +9,7 @@ package org.jnode.driver.block;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.logging.Level;
 
 import org.jnode.driver.Device;
 import org.jnode.partitions.PartitionTableEntry;
@@ -32,7 +33,7 @@ public class VirtualDiskDevice extends Device implements FSBlockDeviceAPI {
     /** for partition entry */
     public void addOffset(long offset) {
         this.offset += offset;
-Debug.printf("offset: %08x + %08x -> %08x", (this.offset - offset), offset, this.offset);
+Debug.printf(Level.FINE, "offset: %08x + %08x -> %08x", (this.offset - offset), offset, this.offset);
     }
 
     /** virtual offset */

@@ -21,6 +21,7 @@
 package org.jnode.partitions;
 
 import java.util.ServiceLoader;
+import java.util.logging.Level;
 
 import org.jnode.driver.Device;
 import org.jnode.driver.block.BlockDeviceAPI;
@@ -87,7 +88,7 @@ public interface PartitionTableType {
     static <T extends PartitionTableType> T lookup(byte[] firstSectors, Device device) {
         ServiceLoader<PartitionTableType> sl = ServiceLoader.load(PartitionTableType.class);
         for (PartitionTableType ptt : sl) {
-Debug.println("partition table type: " + ptt);
+Debug.println(Level.FINE, "partition table type: " + ptt);
             if (ptt.supports(firstSectors, device.getAPI(BlockDeviceAPI.class))) {
                 return (T) ptt;
             }
