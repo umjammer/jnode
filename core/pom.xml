@@ -6,6 +6,7 @@
     <artifactId>vavi-nio-file-jnode</artifactId>
     <version>0.2.10v</version>
   </parent>
+
   <artifactId>jnode-core</artifactId>
   <packaging>jar</packaging>
 
