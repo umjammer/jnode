@@ -223,7 +223,7 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
         StringBuilder path = new StringBuilder(1024);
         FatDirectory parent = getParent();
 
-        if (getName().length() != 0)
+        if (!getName().isEmpty())
             path.append(getName());
         else
             path.append("\\");

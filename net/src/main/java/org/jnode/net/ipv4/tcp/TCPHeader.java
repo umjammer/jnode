@@ -253,7 +253,7 @@ public class TCPHeader implements TransportLayerHeader, TCPConstants {
         if (isFlagUrgentSet()) {
             b.append('P');
         }
-        if (b.length() == 0) {
+        if (b.isEmpty()) {
             return ".";
         } else {
             return b.toString();

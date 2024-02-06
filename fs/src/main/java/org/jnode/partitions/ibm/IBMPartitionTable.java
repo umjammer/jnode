@@ -345,7 +345,7 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
     }
 
     public Iterator<IBMPartitionTableEntry> iterator() {
-        return new Iterator<IBMPartitionTableEntry>() {
+        return new Iterator<>() {
             private int index = 0;
             private final int last = (partitions == null) ? 0 : partitions.length;
 

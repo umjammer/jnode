@@ -431,7 +431,7 @@ public class FatShortDirEntry extends FatDirEntry {
         String base = getBase();
         String ext = getExt();
 
-        if (ext.length() > 0)
+        if (!ext.isEmpty())
             return base + "." + ext;
         else
             return base;

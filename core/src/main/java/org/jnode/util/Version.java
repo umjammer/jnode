@@ -105,7 +105,7 @@ public class Version implements Comparable<Version> {
         revision = (parts.length > 3) ? Integer.parseInt(parts[3]) : Undefined;
         tag = (outerParts.length > 1) ? outerParts[1] : null;
         if (tag != null) {
-            if (tag.length() == 0)
+            if (tag.isEmpty())
                 throw new IllegalArgumentException("tag empty");
             if (Character.isDigit(tag.charAt(0)))
                 throw new IllegalArgumentException("tag starts with digit");

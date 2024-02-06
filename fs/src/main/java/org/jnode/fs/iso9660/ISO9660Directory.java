@@ -47,7 +47,7 @@ public final class ISO9660Directory implements FSDirectory {
      * @see org.jnode.fs.FSDirectory#iterator()
      */
     public Iterator<FSEntry> iterator() throws IOException {
-        return new Iterator<FSEntry>() {
+        return new Iterator<>() {
 
             int offset = 0;
 
@@ -62,7 +62,7 @@ public final class ISO9660Directory implements FSDirectory {
             public FSEntry next() {
                 final ISO9660Volume volume = parent.getVolume();
                 final EntryRecord fEntry =
-                    new EntryRecord(volume, buffer, offset + 1, parent.getEncoding());
+                        new EntryRecord(volume, buffer, offset + 1, parent.getEncoding());
                 offset += fEntry.getLengthOfDirectoryEntry();
                 return new ISO9660Entry((ISO9660FileSystem) entry.getFileSystem(), fEntry);
             }

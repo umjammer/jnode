@@ -42,13 +42,13 @@ public class FatCase {
     }
 
     public FatCase(String baseName, String extName) {
-        if (baseName.length() == 0)
+        if (baseName.isEmpty())
             throw new UnsupportedOperationException("empty baseName");
 
         final boolean baseIsUpper = FatUtils.isUpperCase(baseName);
         final boolean baseIsLower = FatUtils.isLowerCase(baseName);
 
-        if (extName.length() == 0) {
+        if (extName.isEmpty()) {
             if (baseIsLower)
                 ncase = LOWER_UPPER;
             else

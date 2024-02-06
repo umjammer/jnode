@@ -45,7 +45,7 @@ import org.jnode.net.nfs.nfs2.Time;
  */
 public class NFS2Directory extends NFS2Object implements FSDirectory {
 
-    private static final Iterator<NFS2Entry> EMPTY_NFSENTRY_ITERATOR = new Iterator<NFS2Entry>() {
+    private static final Iterator<NFS2Entry> EMPTY_NFSENTRY_ITERATOR = new Iterator<>() {
 
         public boolean hasNext() {
             return false;
@@ -155,7 +155,7 @@ public class NFS2Directory extends NFS2Object implements FSDirectory {
         // fetch the entries
         Set<NFS2Entry> nfsEntrySet = getNFS2EntrySet();
 
-        if (nfsEntrySet.size() == 0) {
+        if (nfsEntrySet.isEmpty()) {
             return EMPTY_NFSENTRY_ITERATOR;
         }
 
@@ -188,7 +188,7 @@ public class NFS2Directory extends NFS2Object implements FSDirectory {
                         }
                     }
 
-                    if (entrySet.size() == 0) {
+                    if (entrySet.isEmpty()) {
                         return new HashSet<>();
                     }
 

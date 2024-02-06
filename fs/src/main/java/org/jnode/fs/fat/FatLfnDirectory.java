@@ -208,7 +208,7 @@ public class FatLfnDirectory extends FatDirectory {
     }
 
     public Iterator<FSEntry> iterator() {
-        return new Iterator<FSEntry>() {
+        return new Iterator<>() {
             Iterator<LfnEntry> it = shortNameIndex.values().iterator();
 
             public boolean hasNext() {

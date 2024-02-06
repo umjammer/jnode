@@ -191,7 +191,7 @@ public class XMLElement
      *     <li>The values are char arrays
      * </ul></dd></dl>
      */
-    private Hashtable entities;
+    private Map<String, Object> entities;
 
     /**
      * The line number where the element starts.
@@ -200,19 +200,19 @@ public class XMLElement
      * <ul><li><code>lineNr &gt= 0</code>
      * </ul></dd></dl>
      */
-    private int lineNr;
+    private final int lineNr;
 
     /**
      * <code>true</code> if the case of the element and attribute names
      * are case insensitive.
      */
-    private boolean ignoreCase;
+    private final boolean ignoreCase;
 
     /**
      * <code>true</code> if the leading and trailing whitespace of #PCDATA
      * sections have to be ignored.
      */
-    private boolean ignoreWhitespace;
+    private final boolean ignoreWhitespace;
 
     /**
      * Character read too much.
@@ -257,15 +257,15 @@ public class XMLElement
      *     <li>getName() => null
      * </ul></dd></dl>
      *
-     * @see XMLElement#XMLElement(java.util.Hashtable)
+     * @see XMLElement#XMLElement(java.util.Map)
      *         XMLElement(Hashtable)
      * @see XMLElement#XMLElement(boolean)
-     * @see XMLElement#XMLElement(java.util.Hashtable,boolean)
+     * @see XMLElement#XMLElement(java.util.Map,boolean)
      *         XMLElement(Hashtable, boolean)
      */
     public XMLElement()
     {
-        this(new Hashtable(), false, true, true);
+        this(new HashMap<>(), false, true, true);
     }
 
     /**
@@ -293,10 +293,10 @@ public class XMLElement
      *
      * @see XMLElement#XMLElement()
      * @see XMLElement#XMLElement(boolean)
-     * @see XMLElement#XMLElement(java.util.Hashtable,boolean)
+     * @see XMLElement#XMLElement(java.util.Map,boolean)
      *         XMLElement(Hashtable, boolean)
      */
-    public XMLElement(Hashtable entities)
+    public XMLElement(Map<String, Object> entities)
     {
         this(entities, false, true, true);
     }
@@ -322,14 +322,14 @@ public class XMLElement
      * </ul></dd></dl><dl>
      *
      * @see XMLElement#XMLElement()
-     * @see XMLElement#XMLElement(java.util.Hashtable)
+     * @see XMLElement#XMLElement(java.util.Map)
      *         XMLElement(Hashtable)
-     * @see XMLElement#XMLElement(java.util.Hashtable,boolean)
+     * @see XMLElement#XMLElement(java.util.Map,boolean)
      *         XMLElement(Hashtable, boolean)
      */
     public XMLElement(boolean skipLeadingWhitespace)
     {
-        this(new Hashtable(), skipLeadingWhitespace, true, true);
+        this(new HashMap<>(), skipLeadingWhitespace, true, true);
     }
 
     /**
@@ -360,10 +360,10 @@ public class XMLElement
      *
      * @see XMLElement#XMLElement()
      * @see XMLElement#XMLElement(boolean)
-     * @see XMLElement#XMLElement(java.util.Hashtable)
+     * @see XMLElement#XMLElement(java.util.Map)
      *         XMLElement(Hashtable)
      */
-    public XMLElement(Hashtable entities,
+    public XMLElement(Map<String, Object> entities,
                       boolean   skipLeadingWhitespace)
     {
         this(entities, skipLeadingWhitespace, true, true);
@@ -397,12 +397,12 @@ public class XMLElement
      *
      * @see XMLElement#XMLElement()
      * @see XMLElement#XMLElement(boolean)
-     * @see XMLElement#XMLElement(java.util.Hashtable)
+     * @see XMLElement#XMLElement(java.util.Map)
      *         XMLElement(Hashtable)
-     * @see XMLElement#XMLElement(java.util.Hashtable,boolean)
+     * @see XMLElement#XMLElement(java.util.Map,boolean)
      *         XMLElement(Hashtable, boolean)
      */
-    public XMLElement(Hashtable entities,
+    public XMLElement(Map<String, Object> entities,
                       boolean   skipLeadingWhitespace,
                       boolean   ignoreCase)
     {
@@ -448,7 +448,7 @@ public class XMLElement
      *
      * @see XMLElement#createAnotherElement()
      */
-    protected XMLElement(Hashtable entities,
+    protected XMLElement(Map<String, Object> entities,
                          boolean   skipLeadingWhitespace,
                          boolean   fillBasicConversionTable,
                          boolean   ignoreCase)
@@ -461,9 +461,7 @@ public class XMLElement
         this.children = new ArrayList<>();
         this.entities = entities;
         this.lineNr = 0;
-        Enumeration e = this.entities.keys();
-        while (e.hasMoreElements()) {
-            Object key = e.nextElement();
+        for (String key : this.entities.keySet()) {
             Object value = this.entities.get(key);
             if (value instanceof String) {
                 value = ((String) value).toCharArray();
@@ -1598,8 +1596,8 @@ public class XMLElement
     {
         this.name = null;
         this.contents = "";
-        this.attributes = new Hashtable();
-        this.children = new Vector();
+        this.attributes = new HashMap<>();
+        this.children = new ArrayList<>();
         this.charReadTooMuch = '\0';
         this.reader = reader;
         this.parserLineNr = startingLineNr;
@@ -2069,7 +2067,7 @@ public class XMLElement
                 writer.write('"');
             }
         }
-        if ((this.contents != null) && (this.contents.length() > 0)) {
+        if ((this.contents != null) && (!this.contents.isEmpty())) {
             writer.write('>');
             this.writeEncoded(writer, this.contents);
             writer.write('<'); writer.write('/');
@@ -2540,7 +2538,7 @@ public class XMLElement
                 }
             }
         }
-        if (buf.length() == 0) {
+        if (buf.isEmpty()) {
             while (ch != '/') {
                 if (ch == '!') {
                     ch = this.readChar();

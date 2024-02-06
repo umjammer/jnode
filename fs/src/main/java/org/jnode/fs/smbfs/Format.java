@@ -466,7 +466,7 @@ public class Format {
             if (show_plus) p = "+";
             else if (show_space) p = " ";
         } else {
-            if (fmt == 'o' && alternate && r.length() > 0 && r.charAt(0) != '0') p = "0";
+            if (fmt == 'o' && alternate && !r.isEmpty() && r.charAt(0) != '0') p = "0";
             else if (fmt == 'x' && alternate) p = "0x";
             else if (fmt == 'X' && alternate) p = "0X";
         }

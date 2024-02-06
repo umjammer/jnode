@@ -242,7 +242,7 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
     }
 
     public String getName() {
-        if (ext.length() > 0) {
+        if (!ext.isEmpty()) {
             return name + "." + ext;
         } else {
             return name;

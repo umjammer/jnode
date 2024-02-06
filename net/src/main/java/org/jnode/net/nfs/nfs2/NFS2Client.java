@@ -169,7 +169,7 @@ public class NFS2Client {
         if (closed) {
             throw new IOException("The nfs client it is closed");
         }
-        if (rpcClientPool.size() == 0) {
+        if (rpcClientPool.isEmpty()) {
             // TODO Improve this lock
             return createRpcClient();
         } else {
@@ -249,7 +249,7 @@ public class NFS2Client {
                 exceptionList.add(e);
             }
         }
-        if (exceptionList.size() != 0) {
+        if (!exceptionList.isEmpty()) {
             StringBuilder builder = new StringBuilder();
             builder.append("An error occurs when the mount client close connections. Reason:");
             for (OncRpcException anExceptionList : exceptionList) {

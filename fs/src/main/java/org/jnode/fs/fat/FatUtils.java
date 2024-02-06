@@ -124,7 +124,7 @@ public class FatUtils {
      * @return the normalized DOS 8.3 name
      */
     public static String normalizeName(String name, String ext) {
-        if (ext.length() > 0) {
+        if (!ext.isEmpty()) {
             return (name + "." + ext).toUpperCase();
         } else {
             return name.toUpperCase();

@@ -158,7 +158,7 @@ public final class JNodeFileSystemDriver<T extends FSEntry> extends ExtendedFile
 
     @Override
     protected boolean hasChildren(T dirEntry, Path dir) throws IOException {
-        return getDirectoryEntries(dirEntry, dir).size() > 0;
+        return !getDirectoryEntries(dirEntry, dir).isEmpty();
     }
 
     @Override

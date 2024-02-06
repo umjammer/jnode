@@ -66,7 +66,7 @@ public final class ExFatSuperBlock extends AbstractFSObject {
         b.order(ByteOrder.LITTLE_ENDIAN);
         fs.getApi().read(0, b);
 
-        /* check OEM name */
+        // check OEM name
 
         final byte[] oemBytes = new byte[OEM_NAME.length()];
         b.position(0x03);
@@ -77,19 +77,19 @@ public final class ExFatSuperBlock extends AbstractFSObject {
             throw new IOException("OEM name mismatch");
         }
 
-        /* check fat count */
+        // check fat count
 
         if ((b.get(0x6e) & 0xff) != 1) {
             throw new IOException("invalid FAT count");
         }
 
-        /* check drive # */
+        // check drive #
 
         if ((b.get(0x6f) & 0xff) != 0x80) {
             throw new IOException("invalid drive number");
         }
 
-        /* check boot signature */
+        // check boot signature
 
         if ((b.get(510) & 0xff) != 0x55 || (b.get(511) & 0xff) != 0xaa)
             throw new IOException("missing boot sector signature");
@@ -111,7 +111,7 @@ public final class ExFatSuperBlock extends AbstractFSObject {
         result.blocksPerClusterBits = b.get(0x6d);
         result.percentInUse = b.get(0x70);
 
-        /* check version */
+        // check version
 
         if (result.fsVersionMajor != 1) {
             throw new IOException("unsupported version major " +
@@ -225,5 +225,4 @@ public final class ExFatSuperBlock extends AbstractFSObject {
     public byte getPercentInUse() {
         return percentInUse;
     }
-
 }

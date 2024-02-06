@@ -161,7 +161,7 @@ public class WellKnownSids {
     /**
      * Well known SIDs for the sub-region beginning with 1-5-21 then a set of values and ending in the following.
      */
-    private static final Map<String, String> WELL_KNOWN_1_5_21_MAP = new LinkedHashMap<String, String>() {{
+    private static final Map<String, String> WELL_KNOWN_1_5_21_MAP = new LinkedHashMap<>() {{
         put("500", "Administrator");
         put("501", "Guest");
         put("502", "KRBTGT");

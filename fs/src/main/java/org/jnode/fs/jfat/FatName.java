@@ -124,7 +124,7 @@ public class FatName {
             shortCase = new FatCase(shortBase, shortExt);
         }
 
-        if (shortExt.length() > 0)
+        if (!shortExt.isEmpty())
             shortName = shortBase + "." + shortExt;
         else
             shortName = shortBase;

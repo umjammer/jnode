@@ -47,7 +47,7 @@ public class TCPTest {
                 String line;
                 while ((line = in.readLine()) != null) {
                     System.out.println(line);
-                    if (line.length() == 0) {
+                    if (line.isEmpty()) {
                         break;
                     }
                 }

@@ -249,7 +249,7 @@ public class FSEntryTable extends AbstractFSObject {
      * @return an Iterator with all used entries
      */
     public final Iterator<FSEntry> iterator() {
-        return new Iterator<FSEntry>() {
+        return new Iterator<>() {
             private int index = 0;
 
             private List<FSEntry> usedEntries = getUsedEntries();
