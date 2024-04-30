@@ -29,8 +29,8 @@ import java.net.SocketAddress;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.Device;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.ethernet.EthernetConstants;
@@ -41,7 +41,7 @@ import org.jnode.util.Queue;
  */
 public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl {
 
-    private static final Logger bootlog = LogManager.getLogger("bootlog");
+    private static final Logger bootlog = System.getLogger("bootlog");
 
     /** The receive queue of SocketBuffer instances */
     private final Queue<SocketBuffer> receiveQueue = new Queue<>();
@@ -170,7 +170,7 @@ public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl {
     }
 
     protected void doSetOption(int option_id, Object val) throws SocketException {
-        bootlog.error("Unknown option " + option_id);
+        bootlog.log(Level.ERROR, "Unknown option " + option_id);
     }
 
     /**

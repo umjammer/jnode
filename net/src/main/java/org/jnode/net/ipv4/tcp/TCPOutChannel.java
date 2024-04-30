@@ -24,8 +24,8 @@ import java.net.SocketException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.ipv4.IPv4Header;
 
 /**
@@ -37,7 +37,7 @@ public class TCPOutChannel {
     /**
      * My logger
      */
-    private static final Logger log = LogManager.getLogger(TCPOutChannel.class);
+    private static final Logger log = System.getLogger(TCPOutChannel.class.getName());
 
     /**
      * The protocol
@@ -111,12 +111,12 @@ public class TCPOutChannel {
             return;
         } else if (!TCPUtils.SEQ_LT(snd_unack, ackNr)) {
             // snd_unack < ackNr violated
-            log.debug("snd_unack < ackNr violated");
+            log.log(Level.DEBUG, "snd_unack < ackNr violated");
             return;
         }
         if (!TCPUtils.SEQ_LE(ackNr, snd_max)) {
             // ackNr <= snd_max violated
-            log.debug("ackNr <= snd_max violated");
+            log.log(Level.DEBUG, "ackNr <= snd_max violated");
             return;
         }
 
@@ -183,7 +183,7 @@ public class TCPOutChannel {
     public synchronized void send(IPv4Header ipHdr, TCPHeader hdr, byte[] data, int offset,
                                   int length) throws SocketException {
         if (DEBUG) {
-            log.debug("outChannel.send(ipHdr,hdr,data," + offset + ", " + length + ')');
+            log.log(Level.DEBUG, "outChannel.send(ipHdr,hdr,data," + offset + ", " + length + ')');
         }
         // Check for maximum datalength
         if (length > mss) {
@@ -232,7 +232,7 @@ public class TCPOutChannel {
         seg.send(tcp);
         if (!seg.isAckOnly() && !hdr.isFlagSynchronizeSet()) {
             if (DEBUG) {
-                log.debug("Adding segment " + seg.getSeqNr() + " to unacklist");
+                log.log(Level.DEBUG, "Adding segment " + seg.getSeqNr() + " to unacklist");
             }
             unackedSegments.add(seg);
         }

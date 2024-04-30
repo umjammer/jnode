@@ -20,10 +20,8 @@
 
 package org.jnode.partitions.ibm;
 
-import java.util.logging.Level;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.block.CHS;
 import org.jnode.partitions.PartitionTableEntry;
 import org.jnode.util.LittleEndian;
@@ -37,7 +35,7 @@ import vavi.util.Debug;
 public class IBMPartitionTableEntry implements PartitionTableEntry {
     private static final int BOOTABLE = 0x80;
 
-    private final Logger log = LogManager.getLogger(getClass());
+    private static final Logger log = System.getLogger(IBMPartitionTableEntry.class.getName());
 
     private final byte[] bs;
     private final int ofs;
@@ -55,7 +53,7 @@ public class IBMPartitionTableEntry implements PartitionTableEntry {
     @Override
     public boolean isValid() {
         int bootIndicatorValue = getBootIndicatorValue();
-Debug.println(Level.FINE, "bootIndicatorValue:" + bootIndicatorValue + ", empty: " + isEmpty() + ", nrSectors: " + getNrSectors());
+log.log(Level.DEBUG, "bootIndicatorValue:" + bootIndicatorValue + ", empty: " + isEmpty() + ", nrSectors: " + getNrSectors());
         return
             !isEmpty() &&
             (bootIndicatorValue == 0 || bootIndicatorValue == BOOTABLE) &&
@@ -93,7 +91,7 @@ Debug.println(Level.FINE, "bootIndicatorValue:" + bootIndicatorValue + ", empty:
     }
 
     public int getBootIndicatorValue() {
-Debug.println(Level.FINE, "getBootIndicatorValue: ofs: " + (ofs + 0) + ", value: " + LittleEndian.getUInt8(bs, ofs + 0));
+log.log(Level.DEBUG, "getBootIndicatorValue: ofs: " + (ofs + 0) + ", value: " + LittleEndian.getUInt8(bs, ofs + 0));
         return LittleEndian.getUInt8(bs, ofs + 0);
     }
 
@@ -127,7 +125,7 @@ Debug.println(Level.FINE, "getBootIndicatorValue: ofs: " + (ofs + 0) + ", value:
         try {
             return IBMPartitionTypes.valueOf(code);
         } catch (IllegalArgumentException e) {
-            log.debug("Unknown or invalid system indicator code: 0x" + Integer.toHexString(code));
+            log.log(Level.DEBUG, "Unknown or invalid system indicator code: 0x" + Integer.toHexString(code));
             return IBMPartitionTypes.PARTTYPE_UNKNOWN;
         }
     }

@@ -25,8 +25,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
 import org.jnode.fs.ReadOnlyFileSystemException;
@@ -38,7 +38,7 @@ import org.jnode.fs.ReadOnlyFileSystemException;
  * @author Fabien DUMINY
  */
 public abstract class AbstractFSDirectory extends AbstractFSObject implements FSDirectory {
-    private static final Logger log = LogManager.getLogger(AbstractFSDirectory.class);
+    private static final Logger log = System.getLogger(AbstractFSDirectory.class.getName());
 
     /* Table of entries */
     private FSEntryTable entries = FSEntryTable.EMPTY_TABLE;
@@ -124,7 +124,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
      * @throws IOException
      */
     public final synchronized FSEntry addDirectory(String name) throws IOException {
-        log.debug("<<< BEGIN addDirectory " + name + " >>>");
+        log.log(Level.DEBUG, "<<< BEGIN addDirectory " + name + " >>>");
         if (!canWrite())
             throw new ReadOnlyFileSystemException("Filesystem or directory is mounted read-only!");
 
@@ -133,7 +133,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
         }
         FSEntry newEntry = createDirectoryEntry(name);
         setFreeEntry(newEntry);
-        log.debug("<<< END addDirectory " + name + " >>>");
+        log.log(Level.DEBUG, "<<< END addDirectory " + name + " >>>");
         return newEntry;
     }
 
@@ -207,9 +207,9 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
      * yet initialized (constructed).
      */
     protected final void checkEntriesLoaded() {
-        log.debug("<<< BEGIN checkEntriesLoaded >>>");
+        log.log(Level.DEBUG, "<<< BEGIN checkEntriesLoaded >>>");
         if (!isEntriesLoaded()) {
-            log.debug("checkEntriesLoaded : loading");
+            log.log(Level.DEBUG, "checkEntriesLoaded : loading");
             try {
                 if (canRead()) {
                     entries = readEntries();
@@ -217,17 +217,17 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
                     // the next time, we will call checkEntriesLoaded()
                     // we will retry to load entries
                     entries = FSEntryTable.EMPTY_TABLE;
-                    log.debug("checkEntriesLoaded : can't read, using EMPTY_TABLE");
+                    log.log(Level.DEBUG, "checkEntriesLoaded : can't read, using EMPTY_TABLE");
                 }
                 resetDirty();
             } catch (IOException e) {
-                log.fatal("unable to read directory entries", e);
+                log.log(Level.ERROR, "unable to read directory entries", e);
                 // the next time, we will call checkEntriesLoaded()
                 // we will retry to load entries
                 entries = FSEntryTable.EMPTY_TABLE;
             }
         }
-        log.debug("<<< END checkEntriesLoaded >>>");
+        log.log(Level.DEBUG, "<<< END checkEntriesLoaded >>>");
     }
 
     /**
@@ -247,7 +247,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
      * @return the added file entry
      */
     public final synchronized FSEntry addFile(String name) throws IOException {
-        log.debug("<<< BEGIN addFile " + name + " >>>");
+        log.log(Level.DEBUG, "<<< BEGIN addFile " + name + " >>>");
         if (!canWrite())
             throw new ReadOnlyFileSystemException("Filesystem or directory is mounted read-only!");
 
@@ -257,7 +257,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
         FSEntry newEntry = createFileEntry(name);
         setFreeEntry(newEntry);
 
-        log.debug("<<< END addFile " + name + " >>>");
+        log.log(Level.DEBUG, "<<< END addFile " + name + " >>>");
         return newEntry;
     }
 
@@ -286,7 +286,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
     private void setFreeEntry(FSEntry newEntry) throws IOException {
         checkEntriesLoaded();
         if (entries.setFreeEntry(newEntry) >= 0) {
-            log.debug("setFreeEntry: free entry found !");
+            log.log(Level.DEBUG, "setFreeEntry: free entry found !");
             // a free entry has been found
             setDirty();
             flush();

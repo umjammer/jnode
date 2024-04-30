@@ -23,8 +23,8 @@ package org.jnode.fs.ntfs;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSDirectoryId;
 import org.jnode.fs.FSEntry;
@@ -41,7 +41,7 @@ import org.jnode.fs.ntfs.index.NTFSIndex;
  */
 public class NTFSDirectory implements FSDirectory, FSDirectoryId {
 
-    private static final Logger log = LogManager.getLogger(NTFSDirectory.class);
+    private static final Logger log = System.getLogger(NTFSDirectory.class.getName());
 
     /**
      * The file record for the directory.
@@ -91,7 +91,7 @@ public class NTFSDirectory implements FSDirectory, FSDirectoryId {
      * Gets an entry with a given name.
      */
     public FSEntry getEntry(String name) {
-        log.debug("getEntry(" + name + ")");
+        log.log(Level.DEBUG, "getEntry(" + name + ")");
         for (Iterator<FSEntry> it = this.iterator(); it.hasNext(); ) {
             final NTFSEntry entry = (NTFSEntry) it.next();
             if (entry.getName().equals(name)) {

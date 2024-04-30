@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.ntfs.FileRecord;
 import org.jnode.fs.ntfs.NTFSVolume;
 import org.jnode.fs.ntfs.attribute.NTFSAttribute;
@@ -28,7 +28,7 @@ public class LogFile {
     /**
      * My logger
      */
-    protected static final Logger log = LogManager.getLogger(LogFile.class);
+    protected static final Logger log = System.getLogger(LogFile.class.getName());
 
     /**
      * The start of the normal area (in pages).
@@ -104,17 +104,17 @@ public class LogFile {
         restartArea = new RestartArea(logFileBuffer, restartAreaOffset);
 
         if ((restartArea.getFlags() & RestartArea.VOLUME_CLEANLY_UNMOUNTED) != RestartArea.VOLUME_CLEANLY_UNMOUNTED) {
-            log.info("Volume not cleanly unmounted");
+            log.log(Level.INFO, "Volume not cleanly unmounted");
             cleanlyShutdown = false;
 
         } else {
-            log.info("Volume marked as cleanly unmounted");
+            log.log(Level.INFO, "Volume marked as cleanly unmounted");
         }
 
         // Read in any open log client records
         int logClientCount = restartArea.getLogClients();
         if (logClientCount != RestartArea.LOGFILE_NO_CLIENT) {
-            log.info(String.format("Found %d open log clients", logClientCount));
+            log.log(Level.INFO, String.format("Found %d open log clients", logClientCount));
 
             int logClientOffset = restartAreaOffset + restartArea.getClientArrayOffset();
             LogClientRecord logClientRecord = new LogClientRecord(logFileBuffer, logClientOffset);
@@ -178,7 +178,7 @@ public class LogFile {
                 if (pageHeader.getLastLsnOrFileOffset() < lastLsn ||
                     pageHeader.getLastLsnOrFileOffset() - lastLsn > 0x8000) {
                     // This page doesn't seem to continue on from the last page, so reset the offsets
-                    log.info(String.format("$LogFile discontinuous at 0x%x [%d -> %d]", offset, lastLsn,
+                    log.log(Level.INFO, String.format("$LogFile discontinuous at 0x%x [%d -> %d]", offset, lastLsn,
                         pageHeader.getLastLsnOrFileOffset()));
                     recordOffset = 0;
                     lastRecordLength = 0;
@@ -227,7 +227,7 @@ public class LogFile {
                             lastRecordLength -= logPageSize - start;
                         } else {
                             if (lsn <= 0 || lsn > pageHeader.getLastLsnOrFileOffset()) {
-                                log.warn("Log record seems to be invalid: " + logRecord.toDebugString());
+                                log.log(Level.WARNING, "Log record seems to be invalid: " + logRecord.toDebugString());
                             }
                             // Seems to be the end of valid records for this page
                             lastRecordLength = 0;
@@ -316,14 +316,14 @@ public class LogFile {
         if (!restartPageHeader1.isValid()) {
             throw new IllegalStateException("Restart header has invalid magic: " + restartPageHeader1.getMagic());
         } else if (restartPageHeader1.getMagic() == RestartPageHeader.Magic.CHKD) {
-            log.warn("First $LogFile restart header has check disk magic");
+            log.log(Level.WARNING, "First $LogFile restart header has check disk magic");
         }
 
         RestartPageHeader restartPageHeader2 = new RestartPageHeader(volume, buffer, restartPageHeader1.getLogPageSize());
         if (!restartPageHeader2.isValid()) {
             throw new IllegalStateException("Second restart header has invalid magic: " + restartPageHeader2.getMagic());
         }  else if (restartPageHeader2.getMagic() == RestartPageHeader.Magic.CHKD) {
-            log.warn("Second $LogFile restart header has check disk magic");
+            log.log(Level.WARNING, "Second $LogFile restart header has check disk magic");
         }
 
         int restartAreaOffset1 = restartPageHeader1.getRestartOffset();

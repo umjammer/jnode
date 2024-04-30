@@ -20,6 +20,7 @@
 
 package org.jnode.fs.ntfs.attribute;
 
+import java.lang.System.Logger.Level;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -89,12 +90,12 @@ public final class AttributeListBlock extends NTFSStructure {
 
             int length = getUInt16(offset + 0x04);
             if (length <= 0) {
-                log.error("Invalid attribute length, preventing infinite loop. Data on disk may be corrupt.");
+                log.log(Level.ERROR, "Invalid attribute length, preventing infinite loop. Data on disk may be corrupt.");
                 return false;
             }
 
             nextElement = new AttributeListEntry(AttributeListBlock.this, offset);
-            log.debug(nextElement);
+            log.log(Level.DEBUG, nextElement);
             offset += length;
             return true;
         }

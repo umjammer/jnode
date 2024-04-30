@@ -24,15 +24,16 @@ import java.io.IOException;
 import java.nio.charset.CharacterCodingException;
 import java.util.Arrays;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.util.NumberUtils;
 
 /**
  * @author gvt
  */
 public class FatShortDirEntry extends FatDirEntry {
-    private static final Logger log = LogManager.getLogger(FatShortDirEntry.class);
+
+    private static final Logger log = System.getLogger(FatShortDirEntry.class.getName());
 
     /*
      * encoded side
@@ -127,8 +128,8 @@ public class FatShortDirEntry extends FatDirEntry {
         try {
             baseName = getFatFileSystem().getCodePage().newDecoder().decode(basebuf);
         } catch (CharacterCodingException ex) {
-            log.debug("CharacterCodingException: CodePage error");
-            log.debug("go on with standard decoding");
+            log.log(Level.DEBUG, "CharacterCodingException: CodePage error");
+            log.log(Level.DEBUG, "go on with standard decoding");
             baseName = base;
         }
 
@@ -147,8 +148,8 @@ public class FatShortDirEntry extends FatDirEntry {
         try {
             extName = getFatFileSystem().getCodePage().newDecoder().decode(extbuf);
         } catch (CharacterCodingException ex) {
-            log.debug("CharacterCodingException: CodePage error");
-            log.debug("go on with standard decoding");
+            log.log(Level.DEBUG, "CharacterCodingException: CodePage error");
+            log.log(Level.DEBUG, "go on with standard decoding");
             extName = ext;
         }
 
@@ -419,8 +420,8 @@ public class FatShortDirEntry extends FatDirEntry {
         try {
             label = getFatFileSystem().getCodePage().newDecoder().decode(lName);
         } catch (CharacterCodingException ex) {
-            log.debug("CharacterCodingException: CodePage error");
-            log.debug("go on with standard decoding");
+            log.log(Level.DEBUG, "CharacterCodingException: CodePage error");
+            log.log(Level.DEBUG, "go on with standard decoding");
             label = new String(lName);
         }
 

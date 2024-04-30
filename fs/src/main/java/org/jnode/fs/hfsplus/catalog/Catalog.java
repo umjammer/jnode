@@ -26,8 +26,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.hfsplus.HFSPlusParams;
 import org.jnode.fs.hfsplus.HfsPlusFileSystem;
 import org.jnode.fs.hfsplus.HfsPlusForkData;
@@ -42,8 +42,9 @@ import org.jnode.util.NumberUtils;
 
 public class Catalog {
 
-    private final Logger log = LogManager.getLogger(getClass());
-    private HfsPlusFileSystem fs;
+    private static final Logger log = System.getLogger(Catalog.class.getName());
+
+    private final HfsPlusFileSystem fs;
 
     /**
      * B-Tree node descriptor
@@ -66,7 +67,7 @@ public class Catalog {
      * @throws IOException
      */
     public Catalog(final HfsPlusFileSystem fs) throws IOException {
-        log.debug("Load B-Tree catalog file.");
+        log.log(Level.DEBUG, "Load B-Tree catalog file.");
         this.fs = fs;
         SuperBlock sb = fs.getVolumeHeader();
         catalogFile = sb.getCatalogFile();
@@ -77,12 +78,12 @@ public class Catalog {
             catalogFile.read(fs, 0, buffer);
             buffer.rewind();
             byte[] data = ByteBufferUtils.toArray(buffer);
-            log.debug("Load catalog node descriptor.");
+            log.log(Level.DEBUG, "Load catalog node descriptor.");
             btnd = new NodeDescriptor(data, 0);
-            log.debug(btnd.toString());
-            log.debug("Load catalog header record.");
+            log.log(Level.DEBUG, btnd.toString());
+            log.log(Level.DEBUG, "Load catalog header record.");
             bthr = new BTHeaderRecord(data, NodeDescriptor.BT_NODE_DESCRIPTOR_LENGTH);
-            log.debug(bthr.toString());
+            log.log(Level.DEBUG, bthr.toString());
 
         }
     }
@@ -93,18 +94,18 @@ public class Catalog {
      * @param params
      */
     public Catalog(HFSPlusParams params, HfsPlusFileSystem fs) {
-        log.debug("Create B-Tree catalog file.");
+        log.log(Level.DEBUG, "Create B-Tree catalog file.");
         this.fs = fs;
         int nodeSize = params.getCatalogNodeSize();
         int bufferLength = 0;
-        log.debug("Create catalog node descriptor.");
+        log.log(Level.DEBUG, "Create catalog node descriptor.");
         btnd = new NodeDescriptor(0, 0, NodeDescriptor.BT_HEADER_NODE, 0, 3);
-        log.debug(btnd.toString());
+        log.log(Level.DEBUG, btnd.toString());
         bufferLength += NodeDescriptor.BT_NODE_DESCRIPTOR_LENGTH;
         //
         int totalNodes = params.getCatalogClumpSize() / params.getCatalogNodeSize();
         int freeNodes = totalNodes - 2;
-        log.debug("Create catalog header record.");
+        log.log(Level.DEBUG, "Create catalog header record.");
         bthr =
             new BTHeaderRecord(1, 1, params.getInitializeNumRecords(), 1, 1, nodeSize,
                 CatalogKey.MAXIMUM_KEY_LENGTH, totalNodes, freeNodes,
@@ -112,9 +113,9 @@ public class Catalog {
                 BTHeaderRecord.KEY_COMPARE_TYPE_CASE_FOLDING,
                 BTHeaderRecord.BT_VARIABLE_INDEX_KEYS_MASK +
                     BTHeaderRecord.BT_BIG_KEYS_MASK);
-        log.debug(bthr.toString());
+        log.log(Level.DEBUG, bthr.toString());
         bufferLength += BTHeaderRecord.BT_HEADER_RECORD_LENGTH;
-        log.debug("Create root node.");
+        log.log(Level.DEBUG, "Create root node.");
         long rootNodePosition = bthr.getRootNode() * nodeSize;
         bufferLength += (int) (rootNodePosition - bufferLength);
         CatalogLeafNode rootNode = createRootNode(params);
@@ -157,7 +158,7 @@ public class Catalog {
                 CatalogNodeId.HFSPLUS_ROOT_CNID, new HfsUnicodeString(""));
         record = new LeafRecord(tck, ct.getBytes());
         rootNode.addNodeRecord(record);
-        log.debug(rootNode.toString());
+        log.log(Level.DEBUG, rootNode.toString());
         return rootNode;
     }
 
@@ -283,7 +284,7 @@ public class Catalog {
                 CatalogLeafNode node = new CatalogLeafNode(nodeData.array(), nodeSize);
                 return node.findAll(new CatalogKey(parentID));
             } else {
-                log.info(String.format("Node %d wasn't a leaf or index: %s\n%s", nodeNumber, nd, NumberUtils.hex(datas)));
+                log.log(Level.INFO, String.format("Node %d wasn't a leaf or index: %s\n%s", nodeNumber, nd, NumberUtils.hex(datas)));
                 return new LeafRecord[0];
             }
 

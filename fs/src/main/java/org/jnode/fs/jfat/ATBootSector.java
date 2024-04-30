@@ -22,10 +22,9 @@ package org.jnode.fs.jfat;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.logging.Level;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.block.BlockDeviceAPI;
 import org.jnode.partitions.ibm.IBMPartitionTable;
 import org.jnode.util.LittleEndian;
@@ -40,7 +39,7 @@ import vavi.util.StringUtil;
  */
 public class ATBootSector implements BootSector {
     @SuppressWarnings("unused")
-    private static final Logger log = LogManager.getLogger(ATBootSector.class);
+    private static final Logger log = System.getLogger(ATBootSector.class.getName());
 
     private static final int IFAT12 = 12;
     private static final int IFAT16 = 16;
@@ -128,8 +127,9 @@ public class ATBootSector implements BootSector {
     @Override
     public synchronized void read(BlockDeviceAPI device) throws IOException {
         device.read(0, ByteBuffer.wrap(sector));
-Debug.println(Level.FINE, "bpb:\n" + StringUtil.getDump(sector, 256));
+log.log(Level.DEBUG, "bpb:\n" + StringUtil.getDump(sector, 256));
         decode();
+log.log(Level.DEBUG, "bpb:\n" + this);
         dirty = false;
     }
 
@@ -166,7 +166,7 @@ Debug.println(Level.FINE, "bpb:\n" + StringUtil.getDump(sector, 256));
         else
             type = IFAT32;
 
-Debug.println(Level.INFO, "type: " + type);
+log.log(Level.INFO, "type: " + type);
         if (isFat32()) {
             FirstDataSector = BPB_RsvdSecCnt + (BPB_NumFATs * FATSz) + RootDirSectors;
         } else {
@@ -324,16 +324,12 @@ Debug.println(Level.INFO, "type: " + type);
 
     @Override
     public String fatType() {
-        switch (type) {
-            case IFAT12:
-                return SFAT12;
-            case IFAT16:
-                return SFAT16;
-            case IFAT32:
-                return SFAT32;
-            default:
-                return "";
-        }
+        return switch (type) {
+            case IFAT12 -> SFAT12;
+            case IFAT16 -> SFAT16;
+            case IFAT32 -> SFAT32;
+            default -> "";
+        };
     }
 
     @Override
@@ -398,7 +394,7 @@ Debug.println(Level.INFO, "type: " + type);
 
     @Override
     public long getRootDirectoryStartCluster() {
-Debug.println(Level.INFO, "BPB_RootClus: " + BPB_RootClus);
+log.log(Level.INFO, "BPB_RootClus: " + BPB_RootClus);
         return BPB_RootClus;
     }
 

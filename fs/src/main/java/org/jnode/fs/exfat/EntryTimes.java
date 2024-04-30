@@ -22,17 +22,23 @@
 package org.jnode.fs.exfat;
 
 import java.io.IOException;
+import java.lang.System.Logger;
 import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import org.apache.logging.log4j.LogManager;
+import java.lang.System.Logger.Level;
+
+import static java.lang.System.getLogger;
+
 
 /**
  * @author Matthias Treydte &lt;waldheinz at gmail.com&gt;
  */
 final class EntryTimes {
+
+    private static final Logger log = getLogger(EntryTimes.class.getName());
 
     public static EntryTimes read(ByteBuffer src) throws IOException {
 
@@ -116,7 +122,7 @@ final class EntryTimes {
 
             return cal.getTime();
         } catch (Exception e) {
-            LogManager.getLogger(EntryTimes.class).error("Error getting entry times", e);
+            log.log(Level.ERROR, "Error getting entry times", e);
             return null;
         }
     }

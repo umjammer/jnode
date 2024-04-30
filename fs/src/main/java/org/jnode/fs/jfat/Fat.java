@@ -136,7 +136,7 @@ public abstract class Fat {
         if (offset < 0) {
             throw new IllegalArgumentException("offset<0");
         }
-Debug.println(Level.FINE, "cluster: " + cluster);
+Debug.println(Level.FINER, "cluster: " + cluster);
         if ((offset + dst.remaining()) > getClusterSize()) {
             throw new IllegalArgumentException("length[" + (offset + dst.remaining()) + "] " +
                 "exceed clusterSize[" + getClusterSize() + "]");

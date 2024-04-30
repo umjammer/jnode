@@ -6,7 +6,6 @@
 
 package vavi.nio.file.jnode;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.FileSystem;
@@ -16,13 +15,10 @@ import java.nio.file.Paths;
 import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIf;
-
 import vavi.util.Debug;
-import vavi.util.StringUtil;
 import vavi.util.properties.annotation.Property;
 import vavi.util.properties.annotation.PropsEntity;
 
@@ -42,6 +38,8 @@ class JNodeTest {
     }
 
     @Property
+    String avdsdcard;
+    @Property
     String exfat;
     @Property
     String dmg;
@@ -59,7 +57,7 @@ class JNodeTest {
     @DisplayName("by scheme, raw disk")
     void test() throws Exception {
         Path exfatPath = Paths.get(exfat);
-Debug.println("disc: " + exfat + ", " + Files.exists(exfatPath));
+Debug.println("disc: " + exfatPath + ", " + Files.exists(exfatPath));
         URI uri = URI.create("jnode:exfat:" + exfatPath.toUri());
         FileSystem fs = new JNodeFileSystemProvider().newFileSystem(uri, Collections.emptyMap());
 //        Files.list(fs.getRootDirectories().iterator().next()).forEach(System.err::println);
@@ -76,7 +74,7 @@ Debug.println("disc: " + exfat + ", " + Files.exists(exfatPath));
     @DisplayName("by partition, parted disk")
     void test2() throws Exception {
         Path dmgPath = Paths.get(dmg);
-Debug.println("disc: " + dmg + ", " + Files.exists(dmgPath));
+Debug.println("disc: " + dmgPath + ", " + Files.exists(dmgPath));
         URI uri = URI.create("jnode:" + dmgPath.toUri());
         FileSystem fs = new JNodeFileSystemProvider().newFileSystem(uri, Collections.emptyMap());
         Files.walk(fs.getRootDirectories().iterator().next()).forEach(p -> {
@@ -92,7 +90,7 @@ Debug.println("disc: " + dmg + ", " + Files.exists(dmgPath));
     @DisplayName("by partition, raw disk")
     void test3() throws Exception {
         Path exfatPath = Paths.get(exfat);
-Debug.println("disc: " + exfat + ", " + Files.exists(exfatPath));
+Debug.println("disc: " + exfatPath + ", " + Files.exists(exfatPath));
         URI uri = URI.create("jnode:" + exfatPath.toUri());
         FileSystem fs = new JNodeFileSystemProvider().newFileSystem(uri, Collections.emptyMap());
         Files.walk(fs.getRootDirectories().iterator().next()).forEach(p -> {
@@ -108,7 +106,7 @@ Debug.println("disc: " + exfat + ", " + Files.exists(exfatPath));
     @DisplayName("dmg jfat:fat16")
     void test4() throws Exception {
         Path dmgPath = Paths.get(dmg);
-Debug.println("disc: " + dmg + ", " + Files.exists(dmgPath));
+Debug.println("disc: " + dmgPath + ", " + Files.exists(dmgPath));
         URI uri = URI.create("jnode:" + dmgPath.toUri());
         FileSystem fs = new JNodeFileSystemProvider().newFileSystem(uri, Collections.emptyMap());
         Files.walk(fs.getRootDirectories().iterator().next()).forEach(p -> {
@@ -125,7 +123,7 @@ Debug.println("disc: " + dmg + ", " + Files.exists(dmgPath));
 //    @Disabled("wip d88")
     void test5() throws Exception {
         Path d88Path = Paths.get(d88);
-Debug.println("disc: " + d88 + ", " + Files.exists(d88Path));
+Debug.println("disc: " + d88Path + ", " + Files.exists(d88Path));
         URI uri = URI.create("jnode:" + d88Path.toUri());
         FileSystem fs = new JNodeFileSystemProvider().newFileSystem(uri, Collections.emptyMap());
         Files.walk(fs.getRootDirectories().iterator().next()).forEach(p -> {
@@ -141,7 +139,7 @@ Debug.println("disc: " + d88 + ", " + Files.exists(d88Path));
     @DisplayName("fdi fat12")
     void test6() throws Exception {
         Path fidPath = Paths.get(fdi);
-Debug.println("disc: " + fdi + ", " + Files.exists(fidPath));
+Debug.println("disc: " + fidPath + ", " + Files.exists(fidPath));
         URI uri = URI.create("jnode:" + fidPath.toUri());
         FileSystem fs = new JNodeFileSystemProvider().newFileSystem(uri, Collections.emptyMap());
         Files.walk(fs.getRootDirectories().iterator().next()).forEach(p -> {
@@ -153,6 +151,23 @@ Debug.println("disc: " + fdi + ", " + Files.exists(fidPath));
                 e.printStackTrace();
             }
         });
-    }}
+    }
+
+    @Test
+    @DisplayName("by partition, raw disk")
+    void test7() throws Exception {
+        Path exfatPath = Paths.get(avdsdcard);
+Debug.println("disc: " + exfatPath + ", " + Files.exists(exfatPath));
+        URI uri = URI.create("jnode:" + exfatPath.toUri());
+        FileSystem fs = new JNodeFileSystemProvider().newFileSystem(uri, Collections.emptyMap());
+        Files.walk(fs.getRootDirectories().iterator().next()).forEach(p -> {
+            try {
+                System.err.println(p + ", " + Files.getLastModifiedTime(p));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+}
 
 /* */

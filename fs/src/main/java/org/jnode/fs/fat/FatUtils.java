@@ -20,8 +20,8 @@
 
 package org.jnode.fs.fat;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.util.LittleEndian;
 
 /**
@@ -31,6 +31,8 @@ import org.jnode.util.LittleEndian;
  * @author Fabien DUMINY
  */
 public class FatUtils {
+
+    private static final Logger log = System.getLogger(FatUtils.class.getName());
 
     public static final int FIRST_CLUSTER = 2;
 
@@ -212,9 +214,7 @@ public class FatUtils {
         LittleEndian.setInt16(dest, destOffset + 28, src[srcOffset + 11]);
         LittleEndian.setInt16(dest, destOffset + 30, src[srcOffset + 12]);
 
-        if (log.isDebugEnabled()) {
-            log.debug("<<< END writeSubString dest=\n" /* +FSUtils.toString(dest) */ + ">>>");
-        }
+        log.log(Level.DEBUG, "<<< END writeSubString dest=\n" /* + FSUtils.toString(dest) */ + ">>>");
     }
 
     public static byte getOrdinal(byte[] rawData, int offset) {
@@ -234,53 +234,40 @@ public class FatUtils {
      * @param offset
      */
     public static void appendSubstring(StringBuffer sb, byte[] rawData, int offset) {
-        if (log.isDebugEnabled()) {
-            log.debug("<<< BEGIN appendSubstring buffer=" + sb.toString() + ">>>");
-        }
+        log.log(Level.DEBUG, "<<< BEGIN appendSubstring buffer=" + sb.toString() + ">>>");
 
         int index = 12;
         char[] unicodechar = getUnicodeChars(rawData, offset);
 
-        if (log.isDebugEnabled()) {
-            log.debug("appendSubstring: unicodechar=" + new String(unicodechar));
-        }
+        log.log(Level.DEBUG, "appendSubstring: unicodechar=" + new String(unicodechar));
 
         while (unicodechar[index] == 0)
             index--;
 
         sb.append(unicodechar, 0, index + 1);
 
-        if (log.isDebugEnabled()) {
-            log.debug("<<< END appendSubstring buffer=" + sb + ">>>");
-        }
+        log.log(Level.DEBUG, "<<< END appendSubstring buffer=" + sb + ">>>");
     }
 
     /**
      * Return a part of a long file name read from the given byte array
      */
     public static String getSubstring(byte[] rawData, int offset) {
-        if (log.isDebugEnabled()) {
-            log.debug("<<< BEGIN getSubString: rawData=" /*
-                                                             * +FSUtils.toString(rawData,
-                                                             * offset, 12)
-                                                             */
+        log.log(Level.DEBUG, "<<< BEGIN getSubString: rawData=" /* + FSUtils.toString(rawData, offset, 12) */
                     + " >>>");
-        }
 
-        // log.debug("getSubString: rawData as
+        // log.log(Level.DEBUG, "getSubString: rawData as
         // chars="+FSUtils.toStringAsChars(rawData, offset, 12));
         int index = 12;
         char[] unicodechar = getUnicodeChars(rawData, offset);
         while (unicodechar[index] == 0)
             index--;
 
-        // log.debug("getSubString: rawData.length="+rawData.length+"
+        // log.log(Level.DEBUG, "getSubString: rawData.length="+rawData.length+"
         // offset="+offset+" nbChars(index)="+index);
         String str = new String(unicodechar, 0, index);
 
-        if (log.isDebugEnabled()) {
-            log.debug("<<< END getSubString: return=" + str + " >>>");
-        }
+        log.log(Level.DEBUG, "<<< END getSubString: return=" + str + " >>>");
 
         return str;
     }
@@ -305,7 +292,4 @@ public class FatUtils {
         unicodechar[12] = (char) LittleEndian.getUInt16(rawData, offset + 30);
         return unicodechar;
     }
-
-    private static final Logger log = LogManager.getLogger(FatUtils.class);
-
 }

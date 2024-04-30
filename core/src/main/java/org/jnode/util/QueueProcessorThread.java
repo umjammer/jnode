@@ -20,15 +20,15 @@
 
 package org.jnode.util;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 
 /**
  * @author epr
  */
 public class QueueProcessorThread<T> extends Thread {
 
-    private static final Logger bootlog = LogManager.getLogger("bootlog");
+    private static final Logger bootlog = System.getLogger("bootlog");
 
     /**
      * The queue i'm processing
@@ -83,7 +83,7 @@ public class QueueProcessorThread<T> extends Thread {
      * @param ex
      */
     protected void handleException(Exception ex) {
-        bootlog.error("Exception in QueueProcessor: " + getName(), ex);
+        bootlog.log(Level.ERROR, "Exception in QueueProcessor: " + getName(), ex);
     }
 
     /**
@@ -92,7 +92,7 @@ public class QueueProcessorThread<T> extends Thread {
      * @param ex
      */
     protected void handleError(Error ex) {
-        bootlog.error("Error in QueueProcessor: " + getName(), ex);
+        bootlog.log(Level.ERROR, "Error in QueueProcessor: " + getName(), ex);
     }
 
     /**

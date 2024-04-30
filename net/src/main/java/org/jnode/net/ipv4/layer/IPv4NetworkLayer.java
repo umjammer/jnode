@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.Device;
 import org.jnode.driver.net.NetDeviceAPI;
 import org.jnode.driver.net.NetworkException;
@@ -67,7 +67,7 @@ public class IPv4NetworkLayer implements NetworkLayer, IPv4Constants, IPv4Servic
     /**
      * My logger
      */
-    private static final Logger log = LogManager.getLogger(IPv4NetworkLayer.class);
+    private static final Logger log = System.getLogger(IPv4NetworkLayer.class.getName());
 
     private final HashMap<Integer, IPv4Protocol> protocols = new HashMap<>();
 
@@ -189,7 +189,7 @@ public class IPv4NetworkLayer implements NetworkLayer, IPv4Constants, IPv4Servic
             shouldProcess = !skbuf.getLinkLayerHeader().getDestinationAddress().isBroadcast();
         }
         if (!shouldProcess) {
-            // log.debug("IPPacket not for me, ignoring (dst=" + dstAddr + ")");
+            // log.log(Level.DEBUG, "IPPacket not for me, ignoring (dst=" + dstAddr + ")");
             return;
         }
 
@@ -230,7 +230,7 @@ public class IPv4NetworkLayer implements NetworkLayer, IPv4Constants, IPv4Servic
             protocol = getProtocol(hdr.getProtocol());
             protocol.receive(skbuf);
         } catch (NoSuchProtocolException ex) {
-            log.debug("Found unknown IP src=" + hdr.getSource() + ", dst=" + hdr.getDestination() +
+            log.log(Level.DEBUG, "Found unknown IP src=" + hdr.getSource() + ", dst=" + hdr.getDestination() +
                     ", prot=0x" + NumberUtils.hex(hdr.getProtocol(), 2));
         }
     }
@@ -284,7 +284,7 @@ public class IPv4NetworkLayer implements NetworkLayer, IPv4Constants, IPv4Servic
                 fragments.remove(key);
             }
             // We're done
-            log.debug("Removed " + deadFragmentKeys.size() + " dead fragments");
+            log.log(Level.DEBUG, "Removed " + deadFragmentKeys.size() + " dead fragments");
         }
         // Update our last invocation timestamp
         lastFragmentCleanup = System.currentTimeMillis();
@@ -401,9 +401,9 @@ public class IPv4NetworkLayer implements NetworkLayer, IPv4Constants, IPv4Servic
             try {
                 arp = (ARPNetworkLayer) NetUtils.getNLM().getNetworkLayer(EthernetConstants.ETH_P_ARP);
             } catch (NoSuchProtocolException ex) {
-                log.error("Cannot find ARP layer", ex);
+                log.log(Level.ERROR, "Cannot find ARP layer", ex);
             } catch (IOException ex) {
-                log.error("Cannot network layer manager", ex);
+                log.log(Level.ERROR, "Cannot network layer manager", ex);
             }
         }
         if (arp != null) {

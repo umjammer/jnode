@@ -22,8 +22,8 @@ package org.jnode.net.ipv4.tcp;
 
 import java.net.SocketException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.ipv4.IPv4Header;
 
@@ -36,7 +36,7 @@ public class TCPOutSegment extends TCPSegment {
     /**
      * My logger
      */
-    private static final Logger log = LogManager.getLogger(TCPOutSegment.class);
+    private static final Logger log = System.getLogger(TCPOutSegment.class.getName());
 
     private final TCPDataBuffer buffer;
     private int dataOffset;
@@ -56,8 +56,7 @@ public class TCPOutSegment extends TCPSegment {
      * @param hdr
      * @param dataOffset
      */
-    public TCPOutSegment(IPv4Header ipHdr, TCPHeader hdr, TCPDataBuffer buffer, int dataOffset,
-                         int timeout) {
+    public TCPOutSegment(IPv4Header ipHdr, TCPHeader hdr, TCPDataBuffer buffer, int dataOffset, int timeout) {
         super(ipHdr, hdr);
         this.buffer = buffer;
         this.dataOffset = dataOffset;
@@ -72,7 +71,7 @@ public class TCPOutSegment extends TCPSegment {
         timeout--;
         if (timeout == 0) {
             if (DEBUG) {
-                log.debug("Resend segment " + getSeqNr());
+                log.log(Level.DEBUG, "Resend segment " + getSeqNr());
             }
             send(tcp);
             timeoutTicks = timeoutTicks * 2;

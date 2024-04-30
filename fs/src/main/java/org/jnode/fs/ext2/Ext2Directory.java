@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FSDirectoryId;
 import org.jnode.fs.FSEntry;
 import org.jnode.fs.FileSystemException;
@@ -42,11 +42,11 @@ import org.jnode.util.LittleEndian;
  */
 public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId {
 
+    private static final Logger log = System.getLogger(Ext2Entry.class.getName());
+
     protected INode iNode;
 
     protected Ext2Entry entry;
-
-    private final Logger log = LogManager.getLogger(getClass());
 
     /**
      * @param entry the Ext2Entry representing this directory
@@ -63,17 +63,17 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
             readOnly = true; //force readonly
 
             if ((iNode.getFlags() & Ext2Constants.EXT4_INODE_EXTENTS_FLAG) != 0)
-                log.debug("inode uses extents: " + entry);
+                log.log(Level.DEBUG, "inode uses extents: " + entry);
             if ((iNode.getFlags() & Ext2Constants.EXT4_HUGE_FILE_FL) != 0)
-                log.info("inode is for a huge-file: " + entry);
+                log.log(Level.INFO, "inode is for a huge-file: " + entry);
             if ((iNode.getFlags() & Ext2Constants.EXT2_INDEX_FL) != 0)
-                log.info("inode uses index: " + entry);
+                log.log(Level.INFO, "inode uses index: " + entry);
         } else {
             readOnly = fs.isReadOnly();
         }
         setRights(true, !readOnly);
 
-        log.debug("directory size: " + iNode.getSize());
+        log.log(Level.DEBUG, "directory size: " + iNode.getSize());
     }
 
     /**
@@ -248,9 +248,9 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
                     //directoryRecords may not extend over block boundaries:
                     //see if the new record fits in the same block after truncating the last record
                     long remainingLength = fs.getBlockSize() - (lastPos % fs.getBlockSize()) - rec.getRecLen();
-                    log.debug("LAST-1 record: begins at: " + lastPos + ", length: " + lastLen);
-                    log.debug("LAST-1 truncated length: " + rec.getRecLen());
-                    log.debug("Remaining length: " + remainingLength);
+                    log.log(Level.DEBUG, "LAST-1 record: begins at: " + lastPos + ", length: " + lastLen);
+                    log.log(Level.DEBUG, "LAST-1 truncated length: " + rec.getRecLen());
+                    log.log(Level.DEBUG, "Remaining length: " + remainingLength);
                     if (remainingLength >= dr.getRecLen()) {
                         //write back the last record truncated
                         //TODO optimize it also to use ByteBuffer at lower level
@@ -269,7 +269,7 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
                         //                      dir.write(lastPos + rec.getRecLen(), dr.getData(), dr
                         //                      .getOffset(), dr.getRecLen());
 
-                        log.debug("addDirectoryRecord(): LAST   record: begins at: " +
+                        log.log(Level.DEBUG, "addDirectoryRecord(): LAST   record: begins at: " +
                             (rec.getFileOffset() + rec.getRecLen()) + ", length: " + dr.getRecLen());
                     } else {
                         //the new record must go to the next block
@@ -283,7 +283,7 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
                         dir.write(lastPos + lastLen, buf);
                         //                      dir.write(lastPos + lastLen, dr.getData(), dr
                         //                      .getOffset(), dr.getRecLen());
-                        log.debug("addDirectoryRecord(): LAST   record: begins at: " + (lastPos + lastLen) +
+                        log.log(Level.DEBUG, "addDirectoryRecord(): LAST   record: begins at: " + (lastPos + lastLen) +
                             ", length: " + dr.getRecLen());
                     }
                 } else { //rec==null, ie. this is the first record in the directory
@@ -292,7 +292,7 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
                     ByteBuffer buf = ByteBuffer.wrap(dr.getData(), dr.getOffset(), dr.getRecLen());
                     dir.write(0, buf);
                     //dir.write(0, dr.getData(), dr.getOffset(), dr.getRecLen());
-                    log.debug("addDirectoryRecord(): LAST   record: begins at: 0, length: " + dr.getRecLen());
+                    log.log(Level.DEBUG, "addDirectoryRecord(): LAST   record: begins at: 0, length: " + dr.getRecLen());
                 }
 
                 //dir.flush();
@@ -445,7 +445,7 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
 
         while (it.hasNext()) {
             final FSEntry entry = it.next();
-            log.debug("readEntries: entry=" + FSUtils.toString(entry, false));
+            log.log(Level.DEBUG, "readEntries: entry=" + FSUtils.toString(entry, false));
             entries.add(entry);
         }
 

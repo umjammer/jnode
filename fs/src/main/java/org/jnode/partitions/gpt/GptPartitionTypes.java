@@ -22,8 +22,8 @@ package org.jnode.partitions.gpt;
 
 import java.util.UUID;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.util.NumberUtils;
 
 /**
@@ -130,7 +130,7 @@ public enum GptPartitionTypes {
     /**
      * Logger
      */
-    private static final Logger log = LogManager.getLogger(GptPartitionTypes.class);
+    private static final Logger log = System.getLogger(GptPartitionTypes.class.getName());
 
     private UUID uuid;
     private final String name;
@@ -188,7 +188,7 @@ public enum GptPartitionTypes {
                 }
             }
         } catch (Exception e) {
-            log.warn("Exception checking uuid: " + uuidBuilder);
+            log.log(Level.WARNING, "Exception checking uuid: " + uuidBuilder);
         }
 
         return UNKNOWN;

@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.ntfs.FileRecord;
 import org.jnode.fs.ntfs.attribute.NTFSAttribute;
 import org.jnode.util.Queue;
@@ -47,7 +47,7 @@ public final class NTFSIndex {
 
     private IndexAllocationAttribute indexAllocationAttribute;
 
-    static final Logger log = LogManager.getLogger(NTFSIndex.class);
+    static final Logger log = System.getLogger(NTFSIndex.class.getName());
 
     /**
      * Initialize this instance.
@@ -69,7 +69,7 @@ public final class NTFSIndex {
         if (indexRootAttribute == null) {
             indexRootAttribute = (IndexRootAttribute) 
                     fileRecord.findAttributesByTypeAndName(NTFSAttribute.Types.INDEX_ROOT, attributeName).next();
-            log.debug("getIndexRootAttribute: " + indexRootAttribute);
+            log.log(Level.DEBUG, "getIndexRootAttribute: " + indexRootAttribute);
         }
         return indexRootAttribute;
     }
@@ -163,7 +163,7 @@ public final class NTFSIndex {
     }
 
     public Iterator<IndexEntry> iterator() {
-        log.debug("iterator");
+        log.log(Level.DEBUG, "iterator");
         return new FullIndexEntryIterator();
     }
 
@@ -184,9 +184,9 @@ public final class NTFSIndex {
          * Initialize this instance.
          */
         public FullIndexEntryIterator() {
-            log.debug("FullIndexEntryIterator");
+            log.log(Level.DEBUG, "FullIndexEntryIterator");
             currentIterator = getIndexRootAttribute().iterator();
-            log.debug("currentIterator=" + currentIterator);
+            log.log(Level.DEBUG, "currentIterator=" + currentIterator);
             readNextEntry();
         }
 
@@ -222,7 +222,7 @@ public final class NTFSIndex {
                     // Read it
                     nextEntry = currentIterator.next();
                     if (nextEntry.hasSubNodes()) {
-                        log.debug("next has subnode");
+                        log.log(Level.DEBUG, "next has subnode");
                         subNodeEntries.add(nextEntry);
                     }
                     if (!nextEntry.isLastIndexEntryInSubnode()) {
@@ -234,11 +234,11 @@ public final class NTFSIndex {
                 // Do we have subnodes to iterate over?
                 if (subNodeEntries.isEmpty()) {
                     // No, we're done
-                    log.debug("end of list");
+                    log.log(Level.DEBUG, "end of list");
                     return;
                 }
 
-                log.debug("hasNext: read next indexblock");
+                log.log(Level.DEBUG, "hasNext: read next indexblock");
                 final IndexEntry entry = subNodeEntries.get();
                 final IndexRoot indexRoot = getIndexRootAttribute().getRoot();
                 final IndexBlock indexBlock;

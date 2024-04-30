@@ -3,18 +3,19 @@ package org.jnode.fs.ext4;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.util.LittleEndian;
 
 /**
  * A class for checking the ext4 multiple-mount protection (MMP) status.
  */
 public class MultipleMountProtection {
+
     /**
      * Logger
      */
-    private static final Logger log = LogManager.getLogger(MultipleMountProtection.class);
+    private static final Logger log = System.getLogger(MultipleMountProtection.class.getName());
 
     /**
      * The length of the MMP structure.
@@ -44,32 +45,32 @@ public class MultipleMountProtection {
     /**
      * The sequence number.
      */
-    private int sequenceNumber;
+    private final int sequenceNumber;
 
     /**
      * The time the MMP block was last updated.
      */
-    private long time;
+    private final long time;
 
     /**
      * The host name of the node which opened the file system.
      */
-    private String nodeName;
+    private final String nodeName;
 
     /**
      * The block device name of the file system.
      */
-    private String blockDeviceName;
+    private final String blockDeviceName;
 
     /**
      * The recheck interval, in seconds.
      */
-    private int checkInterval;
+    private final int checkInterval;
 
     /**
      * The checksum of the MMP block.
      */
-    private int checksum;
+    private final int checksum;
 
     public MultipleMountProtection(byte[] data) throws IOException {
         int magic = LittleEndian.getInt32(data, 0);
@@ -92,7 +93,7 @@ public class MultipleMountProtection {
      */
     public boolean isInUse() {
         if (sequenceNumber != MMP_SEQ_CLEAN) {
-            log.warn(String.format("File system appears to be in use from: %s:%s, seq:%x", nodeName, blockDeviceName,
+            log.log(Level.WARNING, String.format("File system appears to be in use from: %s:%s, seq:%x", nodeName, blockDeviceName,
                 sequenceNumber));
             return true;
 

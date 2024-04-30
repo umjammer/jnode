@@ -21,18 +21,15 @@
 package org.jnode.net.ipv4.tcp;
 
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.net.BindException;
 import java.net.DatagramSocketImplFactory;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketImplFactory;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jnode.driver.net.NetworkException;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.ipv4.IPv4Address;
@@ -79,7 +76,7 @@ public class TCPProtocol implements IPv4Protocol, IPv4Constants, TCPConstants {
     /**
      * My logger
      */
-    private static final Logger log = LogManager.getLogger(TCPProtocol.class);
+    private static final Logger log = System.getLogger(TCPProtocol.class.getName());
 
     /**
      * Initialize a new instance
@@ -94,15 +91,11 @@ public class TCPProtocol implements IPv4Protocol, IPv4Constants, TCPConstants {
         try {
             socketImplFactory = new TCPSocketImplFactory(this);
             try {
-                AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
-                    Socket.setSocketImplFactory(socketImplFactory);
-                    ServerSocket.setSocketFactory(socketImplFactory);
-                    return null;
-                });
+                Socket.setSocketImplFactory(socketImplFactory);
+                ServerSocket.setSocketFactory(socketImplFactory);
+                return;
             } catch (SecurityException ex) {
-                log.error("No permission for set socket factory.", ex);
-            } catch (PrivilegedActionException ex) {
-                throw new NetworkException(ex.getException());
+                log.log(Level.ERROR, "No permission for set socket factory.", ex);
             }
         } catch (IOException ex) {
             throw new NetworkException(ex);
@@ -168,16 +161,12 @@ public class TCPProtocol implements IPv4Protocol, IPv4Constants, TCPConstants {
 
         if (!hdr.isChecksumOk()) {
             if (DEBUG) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Receive: badsum: " + hdr);
-                }
+                log.log(Level.DEBUG, "Receive: badsum: " + hdr);
             }
             stat.badsum.inc();
         } else {
             if (DEBUG) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Receive: " + hdr);
-                }
+                log.log(Level.DEBUG, "Receive: " + hdr);
             }
 
             // Find the corresponding control block
@@ -193,7 +182,7 @@ public class TCPProtocol implements IPv4Protocol, IPv4Constants, TCPConstants {
                 // Port unreachable
                 if (ack && rst) {
                     // the source is also unreachable
-                    log.debug("Dropping segment due to: connection refused as the source is also unreachable");
+                    log.log(Level.DEBUG, "Dropping segment due to: connection refused as the source is also unreachable");
                 } else {
                     processPortUnreachable(ipHdr, hdr);
                 }
@@ -245,9 +234,7 @@ public class TCPProtocol implements IPv4Protocol, IPv4Constants, TCPConstants {
     protected void send(IPv4Header ipHdr, TCPHeader tcpHdr, SocketBuffer skbuf)
         throws SocketException {
         if (DEBUG) {
-            if (log.isDebugEnabled()) {
-                log.debug("send(ipHdr, " + tcpHdr + ')');
-            }
+            log.log(Level.DEBUG, "send(ipHdr, " + tcpHdr + ')');
         }
         skbuf.setTransportLayerHeader(tcpHdr);
         tcpHdr.prefixTo(skbuf);

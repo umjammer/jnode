@@ -20,8 +20,8 @@
 
 package org.jnode.net;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.Device;
 
 /**
@@ -43,7 +43,7 @@ public class SocketBuffer {
     private static final int INITIAL_SIZE = 256;
 
     /** My logger */
-    private static final Logger log = LogManager.getLogger(SocketBuffer.class);
+    private static final Logger log = System.getLogger(SocketBuffer.class.getName());
     /** Actual data */
     private byte[] data;
     /** Size of the buffer that is in use */
@@ -540,7 +540,7 @@ public class SocketBuffer {
                 }
             }
         } catch (IndexOutOfBoundsException ex) {
-            log.debug("get(dst, " + dstOffset + ", " + index + ", " + length + ") start=" + start +
+            log.log(Level.DEBUG, "get(dst, " + dstOffset + ", " + index + ", " + length + ") start=" + start +
                     ", size=" + size);
             throw new IndexOutOfBoundsException(ex.getMessage());
         }

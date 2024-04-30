@@ -22,8 +22,8 @@ package org.jnode.fs.jfat;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.Device;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
@@ -35,9 +35,10 @@ import org.jnode.fs.spi.AbstractFileSystem;
  * @author gvt
  */
 public class FatFileSystem extends AbstractFileSystem<FatRootDirectory> {
-    private static final Logger log = LogManager.getLogger(FatFileSystem.class);
 
-    private Fat fat;
+    private static final Logger log = System.getLogger(FatFileSystem.class.getName());
+
+    private final Fat fat;
     private final CodePage cp;
 
     public FatFileSystem(Device device, BootSector bs, String codePageName, boolean readOnly)
@@ -88,7 +89,7 @@ public class FatFileSystem extends AbstractFileSystem<FatRootDirectory> {
     public void flush() throws IOException {
         super.flush();
         fat.flush();
-        log.debug(getFat().getCacheStat());
+        log.log(Level.DEBUG, getFat().getCacheStat());
     }
 
     @Override

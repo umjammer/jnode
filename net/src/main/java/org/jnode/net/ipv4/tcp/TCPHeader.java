@@ -20,8 +20,8 @@
 
 package org.jnode.net.ipv4.tcp;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.TransportLayerHeader;
 import org.jnode.net.ipv4.IPv4Header;
@@ -33,7 +33,7 @@ import org.jnode.util.NumberUtils;
  */
 public class TCPHeader implements TransportLayerHeader, TCPConstants {
 
-    private static final Logger log = LogManager.getLogger(TCPHeader.class);
+    private static final Logger log = System.getLogger(TCPHeader.class.getName());
     private final int srcPort;
     private final int dstPort;
     private int sequenceNr;
@@ -85,7 +85,7 @@ public class TCPHeader implements TransportLayerHeader, TCPConstants {
         this.headerLength = (optionHdrLength & 0xf000) >> 10;
         this.flags = optionHdrLength & 0x0FFF;
 
-        // Syslog.debug("optionHdrLength 0x" + NumberUtils.hex(optionHdrLength,
+        // Syslog.log(Level.DEBUG, "optionHdrLength 0x" + NumberUtils.hex(optionHdrLength,
         // 4));
 
         this.windowSize = skbuf.get16(14);
@@ -97,7 +97,7 @@ public class TCPHeader implements TransportLayerHeader, TCPConstants {
         this.tcpLength = ipHdr.getDataLength() - headerLength;
 
         if (checksum == 0) {
-            log.debug("No checksum set");
+            log.log(Level.DEBUG, "No checksum set");
             this.checksumOk = true;
         } else {
             // Create the pseudo header for checksum calculation
@@ -113,7 +113,7 @@ public class TCPHeader implements TransportLayerHeader, TCPConstants {
             final int ccs2 = IPv4Utils.calcChecksum(phdr, 0, headerLength + tcpLength + 12);
             this.checksumOk = (ccs2 == 0);
             if (!checksumOk) {
-                log.debug("Found invalid TCP checksum 0x" + NumberUtils.hex(ccs2, 4) +
+                log.log(Level.DEBUG, "Found invalid TCP checksum 0x" + NumberUtils.hex(ccs2, 4) +
                         ", tcpLength 0x" + NumberUtils.hex(tcpLength, 4) + ", ipDataLength 0x" +
                         NumberUtils.hex(ipHdr.getDataLength(), 4) + ", tcpHdrLen 0x" +
                         NumberUtils.hex(headerLength, 4));

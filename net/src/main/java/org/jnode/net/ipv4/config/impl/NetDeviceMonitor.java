@@ -20,8 +20,8 @@
 
 package org.jnode.net.ipv4.config.impl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.Device;
 import org.jnode.driver.net.NetDeviceAPI;
 
@@ -33,7 +33,7 @@ import org.jnode.driver.net.NetDeviceAPI;
 final class NetDeviceMonitor {
 
     /** My logger */
-    private static final Logger log = LogManager.getLogger(NetDeviceMonitor.class);
+    private static final Logger log = System.getLogger(NetDeviceMonitor.class.getName());
     private final ConfigurationProcessor processor;
     private final NetConfigurationData config;
 
@@ -63,7 +63,7 @@ final class NetDeviceMonitor {
     }
 
     private void configureDevice(Device dev) {
-        log.info("Configuring " + dev.getId());
+        log.log(Level.INFO, "Configuring " + dev.getId());
         final NetDeviceConfig cfg = config.getConfiguration(dev);
         if (cfg != null) {
             processor.apply(dev, cfg, false);

@@ -25,8 +25,8 @@ import java.net.SocketException;
 import java.net.SocketImplFactory;
 import java.util.Vector;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.ipv4.IPv4Constants;
 import org.jnode.net.ipv4.IPv4Header;
@@ -50,7 +50,7 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
     /**
      * My logger
      */
-    private Logger log = LogManager.getLogger(getClass());
+    private static final Logger log = System.getLogger(ICMPProtocol.class.getName());
 
     /**
      * The IP service we're a part of
@@ -128,7 +128,7 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
                     notifyListeners(skbuf);
                     break;
                 default:
-                    log.debug("GOT ICMP type " + hdr.getType() + ", code " + hdr.getCode());
+                    log.log(Level.DEBUG, "GOT ICMP type " + hdr.getType() + ", code " + hdr.getCode());
             }
         } catch (SocketException ex) {
             // TODO fix me
@@ -222,7 +222,7 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
                 sendEchoReply((ICMPEchoHeader) hdr, skbuf);
             }
         } catch (SocketException ex) {
-            log.error("Error in ICMP reply", ex);
+            log.log(Level.ERROR, "Error in ICMP reply", ex);
         }
     }
 

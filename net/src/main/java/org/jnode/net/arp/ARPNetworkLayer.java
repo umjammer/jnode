@@ -24,8 +24,8 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.Device;
 import org.jnode.driver.net.NetDeviceAPI;
@@ -58,7 +58,7 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * My logger
      */
-    private static final Logger log = LogManager.getLogger(ARPNetworkLayer.class);
+    private static final Logger log = System.getLogger(ARPNetworkLayer.class.getName());
 
     private static final boolean DEBUG = false;
 
@@ -134,7 +134,7 @@ public class ARPNetworkLayer implements NetworkLayer {
                 processRARPReply(skbuf, hdr, deviceAPI);
                 break;
             default: {
-                log.debug("Unknown ARP operation " + hdr.getOperation());
+                log.log(Level.DEBUG, "Unknown ARP operation " + hdr.getOperation());
             }
         }
     }
@@ -152,7 +152,7 @@ public class ARPNetworkLayer implements NetworkLayer {
 
         final ProtocolAddressInfo addrInfo = deviceAPI.getProtocolAddressInfo(hdr.getPType());
         if ((addrInfo != null) && (addrInfo.contains(hdr.getTargetPAddress()))) {
-            // log.debug("Sending ARP reply");
+            // log.log(Level.DEBUG, "Sending ARP reply");
             stat.arpreply.inc();
             stat.opackets.inc();
             hdr.swapAddresses();
@@ -163,7 +163,7 @@ public class ARPNetworkLayer implements NetworkLayer {
             hdr.prefixTo(skbuf);
             deviceAPI.transmit(skbuf, hdr.getTargetHWAddress());
         } else {
-            // log.debug("ARP request, not my IP-address");
+            // log.log(Level.DEBUG, "ARP request, not my IP-address");
         }
     }
 
@@ -191,7 +191,7 @@ public class ARPNetworkLayer implements NetworkLayer {
     private void processRARPRequest(SocketBuffer skbuf, ARPHeader hdr, NetDeviceAPI deviceAPI)
         throws SocketException {
         stat.rarpreq.inc();
-        log.debug("GOT RARP Request");
+        log.log(Level.DEBUG, "GOT RARP Request");
     }
 
     /**
@@ -204,7 +204,7 @@ public class ARPNetworkLayer implements NetworkLayer {
      */
     private void processRARPReply(SocketBuffer skbuf, ARPHeader hdr, NetDeviceAPI deviceAPI)
         throws SocketException {
-        log.debug("GOT RARP Reply");
+        log.log(Level.DEBUG, "GOT RARP Reply");
     }
 
     /**
@@ -268,10 +268,8 @@ public class ARPNetworkLayer implements NetworkLayer {
         long lastReq = 0;
 
         if (DEBUG) {
-            if (log.isDebugEnabled()) {
-                log.debug("getHardwareAddress(" + address + ", " + myAddress + ", " + device.getId() +
+            log.log(Level.DEBUG, "getHardwareAddress(" + address + ", " + myAddress + ", " + device.getId() +
                     ", " + timeout + ')');
-            }
         }
 
         if (address.equals(myAddress)) {

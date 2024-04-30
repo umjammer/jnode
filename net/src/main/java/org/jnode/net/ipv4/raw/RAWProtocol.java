@@ -24,8 +24,8 @@ import java.net.DatagramSocketImplFactory;
 import java.net.SocketException;
 import java.net.SocketImplFactory;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.ipv4.IPv4Constants;
 import org.jnode.net.ipv4.IPv4Protocol;
@@ -36,11 +36,12 @@ import org.jnode.vm.objects.Statistics;
  * @author epr
  */
 public class RAWProtocol implements IPv4Protocol, IPv4Constants {
-    /** My logger */
-    private static final Logger log = LogManager.getLogger(RAWProtocol.class);
 
-    /** The service i'm a part of */
-    // private final IPv4Service ipService;
+    /** My logger */
+    private static final Logger log = System.getLogger(RAWProtocol.class.getName());
+
+//    /** The service i'm a part of */
+//    private final IPv4Service ipService;
 
     /** My statistics */
     private final RAWStatistics stat = new RAWStatistics();
@@ -72,9 +73,8 @@ public class RAWProtocol implements IPv4Protocol, IPv4Constants {
      * @see org.jnode.net.ipv4.IPv4Protocol#receive(org.jnode.net.SocketBuffer)
      */
     public void receive(SocketBuffer skbuf) throws SocketException {
-        log.debug("Received RAW IP packet");
+        log.log(Level.DEBUG, "Received RAW IP packet");
         // TODO Implement RAW protocol reception
-
     }
 
     /**
@@ -114,5 +114,4 @@ public class RAWProtocol implements IPv4Protocol, IPv4Constants {
     public Statistics getStatistics() {
         return stat;
     }
-
 }

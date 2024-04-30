@@ -26,8 +26,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.hfsplus.HFSPlusParams;
 import org.jnode.fs.hfsplus.HfsPlusFileSystem;
 import org.jnode.fs.hfsplus.HfsPlusForkData;
@@ -39,7 +39,8 @@ import org.jnode.util.ByteBufferUtils;
 import org.jnode.util.NumberUtils;
 
 public class Extent {
-    private final Logger log = LogManager.getLogger(getClass());
+
+    private static final Logger log = System.getLogger(Extent.class.getName());
 
     /**
      * B-Tree node descriptor
@@ -64,7 +65,7 @@ public class Extent {
     private ByteBuffer buffer;
 
     public Extent(HFSPlusParams params) {
-        log.debug("Create B-Tree extent file.");
+        log.log(Level.DEBUG, "Create B-Tree extent file.");
         btnd = new NodeDescriptor(0, 0, NodeDescriptor.BT_HEADER_NODE, 0, 3);
         //
         int totalNodes = params.getExtentClumpSize() / params.getExtentNodeSize();
@@ -77,7 +78,7 @@ public class Extent {
     }
 
     public Extent(HfsPlusFileSystem fs) throws IOException {
-        log.debug("Load B-Tree extent overflow file.");
+        log.log(Level.DEBUG, "Load B-Tree extent overflow file.");
         this.fs = fs;
         SuperBlock sb = fs.getVolumeHeader();
         extentFile = sb.getExtentsFile();
@@ -88,12 +89,12 @@ public class Extent {
             extentFile.read(fs, 0, buffer);
             buffer.rewind();
             byte[] data = ByteBufferUtils.toArray(buffer);
-            log.debug("Load extent node descriptor.");
+            log.log(Level.DEBUG, "Load extent node descriptor.");
             btnd = new NodeDescriptor(data, 0);
-            log.debug(btnd.toString());
-            log.debug("Load extent header record.");
+            log.log(Level.DEBUG, btnd.toString());
+            log.log(Level.DEBUG, "Load extent header record.");
             bthr = new BTHeaderRecord(data, NodeDescriptor.BT_NODE_DESCRIPTOR_LENGTH);
-            log.debug(bthr.toString());
+            log.log(Level.DEBUG, bthr.toString());
         }
     }
 
@@ -141,7 +142,7 @@ public class Extent {
                 return node.getOverflowExtents(key);
 
             } else {
-                log.info(String.format("Node %d wasn't a leaf or index: %s\n%s", nodeNumber, nd, NumberUtils.hex(data)));
+                log.log(Level.INFO, String.format("Node %d wasn't a leaf or index: %s\n%s", nodeNumber, nd, NumberUtils.hex(data)));
                 return new ExtentDescriptor[0];
             }
 

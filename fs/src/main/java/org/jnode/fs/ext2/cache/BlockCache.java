@@ -21,25 +21,28 @@
 package org.jnode.fs.ext2.cache;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 
 /**
  * @author Andras Nagy
  */
 public final class BlockCache extends LinkedHashMap<Object, Block> {
+
+    private static final Logger log = System.getLogger(BlockCache.class.getName());
+
+    @Serial
     private static final long serialVersionUID = 1L;
 
     // at most MAX_SIZE blocks fit in the cache
     static final int MAX_SIZE = 10;
 
-    private static final Logger log = LogManager.getLogger(BlockCache.class);
-
-    private ArrayList<CacheListener> cacheListeners;
+    private final ArrayList<CacheListener> cacheListeners;
 
     public BlockCache(int initialCapacity, float loadFactor) {
         super(Math.min(MAX_SIZE, initialCapacity), loadFactor, true);
@@ -51,7 +54,7 @@ public final class BlockCache extends LinkedHashMap<Object, Block> {
     }
 
     protected synchronized boolean removeEldestEntry(Map.Entry<Object, Block> eldest) {
-        log.debug("BlockCache size: " + size());
+        log.log(Level.DEBUG, "BlockCache size: " + size());
         if (size() > MAX_SIZE) {
             try {
                 eldest.getValue().flush();
@@ -61,7 +64,7 @@ public final class BlockCache extends LinkedHashMap<Object, Block> {
                     l.elementRemoved(event);
                 }
             } catch (IOException e) {
-                log.error("Exception when flushing a block from the cache", e);
+                log.log(Level.ERROR, "Exception when flushing a block from the cache", e);
             }
             return true;
         } else {

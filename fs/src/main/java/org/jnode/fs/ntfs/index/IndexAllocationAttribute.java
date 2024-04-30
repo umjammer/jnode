@@ -21,6 +21,7 @@
 package org.jnode.fs.ntfs.index;
 
 import java.io.IOException;
+import java.lang.System.Logger.Level;
 
 import org.jnode.fs.ntfs.FileRecord;
 import org.jnode.fs.ntfs.attribute.NTFSNonResidentAttribute;
@@ -60,7 +61,7 @@ public final class IndexAllocationAttribute extends NTFSNonResidentAttribute {
      * @throws IOException
      */
     public IndexBlock getIndexBlock(IndexRoot indexRoot, long vcn) throws IOException {
-        log.debug("getIndexBlock(..," + vcn + ")");
+        log.log(Level.DEBUG, "getIndexBlock(..," + vcn + ")");
         final FileRecord fileRecord = getFileRecord();
 
         // VCN passed in is relative to the size of index clusters, not filesystem clusters.

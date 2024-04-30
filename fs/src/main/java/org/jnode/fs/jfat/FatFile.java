@@ -24,13 +24,13 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.NoSuchElementException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FSFile;
 import org.jnode.fs.FSFileSlackSpace;
 
 public class FatFile extends FatEntry implements FSFile, FSFileSlackSpace {
-    private static final Logger log = LogManager.getLogger(FatFile.class);
+    private static final Logger log = System.getLogger(FatFile.class.getName());
 
     public FatFile(FatFileSystem fs, FatDirectory parent, FatRecord record) {
         super(fs, parent, record);
@@ -89,7 +89,7 @@ public class FatFile extends FatEntry implements FSFile, FSFileSlackSpace {
 
             getChain().read(offset, dst);
         } catch (NoSuchElementException ex) {
-            log.debug("End Of Chain reached: shouldn't happen");
+            log.log(Level.DEBUG, "End Of Chain reached: shouldn't happen");
         } finally {
             dst.limit(limit);
         }

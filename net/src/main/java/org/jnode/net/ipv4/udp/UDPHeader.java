@@ -20,8 +20,8 @@
 
 package org.jnode.net.ipv4.udp;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.TransportLayerHeader;
 import org.jnode.net.ipv4.IPv4Header;
@@ -36,7 +36,7 @@ import org.jnode.util.NumberUtils;
 public class UDPHeader implements TransportLayerHeader, UDPConstants {
 
     /** My logger */
-    private static final Logger log = LogManager.getLogger(UDPHeader.class);
+    private static final Logger log = System.getLogger(UDPHeader.class.getName());
     /** The port of the sending process or 0 if not used. */
     private final int srcPort;
     /** The destination port within the context of a particular internet address */
@@ -71,7 +71,7 @@ public class UDPHeader implements TransportLayerHeader, UDPConstants {
         this.udpLength = skbuf.get16(4);
         final int checksum = skbuf.get16(6);
         if (checksum == 0) {
-            log.debug("No checksum set");
+            log.log(Level.DEBUG, "No checksum set");
             this.checksumOk = true;
         } else {
             // Create the pseudo header for checksum calculation
@@ -87,7 +87,7 @@ public class UDPHeader implements TransportLayerHeader, UDPConstants {
             final int ccs2 = IPv4Utils.calcChecksum(phdr, 0, udpLength + 12);
             this.checksumOk = (ccs2 == 0);
             if (!checksumOk) {
-                log.debug("Found invalid UDP checksum 0x" + NumberUtils.hex(ccs2, 4));
+                log.log(Level.DEBUG, "Found invalid UDP checksum 0x" + NumberUtils.hex(ccs2, 4));
             }
         }
     }

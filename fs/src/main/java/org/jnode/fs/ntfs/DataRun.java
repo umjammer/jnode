@@ -23,8 +23,8 @@ package org.jnode.fs.ntfs;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.ntfs.attribute.NTFSNonResidentAttribute;
 
 /**
@@ -35,7 +35,7 @@ public final class DataRun implements DataRunInterface {
     /**
      * logger
      */
-    private static final Logger log = LogManager.getLogger(DataRun.class);
+    private static final Logger log = System.getLogger(DataRun.class.getName());
 
     /**
      * Cluster number of first cluster of this run. If this is zero, the run
@@ -219,9 +219,7 @@ public final class DataRun implements DataRunInterface {
 
         final long reqLastVcn = vcn + nrClusters - 1;
 
-        if (log.isDebugEnabled()) {
-            log.debug("me:" + myFirstVcn + "-" + myLastVcn + ", req:" + vcn + "-" + reqLastVcn);
-        }
+        log.log(Level.DEBUG, "me:" + myFirstVcn + "-" + myLastVcn + ", req:" + vcn + "-" + reqLastVcn);
 
         if ((vcn > myLastVcn) || (myFirstVcn > reqLastVcn)) {
             // Not my region
@@ -244,9 +242,9 @@ public final class DataRun implements DataRunInterface {
             actCluster = getCluster() + vcnDelta;
         }
 
-        if (log.isDebugEnabled()) {
-            log.debug("cluster=" + cluster + ", length=" + length + ", dstOffset=" + dstOffset);
-            log.debug("cnt=" + count + ", actclu=" + actCluster + ", actdstoff=" + actDstOffset);
+        if (log.isLoggable(Level.DEBUG)) {
+            log.log(Level.DEBUG, "cluster=" + cluster + ", length=" + length + ", dstOffset=" + dstOffset);
+            log.log(Level.DEBUG, "cnt=" + count + ", actclu=" + actCluster + ", actdstoff=" + actDstOffset);
         }
 
         // Zero the area

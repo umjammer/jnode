@@ -23,8 +23,8 @@ package org.jnode.fs.iso9660;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.block.BlockDeviceAPI;
 import org.jnode.driver.block.FSBlockDeviceAPI;
 
@@ -34,7 +34,7 @@ import org.jnode.driver.block.FSBlockDeviceAPI;
  */
 public class ISO9660Volume implements ISO9660Constants {
 
-    private static final Logger bootlog = LogManager.getLogger("bootlog");
+    private static final Logger bootlog = System.getLogger("bootlog");
 
     private final BlockDeviceAPI api;
 
@@ -68,15 +68,15 @@ public class ISO9660Volume implements ISO9660Constants {
                     done = true;
                     break;
                 case VolumeDescriptorType.BOOTRECORD:
-                    bootlog.debug("Found boot record");
+                    bootlog.log(Level.DEBUG, "Found boot record");
                     break;
                 case VolumeDescriptorType.PRIMARY_DESCRIPTOR:
-                    bootlog.debug("Found primary descriptor");
+                    bootlog.log(Level.DEBUG, "Found primary descriptor");
                     pVD = new PrimaryVolumeDescriptor(this, buffer);
                     // pVD.dump(System.out);
                     break;
                 case VolumeDescriptorType.SUPPLEMENTARY_DESCRIPTOR:
-                    bootlog.debug("Found supplementatory descriptor");
+                    bootlog.log(Level.DEBUG, "Found supplementatory descriptor");
                     final SupplementaryVolumeDescriptor d =
                         new SupplementaryVolumeDescriptor(this, buffer);
                     if (d.isEncodingKnown()) {
@@ -84,10 +84,10 @@ public class ISO9660Volume implements ISO9660Constants {
                     }
                     break;
                 case VolumeDescriptorType.PARTITION_DESCRIPTOR:
-                    bootlog.debug("Found partition descriptor");
+                    bootlog.log(Level.DEBUG, "Found partition descriptor");
                     break;
                 default:
-                    bootlog.debug("Found unknown descriptor with type " + type);
+                    bootlog.log(Level.DEBUG, "Found unknown descriptor with type " + type);
             }
         }
         if (pVD == null) {

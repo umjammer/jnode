@@ -34,8 +34,8 @@ import org.acplt.oncrpc.XdrAble;
 import org.acplt.oncrpc.XdrDecodingStream;
 import org.acplt.oncrpc.XdrEncodingStream;
 import org.acplt.oncrpc.XdrVoid;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.nfs.Protocol;
 
 /**
@@ -44,7 +44,7 @@ import org.jnode.net.nfs.Protocol;
  */
 public class Mount1Client {
 
-    private static final Logger LOGGER = LogManager.getLogger(Mount1Client.class);
+    private static final Logger log = System.getLogger(Mount1Client.class.getName());
 
     private static final int MOUNT_CODE = 100005;
     private static final int MOUNT_VERSION = 1;
@@ -151,8 +151,7 @@ public class Mount1Client {
                     if (countCall > 5) {
                         throw new MountException(e.getMessage(), e);
                     } else {
-                        LOGGER
-                                .warn("An error occurs when nfs file system try to call the rpc method. Reason : " +
+                        log.log(Level.WARNING, "An error occurs when nfs file system try to call the rpc method. Reason : " +
                                         e.getMessage() + ". It will try again");
                     }
 

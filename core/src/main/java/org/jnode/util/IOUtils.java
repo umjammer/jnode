@@ -29,21 +29,24 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.lang.reflect.Field;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
-import org.apache.logging.log4j.LogManager;
+import static java.lang.System.getLogger;
+
 
 /**
  * Common utility code for higher-level operations on IO streams.  Notwithstanding the
  * nominal access for the class and its methods, user (command) code should avoid using
- * this class directly.  You should program against the 
- * {@link org.jnode.shell.io.CommandIO} API instead.
+ * this class directly.
  * 
  * @author crawley@jnode.org
  */
 public class IOUtils {
+
+    private static final Logger log = getLogger(IOUtils.class.getName());
+
     // FIXME ... these utils (in some cases) attempt to access non-public fields
     // of various stream classes in order to figure out what the underlying stream
     // is.  Currently, we have to explicitly grant the calling application permissions
@@ -121,71 +124,59 @@ public class IOUtils {
     }
 
     private static InputStream findInputStream(final FilterInputStream inputStream) {
-        PrivilegedAction<InputStream> pa = () -> {
-            try {
-                Class<FilterInputStream> cls = FilterInputStream.class;
-                Field field = cls.getDeclaredField("in");
-                field.setAccessible(true);
-                Object in = field.get(inputStream);
-                field.setAccessible(false);
-                return (InputStream) in;
-            } catch (Exception ex) {
-                LogManager.getLogger(IOUtils.class).error("Cannot extract the 'in' field", ex);
-                return null;
-            }
-        };
-        return AccessController.doPrivileged(pa);
+        try {
+            Class<FilterInputStream> cls = FilterInputStream.class;
+            Field field = cls.getDeclaredField("in");
+            field.setAccessible(true);
+            Object in = field.get(inputStream);
+            field.setAccessible(false);
+            return (InputStream) in;
+        } catch (Exception ex) {
+            log.log(Level.ERROR, "Cannot extract the 'in' field", ex);
+            return null;
+        }
     }
 
     private static OutputStream findOutputStream(final FilterOutputStream outputStream) {
-        PrivilegedAction<OutputStream> pa = () -> {
-            try {
-                Class<FilterOutputStream> cls = FilterOutputStream.class;
-                Field field = cls.getDeclaredField("out");
-                field.setAccessible(true);
-                Object out = field.get(outputStream);
-                return (OutputStream) out;
-            } catch (Exception ex) {
-                LogManager.getLogger(IOUtils.class).error("Cannot extract the 'out' field", ex);
-                return null;
-            }
-        };
-        return AccessController.doPrivileged(pa);
+        try {
+            Class<FilterOutputStream> cls = FilterOutputStream.class;
+            Field field = cls.getDeclaredField("out");
+            field.setAccessible(true);
+            Object out = field.get(outputStream);
+            return (OutputStream) out;
+        } catch (Exception ex) {
+            log.log(Level.ERROR, "Cannot extract the 'out' field", ex);
+            return null;
+        }
     }
 
     private static OutputStream findOutputStream(final OutputStreamWriter writer) {
         // This implementation is based on the knowledge that an OutputStreamWriter
         // uses the underlying OutputStream as its 'lock' object.
-        PrivilegedAction<OutputStream> pa = () -> {
-            try {
-                Class<Writer> cls = Writer.class;
-                Field field = cls.getDeclaredField("lock");
-                field.setAccessible(true);
-                Object lock = field.get(writer);
-                return (OutputStream) lock;
-            } catch (Exception ex) {
-                LogManager.getLogger(IOUtils.class).error("Cannot extract the 'lock' field", ex);
-                return null;
-            }
-        };
-        return AccessController.doPrivileged(pa);
+        try {
+            Class<Writer> cls = Writer.class;
+            Field field = cls.getDeclaredField("lock");
+            field.setAccessible(true);
+            Object lock = field.get(writer);
+            return (OutputStream) lock;
+        } catch (Exception ex) {
+            log.log(Level.ERROR, "Cannot extract the 'lock' field", ex);
+            return null;
+        }
     }
 
     private static InputStream findInputStream(final InputStreamReader reader) {
         // This implementation is based on the knowledge that an InputStreamReader
         // uses the underlying InputStream as its 'lock' object.
-        PrivilegedAction<InputStream> pa = () -> {
-            try {
-                Class<Reader> cls = Reader.class;
-                Field field = cls.getDeclaredField("lock");
-                field.setAccessible(true);
-                Object lock = field.get(reader);
-                return (InputStream) lock;
-            } catch (Exception ex) {
-                LogManager.getLogger(IOUtils.class).error("Cannot extract the 'lock' field", ex);
-                return null;
-            }
-        };
-        return AccessController.doPrivileged(pa);
+        try {
+            Class<Reader> cls = Reader.class;
+            Field field = cls.getDeclaredField("lock");
+            field.setAccessible(true);
+            Object lock = field.get(reader);
+            return (InputStream) lock;
+        } catch (Exception ex) {
+            log.log(Level.ERROR, "Cannot extract the 'lock' field", ex);
+            return null;
+        }
     }
 }

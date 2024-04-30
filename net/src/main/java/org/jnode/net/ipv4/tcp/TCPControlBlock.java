@@ -24,8 +24,8 @@ import java.net.ConnectException;
 import java.net.SocketException;
 import java.util.LinkedList;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.ipv4.IPv4Address;
 import org.jnode.net.ipv4.IPv4Constants;
@@ -42,7 +42,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * My logger
      */
-    private static final Logger log = LogManager.getLogger(TCPControlBlock.class);
+    private static final Logger log = System.getLogger(TCPControlBlock.class.getName());
 
     /**
      * The outgoing channel
@@ -113,9 +113,9 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
         this.refused = false;
     }
 
-    // ------------------------------------------
+    //
     // Receive (input) methods
-    // ------------------------------------------
+    //
 
     /**
      * Handle a received segment for this connection
@@ -125,9 +125,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
      */
     public synchronized void receive(TCPHeader hdr, SocketBuffer skbuf) throws SocketException {
         if (DEBUG) {
-            if (log.isDebugEnabled()) {
-                log.debug("receive: me=[" + this + "], hdr=[" + hdr + ']');
-            }
+            log.log(Level.DEBUG, "receive: me=[" + this + "], hdr=[" + hdr + ']');
         }
 
         final IPv4Header ipHdr = (IPv4Header) skbuf.getNetworkLayerHeader();
@@ -173,7 +171,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
                 break;
             default:
                 if (DEBUG) {
-                    log.debug("Unhandled state in receive (" + getStateName() + ')');
+                    log.log(Level.DEBUG, "Unhandled state in receive (" + getStateName() + ')');
                 }
                 break;
         }
@@ -237,7 +235,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     private void receiveListen(IPv4Header ipHdr, TCPHeader hdr, SocketBuffer skbuf)
         throws SocketException {
         if (DEBUG) {
-            log.debug("receiveListen");
+            log.log(Level.DEBUG, "receiveListen");
         }
 
         final boolean ack = hdr.isFlagAcknowledgeSet();
@@ -276,7 +274,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     private void listenSynReceivedOnCopy(TCPHeader hdr, SocketBuffer skbuf)
         throws SocketException {
         if (DEBUG) {
-            log.debug("listenSynReceivedOnCopy");
+            log.log(Level.DEBUG, "listenSynReceivedOnCopy");
         }
 
         // Save the foreign seq nr
@@ -463,7 +461,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
         try {
             outChannel.timeout();
         } catch (SocketException ex) {
-            log.error("Error in timeout of " + this, ex);
+            log.log(Level.ERROR, "Error in timeout of " + this, ex);
         }
     }
 
@@ -476,7 +474,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
      */
     private void drop(IPv4Header ipHdr, TCPHeader hdr, String reason) {
         if (DEBUG) {
-            log.debug("Dropping segment due to: " + reason);
+            log.log(Level.DEBUG, "Dropping segment due to: " + reason);
         }
     }
 
@@ -485,7 +483,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
      */
     protected final void sendACK(int extraFlags, int ackNr) throws SocketException {
         if (DEBUG) {
-            log.debug("sendACK(0x" + NumberUtils.hex(extraFlags, 4) + ", " + (ackNr & 0xFFFFFFFFL) + ')');
+            log.log(Level.DEBUG, "sendACK(0x" + NumberUtils.hex(extraFlags, 4) + ", " + (ackNr & 0xFFFFFFFFL) + ')');
         }
 
         // Create the FIN TCP reply
@@ -504,7 +502,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
      */
     private void sendFIN() throws SocketException {
         if (DEBUG) {
-            log.debug("sendFIN");
+            log.log(Level.DEBUG, "sendFIN");
         }
 
         // Create the FIN TCP reply
@@ -523,7 +521,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
      */
     private void sendRST() throws SocketException {
         if (DEBUG) {
-            log.debug("sendRST");
+            log.log(Level.DEBUG, "sendRST");
         }
 
         // Create the RST TCP reply
@@ -542,7 +540,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
      */
     private void sendSYN() throws SocketException {
         if (DEBUG) {
-            log.debug("sendSYN");
+            log.log(Level.DEBUG, "sendSYN");
         }
 
         // Create the SYN TCP
@@ -692,7 +690,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
                     throw new ConnectException("Connection refused");
                 }
                 if (DEBUG) {
-                    log.debug("Connected to " + fAddr + ':' + fPort);
+                    log.log(Level.DEBUG, "Connected to " + fAddr + ':' + fPort);
                 }
                 return;
             } catch (TimeoutException ex) {
@@ -729,9 +727,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
      */
     public/* synchronized */void appClose() throws SocketException {
         if (DEBUG) {
-            if (log.isDebugEnabled()) {
-                log.debug("active close state=" + getStateName());
-            }
+            log.log(Level.DEBUG, "active close state=" + getStateName());
         }
 
         try {
@@ -781,7 +777,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
      */
     public void appSendData(byte[] data, int offset, int length) throws SocketException {
         if (DEBUG) {
-            log.debug("appSendData(data, " + offset + ", " + length + ')');
+            log.log(Level.DEBUG, "appSendData(data, " + offset + ", " + length + ')');
         }
         if (!isState(TCPS_ESTABLISHED) && !isState(TCPS_CLOSE_WAIT)) {
             throw new SocketException("Illegal state to send data: " + getStateName());

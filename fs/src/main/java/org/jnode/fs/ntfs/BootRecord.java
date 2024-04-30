@@ -20,6 +20,9 @@
 
 package org.jnode.fs.ntfs;
 
+import java.lang.System.Logger.Level;
+
+
 /**
  * @author Chira
  * @author Ewout Prangsma (epr@users.sourceforge.net)
@@ -82,9 +85,9 @@ public final class BootRecord extends NTFSStructure {
         this.fileRecordSize = calcByteSize(clustersPerMFTRecord);
         this.indexRecordSize = calcByteSize(clustersPerIndexRecord);
 
-        log.debug("FileRecordSize  = " + fileRecordSize);
-        log.debug("IndexRecordSize = " + indexRecordSize);
-        log.debug("TotalSectors    = " + totalSectors);
+        log.log(Level.DEBUG, "FileRecordSize  = " + fileRecordSize);
+        log.log(Level.DEBUG, "IndexRecordSize = " + indexRecordSize);
+        log.log(Level.DEBUG, "TotalSectors    = " + totalSectors);
     }
 
     /**

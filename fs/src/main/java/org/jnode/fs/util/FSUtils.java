@@ -25,8 +25,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
 import org.jnode.fs.FSFile;
@@ -37,7 +37,7 @@ import org.jnode.fs.FSFile;
  */
 public class FSUtils {
 
-    private static final Logger log = LogManager.getLogger(FSUtils.class);
+    private static final Logger log = System.getLogger(FSUtils.class.getName());
 
     protected static DateFormat dateFormat = new SimpleDateFormat();
 
@@ -85,13 +85,13 @@ public class FSUtils {
             sb.append(toStringDate(" lastModified=", entry.getLastModified()));
         } catch (IOException e) {
             sb.append(" lastModified=###").append(e.getMessage()).append("###");
-            log.error("error in lastModified", e);
+            log.log(Level.ERROR, "error in lastModified", e);
         }
         try {
             sb.append(" isDirty=").append(entry.isDirty());
         } catch (IOException e1) {
             sb.append(" isDirty=###").append(e1.getMessage()).append("###");
-            log.error("error in isDirty", e1);
+            log.log(Level.ERROR, "error in isDirty", e1);
         }
         sb.append(" isValid=").append(entry.isValid());
 
@@ -101,7 +101,7 @@ public class FSUtils {
                 sb.append(toString(entry.getFile()));
             } catch (IOException e2) {
                 sb.append(" getFile=###").append(e2.getMessage()).append("###");
-                log.error("error in getFile", e2);
+                log.log(Level.ERROR, "error in getFile", e2);
             }
         }
 
@@ -111,7 +111,7 @@ public class FSUtils {
                 sb.append(toString(entry.getDirectory()));
             } catch (IOException e3) {
                 sb.append(" getDirectory=###").append(e3.getMessage()).append("###");
-                log.error("error in getDirectory", e3);
+                log.log(Level.ERROR, "error in getDirectory", e3);
             }
         sb.append("</FSEntry>");
 

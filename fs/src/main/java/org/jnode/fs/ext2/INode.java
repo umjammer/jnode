@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FileSystemException;
 import org.jnode.fs.ext2.exception.UnallocatedBlockException;
 import org.jnode.fs.ext2.xattr.XAttrEntry;
@@ -42,14 +42,15 @@ import org.jnode.util.LittleEndian;
  * @author Andras Nagy
  */
 public class INode {
-    public static final int EXT2_GOOD_OLD_INODE_SIZE = 128;
 
-    private final Logger log = LogManager.getLogger(getClass());
+    private final Logger log = System.getLogger(INode.class.getName());
+
+    public static final int EXT2_GOOD_OLD_INODE_SIZE = 128;
 
     /**
      * the data constituting the inode itself
      */
-    private byte[] data;
+    private final byte[] data;
 
     private volatile boolean dirty;
 
@@ -64,7 +65,7 @@ public class INode {
      */
     INodeDescriptor desc = null;
 
-    private Ext2FileSystem fs;
+    private final Ext2FileSystem fs;
 
     /**
      * The cached extent header.
@@ -94,7 +95,7 @@ public class INode {
      */
     public void create(int fileFormat, int accessRights, int uid, int gid) {
         long time = System.currentTimeMillis() / 1000;
-        log.debug("TIME:                " + time);
+        log.log(Level.DEBUG, "TIME:                " + time);
 
         setUid(uid);
         setGid(gid);
@@ -123,7 +124,7 @@ public class INode {
      * be saved to the disk
      */
     public void flush() throws IOException, FileSystemException {
-        log.debug("Flush called for inode " + getINodeNr());
+        log.log(Level.DEBUG, "Flush called for inode " + getINodeNr());
 
         freePreallocatedBlocks();
         update();
@@ -137,7 +138,7 @@ public class INode {
     protected synchronized void update() throws IOException {
         try {
             if (dirty) {
-                log.debug("  ** updating inode **");
+                log.log(Level.DEBUG, "  ** updating inode **");
                 desc.getINodeTable().writeInodeData(desc.getIndex(), data);
                 dirty = false;
             }
@@ -309,7 +310,7 @@ public class INode {
      */
     private void indirectWrite(long dataBlockNr, long offset, long allocatedBlocks,
                                long value, int indirectionLevel) throws IOException, FileSystemException {
-        log.debug("indirectWrite(blockNr=" + dataBlockNr + ", offset=" + offset + "...)");
+        log.log(Level.DEBUG, "indirectWrite(blockNr=" + dataBlockNr + ", offset=" + offset + "...)");
         byte[] data = fs.getBlock(dataBlockNr);
         if (indirectionLevel == 1) {
             //data is a (simple) indirect block
@@ -349,7 +350,7 @@ public class INode {
      */
     private void indirectFree(long dataBlockNr, long offset, int indirectionLevel)
         throws IOException, FileSystemException {
-        log.debug("indirectFree(datablockNr=" + dataBlockNr + ", offset=" + offset + ", ind=" +
+        log.log(Level.DEBUG, "indirectFree(datablockNr=" + dataBlockNr + ", offset=" + offset + ", ind=" +
             indirectionLevel + ")");
         if (indirectionLevel == 0) {
             fs.freeBlock(dataBlockNr);
@@ -435,7 +436,7 @@ public class INode {
 
         //get the direct blocks (0; 11)
         if (i < 12) {
-            log.debug("getDataBlockNr(): block nr: " + LittleEndian.getUInt32(data, 40 + (int) i * 4));
+            log.log(Level.DEBUG, "getDataBlockNr(): block nr: " + LittleEndian.getUInt32(data, 40 + (int) i * 4));
             return LittleEndian.getUInt32(data, 40 + (int) i * 4);
         }
 
@@ -500,7 +501,7 @@ public class INode {
                 " (counts from 0), when INode contains only " + blockCount + " blocks");
         }
 
-        log.debug("registering block #" + blockNr);
+        log.log(Level.DEBUG, "registering block #" + blockNr);
 
         setDirty(true);
 
@@ -521,7 +522,7 @@ public class INode {
                 indirectBlockNr = findFreeBlock(allocatedBlocks++);
                 Ext2Utils.set32(data, 40 + 12 * 4, indirectBlockNr);
 
-                //log.debug("reserved indirect block: "+indirectBlockNr);
+                //log.log(Level.DEBUG, "reserved indirect block: "+indirectBlockNr);
 
                 //need to blank the block so that e2fsck does not complain
                 byte[] zeroes = new byte[fs.getBlockSize()]; //blank the block
@@ -548,7 +549,7 @@ public class INode {
                 doubleIndirectBlockNr = findFreeBlock(allocatedBlocks++);
                 Ext2Utils.set32(data, 40 + 13 * 4, doubleIndirectBlockNr);
 
-                //log.debug("reserved double indirect block:
+                //log.log(Level.DEBUG, "reserved double indirect block:
                 // "+doubleIndirectBlockNr);
 
                 //need to blank the block so that e2fsck does not complain
@@ -576,7 +577,7 @@ public class INode {
                 tripleIndirectBlockNr = findFreeBlock(allocatedBlocks++);
                 Ext2Utils.set32(data, 40 + 13 * 4, tripleIndirectBlockNr);
 
-                //log.debug("reserved triple indirect block:
+                //log.log(Level.DEBUG, "reserved triple indirect block:
                 // "+tripleIndirectBlockNr);
 
                 //need to blank the block so that e2fsck does not complain
@@ -604,9 +605,9 @@ public class INode {
     private void freePreallocatedBlocks() throws FileSystemException, IOException {
         int preallocCount = desc.getPreallocCount();
         if (preallocCount > 0) {
-            log.debug("Freeing preallocated blocks");
+            log.log(Level.DEBUG, "Freeing preallocated blocks");
         } else {
-            log.debug("No preallocated blocks in the inode");
+            log.log(Level.DEBUG, "No preallocated blocks in the inode");
             return;
         }
 
@@ -757,7 +758,7 @@ public class INode {
 
         long newBlock = findFreeBlock(i);
 
-        log.debug("Allocated new block " + newBlock);
+        log.log(Level.DEBUG, "Allocated new block " + newBlock);
 
         desc.setLastAllocatedBlockIndex(i);
 
@@ -883,7 +884,7 @@ public class INode {
     // **************** other persistent inode data *******************
     public synchronized int getMode() {
         int iMode = LittleEndian.getUInt16(data, 0);
-        //log.debug("INode.getIMode(): "+Ext2Print.hexFormat(iMode));
+        //log.log(Level.DEBUG, "INode.getIMode(): "+Ext2Print.hexFormat(iMode));
         return iMode;
     }
 
@@ -995,7 +996,7 @@ public class INode {
     }
 
     public synchronized void setBlocks(long count) {
-        log.debug("setBlocks(" + count + ")");
+        log.log(Level.DEBUG, "setBlocks(" + count + ")");
         Ext2Utils.set32(data, 28, count);
         setDirty(true);
     }

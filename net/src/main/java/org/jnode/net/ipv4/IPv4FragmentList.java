@@ -23,8 +23,8 @@ package org.jnode.net.ipv4;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.SocketBuffer;
 
 /**
@@ -35,7 +35,7 @@ import org.jnode.net.SocketBuffer;
 public class IPv4FragmentList implements IPv4Constants {
 
     /** My logger */
-    private static final Logger log = LogManager.getLogger(IPv4FragmentList.class);
+    private static final Logger log = System.getLogger(IPv4FragmentList.class.getName());
     /** When was this object created */
     private final long creationTime;
     /** List of fragments */
@@ -108,7 +108,7 @@ public class IPv4FragmentList implements IPv4Constants {
                 return;
             } else if (myFrOfs < (fOfs + fSize)) {
                 // Fragment offset in the middle of an existing fragment: this is an error!
-                log.debug("Fragment offset(" + myFrOfs + mySize + ',' +
+                log.log(Level.DEBUG, "Fragment offset(" + myFrOfs + mySize + ',' +
                         ") falls in another fragment (" + fOfs + ',' + fSize + ").");
                 return;
             }

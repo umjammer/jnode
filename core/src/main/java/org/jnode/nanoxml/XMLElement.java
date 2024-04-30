@@ -37,14 +37,12 @@ import java.io.StringReader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 
 /**
  * XMLElement is a representation of an XML object. The object is able to parse
@@ -102,8 +100,7 @@ import java.util.Vector;
  *         &lt;<A href="mailto:cyberelf@mac.com">cyberelf@mac.com</A>&gt;
  * @version $Name$, $Revision: 1950 $
  */
-public class XMLElement
-{
+public class XMLElement {
 
     /**
      * Serialization serial version ID.
@@ -363,9 +360,7 @@ public class XMLElement
      * @see XMLElement#XMLElement(java.util.Map)
      *         XMLElement(Hashtable)
      */
-    public XMLElement(Map<String, Object> entities,
-                      boolean   skipLeadingWhitespace)
-    {
+    public XMLElement(Map<String, Object> entities, boolean skipLeadingWhitespace) {
         this(entities, skipLeadingWhitespace, true, true);
     }
 
@@ -404,8 +399,7 @@ public class XMLElement
      */
     public XMLElement(Map<String, Object> entities,
                       boolean   skipLeadingWhitespace,
-                      boolean   ignoreCase)
-    {
+                      boolean   ignoreCase) {
         this(entities, skipLeadingWhitespace, true, ignoreCase);
     }
 
@@ -451,8 +445,7 @@ public class XMLElement
     protected XMLElement(Map<String, Object> entities,
                          boolean   skipLeadingWhitespace,
                          boolean   fillBasicConversionTable,
-                         boolean   ignoreCase)
-    {
+                         boolean   ignoreCase) {
         this.ignoreWhitespace = skipLeadingWhitespace;
         this.ignoreCase = ignoreCase;
         this.name = null;
@@ -548,9 +541,7 @@ public class XMLElement
      *                                            String, boolean)
      *         getStringAttribute(String, Hashtable, String, boolean)
      */
-    public void setAttribute(String name,
-                             Object value)
-    {
+    public void setAttribute(String name, Object value) {
         if (this.ignoreCase) {
             name = name.toUpperCase();
         }
@@ -567,9 +558,7 @@ public class XMLElement
      *
      * @deprecated Use {@link #setAttribute(String, Object)} instead.
      */
-    public void addProperty(String name,
-                            Object value)
-    {
+    public void addProperty(String name, Object value) {
         this.setAttribute(name, value);
     }
 

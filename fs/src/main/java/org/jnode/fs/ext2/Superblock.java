@@ -22,8 +22,8 @@ package org.jnode.fs.ext2;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FileSystemException;
 import org.jnode.util.LittleEndian;
 
@@ -33,6 +33,9 @@ import org.jnode.util.LittleEndian;
  * @author Andras Nagy
  */
 public class Superblock {
+
+    private static final Logger log = System.getLogger(Superblock.class.getName());
+
     public static final int SUPERBLOCK_LENGTH = 1024;
 
     // some constants for the fs creation
@@ -53,7 +56,6 @@ public class Superblock {
     private byte[] data;
     private boolean dirty;
     private Ext2FileSystem fs;
-    private final Logger log = LogManager.getLogger(getClass());
 
     public Superblock() {
         data = new byte[SUPERBLOCK_LENGTH];
@@ -157,7 +159,7 @@ public class Superblock {
         setPreallocBlocks(8);
         setPreallocDirBlocks(0);
 
-        log.debug("SuperBlock.create(): getBlockSize(): " + getBlockSize());
+        log.log(Level.DEBUG, "SuperBlock.create(): getBlockSize(): " + getBlockSize());
     }
 
     /**
@@ -165,7 +167,7 @@ public class Superblock {
      */
     public synchronized void update() throws IOException {
         if (isDirty()) {
-            log.debug("Updating superblock copies");
+            log.log(Level.DEBUG, "Updating superblock copies");
             byte[] oldData;
 
             // update the main copy

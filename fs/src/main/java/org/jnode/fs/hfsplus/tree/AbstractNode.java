@@ -23,12 +23,14 @@ package org.jnode.fs.hfsplus.tree;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.util.BigEndian;
 
 public abstract class AbstractNode<K extends Key, T extends NodeRecord> implements Node<T> {
-    private final Logger log = LogManager.getLogger(getClass());
+
+    private static final Logger log = System.getLogger(AbstractNode.class.getName());
+
     protected NodeDescriptor descriptor;
     protected List<T> records;
     protected List<Integer> offsets;
@@ -53,9 +55,7 @@ public abstract class AbstractNode<K extends Key, T extends NodeRecord> implemen
             offsets.add(offset);
         }
 
-        if (log.isDebugEnabled()) {
-            log.debug("Creating node for: " + descriptor.toString() + " offsets: " + offsets);
-        }
+        log.log(Level.DEBUG, "Creating node for: " + descriptor.toString() + " offsets: " + offsets);
 
         loadRecords(nodeData);
     }
@@ -73,9 +73,7 @@ public abstract class AbstractNode<K extends Key, T extends NodeRecord> implemen
             int recordSize = offsets.get(i + 1) - offset;
             records.add(createRecord(key, nodeData, offset, recordSize));
 
-            if (log.isDebugEnabled()) {
-                log.debug("Loading record: " + key);
-            }
+            log.log(Level.DEBUG, "Loading record: " + key);
         }
     }
 
@@ -122,7 +120,7 @@ public abstract class AbstractNode<K extends Key, T extends NodeRecord> implemen
      */
     public final T find(K key) {
         for (T record : records) {
-            log.debug("Record: " + record.toString() + " Key: " + key);
+            log.log(Level.DEBUG, "Record: " + record.toString() + " Key: " + key);
             @SuppressWarnings("unchecked")
             K recordKey = (K) record.getKey();
             if (recordKey != null && recordKey.equals(key)) {

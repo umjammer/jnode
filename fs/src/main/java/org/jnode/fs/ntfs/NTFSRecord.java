@@ -21,6 +21,8 @@
 package org.jnode.fs.ntfs;
 
 import java.io.IOException;
+import java.lang.System.Logger.Level;
+
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)
@@ -150,7 +152,7 @@ public class NTFSRecord extends NTFSStructure {
             if (strictFixUp) {
                 throw new IOException("Fix-up error", e);
             } else {
-                log.debug("Fix-up error", e);
+                log.log(Level.DEBUG, "Fix-up error", e);
             }
         }
     }

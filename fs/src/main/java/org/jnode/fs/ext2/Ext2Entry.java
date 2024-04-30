@@ -22,26 +22,29 @@ package org.jnode.fs.ext2;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntryLastAccessed;
 import org.jnode.fs.FSEntryLastChanged;
 import org.jnode.fs.spi.AbstractFSEntry;
 
+
 /**
+ * In case of a directory, the data will be parsed to get the file-list
+ * by Ext2Directory. In case of a regular file, no more processing is
+ * needed.
+ * <p/>
+ * TODO: besides getFile() and getDirectory(), we will need
+ *  getBlockDevice() getCharacterDevice(), etc.
+ * <p/>
+ *
  * @author Andras Nagy
- *         <p/>
- *         In case of a directory, the data will be parsed to get the file-list
- *         by Ext2Directory. In case of a regular file, no more processing is
- *         needed.
- *         <p/>
- *         TODO: besides getFile() and getDirectory(), we will need
- *         getBlockDevice() getCharacterDevice(), etc.
  */
 public class Ext2Entry extends AbstractFSEntry implements FSEntryLastChanged, FSEntryLastAccessed {
 
-    private final Logger log = LogManager.getLogger(getClass());
+    private static final Logger log = System.getLogger(Ext2Entry.class.getName());
+
     private INode iNode = null;
     private long directoryRecordId;
     private int type;
@@ -53,7 +56,7 @@ public class Ext2Entry extends AbstractFSEntry implements FSEntryLastChanged, FS
         this.directoryRecordId = directoryRecordId;
         this.type = type;
 
-        log.debug("Ext2Entry(iNode, name): name=" + name +
+        log.log(Level.DEBUG, "Ext2Entry(iNode, name): name=" + name +
             (isDirectory() ? " is a directory " : "") + (isFile() ? " is a file " : ""));
     }
 

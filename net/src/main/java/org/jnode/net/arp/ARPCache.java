@@ -25,8 +25,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.HardwareAddress;
 import org.jnode.net.ProtocolAddress;
 
@@ -37,7 +37,7 @@ import org.jnode.net.ProtocolAddress;
  */
 public class ARPCache {
 
-    private static final Logger log = LogManager.getLogger(ARPCache.class);
+    private static final Logger log = System.getLogger(ARPCache.class.getName());
 
     private final Map<HardwareAddress, ARPCacheEntry> networkToProtocolAddresses =
             new HashMap<>();
@@ -79,7 +79,7 @@ public class ARPCache {
             return null;
         }
         if (entry.isExpired()) {
-            log.debug("Removing expired ARP entry " + entry);
+            log.log(Level.DEBUG, "Removing expired ARP entry " + entry);
             protocolToNetworkAddresses.remove(protocolAddress);
             if (networkToProtocolAddresses.get(entry.getHwAddress()) == entry) {
                 networkToProtocolAddresses.remove(entry.getHwAddress());
