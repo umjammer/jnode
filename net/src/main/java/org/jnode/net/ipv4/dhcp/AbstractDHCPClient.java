@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.ipv4.IPv4Address;
 import org.jnode.net.ipv4.bootp.AbstractBOOTPClient;
 import org.jnode.net.ipv4.bootp.BOOTPHeader;
@@ -38,7 +38,7 @@ import org.jnode.net.ipv4.bootp.BOOTPHeader;
  */
 public class AbstractDHCPClient extends AbstractBOOTPClient {
 
-    private static final Logger log = LogManager.getLogger(AbstractDHCPClient.class);
+    private static final Logger log = System.getLogger(AbstractDHCPClient.class.getName());
 
     /**
      * Create a DHCP discovery packet
@@ -61,23 +61,23 @@ public class AbstractDHCPClient extends AbstractBOOTPClient {
         }
 
         // debug the DHCP message
-        if (log.isDebugEnabled()) {
-            log.debug("Got Client IP address  : " + hdr.getClientIPAddress());
-            log.debug("Got Your IP address    : " + hdr.getYourIPAddress());
-            log.debug("Got Server IP address  : " + hdr.getServerIPAddress());
-            log.debug("Got Gateway IP address : " + hdr.getGatewayIPAddress());
+        if (log.isLoggable(Level.DEBUG)) {
+            log.log(Level.DEBUG, "Got Client IP address  : " + hdr.getClientIPAddress());
+            log.log(Level.DEBUG, "Got Your IP address    : " + hdr.getYourIPAddress());
+            log.log(Level.DEBUG, "Got Server IP address  : " + hdr.getServerIPAddress());
+            log.log(Level.DEBUG, "Got Gateway IP address : " + hdr.getGatewayIPAddress());
             for (int n = 1; n < 255; n++) {
                 byte[] value = msg.getOption(n);
                 if (value != null) {
                     if (value.length == 1) {
-                        log.debug("Option " + n + " : " + (int) (value[0]));
+                        log.log(Level.DEBUG, "Option " + n + " : " + (int) (value[0]));
                     } else if (value.length == 2) {
-                        log.debug("Option " + n + " : " + ((value[0] << 8) | value[1]));
+                        log.log(Level.DEBUG, "Option " + n + " : " + ((value[0] << 8) | value[1]));
                     } else if (value.length == 4) {
-                        log.debug("Option " + n + " : " +
+                        log.log(Level.DEBUG, "Option " + n + " : " +
                                 InetAddress.getByAddress(value));
                     } else {
-                        log.debug("Option " + n + " : " + new String(value));
+                        log.log(Level.DEBUG, "Option " + n + " : " + new String(value));
                     }
                 }
             }

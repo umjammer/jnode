@@ -22,15 +22,15 @@ package org.jnode.fs.ext2;
 
 import java.nio.ByteBuffer;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.block.BlockDeviceAPI;
 
 /**
  * @author Andras Nagy
  */
 public class Ext2Print {
-    private static final Logger log = LogManager.getLogger("EXT2");
+    private static final Logger log = System.getLogger("EXT2");
 
     public static String hexFormat(int i) {
         String pad = "00000000";
@@ -68,7 +68,7 @@ public class Ext2Print {
             System.out.print(hexFormat(i) + ": ");
             for (int j = 0; j < pageWidth; j++)
                 if (i + j < length) {
-                    log.info(hexFormat(data[i + j]) + " ");
+                    log.log(Level.INFO, hexFormat(data[i + j]) + " ");
                     if ((i + j) % 4 == 3)
                         System.out.print(" - ");
                 }

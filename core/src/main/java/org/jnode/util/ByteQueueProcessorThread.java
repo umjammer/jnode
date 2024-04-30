@@ -20,24 +20,27 @@
 
 package org.jnode.util;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
+
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)
  */
 public class ByteQueueProcessorThread extends Thread {
 
-    private static final Logger bootlog = LogManager.getLogger("bootlog");
+    private static final Logger bootlog = System.getLogger("bootlog");
 
     /**
      * The queue i'm processing
      */
     private final ByteQueue queue;
+
     /**
      * The actual processor
      */
     private final ByteQueueProcessor processor;
+
     private boolean stop;
 
     /**
@@ -76,19 +79,19 @@ public class ByteQueueProcessorThread extends Thread {
     /**
      * Handle an exception thrown during the processing of the object.
      *
-     * @param ex
+     * @param ex exception
      */
     protected void handleException(Exception ex) {
-        bootlog.error("Exception in ByteQueueProcessor: " + getName(), ex);
+        bootlog.log(Level.ERROR, "Exception in ByteQueueProcessor: " + getName(), ex);
     }
 
     /**
      * Handle an exception thrown during the processing of the object.
      *
-     * @param ex
+     * @param ex exception
      */
     protected void handleError(Error ex) {
-        bootlog.error("Error in ByteQueueProcessor: " + getName(), ex);
+        bootlog.log(Level.ERROR, "Error in ByteQueueProcessor: " + getName(), ex);
     }
 
     /**
@@ -117,5 +120,4 @@ public class ByteQueueProcessorThread extends Thread {
     public ByteQueue getQueue() {
         return queue;
     }
-
 }

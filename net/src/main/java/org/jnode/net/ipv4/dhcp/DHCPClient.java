@@ -29,8 +29,8 @@ import java.security.PrivilegedExceptionAction;
 import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.Device;
 import org.jnode.driver.net.NetDeviceAPI;
@@ -49,7 +49,7 @@ import org.jnode.net.ipv4.util.ResolverImpl;
  */
 public class DHCPClient extends AbstractDHCPClient {
 
-    private static final Logger log = LogManager.getLogger(DHCPClient.class);
+    private static final Logger log = System.getLogger(DHCPClient.class.getName());
 
     private Device device;
     private NetDeviceAPI api;
@@ -62,28 +62,13 @@ public class DHCPClient extends AbstractDHCPClient {
     public final void configureDevice(final Device device) throws IOException {
         this.device = device;
 
-        final SecurityManager sm = System.getSecurityManager();
-        if (sm != null) {
-            sm.checkPermission(new NetPermission("dhcpClient"));
-        }
-
+        // Get the API.
         try {
-            AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
-                // Get the API.
-                try {
-                    api = device.getAPI(NetDeviceAPI.class);
-                } catch (ApiNotFoundException ex) {
-                    throw new NetworkException("Device is not a network device", ex);
-                }
-                configureDevice(device.getId(), api.getAddress());
-                return null;
-            });
-        } catch (PrivilegedActionException ex) {
-            throw (IOException) ex.getException();
+            api = device.getAPI(NetDeviceAPI.class);
+        } catch (ApiNotFoundException ex) {
+            throw new NetworkException("Device is not a network device", ex);
         }
-
-        this.api = null;
-        this.device = null;
+        configureDevice(device.getId(), api.getAddress());
     }
 
     /**
@@ -117,7 +102,7 @@ public class DHCPClient extends AbstractDHCPClient {
         byte[] routerValue = msg.getOption(DHCPMessage.ROUTER_OPTION);
         if (routerValue != null && routerValue.length >= 4) {
             IPv4Address routerIP = new IPv4Address(routerValue, 0);
-            log.info("Got Router IP address : " + routerIP);
+            log.log(Level.INFO, "Got Router IP address : " + routerIP);
             cfg.addRoute(IPv4Address.ANY, routerIP, device, false);
         }
 
@@ -127,12 +112,12 @@ public class DHCPClient extends AbstractDHCPClient {
             for (int i = 0; i < dnsValue.length; i += 4) {
                 final IPv4Address dnsIP = new IPv4Address(dnsValue, i);
 
-                log.info("Got Dns IP address    : " + dnsIP);
+                log.log(Level.INFO, "Got Dns IP address    : " + dnsIP);
                 try {
                     ResolverImpl.addDnsServer(dnsIP);
                 } catch (Throwable ex) {
-                    log.error("Failed to configure DNS server");
-                    log.debug("Failed to configure DNS server", ex);
+                    log.log(Level.ERROR, "Failed to configure DNS server");
+                    log.log(Level.DEBUG, "Failed to configure DNS server", ex);
                 }
             }
         }
@@ -141,16 +126,13 @@ public class DHCPClient extends AbstractDHCPClient {
         final byte[] pluginLoaderValue = msg.getOption(DHCPMessage.PLUGIN_LOADER_OPTION);
         if (pluginLoaderValue != null) {
             final String pluginLoaderURL = new String(pluginLoaderValue, StandardCharsets.UTF_8);
-            log.info("Got plugin loader url : " + pluginLoaderURL);
-            AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
-                try {
-                    // TODO
-                } catch (Throwable ex) {
-                    log.error("Failed to configure plugin loader");
-                    log.debug("Failed to configure plugin loader", ex);
-                }
-                return null;
-            });
+            log.log(Level.INFO, "Got plugin loader url : " + pluginLoaderURL);
+            try {
+                // TODO
+            } catch (Throwable ex) {
+                log.log(Level.ERROR, "Failed to configure plugin loader");
+                log.log(Level.DEBUG, "Failed to configure plugin loader", ex);
+            }
         }
     }
 }

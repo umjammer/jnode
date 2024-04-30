@@ -26,8 +26,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FileSystemException;
 import org.jnode.fs.hfsplus.catalog.CatalogNodeId;
 import org.jnode.fs.hfsplus.extent.ExtentDescriptor;
@@ -40,6 +40,8 @@ import org.jnode.util.NumberUtils;
  * @author Fabien Lesire
  */
 public class SuperBlock extends HfsPlusObject {
+
+    private static final Logger log = System.getLogger(SuperBlock.class.getName());
 
     public static final int HFSPLUS_SUPER_MAGIC = 0x482b; // H+
     public static final int HFSX_SUPER_MAGIC = 0x4858; // HX
@@ -55,8 +57,6 @@ public class SuperBlock extends HfsPlusObject {
     public static final int HFSPLUS_VOL_NODEID_REUSED_BIT = 12;
     public static final int HFSPLUS_VOL_JOURNALED_BIT = 13;
     public static final int HFSPLUS_VOL_SOFTLOCK_BIT = 15;
-
-    private final Logger log = LogManager.getLogger(getClass());
 
     /**
      * Volume header data length
@@ -80,7 +80,7 @@ public class SuperBlock extends HfsPlusObject {
         data = new byte[SUPERBLOCK_LENGTH];
         try {
             if (!create) {
-                log.debug("load HFS+ volume header.");
+                log.log(Level.DEBUG, "load HFS+ volume header.");
                 // skip the first 1024 bytes (boot sector) and read the volume
                 // header.
                 ByteBuffer b = ByteBuffer.allocate(SUPERBLOCK_LENGTH);
@@ -105,7 +105,7 @@ public class SuperBlock extends HfsPlusObject {
      * @throws IOException
      */
     public void create(HFSPlusParams params) throws IOException {
-        log.debug("Create new HFS+ volume header (" + params.getVolumeName() +
+        log.log(Level.DEBUG, "Create new HFS+ volume header (" + params.getVolumeName() +
             ") with block size of " + params.getBlockSize() + " bytes.");
         int burnedBlocksBeforeVH = 0;
         int burnedBlocksAfterAltVH = 0;
@@ -140,7 +140,7 @@ public class SuperBlock extends HfsPlusObject {
         this.setDataClumpSize(params.getDataClumpSize());
         this.setNextCatalogId(CatalogNodeId.HFSPLUS_FIRSTUSER_CNID.getId());
         // Allocation file creation
-        log.debug("Init allocation file.");
+        log.log(Level.DEBUG, "Init allocation file.");
         long allocationClumpSize = getClumpSize(params.getBlockCount());
         long bitmapBlocks = allocationClumpSize / blockSize;
         long blockUsed = 2 + burnedBlocksBeforeVH + burnedBlocksAfterAltVH + bitmapBlocks;
@@ -165,7 +165,7 @@ public class SuperBlock extends HfsPlusObject {
             nextBlock = desc.getNext();
         }
         // Extent B-Tree initialization
-        log.debug("Init extent file.");
+        log.log(Level.DEBUG, "Init extent file.");
         forkdata =
             new HfsPlusForkData(CatalogNodeId.HFSPLUS_EXT_CNID, params.getExtentClumpSize(),
                 params.getExtentClumpSize(), (params.getExtentClumpSize() / blockSize));
@@ -175,7 +175,7 @@ public class SuperBlock extends HfsPlusObject {
         blockUsed += forkdata.getTotalBlocks();
         nextBlock = desc.getNext();
         // Catalog B-Tree initialization
-        log.debug("Init catalog file.");
+        log.log(Level.DEBUG, "Init catalog file.");
         int totalBlocks = params.getCatalogClumpSize() / blockSize;
         forkdata =
             new HfsPlusForkData(CatalogNodeId.HFSPLUS_CAT_CNID, params.getCatalogClumpSize(),

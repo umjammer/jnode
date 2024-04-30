@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.Device;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
@@ -42,7 +42,8 @@ import org.jnode.fs.hfsplus.tree.LeafRecord;
 import org.jnode.fs.spi.AbstractFileSystem;
 
 public class HfsPlusFileSystem extends AbstractFileSystem<HfsPlusEntry> {
-    private final Logger log = LogManager.getLogger(getClass());
+
+    private static final Logger log = System.getLogger(HfsPlusFileSystem.class.getName());
 
     /**
      * HFS volume header
@@ -95,17 +96,17 @@ public class HfsPlusFileSystem extends AbstractFileSystem<HfsPlusEntry> {
      */
     public final void read() throws FileSystemException {
         volumeHeader = new SuperBlock(this, false);
-        log.debug(volumeHeader.toString());
+        log.log(Level.DEBUG, volumeHeader.toString());
         if (!volumeHeader.isAttribute(SuperBlock.HFSPLUS_VOL_UNMNT_BIT)) {
-            log.info(" Filesystem has not been cleanly unmounted, mounting it readonly");
+            log.log(Level.INFO, " Filesystem has not been cleanly unmounted, mounting it readonly");
             setReadOnly(true);
         }
         if (volumeHeader.isAttribute(SuperBlock.HFSPLUS_VOL_SOFTLOCK_BIT)) {
-            log.info(" Filesystem is marked locked, mounting it readonly");
+            log.log(Level.INFO, " Filesystem is marked locked, mounting it readonly");
             setReadOnly(true);
         }
         if (volumeHeader.isAttribute(SuperBlock.HFSPLUS_VOL_JOURNALED_BIT)) {
-            log.info(" Filesystem is journaled, write access is not supported. Mounting it readonly");
+            log.log(Level.INFO, " Filesystem is journaled, write access is not supported. Mounting it readonly");
             setReadOnly(true);
         }
         try {
@@ -137,12 +138,12 @@ public class HfsPlusFileSystem extends AbstractFileSystem<HfsPlusEntry> {
 
     @Override
     public final HfsPlusEntry createRootEntry() throws IOException {
-        log.debug("Create root entry.");
+        log.log(Level.DEBUG, "Create root entry.");
         LeafRecord record = catalog.getRecord(CatalogNodeId.HFSPLUS_POR_CNID);
         if (record != null) {
             return new HfsPlusEntry(this, null, "/", record);
         }
-        log.error("Root entry : No record found.");
+        log.log(Level.ERROR, "Root entry : No record found.");
         return null;
     }
 
@@ -244,17 +245,17 @@ public class HfsPlusFileSystem extends AbstractFileSystem<HfsPlusEntry> {
         try {
             params.initializeDefaultsValues(this);
             volumeHeader.create(params);
-            log.debug("Volume header : \n" + volumeHeader.toString());
+            log.log(Level.DEBUG, "Volume header : \n" + volumeHeader.toString());
             long volumeBlockUsed = volumeHeader.getTotalBlocks() - volumeHeader.getFreeBlocks()
                 - ((volumeHeader.getBlockSize() == 512) ? 2 : 1);
             // ---
-            log.debug("Write allocation bitmap bits to disk.");
+            log.log(Level.DEBUG, "Write allocation bitmap bits to disk.");
             writeAllocationFile((int) volumeBlockUsed);
-            log.debug("Write Catalog to disk.");
+            log.log(Level.DEBUG, "Write Catalog to disk.");
             Catalog catalog = new Catalog(params, this);
             catalog.update();
             extentOverflow = new Extent(params);
-            log.debug("Write volume header to disk.");
+            log.log(Level.DEBUG, "Write volume header to disk.");
             volumeHeader.update();
             flush();
         } catch (IOException e) {

@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.NoSuchElementException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FileSystemFullException;
 
 /**
@@ -35,7 +35,7 @@ import org.jnode.fs.FileSystemFullException;
  * 
  */
 public class FatChain {
-    private static final Logger log = LogManager.getLogger(FatChain.class);
+    private static final Logger log = System.getLogger(FatChain.class.getName());
 
     private final FatFileSystem fs;
     private final Fat fat;
@@ -61,7 +61,7 @@ public class FatChain {
     }
 
     private void mylog(String msg) {
-        log.debug(msg);
+        log.log(Level.DEBUG, msg);
     }
 
     public FatFileSystem getFatFileSystem() {
@@ -514,7 +514,7 @@ public class FatChain {
 
                 out.print(">]");
             } catch (IOException ex) {
-                log.debug("error in chain");
+                log.log(Level.DEBUG, "error in chain");
                 out.print("error in chain");
             }
 

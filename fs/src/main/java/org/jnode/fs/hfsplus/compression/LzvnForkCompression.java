@@ -3,8 +3,8 @@ package org.jnode.fs.hfsplus.compression;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.hfsplus.HfsPlusFile;
 import org.jnode.fs.hfsplus.HfsPlusFileSystem;
 import org.jnode.fs.hfsplus.attributes.AttributeData;
@@ -24,7 +24,7 @@ public class LzvnForkCompression implements HfsPlusCompression {
     /**
      * The logger for this class.
      */
-    private static final Logger log = LogManager.getLogger(LzvnForkCompression.class);
+    private static final Logger log = System.getLogger(LzvnForkCompression.class.getName());
 
     /**
      * The LZVN fork compression chunk size.
@@ -155,7 +155,7 @@ public class LzvnForkCompression implements HfsPlusCompression {
         do {
             switch (jmpTo) {
                 case LZVN_CASE_TABLE:
-                    log.debug(String
+                    log.log(Level.DEBUG, String
                         .format("caseTable[%d]", LzvnForkCompression.CASE_TABLE[FSUtils.checkedCast(caseTableIndex)]));
 
                     switch (LzvnForkCompression.CASE_TABLE[FSUtils.checkedCast(caseTableIndex)]) {
@@ -276,7 +276,7 @@ public class LzvnForkCompression implements HfsPlusCompression {
                     break;
 
                 case LZVN_0:
-                    log.debug("jmpTable(0)");
+                    log.log(Level.DEBUG, "jmpTable(0)");
 
                     currentLength = destOffset + sourceValue;
                     sourceValue = -sourceValue;
@@ -287,7 +287,7 @@ public class LzvnForkCompression implements HfsPlusCompression {
                     }
 
                 case LZVN_1:
-                    log.debug("jmpTable(1)");
+                    log.log(Level.DEBUG, "jmpTable(1)");
 
                     do {
                         address = sourceOffset + sourceValue;
@@ -308,12 +308,12 @@ public class LzvnForkCompression implements HfsPlusCompression {
                     break;
 
                 case LZVN_2:
-                    log.debug("jmpTable(2)");
+                    log.log(Level.DEBUG, "jmpTable(2)");
 
                     currentLength = (decompressedSize + 8);
 
                 case LZVN_3:
-                    log.debug("jmpTable(3)");
+                    log.log(Level.DEBUG, "jmpTable(3)");
 
                     do {
                         address = sourceOffset + sourceValue;
@@ -337,14 +337,14 @@ public class LzvnForkCompression implements HfsPlusCompression {
                     break;
 
                 case LZVN_4:
-                    log.debug("jmpTable(4)");
+                    log.log(Level.DEBUG, "jmpTable(4)");
 
                     currentLength = (decompressedSize + 8);
                     jmpTo = LZVN_9;
                     break;
 
                 case LZVN_5:
-                    log.debug("jmpTable(5)");
+                    log.log(Level.DEBUG, "jmpTable(5)");
 
                     do {
                         address = sourceValue;
@@ -365,7 +365,7 @@ public class LzvnForkCompression implements HfsPlusCompression {
                     break;
 
                 case LZVN_6:
-                    log.debug("jmpTable(6)");
+                    log.log(Level.DEBUG, "jmpTable(6)");
 
                     do {
                         uncompressedBuffer[FSUtils.checkedCast(destOffset)] = (byte) (sourceValue & 0xff);
@@ -381,7 +381,7 @@ public class LzvnForkCompression implements HfsPlusCompression {
                     } while (caseTableIndex != 1);
 
                 case LZVN_7:
-                    log.debug("jmpTable(7)");
+                    log.log(Level.DEBUG, "jmpTable(7)");
 
                     sourceValue = destOffset;
                     sourceValue -= negativeOffset;
@@ -394,7 +394,7 @@ public class LzvnForkCompression implements HfsPlusCompression {
                     break;
 
                 case LZVN_8:
-                    log.debug("jmpTable(8)");
+                    log.log(Level.DEBUG, "jmpTable(8)");
 
                     if (caseTableIndex == 0) {
                         jmpTo = LZVN_7;
@@ -406,7 +406,7 @@ public class LzvnForkCompression implements HfsPlusCompression {
                     break;
 
                 case LZVN_9:
-                    log.debug("jmpTable(9)");
+                    log.log(Level.DEBUG, "jmpTable(9)");
 
                     do {
                         address = sourceValue;
@@ -431,7 +431,7 @@ public class LzvnForkCompression implements HfsPlusCompression {
                     break;
 
                 case LZVN_10:
-                    log.debug("jmpTable(10)");
+                    log.log(Level.DEBUG, "jmpTable(10)");
 
                     currentLength = (destOffset + caseTableIndex);
                     currentLength += byteCount;
@@ -460,7 +460,7 @@ public class LzvnForkCompression implements HfsPlusCompression {
                     break;
 
                 case LZVN_11:
-                    log.debug("jmpTable(11)");
+                    log.log(Level.DEBUG, "jmpTable(11)");
 
                     sourceValue = destOffset;
                     sourceValue -= negativeOffset;

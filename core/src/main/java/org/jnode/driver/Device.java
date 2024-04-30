@@ -89,6 +89,7 @@ public class Device {
      * @param apiInterface
      * @param apiImplementation
      */
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public final <T extends DeviceAPI> void registerAPI(Class<T> apiInterface, T apiImplementation) {
         if (!apiInterface.isInstance(apiImplementation)) {
             throw new IllegalArgumentException("API implementation does not implement API interface");

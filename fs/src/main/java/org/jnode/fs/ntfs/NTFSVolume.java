@@ -23,8 +23,8 @@ package org.jnode.fs.ntfs;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.block.BlockDeviceAPI;
 
 /**
@@ -32,7 +32,7 @@ import org.jnode.driver.block.BlockDeviceAPI;
  */
 public class NTFSVolume {
 
-    private static final Logger log = LogManager.getLogger(NTFSVolume.class);
+    private static final Logger log = System.getLogger(NTFSVolume.class.getName());
 
     public static final byte LONG_FILE_NAMES = 0x01;
 
@@ -80,7 +80,7 @@ public class NTFSVolume {
     public void readCluster(long cluster, byte[] dst, int dstOffset) throws IOException {
         final int clusterSize = getClusterSize();
         final long clusterOffset = cluster * clusterSize;
-        log.debug("readCluster(" + cluster + ") " + (readClusterCount++));
+        log.log(Level.DEBUG, "readCluster(" + cluster + ") " + (readClusterCount++));
         api.read(clusterOffset, ByteBuffer.wrap(dst, dstOffset, clusterSize));
     }
 
@@ -97,7 +97,7 @@ public class NTFSVolume {
      * @throws IOException
      */
     public void readClusters(long firstCluster, byte[] dst, int dstOffset, int nrClusters) throws IOException {
-        log.debug("readClusters(" + firstCluster + ", " + nrClusters + ") " + (readClustersCount++));
+        log.log(Level.DEBUG, "readClusters(" + firstCluster + ", " + nrClusters + ") " + (readClustersCount++));
         final int clusterSize = getClusterSize();
         final long clusterOffset = firstCluster * clusterSize;
         api.read(clusterOffset, ByteBuffer.wrap(dst, dstOffset, nrClusters * clusterSize));
@@ -149,7 +149,7 @@ public class NTFSVolume {
             // Read the root directory
             final MasterFileTable mft = getMFT();
             rootDirectory = mft.getRecord(MasterFileTable.SystemFiles.ROOT);
-            log.info("getRootDirectory: " + rootDirectory.getFileName());
+            log.log(Level.INFO, "getRootDirectory: " + rootDirectory.getFileName());
         }
         return rootDirectory;
     }

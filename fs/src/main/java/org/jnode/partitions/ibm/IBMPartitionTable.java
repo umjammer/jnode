@@ -29,8 +29,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.Device;
 import org.jnode.driver.block.BlockDeviceAPI;
@@ -83,7 +83,7 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
     /**
      * My logger
      */
-    private static final Logger log = LogManager.getLogger(IBMPartitionTable.class);
+    private static final Logger log = System.getLogger(IBMPartitionTable.class.getName());
 
     /**
      * The position of the extendedPartition in the table
@@ -101,11 +101,11 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
         if (containsPartitionTable(bootSector)) {
             this.partitions = new IBMPartitionTableEntry[TABLE_SIZE];
             for (int partNr = 0; partNr < partitions.length; partNr++) {
-                log.debug("try part " + partNr);
+                log.log(Level.DEBUG, "try part " + partNr);
                 partitions[partNr] = new IBMPartitionTableEntry(this, bootSector, partNr);
                 if (partitions[partNr].isExtended()) {
                     extendedPartitionEntry = partNr;
-                    log.debug("Found Extended partitions");
+                    log.log(Level.DEBUG, "Found Extended partitions");
                     handleExtended(partitions[partNr]);
                 }
             }
@@ -122,15 +122,15 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
         final long startLBA = current.getStartLba();
         final ByteBuffer sector = ByteBuffer.allocate(SECTOR_SIZE);
         try {
-            log.debug("Try to read the Extended Partition Table");
+            log.log(Level.DEBUG, "Try to read the Extended Partition Table");
             BlockDeviceAPI api = driveDevice.getAPI(BlockDeviceAPI.class);
             api.read(startLBA * SECTOR_SIZE, sector);
         } catch (ApiNotFoundException e) {
             // I think we can't get it
-            log.error("API Not Found Exception");
+            log.log(Level.ERROR, "API Not Found Exception");
         } catch (IOException e) {
             // I think we can't get it
-            log.error("IOException");
+            log.log(Level.ERROR, "IOException");
         }
 
         IBMPartitionTableEntry entry;
@@ -167,37 +167,37 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
         }
 
         if (LittleEndian.getUInt16(bootSector, 510) != 0xaa55) {
-            log.debug("No aa55 magic");
+            log.log(Level.DEBUG, "No aa55 magic");
             return false;
         }
 
         if (LittleEndian.getUInt16(bootSector, 428) == 0x5678) {
             // Matches the AAP MBR extra signature, probably an valid partition table
-            log.debug("Has AAP MBR extra signature");
+            log.log(Level.DEBUG, "Has AAP MBR extra signature");
             return true;
         }
 
         if (LittleEndian.getUInt16(bootSector, 380) == 0xa55a) {
             // Matches the AST/NEC MBR extra signature, probably an valid partition table
-            log.debug("Has AST/NEC MBR extra signature");
+            log.log(Level.DEBUG, "Has AST/NEC MBR extra signature");
             return true;
         }
 
         if (LittleEndian.getUInt16(bootSector, 252) == 0x55aa) {
             // Matches the Disk Manager MBR extra signature, probably an valid partition table
-            log.debug("Has Disk Manager MBR extra signature");
+            log.log(Level.DEBUG, "Has Disk Manager MBR extra signature");
             return true;
         }
 
         if (LittleEndian.getUInt32(bootSector, 2) == 0x4c57454e) {
             // Matches the NEWLDR MBR extra signature, probably an valid partition table
-            log.debug("Has NEWLDR MBR extra signature");
+            log.log(Level.DEBUG, "Has NEWLDR MBR extra signature");
             return true;
         }
 
         if (LittleEndian.getUInt32(bootSector, 6) == 0x4f4c494c) {
             // Matches the LILO signature, probably an valid partition table
-            log.debug("Has LILO signature");
+            log.log(Level.DEBUG, "Has LILO signature");
             return true;
         }
 
@@ -206,7 +206,7 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
             //   "\r\nMissing operating system\r\n\u0000\r\nMaster Boot Record Error\r\n\u0000\r\nPress a key.\r\n\u0000"
             //   "\r\nManglende operativ system\r\n\u0000\r\nFeil i hovedoppstartsposten\r\n\u0000\r\nTrykk en tast"
 
-            log.debug("Has HP boot code signature");
+            log.log(Level.DEBUG, "Has HP boot code signature");
             return true;
         }
 
@@ -216,7 +216,7 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
             // Matches DOS 2.0 partition boot code error message signature
             // see:
             //     http://thestarman.narod.ru/asm/mbr/200MBR.htm
-            log.debug("Has DOS 2.0 code error string signature");
+            log.log(Level.DEBUG, "Has DOS 2.0 code error string signature");
             return true;
         }
 
@@ -227,7 +227,7 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
             //     http://thestarman.narod.ru/asm/mbr/Win2kmbr.htm
             //     http://thestarman.narod.ru/asm/mbr/95BMEMBR.htm
             //     http://thestarman.narod.ru/asm/mbr/STDMBR.htm
-            log.debug("Has Microsoft code error string signature");
+            log.log(Level.DEBUG, "Has Microsoft code error string signature");
             return true;
         }
 
@@ -237,37 +237,37 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
             //
             // see:
             //     http://thestarman.narod.ru/asm/mbr/Win2kmbr.htm
-            log.debug("Has w2k boot code signature");
+            log.log(Level.DEBUG, "Has w2k boot code signature");
             return true;
         }
 
         if (bootSectorAsString.contains("Read\u0000Boot\u0000 error\r\n\u0000")) {
             // Matches BSD partition boot code error message signature
-            log.debug("Has BSD code error string signature");
+            log.log(Level.DEBUG, "Has BSD code error string signature");
             return true;
         }
 
         if (bootSectorAsString.contains("GRUB \u0000Geom\u0000Hard Disk\u0000Read\u0000 Error")) {
             // Matches GRUB string signature
-            log.debug("Has GRUB string signature");
+            log.log(Level.DEBUG, "Has GRUB string signature");
             return true;
         }
 
         if (bootSectorAsString.contains("\u0000Multiple active partitions.\r\n")) {
             // Matches SYSLINUX string signature
-            log.debug("Has SYSLINUX string signature");
+            log.log(Level.DEBUG, "Has SYSLINUX string signature");
             return true;
         }
 
         if (bootSectorAsString.contains("MAKEBOOT")) {
             // Matches MAKEBOOT string extra signature
-            log.debug("Has MAKEBOOT string signature");
+            log.log(Level.DEBUG, "Has MAKEBOOT string signature");
             return true;
         }
 
         if (bootSectorAsString.contains("MBR \u0010\u0000")) {
             // Matches MBR string extra signature
-            log.debug("Has MBR string signature");
+            log.log(Level.DEBUG, "Has MBR string signature");
             return true;
         }
 
@@ -276,7 +276,7 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
             //  * 0xF1 - Windows Vista
             //  * 0x18E - Windows PE
             // see http://thestarman.pcministry.com/asm/mbr/VistaMBR.htm
-            log.debug("Has TCPA extra signature");
+            log.log(Level.DEBUG, "Has TCPA extra signature");
             return true;
         }
 
@@ -284,7 +284,7 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
 
         if (bsdNameTabString.contains("Linu\ufffd") || bsdNameTabString.contains("FreeBS\ufffd")) {
             // Matches BSD nametab entries signature
-            log.debug("Has BSD nametab entries");
+            log.log(Level.DEBUG, "Has BSD nametab entries");
             return true;
         }
 
@@ -294,7 +294,7 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
 
             if ("HdrS".equals(linuxKernelHeaderString)) {
                 // Matches Linux kernel header signature
-                log.debug("Has Linux kernel header signature");
+                log.log(Level.DEBUG, "Has Linux kernel header signature");
                 return false;
             }
         }
@@ -302,18 +302,18 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
         // Check if this looks like a filesystem instead of a partition table
         String oemName = new String(bootSector, 3, 8, StandardCharsets.US_ASCII);
         if (FILESYSTEM_OEM_NAMES.contains(oemName)) {
-            log.debug("Looks like a file system instead of a partition table.");
+            log.log(Level.DEBUG, "Looks like a file system instead of a partition table.");
             return false;
         }
 
         if (LittleEndian.getUInt32(bootSector, 0xc) == 0x504E0000) {
             // Matches the 'NP' signature
-            log.debug("Matches the 'NP' signature");
+            log.log(Level.DEBUG, "Matches the 'NP' signature");
             return true;
         }
 
         // Nothing matched, fall back to validating any specified partition entries
-        log.debug("Checking partitions");
+        log.log(Level.DEBUG, "Checking partitions");
         List<IBMPartitionTableEntry> entries = new ArrayList<>();
         for (int partitionNumber = 0; partitionNumber < TABLE_SIZE; partitionNumber++) {
             IBMPartitionTableEntry partition = new IBMPartitionTableEntry(null, bootSector, partitionNumber);
@@ -333,7 +333,7 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
 
                     if (partition.getStartLba() <= otherPartition.getStartLba() + otherPartition.getNrSectors() - 1 &&
                         otherPartition.getStartLba() <= partition.getStartLba() + partition.getNrSectors() - 1) {
-                        log.error("Parition table entries overlap: " + partition + " " + otherPartition);
+                        log.log(Level.ERROR, "Parition table entries overlap: " + partition + " " + otherPartition);
                         return false;
                     }
                 }
@@ -345,7 +345,7 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
     }
 
     public Iterator<IBMPartitionTableEntry> iterator() {
-        return new Iterator<IBMPartitionTableEntry>() {
+        return new Iterator<>() {
             private int index = 0;
             private final int last = (partitions == null) ? 0 : partitions.length;
 

@@ -31,8 +31,8 @@ import java.net.SocketImpl;
 import java.net.SocketOptions;
 import java.nio.channels.UnresolvedAddressException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.ipv4.IPv4Address;
 
 /**
@@ -64,7 +64,7 @@ public class TCPSocketImpl extends SocketImpl {
     /**
      * My logger
      */
-    private static final Logger log = LogManager.getLogger(TCPSocketImpl.class);
+    private static final Logger log = System.getLogger(TCPSocketImpl.class.getName());
 
     /**
      * Initialize a new instance
@@ -83,24 +83,24 @@ public class TCPSocketImpl extends SocketImpl {
      */
     protected void accept(SocketImpl s) throws IOException {
         if (DEBUG) {
-            log.debug("accept " + s);
+            log.log(Level.DEBUG, "accept " + s);
         }
         if (controlBlock == null) {
             throw new IOException("Not listening");
         }
         final TCPSocketImpl impl = (TCPSocketImpl) s;
         if (DEBUG) {
-            log.debug("accept: blocking");
+            log.log(Level.DEBUG, "accept: blocking");
         }
         impl.controlBlock = controlBlock.appAccept();
         if (DEBUG) {
-            log.debug("accept: got one");
+            log.log(Level.DEBUG, "accept: got one");
         }
     }
 
     protected int getLocalPort() {
         if (DEBUG) {
-            log.debug("getLocalPort: controlBlock.getLocalPort()");
+            log.log(Level.DEBUG, "getLocalPort: controlBlock.getLocalPort()");
         }
         return controlBlock.getLocalPort();
     }

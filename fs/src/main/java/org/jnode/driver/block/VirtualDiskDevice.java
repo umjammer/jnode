@@ -25,7 +25,7 @@ import vavi.util.Debug;
  */
 public class VirtualDiskDevice extends Device implements FSBlockDeviceAPI {
 
-//    private static final Logger logger = LogManager.getLogger(VirtualDiskDevice.class);
+//    private static final Logger logger = System.getLogger(VirtualDiskDevice.class.getName());
 
     /** for partition entry */
     private long offset = 0;

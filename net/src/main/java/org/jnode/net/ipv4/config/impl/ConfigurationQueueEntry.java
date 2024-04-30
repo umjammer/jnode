@@ -20,10 +20,13 @@
 
 package org.jnode.net.ipv4.config.impl;
 
+import java.lang.System.Logger.Level;
+
 import org.jnode.driver.Device;
 import org.jnode.driver.net.NetworkException;
 
 final class ConfigurationQueueEntry {
+
     private final Device device;
 
     private final NetDeviceConfig config;
@@ -45,7 +48,7 @@ final class ConfigurationQueueEntry {
         try {
             config.apply(device);
         } catch (NetworkException ex) {
-            ConfigurationProcessor.log.error("Cannot configure device " + device.getId(), ex);
+            ConfigurationProcessor.log.log(Level.ERROR, "Cannot configure device " + device.getId(), ex);
         } finally {
             ready = true;
             this.notifyAll();

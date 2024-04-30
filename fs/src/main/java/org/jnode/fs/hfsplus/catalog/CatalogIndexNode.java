@@ -20,13 +20,14 @@
 
 package org.jnode.fs.hfsplus.catalog;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.hfsplus.tree.AbstractIndexNode;
 import org.jnode.fs.hfsplus.tree.NodeDescriptor;
 
 public class CatalogIndexNode extends AbstractIndexNode<CatalogKey> {
-    private final Logger log = LogManager.getLogger(getClass());
+
+    private static final Logger log = System.getLogger(CatalogIndexNode.class.getName());
 
     /**
      * Create a new node.
@@ -46,8 +47,7 @@ public class CatalogIndexNode extends AbstractIndexNode<CatalogKey> {
      */
     public CatalogIndexNode(final byte[] nodeData, final int nodeSize) {
         super(nodeData, nodeSize);
-
-    }
+            }
 
     @Override
     protected CatalogKey createKey(byte[] nodeData, int offset) {

@@ -23,8 +23,8 @@ package org.jnode.fs.hfsplus.attributes;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.hfsplus.HfsPlusFileSystem;
 import org.jnode.fs.hfsplus.HfsPlusForkData;
 import org.jnode.fs.hfsplus.SuperBlock;
@@ -45,7 +45,7 @@ public class Attributes {
     /**
      * The logger.
      */
-    private static final Logger log = LogManager.getLogger(Attributes.class);
+    private static final Logger log = System.getLogger(Attributes.class.getName());
 
     /**
      * B-Tree Header record
@@ -69,7 +69,7 @@ public class Attributes {
      * @throws IOException if an error occurs.
      */
     public Attributes(HfsPlusFileSystem fs) throws IOException {
-        log.debug("Loading the attributes file B-Tree");
+        log.log(Level.DEBUG, "Loading the attributes file B-Tree");
         this.fs = fs;
         SuperBlock sb = fs.getVolumeHeader();
         attributesFile = sb.getAttributesFile();
@@ -80,13 +80,13 @@ public class Attributes {
             attributesFile.read(fs, 0, buffer);
             buffer.rewind();
             byte[] data = ByteBufferUtils.toArray(buffer);
-            log.debug("Load attributes node descriptor.");
+            log.log(Level.DEBUG, "Load attributes node descriptor.");
 
             NodeDescriptor btnd = new NodeDescriptor(data, 0);
-            log.debug(btnd.toString());
-            log.debug("Load attributes header record.");
+            log.log(Level.DEBUG, btnd.toString());
+            log.log(Level.DEBUG, "Load attributes header record.");
             bthr = new BTHeaderRecord(data, NodeDescriptor.BT_NODE_DESCRIPTOR_LENGTH);
-            log.debug(bthr.toString());
+            log.log(Level.DEBUG, bthr.toString());
         }
     }
 
@@ -158,7 +158,7 @@ public class Attributes {
         } else if (type == AttributeData.ATTRIBUTE_EXTENTS) {
             throw new UnsupportedOperationException();
         } else {
-            log.warn(String.format("Invalid attribute record type: %d for leaf: %s", type, leafRecord));
+            log.log(Level.WARNING, String.format("Invalid attribute record type: %d for leaf: %s", type, leafRecord));
             return null;
         }
     }

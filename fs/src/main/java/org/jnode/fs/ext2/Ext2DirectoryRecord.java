@@ -22,8 +22,8 @@ package org.jnode.fs.ext2;
 
 import java.util.Arrays;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FileSystemException;
 import org.jnode.util.LittleEndian;
 
@@ -34,7 +34,9 @@ import org.jnode.util.LittleEndian;
  * @author Andras Nagy
  */
 public class Ext2DirectoryRecord {
-    private final Logger log = LogManager.getLogger(getClass());
+
+    private static final Logger log = System.getLogger(Ext2DirectoryRecord.class.getName());
+
     /*
      * private int iNodeNr; private int recLen; private short nameLen; private
      * short type; private StringBuffer name;
@@ -42,7 +44,7 @@ public class Ext2DirectoryRecord {
     private int offset;
     private byte[] data;
     private long fileOffset;
-    private Ext2FileSystem fs;
+    private final Ext2FileSystem fs;
 
     /**
      * @param data the data that makes up the directory block
@@ -144,7 +146,7 @@ public class Ext2DirectoryRecord {
         String name = "";
         if (getINodeNr() != 0) {
             name = new String(data, offset + 8, getNameLen(), Ext2FileSystem.ENTRY_NAME_CHARSET);
-            log.debug("Ext2DirectoryRecord(): iNode=" + getINodeNr() + ", name=" + name);
+            log.log(Level.DEBUG, "Ext2DirectoryRecord(): iNode=" + getINodeNr() + ", name=" + name);
         }
         return name;
     }
@@ -187,7 +189,7 @@ public class Ext2DirectoryRecord {
         if (newLength % 4 != 0)
             newLength += 4 - newLength % 4;
         setRecLen(newLength);
-        log.debug("truncateRecord(): newLength: " + newLength);
+        log.log(Level.DEBUG, "truncateRecord(): newLength: " + newLength);
     }
 
     /**
@@ -201,7 +203,7 @@ public class Ext2DirectoryRecord {
      *            filesystem block)
      */
     protected synchronized void expandRecord(long beginning, long end) throws FileSystemException {
-        log.debug("expandRecord(" + beginning + ", " + end + ")");
+        log.log(Level.DEBUG, "expandRecord(" + beginning + ", " + end + ")");
         if (beginning + getNameLen() + 8 < end) {
             // the record fits in the block
             setRecLen((int) (end - beginning));
@@ -215,6 +217,6 @@ public class Ext2DirectoryRecord {
         } else {
             throw new FileSystemException("The directory record does not fit into the block!");
         }
-        log.debug("expandRecord(): newLength: " + getRecLen());
+        log.log(Level.DEBUG, "expandRecord(): newLength: " + getRecLen());
     }
 }

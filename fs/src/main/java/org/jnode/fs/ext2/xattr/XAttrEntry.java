@@ -3,8 +3,8 @@ package org.jnode.fs.ext2.xattr;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.ext2.Ext2FileSystem;
 import org.jnode.util.LittleEndian;
 
@@ -18,7 +18,7 @@ public class XAttrEntry {
     /**
      * The logger.
      */
-    private final Logger log = LogManager.getLogger(getClass());
+    private static final Logger log = System.getLogger(XAttrEntry.class.getName());
 
     /**
      * The minimum size of the entry structure.
@@ -131,7 +131,7 @@ public class XAttrEntry {
             if (prefix != null) {
                 name = prefix + name;
             } else {
-                log.warn("Unknown xattr prefix index: " + prefixIndex);
+                log.log(Level.WARNING, "Unknown xattr prefix index: " + prefixIndex);
             }
         }
 

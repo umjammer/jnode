@@ -20,15 +20,15 @@
 
 package org.jnode.fs.hfsplus.catalog;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.hfsplus.tree.AbstractLeafNode;
 import org.jnode.fs.hfsplus.tree.Key;
 import org.jnode.fs.hfsplus.tree.LeafRecord;
 import org.jnode.fs.hfsplus.tree.NodeDescriptor;
 
 public class CatalogLeafNode extends AbstractLeafNode<CatalogKey> {
-    private static final Logger log = LogManager.getLogger(CatalogLeafNode.class);
+    private static final Logger log = System.getLogger(CatalogLeafNode.class.getName());
 
     /**
      * Create a new node.

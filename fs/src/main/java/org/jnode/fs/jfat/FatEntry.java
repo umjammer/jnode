@@ -25,8 +25,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Vector;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FSAccessRights;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
@@ -36,7 +36,8 @@ import org.jnode.fs.FSFile;
 import org.jnode.util.NumberUtils;
 
 public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEntryLastAccessed {
-    private static final Logger log = LogManager.getLogger(FatEntry.class);
+
+    private static final Logger log = System.getLogger(FatEntry.class.getName());
 
     private String name;
     private FatRecord record;
@@ -223,7 +224,7 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
         StringBuilder path = new StringBuilder(1024);
         FatDirectory parent = getParent();
 
-        if (getName().length() != 0)
+        if (!getName().isEmpty())
             path.append(getName());
         else
             path.append("\\");
@@ -258,7 +259,7 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
             out.println("Chain\t\t" + getChain());
             out.print("---------------------------------------");
         } catch (IOException ex) {
-            log.debug("entry error");
+            log.log(Level.DEBUG, "entry error");
             out.print("entry error");
         }
 

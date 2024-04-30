@@ -21,6 +21,7 @@
 package org.jnode.fs.ntfs.attribute;
 
 import java.io.IOException;
+import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,9 +161,7 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
         while (getUInt8(offset) != 0x0) {
             final DataRun dataRun = new DataRun(this, offset, vcn, previousLCN);
 
-            if (log.isDebugEnabled()) {
-                log.debug("Data run at offset: " + offset  + " " + dataRun);
-            }
+            log.log(Level.DEBUG, "Data run at offset: " + offset  + " " + dataRun);
 
             if (compressed) {
                 if (dataRun.isSparse() && (expectingSparseRunNext || firstDataRun)) {
@@ -246,7 +245,7 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
         final long allocatedVCNs = (getAttributeAllocatedSize() - 1) / clusterSize + 1;
         if (this.numberOfVCNs != allocatedVCNs) {
             // Probably not a problem, often multiple attributes make up one allocation.
-            log.debug("VCN mismatch between data runs and allocated size, possibly a composite attribute. " +
+            log.log(Level.DEBUG, "VCN mismatch between data runs and allocated size, possibly a composite attribute. " +
                 "data run VCNs = " + this.numberOfVCNs + ", allocated size = " + allocatedVCNs +
                 ", data run count = " + dataRuns.size());
         }
@@ -274,10 +273,8 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
             throw new IOException("Reading encrypted files is not supported");
         }
 
-        if (log.isDebugEnabled()) {
-            log.debug("readVCN: wants start " + vcn + " length " + nrClusters +
+        log.log(Level.DEBUG, "readVCN: wants start " + vcn + " length " + nrClusters +
                 ", we have start " + getStartVCN() + " length " + getNumberOfVCNs());
-        }
 
         final NTFSVolume volume = getFileRecord().getVolume();
         final int clusterSize = volume.getClusterSize();
@@ -289,9 +286,7 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
             }
         }
 
-        if (log.isDebugEnabled()) {
-            log.debug("readVCN: read " + readClusters);
-        }
+        log.log(Level.DEBUG, "readVCN: read " + readClusters);
 
         return readClusters;
     }

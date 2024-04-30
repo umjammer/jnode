@@ -53,7 +53,7 @@ public class TableEntry {
     }
 
     public synchronized Set<NFS2Entry> getEntrySet() {
-        if (entryMap.size() == 0) {
+        if (entryMap.isEmpty()) {
             return new HashSet<>();
         }
 

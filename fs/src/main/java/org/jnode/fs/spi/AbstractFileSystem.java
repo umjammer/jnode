@@ -23,8 +23,8 @@ package org.jnode.fs.spi;
 import java.io.IOException;
 import java.util.HashMap;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.Device;
 import org.jnode.driver.block.BlockDeviceAPI;
@@ -41,8 +41,10 @@ import org.jnode.fs.FileSystemException;
  * @author Fabien DUMINY
  */
 public abstract class AbstractFileSystem<T extends FSEntry> implements FileSystem<T> {
+
     /** My logger */
-    private static final Logger log = LogManager.getLogger(AbstractFileSystem.class);
+    private static final Logger log = System.getLogger(AbstractFileSystem.class.getName());
+
     /** The device that contains the file system */
     private final Device device;
     /** API of the block device */
@@ -206,11 +208,9 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
      * @throws IOException if error occurs during write of datas on the device.
      */
     private void flushFiles() throws IOException {
-        log.info("flushing files ...");
+        log.log(Level.INFO, "flushing files ...");
         for (FSFile f : files.values()) {
-            if (log.isDebugEnabled()) {
-                log.debug("flush: flushing file " + f);
-            }
+            log.log(Level.DEBUG, "flush: flushing file " + f);
             f.flush();
         }
     }
@@ -250,11 +250,9 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
      * Save all unsaved files from entry cache.
      */
     private void flushDirectories() {
-        log.info("flushing directories ...");
+        log.log(Level.INFO, "flushing directories ...");
         for (FSDirectory d : directories.values()) {
-            if (log.isDebugEnabled()) {
-                log.debug("flush: flushing directory " + d);
-            }
+            log.log(Level.DEBUG, "flush: flushing directory " + d);
             //TODO: uncomment this line
             //d.flush();
         }

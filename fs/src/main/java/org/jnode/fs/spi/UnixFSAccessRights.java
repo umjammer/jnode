@@ -20,15 +20,14 @@
 
 package org.jnode.fs.spi;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.security.Principal;
-import java.security.acl.Group;
+import java.util.Set;
+import javax.security.auth.Subject;
 
 import org.jnode.fs.FSAccessRights;
 import org.jnode.fs.FileSystem;
 
-import com.sun.security.auth.UserPrincipal; // TODO uses an internal class
-
-import sun.security.acl.GroupImpl; // TODO uses an internal class
 
 /**
  * 
@@ -38,8 +37,10 @@ import sun.security.acl.GroupImpl; // TODO uses an internal class
 public class UnixFSAccessRights implements FSAccessRights {
     private final FileSystem<?> filesystem;
 
-    private Principal owner;
-    private Group group;
+    private Subject subject = new Subject();
+
+    private UserPrincipal owner;
+    private Set<Principal> admins;
 
     private final Rights ownerRights = new Rights(true, true, true);
     private final Rights groupRights = new Rights();
@@ -52,9 +53,9 @@ public class UnixFSAccessRights implements FSAccessRights {
         this.filesystem = filesystem;
 
         // TODO manages users & groups in JNode
-        owner = new UserPrincipal("root");
-        group = new GroupImpl("admins");
-        group.addMember(owner);
+        owner = () -> "root";
+        admins = subject.getPrincipals();
+        admins.add(owner);
     }
 
     private Principal getUser() {
@@ -69,7 +70,7 @@ public class UnixFSAccessRights implements FSAccessRights {
         Rights rights = worldRights;
         if (owner.equals(user)) {
             rights = ownerRights;
-        } else if (group.isMember(user)) {
+        } else if (admins.contains(user)) {
             rights = groupRights;
         }
 

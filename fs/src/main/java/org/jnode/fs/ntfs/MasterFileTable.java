@@ -21,6 +21,7 @@
 package org.jnode.fs.ntfs;
 
 import java.io.IOException;
+import java.lang.System.Logger.Level;
 
 import org.jnode.fs.ntfs.attribute.NTFSAttribute;
 import org.jnode.fs.ntfs.index.IndexEntry;
@@ -193,7 +194,7 @@ public class MasterFileTable extends FileRecord {
      * @return the file record.
      */
     public FileRecord getRecordUnchecked(long index) throws IOException {
-        log.debug("getRecord(" + index + ")");
+        log.log(Level.DEBUG, "getRecord(" + index + ")");
 
         final NTFSVolume volume = getVolume();
 

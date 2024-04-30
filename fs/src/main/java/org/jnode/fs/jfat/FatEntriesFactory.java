@@ -3,12 +3,12 @@ package org.jnode.fs.jfat;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 
 public class FatEntriesFactory {
 
-    private static final Logger log = LogManager.getLogger(FatEntriesFactory.class);
+    private static final Logger log = System.getLogger(FatEntriesFactory.class.getName());
 
     private boolean label;
     private int index;
@@ -32,7 +32,7 @@ public class FatEntriesFactory {
         FatRecord v = new FatRecord();
 
         if (index > FatDirectory.MAXENTRIES)
-            log.debug("Full Directory: invalid index " + index);
+            log.log(Level.DEBUG, "Full Directory: invalid index " + index);
 
         for (i = index;; ) {
                 /*
@@ -45,7 +45,7 @@ public class FatEntriesFactory {
                 entry = null;
                 return false;
             } catch (IOException ex) {
-                log.debug("cannot read entry " + i);
+                log.log(Level.DEBUG, "cannot read entry " + i);
                 i++;
                 continue;
             }
@@ -60,7 +60,7 @@ public class FatEntriesFactory {
             } else if (e.isLongDirEntry()) {
                 FatLongDirEntry l = (FatLongDirEntry) e;
                 if (l.isDamaged()) {
-                    log.debug("Damaged entry at " + (i - 1));
+                    log.log(Level.DEBUG, "Damaged entry at " + (i - 1));
                     v.clear();
                 } else {
                     v.add(l);
@@ -71,13 +71,13 @@ public class FatEntriesFactory {
                     if (directory.isRoot()) {
                         FatRootDirectory r = (FatRootDirectory) directory;
                         if (label) {
-                            log.debug("Duplicated label in root directory");
+                            log.log(Level.DEBUG, "Duplicated label in root directory");
                         } else {
                             r.setEntry(s);
                             label = true;
                         }
                     } else {
-                        log.debug("Volume label in non root directory");
+                        log.log(Level.DEBUG, "Volume label in non root directory");
                     }
                 } else {
                     break;

@@ -26,8 +26,8 @@ import java.net.Inet4Address;
 import java.net.MulticastSocket;
 import java.net.NetworkInterface;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.HardwareAddress;
 import org.jnode.net.ipv4.IPv4Address;
 
@@ -42,7 +42,7 @@ public class AbstractBOOTPClient {
     /**
      * My logger
      */
-    private static final Logger log = LogManager.getLogger(AbstractBOOTPClient.class);
+    private static final Logger log = System.getLogger(AbstractBOOTPClient.class.getName());
 
     private static final int RECEIVE_TIMEOUT = 10 * 1000; // 10 seconds
     public static final int SERVER_PORT = 67;
@@ -67,7 +67,7 @@ public class AbstractBOOTPClient {
 
             // Create the BOOTP header
             final Inet4Address myIP = null; // any address
-            final int transactionID = (int) (System.currentTimeMillis() & 0xFFFFFFFF);
+            final int transactionID = (int) (System.currentTimeMillis() & 0xFFFF_FFFFL);
             BOOTPHeader hdr =
                     new BOOTPHeader(BOOTPHeader.BOOTREQUEST, transactionID, 0, myIP, hwAddress);
 
@@ -126,9 +126,9 @@ public class AbstractBOOTPClient {
      * settings in a BOOTP header.
      */
     protected void doConfigure(BOOTPHeader hdr) throws IOException {
-        log.info("Got Client IP address  : " + hdr.getClientIPAddress());
-        log.info("Got Your IP address    : " + hdr.getYourIPAddress());
-        log.info("Got Server IP address  : " + hdr.getServerIPAddress());
-        log.info("Got Gateway IP address : " + hdr.getGatewayIPAddress());
+        log.log(Level.INFO, "Got Client IP address  : " + hdr.getClientIPAddress());
+        log.log(Level.INFO, "Got Your IP address    : " + hdr.getYourIPAddress());
+        log.log(Level.INFO, "Got Server IP address  : " + hdr.getServerIPAddress());
+        log.log(Level.INFO, "Got Gateway IP address : " + hdr.getGatewayIPAddress());
     }
 }

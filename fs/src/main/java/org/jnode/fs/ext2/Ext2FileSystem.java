@@ -27,8 +27,8 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.Device;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
@@ -45,6 +45,8 @@ import org.jnode.fs.spi.AbstractFileSystem;
  * @author Andras Nagy
  */
 public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
+
+    private static final Logger log = System.getLogger(Ext2FileSystem.class.getName());
 
     /**
      * The charset used to decode the file and directory names, assuming a default of UTF-8 for now.
@@ -65,8 +67,6 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
     private INodeCache inodeCache;
 
     private MultipleMountProtection multipleMountProtection;
-
-    private final Logger log = LogManager.getLogger(getClass());
 
     // private Object groupDescriptorLock;
     // private Object superblockLock;
@@ -142,7 +142,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
 
         if (hasIncompatFeature(Ext2Constants.EXT4_FEATURE_INCOMPAT_MMP)) {
             // TODO: this should really update the MMP block now, and periodically, to indicate that the filesystem is in use
-            log.info(" file system has multi-mount protection, forcing readonly mode");
+            log.log(Level.INFO, " file system has multi-mount protection, forcing readonly mode");
             setReadOnly(true);
 
             try {
@@ -152,7 +152,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
                 multipleMountProtection = new MultipleMountProtection(mmpBuffer.array());
 
                 if (multipleMountProtection.isInUse()) {
-                    log.warn(" file system appears to be in use");
+                    log.log(Level.WARNING, " file system appears to be in use");
                 }
 
             } catch (Exception e) {
@@ -161,12 +161,12 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         }
 
         if (hasIncompatFeature(Ext2Constants.EXT2_FEATURE_INCOMPAT_META_BG)) {
-            log.info(" Unsupported filesystem feature (META_BG) forces readonly mode");
+            log.log(Level.INFO, " Unsupported filesystem feature (META_BG) forces readonly mode");
             setReadOnly(true);
         }
 
         if (hasIncompatFeature(Ext2Constants.EXT4_FEATURE_INCOMPAT_FLEX_BG)) {
-            log.info(" filesystem feature (FLEX_BG) is currently only implemented for reading, " +
+            log.log(Level.INFO, " filesystem feature (FLEX_BG) is currently only implemented for reading, " +
                 "forcing readonly mode");
             setReadOnly(true);
         }
@@ -174,39 +174,39 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         // an unsupported RO_COMPAT feature means that the filesystem can only
         // be mounted readonly
         if (hasROFeature(Ext2Constants.EXT2_FEATURE_RO_COMPAT_LARGE_FILE)) {
-            log.info(" Unsupported filesystem feature (LARGE_FILE) forces readonly mode");
+            log.log(Level.INFO, " Unsupported filesystem feature (LARGE_FILE) forces readonly mode");
             setReadOnly(true);
         }
         if (hasROFeature(Ext2Constants.EXT2_FEATURE_RO_COMPAT_BTREE_DIR)) {
-            log.info(" Unsupported filesystem feature (BTREE_DIR) forces readonly mode");
+            log.log(Level.INFO, " Unsupported filesystem feature (BTREE_DIR) forces readonly mode");
             setReadOnly(true);
         }
         if (hasROFeature(Ext2Constants.EXT4_FEATURE_RO_COMPAT_HUGE_FILE)) {
-            log.info(" Unsupported filesystem feature (HUGE_FILE) forces readonly mode");
+            log.log(Level.INFO, " Unsupported filesystem feature (HUGE_FILE) forces readonly mode");
             setReadOnly(true);
         }
         if (hasROFeature(Ext2Constants.EXT4_FEATURE_RO_COMPAT_GDT_CSUM)) {
-            log.info(" Unsupported filesystem feature (GDT_CSUM) forces readonly mode");
+            log.log(Level.INFO, " Unsupported filesystem feature (GDT_CSUM) forces readonly mode");
             setReadOnly(true);
         }
         if (hasROFeature(Ext2Constants.EXT4_FEATURE_RO_COMPAT_DIR_NLINK)) {
-            log.info(" Unsupported filesystem feature (DIR_NLINK) forces readonly mode");
+            log.log(Level.INFO, " Unsupported filesystem feature (DIR_NLINK) forces readonly mode");
             setReadOnly(true);
         }
         if (hasROFeature(Ext2Constants.EXT4_FEATURE_RO_COMPAT_EXTRA_ISIZE)) {
-            log.info(" Unsupported filesystem feature (EXTRA_ISIZE) forces readonly mode");
+            log.log(Level.INFO, " Unsupported filesystem feature (EXTRA_ISIZE) forces readonly mode");
             setReadOnly(true);
         }
 
         // if the filesystem has not been cleanly unmounted, mount it readonly
         if (superblock.getState() == Ext2Constants.EXT2_ERROR_FS) {
-            log.info(" Filesystem has not been cleanly unmounted, mounting it readonly");
+            log.log(Level.INFO, " Filesystem has not been cleanly unmounted, mounting it readonly");
             setReadOnly(true);
         }
 
         // if the filesystem has been mounted R/W, set it to "unclean"
         if (!isReadOnly()) {
-            log.info(" mounting fs r/w");
+            log.log(Level.INFO, " mounting fs r/w");
             superblock.setState(Ext2Constants.EXT2_ERROR_FS);
             // Mount successfull, update some superblock informations.
             superblock.setMntCount(superblock.getMntCount() + 1);
@@ -214,7 +214,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
             superblock.setWTime(Ext2Utils.encodeDate(new Date()));
         }
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy");
-        log.debug(" superblock: " + "\n" + "  #Mount: " + superblock.getMntCount() + "\n" + "  #MaxMount: "
+        log.log(Level.DEBUG, " superblock: " + "\n" + "  #Mount: " + superblock.getMntCount() + "\n" + "  #MaxMount: "
             + superblock.getMaxMntCount() + "\n" + "  Last mount time: "
             + sdf.format(Ext2Utils.decodeDate(superblock.getMTime()).getTime()) + "\n" + "  Last write time: "
             + sdf.format(Ext2Utils.decodeDate(superblock.getWTime()).getTime()) + "\n" + "  #blocks: "
@@ -225,7 +225,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
     }
 
     public void create(BlockSize blockSize) throws FileSystemException {
-        log.info("Creating a new ext2 file system: " + blockSize);
+        log.log(Level.INFO, "Creating a new ext2 file system: " + blockSize);
 
         try {
             // create the superblock
@@ -248,7 +248,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
             // create the inode bitmap
             // fill the inode table with zeroes
             for (int i = 0; i < groupCount; i++) {
-                log.debug("creating group " + i);
+                log.log(Level.DEBUG, "creating group " + i);
 
                 byte[] blockBitmap = new byte[blockSize.getSize()];
                 byte[] inodeBitmap = new byte[blockSize.getSize()];
@@ -285,7 +285,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
                 writeBlock(groupDescriptors[i].getInodeBitmap(), inodeBitmap, false);
             }
 
-            log.info("superblock.getBlockSize(): " + superblock.getBlockSize());
+            log.log(Level.INFO, "superblock.getBlockSize(): " + superblock.getBlockSize());
 
             buildRootEntry();
 
@@ -304,11 +304,11 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
      * @throws IOException
      */
     public void flush() throws IOException {
-        log.info("Flushing the contents of the filesystem");
+        log.log(Level.INFO, "Flushing the contents of the filesystem");
         // update the inodes
         synchronized (inodeCache) {
             try {
-                log.debug("inodecache size: " + inodeCache.size());
+                log.log(Level.DEBUG, "inodecache size: " + inodeCache.size());
                 for (INode iNode : inodeCache.values()) {
                     iNode.flush();
                 }
@@ -328,7 +328,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
             }
         }
 
-        log.info("Filesystem flushed");
+        log.log(Level.INFO, "Filesystem flushed");
     }
 
     protected void updateFS() throws IOException {
@@ -391,7 +391,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
      */
     public byte[] getBlock(long nr) throws IOException {
         if (isClosed()) throw new IOException("FS closed (fs instance: " + this + ")");
-        // log.debug("blockCache size: "+blockCache.size());
+        // log.log(Level.DEBUG, "blockCache size: "+blockCache.size());
 
         int blockSize = superblock.getBlockSize();
         Block result;
@@ -416,7 +416,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         // the block will be put in the cache only once in the second
         // synchronized block
         ByteBuffer data = ByteBuffer.allocate(blockSize);
-        log.debug("Reading block " + nr + " (offset: " + nr * blockSize + ") from disk");
+        log.log(Level.DEBUG, "Reading block " + nr + " (offset: " + nr * blockSize + ") from disk");
         getApi().read(nr * blockSize, data);
 
         // synchronize again
@@ -466,7 +466,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
                     // timedWrite(nr, data);
                     block.setDirty(false);
 
-                    log.debug("writing block " + nr + " to disk");
+                    log.log(Level.DEBUG, "writing block " + nr + " to disk");
                 } else block.setDirty(true);
             } else {
                 // If the block was not in the cache, I see no reason to put it
@@ -499,13 +499,13 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
      * TimeoutWatcher(Thread.currentThread()), TIMEOUT); try{ getApi().write(nr*getBlockSize(), data, 0,
      * (int)getBlockSize()); writeTimer.cancel(); }catch(IOException ioe) { //IDEDiskDriver will throw an IOException
      * with a cause of an InterruptedException //it the write is interrupted if(ioe.getCause() instanceof
-     * InterruptedException) { writeTimer.cancel(); log.debug("IDE driver interrupted during write operation: probably
+     * InterruptedException) { writeTimer.cancel(); log.log(Level.DEBUG, "IDE driver interrupted during write operation: probably
      * timeout"); finished = false; } } } } private void timedRead(long nr, byte[] data) throws IOException{ boolean
      * finished = false; Timer readTimer; while(!finished) { finished = true; readTimer = new Timer();
      * readTimer.schedule(new TimeoutWatcher(Thread.currentThread()), TIMEOUT); try{ getApi().read( nr*getBlockSize(),
      * data, 0, (int)getBlockSize()); readTimer.cancel(); }catch(IOException ioe) { //IDEDiskDriver will throw an
      * IOException with a cause of an InterruptedException //it the write is interrupted if(ioe.getCause() instanceof
-     * InterruptedException) { readTimer.cancel(); log.debug("IDE driver interrupted during read operation: probably
+     * InterruptedException) { readTimer.cancel(); log.log(Level.DEBUG, "IDE driver interrupted during read operation: probably
      * timeout"); finished = false; } } } }
      */
 
@@ -524,7 +524,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
 
         Long key = iNodeNr;
 
-        log.debug("iNodeCache size: " + inodeCache.size());
+        log.log(Level.DEBUG, "iNodeCache size: " + inodeCache.size());
 
         synchronized (inodeCache) {
             // check if the inode is already in the cache
@@ -635,7 +635,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         // trigger a write to disk
         iNode.update();
 
-        log.debug("** NEW INODE ALLOCATED: inode number: " + iNode.getINodeNr());
+        log.log(Level.DEBUG, "** NEW INODE ALLOCATED: inode number: " + iNode.getINodeNr());
 
         // put the inode into the cache
         synchronized (inodeCache) {
@@ -795,9 +795,9 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         long firstNonMetadataBlock = iNodeTableBlock + INodeTable.getSizeInBlocks(this);
         int metadataLength = (int) (firstNonMetadataBlock - (superblock.getFirstDataBlock() + group
             * superblock.getBlocksPerGroup()));
-        log.debug("group[" + group + "].getInodeTable()=" + iNodeTableBlock + ", iNodeTable.getSizeInBlocks()="
+        log.log(Level.DEBUG, "group[" + group + "].getInodeTable()=" + iNodeTableBlock + ", iNodeTable.getSizeInBlocks()="
             + INodeTable.getSizeInBlocks(this));
-        log.debug("metadata length for block group(" + group + "): " + metadataLength);
+        log.log(Level.DEBUG, "metadata length for block group(" + group + "): " + metadataLength);
 
         BlockReservation result;
 
@@ -940,7 +940,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
     }
 
     protected void handleFSError(Exception e) {
-        log.error("File system error", e);
+        log.log(Level.ERROR, "File system error", e);
 
         // mark the fs as having errors
         superblock.setState(Ext2Constants.EXT2_ERROR_FS);

@@ -122,7 +122,7 @@ public abstract class Fat {
     }
 
     public final long getLast(int fatnum) {
-        return getLast(fatnum) + offset(size() - 1);
+        return getLastSector(fatnum) + offset(size() - 1);
     }
 
     protected final long position(int fatnum, int index) throws IOException {
@@ -136,7 +136,7 @@ public abstract class Fat {
         if (offset < 0) {
             throw new IllegalArgumentException("offset<0");
         }
-Debug.println(Level.FINE, "cluster: " + cluster);
+Debug.println(Level.FINER, "cluster: " + cluster);
         if ((offset + dst.remaining()) > getClusterSize()) {
             throw new IllegalArgumentException("length[" + (offset + dst.remaining()) + "] " +
                 "exceed clusterSize[" + getClusterSize() + "]");

@@ -22,8 +22,8 @@ package org.jnode.fs.ntfs;
 
 import java.nio.charset.StandardCharsets;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.util.LittleEndian;
 
 /**
@@ -34,7 +34,7 @@ public class NTFSStructure {
     /**
      * My logger
      */
-    protected static final Logger log = LogManager.getLogger(NTFSStructure.class);
+    protected static final Logger log = System.getLogger(NTFSStructure.class.getName());
 
     private byte[] buffer;
     private int offset;

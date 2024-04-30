@@ -28,8 +28,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FSEntry;
 
 /**
@@ -42,7 +42,7 @@ import org.jnode.fs.FSEntry;
  */
 public class FSEntryTable extends AbstractFSObject {
 
-    private static final Logger log = LogManager.getLogger(FSEntryTable.class);
+    private static final Logger log = System.getLogger(FSEntryTable.class.getName());
 
     /**
      * An empty table that's used as a default table (that can't be modified)
@@ -56,18 +56,18 @@ public class FSEntryTable extends AbstractFSObject {
      * Map of entries (key=name, value=entry). As a value may be null (a free
      * entry) we must use Hashtable and not Hashtable
      */
-    private Map<String, FSEntry> entries; // must be a HashMap
+    private final Map<String, FSEntry> entries; // must be a HashMap
 
     /**
      * Map of entries (key=id, value=entry). As a value may be null (a free
      * entry) we must use Hashtable and not Hashtable
      */
-    private Map<String, FSEntry> entriesById; // must be a HashMap
+    private final Map<String, FSEntry> entriesById; // must be a HashMap
 
     /**
      * Names of the entries (list of String or null)
      */
-    private List<String> entryNames;
+    private final List<String> entryNames;
 
     /**
      * Private constructor for EMPTY_TABLE
@@ -98,11 +98,11 @@ public class FSEntryTable extends AbstractFSObject {
                 entryNames.add(null);
             } else {
                 final String name = normalizeName(entry.getName());
-                log.debug("FSEntryTable: adding entry " + name + " (length=+" + name.length() + ")");
+                log.log(Level.DEBUG, "FSEntryTable: adding entry " + name + " (length=+" + name.length() + ")");
                 entries.put(name, entry);
                 FSEntry existingEntry = entriesById.put(entry.getId(), entry);
                 if (existingEntry != null) {
-                    log.error(String.format("Duplicate entries for ID: '%s' old:%s new:%s", entry.getId(),
+                    log.log(Level.ERROR, String.format("Duplicate entries for ID: '%s' old:%s new:%s", entry.getId(),
                         existingEntry, entry));
                 }
                 entryNames.add(name);
@@ -166,7 +166,7 @@ public class FSEntryTable extends AbstractFSObject {
             return null;
 
         name = normalizeName(name);
-        log.debug("get(" + name + ")");
+        log.log(Level.DEBUG, "get(" + name + ")");
         return entries.get(name);
     }
 
@@ -249,7 +249,7 @@ public class FSEntryTable extends AbstractFSObject {
      * @return an Iterator with all used entries
      */
     public final Iterator<FSEntry> iterator() {
-        return new Iterator<FSEntry>() {
+        return new Iterator<>() {
             private int index = 0;
 
             private List<FSEntry> usedEntries = getUsedEntries();
@@ -317,13 +317,13 @@ public class FSEntryTable extends AbstractFSObject {
      * @return the index of renamed file
      */
     public int rename(String oldName, String newName) {
-        log.debug("<<< BEGIN rename oldName=" + oldName + " newName=" + newName + " >>>");
-        log.debug("rename: table=" + this);
+        log.log(Level.DEBUG, "<<< BEGIN rename oldName=" + oldName + " newName=" + newName + " >>>");
+        log.log(Level.DEBUG, "rename: table=" + this);
         oldName = normalizeName(oldName);
         newName = normalizeName(newName);
-        log.debug("rename oldName=" + oldName + " newName=" + newName);
+        log.log(Level.DEBUG, "rename oldName=" + oldName + " newName=" + newName);
         if (!entryNames.contains(oldName)) {
-            log.debug("<<< END rename return false (oldName not found) >>>");
+            log.log(Level.DEBUG, "<<< END rename return false (oldName not found) >>>");
             return -1;
         }
 
@@ -336,7 +336,7 @@ public class FSEntryTable extends AbstractFSObject {
         FSEntry entry = entries.remove(oldName);
         entries.put(newName, entry);
 
-        log.debug("<<< END rename return true >>>");
+        log.log(Level.DEBUG, "<<< END rename return true >>>");
         return index;
     }
 
@@ -353,7 +353,7 @@ public class FSEntryTable extends AbstractFSObject {
         String name = normalizeName(newEntry.getName());
         int index = findFreeEntry(newEntry);
         if (index < 0) {
-            log.debug("setFreeEntry: ERROR: entry table is full");
+            log.log(Level.DEBUG, "setFreeEntry: ERROR: entry table is full");
             throw new IOException("Directory is full");
         }
 

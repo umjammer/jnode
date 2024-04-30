@@ -20,8 +20,8 @@
 
 package org.jnode.net.ipv4.config.impl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.Device;
 import org.jnode.util.Queue;
 import org.jnode.util.QueueProcessor;
@@ -34,7 +34,7 @@ public class ConfigurationProcessor implements QueueProcessor<ConfigurationQueue
 
     private final Queue<ConfigurationQueueEntry> queue = new Queue<>();
 
-    static final Logger log = LogManager.getLogger(ConfigurationProcessor.class);
+    static final Logger log = System.getLogger(ConfigurationProcessor.class.getName());
 
     private QueueProcessorThread<ConfigurationQueueEntry> thread;
 

@@ -23,8 +23,8 @@ package org.jnode.net.ipv4.tcp;
 import java.net.SocketException;
 import java.util.LinkedList;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.ipv4.IPv4Header;
 
@@ -36,7 +36,7 @@ public class TCPInChannel {
     /**
      * My logger
      */
-    private static final Logger log = LogManager.getLogger(TCPInChannel.class);
+    private static final Logger log = System.getLogger(TCPInChannel.class.getName());
 
     /**
      * Segments that have been received, but are out of order
@@ -93,7 +93,7 @@ public class TCPInChannel {
         // Check the seq-nr
         if (TCPUtils.SEQ_LT(seqNr, rcv_next)) {
             // Ignore segment, we've already got it
-            log.debug("Ignoring segment because we already got it");
+            log.log(Level.DEBUG, "Ignoring segment because we already got it");
             return;
         }
 
@@ -140,7 +140,7 @@ public class TCPInChannel {
         final int dataLength = hdr.getDataLength();
         if (dataLength > dataBuffer.getFreeSize()) {
             // Not enough free space, ignore this segment, it will be retransmitted.
-            log.debug("nextSegment dropped due to lack of space");
+            log.log(Level.DEBUG, "nextSegment dropped due to lack of space");
             return false;
         } else {
             // Enough space, save

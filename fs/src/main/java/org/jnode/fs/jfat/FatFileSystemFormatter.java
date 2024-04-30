@@ -23,8 +23,8 @@ package org.jnode.fs.jfat;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.Device;
 import org.jnode.driver.block.BlockDeviceAPI;
@@ -40,7 +40,7 @@ import org.jnode.partitions.ibm.IBMPartitionTableEntry;
  * @author Tango
  */
 public class FatFileSystemFormatter extends Formatter<FatFileSystem> {
-    private static final Logger log = LogManager.getLogger(FatFileSystemFormatter.class);
+    private static final Logger log = System.getLogger(FatFileSystemFormatter.class.getName());
 
     public static final int SECTOR_SIZE = 512;
 
@@ -61,7 +61,7 @@ public class FatFileSystemFormatter extends Formatter<FatFileSystem> {
             int sectorSize = api.getSectorSize();
 
             if (sectorSize != SECTOR_SIZE) {
-                log.error("This mkjfat1.0 support only the Hard Disk.Sector Size must " +
+                log.log(Level.ERROR, "This mkjfat1.0 support only the Hard Disk.Sector Size must " +
                         SECTOR_SIZE + " bytes.\n");
             }
 
@@ -83,7 +83,7 @@ public class FatFileSystemFormatter extends Formatter<FatFileSystem> {
              * just fine, but the spec says that we shouldn't do this, so we won't.
              */
             if (numberOfSectors < 65536) {
-                log.error("This drive is too small for FAT32 - there must be at least 64K clusters\n");
+                log.log(Level.ERROR, "This drive is too small for FAT32 - there must be at least 64K clusters\n");
             }
 
             /*
@@ -96,7 +96,7 @@ public class FatFileSystemFormatter extends Formatter<FatFileSystem> {
              * Perhaps a future version of FAT32 and FASTFAT will handle this.
              */
             if (numberOfSectors >= (Math.pow(2, 32) - 1)) {
-                log.error("This drive is too big for FAT32 - max 2TB supported :" + numberOfSectors);
+                log.log(Level.ERROR, "This drive is too big for FAT32 - max 2TB supported :" + numberOfSectors);
             }
 
             // The FAT32 Formatter class constructor

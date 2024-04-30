@@ -32,8 +32,8 @@ import java.security.PrivilegedExceptionAction;
 import java.util.HashMap;
 import java.util.Random;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.driver.net.NetworkException;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.ipv4.IPv4Constants;
@@ -52,7 +52,7 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
     /**
      * My logger
      */
-    private static final Logger log = LogManager.getLogger(UDPProtocol.class);
+    private static final Logger log = System.getLogger(UDPProtocol.class.getName());
 
     /**
      * The underlying IP service
@@ -105,7 +105,7 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
                     return null;
                 });
             } catch (SecurityException ex) {
-                log.error("No permission to set DatagramSocketImplFactory", ex);
+                log.log(Level.ERROR, "No permission to set DatagramSocketImplFactory", ex);
             } catch (PrivilegedActionException ex) {
                 throw new NetworkException(ex.getException());
             }
@@ -154,7 +154,7 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
             return;
         }
 
-        // Syslog.debug("Found UDP: " + hdr);
+        // Syslog.log(Level.DEBUG, "Found UDP: " + hdr);
 
         deliver(hdr, skbuf);
     }

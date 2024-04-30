@@ -37,8 +37,8 @@ import org.acplt.oncrpc.XdrAble;
 import org.acplt.oncrpc.XdrDecodingStream;
 import org.acplt.oncrpc.XdrEncodingStream;
 import org.acplt.oncrpc.XdrVoid;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.net.nfs.Protocol;
 
 /**
@@ -106,7 +106,7 @@ public class NFS2Client {
 
     private static final int PROCEDURE_GET_FILE_SYSTEM_ATTRIBUTE = 17;
 
-    private static final Logger LOGGER = LogManager.getLogger(NFS2Client.class);
+    private static final Logger LOGGER = System.getLogger(NFS2Client.class.getName());
 
     private List<OncRpcClient> rpcClientPool;
 
@@ -169,7 +169,7 @@ public class NFS2Client {
         if (closed) {
             throw new IOException("The nfs client it is closed");
         }
-        if (rpcClientPool.size() == 0) {
+        if (rpcClientPool.isEmpty()) {
             // TODO Improve this lock
             return createRpcClient();
         } else {
@@ -220,7 +220,7 @@ public class NFS2Client {
                     if (countCall > 5) {
                         throw new NFS2Exception(e.getMessage(), e);
                     } else {
-                        LOGGER.warn("An error occurs when nfs file system try to call the rpc method. Reason: " +
+                        LOGGER.log(Level.WARNING, "An error occurs when nfs file system try to call the rpc method. Reason: " +
                                         e.getMessage() + " . It will try again");
                     }
                 } else {
@@ -249,7 +249,7 @@ public class NFS2Client {
                 exceptionList.add(e);
             }
         }
-        if (exceptionList.size() != 0) {
+        if (!exceptionList.isEmpty()) {
             StringBuilder builder = new StringBuilder();
             builder.append("An error occurs when the mount client close connections. Reason:");
             for (OncRpcException anExceptionList : exceptionList) {

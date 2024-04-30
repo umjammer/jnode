@@ -22,15 +22,16 @@ package org.jnode.fs.ext2.cache;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.ext2.Ext2FileSystem;
 
 /**
  * @author Andras Nagy
  */
 public class Block {
-    private final Logger log = LogManager.getLogger(getClass());
+
+    private static final Logger log = System.getLogger(Block.class.getName());
 
     protected byte[] data;
     boolean dirty = false;
@@ -68,7 +69,7 @@ public class Block {
     public void flush() throws IOException {
         if (dirty) {
             fs.writeBlock(blockNr, data, true);
-            log.debug("BLOCK FLUSHED FROM CACHE");
+            log.log(Level.DEBUG, "BLOCK FLUSHED FROM CACHE");
         }
     }
 
@@ -83,10 +84,9 @@ public class Block {
 
     /**
      * Set the dirty flag.
-     * @param b 
+     * @param b the dirty flag
      */
     public void setDirty(boolean b) {
         dirty = b;
     }
-
 }

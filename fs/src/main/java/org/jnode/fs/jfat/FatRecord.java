@@ -23,12 +23,13 @@ package org.jnode.fs.jfat;
 import java.io.IOException;
 import java.util.Vector;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.util.NumberUtils;
 
 public class FatRecord {
-    private static final Logger log = LogManager.getLogger(FatRecord.class);
+
+    private static final Logger log = System.getLogger(FatRecord.class.getName());
 
     private static final int MAXLONGENTRIES = 20;
 
@@ -145,13 +146,13 @@ public class FatRecord {
             int ordinal = last - i + 1;
 
             if (l.getOrdinal() != ordinal && !l.isFreeDirEntry()) {
-                log.debug("ordinal orphaned vector discarded for " + getShortName());
+                log.log(Level.DEBUG, "ordinal orphaned vector discarded for " + getShortName());
                 clearLongEntries();
                 return;
             }
 
             if (l.getChkSum() != chkSum && !l.isFreeDirEntry()) {
-                log.debug("chksum orphaned vector discarded for " + getShortName());
+                log.log(Level.DEBUG, "chksum orphaned vector discarded for " + getShortName());
                 clearLongEntries();
                 return;
             }

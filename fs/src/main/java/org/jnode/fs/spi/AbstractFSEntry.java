@@ -22,8 +22,8 @@ package org.jnode.fs.spi;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FSAccessRights;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
@@ -37,7 +37,8 @@ import org.jnode.fs.util.FSUtils;
  * @author Fabien DUMINY
  */
 public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntry {
-    private static final Logger log = LogManager.getLogger(AbstractFSEntry.class);
+
+    private static final Logger log = System.getLogger(AbstractFSEntry.class.getName());
 
     // common types of entries found in most FileSystems:
     /** Fake entry: lower bound */
@@ -175,21 +176,21 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
      * @throws IOException
      */
     public final void setName(String newName) throws IOException {
-        log.debug("<<< BEGIN setName newName=" + newName + " >>>");
+        log.log(Level.DEBUG, "<<< BEGIN setName newName=" + newName + " >>>");
         // NB: table is null for a root
         if (isRoot()) {
-            log.debug("<<< END setName newName=" + newName + " ERROR: root >>>");
+            log.log(Level.DEBUG, "<<< END setName newName=" + newName + " ERROR: root >>>");
             throw new IOException("Cannot change name of root directory");
         }
 
         // It's not a root --> table != null
         if (table.rename(name, newName) < 0) {
-            log.debug("<<< END setName newName=" + newName + " ERROR: table can't rename >>>");
+            log.log(Level.DEBUG, "<<< END setName newName=" + newName + " ERROR: table can't rename >>>");
             throw new IOException("Cannot change name");
         }
 
         this.name = newName;
-        log.debug("<<< END setName newName=" + newName + " >>>");
+        log.log(Level.DEBUG, "<<< END setName newName=" + newName + " >>>");
     }
 
     public void setLastModified(long lastModified) throws IOException {

@@ -22,8 +22,8 @@ package org.jnode.fs.ext2;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.util.LittleEndian;
 
 /**
@@ -31,13 +31,15 @@ import org.jnode.util.LittleEndian;
  * 
  */
 public class GroupDescriptor {
+
+    private static final Logger log = System.getLogger(GroupDescriptor.class.getName());
+
     public static final int GROUPDESCRIPTOR_LENGTH = 32;
 
     private byte[] data;
     private Ext2FileSystem fs;
     private int groupNr;
     private boolean dirty;
-    private final Logger log = LogManager.getLogger(getClass());
 
     public GroupDescriptor() {
         data = new byte[GROUPDESCRIPTOR_LENGTH];
@@ -120,7 +122,7 @@ public class GroupDescriptor {
      */
     protected synchronized void updateGroupDescriptor() throws IOException {
         if (isDirty()) {
-            log.debug("Updating groupdescriptor copies");
+            log.log(Level.DEBUG, "Updating groupdescriptor copies");
             Superblock superblock = fs.getSuperblock();
             for (int i = 0; i < fs.getGroupCount(); i++) {
                 // check if there is a group descriptor table copy in the block

@@ -26,8 +26,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSDirectoryId;
 import org.jnode.fs.FSEntry;
@@ -43,7 +43,7 @@ import org.jnode.fs.spi.FSEntryTable;
 
 public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
 
-    private static final Logger log = LogManager.getLogger(HfsPlusDirectory.class);
+    private static final Logger log = System.getLogger(HfsPlusDirectory.class.getName());
 
     /**
      * The directory entry
@@ -82,7 +82,7 @@ public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
         }
         FSEntry newEntry = createDirectoryEntry(name);
         setFreeEntry(newEntry);
-        log.debug("Directory " + name + " added");
+        log.log(Level.DEBUG, "Directory " + name + " added");
         return newEntry;
     }
 
@@ -113,7 +113,7 @@ public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
          * HFSPlusEntry newEntry = new HFSPlusFile(fs, this, name,
          * folderRecord); newEntry.setDirty();
          * volumeHeader.setFileCount(volumeHeader.getFileCount() + 1);
-         * log.debug("New volume header :\n" + volumeHeader.toString());
+         * log.log(Level.DEBUG, "New volume header :\n" + volumeHeader.toString());
          */
 
         return null;
@@ -130,7 +130,7 @@ public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
             // entries.resetDirty();
             entry.resetDirty();
         }
-        log.debug("Directory flushed.");
+        log.log(Level.DEBUG, "Directory flushed.");
     }
 
     @Override
@@ -182,20 +182,20 @@ public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
      */
     protected final void checkEntriesLoaded() {
         if (!isEntriesLoaded()) {
-            log.debug("checkEntriesLoaded : loading");
+            log.log(Level.DEBUG, "checkEntriesLoaded : loading");
             try {
                 if (entry.getAccessRights().canRead()) {
                     entries = readEntries();
-                    log.debug("Load " + entries.size() + " entrie(s).");
+                    log.log(Level.DEBUG, "Load " + entries.size() + " entrie(s).");
                 } else {
                     // the next time, we will call checkEntriesLoaded()
                     // we will retry to load entries
                     entries = FSEntryTable.EMPTY_TABLE;
-                    log.debug("checkEntriesLoaded : can't read, using EMPTY_TABLE");
+                    log.log(Level.DEBUG, "checkEntriesLoaded : can't read, using EMPTY_TABLE");
                 }
                 entry.resetDirty();
             } catch (IOException e) {
-                log.fatal("unable to read directory entries", e);
+                log.log(Level.ERROR, "unable to read directory entries", e);
                 // the next time, we will call checkEntriesLoaded()
                 // we will retry to load entries
                 entries = FSEntryTable.EMPTY_TABLE;
@@ -308,7 +308,7 @@ public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
         HfsPlusEntry newEntry = new HfsPlusEntry(getFileSystem(), this, name, node.getNodeRecord(0));
         newEntry.setDirty();
         volumeHeader.incrementFolderCount();
-        log.debug("New volume header :\n" + volumeHeader);
+        log.log(Level.DEBUG, "New volume header :\n" + volumeHeader);
         volumeHeader.update();
 
         return newEntry;
@@ -323,7 +323,7 @@ public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
     private void setFreeEntry(FSEntry newEntry) throws IOException {
         checkEntriesLoaded();
         if (entries.setFreeEntry(newEntry) >= 0) {
-            log.debug("setFreeEntry: free entry found !");
+            log.log(Level.DEBUG, "setFreeEntry: free entry found !");
             entry.setDirty();
             flush();
         }

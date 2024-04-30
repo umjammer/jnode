@@ -23,8 +23,8 @@ package org.jnode.fs.ntfs;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.util.LittleEndian;
 
 /**
@@ -40,7 +40,7 @@ public final class CompressedDataRun implements DataRunInterface {
     /**
      * Logger.
      */
-    private static final Logger log = LogManager.getLogger(CompressedDataRun.class);
+    private static final Logger log = System.getLogger(CompressedDataRun.class.getName());
 
     /**
      * The underlying data run containing the compressed data.
@@ -93,7 +93,7 @@ public final class CompressedDataRun implements DataRunInterface {
         final long myFirstVcn = compressedRun.getFirstVcn();
         final long myLastVcn = getLastVcn();
         final long reqLastVcn = vcn + nrClusters - 1;
-        log.debug("me:" + myFirstVcn + "-" + myLastVcn + ", req:" + vcn + "-" + reqLastVcn);
+        log.log(Level.DEBUG, "me:" + myFirstVcn + "-" + myLastVcn + ", req:" + vcn + "-" + reqLastVcn);
         if ((vcn > myLastVcn) || (myFirstVcn > reqLastVcn)) {
             // Not my region
             return 0;
@@ -195,7 +195,7 @@ public final class CompressedDataRun implements DataRunInterface {
         final int rawLen = compressed.getShort(cpos);
         cpos += 2;
         final int len = rawLen & 0xFFF;
-        log.debug("ntfs_uncompblock: block length: " + len + " + 3, 0x" +
+        log.log(Level.DEBUG, "ntfs_uncompblock: block length: " + len + " + 3, 0x" +
             Integer.toHexString(len) + ",0x" + Integer.toHexString(rawLen));
 
         if (rawLen == 0) {
@@ -207,7 +207,7 @@ public final class CompressedDataRun implements DataRunInterface {
         if ((rawLen & 0x8000) == 0) {
             // Uncompressed chunks store length as 0xFFF always.
             if ((len + 1) != BLOCK_SIZE) {
-                log.debug("ntfs_uncompblock: len: " + len + " instead of 0xfff");
+                log.log(Level.DEBUG, "ntfs_uncompblock: len: " + len + " instead of 0xfff");
             }
 
             // Copies the entire compression block as-is, need to skip the compression flag,

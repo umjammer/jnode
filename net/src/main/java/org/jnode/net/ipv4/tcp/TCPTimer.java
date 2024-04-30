@@ -20,15 +20,15 @@
 
 package org.jnode.net.ipv4.tcp;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)
  */
 public class TCPTimer extends Thread {
 
-    private static final Logger log = LogManager.getLogger(TCPTimer.class);
+    private static final Logger log = System.getLogger(TCPTimer.class.getName());
     private final TCPControlBlockList cbList;
     private boolean stop = false;
     private long counter;
@@ -55,7 +55,7 @@ public class TCPTimer extends Thread {
                 cbList.timeout();
                 counter += TCPConstants.TCP_TIMER_PERIOD;
             } catch (Throwable ex) {
-                log.error("Error in TCP timer", ex);
+                log.log(Level.ERROR, "Error in TCP timer", ex);
             }
             try {
                 Thread.sleep(TCPConstants.TCP_TIMER_PERIOD);

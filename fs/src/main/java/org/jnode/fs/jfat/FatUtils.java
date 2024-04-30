@@ -128,7 +128,7 @@ public class FatUtils {
     }
 
     public static boolean isLowerCase(String s) {
-        if (s.length() == 0)
+        if (s.isEmpty())
             return false;
 
         char[] ca = s.toCharArray();
@@ -141,7 +141,7 @@ public class FatUtils {
     }
 
     public static boolean isUpperCase(String s) {
-        if (s.length() == 0)
+        if (s.isEmpty())
             return false;
 
         char[] ca = s.toCharArray();

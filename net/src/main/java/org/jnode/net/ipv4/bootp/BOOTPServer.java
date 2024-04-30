@@ -32,8 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import org.jnode.nanoxml.XMLElement;
 import org.jnode.net.ipv4.IPv4Address;
 
@@ -42,7 +42,7 @@ import org.jnode.net.ipv4.IPv4Address;
  */
 public class BOOTPServer {
 
-    private static final Logger log = LogManager.getLogger(BOOTPServer.class);
+    private static final Logger log = System.getLogger(BOOTPServer.class.getName());
 
     public static final int SERVER_PORT = 67;
     public static final int CLIENT_PORT = 68;
@@ -59,7 +59,7 @@ public class BOOTPServer {
             server.loadTable(filename);
             server.run();
         } catch (IOException ex) {
-            LogManager.getLogger(BOOTPServer.class).debug("I/O exception", ex);
+            log.log(Level.DEBUG, "I/O exception", ex);
         }
     }
 
@@ -88,7 +88,7 @@ public class BOOTPServer {
                     table.put(child.getStringAttribute("ethernetAddress").toUpperCase(),
                             new TableEntry(child));
                 } catch (IllegalArgumentException ex) {
-                    log.debug("Invalid IP address", ex);
+                    log.log(Level.DEBUG, "Invalid IP address", ex);
                 }
             }
         }
@@ -109,7 +109,7 @@ public class BOOTPServer {
                     socket.receive(packet);
                     processRequest(packet);
                 } catch (IOException ex) {
-                    log.debug("I/O exception", ex);
+                    log.log(Level.DEBUG, "I/O exception", ex);
                 }
             }
         } finally {
@@ -118,7 +118,7 @@ public class BOOTPServer {
     }
 
     private void processRequest(DatagramPacket packet) throws IOException {
-        log.debug("Received packet: " + packet.getAddress() + ':' + packet.getPort() + ' ' +
+        log.log(Level.DEBUG, "Received packet: " + packet.getAddress() + ':' + packet.getPort() + ' ' +
                 new String(packet.getData(), packet.getOffset(), packet.getLength()));
         BOOTPHeader hdr = new BOOTPHeader(packet);
         if (hdr.getOpcode() != BOOTPHeader.BOOTREQUEST) {
@@ -126,17 +126,17 @@ public class BOOTPServer {
             return;
         }
 
-        log.debug("Got Client IP address  : " + hdr.getClientIPAddress());
-        log.debug("Got Your IP address    : " + hdr.getYourIPAddress());
-        log.debug("Got Server IP address  : " + hdr.getServerIPAddress());
-        log.debug("Got Gateway IP address : " + hdr.getGatewayIPAddress());
-        log.debug("Got Hardware address   : " + hdr.getClientHwAddress());
+        log.log(Level.DEBUG, "Got Client IP address  : " + hdr.getClientIPAddress());
+        log.log(Level.DEBUG, "Got Your IP address    : " + hdr.getYourIPAddress());
+        log.log(Level.DEBUG, "Got Server IP address  : " + hdr.getServerIPAddress());
+        log.log(Level.DEBUG, "Got Gateway IP address : " + hdr.getGatewayIPAddress());
+        log.log(Level.DEBUG, "Got Hardware address   : " + hdr.getClientHwAddress());
 
         TableEntry entry =
                 table.get(hdr.getClientHwAddress().toString().toUpperCase());
         if (entry == null) {
             // no entry in table
-            log.debug("No match for hardware address found in table");
+            log.log(Level.DEBUG, "No match for hardware address found in table");
             return;
         }
         Inet4Address yourIP = entry.address;

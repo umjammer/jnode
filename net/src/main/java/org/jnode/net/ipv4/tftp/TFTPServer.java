@@ -36,8 +36,8 @@ import org.apache.commons.net.tftp.TFTPPacket;
 import org.apache.commons.net.tftp.TFTPPacketException;
 import org.apache.commons.net.tftp.TFTPReadRequestPacket;
 import org.apache.commons.net.tftp.TFTPWriteRequestPacket;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 
 /**
  * TFTP server. Currently only supports one client at a time.
@@ -46,7 +46,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class TFTPServer extends TFTP {
 
-    private static final Logger log = LogManager.getLogger(TFTPServer.class);
+    private static final Logger log = System.getLogger(TFTPServer.class.getName());
 
     /** current client address */
     private InetAddress clientAddress;
@@ -63,11 +63,10 @@ public class TFTPServer extends TFTP {
     private int blockNumber;
 
     public static void main(String[] args) {
-        TFTPServer server = new TFTPServer();
-        try {
+        try (TFTPServer server = new TFTPServer()) {
             server.run();
         } catch (SocketException ex) {
-            LogManager.getLogger(TFTPServer.class).fatal("Socket exception", ex);
+            log.log(Level.ERROR, "Socket exception", ex);
         }
     }
 
@@ -83,9 +82,9 @@ public class TFTPServer extends TFTP {
                     TFTPPacket packet = bufferedReceive();
                     processRequest(packet);
                 } catch (TFTPPacketException ex) {
-                    log.debug("Error in TFTP packet", ex);
+                    log.log(Level.DEBUG, "Error in TFTP packet", ex);
                 } catch (IOException ex) {
-                    log.debug("I/O exception", ex);
+                    log.log(Level.DEBUG, "I/O exception", ex);
                 }
             }
         } finally {
@@ -95,15 +94,14 @@ public class TFTPServer extends TFTP {
     }
 
     private void processRequest(TFTPPacket packet) throws IOException {
-        if (log.isDebugEnabled())
-            log.debug("Received packet: " + packet.getAddress() + ':' + packet.getPort());
+        log.log(Level.DEBUG, "Received packet: " + packet.getAddress() + ':' + packet.getPort());
         final int type = packet.getType();
         switch (type) {
             case TFTPPacket.WRITE_REQUEST:
                 if (clientAddress == null) {
                     TFTPWriteRequestPacket wreqPacket = (TFTPWriteRequestPacket) packet;
                     File file = new File(".", wreqPacket.getFilename());
-                    log.info("Request to write file " + wreqPacket.getFilename() + " (" +
+                    log.log(Level.INFO, "Request to write file " + wreqPacket.getFilename() + " (" +
                             file.getAbsolutePath() + ") received from " + packet.getAddress() +
                         ':' + packet.getPort());
                     fileOut = new FileOutputStream(file);
@@ -138,7 +136,7 @@ public class TFTPServer extends TFTP {
                     TFTPReadRequestPacket rreqPacket = (TFTPReadRequestPacket) packet;
                     try {
                         File file = new File(".", rreqPacket.getFilename());
-                        log.info("Request to read file " + rreqPacket.getFilename() + " (" +
+                        log.log(Level.INFO, "Request to read file " + rreqPacket.getFilename() + " (" +
                                 file.getAbsolutePath() + ") received from " + packet.getAddress() +
                             ':' + packet.getPort());
                         fileIn = new FileInputStream(file);

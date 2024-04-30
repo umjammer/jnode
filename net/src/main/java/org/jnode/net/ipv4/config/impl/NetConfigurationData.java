@@ -20,13 +20,11 @@
 
 package org.jnode.net.ipv4.config.impl;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jnode.driver.Device;
 
 /**
@@ -35,7 +33,7 @@ import org.jnode.driver.Device;
 final class NetConfigurationData {
 
     /** My logger */
-    static final Logger log = LogManager.getLogger(NetConfigurationData.class);
+    static final Logger log = System.getLogger(NetConfigurationData.class.getName());
 
     /** The preferences that contain my data */
     private final Preferences prefs;
@@ -79,27 +77,23 @@ final class NetConfigurationData {
                 final Preferences devPrefs = devConfigsPrefs.node(device.getId());
                 final String clsName = devPrefs.get(CONFIG_CLASS_NAME_KEY, null);
                 if (clsName != null) {
-                    final PrivilegedAction<Object> action = () -> {
-                        try {
-                            final Class<?> cls =
-                                Thread.currentThread().getContextClassLoader().loadClass(clsName);
-                            return cls.newInstance();
-                        } catch (ClassNotFoundException ex) {
-                            log.warn("NetDeviceConfig class not found", ex);
-                            return null;
-                        } catch (InstantiationException ex) {
-                            log.warn("Cannot instantiate NetDeviceConfig class", ex);
-                            return null;
-                        } catch (IllegalAccessException ex) {
-                            log.warn("Cannot access NetDeviceConfig class", ex);
-                            return null;
-                        }
-                    };
-                    cfg = (NetDeviceConfig) AccessController.doPrivileged(action);
+                    try {
+                        final Class<?> cls = Thread.currentThread().getContextClassLoader().loadClass(clsName);
+                        return (NetDeviceConfig) cls.newInstance();
+                    } catch (ClassNotFoundException ex) {
+                        log.log(Level.WARNING, "NetDeviceConfig class not found", ex);
+                        return null;
+                    } catch (InstantiationException ex) {
+                        log.log(Level.WARNING, "Cannot instantiate NetDeviceConfig class", ex);
+                        return null;
+                    } catch (IllegalAccessException ex) {
+                        log.log(Level.WARNING, "Cannot access NetDeviceConfig class", ex);
+                        return null;
+                    }
                 }
             }
         } catch (BackingStoreException ex) {
-            log.warn("BackingStore error while loading NetDeviceConfig preferences", ex);
+            log.log(Level.WARNING, "BackingStore error while loading NetDeviceConfig preferences", ex);
             // Ignore
         }
 

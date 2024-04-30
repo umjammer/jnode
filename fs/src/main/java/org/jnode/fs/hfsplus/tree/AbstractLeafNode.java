@@ -23,12 +23,12 @@ package org.jnode.fs.hfsplus.tree;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 
 public abstract class AbstractLeafNode<K extends Key> extends AbstractNode<K, LeafRecord> {
 
-    private static final Logger log = LogManager.getLogger(AbstractLeafNode.class);
+    private static final Logger log = System.getLogger(AbstractLeafNode.class.getName());
 
     /**
      * Create a new node.
@@ -58,7 +58,7 @@ public abstract class AbstractLeafNode<K extends Key> extends AbstractNode<K, Le
     public final LeafRecord[] findAll(K key) {
         List<LeafRecord> list = new LinkedList<>();
         for (LeafRecord record : records) {
-            log.debug("Record: " + record.toString() + " Key: " + key);
+            log.log(Level.DEBUG, "Record: " + record.toString() + " Key: " + key);
             @SuppressWarnings("unchecked")
             K recordKey = (K) record.getKey();
             if (recordKey != null && recordKey.equals(key)) {
