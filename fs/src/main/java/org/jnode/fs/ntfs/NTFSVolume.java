@@ -38,11 +38,11 @@ public class NTFSVolume {
 
     public static final byte DOS_8_3 = 0x02;
 
-    private byte currentNameSpace = LONG_FILE_NAMES;
+    private final byte currentNameSpace = LONG_FILE_NAMES;
 
     private final BlockDeviceAPI api;
 
-    // local chache for faster access
+    // local cache for faster access
     private final int clusterSize;
 
     private final BootRecord bootRecord;
@@ -55,7 +55,7 @@ public class NTFSVolume {
      * Initialize this instance.
      */
     public NTFSVolume(BlockDeviceAPI api) throws IOException {
-        // I hope this is enaugh..should be
+        // I hope this is enough..should be
         this.api = api;
 
         // Read the boot sector
@@ -75,7 +75,7 @@ public class NTFSVolume {
     /**
      * Read a single cluster.
      *
-     * @param cluster
+     * @param cluster the cluster number
      */
     public void readCluster(long cluster, byte[] dst, int dstOffset) throws IOException {
         final int clusterSize = getClusterSize();
@@ -90,11 +90,11 @@ public class NTFSVolume {
     /**
      * Read a number of clusters.
      *
-     * @param firstCluster
+     * @param firstCluster the first cluster number
      * @param nrClusters   The number of clusters to read.
-     * @param dst          Must have space for (nrClusters * getClusterSize())
-     * @param dstOffset
-     * @throws IOException
+     * @param dst          Must-have space for (nrClusters * getClusterSize())
+     * @param dstOffset    the data buffer
+     * @throws IOException when an error occurs
      */
     public void readClusters(long firstCluster, byte[] dst, int dstOffset, int nrClusters) throws IOException {
         log.log(Level.DEBUG, "readClusters(" + firstCluster + ", " + nrClusters + ") " + (readClustersCount++));
@@ -142,7 +142,7 @@ public class NTFSVolume {
      * Gets the root directory on this volume.
      *
      * @return the root directory record
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public FileRecord getRootDirectory() throws IOException {
         if (rootDirectory == null) {

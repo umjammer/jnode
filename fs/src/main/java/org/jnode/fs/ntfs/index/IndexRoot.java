@@ -31,7 +31,7 @@ final class IndexRoot extends NTFSStructure {
 
     /**
      * Initialize this instance.
-     * @param attr
+     * @param attr the attr
      */
     public IndexRoot(IndexRootAttribute attr) {
         super(attr, attr.getAttributeOffset());

@@ -36,62 +36,48 @@ public class ISO9660File implements FSFile {
     private final ISO9660Entry entry;
 
     /**
-     * @param entry
+     * @param entry the entry
      */
     public ISO9660File(ISO9660Entry entry) {
         this.entry = entry;
     }
 
-    /**
-     * @see org.jnode.fs.FSFile#getLength()
-     */
+    @Override
     public long getLength() {
         return entry.getCDFSentry().getDataLength();
     }
 
-    /**
-     * @see org.jnode.fs.FSFile#setLength(long)
-     */
+    @Override
     public void setLength(long length) throws IOException {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    /**
-     * @see org.jnode.fs.FSFile#read(long, ByteBuffer)
-     */
+    @Override
     public void read(long fileOffset, ByteBuffer destBuf) throws IOException {
-        //TODO optimize it also to use ByteBuffer at lower level
+        // TODO optimize it also to use ByteBuffer at lower level
         final ByteBufferUtils.ByteArray destBA = ByteBufferUtils.toByteArray(destBuf);
         final byte[] dest = destBA.toArray();
         this.entry.getCDFSentry().readFileData(fileOffset, dest, 0, dest.length);
         destBA.refreshByteBuffer();
     }
 
-    /**
-     * @see org.jnode.fs.FSFile#write(long, ByteBuffer)
-     */
+    @Override
     public void write(long fileOffset, ByteBuffer src) throws IOException {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    /**
-     * @see org.jnode.fs.FSFile#flush()
-     */
+    @Override
     public void flush() throws IOException {
         // Readonly
-        //throw new UnsupportedOperationException("Not yet implemented");
+        // throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    /**
-     * @see org.jnode.fs.FSObject#isValid()
-     */
+    @Override
     public boolean isValid() {
         return true;
     }
 
-    /**
-     * @see org.jnode.fs.FSObject#getFileSystem()
-     */
+    @Override
     public final FileSystem<?> getFileSystem() {
         return entry.getFileSystem();
     }

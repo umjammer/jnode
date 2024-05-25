@@ -34,12 +34,12 @@ public interface IPv4Protocol extends TransportLayer {
 
     /**
      * Process an ICMP error message that has been received and matches this
-     * protocol. The skbuf is position directly after the ICMP header (thus
+     * protocol. The skBuf is position directly after the ICMP header (thus
      * contains the error IP header and error transport layer header). The
-     * transportLayerHeader property of skbuf is set to the ICMP message header.
+     * transportLayerHeader property of skBuf is set to the ICMP message header.
      * 
-     * @param skbuf
-     * @throws SocketException
+     * @param skbuf the skbuf
+     * @throws SocketException when an error occurs
      */
     void receiveError(SocketBuffer skbuf) throws SocketException;
 }

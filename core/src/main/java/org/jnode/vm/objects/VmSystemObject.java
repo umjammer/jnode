@@ -21,6 +21,7 @@
 package org.jnode.vm.objects;
 
 public abstract class VmSystemObject implements BootableObject {
+
     /**
      * Verify this object, just before it is written to the boot image during
      * the build process.

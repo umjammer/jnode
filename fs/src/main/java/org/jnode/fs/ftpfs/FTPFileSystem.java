@@ -21,23 +21,28 @@
 package org.jnode.fs.ftpfs;
 
 import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.text.ParseException;
 import java.util.Date;
-
-import org.jnode.fs.FileSystem;
 
 import com.enterprisedt.net.ftp.FTPClient;
 import com.enterprisedt.net.ftp.FTPException;
 import com.enterprisedt.net.ftp.FTPFile;
+import org.jnode.fs.FileSystem;
+
+import static java.lang.System.getLogger;
+
 
 /**
- * @author Levente S\u00e1ntha
+ * @author Levente Sántha
  */
 public class FTPFileSystem implements FileSystem<FTPFSDirectory> {
-    private FTPFSDevice device;
-    private FTPFSDirectory root;
+
+    private static final Logger logger = getLogger(FTPFileSystem.class.getName());
+
+    private final FTPFSDevice device;
+    private final FTPFSDirectory root;
     private boolean closed;
     private Thread thread;
     private final FTPClient client;
@@ -45,19 +50,12 @@ public class FTPFileSystem implements FileSystem<FTPFSDirectory> {
 
     FTPFileSystem(final FTPFSDevice device, final FTPFileSystemType type) {
         this.type = type;
-        this.client = AccessController.doPrivileged((PrivilegedAction<FTPClient>) FTPClient::new);
+        this.client = new FTPClient();
         this.device = device;
         try {
             client.setRemoteHost(device.getHost());
             client.setTimeout(300000);
-            AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
-                try {
-                    client.connect();
-                    return null;
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            client.connect();
 
             client.login(device.getUser(), device.getPassword());
             thread = new Thread(() -> {
@@ -71,19 +69,18 @@ public class FTPFileSystem implements FileSystem<FTPFSDirectory> {
                         }
                     }
                 } catch (Exception x) {
-                    x.printStackTrace();
+                    logger.log(Level.ERROR, x.getMessage(), x);
                 }
             }, "ftpfs_keepalive");
             thread.start();
             FTPFile f = new FTPFile("/", "/", 0, true, new Date(0));
-            // FTPFile f = new FTPFile();
-            // f.setName(printWorkingDirectory());
+//            FTPFile f = new FTPFile();
+//            f.setName(printWorkingDirectory());
             root = new FTPFSDirectory(this, f);
             closed = false;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
-
     }
 
     public final FTPFileSystemType getType() {
@@ -98,8 +95,9 @@ public class FTPFileSystem implements FileSystem<FTPFSDirectory> {
      * Close this filesystem. After a close, all invocations of method of this filesystem or objects created by this
      * filesystem will throw an IOException.
      *
-     * @throws java.io.IOException
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public synchronized void close() throws IOException {
         try {
             closed = true;
@@ -120,6 +118,7 @@ public class FTPFileSystem implements FileSystem<FTPFSDirectory> {
     /**
      * Gets the root entry of this filesystem. This is usually a directory, but this is not required.
      */
+    @Override
     public FTPFSDirectory getRootEntry() throws IOException {
         return root;
     }
@@ -127,6 +126,7 @@ public class FTPFileSystem implements FileSystem<FTPFSDirectory> {
     /**
      * Is this filesystem closed.
      */
+    @Override
     public synchronized boolean isClosed() {
         return closed;
     }
@@ -134,20 +134,24 @@ public class FTPFileSystem implements FileSystem<FTPFSDirectory> {
     /**
      * Is the filesystem mounted in readonly mode ?
      */
+    @Override
     public boolean isReadOnly() {
         return true;
     }
 
+    @Override
     public long getFreeSpace() {
         // TODO implement me
         return -1;
     }
 
+    @Override
     public long getTotalSpace() {
         // TODO implement me
         return -1;
     }
 
+    @Override
     public long getUsableSpace() {
         // TODO implement me
         return -1;

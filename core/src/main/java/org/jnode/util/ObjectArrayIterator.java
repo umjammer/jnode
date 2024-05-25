@@ -35,7 +35,7 @@ public class ObjectArrayIterator<T> implements Iterator<T> {
     /**
      * Initialize a new instance
      *
-     * @param array
+     * @param array the array
      */
     public ObjectArrayIterator(T[] array) {
         this.array = array;
@@ -46,18 +46,12 @@ public class ObjectArrayIterator<T> implements Iterator<T> {
         }
     }
 
-    /**
-     * @return boolean
-     * @see java.util.Iterator#hasNext()
-     */
+    @Override
     public boolean hasNext() {
         return (index < max);
     }
 
-    /**
-     * @return Object
-     * @see java.util.Iterator#next()
-     */
+    @Override
     public T next() {
         if (index < max) {
             final T result = array[index];
@@ -68,9 +62,7 @@ public class ObjectArrayIterator<T> implements Iterator<T> {
         }
     }
 
-    /**
-     * @see java.util.Iterator#remove()
-     */
+    @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }

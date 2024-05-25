@@ -37,15 +37,13 @@ public final class ISO9660Directory implements FSDirectory {
     private final ISO9660Entry entry;
 
     /**
-     * @param entry
+     * @param entry the entry
      */
     public ISO9660Directory(ISO9660Entry entry) {
         this.entry = entry;
     }
 
-    /**
-     * @see org.jnode.fs.FSDirectory#iterator()
-     */
+    @Override
     public Iterator<FSEntry> iterator() throws IOException {
         return new Iterator<>() {
 
@@ -55,10 +53,12 @@ public final class ISO9660Directory implements FSDirectory {
 
             final byte[] buffer = parent.getExtentData();
 
+            @Override
             public boolean hasNext() {
                 return ((offset < buffer.length) && LittleEndian.getUInt8(buffer, offset) > 0);
             }
 
+            @Override
             public FSEntry next() {
                 final ISO9660Volume volume = parent.getVolume();
                 final EntryRecord fEntry =
@@ -67,18 +67,14 @@ public final class ISO9660Directory implements FSDirectory {
                 return new ISO9660Entry((ISO9660FileSystem) entry.getFileSystem(), fEntry);
             }
 
-            /**
-             * @see java.util.Iterator#remove()
-             */
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
         };
     }
 
-    /**
-     * @see org.jnode.fs.FSDirectory#getEntry(java.lang.String)
-     */
+    @Override
     public FSEntry getEntry(String name) throws IOException {
         for (Iterator<FSEntry> it = this.iterator(); it.hasNext(); ) {
             ISO9660Entry entry = (ISO9660Entry) it.next();
@@ -93,37 +89,27 @@ public final class ISO9660Directory implements FSDirectory {
         return getEntry(id);
     }
 
-    /**
-     * @see org.jnode.fs.FSDirectory#addFile(java.lang.String)
-     */
+    @Override
     public FSEntry addFile(String name) throws IOException {
         throw new ReadOnlyFileSystemException();
     }
 
-    /**
-     * @see org.jnode.fs.FSDirectory#addDirectory(java.lang.String)
-     */
+    @Override
     public FSEntry addDirectory(String name) throws IOException {
         throw new ReadOnlyFileSystemException();
     }
 
-    /**
-     * @see org.jnode.fs.FSDirectory#remove(java.lang.String)
-     */
+    @Override
     public void remove(String name) throws IOException {
         throw new ReadOnlyFileSystemException();
     }
 
-    /**
-     * @see org.jnode.fs.FSObject#isValid()
-     */
+    @Override
     public boolean isValid() {
         return true;
     }
 
-    /**
-     * @see org.jnode.fs.FSObject#getFileSystem()
-     */
+    @Override
     public FileSystem<?> getFileSystem() {
         return entry.getFileSystem();
     }
@@ -131,8 +117,9 @@ public final class ISO9660Directory implements FSDirectory {
     /**
      * Save all dirty (unsaved) data to the device
      *
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public void flush() throws IOException {
         // TODO implement
     }

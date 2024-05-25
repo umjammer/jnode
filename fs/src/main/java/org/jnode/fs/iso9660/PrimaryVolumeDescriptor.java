@@ -60,9 +60,9 @@ public class PrimaryVolumeDescriptor extends VolumeDescriptor {
     /**
      * Initialize this instance.
      * 
-     * @param volume
-     * @param buffer
-     * @throws IOException
+     * @param volume the volume
+     * @param buffer the buffer
+     * @throws IOException when an error occurs
      */
     public PrimaryVolumeDescriptor(ISO9660Volume volume, byte[] buffer) throws IOException {
         super(volume, buffer);
@@ -83,6 +83,7 @@ public class PrimaryVolumeDescriptor extends VolumeDescriptor {
         this.rootDirectoryEntry = new EntryRecord(volume, buffer, 157, DEFAULT_ENCODING);
     }
 
+    @Override
     public void dump(PrintStream out) {
         out.println("Primary volume information: ");
         out.println("\t- Standard Identifier: " + this.getStandardIdentifier());
@@ -105,13 +106,12 @@ public class PrimaryVolumeDescriptor extends VolumeDescriptor {
                 this.getRootDirectoryEntry().getLengthOfExtendedAttribute());
         out.println("\t\t- Location of the extent: " +
                 this.getRootDirectoryEntry().getLocationOfExtent());
-        // out.println(" - Length of the file identifier: " +
-        // this.getRootDirectoryEntry().getLengthOfFileIdentifier());
+//        out.println(" - Length of the file identifier: " +
+//        this.getRootDirectoryEntry().getLengthOfFileIdentifier());
         out.println("\t\t- is directory: " + this.getRootDirectoryEntry().isDirectory());
         out.println("\t\t- File identifier: " + this.getRootDirectoryEntry().getFileIdentifier());
         out.println("\t\t- Data Length: " + this.getRootDirectoryEntry().getDataLength());
         out.println("\t\t- File unit size: " + this.getRootDirectoryEntry().getFileUnitSize());
-
     }
 
     /**
@@ -129,7 +129,7 @@ public class PrimaryVolumeDescriptor extends VolumeDescriptor {
     }
 
     /**
-     * @return Returns the patheTableSize.
+     * @return Returns the pathTableSize.
      */
     public long getPathTableSize() {
         return pathTableSize;

@@ -75,7 +75,7 @@ public class TCPInChannel {
     /**
      * Initialize the initial sequence nr from the foreign side.
      *
-     * @param hdr
+     * @param hdr the hdr
      */
     public void initISN(TCPHeader hdr) {
         this.rcv_next = hdr.getSequenceNr() + 1;
@@ -84,11 +84,11 @@ public class TCPInChannel {
     /**
      * Process received data
      *
-     * @param ipHdr
-     * @param hdr
-     * @param skbuf
+     * @param ipHdr the ipHdr
+     * @param hdr the hdr
+     * @param skBuf the skBuf
      */
-    public void processData(IPv4Header ipHdr, TCPHeader hdr, SocketBuffer skbuf) throws SocketException {
+    public void processData(IPv4Header ipHdr, TCPHeader hdr, SocketBuffer skBuf) throws SocketException {
         final int seqNr = hdr.getSequenceNr();
         // Check the seq-nr
         if (TCPUtils.SEQ_LT(seqNr, rcv_next)) {
@@ -103,12 +103,12 @@ public class TCPInChannel {
 
         if (seqNr == rcv_next) {
             // This segment is the first expected segment
-            if (processNextSegment(hdr, skbuf)) {
+            if (processNextSegment(hdr, skBuf)) {
                 // See if we have the next segment already in the list
                 TCPInSegment seg;
                 while ((seg = findNextSegment()) != null) {
                     // Next segment was in the list
-                    if (processNextSegment(seg.hdr, seg.skbuf)) {
+                    if (processNextSegment(seg.hdr, seg.skBuf)) {
                         // Segment fully processed, remove it from the list
                         futureSegments.remove(seg);
                     } else {
@@ -121,13 +121,13 @@ public class TCPInChannel {
     }
 
     /**
-     * Process the given segment (that must be the next expected segment). The data will be send to
+     * Process the given segment (that must be the next expected segment). The data will be sent to
      * the input data buffer, if there is enough space left in the buffer.
      *
-     * @param hdr
-     * @param skbuf
+     * @param hdr the hdr
+     * @param skbuf the skbuf
      * @return True if the segment has been fully processed, false otherwise.
-     * @throws SocketException
+     * @throws SocketException when an error occurs
      */
     private synchronized boolean processNextSegment(TCPHeader hdr, SocketBuffer skbuf) throws SocketException {
         final int seqNr = hdr.getSequenceNr();
@@ -194,9 +194,9 @@ public class TCPInChannel {
     /**
      * Read data from the input buffer up to len bytes long. Block until there is data available.
      *
-     * @param dst
-     * @param off
-     * @param len
+     * @param dst the dst
+     * @param off the off
+     * @param len the len
      * @return The number of bytes read
      */
     public synchronized int read(byte[] dst, int off, int len) throws SocketException {
@@ -241,7 +241,7 @@ public class TCPInChannel {
             return false;
         }
         if (dataBuffer.getUsed() > 0) {
-            // Still data in databuffer
+            // Still data in data buffer
             return false;
         }
         if (!futureSegments.isEmpty()) {

@@ -29,32 +29,38 @@ import java.nio.channels.ReadableByteChannel;
  * This is a stream wrapper for a ReadableByteChannel.
  */
 public class ChannelInputStream extends InputStream {
-    private ReadableByteChannel channel;
-    private ByteBuffer buffer;
+
+    private final ReadableByteChannel channel;
+    private final ByteBuffer buffer;
 
     public ChannelInputStream(ReadableByteChannel c) {
         channel = c;
         buffer = ByteBuffer.allocateDirect(1);
     }
 
+    @Override
     public int read() throws IOException {
         buffer.clear();
         if (channel.read(buffer) < 1) return -1;
-        else return buffer.get();
+        else return buffer.get() & 0xff;
     }
 
+    @Override
     public void close() throws IOException {
         channel.close();
     }
 
+    @Override
     public int read(byte[] b) throws IOException {
         return channel.read(ByteBuffer.wrap(b));
     }
 
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
         return channel.read(ByteBuffer.wrap(b, off, len));
     }
 
+    @Override
     public long skip(long n) throws IOException {
         ByteBuffer b = ByteBuffer.allocateDirect(2048);
         long rem = n;
@@ -71,14 +77,12 @@ public class ChannelInputStream extends InputStream {
         return n - rem + channel.read(b);
     }
 
-    public boolean markSupported() {
-        return false;
-    }
-
-    public void mark(int readlimit) {
+    @Override
+    public void mark(int readLimit) {
         // Do nothing
     }
 
+    @Override
     public void reset() throws IOException {
         throw new IOException("mark/reset not supported");
     }

@@ -41,9 +41,9 @@ final class Ifconfig {
     /**
      * Sets the default IP address of a network device
      * 
-     * @param device
-     * @param address
-     * @param netmask
+     * @param device the device
+     * @param address the address
+     * @param netmask the netmask
      */
     public static void setDefault(Device device, IPv4Address address, IPv4Address netmask)
         throws NetworkException {

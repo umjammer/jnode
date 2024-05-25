@@ -127,7 +127,7 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
     /**
      * Create a new entry
      *
-     * @param dir
+     * @param dir the dir
      */
     public FatDirEntry(AbstractDirectory dir) {
         this(dir, "", "");
@@ -136,9 +136,9 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
     /**
      * Create a new entry
      *
-     * @param dir
-     * @param name
-     * @param ext
+     * @param dir the dir
+     * @param name the name
+     * @param ext the ext
      */
     public FatDirEntry(AbstractDirectory dir, String name, String ext) {
         super(dir);
@@ -155,9 +155,9 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
     /**
      * Create a new entry from a FAT directory image.
      *
-     * @param dir
-     * @param src
-     * @param offset
+     * @param dir the dir
+     * @param src the src
+     * @param offset the offset
      */
     public FatDirEntry(AbstractDirectory dir, byte[] src, int offset) {
         super(dir, src, offset);
@@ -183,14 +183,12 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
         setExt(new String(extArr).trim());
 
         this.flags = LittleEndian.getUInt8(src, offset + 0x0b);
-        this.created =
-            DosUtils.decodeDateTime(LittleEndian.getUInt16(src, offset + 0x10),
+        this.created = DosUtils.decodeDateTime(LittleEndian.getUInt16(src, offset + 0x10),
                 LittleEndian.getUInt16(src, offset + 0x0e));
-        this.lastModified =
-            DosUtils.decodeDateTime(LittleEndian.getUInt16(src, offset + 0x18),
+        this.lastModified = DosUtils.decodeDateTime(LittleEndian.getUInt16(src, offset + 0x18),
                 LittleEndian.getUInt16(src, offset + 0x16));
-        this.lastAccessed =
-            DosUtils.decodeDateTime(LittleEndian.getUInt16(src, offset + 0x12), 0); // time not stored
+        this.lastAccessed = DosUtils.decodeDateTime(LittleEndian.getUInt16(src, offset + 0x12),
+                0); // time not stored
         this.startCluster = LittleEndian.getUInt16(src, offset + 0x1a);
         this.length = LittleEndian.getUInt32(src, offset + 0x1c);
         this._dirty = false;
@@ -206,14 +204,17 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
         return flags;
     }
 
+    @Override
     public long getCreated() {
         return created;
     }
 
+    @Override
     public long getLastModified() {
         return lastModified;
     }
 
+    @Override
     public long getLastAccessed() {
         return lastAccessed;
     }
@@ -241,6 +242,7 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
         return id;
     }
 
+    @Override
     public String getName() {
         if (!ext.isEmpty()) {
             return name + "." + ext;
@@ -288,7 +290,7 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
     /**
      * Sets the flags.
      *
-     * @param flags
+     * @param flags the flags
      */
     public void setFlags(int flags) {
         this.flags = flags;
@@ -300,6 +302,7 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
         setDirty();
     }
 
+    @Override
     public void setLastModified(long lastModified) {
         this.lastModified = lastModified;
         setDirty();
@@ -338,18 +341,12 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
      * @param newLength The length to set
      */
     public synchronized void updateLength(long newLength) {
-        // System.out.println("updateLength(" + newLength + ") on " +
-        // getName());
+//        System.out.println("updateLength(" + newLength + ") on " + getName());
         this.length = newLength;
         setDirty();
     }
 
-    /**
-     * Gets the single instance of the file connected to this entry. Returns
-     * null if the file is 0 bytes long
-     *
-     * @return File
-     */
+    @Override
     public FSFile getFile() throws IOException {
         if (isFile()) {
             return getFatFile();
@@ -358,10 +355,7 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
         }
     }
 
-    /**
-     * Gets the directory this entry refers to. This method can only be called
-     * if <code>isDirectory</code> returns true.
-     */
+    @Override
     public FSDirectory getDirectory() throws IOException {
         if (isDirectory()) {
             return getFatFile().getDirectory();
@@ -380,11 +374,7 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
         return getFatFileSystem().getFile(this);
     }
 
-    /**
-     * Sets the name.
-     *
-     * @param name The name to set
-     */
+    @Override
     public void setName(String name) {
         FatUtils.checkValidName(name);
         this.name = name;
@@ -443,20 +433,12 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
         setFlags(F_LABEL);
     }
 
-    /**
-     * Does this entry refer to a file?
-     *
-     * @see org.jnode.fs.FSEntry#isFile()
-     */
+    @Override
     public boolean isFile() {
         return (!(isDirectory() || isLabel()));
     }
 
-    /**
-     * Does this entry refer to a directory?
-     *
-     * @see org.jnode.fs.FSEntry#isDirectory()
-     */
+    @Override
     public boolean isDirectory() {
         return ((flags & F_DIRECTORY) != 0);
     }
@@ -473,12 +455,7 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
         setFlags(flags | F_ARCHIVE);
     }
 
-    /**
-     * Write my contents to the given byte-array
-     *
-     * @param dest
-     * @param offset
-     */
+    @Override
     public void write(byte[] dest, int offset) {
         // System.out.println("FatDir entry write at" + offset);
         if (unused) {
@@ -566,11 +543,7 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
         return b.toString();
     }
 
-    /**
-     * Returns the dirty.
-     *
-     * @return boolean
-     */
+    @Override
     public final boolean isDirty() {
         return _dirty;
     }
@@ -580,18 +553,12 @@ public class FatDirEntry extends FatBasicDirEntry implements FSEntry, FSEntryCre
         parent.setDirty();
     }
 
-    /**
-     * @return The directory this entry belongs to.
-     */
+    @Override
     public FSDirectory getParent() {
         return parent;
     }
 
-    /**
-     * Gets the access rights for this entry.
-     *
-     * @throws IOException
-     */
+    @Override
     public FSAccessRights getAccessRights() throws IOException {
         return rights;
     }

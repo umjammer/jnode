@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class TableEntry {
-    private Map<String, EntryInfo> entryMap;
+    private final Map<String, EntryInfo> entryMap;
 
     public TableEntry() {
         entryMap = new HashMap<>();
@@ -37,11 +37,11 @@ public class TableEntry {
         if (entryInfo == null) {
             return null;
         }
-        if (entryInfo.getExpirationTime() < System.currentTimeMillis()) {
+        if (entryInfo.expirationTime() < System.currentTimeMillis()) {
             entryMap.remove(name);
             return null;
         }
-        return entryInfo.getEntry();
+        return entryInfo.entry();
     }
 
     public synchronized void addEntry(NFS2Entry entry) {
@@ -76,22 +76,7 @@ public class TableEntry {
         return entryMap.size();
     }
 
-    private static class EntryInfo {
+    private record EntryInfo(NFS2Entry entry, long expirationTime) {
 
-        private NFS2Entry entry;
-        private long expirationTime;
-
-        public EntryInfo(NFS2Entry entry, long expirationTime) {
-            this.entry = entry;
-            this.expirationTime = expirationTime;
-        }
-
-        public NFS2Entry getEntry() {
-            return entry;
-        }
-
-        public long getExpirationTime() {
-            return expirationTime;
-        }
     }
 }

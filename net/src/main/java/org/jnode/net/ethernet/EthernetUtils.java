@@ -28,8 +28,8 @@ import org.jnode.driver.net.NetworkException;
 public class EthernetUtils implements EthernetConstants {
 
     /**
-     * Gets the procotol info from the ethernet frame in skbuf
-     * @param hdr
+     * Gets the protocol info from the ethernet frame in skBuf
+     * @param hdr the hdr
      * @throws NetworkException The protocol cannot be found
      */
     public static int getProtocol(EthernetHeader hdr) throws NetworkException {

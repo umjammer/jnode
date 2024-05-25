@@ -38,8 +38,7 @@ public interface BlockDeviceAPI extends DeviceAPI {
      * @return the total length of the device
      * @throws IOException when an error occurs
      */
-    long getLength()
-        throws IOException;
+    long getLength() throws IOException;
 
     /**
      * Read a block of data

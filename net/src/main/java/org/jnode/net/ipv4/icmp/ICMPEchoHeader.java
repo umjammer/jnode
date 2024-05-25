@@ -28,9 +28,9 @@ import org.jnode.net.SocketBuffer;
 public class ICMPEchoHeader extends ICMPExHeader {
 
     /**
-     * @param type
-     * @param identifier
-     * @param seqNumber
+     * @param type the type
+     * @param identifier the identifier
+     * @param seqNumber the seqNumber
      */
     public ICMPEchoHeader(ICMPType type, int identifier, int seqNumber) {
         super(type, 0, identifier, seqNumber);
@@ -41,15 +41,13 @@ public class ICMPEchoHeader extends ICMPExHeader {
     }
 
     /**
-     * @param skbuf
+     * @param skbuf the skbuf
      */
     public ICMPEchoHeader(SocketBuffer skbuf) {
         super(skbuf);
     }
 
-    /**
-     * @see org.jnode.net.LayerHeader#getLength()
-     */
+    @Override
     public int getLength() {
         return 8;
     }

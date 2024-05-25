@@ -26,7 +26,7 @@ public class IndexRecord extends AbstractNodeRecord {
     /**
      * A node number that represent a child node of the index node.
      */
-    private long index;
+    private final long index;
 
     public IndexRecord(final byte[] nodeData, final int offset) {
         this.recordData = new byte[4];
@@ -35,9 +35,9 @@ public class IndexRecord extends AbstractNodeRecord {
     }
 
     /**
-     * @param key
-     * @param nodeData
-     * @param offset
+     * @param key the key
+     * @param nodeData the nodeData
+     * @param offset the offset
      */
     public IndexRecord(final Key key, final byte[] nodeData, final int offset) {
         this.key = key;

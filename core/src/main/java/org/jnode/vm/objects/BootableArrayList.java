@@ -54,7 +54,7 @@ public class BootableArrayList<T> extends VmSystemObject implements List<T>, Ran
      * Constructs a list containing the elements of the specified collection,
      * in the order they are returned by the collection's iterator.
      *
-     * @param c
+     * @param c the c
      */
     public BootableArrayList(Collection<? extends T> c) {
         addAll(c);
@@ -63,7 +63,7 @@ public class BootableArrayList<T> extends VmSystemObject implements List<T>, Ran
     /**
      * Constructs an empty list with an initial capacity of ten.
      *
-     * @param initialCapacity
+     * @param initialCapacity the initialCapacity
      */
     public BootableArrayList(int initialCapacity) {
         listCache = new ArrayList<>(initialCapacity);
@@ -73,7 +73,7 @@ public class BootableArrayList<T> extends VmSystemObject implements List<T>, Ran
     /**
      * Gets (an if needed reload) the arraylist.
      *
-     * @return
+     * @return the cache
      */
     private ArrayList<T> getListCache() {
         if (locked) {
@@ -89,88 +89,54 @@ public class BootableArrayList<T> extends VmSystemObject implements List<T>, Ran
         return listCache;
     }
 
-    /**
-     * @param index
-     * @param o
-     * @see java.util.AbstractList#add(int, java.lang.Object)
-     */
+    @Override
     public void add(int index, T o) {
         getListCache().add(index, o);
     }
 
-    /**
-     * @param o
-     * @return boolean
-     * @see java.util.AbstractList#add(java.lang.Object)
-     */
+    @Override
     public boolean add(T o) {
         return getListCache().add(o);
     }
 
-    /**
-     * @param c
-     * @return boolean
-     * @see java.util.AbstractCollection#addAll(java.util.Collection)
-     */
+    @Override
     public boolean addAll(Collection<? extends T> c) {
         return getListCache().addAll(c);
     }
 
-    /**
-     * @param index
-     * @param c
-     * @return boolean
-     * @see java.util.AbstractList#addAll(int, java.util.Collection)
-     */
+    @Override
     public boolean addAll(int index, Collection<? extends T> c) {
         return getListCache().addAll(index, c);
     }
 
-    /**
-     * @see java.util.AbstractList#clear()
-     */
+    @Override
     public void clear() {
         getListCache().clear();
     }
 
-    /**
-     * @param o
-     * @return boolean
-     * @see java.util.AbstractCollection#contains(java.lang.Object)
-     */
+    @Override
     public boolean contains(Object o) {
         return getListCache().contains(o);
     }
 
-    /**
-     * @param c
-     * @return boolean
-     * @see java.util.AbstractCollection#containsAll(java.util.Collection)
-     */
+    @Override
     public boolean containsAll(Collection c) {
         return getListCache().containsAll(c);
     }
 
     /**
-     * @param minCapacity
+     * @param minCapacity the minCapacity
      */
     public void ensureCapacity(int minCapacity) {
         getListCache().ensureCapacity(minCapacity);
     }
 
-    /**
-     * @param obj
-     * @return boolean
-     * @see java.util.AbstractList#equals(java.lang.Object)
-     */
+    @Override
     public boolean equals(Object obj) {
         return getListCache().equals(obj);
     }
 
-    /**
-     * @return int
-     * @see java.util.AbstractList#hashCode()
-     */
+    @Override
     public int hashCode() {
         if (listCache != null) {
             return getListCache().hashCode();
@@ -179,134 +145,77 @@ public class BootableArrayList<T> extends VmSystemObject implements List<T>, Ran
         }
     }
 
-    /**
-     * @param o
-     * @return int
-     * @see java.util.AbstractList#indexOf(java.lang.Object)
-     */
+    @Override
     public int indexOf(Object o) {
         return getListCache().indexOf(o);
     }
 
-    /**
-     * @return boolean
-     * @see java.util.AbstractCollection#isEmpty()
-     */
+    @Override
     public boolean isEmpty() {
         return getListCache().isEmpty();
     }
 
-    /**
-     * @return the iterator
-     * @see java.util.AbstractList#iterator()
-     */
+    @Override
     public Iterator<T> iterator() {
         return getListCache().iterator();
     }
 
-    /**
-     * @param o
-     * @return int
-     * @see java.util.AbstractList#lastIndexOf(java.lang.Object)
-     */
+    @Override
     public int lastIndexOf(Object o) {
         return getListCache().lastIndexOf(o);
     }
 
-    /**
-     * @return the iterator
-     * @see java.util.AbstractList#listIterator()
-     */
+    @Override
     public ListIterator<T> listIterator() {
         return getListCache().listIterator();
     }
 
-    /**
-     * @param index
-     * @return the iterator
-     * @see java.util.AbstractList#listIterator(int)
-     */
+    @Override
     public ListIterator<T> listIterator(int index) {
         return getListCache().listIterator(index);
     }
 
-    /**
-     * @param index
-     * @return object
-     * @see java.util.AbstractList#remove(int)
-     */
+    @Override
     public T remove(int index) {
         return getListCache().remove(index);
     }
 
-    /**
-     * @param o
-     * @return boolean
-     * @see java.util.AbstractCollection#remove(java.lang.Object)
-     */
+    @Override
     public boolean remove(Object o) {
         return getListCache().remove(o);
     }
 
-    /**
-     * @param c
-     * @return boolean
-     * @see java.util.AbstractCollection#removeAll(java.util.Collection)
-     */
+    @Override
     public boolean removeAll(Collection<?> c) {
         return getListCache().removeAll(c);
     }
 
-    /**
-     * @param c
-     * @return boolean
-     * @see java.util.AbstractCollection#retainAll(java.util.Collection)
-     */
+    @Override
     public boolean retainAll(Collection c) {
         return getListCache().retainAll(c);
     }
 
-    /**
-     * @param index
-     * @param o
-     * @return object
-     * @see java.util.AbstractList#set(int, java.lang.Object)
-     */
+    @Override
     public T set(int index, T o) {
         return getListCache().set(index, o);
     }
 
-    /**
-     * @param fromIndex
-     * @param toIndex
-     * @return the sub list
-     * @see java.util.AbstractList#subList(int, int)
-     */
+    @Override
     public List<T> subList(int fromIndex, int toIndex) {
         return getListCache().subList(fromIndex, toIndex);
     }
 
-    /**
-     * @return the array
-     * @see java.util.AbstractCollection#toArray()
-     */
+    @Override
     public Object[] toArray() {
         return getListCache().toArray();
     }
 
-    /**
-     * @param a
-     * @return the array
-     * @see java.util.AbstractCollection#toArray(java.lang.Object[])
-     */
+    @Override
     public <E> E[] toArray(E[] a) {
         return getListCache().toArray(a);
     }
 
-    /**
-     * @return String
-     * @see java.util.AbstractCollection#toString()
-     */
+    @Override
     public String toString() {
         if (listCache != null) {
             return getListCache().toString();
@@ -315,31 +224,22 @@ public class BootableArrayList<T> extends VmSystemObject implements List<T>, Ran
         }
     }
 
-    /**
-     *
-     */
+    /** */
     public void trimToSize() {
         getListCache().trimToSize();
     }
 
-    /**
-     * @param index
-     * @return The element at the given index
-     */
+    @Override
     public T get(int index) {
         return getListCache().get(index);
     }
 
-    /**
-     * @return The number of elements in this list
-     */
+    @Override
     public int size() {
         return getListCache().size();
     }
 
-    /**
-     * @see org.jnode.vm.objects.VmSystemObject#verifyBeforeEmit()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public void verifyBeforeEmit() {
         super.verifyBeforeEmit();
@@ -352,5 +252,4 @@ public class BootableArrayList<T> extends VmSystemObject implements List<T>, Ran
         listCache = null;
         locked = true;
     }
-
 }

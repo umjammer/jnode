@@ -54,7 +54,7 @@ public abstract class Fat {
         cache = new FatCache(this, 8192, 512);
 
         /*
-         * set lastfree
+         * set last-free
          */
         rewindFree();
 
@@ -70,7 +70,7 @@ public abstract class Fat {
         clearbuf = ByteBuffer.wrap(cleardata).asReadOnlyBuffer();
     }
 
-    public static Fat create(BlockDeviceAPI api, BootSector bs) throws IOException, FileSystemException {
+    public static Fat create(BlockDeviceAPI api, BootSector bs) throws IOException {
 
         bs.read(api);
 
@@ -191,7 +191,7 @@ Debug.println(Level.FINER, "cluster: " + cluster);
             throw new IllegalArgumentException("illegal cluster # : " + index);
         }
 
-Debug.println(Level.FINE, "sector: " + (long) (index - firstCluster()) * (long) bs.getSectorsPerCluster() +
+Debug.println(Level.FINER, "sector: " + (long) (index - firstCluster()) * (long) bs.getSectorsPerCluster() +
               getBootSector().getFirstDataSector());
         return (long) (index - firstCluster()) * (long) bs.getSectorsPerCluster() +
             getBootSector().getFirstDataSector();
@@ -314,7 +314,7 @@ Debug.println(Level.FINE, "sector: " + (long) (index - firstCluster()) * (long) 
             for (int i = 0; i < getBootSector().getNrFats(); i++)
                 out.print("\t" + getLastSector(i));
             out.println();
-            //out.println ( "FreeEntries\t" + freeEntries() );
+            // out.println ( "FreeEntries\t" + freeEntries() );
             out.print("*************************************************************");
             return out.toString();
         }

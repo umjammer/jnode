@@ -28,10 +28,10 @@ public enum BinaryScaleFactor implements ScaleFactor {
     T(1024L * 1024L * 1024L * 1024L, "T"),
     P(1024L * 1024L * 1024L * 1024L * 1024L, "P"),
     E(1024L * 1024L * 1024L * 1024L * 1024L * 1024L, "E");
-    //these units have too big multipliers to fit in a long
+    // these units have too big multipliers to fit in a long
     // (aka they are greater than 2^64) :
-    //Z(1024l*1024l*1024l*1024l*1024l*1024l*1024l, "Z"),
-    //Y(1024l*1024l*1024l*1024l*1024l*1024l*1024l*1024l, "Y");
+    // Z(1024l*1024l*1024l*1024l*1024l*1024l*1024l, "Z"),
+    // Y(1024l*1024l*1024l*1024l*1024l*1024l*1024l*1024l, "Y");
 
     public static final BinaryScaleFactor MIN = B;
     public static final BinaryScaleFactor MAX = E;
@@ -44,10 +44,12 @@ public enum BinaryScaleFactor implements ScaleFactor {
         this.unit = unit;
     }
 
+    @Override
     public long getMultiplier() {
         return multiplier;
     }
 
+    @Override
     public String getUnit() {
         return unit;
     }

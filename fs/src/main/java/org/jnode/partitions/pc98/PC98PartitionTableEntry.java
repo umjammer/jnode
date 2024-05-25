@@ -25,7 +25,7 @@ import vavix.io.partition.PC98PartitionEntry;
  */
 public class PC98PartitionTableEntry implements PartitionTableEntry {
 
-    private PC98PartitionEntry pe;
+    private final PC98PartitionEntry pe;
 
     // disk geometries
     private int heads = 0, secs = 0;

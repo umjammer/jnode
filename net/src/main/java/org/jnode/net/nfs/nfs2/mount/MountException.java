@@ -20,8 +20,12 @@
 
 package org.jnode.net.nfs.nfs2.mount;
 
+import java.io.Serial;
+
+
 public class MountException extends Exception {
 
+    @Serial
     private static final long serialVersionUID = 4594895661006354815L;
 
     public MountException(String message) {

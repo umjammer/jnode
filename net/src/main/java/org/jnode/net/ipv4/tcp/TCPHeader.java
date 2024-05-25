@@ -48,13 +48,13 @@ public class TCPHeader implements TransportLayerHeader, TCPConstants {
     /**
      * Create a new instance
      * 
-     * @param srcPort
-     * @param dstPort
-     * @param tcpLength
-     * @param seqNr
-     * @param ackNr
-     * @param windowSize
-     * @param urgentPointer
+     * @param srcPort the srcPort
+     * @param dstPort the dstPort
+     * @param tcpLength the tcpLength
+     * @param seqNr the seqNr
+     * @param ackNr the ackNr
+     * @param windowSize the windowSize
+     * @param urgentPointer the urgentPointer
      */
     public TCPHeader(int srcPort, int dstPort, int tcpLength, int seqNr, int ackNr, int windowSize,
             int urgentPointer) {
@@ -73,27 +73,26 @@ public class TCPHeader implements TransportLayerHeader, TCPConstants {
     /**
      * Create a new instance and read the contents from the given buffer
      * 
-     * @param skbuf
+     * @param skBuf the skBuf
      */
-    public TCPHeader(SocketBuffer skbuf) {
-        this.srcPort = skbuf.get16(0);
-        this.dstPort = skbuf.get16(2);
-        this.sequenceNr = skbuf.get32(4);
-        this.ackNr = skbuf.get32(8);
+    public TCPHeader(SocketBuffer skBuf) {
+        this.srcPort = skBuf.get16(0);
+        this.dstPort = skBuf.get16(2);
+        this.sequenceNr = skBuf.get32(4);
+        this.ackNr = skBuf.get32(8);
 
-        final int optionHdrLength = skbuf.get16(12);
+        final int optionHdrLength = skBuf.get16(12);
         this.headerLength = (optionHdrLength & 0xf000) >> 10;
         this.flags = optionHdrLength & 0x0FFF;
 
-        // Syslog.log(Level.DEBUG, "optionHdrLength 0x" + NumberUtils.hex(optionHdrLength,
-        // 4));
+//log.log(Level.DEBUG, "optionHdrLength 0x" + NumberUtils.hex(optionHdrLength, 4));
 
-        this.windowSize = skbuf.get16(14);
+        this.windowSize = skBuf.get16(14);
 
-        final int checksum = skbuf.get16(16);
-        this.urgentPointer = skbuf.get16(18);
+        final int checksum = skBuf.get16(16);
+        this.urgentPointer = skBuf.get16(18);
 
-        final IPv4Header ipHdr = (IPv4Header) skbuf.getNetworkLayerHeader();
+        final IPv4Header ipHdr = (IPv4Header) skBuf.getNetworkLayerHeader();
         this.tcpLength = ipHdr.getDataLength() - headerLength;
 
         if (checksum == 0) {
@@ -108,7 +107,7 @@ public class TCPHeader implements TransportLayerHeader, TCPConstants {
             phdr.set(8, 0);
             phdr.set(9, ipHdr.getProtocol());
             phdr.set16(10, tcpLength + headerLength);
-            phdr.append(skbuf);
+            phdr.append(skBuf);
 
             final int ccs2 = IPv4Utils.calcChecksum(phdr, 0, headerLength + tcpLength + 12);
             this.checksumOk = (ccs2 == 0);
@@ -121,9 +120,7 @@ public class TCPHeader implements TransportLayerHeader, TCPConstants {
         }
     }
 
-    /**
-     * @see org.jnode.net.LayerHeader#getLength()
-     */
+    @Override
     public int getLength() {
         return headerLength;
     }
@@ -142,19 +139,17 @@ public class TCPHeader implements TransportLayerHeader, TCPConstants {
         this.tcpLength = length;
     }
 
-    /**
-     * @see org.jnode.net.LayerHeader#prefixTo(org.jnode.net.SocketBuffer)
-     */
-    public void prefixTo(SocketBuffer skbuf) {
-        skbuf.insert(headerLength);
-        skbuf.set16(0, srcPort);
-        skbuf.set16(2, dstPort);
-        skbuf.set32(4, sequenceNr);
-        skbuf.set32(8, ackNr);
-        skbuf.set16(12, ((headerLength << 10) & 0xf000) | (flags & 0x0FFF));
-        skbuf.set16(14, windowSize);
-        skbuf.set16(16, 0); // Checksum, calculate and overwrite later
-        skbuf.set16(18, urgentPointer);
+    @Override
+    public void prefixTo(SocketBuffer skBuf) {
+        skBuf.insert(headerLength);
+        skBuf.set16(0, srcPort);
+        skBuf.set16(2, dstPort);
+        skBuf.set32(4, sequenceNr);
+        skBuf.set32(8, ackNr);
+        skBuf.set16(12, ((headerLength << 10) & 0xf000) | (flags & 0x0FFF));
+        skBuf.set16(14, windowSize);
+        skBuf.set16(16, 0); // Checksum, calculate and overwrite later
+        skBuf.set16(18, urgentPointer);
     }
 
     /**
@@ -162,14 +157,15 @@ public class TCPHeader implements TransportLayerHeader, TCPConstants {
      * layers have set their header data and can be used e.g. to update checksum
      * values.
      * 
-     * @param skbuf The buffer
+     * @param skBuf The socket buffer
      * @param offset The offset to the first byte (in the buffer) of this header
      *            (since low layer headers are already prefixed)
      */
-    public void finalizeHeader(SocketBuffer skbuf, int offset) {
-        skbuf.set16(offset + 16, 0);
-        final int ccs = calcChecksum(skbuf, offset);
-        skbuf.set16(offset + 16, ccs);
+    @Override
+    public void finalizeHeader(SocketBuffer skBuf, int offset) {
+        skBuf.set16(offset + 16, 0);
+        final int ccs = calcChecksum(skBuf, offset);
+        skBuf.set16(offset + 16, ccs);
     }
 
     /**
@@ -263,7 +259,7 @@ public class TCPHeader implements TransportLayerHeader, TCPConstants {
     /**
      * Set a given flag(s)
      * 
-     * @param flag
+     * @param flag the flag
      */
     public void setFlags(int flag) {
         this.flags |= flag;
@@ -272,15 +268,13 @@ public class TCPHeader implements TransportLayerHeader, TCPConstants {
     /**
      * Reset a given flag(s)
      * 
-     * @param flag
+     * @param flag the flag
      */
     public void resetFlags(int flag) {
         this.flags &= ~flag;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
+    @Override
     public String toString() {
         final StringBuilder b = new StringBuilder();
         b.append(srcPort);
@@ -361,11 +355,9 @@ public class TCPHeader implements TransportLayerHeader, TCPConstants {
     }
 
     /**
-     * @param sequenceNr
-     *            The sequenceNr to set.
+     * @param sequenceNr The sequenceNr to set.
      */
     protected final void setSequenceNr(int sequenceNr) {
         this.sequenceNr = sequenceNr;
     }
-
 }

@@ -29,7 +29,7 @@ import org.jnode.net.ipv4.IPv4Utils;
 import org.jnode.util.NumberUtils;
 
 /**
- * Header of an UDP packet
+ * Header of a UDP packet
  * 
  * @author epr
  */
@@ -41,7 +41,7 @@ public class UDPHeader implements TransportLayerHeader, UDPConstants {
     private final int srcPort;
     /** The destination port within the context of a particular internet address */
     private final int dstPort;
-    /** The length in octet. It include the header and the data. Minimum value of the length is 8 */
+    /** The length in octet. It includes the header and the data. Minimum value of the length is 8 */
     private final int udpLength;
 
     private final boolean checksumOk;
@@ -63,19 +63,19 @@ public class UDPHeader implements TransportLayerHeader, UDPConstants {
     /**
      * Create a new instance and read the contents from the given buffer
      * 
-     * @param skbuf The socket buffer.
+     * @param skBuf The socket buffer.
      */
-    public UDPHeader(SocketBuffer skbuf) {
-        this.srcPort = skbuf.get16(0);
-        this.dstPort = skbuf.get16(2);
-        this.udpLength = skbuf.get16(4);
-        final int checksum = skbuf.get16(6);
+    public UDPHeader(SocketBuffer skBuf) {
+        this.srcPort = skBuf.get16(0);
+        this.dstPort = skBuf.get16(2);
+        this.udpLength = skBuf.get16(4);
+        final int checksum = skBuf.get16(6);
         if (checksum == 0) {
             log.log(Level.DEBUG, "No checksum set");
             this.checksumOk = true;
         } else {
             // Create the pseudo header for checksum calculation
-            final IPv4Header ipHdr = (IPv4Header) skbuf.getNetworkLayerHeader();
+            final IPv4Header ipHdr = (IPv4Header) skBuf.getNetworkLayerHeader();
             final SocketBuffer phdr = new SocketBuffer(12);
             phdr.insert(12);
             ipHdr.getSource().writeTo(phdr, 0);
@@ -83,7 +83,7 @@ public class UDPHeader implements TransportLayerHeader, UDPConstants {
             phdr.set(8, 0);
             phdr.set(9, ipHdr.getProtocol());
             phdr.set16(10, udpLength);
-            phdr.append(skbuf);
+            phdr.append(skBuf);
             final int ccs2 = IPv4Utils.calcChecksum(phdr, 0, udpLength + 12);
             this.checksumOk = (ccs2 == 0);
             if (!checksumOk) {
@@ -92,22 +92,18 @@ public class UDPHeader implements TransportLayerHeader, UDPConstants {
         }
     }
 
-    /**
-     * @see org.jnode.net.LayerHeader#getLength()
-     */
+    @Override
     public int getLength() {
         return UDP_HLEN;
     }
 
-    /**
-     * @see org.jnode.net.LayerHeader#prefixTo(org.jnode.net.SocketBuffer)
-     */
-    public void prefixTo(SocketBuffer skbuf) {
-        skbuf.insert(UDP_HLEN);
-        skbuf.set16(0, srcPort);
-        skbuf.set16(2, dstPort);
-        skbuf.set16(4, udpLength);
-        skbuf.set16(6, 0); // Checksum, calculate and overwrite later
+    @Override
+    public void prefixTo(SocketBuffer skBuf) {
+        skBuf.insert(UDP_HLEN);
+        skBuf.set16(0, srcPort);
+        skBuf.set16(2, dstPort);
+        skBuf.set16(4, udpLength);
+        skBuf.set16(6, 0); // Checksum, calculate and overwrite later
     }
 
     /**
@@ -115,13 +111,14 @@ public class UDPHeader implements TransportLayerHeader, UDPConstants {
      * layers have set their header data and can be used e.g. to update checksum
      * values.
      * 
-     * @param skbuf The buffer
+     * @param skBuf The buffer
      * @param offset The offset to the first byte (in the buffer) of this header
      *            (since low layer headers are already prefixed)
      */
-    public void finalizeHeader(SocketBuffer skbuf, int offset) {
-        final int ccs = calcChecksum(skbuf, offset);
-        skbuf.set16(offset + 6, ccs);
+    @Override
+    public void finalizeHeader(SocketBuffer skBuf, int offset) {
+        final int ccs = calcChecksum(skBuf, offset);
+        skBuf.set16(offset + 6, ccs);
     }
 
     /**
@@ -159,9 +156,7 @@ public class UDPHeader implements TransportLayerHeader, UDPConstants {
         return udpLength - UDP_HLEN;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
+    @Override
     public String toString() {
         return "UDP srcPort=" + srcPort + ", dstPort=" + dstPort + ", dataLength=" + getDataLength();
     }

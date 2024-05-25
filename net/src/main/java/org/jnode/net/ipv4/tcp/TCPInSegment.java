@@ -29,14 +29,14 @@ import org.jnode.net.ipv4.IPv4Header;
 public class TCPInSegment extends TCPSegment {
 
     /** The data */
-    protected final SocketBuffer skbuf;
+    protected final SocketBuffer skBuf;
 
     /**
-     * @param ipHdr
-     * @param hdr
+     * @param ipHdr the ipHdr
+     * @param hdr the hdr
      */
-    public TCPInSegment(IPv4Header ipHdr, TCPHeader hdr, SocketBuffer skbuf) {
+    public TCPInSegment(IPv4Header ipHdr, TCPHeader hdr, SocketBuffer skBuf) {
         super(ipHdr, hdr);
-        this.skbuf = skbuf;
+        this.skBuf = skBuf;
     }
 }

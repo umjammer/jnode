@@ -93,7 +93,7 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
     /**
      * Create a new instance
      *
-     * @param bootSector
+     * @param bootSector the bootSector
      */
     public IBMPartitionTable(byte[] bootSector, Device device) {
         // this.bootSector = bootSector;
@@ -172,31 +172,31 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
         }
 
         if (LittleEndian.getUInt16(bootSector, 428) == 0x5678) {
-            // Matches the AAP MBR extra signature, probably an valid partition table
+            // Matches the AAP MBR extra signature, probably a valid partition table
             log.log(Level.DEBUG, "Has AAP MBR extra signature");
             return true;
         }
 
         if (LittleEndian.getUInt16(bootSector, 380) == 0xa55a) {
-            // Matches the AST/NEC MBR extra signature, probably an valid partition table
+            // Matches the AST/NEC MBR extra signature, probably a valid partition table
             log.log(Level.DEBUG, "Has AST/NEC MBR extra signature");
             return true;
         }
 
         if (LittleEndian.getUInt16(bootSector, 252) == 0x55aa) {
-            // Matches the Disk Manager MBR extra signature, probably an valid partition table
+            // Matches the Disk Manager MBR extra signature, probably a valid partition table
             log.log(Level.DEBUG, "Has Disk Manager MBR extra signature");
             return true;
         }
 
         if (LittleEndian.getUInt32(bootSector, 2) == 0x4c57454e) {
-            // Matches the NEWLDR MBR extra signature, probably an valid partition table
+            // Matches the NEWLDR MBR extra signature, probably a valid partition table
             log.log(Level.DEBUG, "Has NEWLDR MBR extra signature");
             return true;
         }
 
         if (LittleEndian.getUInt32(bootSector, 6) == 0x4f4c494c) {
-            // Matches the LILO signature, probably an valid partition table
+            // Matches the LILO signature, probably a valid partition table
             log.log(Level.DEBUG, "Has LILO signature");
             return true;
         }
@@ -283,7 +283,7 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
         String bsdNameTabString = new String(bootSector, 416, 16, StandardCharsets.US_ASCII);
 
         if (bsdNameTabString.contains("Linu\ufffd") || bsdNameTabString.contains("FreeBS\ufffd")) {
-            // Matches BSD nametab entries signature
+            // Matches BSD name-tab entries signature
             log.log(Level.DEBUG, "Has BSD nametab entries");
             return true;
         }
@@ -344,19 +344,23 @@ public class IBMPartitionTable implements PartitionTable<IBMPartitionTableEntry>
         return !entries.isEmpty();
     }
 
+    @Override
     public Iterator<IBMPartitionTableEntry> iterator() {
         return new Iterator<>() {
             private int index = 0;
             private final int last = (partitions == null) ? 0 : partitions.length;
 
+            @Override
             public boolean hasNext() {
                 return index < last;
             }
 
+            @Override
             public IBMPartitionTableEntry next() {
                 return partitions[index++];
             }
 
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }

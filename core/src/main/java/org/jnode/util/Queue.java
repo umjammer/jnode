@@ -39,14 +39,14 @@ public class Queue<T> {
      * Gets the first element out of the queue. Blocks until an element is available
      * and the returns element is remove from the queue.
      *
-     * @param ignoreInteruptions If true, InterruptedException's are ignore, otherwise
+     * @param ignoreInterruptions If true, InterruptedException's are ignore, otherwise
      *                           and InterruptedException results in a return of <code>null</code>.
      * @param timeout            to wait for an object in the queue. On timeout, null is returned.
-     * A value of 0 means wait for ever.
+     * A value of 0 means wait forever.
      * @return Object The first object in the queue, or null if the queue has
      *         been closed, a timeout occurs, or the current thread is interrupted (and ignoreInterruptions is false).
      */
-    public synchronized T get(boolean ignoreInteruptions, long timeout) {
+    public synchronized T get(boolean ignoreInterruptions, long timeout) {
         while (queue.isEmpty()) {
             if (closed || timeout == NO_WAIT) {
                 return null;
@@ -54,10 +54,10 @@ public class Queue<T> {
             try {
                 wait(timeout);
             } catch (InterruptedException ex) {
-                if (!ignoreInteruptions) {
+                if (!ignoreInterruptions) {
                     return null;
                 }
-                /* ignore */
+                // ignore
             }
             if ((timeout != 0) && (queue.isEmpty())) {
                 return null;
@@ -71,7 +71,7 @@ public class Queue<T> {
      * and the returns element is remove from the queue.
      *
      * @param timeout to wait for an object in the queue. On timeout, null is returned.
-     * A value of 0 means wait for ever.
+     * A value of 0 means wait forever.
      * @return Object The first object in the queue, or null if the queue has
      *         been closed, or a timeout occurs.
      */
@@ -83,13 +83,13 @@ public class Queue<T> {
      * Gets the first element out of the queue. Blocks until an element is available
      * and the returns element is remove from the queue.
      *
-     * @param ignoreInteruptions If true, InterruptedException's are ignore, otherwise
+     * @param ignoreInterruptions If true, InterruptedException's are ignore, otherwise
      *                           and InterruptedException results in a return of <code>null</code>.
      * @return Object The first object in the queue, or null if the queue has
      *         been closed, or the current thread is interrupted (and ignoreInterruptions is false).
      */
-    public T get(boolean ignoreInteruptions) {
-        return get(ignoreInteruptions, 0);
+    public T get(boolean ignoreInterruptions) {
+        return get(ignoreInterruptions, 0);
     }
 
     /**
@@ -105,7 +105,7 @@ public class Queue<T> {
     /**
      * Add an element to this queue.
      *
-     * @param object
+     * @param object the element to add
      * @throws SecurityException If the queue has been closed.
      */
     public synchronized void add(T object)
@@ -121,7 +121,7 @@ public class Queue<T> {
     /**
      * Remove an element from this queue.
      *
-     * @param object
+     * @param object the object
      * @throws SecurityException If the queue has been closed.
      */
     public synchronized void remove(T object)
@@ -137,7 +137,7 @@ public class Queue<T> {
     /**
      * Does this queue contain a given object?
      *
-     * @param object
+     * @param object the object
      * @return boolean
      */
     public boolean contains(T object) {

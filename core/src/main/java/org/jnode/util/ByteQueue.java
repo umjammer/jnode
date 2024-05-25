@@ -69,11 +69,11 @@ public class ByteQueue {
         data[bottom] = o;
         bottom++;
         if (bottom >= size) {
-            /* overflow */
+            // overflow
             bottom = 0;
         }
-        /* if wrapped around, advance top so it
-             points to the old value */
+        // if wrapped around, advance top, so it
+        // points to the old value
         if (top == bottom) {
             top++;
         }
@@ -88,7 +88,7 @@ public class ByteQueue {
      * @return the byte removed, or zero if the method call was interrupted.
      */
     public synchronized byte deQueue() {
-        while (top == bottom) { /* Q is empty */
+        while (top == bottom) { // Q is empty
             try {
                 wait();
             } catch (InterruptedException ie) {
@@ -96,13 +96,13 @@ public class ByteQueue {
                 // exception should be allowed to propagate 
                 return 0;
             }
-        } /* wait for push to fill Q */
+        } // wait for push to fill Q
         byte r = data[top];
 
         top++;
         if (top >= size) {
             top = 0;
-        } /* end overflow */
+        } // end overflow
 
         return r;
     }
@@ -120,18 +120,18 @@ public class ByteQueue {
      */
     public synchronized byte deQueue(long timeout)
         throws TimeoutException, InterruptedException {
-        while (top == bottom) { /* Q is empty */
+        while (top == bottom) { // Q is empty
             wait(timeout);
             if ((timeout > 0) && (top == bottom)) {
                 throw new TimeoutException();
             }
-        } /* wait for push to fill Q */
+        } // wait for push to fill Q
         byte r = data[top];
 
         top++;
         if (top >= size) {
             top = 0;
-        } /* end overflow */
+        } // end overflow
 
         return r;
     }
@@ -150,12 +150,12 @@ public class ByteQueue {
      */
     public synchronized byte peek(long timeout)
         throws TimeoutException, InterruptedException {
-        while (top == bottom) { /* Q is empty */
+        while (top == bottom) { // Q is empty
             wait(timeout);
             if ((timeout > 0) && (top == bottom)) {
                 throw new TimeoutException();
             }
-        } /* wait for push to fill Q */
+        } // wait for push to fill Q
         return data[top];
     }
 

@@ -30,10 +30,10 @@ import org.jnode.net.SocketBuffer;
 public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
 
     /** IP version */
-    private int version;
+    private final int version;
 
     /** Length of header in bytes */
-    private int hdrlength;
+    private final int hdrLength;
 
     /** Type of service */
     private int tos;
@@ -65,10 +65,10 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
     /**
      * Create a new instance
      * 
-     * @param tos
-     * @param ttl
-     * @param protocol
-     * @param dstAddress
+     * @param tos the tos
+     * @param ttl the ttl
+     * @param protocol the protocol
+     * @param dstAddress the dstAddress
      */
     public IPv4Header(int tos, int ttl, int protocol, IPv4Address dstAddress, int dataLength) {
         if (dstAddress == null) {
@@ -79,7 +79,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
         this.ttl = ttl;
         this.protocol = protocol;
         this.dstAddress = dstAddress;
-        this.hdrlength = 20;
+        this.hdrLength = 20;
         this.dataLength = dataLength;
         this.checksumOk = true; // For this constructor not relevant
     }
@@ -87,14 +87,14 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
     /**
      * Create a new instance, read the header from the given buffer
      * 
-     * @param skbuf
+     * @param skbuf the skbuf
      */
     public IPv4Header(SocketBuffer skbuf) {
         final int b0 = skbuf.get(0);
         this.version = (b0 >> 4) & 0x0f;
-        this.hdrlength = (b0 & 0x0f) * 4;
+        this.hdrLength = (b0 & 0x0f) * 4;
         this.tos = skbuf.get(1);
-        this.dataLength = skbuf.get16(2) - hdrlength;
+        this.dataLength = skbuf.get16(2) - hdrLength;
         this.identification = skbuf.get16(4);
         this.fragmentOffset = skbuf.get16(6);
         this.ttl = skbuf.get(8);
@@ -102,18 +102,18 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
         this.srcAddress = new IPv4Address(skbuf, 12);
         this.dstAddress = new IPv4Address(skbuf, 16);
 
-        final int ccs = IPv4Utils.calcChecksum(skbuf, 0, hdrlength);
+        final int ccs = IPv4Utils.calcChecksum(skbuf, 0, hdrLength);
         checksumOk = (ccs == 0);
     }
 
     /**
      * Create a clone of the given header
      * 
-     * @param src
+     * @param src the src
      */
     public IPv4Header(IPv4Header src) {
         this.version = src.version;
-        this.hdrlength = src.hdrlength;
+        this.hdrLength = src.hdrLength;
         this.tos = src.tos;
         this.dataLength = src.dataLength;
         this.identification = src.identification;
@@ -128,13 +128,14 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
     /**
      * Prefix this header to the front of the given buffer
      * 
-     * @param skbuf
+     * @param skbuf the skbuf
      */
+    @Override
     public void prefixTo(SocketBuffer skbuf) {
-        skbuf.insert(hdrlength);
-        skbuf.set(0, ((version << 4) & 0xf0) | ((hdrlength / 4) & 0xf));
+        skbuf.insert(hdrLength);
+        skbuf.set(0, ((version << 4) & 0xf0) | ((hdrLength / 4) & 0xf));
         skbuf.set(1, tos);
-        skbuf.set16(2, dataLength + hdrlength);
+        skbuf.set16(2, dataLength + hdrLength);
         skbuf.set16(4, identification);
         skbuf.set16(6, fragmentOffset);
         skbuf.set(8, ttl);
@@ -143,7 +144,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
         srcAddress.writeTo(skbuf, 12);
         dstAddress.writeTo(skbuf, 16);
         // calculate and set checksum
-        final int ccs = IPv4Utils.calcChecksum(skbuf, 0, hdrlength);
+        final int ccs = IPv4Utils.calcChecksum(skbuf, 0, hdrLength);
         if (ccs == 0) {
             skbuf.set(10, 0xffff);
         } else {
@@ -160,6 +161,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
      * @param offset The offset to the first byte (in the buffer) of this header
      *            (since low layer headers are already prefixed)
      */
+    @Override
     public void finalizeHeader(SocketBuffer skbuf, int offset) {
         // Nothing to do
     }
@@ -167,6 +169,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
     /**
      * Gets the source address of the packet described in this header
      */
+    @Override
     public ProtocolAddress getSourceAddress() {
         return srcAddress;
     }
@@ -174,6 +177,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
     /**
      * Gets the source address of the packet described in this header
      */
+    @Override
     public ProtocolAddress getDestinationAddress() {
         return dstAddress;
     }
@@ -201,7 +205,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
 
     /**
      * Is this a fragment. That is, the MF flag is set, or fragment offset is
-     * greater then 0.
+     * greater than 0.
      */
     public boolean isFragment() {
         return (((fragmentOffset & IP_MF) != 0) || ((fragmentOffset & IP_FRAGOFS_MASK) != 0));
@@ -232,7 +236,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
     /**
      * Set the fragment offset (not the DF & MF bits)
      * 
-     * @param i
+     * @param i the i
      */
     public void setFragmentOffset(int i) {
         fragmentOffset &= ~IP_FRAGOFS_MASK;
@@ -240,7 +244,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
     }
 
     /**
-     * Sets the don't fragment flag
+     * Sets the "don't fragment flag"
      */
     public void setDontFragment(boolean on) {
         if (on) {
@@ -264,8 +268,9 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
     /**
      * Get the header length
      */
+    @Override
     public int getLength() {
-        return hdrlength;
+        return hdrLength;
     }
 
     /**
@@ -279,12 +284,13 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
      * Gets the length of the header and data
      */
     public int getTotalLength() {
-        return dataLength + hdrlength;
+        return dataLength + hdrLength;
     }
 
     /**
      * Gets the length of the data (without the IP header)
      */
+    @Override
     public int getDataLength() {
         return dataLength;
     }
@@ -327,7 +333,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
     /**
      * Sets the destination address
      * 
-     * @param address
+     * @param address the address
      */
     public void setDestination(IPv4Address address) {
         dstAddress = address;
@@ -335,7 +341,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
 
     /**
      * Sets the identification number
-     * @param i
+     * @param i the i
      */
     public void setIdentification(int i) {
         identification = i;
@@ -343,7 +349,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
 
     /**
      * Sets the length of the data in bytes
-     * @param i
+     * @param i the i
      */
     public void setDataLength(int i) {
         dataLength = i;
@@ -351,7 +357,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
 
     /**
      * Sets the protocol
-     * @param i
+     * @param i the i
      */
     public void setProtocol(int i) {
         protocol = i;
@@ -359,7 +365,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
 
     /**
      * Sets the source address
-     * @param address
+     * @param address the address
      */
     public void setSource(IPv4Address address) {
         srcAddress = address;
@@ -367,7 +373,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
 
     /**
      * Sets the type of service
-     * @param i
+     * @param i the i
      */
     public void setTos(int i) {
         tos = i;
@@ -375,7 +381,7 @@ public class IPv4Header implements NetworkLayerHeader, IPv4Constants {
 
     /**
      * Sets the time to live
-     * @param i
+     * @param i the i
      */
     public void setTtl(int i) {
         ttl = i;

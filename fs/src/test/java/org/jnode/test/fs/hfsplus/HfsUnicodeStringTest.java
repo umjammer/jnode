@@ -26,9 +26,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HfsUnicodeStringTest {
-    private byte[] STRING_AS_BYTES_ARRAY =
+    private final byte[] STRING_AS_BYTES_ARRAY =
         new byte[]{0, 8, 0, 116, 0, 101, 0, 115, 0, 116, 0, 46, 0, 116, 0, 120, 0, 116};
-    private String STRING_AS_TEXT = "test.txt";
+    private final String STRING_AS_TEXT = "test.txt";
 
     @Test
     public void testConstructAsBytesArray() {

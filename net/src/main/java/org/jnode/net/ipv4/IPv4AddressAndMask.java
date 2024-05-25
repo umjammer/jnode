@@ -57,14 +57,14 @@ public class IPv4AddressAndMask {
     }
 
     /**
-     * @param address
+     * @param address the address
      */
     public void setAddress(IPv4Address address) {
         this.address = address;
     }
 
     /**
-     * @param address
+     * @param address the address
      */
     public void setSubnetMask(IPv4Address address) {
         subnetMask = address;

@@ -44,13 +44,14 @@ public class FatFileSystemFormatter extends Formatter<FatFileSystem> {
 
     public static final int SECTOR_SIZE = 512;
 
-    private ClusterSize clusterSize;
+    private final ClusterSize clusterSize;
 
     public FatFileSystemFormatter(ClusterSize clusterSize) {
         super(new FatFileSystemType());
         this.clusterSize = clusterSize;
     }
 
+    @Override
     public FatFileSystem format(Device device) throws FileSystemException {
 
         try {
@@ -67,9 +68,9 @@ public class FatFileSystemFormatter extends Formatter<FatFileSystem> {
 
             PartitionTableEntry entry = api.getPartitionTableEntry();
 
-            // if we can deduce partitiontable/fat dependencies do it otherwise
+            // if we can deduce partition-table/fat dependencies do it otherwise
             // guess it.
-            if (entry != null && entry instanceof IBMPartitionTableEntry) {
+            if (entry instanceof IBMPartitionTableEntry) {
                 numberOfSectors = ((IBMPartitionTableEntry) entry).getNrSectors();
                 offset = ((IBMPartitionTableEntry) entry).getStartLba();
             } else {

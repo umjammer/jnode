@@ -33,19 +33,17 @@ import org.jnode.partitions.PartitionTableEntry;
 public class NTFSFileSystemType implements BlockDeviceFileSystemType<NTFSFileSystem> {
     public static final String TAG = "NTFS    ";
 
+    @Override
     public String getName() {
         return "NTFS";
     }
 
-    /** */
+    @Override
     public String getScheme() {
         return "ntfs";
     }
 
-    /**
-     * @see org.jnode.fs.BlockDeviceFileSystemType#supports(org.jnode.partitions.PartitionTableEntry,
-     * byte[], org.jnode.driver.block.FSBlockDeviceAPI) 
-     */
+    @Override
     public boolean supports(PartitionTableEntry pte, byte[] firstSectors, FSBlockDeviceAPI devApi) {
         if (firstSectors.length < 0x11) {
             // Not enough data for detection
@@ -56,9 +54,7 @@ public class NTFSFileSystemType implements BlockDeviceFileSystemType<NTFSFileSys
         return new String(firstSectors, 0x03, 8).equals(TAG);
     }
 
-    /**
-     * @see org.jnode.fs.FileSystemType#create(Device, boolean)
-     */
+    @Override
     public NTFSFileSystem create(Device device, boolean readOnly) throws FileSystemException {
         return new NTFSFileSystem(device, readOnly);
     }

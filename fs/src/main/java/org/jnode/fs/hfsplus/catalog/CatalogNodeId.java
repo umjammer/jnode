@@ -23,7 +23,7 @@ package org.jnode.fs.hfsplus.catalog;
 import org.jnode.util.BigEndian;
 
 public class CatalogNodeId implements Comparable<CatalogNodeId> {
-    private long cnid;
+    private final long cnid;
 
     public CatalogNodeId(final byte[] src, final int offset) {
         cnid = BigEndian.getUInt32(src, offset);

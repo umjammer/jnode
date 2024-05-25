@@ -60,7 +60,7 @@ public class FileRecord extends NTFSRecord {
     /**
      * Index of the file record within the MFT.
      */
-    private long referenceNumber;
+    private final long referenceNumber;
 
     /**
      * Cached attribute list attribute.
@@ -132,7 +132,7 @@ public class FileRecord extends NTFSRecord {
      * @throws IOException if an error occurs.
      */
     public void checkIfValid() throws IOException {
-        // check for the magic number to see if we have a filerecord
+        // check for the magic number to see if we have a file-record
         if (getMagic() != Magic.FILE) {
             log.log(Level.DEBUG, "Invalid magic number found for FILE record: " + getMagic() + " -- dumping buffer");
             for (int off = 0; off < getBuffer().length; off += 32) {
@@ -423,7 +423,7 @@ public class FileRecord extends NTFSRecord {
     }
 
     /**
-     * Gets the first attribute in this filerecord with a given type.
+     * Gets the first attribute in this file-record with a given type.
      *
      * @param attrTypeID the type ID of the attribute we're looking for.
      * @return the attribute.
@@ -539,7 +539,7 @@ public class FileRecord extends NTFSRecord {
      * @param dest       the destination byte array into which to copy the file data.
      * @param off        the offset into the destination byte array.
      * @param len        the number of bytes of data to read.
-     * @param limitToInitialised {@code true} if the data read in should be limited to the initalised part of the
+     * @param limitToInitialised {@code true} if the data read in should be limited to the initialised part of the
      *                    attribute.
      * @throws IOException if an error occurs reading from the filesystem.
      */
@@ -607,7 +607,7 @@ public class FileRecord extends NTFSRecord {
             readClusters += nresData.readVCN(clusterWithinNresData, tmp, 0, nrClusters);
 
             if (readClusters > 0) {
-                // If if the data is past the 'initialised' part of the attribute. If it is uninitialised then it must
+                // If the data is past the 'initialised' part of the attribute. If it is uninitialised then it must
                 // be read as zeros. Annoyingly the initialised portion isn't even cluster aligned...
                 long endOffset = (clusterOffset + clusterWithinNresData + nrClusters) * clusterSize;
 
@@ -766,7 +766,7 @@ public class FileRecord extends NTFSRecord {
      * An iterator for filtering another iterator.
      */
     private abstract static class FilteredAttributeIterator implements Iterator<NTFSAttribute> {
-        private Iterator<NTFSAttribute> attributes;
+        private final Iterator<NTFSAttribute> attributes;
         private NTFSAttribute cached;
         private boolean hasCached;
 

@@ -23,23 +23,24 @@ package org.jnode.fs.hfsplus;
 import org.jnode.util.BigEndian;
 
 public class JournalInfoBlock {
+
     /** Flag indicate that the journal is located in the volume itself. */
     public static final int IN_FS_MASK = 0x00000001;
     /**
-     * Flag indicate that the journal located in an other device. This flag is
+     * Flag indicate that the journal located in another device. This flag is
      * not currently supported.
      */
     public static final int ION_OTHER_DEVICE_MASK = 0x00000002;
-    /** Flag indicate that the journal header is invalid and must be initialize. */
+    /** Flag indicate that the journal header is invalid and must be initialized. */
     public static final int NEED_INITIALIZATION = 0x00000004;
     /** One-bits flag. See constants */
-    private int flag;
+    private final int flag;
     /** Device where the journal is located if it is not in the volume itself. */
-    private int deviceSignature;
+    private final int deviceSignature;
     /** journal start position on the volume */
-    private long offset;
+    private final long offset;
     /** Size of the journal included header and buffer. */
-    private long size;
+    private final long size;
 
     public JournalInfoBlock(final byte[] src) {
         byte[] data = new byte[180];

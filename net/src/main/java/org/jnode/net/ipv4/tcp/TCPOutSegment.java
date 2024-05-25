@@ -52,9 +52,9 @@ public class TCPOutSegment extends TCPSegment {
     private int timeoutTicks;
 
     /**
-     * @param ipHdr
-     * @param hdr
-     * @param dataOffset
+     * @param ipHdr the ipHdr
+     * @param hdr the hdr
+     * @param dataOffset the dataOffset
      */
     public TCPOutSegment(IPv4Header ipHdr, TCPHeader hdr, TCPDataBuffer buffer, int dataOffset, int timeout) {
         super(ipHdr, hdr);
@@ -82,16 +82,16 @@ public class TCPOutSegment extends TCPSegment {
     /**
      * Send this segment
      *
-     * @param tcp
+     * @param tcp the tcp
      */
     public void send(TCPProtocol tcp) throws SocketException {
-        final SocketBuffer skbuf;
+        final SocketBuffer skBuf;
         if (hdr.getDataLength() > 0) {
-            skbuf = buffer.createSocketBuffer(dataOffset, hdr.getDataLength());
+            skBuf = buffer.createSocketBuffer(dataOffset, hdr.getDataLength());
         } else {
-            skbuf = new SocketBuffer(0);
+            skBuf = new SocketBuffer(0);
         }
-        tcp.send(ipHdr, hdr, skbuf);
+        tcp.send(ipHdr, hdr, skBuf);
     }
 
     /**

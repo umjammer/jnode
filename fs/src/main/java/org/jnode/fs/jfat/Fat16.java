@@ -37,14 +37,17 @@ public class Fat16 extends Fat {
         super(bs, api);
     }
 
+    @Override
     protected long offset(int index) {
         return 2L * index;
     }
 
+    @Override
     public int get(int index) throws IOException {
         return (int) getUInt16(index);
     }
 
+    @Override
     public int set(int index, int element) throws IOException {
         long old = getUInt16(index);
 
@@ -53,6 +56,7 @@ public class Fat16 extends Fat {
         return (int) (old & 0x0000FFFF);
     }
 
+    @Override
     public long getClusterPosition(int index) {
         BootSector bootSector = getBootSector();
 
@@ -72,10 +76,12 @@ Debug.printf(Level.FINER, "fat[" + index + "]: offset: %08x%n", rootDirectoryOff
         return !isEofChain(entry);
     }
 
+    @Override
     public boolean isEofChain(int entry) {
         return (entry >= 0xFFF8);
     }
 
+    @Override
     public int eofChain() {
         return 0xFFF8;
     }

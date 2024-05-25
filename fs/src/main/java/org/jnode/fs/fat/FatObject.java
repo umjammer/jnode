@@ -46,6 +46,7 @@ public abstract class FatObject implements FSObject {
      * All invocations on methods (exception this method) of invalid objects 
      * must throw an IOException.
      */
+    @Override
     public final boolean isValid() {
         return valid;
     }
@@ -60,6 +61,7 @@ public abstract class FatObject implements FSObject {
     /**
      * Gets the filesystem I'm a part of.
      */
+    @Override
     public final FileSystem<?> getFileSystem() {
         return fs;
     }

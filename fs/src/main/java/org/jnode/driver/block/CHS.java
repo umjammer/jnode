@@ -30,10 +30,10 @@ public class CHS {
     private final int sector;
 
     /**
-     * @param c
-     * @param h
-     * @param s
-     * @throws IllegalArgumentException
+     * @param c the cylinder
+     * @param h the head
+     * @param s the sector
+     * @throws IllegalArgumentException when an error occurs
      */
     public CHS(int c, int h, int s) throws IllegalArgumentException {
         if (c < 0) {
@@ -51,46 +51,37 @@ public class CHS {
     }
 
     /**
-     * @return int
+     * @return cylinder
      */
     public int getCylinder() {
         return cylinder;
     }
 
     /**
-     * @return int
+     * @return head
      */
     public int getHead() {
         return head;
     }
 
     /**
-     * @return int
+     * @return sector
      */
     public int getSector() {
         return sector;
     }
 
-    /**
-     * @param obj
-     * @return boolean
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+    @Override
     public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof CHS)) {
-            CHS o = (CHS) obj;
+        if ((obj instanceof CHS o)) {
             return (cylinder == o.cylinder) && (head == o.head) && (sector == o.sector);
         } else {
             return false;
         }
     }
 
-    /**
-     * @return String
-     * @see java.lang.Object#toString()
-     */
+    @Override
     public String toString() {
-        return "" + cylinder + "/" + head + "/" + sector;
+        return cylinder + "/" + head + "/" + sector;
     }
-
 }

@@ -27,8 +27,8 @@ public abstract class AbstractIndexNode<K extends Key> extends AbstractNode<K, I
     /**
      * Create a new node.
      *
-     * @param descriptor
-     * @param nodeSize
+     * @param descriptor the descriptor
+     * @param nodeSize the nodeSize
      */
     public AbstractIndexNode(NodeDescriptor descriptor, final int nodeSize) {
         super(descriptor, nodeSize);
@@ -37,8 +37,8 @@ public abstract class AbstractIndexNode<K extends Key> extends AbstractNode<K, I
     /**
      * Create node from existing data.
      *
-     * @param nodeData
-     * @param nodeSize
+     * @param nodeData the nodeData
+     * @param nodeSize the nodeSize
      */
     public AbstractIndexNode(final byte[] nodeData, final int nodeSize) {
         super(nodeData, nodeSize);

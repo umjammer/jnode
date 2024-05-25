@@ -21,7 +21,7 @@
 package org.jnode.fs.fat;
 
 public enum FatType {
-    FAT12(0xFFF, 1.5f), FAT16(0xFFFF, 2.0f), FAT32(0xFFFFFFFF, 4.0f);
+    FAT12(0xFFF, 1.5f), FAT16(0xFFFF, 2.0f), FAT32(0xffff_ffffL, 4.0f);
 
     private final long minReservedEntry;
     private final long maxReservedEntry;
@@ -30,10 +30,10 @@ public enum FatType {
     private final float entrySize;
 
     FatType(long bitMask, float entrySize) {
-        this.minReservedEntry = (0xFFFFFFF0 & bitMask);
-        this.maxReservedEntry = (0xFFFFFFF6 & bitMask);
-        this.eofCluster = (0xFFFFFFF8 & bitMask);
-        this.eofMarker = (0xFFFFFFFF & bitMask);
+        this.minReservedEntry = (0xffff_fff0L & bitMask);
+        this.maxReservedEntry = (0xffff_fff6L & bitMask);
+        this.eofCluster = (0xffff_fff8L & bitMask);
+        this.eofMarker = (0xffff_ffffL & bitMask);
         this.entrySize = entrySize;
     }
 

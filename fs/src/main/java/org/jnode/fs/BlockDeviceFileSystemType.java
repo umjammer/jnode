@@ -40,7 +40,7 @@ public interface BlockDeviceFileSystemType<T extends FileSystem<?>> extends File
      *
      * @param pte The partition table entry, if any. If null, there is no
      *            partition table entry.
-     * @param firstSector
+     * @param firstSector the firstSector
      */
     boolean supports(PartitionTableEntry pte, byte[] firstSector, FSBlockDeviceAPI devApi);
 
@@ -49,14 +49,13 @@ public interface BlockDeviceFileSystemType<T extends FileSystem<?>> extends File
     static <T extends FileSystemType> T lookup(PartitionTableEntry pte, byte[] firstSector, FSBlockDeviceAPI devApi) {
         ServiceLoader<FileSystemType> sl = ServiceLoader.load(FileSystemType.class);
         for (FileSystemType fst : sl) {
-            if (fst instanceof BlockDeviceFileSystemType) {
+            if (fst instanceof BlockDeviceFileSystemType bdfst) {
 Debug.println(Level.FINE, "filesystem type: " + fst);
-                BlockDeviceFileSystemType bdfst = (BlockDeviceFileSystemType) fst;
                 if (bdfst.supports(pte, firstSector, devApi)) {
                     return (T) fst;
                 }
             }
         }
-        throw new IllegalArgumentException("no suitable file system type for particuler parametaers.");
+        throw new IllegalArgumentException("no suitable file system type for particular parameters.");
     }
 }

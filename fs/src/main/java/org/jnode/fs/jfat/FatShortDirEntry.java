@@ -93,7 +93,7 @@ public class FatShortDirEntry extends FatDirEntry {
         /*
          * handle the special character 0x05 (page 23) 0xE5 is a valid KANJI
          * (japanese) character it cannot stay on persistent storage (as it was
-         * choosed for FREE entries) so it will changed from 0x05 to 0xE5 in
+         * chosen for FREE entries) so it will change from 0x05 to 0xE5 in
          * memory
          */
         if (lName[0] == (byte) KANJI)
@@ -107,7 +107,7 @@ public class FatShortDirEntry extends FatDirEntry {
         /*
          * handle the special character 0x05 (page 23) 0xE5 is a valid KANJI
          * (japanese) character it cannot stay on persistent storage (as it was
-         * choosed for FREE entries) so it will changed from 0x05 to 0xE5 in
+         * choosen for FREE entries) so it will change from 0x05 to 0xE5 in
          * memory
          */
         if (lName[0] == (byte) FREE)
@@ -234,7 +234,7 @@ public class FatShortDirEntry extends FatDirEntry {
 
         /*
          * be sure startCluster is not larger than 28 bits FAT32 is actually a
-         * FAT28 ;-) should't happen at all ... but who knows?
+         * FAT28 ;-) shouldn't happen at all ... but who knows?
          */
         if (lFstClusLo > 0xFFFF)
             throw new IllegalArgumentException("FstClusLo too large: " +
@@ -255,7 +255,7 @@ public class FatShortDirEntry extends FatDirEntry {
     private void encodeCluster() {
         /*
          * be sure startCluster is not larger than 28 bits FAT32 is actually a
-         * FAT28 ;-) should't happen at all ... but who knows?
+         * FAT28 ;-) shouldn't happen at all ... but who knows?
          */
         if (cluster < 0 || cluster > 0x0FFFFFFF)
             throw new IllegalArgumentException("cluster is invalid: " + NumberUtils.hex(cluster, 8));
@@ -303,6 +303,7 @@ public class FatShortDirEntry extends FatDirEntry {
         encodeLength();
     }
 
+    @Override
     public boolean isShortDirEntry() {
         return true;
     }
@@ -439,7 +440,7 @@ public class FatShortDirEntry extends FatDirEntry {
     }
 
     /*
-     * checksum algorithm on page 28 the mask is to delete byte overwflow bits
+     * checksum algorithm on page 28 the mask is to delete byte overflow bits
      * Java has not unsigned types (sigh!)
      */
     public byte getChkSum() {
@@ -506,6 +507,7 @@ public class FatShortDirEntry extends FatDirEntry {
             getShortName(), getIndex(), NumberUtils.hex(lAttr, 2), lFileSize);
     }
 
+    @Override
     public String toDebugString() {
         StrWriter out = new StrWriter();
 

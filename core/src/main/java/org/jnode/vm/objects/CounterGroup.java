@@ -31,15 +31,15 @@ public class CounterGroup extends Statistic {
     private transient Map<String, Statistic> statistics;
 
     /**
-     * @param name
-     * @param description
+     * @param name the name
+     * @param description the description
      */
     public CounterGroup(String name, String description) {
         super(name, description);
     }
 
     /**
-     * @param name
+     * @param name the name
      */
     public CounterGroup(String name) {
         super(name);
@@ -74,7 +74,7 @@ public class CounterGroup extends Statistic {
     /**
      * Gets of create a counter with a given name.
      *
-     * @param name
+     * @param name the name
      * @return The counter
      */
     public final Counter getCounter(String name) {
@@ -94,7 +94,7 @@ public class CounterGroup extends Statistic {
     /**
      * Gets of create a counter group with a given name.
      *
-     * @param name
+     * @param name the name
      * @return The counter group
      */
     public final CounterGroup getCounterGroup(String name) {

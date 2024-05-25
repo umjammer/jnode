@@ -24,11 +24,14 @@ public abstract class AbstractKey implements Key {
 
     protected int keyLength;
 
+    @Override
     public final int getKeyLength() {
         return keyLength;
     }
 
+    @Override
     public abstract byte[] getBytes();
 
+    @Override
     public abstract int compareTo(Key key);
 }

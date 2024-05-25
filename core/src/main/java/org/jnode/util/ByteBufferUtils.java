@@ -23,17 +23,18 @@ package org.jnode.util;
 import java.nio.ByteBuffer;
 
 public class ByteBufferUtils {
+
     /**
      * This method is the equivalent of System.arraycopy
      * But, instead of 2 arrays, it takes 2 ByteBuffers.
      *
-     * @param src
-     * @param srcStart
-     * @param dest
-     * @param destStart
-     * @param len
+     * @param src the src buffer
+     * @param srcStart the src start index
+     * @param dest the dest buffer
+     * @param destStart the dest start index
+     * @param len the length
      */
-    public static void buffercopy(ByteBuffer src, int srcStart,
+    public static void copyBuffer(ByteBuffer src, int srcStart,
                                   ByteBuffer dest, int destStart, int len) {
         src.position(srcStart);
         src.limit(srcStart + len);
@@ -55,10 +56,10 @@ public class ByteBufferUtils {
     }
 
     public static class ByteArray {
-        private ByteBuffer buf;
-        private int bufPosition;
-        private int bufLimit;
-        private byte[] array;
+        private final ByteBuffer buf;
+        private final int bufPosition;
+        private final int bufLimit;
+        private final byte[] array;
 
         private ByteArray(ByteBuffer buf) {
             this.buf = buf;

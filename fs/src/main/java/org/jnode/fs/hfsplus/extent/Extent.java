@@ -119,10 +119,9 @@ public class Extent {
      */
     public final ExtentDescriptor[] getOverflowExtents(final ExtentKey key, long nodeNumber) throws IOException {
         try {
-            long currentNodeNumber = nodeNumber;
             int nodeSize = bthr.getNodeSize();
             ByteBuffer nodeData = ByteBuffer.allocate(nodeSize);
-            extentFile.read(fs, (currentNodeNumber * nodeSize), nodeData);
+            extentFile.read(fs, (nodeNumber * nodeSize), nodeData);
             byte[] data = nodeData.array();
             NodeDescriptor nd = new NodeDescriptor(data, 0);
 
@@ -147,7 +146,7 @@ public class Extent {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.DEBUG, e.getMessage(), e);
             throw new IOException(e);
         }
     }

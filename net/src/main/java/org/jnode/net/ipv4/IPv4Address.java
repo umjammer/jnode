@@ -20,6 +20,7 @@
 
 package org.jnode.net.ipv4;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -34,6 +35,7 @@ import org.jnode.net.ethernet.EthernetConstants;
  */
 public class IPv4Address implements ProtocolAddress, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 4663183102157418943L;
 
     private static final int length = 4;
@@ -54,8 +56,8 @@ public class IPv4Address implements ProtocolAddress, Serializable {
 
     /**
      * Reads an address at a given offset from the given buffer
-     * @param skbuf
-     * @param offset
+     * @param skbuf the skbuf
+     * @param offset the offset
      */
     public static Inet4Address readFrom(SocketBuffer skbuf, int offset) {
         byte[] address = new byte[length];
@@ -69,9 +71,9 @@ public class IPv4Address implements ProtocolAddress, Serializable {
 
     /**
      * Writes an address to a given offset in the given buffer
-     * @param skbuf
-     * @param skbufOffset
-     * @param address
+     * @param skbuf the skbuf
+     * @param skbufOffset the skbufOffset
+     * @param address the address
      */
     public static void writeTo(SocketBuffer skbuf, int skbufOffset, Inet4Address address) {
         skbuf.set(skbufOffset, address.getAddress(), 0, length);
@@ -79,8 +81,8 @@ public class IPv4Address implements ProtocolAddress, Serializable {
 
     /**
      * Create a new instance
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
     public IPv4Address(byte[] src, int offset) {
         address = new byte[length];
@@ -97,8 +99,8 @@ public class IPv4Address implements ProtocolAddress, Serializable {
 
     /**
      * Create a new instance
-     * @param skbuf
-     * @param offset
+     * @param skbuf the skbuf
+     * @param offset the offset
      */
     public IPv4Address(SocketBuffer skbuf, int offset) {
         address = new byte[length];
@@ -107,8 +109,8 @@ public class IPv4Address implements ProtocolAddress, Serializable {
 
     /**
      * Create a new instance from a String representation
-     * @param addrStr
-     * @throws IllegalArgumentException
+     * @param addrStr the addrStr
+     * @throws IllegalArgumentException when an error occurs
      */
     public IPv4Address(String addrStr) throws IllegalArgumentException {
         final StringTokenizer tok = new StringTokenizer(addrStr, ".");
@@ -127,7 +129,7 @@ public class IPv4Address implements ProtocolAddress, Serializable {
 
     /**
      * Create a new instance from a java.net.InetAddress
-     * @param inetAddress
+     * @param inetAddress the inetAddress
      */
     public IPv4Address(InetAddress inetAddress) {
         this.inetAddress = inetAddress;
@@ -154,8 +156,9 @@ public class IPv4Address implements ProtocolAddress, Serializable {
 
     /**
      * Is this address equal to the given address.
-     * @param o
+     * @param o the o
      */
+    @Override
     public boolean equals(ProtocolAddress o) {
         if (o instanceof IPv4Address) {
             return equals((IPv4Address) o);
@@ -178,14 +181,16 @@ public class IPv4Address implements ProtocolAddress, Serializable {
     /**
      * Gets the length of this address in bytes
      */
+    @Override
     public final int getLength() {
         return length;
     }
 
     /**
      * Gets the address-byte at a given index
-     * @param index
+     * @param index the index
      */
+    @Override
     public final byte get(int index) {
         return address[index];
     }
@@ -201,9 +206,10 @@ public class IPv4Address implements ProtocolAddress, Serializable {
 
     /**
      * Write this address to a given offset in the given buffer
-     * @param skbuf
-     * @param skbufOffset
+     * @param skbuf the skbuf
+     * @param skbufOffset the skbufOffset
      */
+    @Override
     public final void writeTo(SocketBuffer skbuf, int skbufOffset) {
         skbuf.set(skbufOffset, address, 0, length);
     }
@@ -332,7 +338,7 @@ public class IPv4Address implements ProtocolAddress, Serializable {
 
     /**
      * Does this address matches a given mask?
-     * @param mask
+     * @param mask the mask
      */
     public boolean matches(IPv4Address otherAddress, IPv4Address mask) {
         for (int i = 0; i < length; i++) {
@@ -348,7 +354,7 @@ public class IPv4Address implements ProtocolAddress, Serializable {
 
     /**
      * Calculate the and or this address with the given mask.
-     * @param mask
+     * @param mask the mask
      */
     public IPv4Address and(IPv4Address mask) {
         final byte[] res = new byte[length];
@@ -364,6 +370,7 @@ public class IPv4Address implements ProtocolAddress, Serializable {
      * @see java.net.Inet4Address
      * @return This address as java.net.InetAddress
      */
+    @Override
     public InetAddress toInetAddress() {
         if (inetAddress == null) {
             try {
@@ -379,6 +386,7 @@ public class IPv4Address implements ProtocolAddress, Serializable {
      * Convert to a byte array.
      * @see org.jnode.net.ProtocolAddress#toByteArray()
      */
+    @Override
     public byte[] toByteArray() {
         final byte[] result = new byte[address.length];
         System.arraycopy(address, 0, result, 0, address.length);
@@ -408,6 +416,7 @@ public class IPv4Address implements ProtocolAddress, Serializable {
      * Gets the type of this address.
      * This type is used by (e.g.) ARP.
      */
+    @Override
     public int getType() {
         return EthernetConstants.ETH_P_IP;
     }

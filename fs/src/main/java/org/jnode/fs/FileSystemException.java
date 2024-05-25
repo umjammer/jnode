@@ -21,12 +21,15 @@
 package org.jnode.fs;
 
 import java.io.IOException;
+import java.io.Serial;
+
 
 /**
  * @author epr
  */
 public class FileSystemException extends IOException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /** */
@@ -34,22 +37,22 @@ public class FileSystemException extends IOException {
     }
 
     /**
-     * @param message
-     * @param cause
+     * @param message the message
+     * @param cause the cause
      */
     public FileSystemException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * @param cause
+     * @param cause the cause
      */
     public FileSystemException(Throwable cause) {
         super(cause);
     }
 
     /**
-     * @param s
+     * @param s the s
      */
     public FileSystemException(String s) {
         super(s);

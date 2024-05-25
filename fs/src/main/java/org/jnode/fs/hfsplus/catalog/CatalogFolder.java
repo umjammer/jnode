@@ -54,7 +54,7 @@ public class CatalogFolder {
     private HfsPlusBSDInfo permissions;
 
     /**
-     * @param src
+     * @param src the src
      */
     public CatalogFolder(final byte[] src) {
         byte[] data = new byte[88];
@@ -73,8 +73,8 @@ public class CatalogFolder {
     }
 
     /**
-     * @param valence
-     * @param folderID
+     * @param valence the valence
+     * @param folderID the folderID
      */
     public CatalogFolder(int valence, CatalogNodeId folderID) {
         this.recordType = RECORD_TYPE_FOLDER;
@@ -101,10 +101,7 @@ public class CatalogFolder {
         return data;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
+    @Override
     public String toString() {
         String s = "Record type: " + recordType + "\n" +
                 "Valence: " + valence + "\n" +
@@ -135,23 +132,23 @@ public class CatalogFolder {
     }
 
     public long getCreateDate() {
-        return HfsUtils.getDate(createDate & 0xffffffffL, false) * 1000L;
+        return HfsUtils.getDate(createDate & 0xffff_ffffL, false) * 1000L;
     }
 
     public long getContentModDate() {
-        return HfsUtils.getDate(contentModDate & 0xffffffffL, false) * 1000L;
+        return HfsUtils.getDate(contentModDate & 0xffff_ffffL, false) * 1000L;
     }
 
     public long getAttrModDate() {
-        return HfsUtils.getDate(attrModDate & 0xffffffffL, false) * 1000L;
+        return HfsUtils.getDate(attrModDate & 0xffff_ffffL, false) * 1000L;
     }
 
     public long getAccessDate() {
-        return HfsUtils.getDate(accessDate & 0xffffffffL, false) * 1000L;
+        return HfsUtils.getDate(accessDate & 0xffff_ffffL, false) * 1000L;
     }
 
     public long getBackupDate() {
-        return HfsUtils.getDate(backupDate & 0xffffffffL, false) * 1000L;
+        return HfsUtils.getDate(backupDate & 0xffff_ffffL, false) * 1000L;
     }
 
     public HfsPlusBSDInfo getPermissions() {
@@ -185,5 +182,4 @@ public class CatalogFolder {
     public void incrementValence() {
         this.setValence(this.getValence() + 1);
     }
-
 }

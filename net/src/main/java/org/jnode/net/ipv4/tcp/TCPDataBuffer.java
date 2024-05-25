@@ -34,7 +34,7 @@ public class TCPDataBuffer {
     /**
      * Create a new instance
      * 
-     * @param length
+     * @param length the length
      */
     public TCPDataBuffer(int length) {
         this.data = new byte[length];
@@ -43,10 +43,10 @@ public class TCPDataBuffer {
     }
 
     /**
-     * Create a socketbuffer for a given portion of this databuffer.
+     * Create a socket buffer for a given portion of this data buffer.
      * 
-     * @param offset
-     * @param length
+     * @param offset the offset
+     * @param length the length
      * @return The created buffer
      */
     public SocketBuffer createSocketBuffer(int offset, int length) {
@@ -62,7 +62,7 @@ public class TCPDataBuffer {
     /**
      * Remove the first count byte from this buffer
      * 
-     * @param count
+     * @param count the count
      */
     public void pull(int count) {
         if ((count < 0) || (count > used)) {
@@ -80,9 +80,9 @@ public class TCPDataBuffer {
     /**
      * Add the given data to this buffer.
      * 
-     * @param src
-     * @param srcOffset
-     * @param length
+     * @param src the src
+     * @param srcOffset the srcOffset
+     * @param length the length
      * @return The offset of the added data within the buffer.
      */
     public int add(byte[] src, int srcOffset, int length) {
@@ -100,12 +100,12 @@ public class TCPDataBuffer {
      * 
      * @return The offset of the added data within the buffer.
      */
-    public int add(SocketBuffer skbuf, int index, int length) {
+    public int add(SocketBuffer skBuf, int index, int length) {
         if (length > getFreeSize()) {
             throw new IllegalArgumentException("Not enough free space");
         }
         final int dstOffset = this.used;
-        skbuf.get(this.data, dstOffset, index, length);
+        skBuf.get(this.data, dstOffset, index, length);
         this.used += length;
         return dstOffset;
     }
@@ -134,9 +134,9 @@ public class TCPDataBuffer {
     /**
      * Read data from the start of this buffer and remove it.
      * 
-     * @param b
-     * @param off
-     * @param len
+     * @param b the b
+     * @param off the off
+     * @param len the len
      * @return The number of bytes read
      */
     public int read(byte[] b, int off, int len) {

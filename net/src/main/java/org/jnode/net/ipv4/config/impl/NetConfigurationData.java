@@ -22,6 +22,7 @@ package org.jnode.net.ipv4.config.impl;
 
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
+import java.lang.reflect.InvocationTargetException;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
@@ -48,7 +49,7 @@ final class NetConfigurationData {
 
     /**
      * Initialize this instance.
-     * @param prefs
+     * @param prefs the prefs
      */
     public NetConfigurationData(Preferences prefs) {
         this.prefs = prefs;
@@ -57,8 +58,8 @@ final class NetConfigurationData {
 
     /**
      * Set the configuration data for the given device.
-     * @param device
-     * @param config
+     * @param device the device
+     * @param config the config
      */
     public void setConfiguration(Device device, NetDeviceConfig config) {
         final Preferences devPrefs = devConfigsPrefs.node(device.getId());
@@ -68,7 +69,6 @@ final class NetConfigurationData {
 
     /**
      * Gets the configuration data for the device, or null if not found.
-     * @return
      */
     public NetDeviceConfig getConfiguration(Device device) {
         NetDeviceConfig cfg = null;
@@ -79,7 +79,7 @@ final class NetConfigurationData {
                 if (clsName != null) {
                     try {
                         final Class<?> cls = Thread.currentThread().getContextClassLoader().loadClass(clsName);
-                        return (NetDeviceConfig) cls.newInstance();
+                        return (NetDeviceConfig) cls.getDeclaredConstructor().newInstance();
                     } catch (ClassNotFoundException ex) {
                         log.log(Level.WARNING, "NetDeviceConfig class not found", ex);
                         return null;
@@ -89,6 +89,8 @@ final class NetConfigurationData {
                     } catch (IllegalAccessException ex) {
                         log.log(Level.WARNING, "Cannot access NetDeviceConfig class", ex);
                         return null;
+                    } catch (InvocationTargetException | NoSuchMethodException e) {
+                        throw new IllegalStateException(e);
                     }
                 }
             }

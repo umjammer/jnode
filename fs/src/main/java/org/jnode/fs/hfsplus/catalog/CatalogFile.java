@@ -43,21 +43,21 @@ public class CatalogFile {
     /**
      * catalog record type, always RECORD_TYPE_FILE
      */
-    private int recordType;
+    private final int recordType;
     /** */
-    private int flags;
+    private final int flags;
     /**
      * the catalog node id of the file
      */
-    private CatalogNodeId fileId;
+    private final CatalogNodeId fileId;
     /**
      * The date and time the file was created
      */
-    private long createDate;
+    private final long createDate;
     /**  */
-    private long contentModDate;
+    private final long contentModDate;
     /** */
-    private long attrModDate;
+    private final long attrModDate;
     /** */
     private long accessDate;
     /** */
@@ -73,14 +73,14 @@ public class CatalogFile {
     /**
      * data fork location and size
      */
-    private HfsPlusForkData datas;
+    private final HfsPlusForkData datas;
     /**
      * resource fork location and size
      */
-    private HfsPlusForkData resources;
+    private final HfsPlusForkData resources;
 
     /**
-     * @param src
+     * @param src the src
      */
     public CatalogFile(final byte[] src) {
         byte[] data = new byte[CATALOG_FILE_SIZE];
@@ -100,10 +100,10 @@ public class CatalogFile {
     }
 
     /**
-     * @param flags
-     * @param fileId
-     * @param datas
-     * @param resources
+     * @param flags the flags
+     * @param fileId the fileId
+     * @param datas the datas
+     * @param resources the resources
      */
     public CatalogFile(int flags, CatalogNodeId fileId, HfsPlusForkData datas, HfsPlusForkData resources) {
         this.recordType = RECORD_TYPE_FILE;

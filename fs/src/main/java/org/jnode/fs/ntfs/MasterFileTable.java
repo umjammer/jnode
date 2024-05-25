@@ -49,7 +49,7 @@ public class MasterFileTable extends FileRecord {
         public static final int MFTMIRR = 1;
 
         /**
-         * Journalling log in data attribute.
+         * Journaling log in data attribute.
          */
         public static final int LOGFILE = 2;
 
@@ -96,7 +96,7 @@ public class MasterFileTable extends FileRecord {
         public static final int UPCASE = 10;
 
         /**
-         * Directory containing other system files (eg. $ObjId, $Quota, $Reparse and $UsnJrnl). This is new to NTFS3.0.
+         * Directory containing other system files (e.g. $ObjId, $Quota, $Reparse and $UsnJrnl). This is new to NTFS3.0.
          */
         public static final int EXTEND = 11;
 
@@ -132,9 +132,9 @@ public class MasterFileTable extends FileRecord {
     private long mftLength;
 
     /**
-     * @param volume
-     * @param buffer
-     * @throws IOException
+     * @param volume the volume
+     * @param buffer the buffer
+     * @throws IOException when an error occurs
      */
     public MasterFileTable(NTFSVolume volume, byte[] buffer, int offset) throws IOException {
         super(volume, SystemFiles.MFT, buffer, offset);
@@ -171,7 +171,7 @@ public class MasterFileTable extends FileRecord {
     }
 
     /**
-     * Reads the bytes for a MFT record with a given index but does not check if it is a valid file record.
+     * Reads the bytes for an MFT record with a given index but does not check if it is a valid file record.
      *
      * @param index the index to get.
      * @return the file record.
@@ -188,7 +188,7 @@ public class MasterFileTable extends FileRecord {
     }
 
     /**
-     * Gets a MFT record with a given index but does not check if it is a valid file record.
+     * Gets an MFT record with a given index but does not check if it is a valid file record.
      *
      * @param index the index to get.
      * @return the file record.
@@ -204,7 +204,7 @@ public class MasterFileTable extends FileRecord {
     }
 
     /**
-     * Gets a MFT record with a given index.
+     * Gets an MFT record with a given index.
      *
      * @param index the index to get.
      * @return the file record.

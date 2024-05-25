@@ -37,13 +37,13 @@ Debug.printf(Level.FINE, "offset: %08x + %08x -> %08x", (this.offset - offset), 
     }
 
     /** virtual offset */
-    private VirtualDisk virtualDisk;
+    private final VirtualDisk virtualDisk;
 
     /**
      * Create a new VirtualDiskDevice
      *
-     * @param virtualDisk
-     * @throws FileNotFoundException
+     * @param virtualDisk the virtual disk
+     * @throws FileNotFoundException when an error occurs
      */
     public VirtualDiskDevice(VirtualDisk virtualDisk) throws IOException {
         super("virtualdisk" + System.currentTimeMillis());
@@ -72,7 +72,7 @@ Debug.printf(Level.FINE, "offset: %08x + %08x -> %08x", (this.offset - offset), 
     }
 
     /**
-     * change the length of the underlaying file
+     * change the length of the underlying file
      *
      * @param length real file length
      */
@@ -81,7 +81,7 @@ Debug.printf(Level.FINE, "offset: %08x + %08x -> %08x", (this.offset - offset), 
     }
 
     /**
-     * close the underlaying file
+     * close the underlying file
      */
     public void close() throws IOException {
         virtualDisk.close();

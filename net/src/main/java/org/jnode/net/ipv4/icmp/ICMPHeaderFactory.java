@@ -26,40 +26,22 @@ import org.jnode.net.SocketBuffer;
 public class ICMPHeaderFactory {
 
     /**
-     * Create a type specific ICMP header. The type is read from the first first
-     * in the skbuf.
+     * Create a type specific ICMP header. The type is read from the first
+     * in the skBuf.
      *
-     * @param skbuf
-     * @throws SocketException
+     * @param skbuf the skbuf
+     * @throws SocketException when an error occurs
      */
     public static ICMPHeader createHeader(SocketBuffer skbuf) throws SocketException {
         final ICMPType type = ICMPType.getType(skbuf.get(0));
-        switch (type) {
-            case ICMP_DEST_UNREACH:
-                return new ICMPUnreachableHeader(skbuf);
-
-            case ICMP_TIMESTAMP:
-            case ICMP_TIMESTAMPREPLY:
-                return new ICMPTimestampHeader(skbuf);
-
-            case ICMP_ADDRESS:
-            case ICMP_ADDRESSREPLY:
-                return new ICMPAddressMaskHeader(skbuf);
-
-            case ICMP_ECHOREPLY:
-            case ICMP_ECHO:
-                return new ICMPEchoHeader(skbuf);
-
-            case ICMP_SOURCE_QUENCH:
-            case ICMP_REDIRECT:
-            case ICMP_TIME_EXCEEDED:
-            case ICMP_PARAMETERPROB:
-            case ICMP_INFO_REQUEST:
-            case ICMP_INFO_REPLY:
-                throw new SocketException("Not implemented");
-            default:
-                throw new SocketException("Unknown ICMP type " + type);
-        }
+        return switch (type) {
+            case ICMP_DEST_UNREACH -> new ICMPUnreachableHeader(skbuf);
+            case ICMP_TIMESTAMP, ICMP_TIMESTAMPREPLY -> new ICMPTimestampHeader(skbuf);
+            case ICMP_ADDRESS, ICMP_ADDRESSREPLY -> new ICMPAddressMaskHeader(skbuf);
+            case ICMP_ECHOREPLY, ICMP_ECHO -> new ICMPEchoHeader(skbuf);
+            case ICMP_SOURCE_QUENCH, ICMP_REDIRECT, ICMP_TIME_EXCEEDED, ICMP_PARAMETERPROB, ICMP_INFO_REQUEST,
+                 ICMP_INFO_REPLY -> throw new SocketException("Not implemented");
+        };
     }
 
 }

@@ -36,36 +36,36 @@ public class NodeDescriptor {
     /**
      * The number of the next node.
      */
-    private long fLink;
+    private final long fLink;
 
     /**
      * The number of the previous node.
      */
-    private long bLink;
+    private final long bLink;
 
     /**
      * The type of the node.
      */
-    private int kind;
+    private final int kind;
 
     /**
      * The depth of this node in the B-Tree.
      */
-    private int height;
+    private final int height;
 
     /**
      * The number of records in this node.
      */
-    private int numRecords;
+    private final int numRecords;
 
     /**
      * Creates a new node descriptor.
      *
-     * @param fLink
-     * @param bLink
-     * @param kind
-     * @param height
-     * @param numRecords
+     * @param fLink the fLink
+     * @param bLink the bLink
+     * @param kind the kind
+     * @param height the height
+     * @param numRecords the numRecords
      */
     public NodeDescriptor(int fLink, int bLink, int kind, int height, int numRecords) {
         this.fLink = fLink;

@@ -28,47 +28,51 @@ import org.jnode.fs.FSAccessRights;
 public class NFS2AccessRights extends NFS2Object implements FSAccessRights {
 
     @SuppressWarnings("unused")
-    private NFS2Entry entry;
+    private final NFS2Entry entry;
 
     public NFS2AccessRights(NFS2FileSystem fileSystem, NFS2Entry entry) {
         super(fileSystem);
         this.entry = entry;
     }
 
+    @Override
     public boolean canExecute() {
-
         return false;
-
     }
 
+    @Override
     public boolean canRead() {
         // TODO Auto-generated method stub
         return false;
     }
 
+    @Override
     public boolean canWrite() {
         // TODO Auto-generated method stub
         return false;
     }
 
+    @Override
     public Principal getOwner() throws IOException {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public boolean setExecutable(boolean enable, boolean owneronly) {
+    @Override
+    public boolean setExecutable(boolean enable, boolean ownerOnly) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    public boolean setReadable(boolean enable, boolean owneronly) {
+    @Override
+    public boolean setReadable(boolean enable, boolean ownerOnly) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    public boolean setWritable(boolean enable, boolean owneronly) {
+    @Override
+    public boolean setWritable(boolean enable, boolean ownerOnly) {
         // TODO Auto-generated method stub
         return false;
     }
-
 }

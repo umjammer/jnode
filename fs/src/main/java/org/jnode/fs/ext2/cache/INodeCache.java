@@ -20,6 +20,7 @@
 
 package org.jnode.fs.ext2.cache;
 
+import java.io.Serial;
 import java.util.Hashtable;
 
 import org.jnode.fs.ext2.INode;
@@ -28,6 +29,8 @@ import org.jnode.fs.ext2.INode;
  * @author Andras Nagy
  */
 public class INodeCache extends Hashtable<Long, INode> {
+
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public INodeCache(int initialCapacity, float loadFactor) {

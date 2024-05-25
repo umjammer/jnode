@@ -31,10 +31,10 @@ public abstract class AbstractNode<K extends Key, T extends NodeRecord> implemen
 
     private static final Logger log = System.getLogger(AbstractNode.class.getName());
 
-    protected NodeDescriptor descriptor;
-    protected List<T> records;
-    protected List<Integer> offsets;
-    protected int size;
+    protected final NodeDescriptor descriptor;
+    protected final List<T> records;
+    protected final List<Integer> offsets;
+    protected final int size;
 
     public AbstractNode(NodeDescriptor descriptor, final int nodeSize) {
         this.descriptor = descriptor;
@@ -55,7 +55,7 @@ public abstract class AbstractNode<K extends Key, T extends NodeRecord> implemen
             offsets.add(offset);
         }
 
-        log.log(Level.DEBUG, "Creating node for: " + descriptor.toString() + " offsets: " + offsets);
+        log.log(Level.DEBUG, "Creating node for: " + descriptor + " offsets: " + offsets);
 
         loadRecords(nodeData);
     }

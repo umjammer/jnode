@@ -44,9 +44,9 @@ public class EntryRecord extends Descriptor {
 
     /**
      * Initialize this instance.
-     * @param volume
-     * @param buff
-     * @param bp
+     * @param volume the volume
+     * @param buff the buff
+     * @param bp the bp
      */
     public EntryRecord(ISO9660Volume volume, byte[] buff, int bp, String encoding) {
         final int offset = bp - 1;

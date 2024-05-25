@@ -32,8 +32,8 @@ import org.jnode.fs.util.FSUtils;
 public class NTFSResidentAttribute extends NTFSAttribute {
 
     /**
-     * @param fileRecord
-     * @param offset
+     * @param fileRecord the fileRecord
+     * @param offset the offset
      */
     public NTFSResidentAttribute(FileRecord fileRecord, int offset) {
         super(fileRecord, offset);

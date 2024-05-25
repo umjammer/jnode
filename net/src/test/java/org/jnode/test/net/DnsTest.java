@@ -20,13 +20,20 @@
 
 package org.jnode.test.net;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
+import static java.lang.System.getLogger;
+
 
 /**
  * @author Martin Hartvig
  */
 public class DnsTest {
+
+    private static final Logger logger = getLogger(DnsTest.class.getName());
 
     public static void main(String[] args) {
         if (args.length == 1) {
@@ -37,8 +44,8 @@ public class DnsTest {
 
                 System.out.println("inetAddress " + inetAddress.getHostAddress());
             } catch (UnknownHostException e) {
-                e.printStackTrace(); // To change body of catch statement use
-                                        // Options | File Templates.
+                logger.log(Level.DEBUG, e.getMessage(), e);
+                // To change body of catch statement use Options | File Templates.
             }
         } else {
             System.out.println("insert url as arg.");

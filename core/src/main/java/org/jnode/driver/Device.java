@@ -44,14 +44,12 @@ public class Device {
     /**
      * The API's implemented by this device
      */
-    private final HashMap<Class<? extends DeviceAPI>, DeviceAPI> apis =
-            new HashMap<>();
+    private final HashMap<Class<? extends DeviceAPI>, DeviceAPI> apis = new HashMap<>();
 
     /**
      * Create a new instance
      *
-     * @param bus
-     * @param id
+     * @param id the new id
      */
     public Device(String id) {
         this.id = id;
@@ -66,9 +64,9 @@ public class Device {
     }
 
     /**
-     * Change the id of this device, only called by devicemanager
+     * Change the id of this device, only called by device-manager
      *
-     * @param newId
+     * @param newId the new id
      */
     final void setId(String newId) {
         this.id = newId;
@@ -86,8 +84,8 @@ public class Device {
     /**
      * Add an API implementation to the list of API's implemented by this device.
      *
-     * @param apiInterface
-     * @param apiImplementation
+     * @param apiInterface the api interface
+     * @param apiImplementation the api implementation
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public final <T extends DeviceAPI> void registerAPI(Class<T> apiInterface, T apiImplementation) {
@@ -113,7 +111,7 @@ public class Device {
     /**
      * Remove an API implementation from the list of API's implemented by this device.
      *
-     * @param apiInterface
+     * @param apiInterface the api interface
      */
     public final void unregisterAPI(Class<? extends DeviceAPI> apiInterface) {
         apis.remove(apiInterface);
@@ -122,11 +120,11 @@ public class Device {
     /**
      * Does this device implement the given API?
      *
-     * @param apiInterface
+     * @param apiInterface the api interface
      * @return boolean
      */
     public final boolean implementsAPI(Class<? extends DeviceAPI> apiInterface) {
-        //lookup is classname based to handle multi isolate uscases
+        // lookup is class name based to handle multi isolate use cases
         for (Class<?> clazz : apis.keySet()) {
             if (clazz.getName().equals(apiInterface.getName())) {
                 return true;
@@ -147,12 +145,12 @@ public class Device {
     /**
      * Gets the implementation of a given API.
      *
-     * @param apiInterface
+     * @param apiInterface the api interface
      * @return The api implementation (guaranteed not null)
      * @throws ApiNotFoundException The given api has not been found
      */
     public final <T extends DeviceAPI> T getAPI(Class<T> apiInterface) throws ApiNotFoundException {
-        //lookup is classname based to handle multi isolate uscases
+        // lookup is class name based to handle multi isolate use cases
         Class<?> apiInterface2 = null;
         for (Class<?> clazz : apis.keySet()) {
             if (clazz.getName().equals(apiInterface.getName())) {
@@ -169,7 +167,6 @@ public class Device {
 
     /**
      * @return The short description
-     * @see org.jnode.system.resource.ResourceOwner#getShortDescription()
      */
     public String getShortDescription() {
         return getId();

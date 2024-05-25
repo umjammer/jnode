@@ -55,9 +55,9 @@ public class IPv4ControlBlock {
     /**
      * Create a new instance
      * 
-     * @param list
-     * @param protocol
-     * @param ttl
+     * @param list the list
+     * @param protocol the protocol
+     * @param ttl the ttl
      */
     public IPv4ControlBlock(IPv4ControlBlockList list, int protocol, int ttl) {
         this.list = list;
@@ -101,11 +101,11 @@ public class IPv4ControlBlock {
     /**
      * Match this control block against the given parameters
      * 
-     * @param fAddr
-     * @param fPort
-     * @param lAddr
-     * @param lPort
-     * @param allowWildcards
+     * @param fAddr the fAddr
+     * @param fPort the fPort
+     * @param lAddr the lAddr
+     * @param lPort the lPort
+     * @param allowWildcards the allowWildcards
      * @return -1 does not match, >= 0 matches, returns number of wildcards
      */
     final int match(IPv4Address fAddr, int fPort, IPv4Address lAddr, int lPort,
@@ -153,8 +153,8 @@ public class IPv4ControlBlock {
     /**
      * Bind to a specific local address.
      * 
-     * @param lAddr
-     * @param lPort
+     * @param lAddr the lAddr
+     * @param lPort the lPort
      */
     final void bind(IPv4Address lAddr, int lPort) throws BindException {
         if ((this.lPort != 0) || !this.lAddr.isAny()) {
@@ -167,9 +167,9 @@ public class IPv4ControlBlock {
     /**
      * Connect to a foreign address.
      * 
-     * @param lAddr
-     * @param fAddr
-     * @param fPort
+     * @param lAddr the lAddr
+     * @param fAddr the fAddr
+     * @param fPort the fPort
      */
     public synchronized void connect(IPv4Address lAddr, IPv4Address fAddr, int fPort) {
         if (this.lAddr.isAny()) {
@@ -186,11 +186,11 @@ public class IPv4ControlBlock {
 
     /**
      * Create a new control block that has the same local address and port and
-     * is connecto to the given foreign address.
+     * is connected to the given foreign address.
      * 
-     * @param lAddr
-     * @param fAddr
-     * @param fPort
+     * @param lAddr the local address
+     * @param fAddr the foreign address
+     * @param fPort the foreign port
      */
     public IPv4ControlBlock copyAndConnect(IPv4Address lAddr, IPv4Address fAddr, int fPort)
         throws SocketException {

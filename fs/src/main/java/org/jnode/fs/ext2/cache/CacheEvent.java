@@ -20,16 +20,20 @@
 
 package org.jnode.fs.ext2.cache;
 
+import java.io.Serial;
 import java.util.EventObject;
 
 /**
- * Event used to notify a CacheListener about events occuring to the cache
+ * Event used to notify a CacheListener about events occurring to the cache
  * (currently used only when an element is removed from the cache).
  * 
  * @author Andras Nagy
  */
 public class CacheEvent extends EventObject {
+
+    @Serial
     private static final long serialVersionUID = 1L;
+
     public static final int REMOVED = 0;
     private int eventType;
 
@@ -50,5 +54,4 @@ public class CacheEvent extends EventObject {
     public int getEventType() {
         return eventType;
     }
-
 }

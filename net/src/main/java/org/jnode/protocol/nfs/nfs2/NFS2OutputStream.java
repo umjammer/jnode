@@ -40,17 +40,18 @@ import org.jnode.net.nfs.nfs2.mount.MountException;
 import org.jnode.net.nfs.nfs2.mount.MountResult;
 
 public class NFS2OutputStream extends OutputStream {
+
     private static final boolean[] DEFAULT_PERMISSION =
             new boolean[] {true, true, false, true, false, false, true, false, false};
     private static final int DEFAULT_BUFFER_SIZE = NFS2Client.MAX_DATA;
-    private Mount1Client mountClient;
-    private NFS2Client nfsClient;
-    private String mountDirectory;
-    private byte[] fileHandle;
+    private final Mount1Client mountClient;
+    private final NFS2Client nfsClient;
+    private final String mountDirectory;
+    private final byte[] fileHandle;
     @SuppressWarnings("unused")
     private FileAttribute fileAttribute;
     private long fileOffset;
-    private byte[] buffer;
+    private final byte[] buffer;
     private int count;
 
     public NFS2OutputStream(URL url) throws IOException {
@@ -82,11 +83,11 @@ public class NFS2OutputStream extends OutputStream {
 
         ExportEntry exportEntry = null;
         for (ExportEntry e : exportList) {
-            if (path.startsWith(e.getDirectory())) {
+            if (path.startsWith(e.directory())) {
                 if (exportEntry == null) {
                     exportEntry = e;
                 } else {
-                    if (exportEntry.getDirectory().length() < e.getDirectory().length()) {
+                    if (exportEntry.directory().length() < e.directory().length()) {
                         exportEntry = e;
                     }
                 }
@@ -95,7 +96,7 @@ public class NFS2OutputStream extends OutputStream {
         if (exportEntry == null) {
             throw new IOException("The path " + path + " it is not exported");
         }
-        mountDirectory = exportEntry.getDirectory();
+        mountDirectory = exportEntry.directory();
         MountResult mountResult;
         try {
             mountResult = mountClient.mount(mountDirectory);
@@ -106,7 +107,7 @@ public class NFS2OutputStream extends OutputStream {
 
         byte[] tempFileHandle = mountResult.getFileHandle();
         try {
-            String filePath = path.substring(exportEntry.getDirectory().length());
+            String filePath = path.substring(exportEntry.directory().length());
             StringTokenizer tokenizer = new StringTokenizer(filePath, "/");
             List<String> tokenList = new ArrayList<>();
             while (tokenizer.hasMoreElements()) {
@@ -121,13 +122,12 @@ public class NFS2OutputStream extends OutputStream {
                 } else if (lookup.getFileAttribute().getType() == FileAttribute.DIRECTORY) {
                     tempFileHandle = lookup.getFileHandle();
                 } else {
-                    throw new IOException("The path contains an unknow resource: " + t +
+                    throw new IOException("The path contains an unknown resource: " + t +
                             ". It is not directory or file");
                 }
             }
-            CreateFileResult result =
-                    nfsClient.createFile(tempFileHandle, tokenList.get(tokenList.size() - 1),
-                            DEFAULT_PERMISSION, uid, gid, 0, new Time(-1, -1), new Time(-1, -1));
+            CreateFileResult result = nfsClient.createFile(tempFileHandle, tokenList.get(tokenList.size() - 1),
+                    DEFAULT_PERMISSION, uid, gid, 0, new Time(-1, -1), new Time(-1, -1));
             fileHandle = result.getFileHandle();
             fileAttribute = result.getFileAttribute();
         } catch (NFS2Exception e) {
@@ -187,7 +187,7 @@ public class NFS2OutputStream extends OutputStream {
         }
     }
 
-    // TODO Remove the synch in the future
+    // TODO Remove the sync in the future
     @Override
     public synchronized void close() throws IOException {
         if (mountClient != null) {

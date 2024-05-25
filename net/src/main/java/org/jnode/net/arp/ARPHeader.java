@@ -43,19 +43,19 @@ public class ARPHeader implements NetworkLayerHeader {
     private ARPOperation operation;
     private final int hardwareType;
     private final int protocolType;
-    private int hardwareAddressSize;
-    private int protocolAddressSize;
+    private final int hardwareAddressSize;
+    private final int protocolAddressSize;
 
     /**
      * Create a new instance
      *
-     * @param srcHWAddress
-     * @param srcPAddress
-     * @param targetHWAddress
-     * @param targetPAddress
-     * @param op
-     * @param hwtype
-     * @param ptype
+     * @param srcHWAddress the srcHWAddress
+     * @param srcPAddress the srcPAddress
+     * @param targetHWAddress the targetHWAddress
+     * @param targetPAddress the targetPAddress
+     * @param op the op
+     * @param hwtype the hwtype
+     * @param ptype the ptype
      */
     public ARPHeader(HardwareAddress srcHWAddress, ProtocolAddress srcPAddress,
                      HardwareAddress targetHWAddress, ProtocolAddress targetPAddress, ARPOperation op, int hwtype,
@@ -74,7 +74,7 @@ public class ARPHeader implements NetworkLayerHeader {
     /**
      * Create a new packet from a socketbuffer
      *
-     * @param skbuf
+     * @param skbuf the skbuf
      */
     public ARPHeader(SocketBuffer skbuf) throws SocketException {
         hardwareType = skbuf.get16(0);
@@ -95,6 +95,7 @@ public class ARPHeader implements NetworkLayerHeader {
     /**
      * Gets the length of this header in bytes
      */
+    @Override
     public int getLength() {
         return (8 + (sourceHardwareAddress.getLength() + sourceProtocolAddress.getLength()) * 2);
     }
@@ -102,8 +103,9 @@ public class ARPHeader implements NetworkLayerHeader {
     /**
      * Write this packet to the given buffer
      *
-     * @param skbuf
+     * @param skbuf the skbuf
      */
+    @Override
     public void prefixTo(SocketBuffer skbuf) {
         skbuf.insert(8 + (sourceHardwareAddress.getLength() + sourceProtocolAddress.getLength()) * 2);
         int ofs = 0;
@@ -131,6 +133,7 @@ public class ARPHeader implements NetworkLayerHeader {
      * @param offset The offset to the first byte (in the buffer) of this header
      *               (since low layer headers are already prefixed)
      */
+    @Override
     public void finalizeHeader(SocketBuffer skbuf, int offset) {
         // Do nothing
     }
@@ -138,6 +141,7 @@ public class ARPHeader implements NetworkLayerHeader {
     /**
      * Gets the source address of the packet described in this header
      */
+    @Override
     public ProtocolAddress getSourceAddress() {
         return sourceProtocolAddress;
     }
@@ -145,10 +149,12 @@ public class ARPHeader implements NetworkLayerHeader {
     /**
      * Gets the source address of the packet described in this header
      */
+    @Override
     public ProtocolAddress getDestinationAddress() {
         return destinationProtocolAddress;
     }
 
+    @Override
     public int getDataLength() {
         return ARP_DATA_LENGTH;
     }
@@ -223,21 +229,21 @@ public class ARPHeader implements NetworkLayerHeader {
     }
 
     /**
-     * @param operation
+     * @param operation the operation
      */
     public void setOperation(ARPOperation operation) {
         this.operation = operation;
     }
 
     /**
-     * @param address
+     * @param address the address
      */
     public void setSrcHWAddress(HardwareAddress address) {
         sourceHardwareAddress = address;
     }
 
     /**
-     * @param address
+     * @param address the address
      */
     public void setSrcPAddress(ProtocolAddress address) {
         sourceProtocolAddress = address;

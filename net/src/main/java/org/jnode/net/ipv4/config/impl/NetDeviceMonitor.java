@@ -38,28 +38,22 @@ final class NetDeviceMonitor {
     private final NetConfigurationData config;
 
     /**
-     * @param config
+     * @param config the config
      */
     public NetDeviceMonitor(ConfigurationProcessor processor, NetConfigurationData config) {
         this.processor = processor;
         this.config = config;
     }
 
-    /**
-     * @see org.jnode.driver.DeviceListener#deviceStarted(org.jnode.driver.Device)
-     */
+    /** */
     public void deviceStarted(Device device) {
         if (device.implementsAPI(NetDeviceAPI.class)) {
             configureDevice(device);
         }
     }
 
-    /**
-     * @see org.jnode.driver.DeviceListener#deviceStop(org.jnode.driver.Device)
-     */
+    /** */
     public void deviceStop(Device device) {
-        // TODO Auto-generated method stub
-
     }
 
     private void configureDevice(Device dev) {

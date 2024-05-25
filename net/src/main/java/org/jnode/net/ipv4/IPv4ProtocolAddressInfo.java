@@ -43,7 +43,7 @@ public class IPv4ProtocolAddressInfo implements ProtocolAddressInfo {
     /**
      * Create a new instance
      * 
-     * @param address
+     * @param address the address
      * @param mask subnetMask
      */
 
@@ -54,7 +54,7 @@ public class IPv4ProtocolAddressInfo implements ProtocolAddressInfo {
     /**
      * Add an IP address + subnet mask
      * 
-     * @param address
+     * @param address the address
      * @param mask subnetMask
      */
     public synchronized IPv4IfAddress add(IPv4Address address, IPv4Address mask) {
@@ -67,7 +67,7 @@ public class IPv4ProtocolAddressInfo implements ProtocolAddressInfo {
     /**
      * Is the given address one of the addresses of this object?
      * 
-     * @param address
+     * @param address the address
      */
     public boolean contains(IPv4Address address) {
         for (IPv4IfAddress ipv4IfAddress : addresses.values()) {
@@ -81,8 +81,9 @@ public class IPv4ProtocolAddressInfo implements ProtocolAddressInfo {
     /**
      * Is the given address one of the addresses of this object?
      * 
-     * @param address
+     * @param address the address
      */
+    @Override
     public boolean contains(InetAddress address) {
         return contains(new IPv4Address(address));
     }
@@ -90,8 +91,9 @@ public class IPv4ProtocolAddressInfo implements ProtocolAddressInfo {
     /**
      * Is the given address one of the addresses of this object?
      * 
-     * @param address
+     * @param address the address
      */
+    @Override
     public boolean contains(ProtocolAddress address) {
         if (address instanceof IPv4Address) {
             return contains((IPv4Address) address);
@@ -103,7 +105,7 @@ public class IPv4ProtocolAddressInfo implements ProtocolAddressInfo {
     /**
      * Gets the subnet mask for a given address
      * 
-     * @param address
+     * @param address the address
      */
     public IPv4Address getSubnetMask(IPv4Address address) {
         IPv4IfAddress ifAddr = addresses.get(address);
@@ -113,6 +115,7 @@ public class IPv4ProtocolAddressInfo implements ProtocolAddressInfo {
     /**
      * Gets the default protocol address
      */
+    @Override
     public ProtocolAddress getDefaultAddress() {
         return defaultAddress.getAddress();
     }
@@ -122,6 +125,7 @@ public class IPv4ProtocolAddressInfo implements ProtocolAddressInfo {
      * 
      * @return A Set of IPv4Address instances
      */
+    @Override
     public Set<ProtocolAddress> addresses() {
         return new HashSet<>(addresses.keySet());
     }
@@ -129,7 +133,7 @@ public class IPv4ProtocolAddressInfo implements ProtocolAddressInfo {
     /**
      * Sets the default address.
      * 
-     * @param address
+     * @param address the address
      */
     // public void setDefaultAddress(IPv4Address address) {
     public void setDefaultAddress(IPv4Address address, IPv4Address netmask) {

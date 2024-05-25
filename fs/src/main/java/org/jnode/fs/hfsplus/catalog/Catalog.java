@@ -64,7 +64,7 @@ public class Catalog {
      * Create Catalog based on meta-data that exist on the file system.
      *
      * @param fs HFS+ file system that contains catalog information.
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public Catalog(final HfsPlusFileSystem fs) throws IOException {
         log.log(Level.DEBUG, "Load B-Tree catalog file.");
@@ -91,7 +91,7 @@ public class Catalog {
     /**
      * Create new Catalog
      *
-     * @param params
+     * @param params the params
      */
     public Catalog(HFSPlusParams params, HfsPlusFileSystem fs) {
         log.log(Level.DEBUG, "Create B-Tree catalog file.");
@@ -130,7 +130,7 @@ public class Catalog {
     /**
      * Save catalog file to disk.
      *
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public void update() throws IOException {
         SuperBlock vh = fs.getVolumeHeader();
@@ -165,10 +165,10 @@ public class Catalog {
     /**
      * Create a new node in the catalog B-Tree.
      *
-     * @param filename
-     * @param parentId
-     * @param nodeId
-     * @param nodeType
+     * @param filename the filename
+     * @param parentId the parentId
+     * @param nodeId the nodeId
+     * @param nodeType the nodeType
      * @return the new node instance
      */
     public CatalogLeafNode createNode(String filename, CatalogNodeId parentId, CatalogNodeId nodeId,
@@ -209,9 +209,9 @@ public class Catalog {
     }
 
     /**
-     * @param parentID
+     * @param parentID the parentID
      * @return the leaf record, or possibly {code null}.
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public final LeafRecord getRecord(final CatalogNodeId parentID) throws IOException {
         long currentOffset = 0;
@@ -247,7 +247,7 @@ public class Catalog {
      *
      * @param parentID Parent node id
      * @return Array of LeafRecord
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public final LeafRecord[] getRecords(final CatalogNodeId parentID) throws IOException {
         return getRecords(parentID, getBTHeaderRecord().getRootNode());
@@ -260,15 +260,14 @@ public class Catalog {
      * @param parentID   Parent node id
      * @param nodeNumber Index of node where the search begin.
      * @return Array of LeafRecord
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public final LeafRecord[] getRecords(final CatalogNodeId parentID, final long nodeNumber)
         throws IOException {
         try {
-            long currentNodeNumber = nodeNumber;
             int nodeSize = getBTHeaderRecord().getNodeSize();
             ByteBuffer nodeData = ByteBuffer.allocate(nodeSize);
-            catalogFile.read(fs, (currentNodeNumber * nodeSize), nodeData);
+            catalogFile.read(fs, (nodeNumber * nodeSize), nodeData);
             byte[] datas = nodeData.array();
             NodeDescriptor nd = new NodeDescriptor(datas, 0);
             if (nd.isIndexNode()) {
@@ -289,16 +288,16 @@ public class Catalog {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.DEBUG, e.getMessage(), e);
             throw new IOException(e);
         }
     }
 
     /**
-     * @param parentID
-     * @param nodeName
+     * @param parentID the parent id
+     * @param nodeName the node name
      * @return the leaf node or {@code null}
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public final LeafRecord getRecord(final CatalogNodeId parentID, final HfsUnicodeString nodeName)
         throws IOException {

@@ -43,9 +43,7 @@ public class NTFSFileSystem extends AbstractFileSystem<FSEntry> {
     private final NTFSVolume volume;
     private FSEntry root;
 
-    /**
-     * @see org.jnode.fs.FileSystem#getDevice()
-     */
+    /** */
     public NTFSFileSystem(Device device, boolean readOnly) throws FileSystemException {
         super(device, readOnly);
 
@@ -57,9 +55,7 @@ public class NTFSFileSystem extends AbstractFileSystem<FSEntry> {
         }
     }
 
-    /**
-     * @see org.jnode.fs.FileSystem#getRootEntry()
-     */
+    @Override
     public FSEntry getRootEntry() throws IOException {
         if (root == null) {
             root = new NTFSEntry(this, getNTFSVolume().getRootDirectory(), -1);
@@ -81,8 +77,7 @@ public class NTFSFileSystem extends AbstractFileSystem<FSEntry> {
 
         NTFSAttribute attribute = entry.getFileRecord().findAttributeByType(NTFSAttribute.Types.VOLUME_NAME);
 
-        if (attribute instanceof NTFSResidentAttribute) {
-            NTFSResidentAttribute residentAttribute = (NTFSResidentAttribute) attribute;
+        if (attribute instanceof NTFSResidentAttribute residentAttribute) {
             byte[] nameBuffer = new byte[residentAttribute.getAttributeLength()];
 
             residentAttribute.getData(residentAttribute.getAttributeOffset(), nameBuffer, 0, nameBuffer.length);
@@ -108,8 +103,7 @@ public class NTFSFileSystem extends AbstractFileSystem<FSEntry> {
 
         NTFSAttribute attribute = entry.getFileRecord().findAttributeByType(NTFSAttribute.Types.OBJECT_ID);
 
-        if (attribute instanceof NTFSResidentAttribute) {
-            NTFSResidentAttribute residentAttribute = (NTFSResidentAttribute) attribute;
+        if (attribute instanceof NTFSResidentAttribute residentAttribute) {
             byte[] idBuffer = new byte[residentAttribute.getAttributeLength()];
 
             residentAttribute.getData(residentAttribute.getAttributeOffset(), idBuffer, 0, idBuffer.length);
@@ -122,34 +116,30 @@ public class NTFSFileSystem extends AbstractFileSystem<FSEntry> {
     /**
      * Flush all data.
      */
+    @Override
     public void flush() throws IOException {
         // TODO Auto-generated method stub
     }
 
-    /**
-     *
-     */
+    @Override
     protected FSFile createFile(FSEntry entry) throws IOException {
         // TODO Auto-generated method stub
         return null;
     }
 
-    /**
-     *
-     */
+    @Override
     protected FSDirectory createDirectory(FSEntry entry) throws IOException {
         // TODO Auto-generated method stub
         return null;
     }
 
-    /**
-     *
-     */
+    @Override
     protected NTFSEntry createRootEntry() throws IOException {
         // TODO Auto-generated method stub
         return null;
     }
 
+    @Override
     public long getFreeSpace() throws IOException {
         FileRecord bitmapRecord = getNTFSVolume().getMFT().getRecord(MasterFileTable.SystemFiles.BITMAP);
 
@@ -174,12 +164,14 @@ public class NTFSFileSystem extends AbstractFileSystem<FSEntry> {
         return getTotalSpace() - usedSpace;
     }
 
+    @Override
     public long getTotalSpace() throws IOException {
         FileRecord bitmapRecord = getNTFSVolume().getMFT().getRecord(MasterFileTable.SystemFiles.BITMAP);
         long bitmapSize = bitmapRecord.getFileNameAttribute().getRealSize();
         return bitmapSize * 8 * getNTFSVolume().getClusterSize();
     }
 
+    @Override
     public long getUsableSpace() {
         // TODO implement me
         return -1;

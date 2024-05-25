@@ -54,7 +54,7 @@ final class EntryTimes {
         final int aTime = DeviceAccess.getUint16(src);
         final int aDate = DeviceAccess.getUint16(src);
 
-        /* read c/m centiseconds */
+        /* read c/m centi-seconds */
         final int cTimeCs = DeviceAccess.getUint8(src);
         final int mTimeCs = DeviceAccess.getUint8(src);
 

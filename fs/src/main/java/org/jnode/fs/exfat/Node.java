@@ -132,7 +132,7 @@ public final class Node {
     /**
      * Determines the size of the root directory in clusters.
      *
-     * @return the number of clusters for the root directoy
+     * @return the number of clusters for the root directory
      * @throws IOException on read error
      */
     private long rootDirSize() throws IOException {

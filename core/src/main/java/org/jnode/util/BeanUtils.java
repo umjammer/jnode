@@ -30,7 +30,7 @@ public class BeanUtils {
      * The first letter of the string to converted to uppercase, the rest to
      * lowercase.
      *
-     * @param name
+     * @param name the name
      * @return String
      */
     public static String getBeanName(String name) {

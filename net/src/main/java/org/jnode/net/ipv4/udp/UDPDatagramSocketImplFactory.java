@@ -33,15 +33,13 @@ public class UDPDatagramSocketImplFactory implements DatagramSocketImplFactory {
     /**
      * Create a new instance
      * 
-     * @param protocol
+     * @param protocol the protocol
      */
     public UDPDatagramSocketImplFactory(UDPProtocol protocol) {
         this.protocol = protocol;
     }
 
-    /**
-     * @see java.net.DatagramSocketImplFactory#createDatagramSocketImpl()
-     */
+    @Override
     public DatagramSocketImpl createDatagramSocketImpl() {
         return new UDPDatagramSocketImpl(protocol);
     }
@@ -52,5 +50,4 @@ public class UDPDatagramSocketImplFactory implements DatagramSocketImplFactory {
     public DatagramSocketImpl createPlainDatagramSocketImpl() {
         return new PlainUDPDatagramSocketImpl(protocol);
     }
-
 }

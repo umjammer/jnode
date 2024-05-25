@@ -36,21 +36,21 @@ import org.jnode.fs.spi.UnixFSAccessRights;
 
 public class HfsPlusEntry implements FSEntry, FSEntryCreated, FSEntryLastAccessed {
 
-    protected HfsPlusFileSystem fs;
-    protected HfsPlusDirectory parent;
+    protected final HfsPlusFileSystem fs;
+    protected final HfsPlusDirectory parent;
     protected String name;
-    protected LeafRecord record;
-    private int type;
+    protected final LeafRecord record;
+    private final int type;
 
     protected boolean valid;
     protected boolean dirty;
-    protected FSAccessRights rights;
+    protected final FSAccessRights rights;
 
     /**
-     * @param fs
-     * @param parent
-     * @param name
-     * @param record
+     * @param fs the fs
+     * @param parent the parent
+     * @param name the name
+     * @param record the record
      */
     public HfsPlusEntry(HfsPlusFileSystem fs, HfsPlusDirectory parent, String name,
                         LeafRecord record) {

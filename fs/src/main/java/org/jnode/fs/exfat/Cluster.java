@@ -30,12 +30,12 @@ final class Cluster {
     /**
      * Marks a cluster containing a bad block.
      */
-    private static final long BAD = 0xfffffff7L;
+    private static final long BAD = 0xffff_fff7L;
 
     /**
      * Marks the final cluster of a file or directory.
      */
-    private static final long END = 0xffffffffL;
+    private static final long END = 0xffff_ffffL;
 
     /**
      * The first data cluster that can be used on exFAT file systems.
@@ -72,7 +72,6 @@ final class Cluster {
     }
 
     private Cluster() {
-        /* utility class, no instances */
+        // utility class, no instances
     }
-
 }

@@ -31,7 +31,7 @@ public class RawPartitionTableType implements PartitionTableType {
         return "RAW";
     }
 
-    /** */
+    @Override
     public String getScheme() {
         return "raw";
     }

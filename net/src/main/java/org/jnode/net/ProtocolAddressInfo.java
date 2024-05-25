@@ -34,13 +34,13 @@ public interface ProtocolAddressInfo {
 
     /**
      * Is the given address one of the addresses of this object?
-     * @param address
+     * @param address the address
      */
     boolean contains(ProtocolAddress address);
 
     /**
      * Is the given address one of the addresses of this object?
-     * @param address
+     * @param address the address
      */
     boolean contains(InetAddress address);
 

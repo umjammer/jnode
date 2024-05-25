@@ -27,16 +27,16 @@ import org.jnode.util.LittleEndian;
  */
 public class FatLfnDirEntry extends FatBasicDirEntry {
     /**
-     * @param dir
+     * @param dir the dir
      */
     public FatLfnDirEntry(AbstractDirectory dir) {
         super(dir);
     }
 
     /**
-     * @param dir
-     * @param src
-     * @param offset
+     * @param dir the dir
+     * @param src the src
+     * @param offset the offset
      */
     public FatLfnDirEntry(AbstractDirectory dir, byte[] src, int offset) {
         super(dir, src, offset);
@@ -45,8 +45,8 @@ public class FatLfnDirEntry extends FatBasicDirEntry {
     public FatLfnDirEntry(AbstractDirectory dir, String subName, int ordinal, byte checkSum,
             boolean isLast) {
         super(dir);
-        char[] unicodechar = new char[13];
-        subName.getChars(0, subName.length(), unicodechar, 0);
+        char[] unicodeChar = new char[13];
+        subName.getChars(0, subName.length(), unicodeChar, 0);
         if (isLast) {
             LittleEndian.setInt8(rawData, 0, ordinal + (1 << 6)); // set the
                                                                     // 6th
@@ -56,25 +56,25 @@ public class FatLfnDirEntry extends FatBasicDirEntry {
             LittleEndian.setInt8(rawData, 0, ordinal);
         }
 
-        LittleEndian.setInt16(rawData, 1, unicodechar[0]);
-        LittleEndian.setInt16(rawData, 3, unicodechar[1]);
-        LittleEndian.setInt16(rawData, 5, unicodechar[2]);
-        LittleEndian.setInt16(rawData, 7, unicodechar[3]);
-        LittleEndian.setInt16(rawData, 9, unicodechar[4]);
+        LittleEndian.setInt16(rawData, 1, unicodeChar[0]);
+        LittleEndian.setInt16(rawData, 3, unicodeChar[1]);
+        LittleEndian.setInt16(rawData, 5, unicodeChar[2]);
+        LittleEndian.setInt16(rawData, 7, unicodeChar[3]);
+        LittleEndian.setInt16(rawData, 9, unicodeChar[4]);
         LittleEndian.setInt8(rawData, 11, 0x0f); // this is the hidden
                                                     // attribute tag for
         // lfn
         LittleEndian.setInt8(rawData, 12, 0); // reserved
         LittleEndian.setInt8(rawData, 13, checkSum); // checksum
-        LittleEndian.setInt16(rawData, 14, unicodechar[5]);
-        LittleEndian.setInt16(rawData, 16, unicodechar[6]);
-        LittleEndian.setInt16(rawData, 18, unicodechar[7]);
-        LittleEndian.setInt16(rawData, 20, unicodechar[8]);
-        LittleEndian.setInt16(rawData, 22, unicodechar[9]);
-        LittleEndian.setInt16(rawData, 24, unicodechar[10]);
+        LittleEndian.setInt16(rawData, 14, unicodeChar[5]);
+        LittleEndian.setInt16(rawData, 16, unicodeChar[6]);
+        LittleEndian.setInt16(rawData, 18, unicodeChar[7]);
+        LittleEndian.setInt16(rawData, 20, unicodeChar[8]);
+        LittleEndian.setInt16(rawData, 22, unicodeChar[9]);
+        LittleEndian.setInt16(rawData, 24, unicodeChar[10]);
         LittleEndian.setInt16(rawData, 26, 0); // sector... unused
-        LittleEndian.setInt16(rawData, 28, unicodechar[11]);
-        LittleEndian.setInt16(rawData, 30, unicodechar[12]);
+        LittleEndian.setInt16(rawData, 28, unicodeChar[11]);
+        LittleEndian.setInt16(rawData, 30, unicodeChar[12]);
 
     }
 

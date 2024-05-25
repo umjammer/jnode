@@ -69,6 +69,7 @@ public final class CompressedDataRun implements DataRunInterface {
      *
      * @return the length of the run in clusters.
      */
+    @Override
     public int getLength() {
         return compressionUnitSize;
     }
@@ -85,6 +86,7 @@ public final class CompressedDataRun implements DataRunInterface {
      * @return the number of clusters read.
      * @throws IOException if an error occurs reading.
      */
+    @Override
     public int readClusters(long vcn, byte[] dst, int dstOffset, int nrClusters, int clusterSize, NTFSVolume volume)
         throws IOException {
 
@@ -120,7 +122,7 @@ public final class CompressedDataRun implements DataRunInterface {
             throw new IOException("Needed " + compClusters + " clusters but could " + "only read " + read);
         }
 
-        // Uncompress it, and copy into the destination.
+        // Uncompresses it, and copy into the destination.
         final byte[] tempUncompressed = new byte[compressionUnitSize * clusterSize];
         // XXX: We could potentially reduce the overhead by modifying the compression
         //      routine such that it's capable of skipping chunks that aren't needed.
@@ -166,7 +168,7 @@ public final class CompressedDataRun implements DataRunInterface {
         for (int i = 0; i * BLOCK_SIZE < uncompressed.length; i++) {
             final int consumed = uncompressBlock(compressedData, uncompressedData);
 
-            // Apple's code had this as an error but to me it looks like this simply
+            // Apple's code had this as an error but to me, it looks like this simply
             // terminates the sequence of compressed blocks.
             if (consumed == 0) {
                 // At the current point in time this is already zero but if the code
@@ -212,7 +214,7 @@ public final class CompressedDataRun implements DataRunInterface {
 
             // Copies the entire compression block as-is, need to skip the compression flag,
             // no idea why they even stored it given that it isn't used.
-            // Darwin's version I was referring to doesn't skip this, which seems be a bug.
+            // Darwin's version I was referring to doesn't skip this, which seems to be a bug.
             uncompressed.copyFrom(compressed, cpos, 0, len + 1);
             uncompressed.zero(len + 1, BLOCK_SIZE - 1 - len);
             cpos++;
@@ -353,6 +355,7 @@ public final class CompressedDataRun implements DataRunInterface {
                     realDestOffset < realSrcOffset && realDestOffset + length > realSrcOffset)) {
 
                 // Don't change to System.arraycopy (see above)
+                // noinspection ManualArrayCopy
                 for (int i = 0; i < length; i++) {
                     destArray[realDestOffset + i] = srcArray[realSrcOffset + i];
                 }

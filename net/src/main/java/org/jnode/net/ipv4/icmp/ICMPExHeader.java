@@ -33,7 +33,7 @@ public abstract class ICMPExHeader extends ICMPHeader {
     private final int seqNumber;
 
     /**
-     * @param type
+     * @param type the type
      */
     public ICMPExHeader(ICMPType type, int code, int identifier, int seqNumber) {
         super(type, code);
@@ -42,7 +42,7 @@ public abstract class ICMPExHeader extends ICMPHeader {
     }
 
     /**
-     * @param skbuf
+     * @param skbuf the sockt buffer
      */
     public ICMPExHeader(SocketBuffer skbuf) {
         super(skbuf);
@@ -50,12 +50,10 @@ public abstract class ICMPExHeader extends ICMPHeader {
         this.seqNumber = skbuf.get16(6);
     }
 
-    /**
-     * @see org.jnode.net.ipv4.icmp.ICMPHeader#doPrefixTo(org.jnode.net.SocketBuffer)
-     */
-    protected void doPrefixTo(SocketBuffer skbuf) {
-        skbuf.set16(4, identifier);
-        skbuf.set16(6, seqNumber);
+    @Override
+    protected void doPrefixTo(SocketBuffer skBuf) {
+        skBuf.set16(4, identifier);
+        skBuf.set16(6, seqNumber);
     }
 
     /**

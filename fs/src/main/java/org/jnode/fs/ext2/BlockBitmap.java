@@ -24,6 +24,7 @@ package org.jnode.fs.ext2;
  * @author Andras Nagy
  */
 public class BlockBitmap extends FSBitmap {
+
     /**
      * Test whether the block is free, and if yes: - mark it as used - prealloc
      * the next free blocks, at most 7
@@ -91,7 +92,7 @@ public class BlockBitmap extends FSBitmap {
             if (isFree(data[nonfullBitmap], i)) {
                 setBit(data, nonfullBitmap, i);
                 int block = nonfullBitmap * 8 + i;
-                //do preallocation:
+                // do preallocation:
                 int j = 0;
                 while ((j < Ext2Constants.EXT2_PREALLOC_BLOCK) && isFree(data, block + 1 + j)) {
                     setBit(data, block + 1 + j);

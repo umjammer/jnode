@@ -109,13 +109,11 @@ public class FatTable {
         }
 
         public boolean equals(Object anObject) {
-            if (anObject instanceof FatKey) {
-                FatKey anotherKey = (FatKey) anObject;
+            if (anObject instanceof FatKey anotherKey) {
                 return FatUtils.compareIgnoreCase(key, anotherKey.getKey());
             }
 
-            if (anObject instanceof String) {
-                String anotherString = (String) anObject;
+            if (anObject instanceof String anotherString) {
                 return FatUtils.compareIgnoreCase(key, anotherString);
             }
 

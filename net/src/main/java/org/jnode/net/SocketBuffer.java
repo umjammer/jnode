@@ -30,10 +30,10 @@ import org.jnode.driver.Device;
  * also contains other information of a network packet, such as the headers of
  * the various network layers.
  * 
- * All numbers larger then a single byte written into this class are converted
+ * All numbers larger than a single byte written into this class are converted
  * to network byte order.
  * 
- * All numbers larger then a single byte read from this class are converted from
+ * All numbers larger than a single byte read from this class are converted from
  * network byte order.
  * 
  * @author epr
@@ -55,7 +55,7 @@ public class SocketBuffer {
 
     /** The network device who will be sending, or has received this buffer */
     private Device device;
-    /** Identifying type of the packettype */
+    /** Identifying type of the packet-type */
     private int protocolID;
     /** Link layer header (if any) */
     private LinkLayerHeader linkLayerHeader;
@@ -87,7 +87,7 @@ public class SocketBuffer {
     /**
      * Create a clone of the data of src. Other attributes are not cloned!.
      * 
-     * @param src
+     * @param src the data source
      */
     public SocketBuffer(SocketBuffer src) {
         this.start = 0;
@@ -100,9 +100,9 @@ public class SocketBuffer {
      * Create a new instance, using the given byte array as data. No copy of the
      * data is made!
      * 
-     * @param data
-     * @param offset
-     * @param length
+     * @param data the data
+     * @param offset start index of data to fill
+     * @param length data length
      */
     public SocketBuffer(byte[] data, int offset, int length) {
         this.data = new byte[data.length];
@@ -122,23 +122,23 @@ public class SocketBuffer {
     /**
      * Sets the network device who will be sending, or has received this buffer
      * 
-     * @param device
+     * @param device the device
      */
     public void setDevice(Device device) {
         this.device = device;
     }
 
     /**
-     * Gets the identifying type of the packettype.
+     * Gets the identifying type of the packet-type.
      */
     public int getProtocolID() {
         return protocolID;
     }
 
     /**
-     * Sets the identifying type of the packettype.
+     * Sets the identifying type of the packet-type.
      * 
-     * @param i
+     * @param i the id
      */
     public void setProtocolID(int i) {
         protocolID = i;
@@ -157,14 +157,14 @@ public class SocketBuffer {
         networkLayerHeader = null;
         transportLayerHeader = null;
         device = null;
-        // preserve data (if set), we can used it again
+        // preserve data (if set), we can use it again
     }
 
     /**
      * Insert a given number of bytes to the front of the buffer. The inserted
      * bytes are cleaned with a value of <code>(byte)0</code>.
      * 
-     * @param count
+     * @param count number of bytes
      */
     public void insert(int count) {
         if (start >= count) {
@@ -183,7 +183,7 @@ public class SocketBuffer {
     /**
      * Remove a given number of bytes from the front of the buffer
      * 
-     * @param count
+     * @param count number of bytes
      */
     public void pull(int count) {
         if (count > size) {
@@ -209,7 +209,7 @@ public class SocketBuffer {
      * can only unpull that what has been removed by an earlier call to pull,
      * insert will actually make new room at the head on the buffer.
      * 
-     * @param count
+     * @param count number of bytes
      * @throws IllegalArgumentException It is not possible to unpull count
      *             bytes.
      */
@@ -219,7 +219,7 @@ public class SocketBuffer {
             size += count;
         } else {
             if (next != null) {
-                // Unpull most of next and that what I can from me
+                // Unpull most next and that what I can from me
                 final int remaining = (count - start);
                 size += start;
                 start = 0;
@@ -236,7 +236,7 @@ public class SocketBuffer {
      * Remove data from the tail of the buffer, until size <= length. If the
      * current size < length, nothing happens.
      * 
-     * @param length
+     * @param length number to remove
      */
     public void trim(int length) {
         if (length < size) {
@@ -257,7 +257,7 @@ public class SocketBuffer {
     /**
      * Insert a given number of bytes to the back of the buffer
      * 
-     * @param count
+     * @param count number to insert
      */
     public void append(int count) {
         if (next != null) {
@@ -271,9 +271,9 @@ public class SocketBuffer {
     /**
      * Insert a given number of bytes to the front of the buffer
      * 
-     * @param src
-     * @param srcOffset
-     * @param length
+     * @param src the source
+     * @param srcOffset offset to read
+     * @param length length to read
      */
     public void append(byte[] src, int srcOffset, int length) {
         if (next != null) {
@@ -289,13 +289,13 @@ public class SocketBuffer {
     /**
      * Append a complete buffer to the end of this buffer.
      * 
-     * @param skbuf
+     * @param skBuf the socket buffer
      */
-    public void append(SocketBuffer skbuf) {
+    public void append(SocketBuffer skBuf) {
         if (next != null) {
-            next.append(skbuf);
+            next.append(skBuf);
         } else {
-            next = skbuf;
+            next = skBuf;
         }
         testBuffer();
     }
@@ -304,12 +304,12 @@ public class SocketBuffer {
      * Append a buffer to the end of this buffer starting at the given offset in
      * the appended buffer.
      * 
-     * @param skbufOffset
-     * @param skbuf
+     * @param skBufOffset the socket buffer offset
+     * @param skBuf the socket buffer
      */
-    public void append(int skbufOffset, SocketBuffer skbuf) {
-        final byte[] src = skbuf.toByteArray();
-        append(src, skbufOffset, src.length - skbufOffset);
+    public void append(int skBufOffset, SocketBuffer skBuf) {
+        final byte[] src = skBuf.toByteArray();
+        append(src, skBufOffset, src.length - skBufOffset);
     }
 
     /**
@@ -317,7 +317,7 @@ public class SocketBuffer {
      * bytes. The given buffer must not contain a next buffer and must have a
      * size greater or equal to length
      * 
-     * @param skbuf
+     * @param skbuf the socket buffer
      */
     public void append(SocketBuffer skbuf, int length) throws IllegalArgumentException {
         if (length == 0) {
@@ -330,10 +330,10 @@ public class SocketBuffer {
                 throw new IllegalArgumentException("Length < 0");
             }
             if (skbuf.next != null) {
-                throw new IllegalArgumentException("skbuf.next != null");
+                throw new IllegalArgumentException("skBuf.next != null");
             }
             if (skbuf.size < length) {
-                throw new IllegalArgumentException("skbuf.size < length");
+                throw new IllegalArgumentException("skBuf.size < length");
             }
             next = skbuf;
             skbuf.size = length;
@@ -344,7 +344,7 @@ public class SocketBuffer {
     /**
      * Gets a byte in the buffer
      * 
-     * @param index
+     * @param index index of the buffer
      */
     public int get(int index) {
         if (index >= size) {
@@ -361,7 +361,7 @@ public class SocketBuffer {
     /**
      * Gets a 16-bit word from the buffer
      * 
-     * @param index
+     * @param index index of the buffer
      */
     public int get16(int index) {
         if (index >= size) {
@@ -387,7 +387,7 @@ public class SocketBuffer {
     /**
      * Gets a 32-bit word from the buffer
      * 
-     * @param index
+     * @param index index of the buffer
      */
     public int get32(int index) {
         if (index >= size) {
@@ -417,7 +417,7 @@ public class SocketBuffer {
     /**
      * Sets a byte in the buffer
      * 
-     * @param index
+     * @param index index of the buffer
      */
     public void set(int index, int value) {
         if (index >= size) {
@@ -434,7 +434,7 @@ public class SocketBuffer {
     /**
      * Sets a 16-bit word in the buffer
      * 
-     * @param index
+     * @param index index of the buffer
      */
     public void set16(int index, int value) {
         if (index >= size) {
@@ -458,7 +458,7 @@ public class SocketBuffer {
     /**
      * Sets a 32-bit word in the buffer
      * 
-     * @param index
+     * @param index index of the buffer
      */
     public void set32(int index, int value) {
         if (index >= size) {
@@ -486,7 +486,7 @@ public class SocketBuffer {
     /**
      * Sets a byte-array in the buffer
      * 
-     * @param index
+     * @param index index of the buffer
      */
     public void set(int index, byte[] src, int srcOffset, int length) {
         if (index >= size) {
@@ -514,7 +514,7 @@ public class SocketBuffer {
     /**
      * Gets a byte-array in the buffer
      * 
-     * @param index
+     * @param index index of the buffer
      */
     public void get(byte[] dst, int dstOffset, int index, int length) {
         try {
@@ -577,7 +577,7 @@ public class SocketBuffer {
 
     /**
      * Set the new buffer size
-     * @param newSize
+     * @param newSize the new size
      */
     private void setSize(int newSize) {
         if (data == null) {
@@ -629,7 +629,7 @@ public class SocketBuffer {
     }
 
     /**
-     * Gets the header of the linklayer 
+     * Gets the header of the link-layer
      */
     public LinkLayerHeader getLinkLayerHeader() {
         if (linkLayerHeader != null) {
@@ -642,7 +642,7 @@ public class SocketBuffer {
     }
 
     /**
-     * Gets the header of the networklayer 
+     * Gets the header of the network-layer
      */
     public NetworkLayerHeader getNetworkLayerHeader() {
         if (networkLayerHeader != null) {
@@ -655,7 +655,7 @@ public class SocketBuffer {
     }
 
     /**
-     * Gets the header of the transportlayer 
+     * Gets the header of the transport-layer
      */
     public TransportLayerHeader getTransportLayerHeader() {
         if (transportLayerHeader != null) {
@@ -668,16 +668,16 @@ public class SocketBuffer {
     }
 
     /**
-     * Sets the header of the linklayer 
-     * @param header
+     * Sets the header of the link-layer
+     * @param header the header
      */
     public void setLinkLayerHeader(LinkLayerHeader header) {
         linkLayerHeader = header;
     }
 
     /**
-     * Sets the header of the networklayer 
-     * @param header
+     * Sets the header of the network-layer
+     * @param header the header
      */
     public void setNetworkLayerHeader(NetworkLayerHeader header) {
         networkLayerHeader = header;
@@ -685,10 +685,9 @@ public class SocketBuffer {
 
     /**
      * Sets the header of the transportlayer 
-     * @param header
+     * @param header the header
      */
     public void setTransportLayerHeader(TransportLayerHeader header) {
         transportLayerHeader = header;
     }
-
 }

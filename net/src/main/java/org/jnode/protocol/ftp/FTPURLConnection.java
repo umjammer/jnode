@@ -42,7 +42,7 @@ public class FTPURLConnection extends URLConnection {
     private final String password;
 
     /**
-     * @param url
+     * @param url the url
      */
     public FTPURLConnection(URL url) {
         super(url);
@@ -64,16 +64,12 @@ public class FTPURLConnection extends URLConnection {
         }
     }
 
-    /**
-     * @see java.net.URLConnection#connect()
-     */
+    @Override
     public void connect() throws IOException {
-        /* Do nothing */
+        // Do nothing
     }
 
-    /**
-     * @see java.net.URLConnection#getInputStream()
-     */
+    @Override
     public InputStream getInputStream() throws IOException {
         FTPClient client = new FTPClient();
         client.connect(host);
@@ -100,5 +96,4 @@ public class FTPURLConnection extends URLConnection {
         }
         return new ByteArrayInputStream(os.toByteArray());
     }
-
 }

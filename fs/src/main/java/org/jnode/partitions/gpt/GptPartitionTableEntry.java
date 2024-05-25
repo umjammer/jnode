@@ -38,7 +38,7 @@ public class GptPartitionTableEntry implements PartitionTableEntry {
     private final byte[] first16KiB;
 
     /** The block size. */
-    private int blockSize;
+    private final int blockSize;
 
     /** The offset to this partition table entry. */
     private final int offset;

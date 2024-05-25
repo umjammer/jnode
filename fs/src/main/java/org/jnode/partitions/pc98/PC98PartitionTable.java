@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.jnode.driver.Device;
 import org.jnode.partitions.PartitionTable;
 
+import vavi.util.Debug;
 import vavi.util.serdes.Serdes;
 
 import vavix.io.partition.PC98PartitionEntry;
@@ -32,7 +34,7 @@ public class PC98PartitionTable implements PartitionTable<PC98PartitionTableEntr
     /**
      * The partition entries
      */
-    private List<PC98PartitionTableEntry> partitions = new ArrayList<>();
+    private final List<PC98PartitionTableEntry> partitions = new ArrayList<>();
 
     /**
      * Create a new instance
@@ -50,6 +52,7 @@ public class PC98PartitionTable implements PartitionTable<PC98PartitionTableEntr
 //Debug.println("[" + i + "]: " + pe);
                 partitions.add(new PC98PartitionTableEntry(pe, device));
             } catch (IOException e) {
+                Debug.println(Level.FINEST, e);
             }
         }
     }

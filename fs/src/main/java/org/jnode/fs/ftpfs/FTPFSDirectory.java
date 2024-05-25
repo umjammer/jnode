@@ -20,21 +20,28 @@
 
 package org.jnode.fs.ftpfs;
 
-import com.enterprisedt.net.ftp.FTPFile;
 import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import com.enterprisedt.net.ftp.FTPFile;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
 import org.jnode.fs.ReadOnlyFileSystemException;
 
+import static java.lang.System.getLogger;
+
+
 /**
- * @author Levente S\u00e1ntha
+ * @author Levente Sántha
  */
 public class FTPFSDirectory extends FTPFSEntry implements FSDirectory {
+
+    private static final Logger logger = getLogger(FTPFSDirectory.class.getName());
+
     private Map<String, FTPFSEntry> entries;
 
     FTPFSDirectory(FTPFileSystem fileSystem, FTPFile ftpFile) {
@@ -44,9 +51,10 @@ public class FTPFSDirectory extends FTPFSEntry implements FSDirectory {
     /**
      * Gets the entry with the given name.
      *
-     * @param name
-     * @throws java.io.IOException
+     * @param name the name
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public FTPFSEntry getEntry(String name) throws IOException {
         ensureEntries();
         return entries.get(name);
@@ -62,6 +70,7 @@ public class FTPFSDirectory extends FTPFSEntry implements FSDirectory {
      * directory.
      * All elements returned by the iterator must be instanceof FSEntry.
      */
+    @Override
     public Iterator<? extends FTPFSEntry> iterator() throws IOException {
         ensureEntries();
         return entries.values().iterator();
@@ -70,23 +79,20 @@ public class FTPFSDirectory extends FTPFSEntry implements FSDirectory {
     private void ensureEntries() throws IOException {
         try {
             if (entries == null) {
-                AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
-                    entries = new HashMap<>();
-                    FTPFile[] ftpFiles = null;
-                    synchronized (fileSystem) {
-                        ftpFiles = fileSystem.dirDetails(path());
-                    }
-                    for (FTPFile f : ftpFiles) {
-                        FTPFSEntry e = f.isDir() ? new FTPFSDirectory(fileSystem, f) : new FTPFSFile(fileSystem, f);
-                        e.setParent(FTPFSDirectory.this);
-                        entries.put(f.getName(), e);
-                    }
-                    return null;
-                });
+                entries = new HashMap<>();
+                FTPFile[] ftpFiles;
+                synchronized (fileSystem) {
+                    ftpFiles = fileSystem.dirDetails(path());
+                }
+                for (FTPFile f : ftpFiles) {
+                    FTPFSEntry e = f.isDir() ? new FTPFSDirectory(fileSystem, f) : new FTPFSFile(fileSystem, f);
+                    e.setParent(FTPFSDirectory.this);
+                    entries.put(f.getName(), e);
+                }
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new IOException("Read error");
+            logger.log(Level.DEBUG, e.getMessage(), e);
+            throw new IOException("Read error", e);
         }
     }
 
@@ -105,9 +111,10 @@ public class FTPFSDirectory extends FTPFSEntry implements FSDirectory {
     /**
      * Add a new (sub-)directory with a given name to this directory.
      *
-     * @param name
-     * @throws java.io.IOException
+     * @param name the name
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public FTPFSEntry addDirectory(String name) throws IOException {
         throw new ReadOnlyFileSystemException();
     }
@@ -115,9 +122,10 @@ public class FTPFSDirectory extends FTPFSEntry implements FSDirectory {
     /**
      * Add a new file with a given name to this directory.
      *
-     * @param name
-     * @throws java.io.IOException
+     * @param name the name
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public FTPFSEntry addFile(String name) throws IOException {
         throw new ReadOnlyFileSystemException();
     }
@@ -125,18 +133,20 @@ public class FTPFSDirectory extends FTPFSEntry implements FSDirectory {
     /**
      * Save all dirty (unsaved) data to the device
      *
-     * @throws java.io.IOException
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public void flush() throws IOException {
-        //nothing to do
+        // nothing to do
     }
 
     /**
      * Remove the entry with the given name from this directory.
      *
-     * @param name
-     * @throws java.io.IOException
+     * @param name the name
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public void remove(String name) throws IOException {
         throw new ReadOnlyFileSystemException();
     }

@@ -20,6 +20,9 @@
 
 package org.jnode.util;
 
+import java.io.Serial;
+
+
 /**
  * This exception indicates an error in a proxy stream mechanism.  This
  * is probably due to a JNode bug and probably not recoverable.
@@ -28,6 +31,7 @@ package org.jnode.util;
  */
 public class ProxyStreamException extends RuntimeException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public ProxyStreamException(String message) {
@@ -38,5 +42,4 @@ public class ProxyStreamException extends RuntimeException {
         super(message);
         this.initCause(ex);
     }
-
 }

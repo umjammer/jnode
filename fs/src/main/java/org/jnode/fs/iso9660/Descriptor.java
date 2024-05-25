@@ -36,8 +36,8 @@ public abstract class Descriptor implements ISO9660Constants {
     /**
      * See section 7.1.1.
      * 
-     * @param buffer
-     * @param bp
+     * @param buffer the buffer
+     * @param bp the bp
      * @return an unsigned byte
      */
     protected static int getUInt8(byte[] buffer, int bp) {
@@ -47,8 +47,8 @@ public abstract class Descriptor implements ISO9660Constants {
     /**
      * See section 7.1.2.
      * 
-     * @param buffer
-     * @param bp
+     * @param buffer the buffer
+     * @param bp the bp
      * @return a signed byte
      */
     protected static int getInt8(byte[] buffer, int bp) {
@@ -58,8 +58,8 @@ public abstract class Descriptor implements ISO9660Constants {
     /**
      * Gets an unsigned 16-bit value LSB first. See section 7.2.1.
      * 
-     * @param buffer
-     * @param bp
+     * @param buffer the buffer
+     * @param bp the bp
      * @return an unsigned little-endian short
      */
     protected static int getUInt16LE(byte[] buffer, int bp) {
@@ -69,8 +69,8 @@ public abstract class Descriptor implements ISO9660Constants {
     /**
      * Gets an unsigned 16-bit value MSB first. See section 7.2.2.
      * 
-     * @param buffer
-     * @param bp
+     * @param buffer the buffer
+     * @param bp the bp
      * @return an unsigned big-endian short
      */
     protected static int getUInt16BE(byte[] buffer, int bp) {
@@ -80,8 +80,8 @@ public abstract class Descriptor implements ISO9660Constants {
     /**
      * Gets an unsigned 16-bit value in both byteorders. See section 7.2.3.
      * 
-     * @param buffer
-     * @param bp
+     * @param buffer the buffer
+     * @param bp the bp
      * @return an unsigned short
      */
     protected static int getUInt16Both(byte[] buffer, int bp) {
@@ -91,8 +91,8 @@ public abstract class Descriptor implements ISO9660Constants {
     /**
      * Gets an unsigned 32-bit value LSB first. See section 7.3.1.
      * 
-     * @param buffer
-     * @param bp
+     * @param buffer the buffer
+     * @param bp the bp
      * @return an unsigned little-endian int
      */
     protected static long getUInt32LE(byte[] buffer, int bp) {
@@ -102,8 +102,8 @@ public abstract class Descriptor implements ISO9660Constants {
     /**
      * Gets an unsigned 32-bit value MSB first. See section 7.3.2.
      * 
-     * @param buffer
-     * @param bp
+     * @param buffer the buffer
+     * @param bp the bp
      * @return an unsigned big-endian int
      */
     protected static long getUInt32BE(byte[] buffer, int bp) {
@@ -113,8 +113,8 @@ public abstract class Descriptor implements ISO9660Constants {
     /**
      * Gets an unsigned 32-bit value in both byteorders. See section 7.3.3.
      * 
-     * @param buffer
-     * @param bp
+     * @param buffer the buffer
+     * @param bp the bp
      * @return an unsigned int
      */
     protected static long getUInt32Both(byte[] buffer, int bp) {
@@ -124,9 +124,9 @@ public abstract class Descriptor implements ISO9660Constants {
     /**
      * Gets a string of a-characters. See section 7.4.1.
      * 
-     * @param buffer
-     * @param bp
-     * @param length
+     * @param buffer the buffer
+     * @param bp the bp
+     * @param length the length
      * @return the String representation
      */
     protected static String getAChars(byte[] buffer, int bp, int length) {
@@ -136,9 +136,9 @@ public abstract class Descriptor implements ISO9660Constants {
     /**
      * Gets a string of d-characters. See section 7.4.1.
      * 
-     * @param buffer
-     * @param bp
-     * @param length
+     * @param buffer the buffer
+     * @param bp the bp
+     * @param length the length
      * @return the String representation
      */
     protected static String getDChars(byte[] buffer, int bp, int length) {
@@ -148,10 +148,10 @@ public abstract class Descriptor implements ISO9660Constants {
     /**
      * Gets a string of a-characters. See section 7.4.1.
      * 
-     * @param buffer
-     * @param bp
-     * @param length
-     * @param encoding
+     * @param buffer the buffer
+     * @param bp the bp
+     * @param length the length
+     * @param encoding the encoding
      * @return the String representation
      */
     protected static String getAChars(byte[] buffer, int bp, int length, String encoding)
@@ -162,9 +162,9 @@ public abstract class Descriptor implements ISO9660Constants {
     /**
      * Gets a string of d-characters. See section 7.4.1.
      * 
-     * @param buffer
-     * @param bp
-     * @param length
+     * @param buffer the buffer
+     * @param bp the bp
+     * @param length the length
      * @return the String representation
      */
     protected static String getDChars(byte[] buffer, int bp, int length, String encoding)

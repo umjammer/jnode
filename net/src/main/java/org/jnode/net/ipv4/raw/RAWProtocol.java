@@ -49,44 +49,39 @@ public class RAWProtocol implements IPv4Protocol, IPv4Constants {
     /**
      * Create a new instance
      * 
-     * @param ipService
+     * @param ipService the ipService
      */
     public RAWProtocol(IPv4Service ipService) {
         // this.ipService = ipService;
     }
 
-    /**
-     * @see org.jnode.net.ipv4.IPv4Protocol#getName()
-     */
+    @Override
     public String getName() {
         return "raw";
     }
 
-    /**
-     * @see org.jnode.net.ipv4.IPv4Protocol#getProtocolID()
-     */
+    @Override
     public int getProtocolID() {
         return IPPROTO_RAW;
     }
 
-    /**
-     * @see org.jnode.net.ipv4.IPv4Protocol#receive(org.jnode.net.SocketBuffer)
-     */
-    public void receive(SocketBuffer skbuf) throws SocketException {
+    @Override
+    public void receive(SocketBuffer skBuf) throws SocketException {
         log.log(Level.DEBUG, "Received RAW IP packet");
         // TODO Implement RAW protocol reception
     }
 
     /**
      * Process an ICMP error message that has been received and matches this
-     * protocol. The skbuf is position directly after the ICMP header (thus
+     * protocol. The skBuf is position directly after the ICMP header (thus
      * contains the error IP header and error transport layer header). The
-     * transportLayerHeader property of skbuf is set to the ICMP message header.
+     * transportLayerHeader property of skBuf is set to the ICMP message header.
      * 
-     * @param skbuf
-     * @throws SocketException
+     * @param skBuf the socket buffer
+     * @throws SocketException when an error occurs
      */
-    public void receiveError(SocketBuffer skbuf) throws SocketException {
+    @Override
+    public void receiveError(SocketBuffer skBuf) throws SocketException {
         // Ignore errors here
     }
 
@@ -95,6 +90,7 @@ public class RAWProtocol implements IPv4Protocol, IPv4Constants {
      * 
      * @throws SocketException If this protocol is not Socket based.
      */
+    @Override
     public SocketImplFactory getSocketImplFactory() throws SocketException {
         throw new SocketException("RAW is packet based");
     }
@@ -104,13 +100,12 @@ public class RAWProtocol implements IPv4Protocol, IPv4Constants {
      * 
      * @throws SocketException If this protocol is not DatagramSocket based.
      */
+    @Override
     public DatagramSocketImplFactory getDatagramSocketImplFactory() throws SocketException {
         throw new SocketException("Not implemented yet");
     }
 
-    /**
-     * @see org.jnode.net.ipv4.IPv4Protocol#getStatistics()
-     */
+    @Override
     public Statistics getStatistics() {
         return stat;
     }

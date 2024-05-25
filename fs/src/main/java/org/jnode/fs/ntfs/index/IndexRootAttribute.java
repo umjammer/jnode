@@ -35,8 +35,8 @@ public final class IndexRootAttribute extends NTFSResidentAttribute {
     private IndexHeader header;
 
     /**
-     * @param fileRecord
-     * @param offset
+     * @param fileRecord the fileRecord
+     * @param offset the offset
      */
     public IndexRootAttribute(FileRecord fileRecord, int offset) {
         super(fileRecord, offset);

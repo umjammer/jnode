@@ -36,8 +36,8 @@ public abstract class VolumeDescriptor extends Descriptor {
     /**
      * Initialize this instance.
      * 
-     * @param volume
-     * @param buffer
+     * @param volume the volume
+     * @param buffer the buffer
      */
     public VolumeDescriptor(ISO9660Volume volume, byte[] buffer) {
         this.volume = volume;
@@ -62,7 +62,7 @@ public abstract class VolumeDescriptor extends Descriptor {
     /**
      * Gets the type of the volume descriptor in the supplied buffer.
      * 
-     * @param buffer
+     * @param buffer the buffer
      * @return the type
      */
     public static int getType(byte[] buffer) {

@@ -40,7 +40,6 @@ public final class JNodeFileStore extends FileStoreBase {
      * Returns the size, in bytes, of the file store.
      *
      * @return the size of the file store, in bytes
-     *
      * @throws IOException if an I/O error occurs
      */
     @Override
@@ -61,7 +60,6 @@ public final class JNodeFileStore extends FileStoreBase {
      * of this Java virtual machine.
      *
      * @return the number of bytes available
-     *
      * @throws IOException if an I/O error occurs
      */
     @Override
@@ -80,7 +78,6 @@ public final class JNodeFileStore extends FileStoreBase {
      * the system outside of this virtual machine.
      *
      * @return the number of unallocated bytes
-     *
      * @throws IOException if an I/O error occurs
      */
     @Override

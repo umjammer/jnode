@@ -34,6 +34,7 @@ import jcifs.smb.SmbFile;
 
 public class SmbShell extends NtlmAuthenticator {
 
+    @Override
     protected NtlmPasswordAuthenticator getNtlmPasswordAuthentication() {
         System.out.println(getRequestingException().getMessage() +
             " for " + getRequestingURL());
@@ -49,12 +50,12 @@ public class SmbShell extends NtlmAuthenticator {
             }
             System.out.print("password: ");
             password = readLine();
-            if (password.length() == 0) {
+            if (password.isEmpty()) {
                 return null;
             }
             return new NtlmPasswordAuthenticator(domain, username, password);
         } catch (Exception e) {
-            //empty
+            // empty
         }
         return null;
     }
@@ -69,7 +70,7 @@ public class SmbShell extends NtlmAuthenticator {
         return sb.toString().trim();
     }
 
-    String start;
+    final String start;
 
     public SmbShell(String start) {
         this.start = start;
@@ -100,12 +101,12 @@ public class SmbShell extends NtlmAuthenticator {
                 System.out.print(prompt);
 
                 cmd = readLine();
-                if (cmd.equals("")) {
-                    //empty
+                if (cmd.isEmpty()) {
+                    // empty
                 } else if (cmd.startsWith("cd")) {
                     int i = cmd.indexOf(' ');
                     String dir;
-                    if (i == -1 || (dir = cmd.substring(i).trim()).length() == 0) {
+                    if (i == -1 || (dir = cmd.substring(i).trim()).isEmpty()) {
                         conn = new SmbFile("smb://", context);
                         continue;
                     }
@@ -123,7 +124,7 @@ public class SmbShell extends NtlmAuthenticator {
                     int i = cmd.indexOf(' ');
                     SmbFile d = conn;
                     String dir, wildcard = "*";
-                    if (i != -1 && (dir = cmd.substring(i).trim()).length() != 0) {
+                    if (i != -1 && !(dir = cmd.substring(i).trim()).isEmpty()) {
                         // there's an argument which could be a directory,
                         // a wildcard, or a directory with a wildcard appended
                         int s = dir.lastIndexOf('/');
@@ -183,12 +184,12 @@ public class SmbShell extends NtlmAuthenticator {
                     System.out.println("  quit");
                 }
             } catch (MalformedURLException mue) {
-                mue.printStackTrace();
+                mue.printStackTrace(System.err);
                 conn = null;
             } catch (SmbException se) {
-                se.printStackTrace();
+                se.printStackTrace(System.err);
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
                 System.exit(1);
             }
         }

@@ -51,6 +51,7 @@ public class IPv4Statistics implements Statistics {
     /**
      * Gets all statistics
      */
+    @Override
     public Statistic[] getStatistics() {
         return list;
     }

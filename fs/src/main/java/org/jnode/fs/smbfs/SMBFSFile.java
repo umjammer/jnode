@@ -27,25 +27,22 @@ import jcifs.smb.SmbRandomAccessFile;
 import org.jnode.fs.FSFile;
 
 /**
- * @author Levente S\u00e1ntha
+ * @author Levente Sántha
  */
 public class SMBFSFile extends SMBFSEntry implements FSFile {
+
     private static final int BUFFER_SIZE = 4 * 1024;
 
     protected SMBFSFile(SMBFSDirectory parent, SmbFile smbFile) {
         super(parent, smbFile);
     }
 
-    /**
-     * @see org.jnode.fs.FSFile#flush()
-     */
+    @Override
     public void flush() throws IOException {
 
     }
 
-    /**
-     * @see org.jnode.fs.FSFile#getLength()
-     */
+    @Override
     public long getLength() {
         try {
             return smbFile.length();
@@ -54,9 +51,7 @@ public class SMBFSFile extends SMBFSEntry implements FSFile {
         }
     }
 
-    /**
-     * @see org.jnode.fs.FSFile#read(long, java.nio.ByteBuffer)
-     */
+    @Override
     public void read(long fileOffset, ByteBuffer dest) throws IOException {
         if (fileOffset > smbFile.length())
             return;
@@ -76,18 +71,14 @@ public class SMBFSFile extends SMBFSEntry implements FSFile {
         raf.close();
     }
 
-    /**
-     * @see org.jnode.fs.FSFile#setLength(long)
-     */
+    @Override
     public void setLength(long length) throws IOException {
         SmbRandomAccessFile raf = new SmbRandomAccessFile(smbFile, "rw");
         raf.setLength(length);
         raf.close();
     }
 
-    /**
-     * @see org.jnode.fs.FSFile#write(long, java.nio.ByteBuffer)
-     */
+    @Override
     public void write(long fileOffset, ByteBuffer src) throws IOException {
         SmbRandomAccessFile raf = new SmbRandomAccessFile(smbFile, "rw");
 

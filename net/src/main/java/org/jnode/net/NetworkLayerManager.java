@@ -28,7 +28,7 @@ import java.util.Collection;
  * kernel. It contains methods to register/unregister and obtain NetworkLayers,
  * and it is used by Network drivers to deliver receive packets. <p/> The
  * implementation of this interface must be obtained by invoking a lookup of
- * {@link #NAME} on {@link org.jnode.naming.InitialNaming}.
+ * {@link #NAME}.
  * 
  * @author epr
  * @see org.jnode.driver.net.NetDeviceAPI
@@ -48,18 +48,18 @@ public interface NetworkLayerManager {
     /**
      * Gets the packet type for a given protocol ID
      * 
-     * @param protocolID
-     * @throws NoSuchProtocolException
+     * @param protocolID the protocolID
+     * @throws NoSuchProtocolException when an error occurs
      */
     NetworkLayer getNetworkLayer(int protocolID) throws NoSuchProtocolException;
 
     /**
-     * Process a packet that has been received. The receive method of all those
-     * packettypes that have a matching type and allow the device(of the packet)
-     * is called. The packet is cloned if more then 1 packettypes want to
+     * Process a packet that has been received. The {@code receive} method of all those
+     * packet-types that have a matching type and allow the device(of the packet)
+     * is called. The packet is cloned if more than 1 packet-types want to
      * receive the packet.
      * 
-     * @param skbuf
+     * @param skbuf the skbuf
      */
     void receive(SocketBuffer skbuf) throws IOException;
 }

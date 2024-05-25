@@ -44,7 +44,7 @@ public class PC98PartitionTableType implements PartitionTableType {
         return "PC98";
     }
 
-    /** */
+    @Override
     public String getScheme() {
         return "pc98";
     }

@@ -49,7 +49,7 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
     private final Device device;
     /** API of the block device */
     private final BlockDeviceAPI api;
-    /** Root enntry of the file system */
+    /** Root entry of the file system */
     private T rootEntry;
     /** The file system is read-only */
     private boolean readOnly;
@@ -63,7 +63,7 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
     /**
      * Construct an AbstractFileSystem in specified readOnly mode
      * 
-     * @param device device contains file system. This paramter is mandatory.
+     * @param device device contains file system. This parameter is mandatory.
      * @param readOnly file system should be read-only.
      * 
      * @throws FileSystemException device is null or device has no {@link BlockDeviceAPI} defined.
@@ -84,9 +84,7 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
         this.readOnly = readOnly;
     }
 
-    /**
-     * @see org.jnode.fs.FileSystem#getRootEntry()
-     */
+    @Override
     public T getRootEntry() throws IOException {
         if (isClosed())
             throw new IOException("FileSystem is closed");
@@ -97,9 +95,7 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
         return rootEntry;
     }
 
-    /**
-     * @see org.jnode.fs.FileSystem#close()
-     */
+    @Override
     public void close() throws IOException {
         if (!closed) {
             if (!readOnly) {
@@ -145,10 +141,7 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
         return device.getAPI(FSBlockDeviceAPI.class);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.jnode.fs.FileSystem#isClosed()
-     */
+    @Override
     public final boolean isClosed() {
         return closed;
     }
@@ -158,6 +151,7 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
      * 
      * @return <tt>true</tt> if file system is read-only.
      */
+    @Override
     public final boolean isReadOnly() {
         return readOnly;
     }
@@ -174,10 +168,8 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
     /**
      * Gets the file for the given entry.
      * 
-     * @param entry
-     * 
+     * @param entry the entry
      * @return the {@link FSFile} associated with entry.
-     * 
      * @throws IOException if file system is closed.
      */
     public final synchronized FSFile getFile(FSEntry entry) throws IOException {
@@ -195,10 +187,9 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
     /**
      * Creates a new file from the entry
      * 
-     * @param entry
+     * @param entry the entry
      * @return a new {@link FSFile}
-     * 
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     protected abstract FSFile createFile(FSEntry entry) throws IOException;
 
@@ -218,11 +209,9 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
     /**
      * Gets the file for the given entry.
      * 
-     * @param entry
-     * 
+     * @param entry the entry
      * @return the {@link FSDirectory} associated with this entry
-     * 
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public final synchronized FSDirectory getDirectory(FSEntry entry) throws IOException {
         if (isClosed())
@@ -239,10 +228,9 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
     /**
      * Creates a new directory from the entry
      * 
-     * @param entry
+     * @param entry the entry
      * @return a new {@link FSDirectory}
-     * 
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     protected abstract FSDirectory createDirectory(FSEntry entry) throws IOException;
 
@@ -253,8 +241,8 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
         log.log(Level.INFO, "flushing directories ...");
         for (FSDirectory d : directories.values()) {
             log.log(Level.DEBUG, "flush: flushing directory " + d);
-            //TODO: uncomment this line
-            //d.flush();
+            // TODO uncomment this line
+//            d.flush();
         }
     }
 
@@ -262,7 +250,6 @@ public abstract class AbstractFileSystem<T extends FSEntry> implements FileSyste
      * Creates a new root entry
      * 
      * @return {@link FSEntry} representing the new created root entry.
-     * 
      * @throws IOException file system doesn't allow to create a new root entry.
      */
     protected abstract T createRootEntry() throws IOException;

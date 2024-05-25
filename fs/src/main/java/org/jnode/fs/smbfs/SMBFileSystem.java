@@ -31,13 +31,13 @@ import jcifs.smb.NtlmPasswordAuthenticator;
 import jcifs.smb.SmbFile;
 
 /**
- * @author Levente S\u00e1ntha
+ * @author Levente Sántha
  */
 public class SMBFileSystem extends NtlmAuthenticator implements FileSystem<SMBFSEntry> {
-    private SMBFSDevice device;
-    private SMBFSDirectory root;
+    private final SMBFSDevice device;
+    private final SMBFSDirectory root;
     private boolean closed;
-    private SMBFileSystemType type;
+    private final SMBFileSystemType type;
 
     public SMBFileSystem(SMBFSDevice device, SMBFileSystemType type) {
         this.type = type;
@@ -56,6 +56,7 @@ public class SMBFileSystem extends NtlmAuthenticator implements FileSystem<SMBFS
         return type;
     }
 
+    @Override
     protected NtlmPasswordAuthenticator getNtlmPasswordAuthentication() {
         return new NtlmPasswordAuthenticator("", device.getUser(), device.getPassword());
     }
@@ -64,8 +65,9 @@ public class SMBFileSystem extends NtlmAuthenticator implements FileSystem<SMBFS
      * Close this filesystem. After a close, all invocations of method of this filesystem or objects created by this
      * filesystem will throw an IOException.
      *
-     * @throws java.io.IOException
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public synchronized void close() throws IOException {
         closed = true;
     }
@@ -80,6 +82,7 @@ public class SMBFileSystem extends NtlmAuthenticator implements FileSystem<SMBFS
     /**
      * Gets the root entry of this filesystem. This is usually a directory, but this is not required.
      */
+    @Override
     public SMBFSEntry getRootEntry() throws IOException {
         return root;
     }
@@ -87,6 +90,7 @@ public class SMBFileSystem extends NtlmAuthenticator implements FileSystem<SMBFS
     /**
      * Is this filesystem closed.
      */
+    @Override
     public synchronized boolean isClosed() {
         return closed;
     }
@@ -94,19 +98,23 @@ public class SMBFileSystem extends NtlmAuthenticator implements FileSystem<SMBFS
     /**
      * Is the filesystem mounted in readonly mode ?
      */
+    @Override
     public boolean isReadOnly() {
         return false;
     }
 
+    @Override
     public long getFreeSpace() throws IOException {
         return root.smbFile.getDiskFreeSpace();
     }
 
+    @Override
     public long getTotalSpace() throws IOException {
         // todo fix it
         return -1;
     }
 
+    @Override
     public long getUsableSpace() throws IOException {
         return root.smbFile.getDiskFreeSpace();
     }

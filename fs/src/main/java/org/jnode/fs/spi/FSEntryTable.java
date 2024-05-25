@@ -33,7 +33,7 @@ import java.lang.System.Logger;
 import org.jnode.fs.FSEntry;
 
 /**
- * A table containing all the entries of a directory. This class and its childs
+ * A table containing all the entries of a directory. This class and its children
  * have the responsibility to identify an entry by its name (case sensitivity,
  * long file name, ...). The class can limit the number of entries (for root
  * directories ...) if necessary.
@@ -54,13 +54,13 @@ public class FSEntryTable extends AbstractFSObject {
 
     /**
      * Map of entries (key=name, value=entry). As a value may be null (a free
-     * entry) we must use Hashtable and not Hashtable
+     * entry) we must use HashMap and not Hashtable
      */
     private final Map<String, FSEntry> entries; // must be a HashMap
 
     /**
      * Map of entries (key=id, value=entry). As a value may be null (a free
-     * entry) we must use Hashtable and not Hashtable
+     * entry) we must use HashMap and not Hashtable
      */
     private final Map<String, FSEntry> entriesById; // must be a HashMap
 
@@ -81,8 +81,8 @@ public class FSEntryTable extends AbstractFSObject {
     /**
      * Construct a FSEntryTable from a list of FSEntry
      *
-     * @param fs
-     * @param entryList
+     * @param fs the fs
+     * @param entryList the entryList
      */
     public FSEntryTable(AbstractFileSystem<?> fs, List<FSEntry> entryList) {
         super(fs);
@@ -124,7 +124,7 @@ public class FSEntryTable extends AbstractFSObject {
      * Find the index of free entry. If not found, resize the table is possible.
      * If resize is impossible, an IOException is thrown.
      *
-     * @param entry
+     * @param entry the entry
      * @return the index of a free entry
      */
     protected int findFreeEntry(FSEntry entry) {
@@ -147,7 +147,7 @@ public class FSEntryTable extends AbstractFSObject {
     /**
      * Get the entry given by its index. The result can be null.
      *
-     * @param index
+     * @param index the index
      * @return the FSEntry at index
      */
     public final FSEntry get(int index) {
@@ -157,7 +157,7 @@ public class FSEntryTable extends AbstractFSObject {
     /**
      * Get the entry given by its name. The result can be null.
      *
-     * @param name
+     * @param name the name
      * @return the FSEntry with given name
      */
     public FSEntry get(String name) {
@@ -196,7 +196,7 @@ public class FSEntryTable extends AbstractFSObject {
     /**
      * return a list of used FSEntry
      *
-     * @return a list of used FSEntrys
+     * @return a list of used FSEntries
      */
     protected List<FSEntry> getUsedEntries() {
         int nbEntries = entryNames.size();
@@ -215,7 +215,7 @@ public class FSEntryTable extends AbstractFSObject {
      * Get the index of an entry given byt its name. If there is no entry with
      * this name, return -1.
      *
-     * @param name
+     * @param name the name
      * @return the index of the given entry name
      */
     protected int indexOfEntry(String name) {
@@ -226,8 +226,9 @@ public class FSEntryTable extends AbstractFSObject {
      * Indicate if the table need to be saved to the device.
      *
      * @return if the table needs to be saved to the device
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public final boolean isDirty() throws IOException {
         if (super.isDirty()) {
             return true;
@@ -252,12 +253,14 @@ public class FSEntryTable extends AbstractFSObject {
         return new Iterator<>() {
             private int index = 0;
 
-            private List<FSEntry> usedEntries = getUsedEntries();
+            private final List<FSEntry> usedEntries = getUsedEntries();
 
+            @Override
             public boolean hasNext() {
                 return index < usedEntries.size();
             }
 
+            @Override
             public FSEntry next() {
                 final FSEntry entry = usedEntries.get(index);
                 index++;
@@ -267,6 +270,7 @@ public class FSEntryTable extends AbstractFSObject {
             /**
              * @see java.util.Iterator#remove()
              */
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
@@ -276,8 +280,8 @@ public class FSEntryTable extends AbstractFSObject {
     /**
      * Return a normalized entry name (for case insensitivity for example)
      *
-     * @param name
-     * @return a normalized name (e.g. case insensitiv)
+     * @param name the name
+     * @return a normalized name (e.g. case insensitive)
      */
     protected String normalizeName(String name) {
         return name;
@@ -286,7 +290,7 @@ public class FSEntryTable extends AbstractFSObject {
     /**
      * Remove an entry given by its name
      *
-     * @param name
+     * @param name the name
      * @return the index of removed entry
      */
     public int remove(String name) {
@@ -312,8 +316,8 @@ public class FSEntryTable extends AbstractFSObject {
     /**
      * Rename an entry given by its oldName.
      *
-     * @param oldName
-     * @param newName
+     * @param oldName the original name
+     * @param newName the new name
      * @return the index of renamed file
      */
     public int rename(String oldName, String newName) {
@@ -345,7 +349,7 @@ public class FSEntryTable extends AbstractFSObject {
      * too small, it is resized. If the table can't be resized, an IOException
      * is thrown
      *
-     * @param newEntry
+     * @param newEntry the newEntry
      * @return the index of the stored entry
      * @throws IOException if directory is full (can't be resized)
      */
@@ -357,9 +361,9 @@ public class FSEntryTable extends AbstractFSObject {
             throw new IOException("Directory is full");
         }
 
-        /* Object oldN = */
+        // Object oldN =
         entryNames.set(index, name);
-        /* Object oldE = */
+        // Object oldE =
         entries.put(name, newEntry);
         entriesById.put(newEntry.getId(), newEntry);
 
@@ -383,17 +387,17 @@ public class FSEntryTable extends AbstractFSObject {
      *
      * @return a list of all FSEntries
      */
-    public List<?>/* <FSEntry> */toList() {
+    public List<?> /* <FSEntry> */ toList() {
         // false means not compacted (ie can contain some null entries)
         return toList(false);
     }
 
     /**
      * Return a list of FSEntry representing the content of the table. The table
-     * can be compacted (ie: without null entries) or uncompacted (with null
+     * can be compacted (ie: without null entries) or uncompleted (with null
      * entries if there are).
      *
-     * @param compacted
+     * @param compacted the compacted
      * @return a list of FSEntries
      */
     public List<FSEntry> toList(boolean compacted) {
@@ -410,17 +414,12 @@ public class FSEntryTable extends AbstractFSObject {
         return entryList;
     }
 
-    /**
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
+    @Override
     public String toString() {
         int nbEntries = entryNames.size();
-        String name;
         StringBuilder sb = new StringBuilder(nbEntries * 16);
         for (String entryName : entryNames) {
-            name = entryName;
+            String name = entryName;
             sb.append("name:").append(name);
             sb.append("->entry:").append(entries.get(name));
             sb.append('\n');

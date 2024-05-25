@@ -41,7 +41,7 @@ public class FileDevice extends Device implements FSBlockDeviceAPI {
 
     private static final Logger log = System.getLogger(FileDevice.class.getName());
 
-    private RandomAccessFile raf;
+    private final RandomAccessFile raf;
 
     /** virtual offset */
     private long offset = 0;
@@ -58,24 +58,24 @@ log.log(Level.DEBUG, String.format("offset: %08x + %08x -> %08x", (this.offset -
     /**
      * Create a new FileDevice
      *
-     * @param file
+     * @param file the target file
      * @param mode see {@link RandomAccessFile}
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException when an error occurs
      */
     public FileDevice(File file, String mode) throws IOException {
         super("file" + System.currentTimeMillis());
         raf = new RandomAccessFile(file, mode);
-        //registerAPI(BlockDeviceAPI.class, this);
+//        registerAPI(BlockDeviceAPI.class, this);
         registerAPI(FSBlockDeviceAPI.class, this);
     }
 
     /**
      * Create a new FileDevice with virtual offset
      *
-     * @param file
+     * @param file the file
      * @param mode see {@link RandomAccessFile}
      * @param offset virtual offset
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException when an error occurs
      */
     public FileDevice(File file, String mode, int offset) throws IOException {
         this(file, mode);
@@ -92,7 +92,7 @@ log.log(Level.DEBUG, String.format("offset: %08x + %08x -> %08x", (this.offset -
         raf.seek(devOffset + offset);
 log.log(Level.DEBUG, String.format("offset: %08x (%08x)", devOffset + offset, offset));
 
-        //TODO optimize it also to use ByteBuffer at lower level
+        // TODO optimize it also to use ByteBuffer at lower level
         ByteBufferUtils.ByteArray destBA = ByteBufferUtils.toByteArray(destBuf);
         byte[] dest = destBA.toArray();
         raf.read(dest, 0, dest.length);
@@ -101,10 +101,10 @@ log.log(Level.DEBUG, String.format("offset: %08x (%08x)", devOffset + offset, of
 
     @Override
     public void write(long devOffset, ByteBuffer srcBuf) throws IOException {
-        //log.log(Level.DEBUG, "fd.write devOffset=" + devOffset + ", length=" + length);
+//        log.log(Level.DEBUG, "fd.write devOffset=" + devOffset + ", length=" + length);
         raf.seek(devOffset + offset);
 
-        //TODO optimize it also to use ByteBuffer at lower level
+        // TODO optimize it also to use ByteBuffer at lower level
         byte[] src = ByteBufferUtils.toArray(srcBuf);
         raf.write(src, 0, src.length);
     }
@@ -115,13 +115,13 @@ log.log(Level.DEBUG, String.format("offset: %08x (%08x)", devOffset + offset, of
     }
 
     /**
-     * change the length of the underlaying file
+     * change the length of the underlying file
      *
      * @param length real file length
      */
     public void setLength(long length) throws IOException {
         if (offset > 0) {
-            log.log(Level.WARNING, "this device has virtual offset (" + offset + "), so length you sepcified might be different as your expectation.");
+            log.log(Level.WARNING, "this device has virtual offset (" + offset + "), so length you specified might be different as your expectation.");
         }
         raf.setLength(length);
         if (offset > 0) {
@@ -130,7 +130,7 @@ log.log(Level.DEBUG, String.format("offset: %08x (%08x)", devOffset + offset, of
     }
 
     /**
-     * close the underlaying file
+     * close the underlying file
      */
     public void close() throws IOException {
         raf.close();

@@ -48,7 +48,6 @@ import java.lang.System.Logger.Level;
 import java.lang.System.Logger;
 import org.jnode.driver.block.BlockDeviceAPI;
 import org.jnode.util.LittleEndian;
-import vavi.emu.disk.FAT;
 
 import static java.lang.Integer.toHexString;
 
@@ -85,7 +84,7 @@ public class FatFormatter {
     public static final int RAMDISK_DESC = 0xfa;
 
     /** The Size of Fat. */
-    private int FatSize;
+    private final int FatSize;
 
     /** The Number of the Fat in system. */
     public final int NumOfFATs = 2;
@@ -160,7 +159,7 @@ public class FatFormatter {
      * The Hard Disk's formatting logic implementation by JFAT. This Version
      * only support to the Hard Disks.
      * 
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public static FatFormatter HDDFormatter(int sectorSize, int nbTotalSectors,
             ClusterSize clusterSize, int hiddenSectors, BlockDeviceAPI api) throws IOException {
@@ -172,7 +171,7 @@ public class FatFormatter {
     /**
      * The Constructor for the HDD devices in the JNode system.
      * 
-     * @throws IOException
+     * @throws IOException when an error occurs
      * 
      */
     public FatFormatter(int mediumDescriptor, int sectorSize, int nbTotalSectors,
@@ -232,7 +231,7 @@ public class FatFormatter {
         fsInfo.setReserve2();
         fsInfo.setFsInfo_TrailSig(FSI_TrailSig);
 
-        // TODO:This portion need modofication for the Disk Size Handlings Not
+        // TODO:This portion need modification for the Disk Size Handlings Not
         // So mandatory now .WIll look into it. Work out the Cluster Count
         long FatNeeded = UserAreaSize / SectorPerCluster;
         // check for a cluster count of >2^28, since the upper 4 bits of the
@@ -252,7 +251,7 @@ public class FatFormatter {
         try {
             setQuickSectorFree(SystemAreaSize, api);
         } catch (IOException e1) {
-            log.log(Level.INFO, "Error ocured during Disk Free.");
+            log.log(Level.INFO, "Error occurred during Disk Free.");
         }
         // calling the Format method
         try {
@@ -281,8 +280,8 @@ public class FatFormatter {
     /**
      * Format the given device, according to my settings
      * 
-     * @param api
-     * @throws IOException
+     * @param api the api
+     * @throws IOException when an error occurs
      */
     public void format(BlockDeviceAPI api, BootSector bs, FatFsInfo fsInfo, int sectorPerCluster,
             int nbTotalSectors) throws IOException {
@@ -308,9 +307,9 @@ public class FatFormatter {
     /**
      * The Method for Disk Free Operations.
      * 
-     * @param systemAreaSize
-     * @param api
-     * @throws IOException
+     * @param systemAreaSize the systemAreaSize
+     * @param api the api
+     * @throws IOException when an error occurs
      */
     private void setQuickSectorFree(int systemAreaSize, BlockDeviceAPI api) throws IOException {
         byte[] reserveArray = new byte[512];
@@ -322,9 +321,9 @@ public class FatFormatter {
     /**
      * This is for Quick Disk Free Operation TODO:Need to test with it.
      * 
-     * @param TotalSectors
-     * @param api
-     * @throws IOException
+     * @param TotalSectors the TotalSectors
+     * @param api the api
+     * @throws IOException when an error occurs
      */
     @SuppressWarnings("unused")
     private void setQuickDiskFree(int TotalSectors, BlockDeviceAPI api) throws IOException {
@@ -332,8 +331,8 @@ public class FatFormatter {
     }
 
     /**
-     * @param clusterSize
-     * @param BytesPerSector
+     * @param clusterSize the clusterSize
+     * @param BytesPerSector the BytesPerSector
      * @return
      */
     private static int get_spc(ClusterSize clusterSize, int BytesPerSector) {
@@ -384,10 +383,10 @@ public class FatFormatter {
     }
 
     /**
-     * @param TotalSectors
-     * @param ReservedSectorCount
-     * @param NumFATs
-     * @param FATSize
+     * @param TotalSectors the TotalSectors
+     * @param ReservedSectorCount the ReservedSectorCount
+     * @param NumFATs the NumFATs
+     * @param FATSize the FATSize
      * @return
      */
     private int getUserAreaSize(int TotalSectors, int ReservedSectorCount, int NumFATs, ClusterSize FATSize) {
@@ -397,8 +396,8 @@ public class FatFormatter {
 
     /**
      * The Total Disk Size
-     * @param TotalSectors
-     * @param sectorSize
+     * @param TotalSectors the TotalSectors
+     * @param sectorSize the sectorSize
      * @return
      */
     private int getDiskSize(int TotalSectors, int sectorSize) {

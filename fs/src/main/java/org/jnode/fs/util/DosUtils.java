@@ -33,8 +33,8 @@ public class DosUtils {
     /**
      * Decode a 16-bit encoded DOS date/time into a java date/time.
      * 
-     * @param dosDate
-     * @param dosTime
+     * @param dosDate the dosDate
+     * @param dosTime the dosTime
      * @return long
      */
     public static long decodeDateTime(int dosDate, int dosTime) {
@@ -55,7 +55,7 @@ public class DosUtils {
     /**
      * Encode a java date/time into a 16-bit encoded DOS time
      * 
-     * @param javaDateTime
+     * @param javaDateTime the javaDateTime
      * @return long
      */
     public static int encodeTime(long javaDateTime) {
@@ -68,7 +68,7 @@ public class DosUtils {
     /**
      * Encode a java date/time into a 16-bit encoded DOS date
      * 
-     * @param javaDateTime
+     * @param javaDateTime the javaDateTime
      * @return long
      */
     public static int encodeDate(long javaDateTime) {

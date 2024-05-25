@@ -32,7 +32,7 @@ public interface FSDirectory extends FSObject {
 
     /**
      * Gets an iterator used to iterate over all the entries of this directory.
-     * All elements returned by the iterator must be instance of FSEntry.
+     * All elements returned by the iterator must be instanced of FSEntry.
      *
      * @return an iterator over the entries of this directory.
      * @throws IOException if error occurs during iteration.

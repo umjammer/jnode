@@ -37,37 +37,37 @@ public abstract class IPv4ControlBlockList {
     /**
      * Lookup the best matching control block for the given parameters.
      * 
-     * @param fAddr
-     * @param fPort
-     * @param lAddr
-     * @param lPort
-     * @param allowWildcards
+     * @param fAddr the foreign address
+     * @param fPort the foreign port
+     * @param lAddr the local address
+     * @param lPort the local port
+     * @param allowWildcards is all address wildcard or not
      * @return Null if no match, the best matching Control Block otherwise.
      */
     public IPv4ControlBlock lookup(IPv4Address fAddr, int fPort, IPv4Address lAddr, int lPort,
             boolean allowWildcards) {
 
-        IPv4ControlBlock bestcb = null;
-        int bestmatch = Integer.MAX_VALUE;
+        IPv4ControlBlock bestCb = null;
+        int bestMatch = Integer.MAX_VALUE;
 
         for (IPv4ControlBlock cb : list) {
             final int match = cb.match(fAddr, fPort, lAddr, lPort, allowWildcards);
             if (match == 0) {
                 // Exact match
                 return cb;
-            } else if ((match >= 0) && (match < bestmatch)) {
-                bestmatch = match;
-                bestcb = cb;
+            } else if ((match >= 0) && (match < bestMatch)) {
+                bestMatch = match;
+                bestCb = cb;
             }
         }
-        return bestcb;
+        return bestCb;
     }
 
     /**
      * Create a binding for a local address & port.
      * 
-     * @param lAddr
-     * @param lPort
+     * @param lAddr the lAddr
+     * @param lPort the lPort
      * @return The created binding
      */
     public synchronized IPv4ControlBlock bind(IPv4Address lAddr, int lPort) throws BindException {
@@ -103,7 +103,7 @@ public abstract class IPv4ControlBlockList {
 
     /**
      * Add a block to the list
-     * @param cb
+     * @param cb the block to add
      */
     final synchronized void add(IPv4ControlBlock cb) {
         list.add(cb);
@@ -111,7 +111,7 @@ public abstract class IPv4ControlBlockList {
 
     /**
      * Remove a block from the list
-     * @param cb
+     * @param cb the block to remove
      */
     final synchronized void remove(IPv4ControlBlock cb) {
         list.remove(cb);

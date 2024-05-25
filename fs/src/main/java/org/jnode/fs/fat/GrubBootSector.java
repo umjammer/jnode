@@ -29,7 +29,7 @@ public class GrubBootSector extends BootSector {
 
     /**
      * Constructor for GrubBootSector.
-     * @param size
+     * @param size the size
      */
     public GrubBootSector(int size) {
         super(size);
@@ -37,7 +37,7 @@ public class GrubBootSector extends BootSector {
 
     /**
      * Constructor for GrubBootSector.
-     * @param src
+     * @param src the src
      */
     public GrubBootSector(byte[] src) {
         super(src);

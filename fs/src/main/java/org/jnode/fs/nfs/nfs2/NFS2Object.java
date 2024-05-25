@@ -26,16 +26,18 @@ import org.jnode.net.nfs.nfs2.NFS2Client;
 
 public class NFS2Object implements FSObject {
 
-    private NFS2FileSystem fileSystem;
+    private final NFS2FileSystem fileSystem;
 
     NFS2Object(NFS2FileSystem fileSystem) {
         this.fileSystem = fileSystem;
     }
 
+    @Override
     public FileSystem<?> getFileSystem() {
         return fileSystem;
     }
 
+    @Override
     public boolean isValid() {
         return false;
     }

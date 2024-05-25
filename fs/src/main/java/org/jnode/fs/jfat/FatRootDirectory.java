@@ -48,7 +48,7 @@ public class FatRootDirectory extends FatDirectory {
 
         BootSector bootSector = getFatFileSystem().getBootSector();
 
-        // Check if this is the end of the root entires
+        // Check if this is the end of the root entiries
         if (index > bootSector.getNrRootDirEntries()) {
             throw new NoSuchElementException();
         }
@@ -63,22 +63,27 @@ public class FatRootDirectory extends FatDirectory {
         return createDirEntry(entry, index, allowDeleted);
     }
 
+    @Override
     public String getShortName() {
         return getName();
     }
 
+    @Override
     public boolean isDirty() {
         return false;
     }
 
+    @Override
     public int getIndex() {
         throw new UnsupportedOperationException("Root has not an index");
     }
 
+    @Override
     public boolean isRoot() {
         return true;
     }
 
+    @Override
     public void setName(String newName) throws IOException {
         throw new UnsupportedOperationException("cannot change root name");
     }
@@ -92,29 +97,35 @@ public class FatRootDirectory extends FatDirectory {
             return "";
     }
 
+    @Override
     public long getCreated() throws IOException {
         FatShortDirEntry label = getEntry();
         return label == null ? 0 : label.getCreated();
     }
 
+    @Override
     public long getLastModified() throws IOException {
         FatShortDirEntry label = getEntry();
         return label == null ? 0 : label.getLastModified();
     }
 
+    @Override
     public long getLastAccessed() throws IOException {
         FatShortDirEntry label = getEntry();
         return label == null ? 0 : label.getLastAccessed();
     }
 
+    @Override
     public void setCreated(long created) throws IOException {
         throw new UnsupportedOperationException("cannot change root time");
     }
 
+    @Override
     public void setLastModified(long lastModified) throws IOException {
         throw new UnsupportedOperationException("cannot change root time");
     }
 
+    @Override
     public void setLastAccessed(long lastAccessed) throws IOException {
         throw new UnsupportedOperationException("cannot change root time");
     }
@@ -124,6 +135,7 @@ public class FatRootDirectory extends FatDirectory {
         return String.format("FatRootDirectory [%s]", getName());
     }
 
+    @Override
     public String toDebugString() {
         StrWriter out = new StrWriter();
 

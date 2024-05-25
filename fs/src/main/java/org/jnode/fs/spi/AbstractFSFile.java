@@ -36,7 +36,7 @@ public abstract class AbstractFSFile extends AbstractFSObject implements FSFile 
     /**
      * Constructor for a new AbstractFSFile
      * 
-     * @param fs
+     * @param fs the fs
      */
     public AbstractFSFile(AbstractFileSystem<?> fs) {
         super(fs);
@@ -45,8 +45,10 @@ public abstract class AbstractFSFile extends AbstractFSObject implements FSFile 
     /**
      * @return the length of the file
      */
+    @Override
     public abstract long getLength();
 
+    @Override
     public abstract void setLength(long length) throws IOException;
 
     /**
@@ -54,8 +56,9 @@ public abstract class AbstractFSFile extends AbstractFSObject implements FSFile 
      * 
      * @param fileOffset offset to begin reading
      * @param dest the ByteBuffer used to store the read data
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public abstract void read(long fileOffset, ByteBuffer dest) throws IOException;
 
     /**
@@ -63,14 +66,16 @@ public abstract class AbstractFSFile extends AbstractFSObject implements FSFile 
      * 
      * @param fileOffset offset to begin writing
      * @param src buffer to be written the file
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public abstract void write(long fileOffset, ByteBuffer src) throws IOException;
 
     /**
      * Flush all unsaved data to the device
      * 
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public abstract void flush() throws IOException;
 }

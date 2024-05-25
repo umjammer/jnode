@@ -34,5 +34,4 @@ public class OsUtils {
         final String osName = System.getProperty("os.name", "");
         return osName.equals("JNode");
     }
-
 }

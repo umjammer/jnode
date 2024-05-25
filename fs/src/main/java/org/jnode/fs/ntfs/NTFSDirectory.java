@@ -83,6 +83,7 @@ public class NTFSDirectory implements FSDirectory, FSDirectoryId {
     /**
      * Gets an iterator to iterate over all entries of this directory.
      */
+    @Override
     public Iterator<FSEntry> iterator() {
         return new DirectoryEntryIterator(fs, index);
     }
@@ -90,6 +91,7 @@ public class NTFSDirectory implements FSDirectory, FSDirectoryId {
     /**
      * Gets an entry with a given name.
      */
+    @Override
     public FSEntry getEntry(String name) {
         log.log(Level.DEBUG, "getEntry(" + name + ")");
         for (Iterator<FSEntry> it = this.iterator(); it.hasNext(); ) {
@@ -116,16 +118,12 @@ public class NTFSDirectory implements FSDirectory, FSDirectoryId {
         return fileRecord;
     }
 
-    /**
-     *
-     */
+    @Override
     public FSEntry addFile(String name) throws IOException {
         throw new ReadOnlyFileSystemException();
     }
 
-    /**
-     *
-     */
+    @Override
     public FSEntry addDirectory(String name) throws IOException {
         throw new ReadOnlyFileSystemException();
     }
@@ -133,6 +131,7 @@ public class NTFSDirectory implements FSDirectory, FSDirectoryId {
     /**
      * Remove the entry with the given name from this directory.
      */
+    @Override
     public void remove(String name) throws IOException {
         throw new ReadOnlyFileSystemException();
     }
@@ -140,13 +139,12 @@ public class NTFSDirectory implements FSDirectory, FSDirectoryId {
     /**
      * Is this entry valid.
      */
+    @Override
     public boolean isValid() {
         return true;
     }
 
-    /**
-     *
-     */
+    @Override
     public FileSystem<?> getFileSystem() {
         return fs;
     }
@@ -154,9 +152,10 @@ public class NTFSDirectory implements FSDirectory, FSDirectoryId {
     /**
      * Save all dirty (unsaved) data to the device
      *
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public void flush() throws IOException {
-        //TODO
+        // TODO
     }
 }

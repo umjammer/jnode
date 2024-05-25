@@ -26,8 +26,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -37,15 +41,16 @@ import java.nio.file.Files;
  */
 public class FileUtils {
 
+    private static final Logger logger = getLogger(FileUtils.class.getName());
+
     /**
-     * Copy dest.length bytes from the inputstream into the dest bytearray.
+     * Copy {@code dest} length bytes from the input stream into the dest bytearray.
      *
-     * @param is
-     * @param dest
-     * @throws IOException
+     * @param is the input stream
+     * @param dest byte array
+     * @throws IOException when an error occurs
      */
-    public static void copy(InputStream is, byte[] dest)
-        throws IOException {
+    public static void copy(InputStream is, byte[] dest) throws IOException {
         int len = dest.length;
         int ofs = 0;
         while (len > 0) {
@@ -58,11 +63,11 @@ public class FileUtils {
     /**
      * Copy the contents of is to os.
      *
-     * @param is
-     * @param os
+     * @param is the input stream
+     * @param os the output stream
      * @param buf   Can be null
-     * @param close If true, is is closed after the copy.
-     * @throws IOException
+     * @param close If true, the input stream is closed after the copy.
+     * @throws IOException when an error occurs
      */
     public static void copy(InputStream is, OutputStream os, byte[] buf, boolean close) throws IOException {
         try {
@@ -85,9 +90,9 @@ public class FileUtils {
     /**
      * Copy the contents of is to the returned byte array.
      *
-     * @param is
-     * @param close If true, is is closed after the copy.
-     * @throws IOException
+     * @param is the input stream
+     * @param close If true, the input stream is closed after the copy.
+     * @throws IOException when an error occurs
      */
     public static byte[] load(InputStream is, boolean close) throws IOException {
         final ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -98,9 +103,9 @@ public class FileUtils {
     /**
      * Copy the contents of is to the returned byte buffer.
      *
-     * @param is
-     * @param close If true, is is closed after the copy.
-     * @throws IOException
+     * @param is the input stream
+     * @param close If true, the input stream is closed after the copy.
+     * @throws IOException when an error occurs
      */
     public static ByteBuffer loadToBuffer(InputStream is, boolean close) throws IOException {
         return ByteBuffer.wrap(load(is, close));
@@ -122,7 +127,7 @@ public class FileUtils {
 
             ok = true;
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.DEBUG, e.getMessage(), e);
         }
 
         return ok;

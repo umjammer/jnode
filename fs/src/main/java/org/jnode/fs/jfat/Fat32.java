@@ -32,18 +32,22 @@ public class Fat32 extends Fat {
         super(bs, api);
     }
 
+    @Override
     protected long offset(int index) {
         return 4L * index;
     }
 
+    @Override
     public long getClusterPosition(int index) {
         return getClusterSector(index) * (long) getBootSector().getBytesPerSector();
     }
 
+    @Override
     public int get(int index) throws IOException {
         return (int) (getUInt32(index) & 0x0FFFFFFF);
     }
 
+    @Override
     public int set(int index, int element) throws IOException {
         long old = getUInt32(index);
 
@@ -52,10 +56,12 @@ public class Fat32 extends Fat {
         return (int) (old & 0x0FFFFFFF);
     }
 
+    @Override
     public boolean isEofChain(int entry) {
         return (entry >= 0x0FFFFFF8);
     }
 
+    @Override
     public int eofChain() {
         return 0x0FFFFFFF;
     }

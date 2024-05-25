@@ -23,10 +23,6 @@ package org.jnode.fs;
 import java.io.IOException;
 
 /**
- * @author epr
- */
-
-/**
  * Entry of an FSDirectory.
  *
  * @author epr

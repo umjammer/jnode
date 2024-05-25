@@ -50,7 +50,7 @@ public class IPv4RoutingTable {
     /**
      * Get an entry at a given index
      * 
-     * @param index
+     * @param index the index
      */
     public IPv4Route get(int index) {
         return entries.get(index);
@@ -59,7 +59,7 @@ public class IPv4RoutingTable {
     /**
      * Add an entry
      * 
-     * @param entry
+     * @param entry the entry
      */
     public void add(IPv4Route entry) {
         entries.add(entry);
@@ -68,7 +68,7 @@ public class IPv4RoutingTable {
     /**
      * Remove a given entry
      * 
-     * @param entry
+     * @param entry the entry
      */
     public void remove(IPv4Route entry) {
         entries.remove(entry);
@@ -87,7 +87,7 @@ public class IPv4RoutingTable {
     /**
      * Search for a route to the given destination
      * 
-     * @param destination
+     * @param destination the destination
      * @throws NoRouteToHostException No route has been found
      * @return The route that has been selected.
      */

@@ -65,9 +65,10 @@ Debug.println("disc: " + exfatPath + ", " + Files.exists(exfatPath));
             try {
                 System.err.println(p + ", " + Files.getLastModifiedTime(p));
             } catch (IOException e) {
-                e.printStackTrace();
+                Debug.printStackTrace(e);
             }
         });
+        fs.close();
     }
 
     @Test
@@ -81,9 +82,10 @@ Debug.println("disc: " + dmgPath + ", " + Files.exists(dmgPath));
             try {
                 System.err.println(p + ", " + Files.getLastModifiedTime(p));
             } catch (IOException e) {
-                e.printStackTrace();
+                Debug.printStackTrace(e);
             }
         });
+        fs.close();
     }
 
     @Test
@@ -97,9 +99,10 @@ Debug.println("disc: " + exfatPath + ", " + Files.exists(exfatPath));
             try {
                 System.err.println(p + ", " + Files.getLastModifiedTime(p));
             } catch (IOException e) {
-                e.printStackTrace();
+                Debug.printStackTrace(e);
             }
         });
+        fs.close();
     }
 
     @Test
@@ -113,9 +116,10 @@ Debug.println("disc: " + dmgPath + ", " + Files.exists(dmgPath));
             try {
                 System.err.println(p + ", " + Files.getLastModifiedTime(p));
             } catch (IOException e) {
-                e.printStackTrace();
+                Debug.printStackTrace(e);
             }
         });
+        fs.close();
     }
 
     // TODO not (header +) solid image
@@ -130,9 +134,10 @@ Debug.println("disc: " + d88Path + ", " + Files.exists(d88Path));
             try {
                 System.err.println(p + ", " + Files.getLastModifiedTime(p));
             } catch (IOException e) {
-                e.printStackTrace();
+                Debug.printStackTrace(e);
             }
         });
+        fs.close();
     }
 
     @Test
@@ -148,9 +153,10 @@ Debug.println("disc: " + fidPath + ", " + Files.exists(fidPath));
 //                if (!Files.isDirectory(p)) // newInputStream is not supported mark
 //                    System.err.println(StringUtil.getDump(new BufferedInputStream(Files.newInputStream(p)), 0, (int) Math.min(64, Files.size(p))));
             } catch (IOException e) {
-                e.printStackTrace();
+                Debug.printStackTrace(e);
             }
         });
+        fs.close();
     }
 
     @Test
@@ -164,10 +170,9 @@ Debug.println("disc: " + exfatPath + ", " + Files.exists(exfatPath));
             try {
                 System.err.println(p + ", " + Files.getLastModifiedTime(p));
             } catch (IOException e) {
-                e.printStackTrace();
+                Debug.printStackTrace(e);
             }
         });
+        fs.close();
     }
 }
-
-/* */

@@ -18,12 +18,12 @@ public class LzvnForkCompressionDetails {
     /**
      * The number of compressed chunks.
      */
-    private int chunkCount;
+    private final int chunkCount;
 
     /**
      * The list of chunk offsets.
      */
-    private List<Long> offsetArray = new ArrayList<>();
+    private final List<Long> offsetArray = new ArrayList<>();
 
     /**
      * Creates a new instance.

@@ -52,25 +52,24 @@ public class FatFileSystemType implements BlockDeviceFileSystemType<FatFileSyste
 
     @Override
     public boolean supports(PartitionTableEntry pte, byte[] firstSectors, FSBlockDeviceAPI devApi) {
-/*
-        if (pte != null) {
-            if (!pte.isValid())
-                return false;
+//        if (pte != null) {
+//            if (!pte.isValid())
+//                return false;
+//
+//            if (!(pte instanceof IBMPartitionTableEntry))
+//                return false;
+//
+//            final IBMPartitionTableEntry ipte = (IBMPartitionTableEntry) pte;
+//
+//            final IBMPartitionTypes type = ipte.getSystemIndicator();
+//            if ((type == IBMPartitionTypes.PARTTYPE_WIN95_FAT32) ||
+//                    (type == IBMPartitionTypes.PARTTYPE_WIN95_FAT32_LBA)) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        }
 
-            if (!(pte instanceof IBMPartitionTableEntry))
-                return false;
-
-            final IBMPartitionTableEntry ipte = (IBMPartitionTableEntry) pte;
-
-            final IBMPartitionTypes type = ipte.getSystemIndicator();
-            if ((type == IBMPartitionTypes.PARTTYPE_WIN95_FAT32) ||
-                    (type == IBMPartitionTypes.PARTTYPE_WIN95_FAT32_LBA)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-*/
         if (firstSectors.length < 512) {
             // Not enough data for detection
 Debug.printf(Level.FINE, "Not enough data for detection: %04x/%04x%n", firstSectors.length, 512);

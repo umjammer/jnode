@@ -91,19 +91,16 @@ Debug.println(e);
         }
     }
 
-    /* @see java.nio.file.attribute.PosixFileAttributes#owner() */
     @Override
     public UserPrincipal owner() {
         return null;
     }
 
-    /* @see java.nio.file.attribute.PosixFileAttributes#group() */
     @Override
     public GroupPrincipal group() {
         return null;
     }
 
-    /* @see java.nio.file.attribute.PosixFileAttributes#permissions() */
     @Override
     public Set<PosixFilePermission> permissions() {
         return isDirectory() ? PosixFilePermissions.fromString("rwxr-xr-x") : PosixFilePermissions.fromString("rw-r--r--");

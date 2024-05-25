@@ -46,7 +46,7 @@ public class FileAttribute {
 
     protected int size;
 
-    protected int blocksize;
+    protected int blockSize;
 
     protected int rdev;
 
@@ -110,12 +110,12 @@ public class FileAttribute {
         return this.size;
     }
 
-    public void setBlocksize(int x) {
-        this.blocksize = x;
+    public void setBlockSize(int x) {
+        this.blockSize = x;
     }
 
-    public int getBlocksize() {
-        return this.blocksize;
+    public int getBlockSize() {
+        return this.blockSize;
     }
 
     public void setRdev(int x) {

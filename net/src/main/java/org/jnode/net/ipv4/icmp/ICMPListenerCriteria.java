@@ -27,7 +27,7 @@ import org.jnode.net.ipv4.IPv4Address;
  */
 public class ICMPListenerCriteria implements ICMPConstants {
     IPv4Address src;
-    int icmp_type;
+    final int icmp_type;
 
     public static final int ANY_TYPE = -1;
 
@@ -49,11 +49,10 @@ public class ICMPListenerCriteria implements ICMPConstants {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof ICMPListenerCriteria)) {
+        if (!(obj instanceof ICMPListenerCriteria c)) {
             return false;
         }
 
-        ICMPListenerCriteria c = (ICMPListenerCriteria) obj;
         if (src != null && !src.equals(c.getSrc())) {
             return false;
         }

@@ -104,11 +104,7 @@ public class NTFSEntry implements FSEntry, FSEntryCreated, FSEntryLastChanged, F
         return id;
     }
 
-    /**
-     * Gets the name of this entry.
-     *
-     * @see org.jnode.fs.FSEntry#getName()
-     */
+    @Override
     public String getName() {
         if (name != null) {
             return name;
@@ -153,14 +149,13 @@ public class NTFSEntry implements FSEntry, FSEntryCreated, FSEntryLastChanged, F
         return name;
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getParent()
-     */
+    @Override
     public FSDirectory getParent() {
         // TODO Auto-generated method stub
         return null;
     }
 
+    @Override
     public long getCreated() throws IOException {
         if (getFileRecord().getStandardInformationAttribute() == null) {
             return 0;
@@ -169,6 +164,7 @@ public class NTFSEntry implements FSEntry, FSEntryCreated, FSEntryLastChanged, F
         }
     }
 
+    @Override
     public long getLastModified() throws IOException {
         if (getFileRecord().getStandardInformationAttribute() == null) {
             return 0;
@@ -177,6 +173,7 @@ public class NTFSEntry implements FSEntry, FSEntryCreated, FSEntryLastChanged, F
         }
     }
 
+    @Override
     public long getLastChanged() throws IOException {
         if (getFileRecord().getStandardInformationAttribute() == null) {
             return 0;
@@ -185,6 +182,7 @@ public class NTFSEntry implements FSEntry, FSEntryCreated, FSEntryLastChanged, F
         }
     }
 
+    @Override
     public long getLastAccessed() throws IOException {
         if (getFileRecord().getStandardInformationAttribute() == null) {
             return 0;
@@ -193,9 +191,7 @@ public class NTFSEntry implements FSEntry, FSEntryCreated, FSEntryLastChanged, F
         }
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#isFile()
-     */
+    @Override
     public boolean isFile() {
         if (indexEntry != null) {
             FileNameAttribute.Structure fileName = new FileNameAttribute.Structure(
@@ -206,9 +202,7 @@ public class NTFSEntry implements FSEntry, FSEntryCreated, FSEntryLastChanged, F
         }
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#isDirectory()
-     */
+    @Override
     public boolean isDirectory() {
         if (indexEntry != null) {
             FileNameAttribute.Structure fileName = new FileNameAttribute.Structure(
@@ -219,18 +213,16 @@ public class NTFSEntry implements FSEntry, FSEntryCreated, FSEntryLastChanged, F
         }
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#setName(java.lang.String)
-     */
+    @Override
     public void setName(String newName) {
         // TODO Auto-generated method stub
-
     }
 
     public void setCreated(long created) {
         // TODO: Implement write support.
     }
 
+    @Override
     public void setLastModified(long lastModified) {
         // TODO: Implement write support.
     }
@@ -239,9 +231,7 @@ public class NTFSEntry implements FSEntry, FSEntryCreated, FSEntryLastChanged, F
         // TODO: Implement write support.
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getFile()
-     */
+    @Override
     public FSFile getFile() {
         if (this.isFile()) {
             if (cachedFSObject == null) {
@@ -257,9 +247,7 @@ public class NTFSEntry implements FSEntry, FSEntryCreated, FSEntryLastChanged, F
         }
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getDirectory()
-     */
+    @Override
     public FSDirectory getDirectory() throws IOException {
         if (this.isDirectory()) {
             if (cachedFSObject == null) {
@@ -275,25 +263,19 @@ public class NTFSEntry implements FSEntry, FSEntryCreated, FSEntryLastChanged, F
         } else return null;
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getAccessRights()
-     */
+    @Override
     public FSAccessRights getAccessRights() {
         // TODO Auto-generated method stub
         return null;
     }
 
-    /**
-     * @see org.jnode.fs.FSObject#isValid()
-     */
+    @Override
     public boolean isValid() {
         // TODO Auto-generated method stub
         return true;
     }
 
-    /**
-     * @see org.jnode.fs.FSObject#getFileSystem()
-     */
+    @Override
     public FileSystem<?> getFileSystem() {
         return fs;
     }
@@ -319,8 +301,9 @@ public class NTFSEntry implements FSEntry, FSEntryCreated, FSEntryLastChanged, F
      * Indicate if the entry has been modified in memory (ie need to be saved)
      *
      * @return true if the entry need to be saved
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public boolean isDirty() throws IOException {
         return true;
     }
@@ -330,5 +313,4 @@ public class NTFSEntry implements FSEntry, FSEntryCreated, FSEntryLastChanged, F
         Object obj = indexEntry == null ? fileRecord : indexEntry;
         return super.toString() + '(' + obj + ')';
     }
-
 }

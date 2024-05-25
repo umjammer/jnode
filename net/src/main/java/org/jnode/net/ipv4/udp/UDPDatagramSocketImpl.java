@@ -45,48 +45,38 @@ public class UDPDatagramSocketImpl extends AbstractDatagramSocketImpl implements
     /**
      * Create a new instance
      * 
-     * @param protocol
+     * @param protocol the protocol
      */
     public UDPDatagramSocketImpl(UDPProtocol protocol) {
         this.protocol = protocol;
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#bind(int, java.net.InetAddress)
-     */
+    @Override
     protected void doBind(int lport, InetAddress laddr) throws SocketException {
         protocol.bind(this);
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#close()
-     */
+    @Override
     protected void doClose() {
         protocol.unbind(this);
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#getTTL()
-     */
+    @Override
     protected byte getTTL() throws IOException {
         // TODO Auto-generated method stub
         return 0;
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#receive(java.net.DatagramPacket)
-     */
-    protected void onReceive(DatagramPacket p, SocketBuffer skbuf) throws IOException {
-        final IPv4Header ipHdr = (IPv4Header) skbuf.getNetworkLayerHeader();
-        final UDPHeader udpHdr = (UDPHeader) skbuf.getTransportLayerHeader();
-        p.setData(skbuf.toByteArray(), 0, skbuf.getSize());
+    @Override
+    protected void onReceive(DatagramPacket p, SocketBuffer skBuf) throws IOException {
+        final IPv4Header ipHdr = (IPv4Header) skBuf.getNetworkLayerHeader();
+        final UDPHeader udpHdr = (UDPHeader) skBuf.getTransportLayerHeader();
+        p.setData(skBuf.toByteArray(), 0, skBuf.getSize());
         p.setAddress(ipHdr.getSource().toInetAddress());
         p.setPort(udpHdr.getSrcPort());
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#send(java.net.DatagramPacket)
-     */
+    @Override
     protected void send(DatagramPacket p) throws IOException {
 
         final IPv4Address dstAddress = new IPv4Address(p.getAddress());
@@ -101,20 +91,17 @@ public class UDPDatagramSocketImpl extends AbstractDatagramSocketImpl implements
         // srcPort issue
         udpHdr = new UDPHeader(srcPort, p.getPort(), p.getLength());
 
-        final SocketBuffer skbuf = new SocketBuffer(p.getData(), p.getOffset(), p.getLength());
-        skbuf.setDevice(getDevice());
-        protocol.send(ipHdr, udpHdr, skbuf);
+        final SocketBuffer skBuf = new SocketBuffer(p.getData(), p.getOffset(), p.getLength());
+        skBuf.setDevice(getDevice());
+        protocol.send(ipHdr, udpHdr, skBuf);
     }
 
     public void setLocalPort(int localPort) {
         this.localPort = localPort;
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#setTTL(byte)
-     */
+    @Override
     protected void setTTL(byte ttl) throws IOException {
         // TODO Auto-generated method stub
-
     }
 }

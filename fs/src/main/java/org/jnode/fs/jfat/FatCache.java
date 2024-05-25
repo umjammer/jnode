@@ -21,6 +21,7 @@
 package org.jnode.fs.jfat;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.nio.ByteBuffer;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -34,12 +35,12 @@ public class FatCache {
 
     private final Fat fat;
     private final BlockDeviceAPI api;
-    private final long fatsize;
-    private final int nrfats;
+    private final long fatSize;
+    private final int nrFats;
 
-    private int elementSize;
+    private final int elementSize;
 
-    private CacheMap map;
+    private final CacheMap map;
 
     private long access = 0;
     private long hit = 0;
@@ -47,9 +48,9 @@ public class FatCache {
     public FatCache(Fat fat, int cacheSize, int elementSize) {
         this.fat = fat;
         this.api = fat.getApi();
-        this.fatsize =
+        this.fatSize =
             fat.getBootSector().getSectorsPerFat() * fat.getBootSector().getBytesPerSector();
-        this.nrfats = fat.getBootSector().getNrFats();
+        this.nrFats = fat.getBootSector().getNrFats();
         this.elementSize = elementSize;
 
         // allocate the LinkedHashMap
@@ -70,25 +71,17 @@ public class FatCache {
     }
 
     private CacheElement put(long address) throws IOException {
-        /**
-         * get a CacheElement from the stack object pool
-         */
+        // get a CacheElement from the stack object pool
         CacheElement c = map.pop();
 
-        /**
-         * read the element from the device
-         */
+        // read the element from the device
         c.read(address);
 
-        /**
-         * and insert the element into the LinkedHashMap
-         */
+        // and insert the element into the LinkedHashMap
         map.put(c);
 
-        /**
-         * stack "must" contains at least one entry the placeholder ... so let
-         * it throw an exception if this is false
-         */
+        // stack "must" contains at least one entry the placeholder ... so let
+        // it throw an exception if this is false
         CacheElement e = map.peek();
         // if an element was discarded from the LRU cache
         // now we can free it ... this will send the element
@@ -216,6 +209,7 @@ public class FatCache {
     }
 
     private class CacheMap extends LinkedHashMap<CacheKey, CacheElement> {
+        @Serial
         private static final long serialVersionUID = 1L;
         private final int cacheSize;
         private final CacheKey key = new CacheKey();
@@ -265,13 +259,12 @@ public class FatCache {
         /**
          * discard the eldest element when the cache is full
          */
+        @Override
         protected boolean removeEldestEntry(Map.Entry<CacheKey, CacheElement> eldest) {
             boolean remove = (size() > cacheSize);
 
-            /**
-             * before going to discard the eldest push it back on the stacked
-             * object pool
-             */
+            // before going to discard the eldest push it back on the stacked
+            // object pool
             if (remove)
                 push(eldest.getValue());
 
@@ -333,7 +326,7 @@ public class FatCache {
         }
 
         public int hashCode() {
-            return (int) (key ^ (key >>> 32));
+            return Long.hashCode(key);
         }
 
         public boolean equals(Object obj) {
@@ -354,7 +347,7 @@ public class FatCache {
          * CacheElements
          */
         private boolean dirty;
-        private CacheKey address;
+        private final CacheKey address;
         private final ByteBuffer elem;
 
         private CacheElement() {
@@ -380,7 +373,7 @@ public class FatCache {
 
         /**
          * some more work is needed in read and write to handle the multiple fat
-         * availability we have to correcly handle the exception to be sure that
+         * availability we have to correctly handle the exception to be sure that
          * if we have at least a correct fat we get it - gvt
          */
         private void read(long address) throws IOException {
@@ -401,9 +394,9 @@ public class FatCache {
 
             long addr = address.get() * elementSize;
 
-            for (int i = 0; i < nrfats; i++) {
+            for (int i = 0; i < nrFats; i++) {
                 api.write(addr, elem);
-                addr += fatsize;
+                addr += fatSize;
                 elem.clear();
             }
         }

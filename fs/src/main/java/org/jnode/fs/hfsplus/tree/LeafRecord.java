@@ -26,7 +26,7 @@ import org.jnode.util.BigEndian;
 
 public class LeafRecord extends AbstractNodeRecord {
 
-    private int type;
+    private final int type;
 
     public LeafRecord(final Key key, final byte[] recordData) {
         this.key = key;
@@ -52,17 +52,13 @@ public class LeafRecord extends AbstractNodeRecord {
     }
 
     public String getTypeString() {
-        switch (type) {
-            case CatalogFolder.RECORD_TYPE_FOLDER:
-                return "Folder";
-            case CatalogFolder.RECORD_TYPE_FOLDER_THREAD:
-                return "FolderThread";
-            case CatalogFile.RECORD_TYPE_FILE:
-                return "File";
-            case CatalogFile.RECORD_TYPE_FILE_THREAD:
-                return "FileThread";
-        }
+        return switch (type) {
+            case CatalogFolder.RECORD_TYPE_FOLDER -> "Folder";
+            case CatalogFolder.RECORD_TYPE_FOLDER_THREAD -> "FolderThread";
+            case CatalogFile.RECORD_TYPE_FILE -> "File";
+            case CatalogFile.RECORD_TYPE_FILE_THREAD -> "FileThread";
+            default -> "Unknown-" + type;
+        };
 
-        return "Unknown-" + type;
     }
 }

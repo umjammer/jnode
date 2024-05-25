@@ -20,7 +20,6 @@
 
 package org.jnode.fs.hfsplus.catalog;
 
-import java.lang.System.Logger.Level;
 import java.lang.System.Logger;
 import org.jnode.fs.hfsplus.tree.AbstractIndexNode;
 import org.jnode.fs.hfsplus.tree.NodeDescriptor;
@@ -32,8 +31,8 @@ public class CatalogIndexNode extends AbstractIndexNode<CatalogKey> {
     /**
      * Create a new node.
      *
-     * @param descriptor
-     * @param nodeSize
+     * @param descriptor the descriptor
+     * @param nodeSize the nodeSize
      */
     public CatalogIndexNode(NodeDescriptor descriptor, final int nodeSize) {
         super(descriptor, nodeSize);
@@ -42,8 +41,8 @@ public class CatalogIndexNode extends AbstractIndexNode<CatalogKey> {
     /**
      * Create node from existing data.
      *
-     * @param nodeData
-     * @param nodeSize
+     * @param nodeData the nodeData
+     * @param nodeSize the nodeSize
      */
     public CatalogIndexNode(final byte[] nodeData, final int nodeSize) {
         super(nodeData, nodeSize);

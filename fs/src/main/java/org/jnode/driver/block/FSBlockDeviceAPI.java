@@ -44,5 +44,4 @@ public interface FSBlockDeviceAPI extends BlockDeviceAPI {
      * @return A PartitionTableEntry or null if no partition table entry exists.
      */
     PartitionTableEntry getPartitionTableEntry();
-
 }

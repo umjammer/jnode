@@ -43,11 +43,13 @@ public class AbstractDHCPClient extends AbstractBOOTPClient {
     /**
      * Create a DHCP discovery packet
      */
+    @Override
     protected DatagramPacket createRequestPacket(BOOTPHeader hdr) throws IOException {
         DHCPMessage msg = new DHCPMessage(hdr, DHCPMessage.DHCPDISCOVER);
         return msg.toDatagramPacket();
     }
 
+    @Override
     protected boolean processResponse(int transactionID, DatagramPacket packet) throws IOException {
         DHCPMessage msg = new DHCPMessage(packet);
         BOOTPHeader hdr = msg.getHeader();

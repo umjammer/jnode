@@ -21,7 +21,7 @@
 package org.jnode.net;
 
 /**
- * Headers of a any OSI layer must implement this interface.
+ * Headers of an any OSI layer must implement this interface.
  * 
  * @author epr
  * @see org.jnode.net.LinkLayerHeader
@@ -38,7 +38,7 @@ public interface LayerHeader {
     /**
      * Prefix this header to the front of the given buffer
      * 
-     * @param skbuf
+     * @param skbuf the skbuf
      */
     void prefixTo(SocketBuffer skbuf);
 

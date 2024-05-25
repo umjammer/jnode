@@ -30,7 +30,6 @@ import org.jnode.partitions.ibm.IBMPartitionTable;
 import org.jnode.util.LittleEndian;
 import org.jnode.util.NumberUtils;
 
-import vavi.util.Debug;
 import vavi.util.StringUtil;
 
 /**
@@ -52,7 +51,7 @@ public class ATBootSector implements BootSector {
     private static final String SFAT16 = "FAT16";
     private static final String SFAT32 = "FAT32";
 
-    private byte[] sector;
+    private final byte[] sector;
     private int type;
     private boolean dirty;
 
@@ -136,7 +135,7 @@ log.log(Level.DEBUG, "bpb:\n" + this);
     /* @see org.jnode.fs.jfat.BootSector#write(org.jnode.driver.block.BlockDeviceAPI, long) */
     @Override
     public synchronized void write(BlockDeviceAPI device, long offset) throws IOException {
-        //encode();//TODO: Notice here once (Changed Now)
+        // encode();//TODO: Notice here once (Changed Now)
         device.write(offset, ByteBuffer.wrap(sector));
 
         dirty = false;

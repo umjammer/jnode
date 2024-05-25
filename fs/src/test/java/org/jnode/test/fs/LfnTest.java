@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import org.jnode.util.NumberUtils;
+import vavi.util.Debug;
+
 
 /**
  * @author gbin
@@ -84,13 +86,10 @@ public class LfnTest {
             if (!toTest.isDirectory()) {
                 System.out.print("MiniDump content :");
                 byte[] raw = new byte[4];
-                FileInputStream fis;
-                try {
-                    fis = new FileInputStream(directory + "/" + s);
+                try (FileInputStream fis = new FileInputStream(directory + "/" + s)) {
                     fis.read(raw);
                 } catch (IOException | SecurityException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                    Debug.printStackTrace(e1);
                 }
 
                 System.out.println("hexdata = " + NumberUtils.hex(raw));

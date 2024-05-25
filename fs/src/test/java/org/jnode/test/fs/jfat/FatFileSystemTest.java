@@ -72,13 +72,15 @@ public class FatFileSystemTest {
         FatFileSystem fs = type.create(device, true);
 
         String expectedStructure =
-            "vol: total:-1 free:-1\n" +
-                "  ; \n" +
-                "    dir1; \n" +
-                "      test.txt; 18; 80aeb09eb86de4c4a7d1f877451dc2a2\n" +
-                "    dir2; \n" +
-                "      test.txt; 18; 1b20f937ce4a3e9241cc907086169ad7\n" +
-                "    test.txt; 18; fd99fcfc86ba71118bd64c2d9f4b54a4\n";
+                """
+                        vol: total:-1 free:-1
+                          ;\s
+                            dir1;\s
+                              test.txt; 18; 80aeb09eb86de4c4a7d1f877451dc2a2
+                            dir2;\s
+                              test.txt; 18; 1b20f937ce4a3e9241cc907086169ad7
+                            test.txt; 18; fd99fcfc86ba71118bd64c2d9f4b54a4
+                        """;
 
         DataStructureAsserts.assertStructure(fs, expectedStructure);
     }
@@ -91,13 +93,15 @@ public class FatFileSystemTest {
         FatFileSystem fs = type.create(device, true);
 
         String expectedStructure =
-            "vol: total:-1 free:-1\n" +
-                "  ; \n" +
-                "    dir1; \n" +
-                "      test.txt; 18; 80aeb09eb86de4c4a7d1f877451dc2a2\n" +
-                "    dir2; \n" +
-                "      test.txt; 18; 1b20f937ce4a3e9241cc907086169ad7\n" +
-                "    test.txt; 18; fd99fcfc86ba71118bd64c2d9f4b54a4\n";
+                """
+                        vol: total:-1 free:-1
+                          ;\s
+                            dir1;\s
+                              test.txt; 18; 80aeb09eb86de4c4a7d1f877451dc2a2
+                            dir2;\s
+                              test.txt; 18; 1b20f937ce4a3e9241cc907086169ad7
+                            test.txt; 18; fd99fcfc86ba71118bd64c2d9f4b54a4
+                        """;
 
         DataStructureAsserts.assertStructure(fs, expectedStructure);
     }

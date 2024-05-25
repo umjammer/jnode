@@ -20,6 +20,7 @@
 
 package org.jnode.net;
 
+import java.io.Serial;
 import java.security.BasicPermission;
 
 /**
@@ -27,18 +28,19 @@ import java.security.BasicPermission;
  */
 public class NetPermission extends BasicPermission {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * @param name
+     * @param name the name
      */
     public NetPermission(String name) {
         super(name);
     }
 
     /**
-     * @param name
-     * @param actions
+     * @param name the name
+     * @param actions the actions
      */
     public NetPermission(String name, String actions) {
         super(name, actions);

@@ -20,7 +20,6 @@
 
 package org.jnode.fs.jfat;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Vector;
@@ -45,7 +44,7 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
     private FatDirectory parent;
     private FatChain chain;
 
-    /*
+    /**
      * internal constructor
      */
     protected FatEntry(FatFileSystem fs) {
@@ -73,6 +72,7 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
         this.chain = new FatChain(getFatFileSystem(), startCluster);
     }
 
+    @Override
     public boolean isDirty() {
         return (entry.isDirty() || chain.isDirty());
     }
@@ -97,7 +97,7 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
         getChain().freeAllClusters();
     }
 
-    public void dumpChain(String fileName) throws FileNotFoundException, IOException {
+    public void dumpChain(String fileName) throws IOException {
         chain.dump(fileName);
     }
 
@@ -110,10 +110,12 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
         return Integer.toString(entry.getIndex());
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) throws IOException {
         this.name = name;
     }
@@ -133,14 +135,17 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
         return entry.getIndex();
     }
 
+    @Override
     public long getCreated() throws IOException {
         return entry.getCreated();
     }
 
+    @Override
     public long getLastModified() throws IOException {
         return entry.getLastModified();
     }
 
+    @Override
     public long getLastAccessed() throws IOException {
         return entry.getLastAccessed();
     }
@@ -149,6 +154,7 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
         entry.setCreated(created);
     }
 
+    @Override
     public void setLastModified(long lastModified) throws IOException {
         entry.setLastModified(lastModified);
     }
@@ -173,14 +179,17 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
         return getChain().getStartCluster();
     }
 
+    @Override
     public FatDirectory getParent() {
         return parent;
     }
 
+    @Override
     public boolean isFile() {
         return false;
     }
 
+    @Override
     public boolean isDirectory() {
         return false;
     }
@@ -203,19 +212,17 @@ public class FatEntry extends FatObject implements FSEntry, FSEntryCreated, FSEn
         }
     }
 
+    @Override
     public FSDirectory getDirectory() {
         throw new UnsupportedOperationException("getDirectory");
     }
 
+    @Override
     public FSFile getFile() {
         throw new UnsupportedOperationException("getFile");
     }
 
-    /**
-     * Gets the accessrights for this entry.
-     *
-     * @throws IOException
-     */
+    @Override
     public FSAccessRights getAccessRights() throws IOException {
         throw new UnsupportedOperationException("not implemented yet");
     }

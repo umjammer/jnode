@@ -20,6 +20,7 @@
 
 package org.jnode.net.ethernet;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.StringTokenizer;
 
@@ -34,6 +35,7 @@ import org.jnode.util.NumberUtils;
  */
 public class EthernetAddress implements HardwareAddress, Serializable {
 
+    @Serial
     private static final long serialVersionUID = -4125730887819599814L;
 
     private final byte[] address;
@@ -43,8 +45,8 @@ public class EthernetAddress implements HardwareAddress, Serializable {
     /**
      * Create a new instance
      * 
-     * @param address
-     * @param offset
+     * @param address the address
+     * @param offset the offset
      */
     public EthernetAddress(byte[] address, int offset) throws IllegalArgumentException {
         if (offset + length > address.length) {
@@ -57,8 +59,8 @@ public class EthernetAddress implements HardwareAddress, Serializable {
     /**
      * Create a new instance
      * 
-     * @param skbuf
-     * @param offset
+     * @param skbuf the skbuf
+     * @param offset the offset
      */
     public EthernetAddress(SocketBuffer skbuf, int offset) throws IllegalArgumentException {
         this.address = new byte[length];
@@ -68,7 +70,7 @@ public class EthernetAddress implements HardwareAddress, Serializable {
     /**
      * Create a new instance
      * 
-     * @param addressStr
+     * @param addressStr the addressStr
      */
     public EthernetAddress(String addressStr) throws IllegalArgumentException {
         final StringTokenizer tok = new StringTokenizer(addressStr, "-:");
@@ -88,11 +90,11 @@ public class EthernetAddress implements HardwareAddress, Serializable {
     /**
      * Create a new instance
      * 
-     * @param b0
-     * @param b1
-     * @param b2
-     * @param b3
-     * @param b5
+     * @param b0 the b0
+     * @param b1 the b1
+     * @param b2 the b2
+     * @param b3 the b3
+     * @param b5 the b5
      */
     public EthernetAddress(byte b0, byte b1, byte b2, byte b3, byte b4, byte b5) {
         address = new byte[length];
@@ -107,7 +109,7 @@ public class EthernetAddress implements HardwareAddress, Serializable {
     /**
      * Is this address equal to the given address.
      * 
-     * @param o
+     * @param o the o
      */
     public boolean equals(EthernetAddress o) {
         for (int i = 0; i < length; i++) {
@@ -121,8 +123,9 @@ public class EthernetAddress implements HardwareAddress, Serializable {
     /**
      * Is this address equal to the given address.
      * 
-     * @param o
+     * @param o the o
      */
+    @Override
     public boolean equals(HardwareAddress o) {
         if (o instanceof EthernetAddress) {
             return equals((EthernetAddress) o);
@@ -134,7 +137,7 @@ public class EthernetAddress implements HardwareAddress, Serializable {
     /**
      * Is this address equal to the given address.
      * 
-     * @param o
+     * @param o the o
      */
     public boolean equals(Object o) {
         if (o instanceof EthernetAddress) {
@@ -147,6 +150,7 @@ public class EthernetAddress implements HardwareAddress, Serializable {
     /**
      * Gets the length of this address in bytes
      */
+    @Override
     public final int getLength() {
         return length;
     }
@@ -154,8 +158,9 @@ public class EthernetAddress implements HardwareAddress, Serializable {
     /**
      * Gets the address-byte at a given index
      * 
-     * @param index
+     * @param index the index
      */
+    @Override
     public final byte get(int index) {
         return address[index];
     }
@@ -163,9 +168,10 @@ public class EthernetAddress implements HardwareAddress, Serializable {
     /**
      * Write this address to a given offset in the given buffer
      * 
-     * @param skbuf
-     * @param skbufOffset
+     * @param skbuf the skbuf
+     * @param skbufOffset the skbufOffset
      */
+    @Override
     public void writeTo(SocketBuffer skbuf, int skbufOffset) {
         skbuf.set(skbufOffset, address, 0, length);
     }
@@ -173,8 +179,8 @@ public class EthernetAddress implements HardwareAddress, Serializable {
     /**
      * Write this address to a given offset in the given buffer
      * 
-     * @param dst
-     * @param dstOffset
+     * @param dst the dst
+     * @param dstOffset the dstOffset
      */
     public void writeTo(byte[] dst, int dstOffset) {
         System.arraycopy(address, 0, dst, dstOffset, length);
@@ -183,6 +189,7 @@ public class EthernetAddress implements HardwareAddress, Serializable {
     /**
      * Is this a broadcast address?
      */
+    @Override
     public boolean isBroadcast() {
         for (int i = 0; i < length; i++) {
             if ((0xFF & address[i]) != 0xFF) {
@@ -195,6 +202,7 @@ public class EthernetAddress implements HardwareAddress, Serializable {
     /**
      * Gets the default broadcast address for this kind of hardware address.
      */
+    @Override
     public HardwareAddress getDefaultBroadcastAddress() {
         return BROADCAST;
     }
@@ -202,6 +210,7 @@ public class EthernetAddress implements HardwareAddress, Serializable {
     /**
      * Gets the type of this address. This type is used by (e.g.) ARP.
      */
+    @Override
     public int getType() {
         return 1; // For ethernet
     }

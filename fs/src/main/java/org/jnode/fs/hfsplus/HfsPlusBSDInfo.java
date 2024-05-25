@@ -59,12 +59,12 @@ public class HfsPlusBSDInfo {
      */
     public static final int USER_FLAG_HIDDEN = 0x8000;
 
-    private long ownerID;
-    private long groupID;
-    private int adminFlags;
-    private int ownerFlags;
-    private int fileMode;
-    private long special;
+    private final long ownerID;
+    private final long groupID;
+    private final int adminFlags;
+    private final int ownerFlags;
+    private final int fileMode;
+    private final long special;
 
     public HfsPlusBSDInfo(byte[] data, int offset) {
         ownerID = BigEndian.getUInt32(data, offset);

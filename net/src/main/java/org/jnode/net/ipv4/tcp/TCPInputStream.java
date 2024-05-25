@@ -40,7 +40,7 @@ public class TCPInputStream extends InputStream {
     /**
      * Create a new instance
      * 
-     * @param controlBlock
+     * @param controlBlock the controlBlock
      */
     public TCPInputStream(TCPControlBlock controlBlock, TCPSocketImpl impl) {
         this.controlBlock = controlBlock;
@@ -48,9 +48,7 @@ public class TCPInputStream extends InputStream {
         this.closed = false;
     }
 
-    /**
-     * @see java.io.InputStream#available()
-     */
+    @Override
     public final int available() throws IOException {
         if (closed) {
             return 0;
@@ -59,9 +57,7 @@ public class TCPInputStream extends InputStream {
         }
     }
 
-    /**
-     * @see java.io.InputStream#close()
-     */
+    @Override
     public final void close() throws IOException {
         if (!this.closed) {
             this.closed = true;
@@ -70,9 +66,7 @@ public class TCPInputStream extends InputStream {
         }
     }
 
-    /**
-     * @see java.io.InputStream#read()
-     */
+    @Override
     public final int read() throws IOException {
         final byte[] buf = new byte[1];
         if (read(buf, 0, 1) == 1) {
@@ -82,9 +76,7 @@ public class TCPInputStream extends InputStream {
         }
     }
 
-    /**
-     * @see java.io.InputStream#read(byte[], int, int)
-     */
+    @Override
     public final int read(byte[] b, int off, int len) throws IOException {
         if (closed) {
             return -1;
@@ -93,11 +85,8 @@ public class TCPInputStream extends InputStream {
         }
     }
 
-    /**
-     * @see java.io.InputStream#read(byte[])
-     */
+    @Override
     public final int read(byte[] b) throws IOException {
         return read(b, 0, b.length);
     }
-
 }

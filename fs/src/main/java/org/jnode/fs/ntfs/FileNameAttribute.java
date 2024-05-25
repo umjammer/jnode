@@ -33,7 +33,7 @@ public final class FileNameAttribute extends NTFSResidentAttribute {
 
         /**
          * This is the largest namespace. It is case sensitive and allows all Unicode characters except for: '\0' and
-         * '/'. Beware that in WinNT/2k files which eg have the same name except for their case will not be
+         * '/'. Beware that in WinNT/2k files which e.g. have the same name except for their case will not be
          * distinguished by the standard utilities and thus a "del filename" will delete both "filename" and "fileName"
          * without warning.
          */
@@ -63,8 +63,8 @@ public final class FileNameAttribute extends NTFSResidentAttribute {
     private final Structure fileNameStructure;
 
     /**
-     * @param fileRecord
-     * @param offset
+     * @param fileRecord the fileRecord
+     * @param offset the offset
      */
     public FileNameAttribute(FileRecord fileRecord, int offset) {
         super(fileRecord, offset);
@@ -124,6 +124,7 @@ public final class FileNameAttribute extends NTFSResidentAttribute {
     /**
      * Gets the flags.
      */
+    @Override
     public int getFlags() {
         return fileNameStructure.getFlags();
     }
@@ -141,7 +142,7 @@ public final class FileNameAttribute extends NTFSResidentAttribute {
     /**
      * Gets the creation time.
      *
-     * @return the creation time, as a 64-bit NTFS filetime value.
+     * @return the creation time, as a 64-bit NTFS file-time value.
      */
     public long getCreationTime() {
         return fileNameStructure.getCreationTime();
@@ -150,7 +151,7 @@ public final class FileNameAttribute extends NTFSResidentAttribute {
     /**
      * Gets the modification time.
      *
-     * @return the modification time, as a 64-bit NTFS filetime value.
+     * @return the modification time, as a 64-bit NTFS file-time value.
      */
     public long getModificationTime() {
         return fileNameStructure.getModificationTime();
@@ -159,7 +160,7 @@ public final class FileNameAttribute extends NTFSResidentAttribute {
     /**
      * Gets the time when the MFT record last changed.
      *
-     * @return the MFT change time, as a 64-bit NTFS filetime value.
+     * @return the MFT change time, as a 64-bit NTFS file-time value.
      */
     public long getMftChangeTime() {
         return fileNameStructure.getMftChangeTime();
@@ -168,7 +169,7 @@ public final class FileNameAttribute extends NTFSResidentAttribute {
     /**
      * Gets the access time.
      *
-     * @return the access time, as a 64-bit NTFS filetime value.
+     * @return the access time, as a 64-bit NTFS file-time value.
      */
     public long getAccessTime() {
         return fileNameStructure.getAccessTime();
@@ -192,7 +193,7 @@ public final class FileNameAttribute extends NTFSResidentAttribute {
          */
         public String getFileName() {
             if (name == null) {
-                //XXX: For Java 6, should use the version that accepts a Charset.
+                // XXX: For Java 6, should use the version that accepts a Charset.
                 name = new String(getFileNameAsByteArray(), StandardCharsets.UTF_16LE);
             }
             return name;
@@ -259,7 +260,7 @@ public final class FileNameAttribute extends NTFSResidentAttribute {
         /**
          * Gets the filename namespace.
          *
-         * @return
+         * @return the namespace
          * @see NameSpace
          */
         public int getNameSpace() {
@@ -269,7 +270,7 @@ public final class FileNameAttribute extends NTFSResidentAttribute {
         /**
          * Gets the creation time.
          *
-         * @return the creation time, as a 64-bit NTFS filetime value.
+         * @return the creation time, as a 64-bit NTFS file-time value.
          */
         public long getCreationTime() {
             return getInt64(0x08);
@@ -278,7 +279,7 @@ public final class FileNameAttribute extends NTFSResidentAttribute {
         /**
          * Gets the modification time.
          *
-         * @return the modification time, as a 64-bit NTFS filetime value.
+         * @return the modification time, as a 64-bit NTFS file-time value.
          */
         public long getModificationTime() {
             return getInt64(0x10);
@@ -287,7 +288,7 @@ public final class FileNameAttribute extends NTFSResidentAttribute {
         /**
          * Gets the time when the MFT record last changed.
          *
-         * @return the MFT change time, as a 64-bit NTFS filetime value.
+         * @return the MFT change time, as a 64-bit NTFS file-time value.
          */
         public long getMftChangeTime() {
             return getInt64(0x18);
@@ -296,7 +297,7 @@ public final class FileNameAttribute extends NTFSResidentAttribute {
         /**
          * Gets the access time.
          *
-         * @return the access time, as a 64-bit NTFS filetime value.
+         * @return the access time, as a 64-bit NTFS file-time value.
          */
         public long getAccessTime() {
             return getInt64(0x20);

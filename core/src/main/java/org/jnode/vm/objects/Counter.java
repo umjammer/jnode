@@ -55,6 +55,7 @@ public final class Counter extends Statistic implements Comparable<Counter> {
         return counter;
     }
 
+    @Override
     public Object getValue() {
         return counter;
     }
@@ -80,9 +81,7 @@ public final class Counter extends Statistic implements Comparable<Counter> {
         counter += increment;
     }
 
-    /**
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
+    @Override
     public int compareTo(Counter o) {
         if (o.counter < this.counter) {
             return 1;
@@ -92,16 +91,8 @@ public final class Counter extends Statistic implements Comparable<Counter> {
         return 0;
     }
 
-    /**
-     * Convert to a String representation
-     *
-     * @return String
-     * @see java.lang.Object#toString()
-     */
+    @Override
     public String toString() {
-        String sb = getName() + is +
-                counter;
-
-        return sb;
+        return getName() + is + counter;
     }
 }

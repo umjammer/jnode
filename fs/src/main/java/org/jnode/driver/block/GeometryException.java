@@ -21,6 +21,8 @@
 package org.jnode.driver.block;
 
 import java.io.IOException;
+import java.io.Serial;
+
 
 /**
  * 
@@ -28,6 +30,7 @@ import java.io.IOException;
  */
 public class GeometryException extends IOException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public GeometryException(String message) {

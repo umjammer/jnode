@@ -20,6 +20,7 @@
 
 package org.jnode.driver.net;
 
+import java.io.Serial;
 import java.net.SocketException;
 
 /**
@@ -27,6 +28,7 @@ import java.net.SocketException;
  */
 public class NetworkException extends SocketException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -37,8 +39,8 @@ public class NetworkException extends SocketException {
     }
 
     /**
-     * @param message
-     * @param cause
+     * @param message the message
+     * @param cause the cause
      */
     public NetworkException(String message, Throwable cause) {
         super(message);
@@ -46,7 +48,7 @@ public class NetworkException extends SocketException {
     }
 
     /**
-     * @param cause
+     * @param cause the cause
      */
     public NetworkException(Throwable cause) {
         super();
@@ -54,7 +56,7 @@ public class NetworkException extends SocketException {
     }
 
     /**
-     * @param s
+     * @param s the s
      */
     public NetworkException(String s) {
         super(s);

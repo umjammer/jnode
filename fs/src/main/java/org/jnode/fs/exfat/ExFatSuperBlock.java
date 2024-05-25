@@ -35,7 +35,7 @@ public final class ExFatSuperBlock extends AbstractFSObject {
      */
     private static final int SIZE = 512;
 
-    private static final String OEM_NAME = "EXFAT   "; //NOI18N
+    private static final String OEM_NAME = "EXFAT   ";
 
     private final DeviceAccess da;
 

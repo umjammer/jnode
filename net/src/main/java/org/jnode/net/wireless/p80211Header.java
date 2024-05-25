@@ -47,13 +47,13 @@ public class p80211Header {
     /**
      * Initialize this instance.
      * 
-     * @param frameControl
-     * @param durationId
-     * @param address1
-     * @param address2
-     * @param address3
-     * @param sequenceControl
-     * @param address4
+     * @param frameControl the frameControl
+     * @param durationId the durationId
+     * @param address1 the address1
+     * @param address2 the address2
+     * @param address3 the address3
+     * @param sequenceControl the sequenceControl
+     * @param address4 the address4
      */
     public p80211Header(int frameControl, int durationId, EthernetAddress address1,
             EthernetAddress address2, EthernetAddress address3, int sequenceControl,
@@ -70,16 +70,16 @@ public class p80211Header {
     /**
      * Create a new instance
      * 
-     * @param skbuf
+     * @param skBuf the socket buffer
      */
-    public p80211Header(SocketBuffer skbuf) {
-        this.frameControl = skbuf.get16(0);
-        this.durationId = skbuf.get16(2);
-        this.address1 = new EthernetAddress(skbuf, 4);
-        this.address2 = new EthernetAddress(skbuf, 10);
-        this.address3 = new EthernetAddress(skbuf, 16);
-        this.sequenceControl = skbuf.get16(22);
-        this.address4 = new EthernetAddress(skbuf, 24);
+    public p80211Header(SocketBuffer skBuf) {
+        this.frameControl = skBuf.get16(0);
+        this.durationId = skBuf.get16(2);
+        this.address1 = new EthernetAddress(skBuf, 4);
+        this.address2 = new EthernetAddress(skBuf, 10);
+        this.address3 = new EthernetAddress(skBuf, 16);
+        this.sequenceControl = skBuf.get16(22);
+        this.address4 = new EthernetAddress(skBuf, 24);
     }
 
     /**
@@ -92,17 +92,17 @@ public class p80211Header {
     /**
      * Prefix this header to the front of the given buffer
      * 
-     * @param skbuf
+     * @param skBuf the socket buffer
      */
-    public void prefixTo(SocketBuffer skbuf) {
-        skbuf.insert(getLength());
-        skbuf.set16(0, frameControl);
-        skbuf.set16(2, durationId);
-        address1.writeTo(skbuf, 4);
-        address2.writeTo(skbuf, 10);
-        address3.writeTo(skbuf, 16);
-        skbuf.set16(22, sequenceControl);
-        address4.writeTo(skbuf, 24);
+    public void prefixTo(SocketBuffer skBuf) {
+        skBuf.insert(getLength());
+        skBuf.set16(0, frameControl);
+        skBuf.set16(2, durationId);
+        address1.writeTo(skBuf, 4);
+        address2.writeTo(skBuf, 10);
+        address3.writeTo(skBuf, 16);
+        skBuf.set16(22, sequenceControl);
+        address4.writeTo(skBuf, 24);
     }
 
     /**

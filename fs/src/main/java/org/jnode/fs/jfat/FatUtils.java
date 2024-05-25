@@ -59,12 +59,12 @@ public class FatUtils {
     }
 
     public static long getMinDateTime() {
-        //dos Minimum DateTime is: January 1, 1980 00:00:00
+        // dos Minimum DateTime is: January 1, 1980 00:00:00
         return TimeUtils.time2millis(1980, 1, 1, 0, 0, 0);
     }
 
     public static long getMaxDateTime() {
-        //dos Maximum DateTime is: December 31, 2107 23:59:58
+        // dos Maximum DateTime is: December 31, 2107 23:59:58
         return TimeUtils.time2millis(2107, 12, 31, 23, 59, 58);
     }
 

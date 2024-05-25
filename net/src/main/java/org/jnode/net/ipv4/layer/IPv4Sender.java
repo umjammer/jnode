@@ -50,7 +50,7 @@ public class IPv4Sender implements IPv4Constants, EthernetConstants {
     /** The ARP service */
     private ARPNetworkLayer arp;
     /** Timeout for arp requests */
-    private long arpTimeout = 5000;
+    private final long arpTimeout = 5000;
     /** Last identification number */
     private int lastId = 1;
     /** My statistics */
@@ -59,7 +59,7 @@ public class IPv4Sender implements IPv4Constants, EthernetConstants {
     /**
      * Create a new instance
      * 
-     * @param ipNetworkLayer
+     * @param ipNetworkLayer the ipNetworkLayer
      */
     public IPv4Sender(IPv4NetworkLayer ipNetworkLayer) {
         this.rt = ipNetworkLayer.getRoutingTable();
@@ -74,12 +74,12 @@ public class IPv4Sender implements IPv4Constants, EthernetConstants {
      * dstAddress. <p/> All other header fields are set, unless they have been
      * set before. <p/> The following fields are always set (also when set
      * before): version, hdrlength, identification, fragmentOffset, checksum
-     * <p/> If the device attribute of the skbuf has been set, the packet will
-     * be send to this device, otherwise a suitable route will be searched for
+     * <p/> If the device attribute of the skBuf has been set, the packet will
+     * be sent to this device, otherwise a suitable route will be searched for
      * in the routing table.
      * 
-     * @param hdr
-     * @param skbuf
+     * @param hdr the hdr
+     * @param skbuf the skbuf
      * @throws NoRouteToHostException No suitable route for this packet was
      *             found
      * @throws NetworkException The packet could not be transmitted.
@@ -104,7 +104,7 @@ public class IPv4Sender implements IPv4Constants, EthernetConstants {
 
         // Has the destination device been given?
         if (skbuf.getDevice() == null) {
-            // The device has not been send, figure out the route ourselves.
+            // The device has not been sent, figure out the route ourselves.
 
             // First lets try to find a route
             final IPv4Route route;
@@ -138,7 +138,7 @@ public class IPv4Sender implements IPv4Constants, EthernetConstants {
             hwDstAddr = findDstHWAddress(hdr.getDestination(), dev, hdr, skbuf);
         }
 
-        // Set the datalength (if not set)
+        // Set the data-length (if not set)
         if (hdr.getDataLength() == 0) {
             hdr.setDataLength(skbuf.getSize());
         }
@@ -157,7 +157,7 @@ public class IPv4Sender implements IPv4Constants, EthernetConstants {
             hdr.setFragmentOffset(0);
             sendPacket(api, hwDstAddr, hdr, skbuf);
         } else if (hdr.isDontFragment()) {
-            // This packet cannot be send of this device
+            // This packet cannot be sent of this device
             throw new NetworkException("Packet is too large, mtu=" + mtu);
         } else {
             // Fragment the packet and send the fragments
@@ -168,9 +168,9 @@ public class IPv4Sender implements IPv4Constants, EthernetConstants {
     /**
      * Search for a route for the given buffer
      * 
-     * @param skbuf
+     * @param skbuf the skbuf
      * @return
-     * @throws NoRouteToHostException
+     * @throws NoRouteToHostException when an error occurs
      */
     private IPv4Route findRoute(IPv4Header hdr, SocketBuffer skbuf) throws NoRouteToHostException {
         final IPv4Address destination = hdr.getDestination();
@@ -180,9 +180,9 @@ public class IPv4Sender implements IPv4Constants, EthernetConstants {
     /**
      * Gets the source address to use for a given route.
      * 
-     * @param route
-     * @param hdr
-     * @param skbuf
+     * @param route the route
+     * @param hdr the hdr
+     * @param skbuf the skbuf
      * @return
      */
     private IPv4Address getSourceAddress(IPv4Route route, IPv4Header hdr, SocketBuffer skbuf)
@@ -202,7 +202,7 @@ public class IPv4Sender implements IPv4Constants, EthernetConstants {
     /**
      * Find the hardware address for the destination address of the given route.
      * 
-     * @param route
+     * @param route the route
      * @return
      */
     private HardwareAddress findDstHWAddress(IPv4Route route, IPv4Header hdr, SocketBuffer skbuf)
@@ -226,10 +226,10 @@ public class IPv4Sender implements IPv4Constants, EthernetConstants {
     /**
      * Find the hardware address for the destination address of the given route.
      * 
-     * @param destination
-     * @param device
-     * @param hdr
-     * @param skbuf
+     * @param destination the destination
+     * @param device the device
+     * @param hdr the hdr
+     * @param skbuf the skbuf
      * @return HardwareAddress
      */
     private HardwareAddress findDstHWAddress(IPv4Address destination, Device device,
@@ -249,10 +249,10 @@ public class IPv4Sender implements IPv4Constants, EthernetConstants {
     /**
      * Insert the IP header into the buffer and send it to the device.
      * 
-     * @param api
-     * @param hdr
-     * @param skbuf
-     * @throws NetworkException
+     * @param api the api
+     * @param hdr the hdr
+     * @param skbuf the skbuf
+     * @throws NetworkException when an error occurs
      */
     private void sendPacket(NetDeviceAPI api, HardwareAddress dstHwAddr, IPv4Header hdr,
             SocketBuffer skbuf) throws NetworkException {
@@ -262,12 +262,12 @@ public class IPv4Sender implements IPv4Constants, EthernetConstants {
     }
 
     /**
-     * Fragment the packet and send the to the device
+     * Fragment the packet and send to the device
      * 
-     * @param api
-     * @param hdr
-     * @param skbuf
-     * @throws NetworkException
+     * @param api the api
+     * @param hdr the hdr
+     * @param skbuf the skbuf
+     * @throws NetworkException when an error occurs
      */
     private void fragmentPacket(NetDeviceAPI api, HardwareAddress dstHwAddr, IPv4Header hdr,
             SocketBuffer skbuf, int mtu) throws NetworkException {

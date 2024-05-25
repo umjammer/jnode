@@ -48,9 +48,7 @@ public final class IndexEntryIterator implements Iterator<IndexEntry> {
         readNext();
     }
 
-    /**
-     * @see java.util.Iterator#hasNext()
-     */
+    @Override
     public boolean hasNext() {
         if (nextEntry == null) {
             return false;
@@ -58,9 +56,7 @@ public final class IndexEntryIterator implements Iterator<IndexEntry> {
         return !nextEntry.isLastIndexEntryInSubnode() || nextEntry.hasSubNodes();
     }
 
-    /**
-     * @see java.util.Iterator#next()
-     */
+    @Override
     public IndexEntry next() {
         if (nextEntry == null) {
             throw new NoSuchElementException();
@@ -83,9 +79,7 @@ public final class IndexEntryIterator implements Iterator<IndexEntry> {
         }
     }
 
-    /**
-     * @see java.util.Iterator#remove()
-     */
+    @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }

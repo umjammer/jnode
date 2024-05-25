@@ -36,8 +36,8 @@ final class AttributeListAttributeRes extends NTFSResidentAttribute implements
         AttributeListAttribute {
 
     /**
-     * @param fileRecord
-     * @param offset
+     * @param fileRecord the fileRecord
+     * @param offset the offset
      */
     public AttributeListAttributeRes(FileRecord fileRecord, int offset) {
         super(fileRecord, offset);
@@ -49,6 +49,7 @@ final class AttributeListAttributeRes extends NTFSResidentAttribute implements
      * @return an iterator of all attribute list entries.
      * @throws IOException if there is an error reading the attribute's data.
      */
+    @Override
     public Iterator<AttributeListEntry> getAllEntries() throws IOException {
         final byte[] data = new byte[getAttributeLength()];
         getData(getAttributeOffset(), data, 0, data.length);

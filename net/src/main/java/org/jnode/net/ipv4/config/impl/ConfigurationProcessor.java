@@ -20,7 +20,6 @@
 
 package org.jnode.net.ipv4.config.impl;
 
-import java.lang.System.Logger.Level;
 import java.lang.System.Logger;
 import org.jnode.driver.Device;
 import org.jnode.util.Queue;
@@ -42,8 +41,8 @@ public class ConfigurationProcessor implements QueueProcessor<ConfigurationQueue
      * Apply the configuration on the given device. This is an asynchronous
      * call.
      * 
-     * @param device
-     * @param config
+     * @param device the device
+     * @param config the config
      */
     public void apply(Device device, NetDeviceConfig config, boolean waitUntilReady) {
         final ConfigurationQueueEntry entry = new ConfigurationQueueEntry(device, config);
@@ -63,9 +62,7 @@ public class ConfigurationProcessor implements QueueProcessor<ConfigurationQueue
         thread.stopProcessor();
     }
 
-    /**
-     * @see org.jnode.util.QueueProcessor#process(java.lang.Object)
-     */
+    @Override
     public void process(ConfigurationQueueEntry entry) {
         entry.apply();
     }

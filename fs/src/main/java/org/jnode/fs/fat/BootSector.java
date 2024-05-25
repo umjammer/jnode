@@ -37,7 +37,7 @@ import org.jnode.util.NumberUtils;
  */
 public class BootSector {
 
-    private byte[] data;
+    private final byte[] data;
     private boolean dirty;
     private final IBMPartitionTableEntry[] partitions;
 
@@ -59,9 +59,9 @@ public class BootSector {
     }
 
     /**
-     * Read the contents of this bootsector from the given device.
+     * Read the contents of this boot-sector from the given device.
      * 
-     * @param device
+     * @param device the device
      */
     public synchronized void read(BlockDeviceAPI device) throws IOException {
         device.read(0, ByteBuffer.wrap(data));
@@ -70,9 +70,9 @@ public class BootSector {
     }
 
     /**
-     * Write the contents of this bootsector to the given device.
+     * Write the contents of this boot-sector to the given device.
      * 
-     * @param device
+     * @param device the device
      */
     public synchronized void write(BlockDeviceAPI device) throws IOException {
         device.write(0, ByteBuffer.wrap(data));
@@ -82,7 +82,7 @@ public class BootSector {
     /**
      * Gets the OEM name
      * 
-     * @return String
+     * @return oem name
      */
     public String getOemName() {
         StringBuilder b = new StringBuilder(8);
@@ -111,7 +111,7 @@ public class BootSector {
     /**
      * Gets the number of bytes/sector
      * 
-     * @return int
+     * @return bytes per sector
      */
     public int getBytesPerSector() {
         return get16(0x0b);
@@ -127,7 +127,7 @@ public class BootSector {
     /**
      * Gets the number of sectors/cluster
      * 
-     * @return int
+     * @return number of sectors per cluster
      */
     public int getSectorsPerCluster() {
         return get8(0x0d);
@@ -141,16 +141,16 @@ public class BootSector {
     }
 
     /**
-     * Gets the number of reserved (for bootrecord) sectors
+     * Gets the number of reserved (for boot-record) sectors
      * 
-     * @return int
+     * @return reserved sectors
      */
     public int getNrReservedSectors() {
         return get16(0xe);
     }
 
     /**
-     * Sets the number of reserved (for bootrecord) sectors
+     * Sets the number of reserved (for boot-record) sectors
      */
     public void setNrReservedSectors(int v) {
         set16(0xe, v);
@@ -159,7 +159,7 @@ public class BootSector {
     /**
      * Gets the number of fats
      * 
-     * @return int
+     * @return number of fats
      */
     public int getNrFats() {
         return get8(0x10);
@@ -175,7 +175,7 @@ public class BootSector {
     /**
      * Gets the number of entries in the root directory
      * 
-     * @return int
+     * @return entries in the root directory
      */
     public int getNrRootDirEntries() {
         return get16(0x11);
@@ -191,7 +191,7 @@ public class BootSector {
     /**
      * Gets the number of logical sectors
      * 
-     * @return int
+     * @return logical sectors
      */
     public int getNrLogicalSectors() {
         return get16(0x13);
@@ -207,7 +207,7 @@ public class BootSector {
     /**
      * Gets the medium descriptor byte
      * 
-     * @return int
+     * @return medium descriptor byte
      */
     public int getMediumDescriptor() {
         return get8(0x15);
@@ -223,7 +223,7 @@ public class BootSector {
     /**
      * Gets the number of sectors/fat
      * 
-     * @return int
+     * @return number of sectors/fat
      */
     public int getSectorsPerFat() {
         return get16(0x16);
@@ -239,7 +239,7 @@ public class BootSector {
     /**
      * Gets the number of sectors/track
      * 
-     * @return int
+     * @return sectors/track
      */
     public int getSectorsPerTrack() {
         return get16(0x18);
@@ -255,7 +255,7 @@ public class BootSector {
     /**
      * Gets the number of heads
      * 
-     * @return int
+     * @return number of heads
      */
     public int getNrHeads() {
         return get16(0x1a);
@@ -287,7 +287,7 @@ public class BootSector {
     /**
      * Gets an unsigned 8-bit byte from a given offset
      * 
-     * @param offset
+     * @param offset the offset
      * @return int
      */
     protected int get8(int offset) {
@@ -297,7 +297,7 @@ public class BootSector {
     /**
      * Sets an unsigned 8-bit byte at a given offset
      * 
-     * @param offset
+     * @param offset the offset
      */
     protected void set8(int offset, int value) {
         LittleEndian.setInt8(data, offset, value);
@@ -307,7 +307,7 @@ public class BootSector {
     /**
      * Gets an unsigned 16-bit word from a given offset
      * 
-     * @param offset
+     * @param offset the offset
      * @return int
      */
     protected int get16(int offset) {
@@ -317,7 +317,7 @@ public class BootSector {
     /**
      * Sets an unsigned 16-bit word at a given offset
      * 
-     * @param offset
+     * @param offset the offset
      */
     protected void set16(int offset, int value) {
         LittleEndian.setInt16(data, offset, value);
@@ -327,7 +327,7 @@ public class BootSector {
     /**
      * Gets an unsigned 32-bit word from a given offset
      * 
-     * @param offset
+     * @param offset the offset
      * @return int
      */
     protected long get32(int offset) {
@@ -337,7 +337,7 @@ public class BootSector {
     /**
      * Sets an unsigned 32-bit word at a given offset
      * 
-     * @param offset
+     * @param offset the offset
      */
     protected void set32(int offset, long value) {
         LittleEndian.setInt32(data, offset, (int) value);
@@ -384,7 +384,7 @@ public class BootSector {
 
     public String toString() {
         StringBuilder res = new StringBuilder(1024);
-        res.append("Bootsector :\n");
+        res.append("BootSector :\n");
         res.append("oemName=");
         res.append(getOemName());
         res.append('\n');

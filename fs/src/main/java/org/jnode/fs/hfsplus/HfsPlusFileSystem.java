@@ -78,13 +78,13 @@ public class HfsPlusFileSystem extends AbstractFileSystem<HfsPlusEntry> {
     /**
      * The map of registered compression types.
      */
-    private Map<Long, HfsPlusCompressionFactory> registeredCompressionTypes =
+    private final Map<Long, HfsPlusCompressionFactory> registeredCompressionTypes =
             new LinkedHashMap<>(CompressedAttributeData.getDefaultTypes());
 
     /**
-     * @param device
-     * @param readOnly
-     * @throws FileSystemException
+     * @param device the device
+     * @param readOnly the readOnly
+     * @throws FileSystemException when an error occurs
      */
     public HfsPlusFileSystem(Device device, boolean readOnly)
         throws FileSystemException {
@@ -92,7 +92,7 @@ public class HfsPlusFileSystem extends AbstractFileSystem<HfsPlusEntry> {
     }
 
     /**
-     * @throws FileSystemException
+     * @throws FileSystemException when an error occurs
      */
     public final void read() throws FileSystemException {
         volumeHeader = new SuperBlock(this, false);
@@ -147,14 +147,17 @@ public class HfsPlusFileSystem extends AbstractFileSystem<HfsPlusEntry> {
         return null;
     }
 
+    @Override
     public final long getFreeSpace() {
         return volumeHeader.getFreeBlocks() * volumeHeader.getBlockSize();
     }
 
+    @Override
     public final long getTotalSpace() {
         return volumeHeader.getTotalBlocks() * volumeHeader.getBlockSize();
     }
 
+    @Override
     public final long getUsableSpace() {
         return -1;
     }
@@ -238,7 +241,7 @@ public class HfsPlusFileSystem extends AbstractFileSystem<HfsPlusEntry> {
      * Create a new HFS+ file system.
      *
      * @param params creation parameters
-     * @throws FileSystemException
+     * @throws FileSystemException when an error occurs
      */
     public void create(HFSPlusParams params) throws FileSystemException {
         volumeHeader = new SuperBlock(this, true);

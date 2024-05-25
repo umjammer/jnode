@@ -24,6 +24,7 @@ package org.jnode.fs.ext2;
  * @author Andras Nagy
  */
 public class INodeReservation {
+
     /**
      * The block group that contains the inode
      */
@@ -32,13 +33,13 @@ public class INodeReservation {
     /**
      * The index of the inode within the block group (begins with 0)
      */
-    private int index;
-    private boolean successful;
+    private final int index;
+    private final boolean successful;
 
     /**
      * Results of an attempt to reserve an inode in a block group.
      * 
-     * @param successful
+     * @param successful the successful
      * @param index begins at index 0 (shows the index in the inode bitmap and
      *            inode table). The actual inode number is
      *            <code>INODEX_PER_GROUP*groupNr + index + 1</code>, as
@@ -71,7 +72,7 @@ public class INodeReservation {
     }
 
     /**
-     * @param l
+     * @param l the l
      */
     public void setGroup(int l) {
         group = l;
@@ -83,5 +84,4 @@ public class INodeReservation {
     public int getIndex() {
         return index;
     }
-
 }

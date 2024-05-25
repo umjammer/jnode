@@ -23,7 +23,7 @@ package org.jnode.fs.smbfs;
 import org.jnode.driver.Device;
 
 /**
- * @author Levente S\u00e1ntha
+ * @author Levente Sántha
  */
 public class SMBFSDevice extends Device {
     private String host;

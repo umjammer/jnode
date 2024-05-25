@@ -47,17 +47,14 @@ public class BootableHashMap<K, V> extends VmSystemObject implements Map<K, V> {
      * Constructs an empty HashMap.
      * @see java.util.HashMap#HashMap(int)
      *
-     * @param initialCapacity
+     * @param initialCapacity the initialCapacity
      */
     public BootableHashMap(int initialCapacity) {
         mapCache = new HashMap<>(initialCapacity);
         this.hashCode = mapCache.hashCode();
     }
 
-    /**
-     * @return int
-     * @see java.lang.Object#hashCode()
-     */
+    @Override
     public int hashCode() {
         if (mapCache != null) {
             return getMapCache().hashCode();
@@ -66,10 +63,7 @@ public class BootableHashMap<K, V> extends VmSystemObject implements Map<K, V> {
         }
     }
 
-    /**
-     * @return String
-     * @see java.lang.Object#toString()
-     */
+    @Override
     public String toString() {
         if (mapCache != null) {
             return getMapCache().toString();
@@ -78,101 +72,67 @@ public class BootableHashMap<K, V> extends VmSystemObject implements Map<K, V> {
         }
     }
 
-    /**
-     * @return The collection of values
-     */
+    @Override
     public Collection<V> values() {
         return getMapCache().values();
     }
 
-    /**
-     * @return The set of keys
-     */
+    @Override
     public Set<K> keySet() {
         return getMapCache().keySet();
     }
 
-    /**
-     * @param key
-     * @return The object for the given key, or null if the given key is not found.
-     */
+    @Override
     public V get(Object key) {
         return getMapCache().get(key);
     }
 
-    /**
-     *
-     */
+    @Override
     public void clear() {
         getMapCache().clear();
     }
 
-    /**
-     * @return The number of elements
-     */
+    @Override
     public int size() {
         return getMapCache().size();
     }
 
-    /**
-     * @param key
-     * @param value
-     * @return Object
-     */
+    @Override
     public V put(K key, V value) {
         return getMapCache().put(key, value);
     }
 
-    /**
-     * @param m
-     */
+    @Override
     public void putAll(Map<? extends K, ? extends V> m) {
         getMapCache().putAll(m);
     }
 
-    /**
-     * @return The set of entries
-     */
+    @Override
     public Set<Map.Entry<K, V>> entrySet() {
         return getMapCache().entrySet();
     }
 
-    /**
-     * @param key
-     * @return True if the key is contained, false otherwise
-     */
+    @Override
     public boolean containsKey(Object key) {
         return getMapCache().containsKey(key);
     }
 
-    /**
-     * @return True if this map is empty, false otherwise
-     */
+    @Override
     public boolean isEmpty() {
         return getMapCache().isEmpty();
     }
 
-    /**
-     * @param obj
-     * @return boolean
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+    @Override
     public boolean equals(Object obj) {
         return getMapCache().equals(obj);
     }
 
-    /**
-     * @param o
-     * @return Object
-     */
+    @Override
     public V remove(Object o) {
         return getMapCache().remove(o);
     }
 
-    /**
-     * @param value
-     * @return True if the given value is contained, false otherwise
-     */
+    @Override
     public boolean containsValue(Object value) {
         return getMapCache().containsValue(value);
     }
@@ -208,7 +168,7 @@ public class BootableHashMap<K, V> extends VmSystemObject implements Map<K, V> {
     /**
      * Gets the hashmap
      *
-     * @return
+     * @return the cache
      */
     private HashMap<K, V> getMapCache() {
         if (locked) {
@@ -231,9 +191,7 @@ public class BootableHashMap<K, V> extends VmSystemObject implements Map<K, V> {
         return mapCache;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public void verifyBeforeEmit() {
         super.verifyBeforeEmit();

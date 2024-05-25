@@ -21,7 +21,7 @@ import org.jnode.partitions.PartitionTable;
 public class RawPartitionTable implements PartitionTable<RawPartitionTableEntry> {
 
     /** dummy */
-    private RawPartitionTableEntry entry;
+    private final RawPartitionTableEntry entry;
 
     /**
      * Create a new instance

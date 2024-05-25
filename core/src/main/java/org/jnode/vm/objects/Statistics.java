@@ -31,5 +31,4 @@ public interface Statistics {
      * @return All statistics
      */
     Statistic[] getStatistics();
-
 }

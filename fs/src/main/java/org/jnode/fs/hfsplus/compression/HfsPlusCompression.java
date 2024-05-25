@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 import org.jnode.fs.hfsplus.HfsPlusFileSystem;
 
 /**
- * The interface for a HFS+ compression implementation.
+ * The interface for an HFS+ compression implementation.
  *
  * @author Luke Quinane
  */

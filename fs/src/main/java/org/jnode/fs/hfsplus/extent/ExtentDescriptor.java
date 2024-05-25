@@ -27,10 +27,10 @@ public class ExtentDescriptor {
     public static final int EXTENT_DESCRIPTOR_LENGTH = 8;
 
     /** The first allocation block. */
-    private long startBlock;
+    private final long startBlock;
 
     /** The length in allocation blocks of the extent. */
-    private long blockCount;
+    private final long blockCount;
 
     public ExtentDescriptor() {
         this.startBlock = 0;

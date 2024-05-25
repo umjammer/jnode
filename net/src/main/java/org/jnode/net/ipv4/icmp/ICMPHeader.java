@@ -36,8 +36,8 @@ public abstract class ICMPHeader implements TransportLayerHeader, ICMPConstants 
     /**
      * Create a new instance
      * 
-     * @param type
-     * @param code
+     * @param type the type
+     * @param code the code
      */
     public ICMPHeader(ICMPType type, int code) {
         if (code < 0) {
@@ -51,7 +51,7 @@ public abstract class ICMPHeader implements TransportLayerHeader, ICMPConstants 
     /**
      * Read an ICMP header for the given buffer
      * 
-     * @param skbuf
+     * @param skbuf the socket buffer
      */
     public ICMPHeader(SocketBuffer skbuf) {
         this.type = ICMPType.getType(skbuf.get(0));
@@ -61,9 +61,7 @@ public abstract class ICMPHeader implements TransportLayerHeader, ICMPConstants 
         this.checksumOk = (ccs == 0);
     }
 
-    /**
-     * @see org.jnode.net.LayerHeader#prefixTo(org.jnode.net.SocketBuffer)
-     */
+    @Override
     public void prefixTo(SocketBuffer skbuf) {
         skbuf.insert(getLength());
         skbuf.set(0, type.getId());
@@ -80,18 +78,19 @@ public abstract class ICMPHeader implements TransportLayerHeader, ICMPConstants 
      * layers have set their header data and can be used e.g. to update checksum
      * values.
      * 
-     * @param skbuf The buffer
+     * @param skBuf The buffer
      * @param offset The offset to the first byte (in the buffer) of this header
      *            (since low layer headers are already prefixed)
      */
-    public void finalizeHeader(SocketBuffer skbuf, int offset) {
+    @Override
+    public void finalizeHeader(SocketBuffer skBuf, int offset) {
         // Do nothing
     }
 
     /**
      * Do the header specific prefixing.
      */
-    protected abstract void doPrefixTo(SocketBuffer skbuf);
+    protected abstract void doPrefixTo(SocketBuffer skBuf);
 
     /**
      * Is the checksum valid?
@@ -113,5 +112,4 @@ public abstract class ICMPHeader implements TransportLayerHeader, ICMPConstants 
     public ICMPType getType() {
         return type;
     }
-
 }

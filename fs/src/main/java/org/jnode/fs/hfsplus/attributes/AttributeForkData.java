@@ -17,7 +17,7 @@ public class AttributeForkData extends AttributeData {
     /**
      * The fork data containing the attribute data.
      */
-    private HfsPlusForkData fork;
+    private final HfsPlusForkData fork;
 
     /**
      * Reads in attribute fork data.

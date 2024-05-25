@@ -43,15 +43,14 @@ import org.jnode.vm.objects.Statistics;
  * @author epr
  */
 public class TCPProtocol implements IPv4Protocol, IPv4Constants, TCPConstants {
-    private static final boolean DEBUG = false;
 
     /**
      * The IP service I'm a part of
      */
     private final IPv4Service ipService;
 
-    /** The ICMP service */
-    // private final ICMPUtils icmp;
+//    /** The ICMP service */
+//    private final ICMPUtils icmp;
 
     /**
      * My statistics
@@ -81,7 +80,7 @@ public class TCPProtocol implements IPv4Protocol, IPv4Constants, TCPConstants {
     /**
      * Initialize a new instance
      *
-     * @param ipService
+     * @param ipService the ipService
      */
     public TCPProtocol(IPv4Service ipService) throws NetworkException {
         this.ipService = ipService;
@@ -103,71 +102,55 @@ public class TCPProtocol implements IPv4Protocol, IPv4Constants, TCPConstants {
         timer.start();
     }
 
-    /**
-     * @see org.jnode.net.TransportLayer#getDatagramSocketImplFactory()
-     */
+    @Override
     public DatagramSocketImplFactory getDatagramSocketImplFactory() throws SocketException {
         throw new SocketException("TCP is socket based");
     }
 
-    /**
-     * @see org.jnode.net.TransportLayer#getName()
-     */
+    @Override
     public String getName() {
         return "tcp";
     }
 
-    /**
-     * @see org.jnode.net.TransportLayer#getProtocolID()
-     */
+    @Override
     public int getProtocolID() {
         return IPPROTO_TCP;
     }
 
-    /**
-     * @see org.jnode.net.TransportLayer#getSocketImplFactory()
-     */
+    @Override
     public SocketImplFactory getSocketImplFactory() throws SocketException {
         return socketImplFactory;
     }
 
-    /**
-     * @see org.jnode.net.TransportLayer#getStatistics()
-     */
+    @Override
     public Statistics getStatistics() {
         return stat;
     }
 
-    /**
-     * @see org.jnode.net.TransportLayer#receive(org.jnode.net.SocketBuffer)
-     */
-    public void receive(SocketBuffer skbuf) throws SocketException {
+    @Override
+    public void receive(SocketBuffer skBuf) throws SocketException {
 
         // Increment stats
         stat.ipackets.inc();
 
         // Get the IP header
-        final IPv4Header ipHdr = (IPv4Header) skbuf.getNetworkLayerHeader();
+        final IPv4Header ipHdr = (IPv4Header) skBuf.getNetworkLayerHeader();
 
         // Read the TCP header
-        final TCPHeader hdr = new TCPHeader(skbuf);
+        final TCPHeader hdr = new TCPHeader(skBuf);
 
         // Set the TCP header in the buffer-field
-        skbuf.setTransportLayerHeader(hdr);
+        skBuf.setTransportLayerHeader(hdr);
         // Remove the TCP header from the head of the buffer
-        skbuf.pull(hdr.getLength());
+        skBuf.pull(hdr.getLength());
         // Trim the buffer up to the length in the TCP header
-        skbuf.trim(hdr.getDataLength());
+        skBuf.trim(hdr.getDataLength());
 
         if (!hdr.isChecksumOk()) {
-            if (DEBUG) {
-                log.log(Level.DEBUG, "Receive: badsum: " + hdr);
-            }
+            log.log(Level.DEBUG, () -> "Receive: badsum: " + hdr);
             stat.badsum.inc();
         } else {
-            if (DEBUG) {
-                log.log(Level.DEBUG, "Receive: " + hdr);
-            }
+            log.log(Level.DEBUG, () -> "Receive: " + hdr);
 
             // Find the corresponding control block
             final TCPControlBlock cb =
@@ -187,16 +170,14 @@ public class TCPProtocol implements IPv4Protocol, IPv4Constants, TCPConstants {
                     processPortUnreachable(ipHdr, hdr);
                 }
             } else {
-                // Let the cb handle the receive
-                cb.receive(hdr, skbuf);
+                // Let the cb handle the reception
+                cb.receive(hdr, skBuf);
             }
         }
     }
 
-    /**
-     * @see org.jnode.net.ipv4.IPv4Protocol#receiveError(org.jnode.net.SocketBuffer)
-     */
-    public void receiveError(SocketBuffer skbuf) throws SocketException {
+    @Override
+    public void receiveError(SocketBuffer skBuf) throws SocketException {
         // TODO Auto-generated method stub
 
     }
@@ -204,7 +185,7 @@ public class TCPProtocol implements IPv4Protocol, IPv4Constants, TCPConstants {
     /**
      * Process a segment whose destination port is unreachable
      *
-     * @param hdr
+     * @param hdr the hdr
      */
     private void processPortUnreachable(IPv4Header ipHdr, TCPHeader hdr) throws SocketException {
         final TCPHeader replyHdr =
@@ -219,8 +200,8 @@ public class TCPProtocol implements IPv4Protocol, IPv4Constants, TCPConstants {
     /**
      * Create a binding for a local address
      *
-     * @param lAddr
-     * @param lPort
+     * @param lAddr the local address
+     * @param lPort the locl port
      */
     public TCPControlBlock bind(IPv4Address lAddr, int lPort) throws BindException {
         return (TCPControlBlock) controlBlocks.bind(lAddr, lPort);
@@ -229,17 +210,14 @@ public class TCPProtocol implements IPv4Protocol, IPv4Constants, TCPConstants {
     /**
      * Send an TCP packet
      *
-     * @param skbuf
+     * @param skBuf the skBuf
      */
-    protected void send(IPv4Header ipHdr, TCPHeader tcpHdr, SocketBuffer skbuf)
-        throws SocketException {
-        if (DEBUG) {
-            log.log(Level.DEBUG, "send(ipHdr, " + tcpHdr + ')');
-        }
-        skbuf.setTransportLayerHeader(tcpHdr);
-        tcpHdr.prefixTo(skbuf);
-        ipHdr.setDataLength(skbuf.getSize());
-        ipService.transmit(ipHdr, skbuf);
+    protected void send(IPv4Header ipHdr, TCPHeader tcpHdr, SocketBuffer skBuf) throws SocketException {
+        log.log(Level.DEBUG, () -> "send(ipHdr, " + tcpHdr + ')');
+        skBuf.setTransportLayerHeader(tcpHdr);
+        tcpHdr.prefixTo(skBuf);
+        ipHdr.setDataLength(skBuf.getSize());
+        ipService.transmit(ipHdr, skBuf);
         stat.opackets.inc();
     }
 

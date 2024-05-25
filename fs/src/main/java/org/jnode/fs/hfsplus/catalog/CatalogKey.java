@@ -45,7 +45,7 @@ public class CatalogKey extends AbstractKey {
      * the record. For thread records, contains the catalog node id of the file
      * or folder itself.
      */
-    private CatalogNodeId parentId;
+    private final CatalogNodeId parentId;
     /**
      * Name of the file or folder, empty for thread records.
      */
@@ -54,15 +54,15 @@ public class CatalogKey extends AbstractKey {
     /**
      * Create catalog key from existing data.
      * 
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
 
     public CatalogKey(final byte[] src, final int offset) {
         int currentOffset = offset;
         byte[] ck = new byte[2];
         System.arraycopy(src, currentOffset, ck, 0, 2);
-        //TODO Understand why the +2 is necessary
+        // TODO Understand why the +2 is necessary
         keyLength = BigEndian.getUInt16(ck, 0) + 2;
         currentOffset += 2;
         ck = new byte[4];
@@ -109,13 +109,13 @@ public class CatalogKey extends AbstractKey {
      * Compare two catalog keys. These keys are compared by parent id and next
      * by node name.
      * 
-     * @param key
+     * @param key the key
      * 
      */
+    @Override
     public final int compareTo(final Key key) {
         int res = -1;
-        if (key instanceof CatalogKey) {
-            CatalogKey ck = (CatalogKey) key;
+        if (key instanceof CatalogKey ck) {
             res = this.getParentId().compareTo(ck.getParentId());
             if (res == 0) {
                 // Note: this is unlikely to be correct. See TN1150 section "Unicode Subtleties" for details
@@ -135,19 +135,14 @@ public class CatalogKey extends AbstractKey {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof CatalogKey)) {
+        if (!(obj instanceof CatalogKey otherKey)) {
             return false;
         }
 
-        CatalogKey otherKey = (CatalogKey) obj;
         return parentId.getId() == otherKey.parentId.getId();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jnode.fs.hfsplus.tree.AbstractKey#getBytes()
-     */
+    @Override
     public byte[] getBytes() {
         int length = this.getKeyLength();
         byte[] data = new byte[length];
@@ -157,16 +152,11 @@ public class CatalogKey extends AbstractKey {
         return data;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
+    @Override
     public final String toString() {
         String s = "[length, Parent ID, Node name]:" + getKeyLength() + "," +
                 getParentId().getId() + "," +
                 ((getNodeName() != null) ? getNodeName().getUnicodeString() : "");
         return s;
     }
-
 }

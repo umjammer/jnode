@@ -21,12 +21,15 @@
 package org.jnode.partitions;
 
 import java.io.IOException;
+import java.io.Serial;
+
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)
  */
 public class PartitionTableException extends IOException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public PartitionTableException() {

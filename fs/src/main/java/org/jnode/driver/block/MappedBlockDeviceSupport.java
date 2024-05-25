@@ -38,19 +38,18 @@ public class MappedBlockDeviceSupport extends Device implements BlockDeviceAPI {
     /**
      * Create a new MappedBlockDevice
      *
-     * @param parent
-     * @param offset
-     * @param length
-     * @throws IOException
+     * @param parent the device
+     * @param offset the offset
+     * @param length the length
+     * @throws IOException when an error occurs
      */
     public MappedBlockDeviceSupport(Device parent, long offset, long length) throws IOException {
         super("mapped-" + parent.getId());
         this.parent = parent;
         try {
             this.parentApi = parent.getAPI(BlockDeviceAPI.class);
-        } catch (ApiNotFoundException ex) {
-            final IOException ioe = new IOException("BlockDeviceAPI not found on device", ex);
-            throw ioe;
+        } catch (ApiNotFoundException e) {
+            throw new IOException("BlockDeviceAPI not found on device", e);
         }
         this.offset = offset;
         this.length = length;
@@ -61,47 +60,32 @@ public class MappedBlockDeviceSupport extends Device implements BlockDeviceAPI {
             throw new IndexOutOfBoundsException("length < 0");
         }
         if (offset + length > parentApi.getLength()) {
-            throw new IndexOutOfBoundsException(
-                "offset(" + offset + ") + length(" + length +
+            throw new IndexOutOfBoundsException("offset(" + offset + ") + length(" + length +
                     ") > parent.length(" + parentApi.getLength() + ")");
         }
         registerAPI(BlockDeviceAPI.class, this);
     }
 
-    /**
-     * @return The length
-     * @see org.jnode.driver.block.BlockDeviceAPI#getLength()
-     */
+    @Override
     public long getLength() {
         return length;
     }
 
-    /**
-     * (non-Javadoc)
-     *
-     * @see org.jnode.driver.block.BlockDeviceAPI#read(long, java.nio.ByteBuffer)
-     */
+    @Override
     public void read(long devOffset, ByteBuffer dest) throws IOException {
         checkBounds(devOffset, dest);
-        //parentApi.read(offset + devOffset, dest, destOffset, length);
+//        parentApi.read(offset + devOffset, dest, destOffset, length);
         parentApi.read(offset + devOffset, dest);
     }
 
-    /**
-     * (non-Javadoc)
-     *
-     * @see org.jnode.driver.block.BlockDeviceAPI#write(long, java.nio.ByteBuffer)
-     */
+    @Override
     public void write(long devOffset, ByteBuffer src) throws IOException {
         checkBounds(devOffset, src);
-        //parentApi.write(offset + devOffset, src, srcOffset, length);
+//        parentApi.write(offset + devOffset, src, srcOffset, length);
         parentApi.write(offset + devOffset, src);
     }
 
-    /**
-     * @throws IOException
-     * @see org.jnode.driver.block.BlockDeviceAPI#flush()
-     */
+    @Override
     public void flush() throws IOException {
         parentApi.flush();
     }

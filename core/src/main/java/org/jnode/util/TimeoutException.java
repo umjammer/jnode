@@ -25,30 +25,28 @@ package org.jnode.util;
  */
 public class TimeoutException extends Exception {
 
-    /**
-     *
-     */
+    /** */
     public TimeoutException() {
         super();
     }
 
     /**
-     * @param message
-     * @param cause
+     * @param message the message
+     * @param cause the cause
      */
     public TimeoutException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * @param cause
+     * @param cause the cause
      */
     public TimeoutException(Throwable cause) {
         super(cause);
     }
 
     /**
-     * @param s
+     * @param s the s
      */
     public TimeoutException(String s) {
         super(s);

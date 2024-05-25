@@ -41,18 +41,18 @@ public interface PartitionTableType {
 
     /**
      * Can this partition table type be used on the given first sector of a
-     * blockdevice?
+     * block-device?
      *
-     * @param devApi
-     * @param firstSectors
+     * @param devApi the device api
+     * @param firstSectors first sectors
      */
     boolean supports(byte[] firstSectors, BlockDeviceAPI devApi);
 
     /**
      * Create a partition table for a given device.
      *
-     * @param device
-     * @param firstSectors
+     * @param device the device api
+     * @param firstSectors first sectors
      */
     PartitionTable<?> create(byte[] firstSectors, Device device) throws PartitionTableException;
 

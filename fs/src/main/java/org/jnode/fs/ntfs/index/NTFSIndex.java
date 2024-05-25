@@ -41,7 +41,7 @@ public final class NTFSIndex {
     /**
      * The name of the index root / allocation attributes to open.
      */
-    private String attributeName;
+    private final String attributeName;
 
     private IndexRootAttribute indexRootAttribute;
 
@@ -62,8 +62,6 @@ public final class NTFSIndex {
 
     /**
      * Gets the index root attribute.
-     * 
-     * @return
      */
     public IndexRootAttribute getIndexRootAttribute() {
         if (indexRootAttribute == null) {
@@ -76,8 +74,6 @@ public final class NTFSIndex {
 
     /**
      * Gets the index allocation attribute, if any.
-     * 
-     * @return
      */
     public IndexAllocationAttribute getIndexAllocationAttribute() {
         if (indexAllocationAttribute == null) {
@@ -190,16 +186,12 @@ public final class NTFSIndex {
             readNextEntry();
         }
 
-        /**
-         * @see java.util.Iterator#hasNext()
-         */
+        @Override
         public boolean hasNext() {
             return (nextEntry != null);
         }
 
-        /**
-         * @see java.util.Iterator#next()
-         */
+        @Override
         public IndexEntry next() {
             final IndexEntry result = nextEntry;
             if (result == null) {
@@ -209,9 +201,7 @@ public final class NTFSIndex {
             return result;
         }
 
-        /**
-         * @see java.util.Iterator#remove()
-         */
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }

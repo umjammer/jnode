@@ -199,10 +199,12 @@ public class FatDirectory extends FatEntry implements FSDirectory, FSDirectoryId
         return Integer.toString(getStartCluster());
     }
 
+    @Override
     public boolean isDirectory() {
         return true;
     }
 
+    @Override
     public FSDirectory getDirectory() {
         return this;
     }
@@ -211,6 +213,7 @@ public class FatDirectory extends FatEntry implements FSDirectory, FSDirectoryId
         return children;
     }
 
+    @Override
     public Iterator<FSEntry> iterator() {
         return new FatEntriesIterator(children, this, false);
     }
@@ -236,6 +239,7 @@ public class FatDirectory extends FatEntry implements FSDirectory, FSDirectoryId
             f.createNextEntry();
     }
 
+    @Override
     public synchronized FSEntry getEntry(String name) {
         FatEntry child = children.get(name);
 
@@ -322,6 +326,7 @@ public class FatDirectory extends FatEntry implements FSDirectory, FSDirectoryId
         return true;
     }
 
+    @Override
     public synchronized FSEntry addFile(String name) throws IOException {
         FatName fatName = new FatName(this, name);
         if (collide(fatName.getLongName()))
@@ -336,6 +341,7 @@ public class FatDirectory extends FatEntry implements FSDirectory, FSDirectoryId
         return entry;
     }
 
+    @Override
     public synchronized FSEntry addDirectory(String name) throws IOException {
         FatFileSystem fs = getFatFileSystem();
         FatName fatName = new FatName(this, name);
@@ -352,6 +358,7 @@ public class FatDirectory extends FatEntry implements FSDirectory, FSDirectoryId
         return entry;
     }
 
+    @Override
     public synchronized void remove(String name) throws IOException {
         FatEntry entry = (FatEntry) getEntry(name);
         if (entry == null)

@@ -40,7 +40,7 @@ public class TCPOutputStream extends OutputStream {
     /**
      * Create a new instance
      * 
-     * @param controlBlock
+     * @param controlBlock the controlBlock
      */
     public TCPOutputStream(TCPControlBlock controlBlock, TCPSocketImpl impl) {
         this.controlBlock = controlBlock;
@@ -48,9 +48,7 @@ public class TCPOutputStream extends OutputStream {
         this.closed = false;
     }
 
-    /**
-     * @see java.io.OutputStream#close()
-     */
+    @Override
     public void close() throws IOException {
         if (!this.closed) {
             this.closed = true;
@@ -59,17 +57,13 @@ public class TCPOutputStream extends OutputStream {
         }
     }
 
-    /**
-     * @see java.io.OutputStream#flush()
-     */
+    @Override
     public void flush() throws IOException {
         // TODO Auto-generated method stub
         super.flush();
     }
 
-    /**
-     * @see java.io.OutputStream#write(byte[], int, int)
-     */
+    @Override
     public final void write(byte[] b, int off, int len)
         throws IOException, NullPointerException, IndexOutOfBoundsException {
         if (closed) {
@@ -79,20 +73,15 @@ public class TCPOutputStream extends OutputStream {
         }
     }
 
-    /**
-     * @see java.io.OutputStream#write(byte[])
-     */
+    @Override
     public final void write(byte[] b) throws IOException, NullPointerException {
         write(b, 0, b.length);
     }
 
-    /**
-     * @see java.io.OutputStream#write(int)
-     */
+    @Override
     public final void write(int b) throws IOException {
         final byte[] buf = new byte[1];
         buf[0] = (byte) b;
         write(buf, 0, 1);
     }
-
 }

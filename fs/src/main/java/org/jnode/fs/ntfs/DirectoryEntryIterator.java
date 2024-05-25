@@ -42,8 +42,8 @@ final class DirectoryEntryIterator implements Iterator<FSEntry> {
     /**
      * Initialize this instance.
      * 
-     * @param fs
-     * @param index
+     * @param fs the fs
+     * @param index the index
      */
     public DirectoryEntryIterator(NTFSFileSystem fs, NTFSIndex index) {
         this.fs = fs;
@@ -54,6 +54,7 @@ final class DirectoryEntryIterator implements Iterator<FSEntry> {
     /**
      * Are there more entries.
      */
+    @Override
     public boolean hasNext() {
         return (nextEntry != null);
     }
@@ -61,6 +62,7 @@ final class DirectoryEntryIterator implements Iterator<FSEntry> {
     /**
      * Get the next entry.
      */
+    @Override
     public FSEntry next() {
         final NTFSEntry result = nextEntry;
         readNextEntry();
@@ -70,6 +72,7 @@ final class DirectoryEntryIterator implements Iterator<FSEntry> {
     /**
      * @see java.util.Iterator#remove()
      */
+    @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }

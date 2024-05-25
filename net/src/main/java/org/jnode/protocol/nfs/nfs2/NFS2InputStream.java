@@ -45,15 +45,15 @@ import org.jnode.net.nfs.nfs2.mount.MountResult;
  * @author Andrei Dore
  */
 public class NFS2InputStream extends InputStream {
-    private static int DEFAULT_BUFFER_SIZE = NFS2Client.MAX_DATA;
-    private byte[] buffer;
+    private static final int DEFAULT_BUFFER_SIZE = NFS2Client.MAX_DATA;
+    private final byte[] buffer;
     private int bufferCount;
     private int bufferPosition;
     private long markFileOffset = -1;
     private int markLimit = -1;
-    private Mount1Client mountClient;
-    private NFS2Client nfsClient;
-    private String mountDirectory;
+    private final Mount1Client mountClient;
+    private final NFS2Client nfsClient;
+    private final String mountDirectory;
     private long fileOffset;
     private byte[] fileHandle;
     private FileAttribute fileAttribute;
@@ -85,11 +85,11 @@ public class NFS2InputStream extends InputStream {
 
         ExportEntry exportEntry = null;
         for (ExportEntry e : exportList) {
-            if (path.startsWith(e.getDirectory())) {
+            if (path.startsWith(e.directory())) {
                 if (exportEntry == null) {
                     exportEntry = e;
                 } else {
-                    if (exportEntry.getDirectory().length() < e.getDirectory().length()) {
+                    if (exportEntry.directory().length() < e.directory().length()) {
                         exportEntry = e;
                     }
                 }
@@ -99,7 +99,7 @@ public class NFS2InputStream extends InputStream {
         if (exportEntry == null) {
             throw new IOException("The path " + path + " it is not exported");
         }
-        mountDirectory = exportEntry.getDirectory();
+        mountDirectory = exportEntry.directory();
         MountResult mountResult;
         try {
             mountResult = mountClient.mount(mountDirectory);
@@ -122,7 +122,7 @@ public class NFS2InputStream extends InputStream {
         byte[] tempFileHandle = mountResult.getFileHandle();
 
         try {
-            String filePath = path.substring(exportEntry.getDirectory().length());
+            String filePath = path.substring(exportEntry.directory().length());
             StringTokenizer tokenizer = new StringTokenizer(filePath, "/");
             while (tokenizer.hasMoreElements()) {
                 String t = tokenizer.nextToken();
@@ -134,7 +134,7 @@ public class NFS2InputStream extends InputStream {
                 } else if (lookup.getFileAttribute().getType() == FileAttribute.DIRECTORY) {
                     tempFileHandle = lookup.getFileHandle();
                 } else {
-                    throw new IOException("The path contains an unknow resource: " + t +
+                    throw new IOException("The path contains an unknown resource: " + t +
                             ". It is not directory or file");
                 }
             }
@@ -221,8 +221,8 @@ public class NFS2InputStream extends InputStream {
     }
 
     @Override
-    public synchronized void mark(int readlimit) {
-        this.markLimit = readlimit;
+    public synchronized void mark(int readLimit) {
+        this.markLimit = readLimit;
         this.markFileOffset = fileOffset;
     }
 
@@ -237,7 +237,7 @@ public class NFS2InputStream extends InputStream {
             throw new IOException("The mark was not set. Use mark method to set the mark");
         }
         if (fileOffset - markFileOffset > markLimit) {
-            throw new IOException("The mark limit exced.");
+            throw new IOException("The mark limit exceed.");
         }
         fileOffset = markFileOffset;
 
@@ -249,16 +249,17 @@ public class NFS2InputStream extends InputStream {
         // Unfortunately it is not a simple modification in this method.
     }
 
+    @Override
     public synchronized long skip(long n) throws IOException {
         if (n <= 0) {
             return 0;
         }
         if (n < bufferCount - bufferPosition) {
-            // It is inside of the buffer
+            // It is inside the buffer
             bufferPosition += (int) n;
             return n;
         } else {
-            // It is outside of the buffer: reset the buffer
+            // It is outside the buffer: reset the buffer
             bufferCount = 0;
             bufferPosition = 0;
             if (fileOffset + n - (bufferCount - bufferPosition) < fileAttribute.getSize()) {
@@ -272,7 +273,7 @@ public class NFS2InputStream extends InputStream {
         }
     }
 
-    // TODO Remove the synch in the future
+    // TODO Remove the sync in the future
     @Override
     public synchronized void close() throws IOException {
         if (mountClient != null) {

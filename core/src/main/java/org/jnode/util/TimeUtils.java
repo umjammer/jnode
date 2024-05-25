@@ -51,13 +51,13 @@ public class TimeUtils {
      * @return the milliseconds since 1970-01-01 00:00:00
      */
     public static long time2millis(int year, int mon, int day, int hours, int mins, int secs) {
-        if (0 >= (mon -= 2)) {    /* 1..12 -> 11,12,1..10 */
-            mon += 12;            /* Puts Feb last since it has leap day */
+        if (0 >= (mon -= 2)) {    // 1..12 -> 11,12,1..10
+            mon += 12;            // Puts Feb last since it has leap day
             year -= 1;
         }
 
         return ((((
-            ((long) (year / 4 - year / 100 + year / 400 + 367L * mon / 12 + day) + year * 365L - 719499)) /* days */
+            (year / 4 - year / 100 + year / 400 + 367L * mon / 12 + day + year * 365L - 719499)) /* days */
             * 24L + hours) /* hours */
             * 60L + mins) /* minutes */
             * 60L + secs) /* seconds */

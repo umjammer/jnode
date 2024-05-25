@@ -29,7 +29,7 @@ import org.jnode.net.SocketBuffer;
  * Generic API for network devices.
  * <p/>
  * <h3>Transmission</h3>
- * To transmit data, each network device should has a queue of Frame's.
+ * To transmit data, each network device should have a queue of Frame's.
  * The transmit method is called to add a frame to this queue. The device
  * should start a worker thread to process this queue.
  * Once a frame has been transmitted, the notifyTransmission method of that
@@ -62,10 +62,10 @@ public interface NetDeviceAPI extends DeviceAPI {
      * After the frame has actually been transmitted by the device, the
      * Frame.notifyTransmission method must be called.
      *
-     * @param packet      The network packet to transmit. No linklayer header has
+     * @param packet      The network packet to transmit. No link-layer header has
      *                    been added yet.
      * @param destination The destination address, or null for a broadcast.
-     * @throws NetworkException
+     * @throws NetworkException when an error occurs
      */
     void transmit(SocketBuffer packet, HardwareAddress destination)
         throws NetworkException;
@@ -73,7 +73,7 @@ public interface NetDeviceAPI extends DeviceAPI {
     /**
      * Gets the protocol address information for a given protocol.
      *
-     * @param protocolID
+     * @param protocolID the protocol address information
      * @return The protocol address information, or null if not found.
      */
     ProtocolAddressInfo getProtocolAddressInfo(int protocolID);
@@ -81,7 +81,7 @@ public interface NetDeviceAPI extends DeviceAPI {
     /**
      * Sets the protocol address information for a given protocol.
      *
-     * @param protocolID
+     * @param protocolID the protocol address information
      */
     void setProtocolAddressInfo(int protocolID, ProtocolAddressInfo addressInfo);
 }

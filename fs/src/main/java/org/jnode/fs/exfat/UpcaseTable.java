@@ -111,7 +111,7 @@ public final class UpcaseTable {
 
         for (int i = 0; i < size; i++) {
             sum = ((sum << 31) | (sum >> 1)) + da.getUint8(offset + i);
-            sum &= 0xffffffffL;
+            sum &= 0xffff_ffffL;
         }
 
         return sum;
@@ -138,5 +138,4 @@ public final class UpcaseTable {
     public long getCharCount() {
         return this.chars;
     }
-
 }

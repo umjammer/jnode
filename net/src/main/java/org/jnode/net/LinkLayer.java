@@ -43,8 +43,8 @@ public interface LinkLayer {
      * Process a packet that has been received and matches the type of this
      * layer.
      * 
-     * @param skbuf
-     * @throws SocketException
+     * @param skbuf the skbuf
+     * @throws SocketException when an error occurs
      */
     void receive(SocketBuffer skbuf) throws SocketException;
 

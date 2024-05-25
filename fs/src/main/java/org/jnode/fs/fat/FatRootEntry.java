@@ -49,6 +49,7 @@ public class FatRootEntry extends FatObject implements FSEntry {
     /**
      * Gets the name of this entry.
      */
+    @Override
     public String getName() {
         return "";
     }
@@ -56,10 +57,12 @@ public class FatRootEntry extends FatObject implements FSEntry {
     /**
      * Gets the directory this entry is a part of.
      */
+    @Override
     public FSDirectory getParent() {
         return null;
     }
 
+    @Override
     public long getLastModified() {
         return 0;
     }
@@ -67,6 +70,7 @@ public class FatRootEntry extends FatObject implements FSEntry {
     /**
      * Is this entry referring to a file?
      */
+    @Override
     public boolean isFile() {
         return false;
     }
@@ -74,6 +78,7 @@ public class FatRootEntry extends FatObject implements FSEntry {
     /**
      * Is this entry referring to a (sub-)directory?
      */
+    @Override
     public boolean isDirectory() {
         return true;
     }
@@ -81,6 +86,7 @@ public class FatRootEntry extends FatObject implements FSEntry {
     /**
      * Sets the name of this entry.
      */
+    @Override
     public void setName(String newName) throws IOException {
         throw new IOException("Cannot change name of root directory");
     }
@@ -88,8 +94,9 @@ public class FatRootEntry extends FatObject implements FSEntry {
     /**
      * Sets the last modification time of this entry.
      *
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public void setLastModified(long lastModified) throws IOException {
         throw new IOException("Cannot change last modified of root directory");
     }
@@ -98,6 +105,7 @@ public class FatRootEntry extends FatObject implements FSEntry {
      * Gets the file this entry refers to. This method can only be called if
      * <code>isFile</code> returns true.
      */
+    @Override
     public FSFile getFile() throws IOException {
         throw new IOException("Not a file");
     }
@@ -106,6 +114,7 @@ public class FatRootEntry extends FatObject implements FSEntry {
      * Gets the directory this entry refers to. This method can only be called
      * if <code>isDirectory</code> returns true.
      */
+    @Override
     public FSDirectory getDirectory() {
         return rootDir;
     }
@@ -113,8 +122,9 @@ public class FatRootEntry extends FatObject implements FSEntry {
     /**
      * Gets the access rights for this entry.
      *
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public FSAccessRights getAccessRights() throws IOException {
         throw new UnsupportedOperationException("not implemented yet");
     }
@@ -123,8 +133,9 @@ public class FatRootEntry extends FatObject implements FSEntry {
      * Indicate if the entry has been modified in memory (ie need to be saved)
      *
      * @return true if the entry need to be saved
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public boolean isDirty() throws IOException {
         return true;
     }

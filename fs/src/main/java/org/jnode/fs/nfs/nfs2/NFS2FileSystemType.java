@@ -32,9 +32,10 @@ public class NFS2FileSystemType implements FileSystemType<NFS2FileSystem> {
     /**
      * Create a filesystem from a given device.
      *
-     * @param device
-     * @param readOnly
+     * @param device the device
+     * @param readOnly the readOnly
      */
+    @Override
     public NFS2FileSystem create(Device device, boolean readOnly) throws FileSystemException {
         return new NFS2FileSystem((NFS2Device) device, readOnly, this);
     }
@@ -42,11 +43,12 @@ public class NFS2FileSystemType implements FileSystemType<NFS2FileSystem> {
     /**
      * Gets the unique name of this file system type.
      */
+    @Override
     public String getName() {
         return "NFS2";
     }
 
-    /** */
+    @Override
     public String getScheme() {
         return "nfs2";
     }

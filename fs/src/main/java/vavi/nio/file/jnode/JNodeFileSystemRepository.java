@@ -88,6 +88,7 @@ Debug.println(Level.FINE, "path: " + path + ", " + Files.exists(path));
     }
 
     /* ad-hoc hack for ignoring checking opacity */
+    @Override
     protected void checkURI(URI uri) {
         Objects.requireNonNull(uri);
         if (!uri.isAbsolute()) {

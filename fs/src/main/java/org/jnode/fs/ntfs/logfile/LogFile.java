@@ -48,7 +48,7 @@ public class LogFile {
     /**
      * The map of offset to record page headers.
      */
-    private Map<Integer, RecordPageHeader> offsetPageMap = new LinkedHashMap<>();
+    private final Map<Integer, RecordPageHeader> offsetPageMap = new LinkedHashMap<>();
 
     /**
      * The map of LSN to log record.

@@ -29,8 +29,7 @@ import java.io.IOException;
  */
 public final class ClusterBitMap {
 
-    public static ClusterBitMap read(ExFatSuperBlock sb,
-                                     long startCluster, long size) throws IOException {
+    public static ClusterBitMap read(ExFatSuperBlock sb, long startCluster, long size) throws IOException {
 
         Cluster.checkValid(startCluster);
 
@@ -111,5 +110,4 @@ public final class ClusterBitMap {
 
         return result;
     }
-
 }

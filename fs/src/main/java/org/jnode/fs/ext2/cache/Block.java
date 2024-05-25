@@ -35,8 +35,8 @@ public class Block {
 
     protected byte[] data;
     boolean dirty = false;
-    protected Ext2FileSystem fs;
-    protected long blockNr;
+    protected final Ext2FileSystem fs;
+    protected final long blockNr;
 
     public Block(Ext2FileSystem fs, long blockNr, byte[] data) {
         this.data = data;
@@ -84,6 +84,7 @@ public class Block {
 
     /**
      * Set the dirty flag.
+     *
      * @param b the dirty flag
      */
     public void setDirty(boolean b) {

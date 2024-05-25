@@ -28,10 +28,8 @@ public interface QueueProcessor<T> {
     /**
      * Process the given object from the queue.
      *
-     * @param object
-     * @throws Exception
+     * @param object the object
+     * @throws Exception when an error occurs
      */
-    void process(T object)
-        throws Exception;
-
+    void process(T object) throws Exception;
 }

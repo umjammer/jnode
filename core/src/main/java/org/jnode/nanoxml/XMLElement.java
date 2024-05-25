@@ -33,6 +33,8 @@ import java.io.CharArrayReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.Serial;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -100,12 +102,13 @@ import java.util.Set;
  *         &lt;<A href="mailto:cyberelf@mac.com">cyberelf@mac.com</A>&gt;
  * @version $Name$, $Revision: 1950 $
  */
-public class XMLElement {
+public class XMLElement implements Serializable {
 
     /**
      * Serialization serial version ID.
      */
-    static final long serialVersionUID = 6685035139346394777L;
+    @Serial
+    private static final long serialVersionUID = 6685035139346394777L;
 
     /**
      * Major version of NanoXML. Classes with the same major and minor
@@ -188,7 +191,7 @@ public class XMLElement {
      *     <li>The values are char arrays
      * </ul></dd></dl>
      */
-    private Map<String, Object> entities;
+    private final Map<String, Object> entities;
 
     /**
      * The line number where the element starts.
@@ -271,8 +274,7 @@ public class XMLElement {
      * <ul><code>new XMLElement(entities, false, true)
      * </code></ul>
      *
-     * @param entities
-     *     The entity conversion table.
+     * @param entities The entity conversion table.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
      * <ul><li><code>entities != null</code>
@@ -304,7 +306,7 @@ public class XMLElement {
      * <ul><code>new XMLElement(new Hashtable(), skipLeadingWhitespace, true)
      * </code></ul>
      *
-     * @param skipLeadingWhitespace
+     * @param skipLeadingWhitespace the skipLeadingWhitespace
      *     <code>true</code> if leading and trailing whitespace in PCDATA
      *     content has to be removed.
      *
@@ -335,10 +337,8 @@ public class XMLElement {
      * <ul><code>new XMLElement(entities, skipLeadingWhitespace, true)
      * </code></ul>
      *
-     * @param entities
-     *     The entity conversion table.
-     * @param skipLeadingWhitespace
-     *     <code>true</code> if leading and trailing whitespace in PCDATA
+     * @param entities The entity conversion table.
+     * @param skipLeadingWhitespace <code>true</code> if leading and trailing whitespace in PCDATA
      *     content has to be removed.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -367,13 +367,10 @@ public class XMLElement {
     /**
      * Creates and initializes a new XML element.
      *
-     * @param entities
-     *     The entity conversion table.
-     * @param skipLeadingWhitespace
-     *     <code>true</code> if leading and trailing whitespace in PCDATA
+     * @param entities The entity conversion table.
+     * @param skipLeadingWhitespace <code>true</code> if leading and trailing whitespace in PCDATA
      *     content has to be removed.
-     * @param ignoreCase
-     *     <code>true</code> if the case of element and attribute names have
+     * @param ignoreCase <code>true</code> if the case of element and attribute names have
      *     to be ignored.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -398,8 +395,8 @@ public class XMLElement {
      *         XMLElement(Hashtable, boolean)
      */
     public XMLElement(Map<String, Object> entities,
-                      boolean   skipLeadingWhitespace,
-                      boolean   ignoreCase) {
+                      boolean skipLeadingWhitespace,
+                      boolean ignoreCase) {
         this(entities, skipLeadingWhitespace, true, ignoreCase);
     }
 
@@ -410,16 +407,12 @@ public class XMLElement {
      * {@link #createAnotherElement()}
      * to create child elements.
      *
-     * @param entities
-     *     The entity conversion table.
-     * @param skipLeadingWhitespace
-     *     <code>true</code> if leading and trailing whitespace in PCDATA
+     * @param entities The entity conversion table.
+     * @param skipLeadingWhitespace <code>true</code> if leading and trailing whitespace in PCDATA
      *     content has to be removed.
-     * @param fillBasicConversionTable
-     *     <code>true</code> if the basic entities need to be added to
+     * @param fillBasicConversionTable <code>true</code> if the basic entities need to be added to
      *     the entity list.
-     * @param ignoreCase
-     *     <code>true</code> if the case of element and attribute names have
+     * @param ignoreCase <code>true</code> if the case of element and attribute names have
      *     to be ignored.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -473,8 +466,7 @@ public class XMLElement {
     /**
      * Adds a child element.
      *
-     * @param child
-     *     The child element to add.
+     * @param child The child element to add.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
      * <ul><li><code>child != null</code>
@@ -502,10 +494,8 @@ public class XMLElement {
     /**
      * Adds or modifies an attribute.
      *
-     * @param name
-     *     The name of the attribute.
-     * @param value
-     *     The value of the attribute.
+     * @param name The name of the attribute.
+     * @param value The value of the attribute.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
      * <ul><li><code>name != null</code>
@@ -527,18 +517,13 @@ public class XMLElement {
      *         getAttribute(String)
      * @see XMLElement#getAttribute(String, Object)
      *         getAttribute(String, Object)
-     * @see XMLElement#getAttribute(String,
-     *                                      java.util.Hashtable,
-     *                                      String, boolean)
+     * @see XMLElement#getAttribute(String, java.util.Hashtable, String, boolean)
      *         getAttribute(String, Hashtable, String, boolean)
      * @see XMLElement#getStringAttribute(String)
      *         getStringAttribute(String)
-     * @see XMLElement#getStringAttribute(String,
-     *                                            String)
+     * @see XMLElement#getStringAttribute(String, String)
      *         getStringAttribute(String, String)
-     * @see XMLElement#getStringAttribute(String,
-     *                                            java.util.Hashtable,
-     *                                            String, boolean)
+     * @see XMLElement#getStringAttribute(String, java.util.Hashtable, String, boolean)
      *         getStringAttribute(String, Hashtable, String, boolean)
      */
     public void setAttribute(String name, Object value) {
@@ -551,10 +536,8 @@ public class XMLElement {
     /**
      * Adds or modifies an attribute.
      *
-     * @param name
-     *     The name of the attribute.
-     * @param value
-     *     The value of the attribute.
+     * @param name The name of the attribute.
+     * @param value The value of the attribute.
      *
      * @deprecated Use {@link #setAttribute(String, Object)} instead.
      */
@@ -565,10 +548,8 @@ public class XMLElement {
     /**
      * Adds or modifies an attribute.
      *
-     * @param name
-     *     The name of the attribute.
-     * @param value
-     *     The value of the attribute.
+     * @param name The name of the attribute.
+     * @param value The value of the attribute.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
      * <ul><li><code>name != null</code>
@@ -591,14 +572,10 @@ public class XMLElement {
      *         getIntAttribute(String)
      * @see XMLElement#getIntAttribute(String, int)
      *         getIntAttribute(String, int)
-     * @see XMLElement#getIntAttribute(String,
-     *                                         java.util.Hashtable,
-     *                                         String, boolean)
+     * @see XMLElement#getIntAttribute(String, java.util.Hashtable, String, boolean)
      *         getIntAttribute(String, Hashtable, String, boolean)
      */
-    public void setIntAttribute(String name,
-                                int    value)
-    {
+    public void setIntAttribute(String name, int value) {
         if (this.ignoreCase) {
             name = name.toUpperCase();
         }
@@ -608,26 +585,20 @@ public class XMLElement {
     /**
      * Adds or modifies an attribute.
      *
-     * @param name
-     *     The name of the attribute.
-     * @param value
-     *     The value of the attribute.
+     * @param name The name of the attribute.
+     * @param value The value of the attribute.
      *
      * @deprecated Use {@link #setIntAttribute(String, int)} instead.
      */
-    public void addProperty(String name,
-                            int    value)
-    {
+    public void addProperty(String name, int value) {
         this.setIntAttribute(name, value);
     }
 
     /**
      * Adds or modifies an attribute.
      *
-     * @param name
-     *     The name of the attribute.
-     * @param value
-     *     The value of the attribute.
+     * @param name The name of the attribute.
+     * @param value The value of the attribute.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
      * <ul><li><code>name != null</code>
@@ -650,14 +621,10 @@ public class XMLElement {
      *         getDoubleAttribute(String)
      * @see XMLElement#getDoubleAttribute(String, double)
      *         getDoubleAttribute(String, double)
-     * @see XMLElement#getDoubleAttribute(String,
-     *                                            java.util.Hashtable,
-     *                                            String, boolean)
+     * @see XMLElement#getDoubleAttribute(String, java.util.Hashtable, String, boolean)
      *         getDoubleAttribute(String, Hashtable, String, boolean)
      */
-    public void setDoubleAttribute(String name,
-                                   double value)
-    {
+    public void setDoubleAttribute(String name, double value) {
         if (this.ignoreCase) {
             name = name.toUpperCase();
         }
@@ -667,16 +634,12 @@ public class XMLElement {
     /**
      * Adds or modifies an attribute.
      *
-     * @param name
-     *     The name of the attribute.
-     * @param value
-     *     The value of the attribute.
+     * @param name The name of the attribute.
+     * @param value The value of the attribute.
      *
      * @deprecated Use {@link #setDoubleAttribute(String, double)} instead.
      */
-    public void addProperty(String name,
-                            double value)
-    {
+    public void addProperty(String name, double value) {
         this.setDoubleAttribute(name, value);
     }
 
@@ -718,38 +681,27 @@ public class XMLElement {
      *         getAttribute(String)
      * @see XMLElement#getAttribute(String, Object)
      *         getAttribute(String, String)
-     * @see XMLElement#getAttribute(String,
-     *                                      java.util.Hashtable,
-     *                                      String, boolean)
+     * @see XMLElement#getAttribute(String, java.util.Hashtable, String, boolean)
      *         getAttribute(String, Hashtable, String, boolean)
      * @see XMLElement#getStringAttribute(String)
      *         getStringAttribute(String)
-     * @see XMLElement#getStringAttribute(String,
-     *                                            String)
+     * @see XMLElement#getStringAttribute(String, String)
      *         getStringAttribute(String, String)
-     * @see XMLElement#getStringAttribute(String,
-     *                                            java.util.Hashtable,
-     *                                            String, boolean)
+     * @see XMLElement#getStringAttribute(String, java.util.Hashtable, String, boolean)
      *         getStringAttribute(String, Hashtable, String, boolean)
      * @see XMLElement#getIntAttribute(String)
      *         getIntAttribute(String)
      * @see XMLElement#getIntAttribute(String, int)
      *         getIntAttribute(String, int)
-     * @see XMLElement#getIntAttribute(String,
-     *                                         java.util.Hashtable,
-     *                                         String, boolean)
+     * @see XMLElement#getIntAttribute(String, java.util.Hashtable, String, boolean)
      *         getIntAttribute(String, Hashtable, String, boolean)
      * @see XMLElement#getDoubleAttribute(String)
      *         getDoubleAttribute(String)
      * @see XMLElement#getDoubleAttribute(String, double)
      *         getDoubleAttribute(String, double)
-     * @see XMLElement#getDoubleAttribute(String,
-     *                                            java.util.Hashtable,
-     *                                            String, boolean)
+     * @see XMLElement#getDoubleAttribute(String, java.util.Hashtable, String, boolean)
      *         getDoubleAttribute(String, Hashtable, String, boolean)
-     * @see XMLElement#getBooleanAttribute(String,
-     *                                             String,
-     *                                             String, boolean)
+     * @see XMLElement#getBooleanAttribute(String, String, String, boolean)
      *         getBooleanAttribute(String, String, String, boolean)
      */
     public Set<String> attributeNames()
@@ -850,9 +802,7 @@ public class XMLElement {
      * @see XMLElement#attributeNames()
      * @see XMLElement#getAttribute(String, Object)
      *         getAttribute(String, Object)
-     * @see XMLElement#getAttribute(String,
-     *                                      java.util.Hashtable,
-     *                                      String, boolean)
+     * @see XMLElement#getAttribute(String, java.util.Hashtable, String, boolean)
      *         getAttribute(String, Hashtable, String, boolean)
      */
     public Object getAttribute(String name)
@@ -879,9 +829,7 @@ public class XMLElement {
      * @see XMLElement#attributeNames()
      * @see XMLElement#getAttribute(String)
      *         getAttribute(String)
-     * @see XMLElement#getAttribute(String,
-     *                                      java.util.Hashtable,
-     *                                      String, boolean)
+     * @see XMLElement#getAttribute(String, java.util.Hashtable, String, boolean)
      *         getAttribute(String, Hashtable, String, boolean)
      */
     public Object getAttribute(String name,
@@ -908,14 +856,10 @@ public class XMLElement {
      * <code>getAttribute("attr", mapping, defaultKey, false)</code> returns
      * <code>"1"</code>.
      *
-     * @param name
-     *     The name of the attribute.
-     * @param valueSet
-     *     Hashtable mapping keys to values.
-     * @param defaultKey
-     *     Key to use if the attribute is missing.
-     * @param allowLiterals
-     *     <code>true</code> if literals are valid.
+     * @param name The name of the attribute.
+     * @param valueSet Hashtable mapping keys to values.
+     * @param defaultKey Key to use if the attribute is missing.
+     * @param allowLiterals <code>true</code> if literals are valid.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
      * <ul><li><code>name != null</code>
@@ -935,7 +879,7 @@ public class XMLElement {
      *         getAttribute(String, Object)
      */
     public Object getAttribute(String    name,
-                               Hashtable valueSet,
+                               Hashtable<?, ?> valueSet,
                                String    defaultKey,
                                boolean   allowLiterals)
     {
@@ -974,12 +918,9 @@ public class XMLElement {
      * @see XMLElement#removeAttribute(String)
      *         removeAttribute(String)
      * @see XMLElement#attributeNames()
-     * @see XMLElement#getStringAttribute(String,
-     *                                            String)
+     * @see XMLElement#getStringAttribute(String, String)
      *         getStringAttribute(String, String)
-     * @see XMLElement#getStringAttribute(String,
-     *                                            java.util.Hashtable,
-     *                                            String, boolean)
+     * @see XMLElement#getStringAttribute(String, java.util.Hashtable, String, boolean)
      *         getStringAttribute(String, Hashtable, String, boolean)
      */
     public String getStringAttribute(String name)
@@ -1006,14 +947,10 @@ public class XMLElement {
      * @see XMLElement#attributeNames()
      * @see XMLElement#getStringAttribute(String)
      *         getStringAttribute(String)
-     * @see XMLElement#getStringAttribute(String,
-     *                                            java.util.Hashtable,
-     *                                            String, boolean)
+     * @see XMLElement#getStringAttribute(String, java.util.Hashtable, String, boolean)
      *         getStringAttribute(String, Hashtable, String, boolean)
      */
-    public String getStringAttribute(String name,
-                                     String defaultValue)
-    {
+    public String getStringAttribute(String name, String defaultValue) {
         return (String) this.getAttribute(name, defaultValue);
     }
 
@@ -1028,14 +965,10 @@ public class XMLElement {
      * <code>getAttribute("attr", mapping, defaultKey, false)</code> returns
      * <code>"1"</code>.
      *
-     * @param name
-     *     The name of the attribute.
-     * @param valueSet
-     *     Hashtable mapping keys to values.
-     * @param defaultKey
-     *     Key to use if the attribute is missing.
-     * @param allowLiterals
-     *     <code>true</code> if literals are valid.
+     * @param name The name of the attribute.
+     * @param valueSet Hashtable mapping keys to values.
+     * @param defaultKey Key to use if the attribute is missing.
+     * @param allowLiterals <code>true</code> if literals are valid.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
      * <ul><li><code>name != null</code>
@@ -1057,7 +990,7 @@ public class XMLElement {
      *         getStringAttribute(String, String)
      */
     public String getStringAttribute(String    name,
-                                     Hashtable valueSet,
+                                     Hashtable<?, ?> valueSet,
                                      String    defaultKey,
                                      boolean   allowLiterals)
     {
@@ -1081,9 +1014,7 @@ public class XMLElement {
      * @see XMLElement#attributeNames()
      * @see XMLElement#getIntAttribute(String, int)
      *         getIntAttribute(String, int)
-     * @see XMLElement#getIntAttribute(String,
-     *                                         java.util.Hashtable,
-     *                                         String, boolean)
+     * @see XMLElement#getIntAttribute(String, java.util.Hashtable, String, boolean)
      *         getIntAttribute(String, Hashtable, String, boolean)
      */
     public int getIntAttribute(String name)
@@ -1108,14 +1039,10 @@ public class XMLElement {
      * @see XMLElement#attributeNames()
      * @see XMLElement#getIntAttribute(String)
      *         getIntAttribute(String)
-     * @see XMLElement#getIntAttribute(String,
-     *                                         java.util.Hashtable,
-     *                                         String, boolean)
+     * @see XMLElement#getIntAttribute(String,java.util.Hashtable,String, boolean)
      *         getIntAttribute(String, Hashtable, String, boolean)
      */
-    public int getIntAttribute(String name,
-                               int    defaultValue)
-    {
+    public int getIntAttribute(String name, int defaultValue) {
         if (this.ignoreCase) {
             name = name.toUpperCase();
         }
@@ -1141,14 +1068,10 @@ public class XMLElement {
      * <code>getIntAttribute("attr", mapping, defaultKey, false)</code> returns
      * <code>1</code>.
      *
-     * @param name
-     *     The name of the attribute.
-     * @param valueSet
-     *     Hashtable mapping keys to values.
-     * @param defaultKey
-     *     Key to use if the attribute is missing.
-     * @param allowLiteralNumbers
-     *     <code>true</code> if literal numbers are valid.
+     * @param name The name of the attribute.
+     * @param valueSet Hashtable mapping keys to values.
+     * @param defaultKey Key to use if the attribute is missing.
+     * @param allowLiteralNumbers <code>true</code> if literal numbers are valid.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
      * <ul><li><code>name != null</code>
@@ -1169,10 +1092,9 @@ public class XMLElement {
      *         getIntAttribute(String, int)
      */
     public int getIntAttribute(String    name,
-                               Hashtable valueSet,
+                               Hashtable<?, ?> valueSet,
                                String    defaultKey,
-                               boolean   allowLiteralNumbers)
-    {
+                               boolean   allowLiteralNumbers) {
         if (this.ignoreCase) {
             name = name.toUpperCase();
         }
@@ -1215,9 +1137,7 @@ public class XMLElement {
      * @see XMLElement#attributeNames()
      * @see XMLElement#getDoubleAttribute(String, double)
      *         getDoubleAttribute(String, double)
-     * @see XMLElement#getDoubleAttribute(String,
-     *                                            java.util.Hashtable,
-     *                                            String, boolean)
+     * @see XMLElement#getDoubleAttribute(String,java.util.Hashtable,String, boolean)
      *         getDoubleAttribute(String, Hashtable, String, boolean)
      */
     public double getDoubleAttribute(String name)
@@ -1242,14 +1162,10 @@ public class XMLElement {
      * @see XMLElement#attributeNames()
      * @see XMLElement#getDoubleAttribute(String)
      *         getDoubleAttribute(String)
-     * @see XMLElement#getDoubleAttribute(String,
-     *                                            java.util.Hashtable,
-     *                                            String, boolean)
+     * @see XMLElement#getDoubleAttribute(String,java.util.Hashtable,String, boolean)
      *         getDoubleAttribute(String, Hashtable, String, boolean)
      */
-    public double getDoubleAttribute(String name,
-                                     double defaultValue)
-    {
+    public double getDoubleAttribute(String name, double defaultValue) {
         if (this.ignoreCase) {
             name = name.toUpperCase();
         }
@@ -1276,14 +1192,10 @@ public class XMLElement {
      * <code>getDoubleAttribute("attr", mapping, defaultKey, false)</code>
      * returns <code>1.0</code>.
      *
-     * @param name
-     *     The name of the attribute.
-     * @param valueSet
-     *     Hashtable mapping keys to values.
-     * @param defaultKey
-     *     Key to use if the attribute is missing.
-     * @param allowLiteralNumbers
-     *     <code>true</code> if literal numbers are valid.
+     * @param name The name of the attribute.
+     * @param valueSet Hashtable mapping keys to values.
+     * @param defaultKey Key to use if the attribute is missing.
+     * @param allowLiteralNumbers <code>true</code> if literal numbers are valid.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
      * <ul><li><code>name != null</code>
@@ -1303,11 +1215,10 @@ public class XMLElement {
      * @see XMLElement#getDoubleAttribute(String, double)
      *         getDoubleAttribute(String, double)
      */
-    public double getDoubleAttribute(String    name,
-                                     Hashtable valueSet,
-                                     String    defaultKey,
-                                     boolean   allowLiteralNumbers)
-    {
+    public double getDoubleAttribute(String name,
+                                     Hashtable<?, ?> valueSet,
+                                     String defaultKey,
+                                     boolean allowLiteralNumbers) {
         if (this.ignoreCase) {
             name = name.toUpperCase();
         }
@@ -1365,8 +1276,7 @@ public class XMLElement {
     public boolean getBooleanAttribute(String  name,
                                        String  trueValue,
                                        String  falseValue,
-                                       boolean defaultValue)
-    {
+                                       boolean defaultValue) {
         if (this.ignoreCase) {
             name = name.toUpperCase();
         }
@@ -1385,13 +1295,9 @@ public class XMLElement {
     /**
      * Returns an attribute by looking up a key in a hashtable.
      *
-     * @deprecated Use {@link #getIntAttribute(String,
-     *             java.util.Hashtable, String, boolean)} instead.
+     * @deprecated Use {@link #getIntAttribute(String, java.util.Hashtable, String, boolean)} instead.
      */
-    public int getIntProperty(String    name,
-                              Hashtable valueSet,
-                              String    defaultKey)
-    {
+    public int getIntProperty(String name, Hashtable<?, ?> valueSet, String defaultKey) {
         return this.getIntAttribute(name, valueSet, defaultKey, false);
     }
 
@@ -1410,9 +1316,7 @@ public class XMLElement {
      *
      * @deprecated Use {@link #getStringAttribute(String, String)} instead.
      */
-    public String getProperty(String name,
-                              String defaultValue)
-    {
+    public String getProperty(String name, String defaultValue) {
         return this.getStringAttribute(name, defaultValue);
     }
 
@@ -1421,9 +1325,7 @@ public class XMLElement {
      *
      * @deprecated Use {@link #getIntAttribute(String, int)} instead.
      */
-    public int getProperty(String name,
-                           int    defaultValue)
-    {
+    public int getProperty(String name, int defaultValue) {
         return this.getIntAttribute(name, defaultValue);
     }
 
@@ -1432,35 +1334,29 @@ public class XMLElement {
      *
      * @deprecated Use {@link #getDoubleAttribute(String, double)} instead.
      */
-    public double getProperty(String name,
-                              double defaultValue)
-    {
+    public double getProperty(String name, double defaultValue) {
         return this.getDoubleAttribute(name, defaultValue);
     }
 
     /**
      * Returns an attribute.
      *
-     * @deprecated Use {@link #getBooleanAttribute(String,
-     *             String, String, boolean)} instead.
+     * @deprecated Use {@link #getBooleanAttribute(String, String, String, boolean)} instead.
      */
     public boolean getProperty(String  key,
                                String  trueValue,
                                String  falseValue,
-                               boolean defaultValue)
-    {
-        return this.getBooleanAttribute(key, trueValue, falseValue,
-                                        defaultValue);
+                               boolean defaultValue) {
+        return this.getBooleanAttribute(key, trueValue, falseValue, defaultValue);
     }
 
     /**
      * Returns an attribute by looking up a key in a hashtable.
      *
-     * @deprecated Use {@link #getAttribute(String,
-     *             java.util.Hashtable, String, boolean)} instead.
+     * @deprecated Use {@link #getAttribute(String, java.util.Hashtable, String, boolean)} instead.
      */
     public Object getProperty(String    name,
-                              Hashtable valueSet,
+                              Hashtable<?, ?> valueSet,
                               String    defaultKey)
     {
         return this.getAttribute(name, valueSet, defaultKey, false);
@@ -1473,7 +1369,7 @@ public class XMLElement {
      *             java.util.Hashtable, String, boolean)} instead.
      */
     public String getStringProperty(String    name,
-                                    Hashtable valueSet,
+                                    Hashtable<?, ?> valueSet,
                                     String    defaultKey)
     {
         return this.getStringAttribute(name, valueSet, defaultKey, false);
@@ -1486,7 +1382,7 @@ public class XMLElement {
      *             java.util.Hashtable, String, boolean)} instead.
      */
     public int getSpecialIntProperty(String    name,
-                                     Hashtable valueSet,
+                                     Hashtable<?, ?> valueSet,
                                      String    defaultKey)
     {
         return this.getIntAttribute(name, valueSet, defaultKey, true);
@@ -1499,7 +1395,7 @@ public class XMLElement {
      *             java.util.Hashtable, String, boolean)} instead.
      */
     public double getSpecialDoubleProperty(String    name,
-                                           Hashtable valueSet,
+                                           Hashtable<?, ?> valueSet,
                                            String    defaultKey)
     {
         return this.getDoubleAttribute(name, valueSet, defaultKey, true);
@@ -1528,7 +1424,7 @@ public class XMLElement {
     /**
      * Reads one XML element from a java.io.Reader and parses it.
      *
-     * @param reader
+     * @param reader the reader
      *     The reader from which to retrieve the XML data.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -1543,9 +1439,9 @@ public class XMLElement {
      *         '&gt;' character of the XML element
      * </ul></dd></dl><dl>
      *
-     * @throws java.io.IOException
+     * @throws java.io.IOException when an error occurs
      *     If an error occured while reading the input.
-     * @throws XMLParseException
+     * @throws XMLParseException when an error occurs
      *     If an error occured while parsing the read data.
      */
     public void parseFromReader(Reader reader)
@@ -1557,9 +1453,9 @@ public class XMLElement {
     /**
      * Reads one XML element from a java.io.Reader and parses it.
      *
-     * @param reader
+     * @param reader the reader
      *     The reader from which to retrieve the XML data.
-     * @param startingLineNr
+     * @param startingLineNr the startingLineNr
      *     The line number of the first line in the data.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -1574,9 +1470,9 @@ public class XMLElement {
      *         '&gt;' character of the XML element
      * </ul></dd></dl><dl>
      *
-     * @throws java.io.IOException
+     * @throws java.io.IOException when an error occurs
      *     If an error occured while reading the input.
-     * @throws XMLParseException
+     * @throws XMLParseException when an error occurs
      *     If an error occured while parsing the read data.
      */
     public void parseFromReader(Reader reader,
@@ -1613,7 +1509,7 @@ public class XMLElement {
     /**
      * Reads one XML element from a String and parses it.
      *
-     * @param string
+     * @param string the string
      *     The string from which to read the XML data.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -1626,7 +1522,7 @@ public class XMLElement {
      *         parsed from the reader
      * </ul></dd></dl><dl>
      *
-     * @throws XMLParseException
+     * @throws XMLParseException when an error occurs
      *     If an error occured while parsing the string.
      */
     public void parseString(String string)
@@ -1643,9 +1539,9 @@ public class XMLElement {
     /**
      * Reads one XML element from a String and parses it.
      *
-     * @param string
+     * @param string the string
      *     The String from which to read the XML data.
-     * @param offset
+     * @param offset the offset
      *     The first character in <code>string</code> to scan.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -1659,7 +1555,7 @@ public class XMLElement {
      *         parsed from the reader
      * </ul></dd></dl><dl>
      *
-     * @throws XMLParseException
+     * @throws XMLParseException when an error occurs
      *     If an error occured while parsing the string.
      */
     public void parseString(String string,
@@ -1672,11 +1568,11 @@ public class XMLElement {
     /**
      * Reads one XML element from a String and parses it.
      *
-     * @param string
+     * @param string the string
      *     The String from which to read the XML data.
-     * @param offset
+     * @param offset the offset
      *     The first character in <code>string</code> to scan.
-     * @param end
+     * @param end the end
      *     The character where to stop scanning.
      *     This character is not scanned.
      *
@@ -1692,7 +1588,7 @@ public class XMLElement {
      *         parsed from the reader
      * </ul></dd></dl><dl>
      *
-     * @throws XMLParseException
+     * @throws XMLParseException when an error occurs
      *     If an error occured while parsing the string.
      */
     public void parseString(String string,
@@ -1706,14 +1602,14 @@ public class XMLElement {
     /**
      * Reads one XML element from a String and parses it.
      *
-     * @param string
+     * @param string the string
      *     The String from which to read the XML data.
-     * @param offset
+     * @param offset the offset
      *     The first character in <code>string</code> to scan.
-     * @param end
+     * @param end the end
      *     The character where to stop scanning.
      *     This character is not scanned.
-     * @param startingLineNr
+     * @param startingLineNr the startingLineNr
      *     The line number of the first line in the data.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -1728,7 +1624,7 @@ public class XMLElement {
      *         parsed from the reader
      * </ul></dd></dl><dl>
      *
-     * @throws XMLParseException
+     * @throws XMLParseException when an error occurs
      *     If an error occured while parsing the string.
      */
     public void parseString(String string,
@@ -1748,11 +1644,11 @@ public class XMLElement {
     /**
      * Reads one XML element from a char array and parses it.
      *
-     * @param input
+     * @param input the input
      *     The array from which to read the XML data.
-     * @param offset
+     * @param offset the offset
      *     The first character in <code>string</code> to scan.
-     * @param end
+     * @param end the end
      *     The character where to stop scanning.
      *     This character is not scanned.
      *
@@ -1768,7 +1664,7 @@ public class XMLElement {
      *         parsed from the reader
      * </ul></dd></dl><dl>
      *
-     * @throws XMLParseException
+     * @throws XMLParseException when an error occurs
      *     If an error occured while parsing the string.
      */
     public void parseCharArray(char[] input,
@@ -1782,14 +1678,14 @@ public class XMLElement {
     /**
      * Reads one XML element from a char array and parses it.
      *
-     * @param input
+     * @param input the input
      *     The array from which to read the XML data.
-     * @param offset
+     * @param offset the offset
      *     The first character in <code>string</code> to scan.
-     * @param end
+     * @param end the end
      *     The character where to stop scanning.
      *     This character is not scanned.
-     * @param startingLineNr
+     * @param startingLineNr the startingLineNr
      *     The line number of the first line in the data.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -1804,7 +1700,7 @@ public class XMLElement {
      *         parsed from the reader
      * </ul></dd></dl><dl>
      *
-     * @throws XMLParseException
+     * @throws XMLParseException when an error occurs
      *     If an error occured while parsing the string.
      */
     public void parseCharArray(char[] input,
@@ -1824,7 +1720,7 @@ public class XMLElement {
     /**
      * Removes a child element.
      *
-     * @param child
+     * @param child the child
      *     The child element to remove.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -1852,7 +1748,7 @@ public class XMLElement {
     /**
      * Removes an attribute.
      *
-     * @param name
+     * @param name the name
      *     The name of the attribute.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -1921,7 +1817,7 @@ public class XMLElement {
     /**
      * Removes an attribute.
      *
-     * @param name
+     * @param name the name
      *     The name of the attribute.
      *
      * @deprecated Use {@link #removeAttribute(String)
@@ -1935,7 +1831,7 @@ public class XMLElement {
     /**
      * Removes an attribute.
      *
-     * @param name
+     * @param name the name
      *     The name of the attribute.
      *
      * @deprecated Use {@link #removeAttribute(String)
@@ -1962,7 +1858,7 @@ public class XMLElement {
     /**
      * Changes the content string.
      *
-     * @param content
+     * @param content the content
      *     The new content string.
      */
     public void setContent(String content)
@@ -1973,7 +1869,7 @@ public class XMLElement {
     /**
      * Changes the name of the element.
      *
-     * @param name
+     * @param name the name
      *     The new name.
      *
      * @deprecated Use {@link #setName(String) setName} instead.
@@ -1986,7 +1882,7 @@ public class XMLElement {
     /**
      * Changes the name of the element.
      *
-     * @param name
+     * @param name the name
      *     The new name.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -2023,7 +1919,7 @@ public class XMLElement {
     /**
      * Writes the XML element to a writer.
      *
-     * @param writer
+     * @param writer the writer
      *     The writer to write the XML data to.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -2031,7 +1927,7 @@ public class XMLElement {
      *     <li><code>writer</code> is not closed
      * </ul></dd></dl>
      *
-     * @throws java.io.IOException
+     * @throws java.io.IOException when an error occurs
      *      If the data could not be written to the writer.
      *
      * @see XMLElement#toString()
@@ -2078,9 +1974,9 @@ public class XMLElement {
     /**
      * Writes a string encoded to a writer.
      *
-     * @param writer
+     * @param writer the writer
      *     The writer to write the XML data to.
-     * @param str
+     * @param str the str
      *     The string to write encoded.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -2134,7 +2030,7 @@ public class XMLElement {
      * Scans an identifier from the current reader.
      * The scanned identifier is appended to <code>result</code>.
      *
-     * @param result
+     * @param result the result
      *     The buffer in which the scanned identifier will be put.
      *
      * </dl><dl><dt><b>Preconditions:</b></dt><dd>
@@ -2155,7 +2051,7 @@ public class XMLElement {
             char ch = this.readChar();
             if (((ch < 'A') || (ch > 'Z')) && ((ch < 'a') || (ch > 'z'))
                 && ((ch < '0') || (ch > '9')) && (ch != '_') && (ch != '.')
-                && (ch != ':') && (ch != '-') && (ch <= '\u007E')) {
+                && (ch != ':') && (ch != '-') && (ch <= '~')) {
                 this.unreadChar(ch);
                 return;
             }
@@ -2308,9 +2204,7 @@ public class XMLElement {
                         break;
                     case '>':
                         if (delimiterCharsSkipped < 2) {
-                            for (int i = 0; i < delimiterCharsSkipped; i++) {
-                                buf.append(']');
-                            }
+                            buf.append("]".repeat(Math.max(0, delimiterCharsSkipped)));
                             delimiterCharsSkipped = 0;
                             buf.append('>');
                         } else {
@@ -2318,9 +2212,7 @@ public class XMLElement {
                         }
                         break;
                     default:
-                        for (int i = 0; i < delimiterCharsSkipped; i += 1) {
-                            buf.append(']');
-                        }
+                        buf.append("]".repeat(Math.max(0, delimiterCharsSkipped)));
                         buf.append(ch);
                         delimiterCharsSkipped = 0;
                 }

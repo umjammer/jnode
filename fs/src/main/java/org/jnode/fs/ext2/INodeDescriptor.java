@@ -32,7 +32,7 @@ import org.jnode.fs.FileSystemException;
 
 public class INodeDescriptor {
 
-    private long iNodeNr;
+    private final long iNodeNr;
 
     /* The number of blocks allocated for the iNode is not necessary equal to its size in blocks:
      * <ul>
@@ -44,18 +44,18 @@ public class INodeDescriptor {
      */
     private long lastAllocatedBlockIndex = -1;
 
-    //which block group contains the inode
-    private int group;
+    // which block group contains the inode
+    private final int group;
 
-    //the index of the inode in the block group
-    private int index;
+    // the index of the inode in the block group
+    private final int index;
 
-    //the inode table that contains this inode
-    private INodeTable iNodeTable;
+    // the inode table that contains this inode
+    private final INodeTable iNodeTable;
 
-    //preallocated blocks are maintained as long as the inode is in memory.
-    //When it is flushed(), unused preallocated blocks must be freed in the 
-    //block bitmap.
+    // preallocated blocks are maintained as long as the inode is in memory.
+    // When it is flushed(), unused preallocated blocks must be freed in the
+    // block bitmap.
     private long preallocBlock;
 
     private int preallocCount;

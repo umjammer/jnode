@@ -50,10 +50,10 @@ public interface TransportLayer {
 
     /**
      * Process a packet that has been received and matches getType()
-     * @param skbuf
-     * @throws SocketException
+     * @param skBuf the socket buffer
+     * @throws SocketException when an error occurs
      */
-    void receive(SocketBuffer skbuf) throws SocketException;
+    void receive(SocketBuffer skBuf) throws SocketException;
 
     /**
      * Gets the SocketImplFactory of this protocol.

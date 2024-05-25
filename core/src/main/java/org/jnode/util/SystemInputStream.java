@@ -31,14 +31,16 @@ import java.io.InputStream;
  * this anymore.
  */
 public final class SystemInputStream extends InputStream {
+
     // FIXME ... remove the thread localization support.  It is now just a misleading
-    // historical relic.
+    //  historical relic.
 
     private static final InputStream EMPTY = new EmptyInputStream();
 
-    private final class ThreadLocalInputStream extends InheritableThreadLocal {
-        public Object get() {
-            Object o = super.get();
+    private final class ThreadLocalInputStream extends InheritableThreadLocal<InputStream> {
+        @Override
+        public InputStream get() {
+            InputStream o = super.get();
             if (o == EMPTY) {
                 set(systemIn);
                 o = systemIn;
@@ -46,7 +48,8 @@ public final class SystemInputStream extends InputStream {
             return o;
         }
 
-        protected Object initialValue() {
+        @Override
+        protected InputStream initialValue() {
             return systemIn;
         }
     }
@@ -90,7 +93,7 @@ public final class SystemInputStream extends InputStream {
      * Set the wrapped stream to the supplied parameter.  This method
      * only has any effect if the wrapped stream is unset.
      *
-     * @param systemIn
+     * @param systemIn the systemIn
      */
     public void initialize(InputStream systemIn) {
         // TODO protect me with SecurityManager !
@@ -104,105 +107,52 @@ public final class SystemInputStream extends InputStream {
         this.systemIn = EMPTY; // by default, no keyboard
     }
 
-    /**
-     * Calls the <code>in.mark(int)</code> method.
-     *
-     * @param readlimit The parameter passed to <code>in.mark(int)</code>
-     */
-    public void mark(int readlimit) {
-        getLocalIn().mark(readlimit);
+    @Override
+    public void mark(int readLimit) {
+        getLocalIn().mark(readLimit);
     }
 
-    /**
-     * Calls the <code>in.markSupported()</code> method.
-     *
-     * @return <code>true</code> if mark/reset is supported, <code>false</code>
-     *         otherwise
-     */
+    @Override
     public boolean markSupported() {
         return getLocalIn().markSupported();
     }
 
-    /**
-     * Calls the <code>in.reset()</code> method.
-     *
-     * @throws IOException If an error occurs
-     */
+    @Override
     public void reset() throws IOException {
         getLocalIn().reset();
     }
 
-    /**
-     * Calls the <code>in.available()</code> method.
-     *
-     * @return The value returned from <code>in.available()</code>
-     * @throws IOException If an error occurs
-     */
+    @Override
     public int available() throws IOException {
         return getLocalIn().available();
     }
 
-    /**
-     * Calls the <code>in.skip(long)</code> method
-     *
-     * @param numBytes The requested number of bytes to skip.
-     * @return The value returned from <code>in.skip(long)</code>
-     * @throws IOException If an error occurs
-     */
+    @Override
     public long skip(long numBytes) throws IOException {
         return getLocalIn().skip(numBytes);
     }
 
-    /**
-     * Calls the <code>in.read()</code> method
-     *
-     * @return The value returned from <code>in.read()</code>
-     * @throws IOException If an error occurs
-     */
+    @Override
     public int read() throws IOException {
         return getLocalIn().read();
     }
 
-    /**
-     * Calls the <code>read(byte[], int, int)</code> overloaded method.
-     * Note that
-     * this method does not redirect its call directly to a corresponding
-     * method in <code>in</code>.  This allows subclasses to override only the
-     * three argument version of <code>read</code>.
-     *
-     * @param buf The buffer to read bytes into
-     * @return The value retured from <code>in.read(byte[], int, int)</code>
-     * @throws IOException If an error occurs
-     */
+    @Override
     public int read(byte[] buf) throws IOException {
         return read(buf, 0, buf.length);
     }
 
-    /**
-     * Calls the <code>in.read(byte[], int, int)</code> method.
-     *
-     * @param buf    The buffer to read bytes into
-     * @param offset The index into the buffer to start storing bytes
-     * @param len    The maximum number of bytes to read.
-     * @return The value retured from <code>in.read(byte[], int, int)</code>
-     * @throws IOException If an error occurs
-     */
+    @Override
     public int read(byte[] buf, int offset, int len) throws IOException {
         return getLocalIn().read(buf, offset, len);
     }
 
-    /**
-     * This method closes the input stream by closing the input stream that
-     * this object is filtering.  Future attempts to access this stream may
-     * throw an exception.
-     *
-     * @throws IOException If an error occurs
-     */
+    @Override
     public void close() throws IOException {
         getLocalIn().close();
     }
 
     private InputStream getLocalIn() {
-        return (InputStream) localeIn.get();
+        return localeIn.get();
     }
 }

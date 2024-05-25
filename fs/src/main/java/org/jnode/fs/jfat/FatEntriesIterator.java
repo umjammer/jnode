@@ -13,10 +13,12 @@ public class FatEntriesIterator extends FatEntriesFactory implements Iterator<FS
         this.fatTable = fatTable;
     }
 
+    @Override
     public boolean hasNext() {
         return hasNextEntry();
     }
 
+    @Override
     public FSEntry next() {
         if (includeDeleted) {
             return createNextEntry();
@@ -25,7 +27,4 @@ public class FatEntriesIterator extends FatEntriesFactory implements Iterator<FS
         }
     }
 
-    public void remove() {
-        throw new UnsupportedOperationException("remove");
-    }
 }

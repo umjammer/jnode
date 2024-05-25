@@ -28,7 +28,7 @@ import org.jnode.fs.Formatter;
 
 public class HfsPlusFileSystemFormatter extends Formatter<HfsPlusFileSystem> {
 
-    private HFSPlusParams params;
+    private final HFSPlusParams params;
 
     public HfsPlusFileSystemFormatter(HFSPlusParams params) {
         super(new HfsPlusFileSystemType());

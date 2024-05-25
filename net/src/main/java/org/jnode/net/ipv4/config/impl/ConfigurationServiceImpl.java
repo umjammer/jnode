@@ -35,7 +35,7 @@ public class ConfigurationServiceImpl implements IPv4ConfigurationService {
 
     /**
      * Initialize this instance.
-     * @param config
+     * @param config the config
      */
     public ConfigurationServiceImpl(ConfigurationProcessor processor, NetConfigurationData config) {
         this.processor = processor;
@@ -44,12 +44,13 @@ public class ConfigurationServiceImpl implements IPv4ConfigurationService {
 
     /**
      * Set a static configuration for the given device.
-     * @param device
-     * @param address
-     * @param netmask
+     * @param device the device
+     * @param address the address
+     * @param netmask the netmask
      */
+    @Override
     public void configureDeviceStatic(Device device, IPv4Address address, IPv4Address netmask,
-            boolean persistent) throws NetworkException {
+                                      boolean persistent) throws NetworkException {
         final NetStaticDeviceConfig cfg = new NetStaticDeviceConfig(address, netmask);
         if (persistent) {
             config.setConfiguration(device, cfg);
@@ -59,10 +60,11 @@ public class ConfigurationServiceImpl implements IPv4ConfigurationService {
 
     /**
      * Configure the device using BOOTP.
-     * @param device
-     * @param persistent
-     * @throws NetworkException
+     * @param device the device
+     * @param persistent the persistent
+     * @throws NetworkException when an error occurs
      */
+    @Override
     public void configureDeviceBootp(Device device, boolean persistent) throws NetworkException {
         final NetBootpDeviceConfig cfg = new NetBootpDeviceConfig();
         if (persistent) {
@@ -73,10 +75,11 @@ public class ConfigurationServiceImpl implements IPv4ConfigurationService {
 
     /**
      * Configure the device using DHCP.
-     * @param device
-     * @param persistent
-     * @throws NetworkException
+     * @param device the device
+     * @param persistent the persistent
+     * @throws NetworkException when an error occurs
      */
+    @Override
     public void configureDeviceDhcp(Device device, boolean persistent) throws NetworkException {
         final NetDhcpConfig cfg = new NetDhcpConfig();
         if (persistent) {
@@ -85,19 +88,13 @@ public class ConfigurationServiceImpl implements IPv4ConfigurationService {
         processor.apply(device, cfg, true);
     }
 
-    /**
-     * @see org.jnode.net.ipv4.config.IPv4ConfigurationService#addRoute(org.jnode.net.ipv4.IPv4Address, 
-     *      org.jnode.net.ipv4.IPv4Address, org.jnode.driver.Device, boolean)
-     */
+    @Override
     public void addRoute(IPv4Address target, IPv4Address gateway, Device device, boolean persistent)
         throws NetworkException {
         Route.addRoute(target, gateway, device);
     }
 
-    /**
-     * @see org.jnode.net.ipv4.config.IPv4ConfigurationService#deleteRoute(org.jnode.net.ipv4.IPv4Address,
-     *      org.jnode.net.ipv4.IPv4Address, org.jnode.driver.Device)
-     */
+    @Override
     public void deleteRoute(IPv4Address target, IPv4Address gateway, Device device)
         throws NetworkException {
         Route.delRoute(target, gateway, device);

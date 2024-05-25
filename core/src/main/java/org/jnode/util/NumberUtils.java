@@ -24,11 +24,12 @@ package org.jnode.util;
  * @author epr
  */
 public class NumberUtils {
+
     /**
      * Convert a float to a string with a given maximum number of fraction digits.
      *
-     * @param value
-     * @param maxFractionLength
+     * @param value the value
+     * @param maxFractionLength the maxFractionLength
      * @return The string
      */
     public static String toString(float value, int maxFractionLength) {
@@ -67,8 +68,8 @@ public class NumberUtils {
      * Gets the hexadecimal representation of the given number. The result is
      * prefixed with '0' until the given length is reached.
      *
-     * @param number
-     * @param length
+     * @param number the number
+     * @param length the length
      * @return String
      */
     public static String hex(int number, int length) {
@@ -81,7 +82,7 @@ public class NumberUtils {
      * Gets the hexadecimal representation of the given number that is
      * 8 digits long.
      *
-     * @param number
+     * @param number the number
      * @return String
      */
     public static String hex(int number) {
@@ -92,8 +93,8 @@ public class NumberUtils {
      * Gets the hexadecimal representation of the given number. The result is
      * prefixed with '0' until the given length is reached.
      *
-     * @param number
-     * @param length
+     * @param number the number
+     * @param length the length
      * @return String
      */
     public static String hex(long number, int length) {
@@ -106,7 +107,7 @@ public class NumberUtils {
      * Gets the hexadecimal representation of the given number that is
      * 16 digits long.
      *
-     * @param number
+     * @param number the number
      * @return String
      */
     public static String hex(long number) {
@@ -158,12 +159,12 @@ public class NumberUtils {
     }
 
     /**
-     * Convert a int array to a string of hex-numbers
+     * Convert an int array to a string of hex-numbers
      *
-     * @param data
-     * @param offset
-     * @param length
-     * @param hexLength
+     * @param data the data
+     * @param offset the offset
+     * @param length the length
+     * @param hexLength the hexLength
      * @return String
      */
     public static String hex(int[] data, int offset, int length, int hexLength) {
@@ -184,9 +185,9 @@ public class NumberUtils {
     /**
      * Convert a char array to a string of hex-numbers
      *
-     * @param data
-     * @param offset
-     * @param length
+     * @param data the data
+     * @param offset the offset
+     * @param length the length
      * @return String
      */
     public static String hex(char[] data, int offset, int length) {
@@ -207,7 +208,7 @@ public class NumberUtils {
     /**
      * Convert a byte array to a string of hex-numbers
      *
-     * @param data
+     * @param data the data
      * @return String
      */
     public static String hex(byte[] data) {
@@ -217,8 +218,8 @@ public class NumberUtils {
     /**
      * Convert an int array to a string of hex-numbers
      *
-     * @param data
-     * @param hexLength
+     * @param data the data
+     * @param hexLength the hexLength
      * @return String
      */
     public static String hex(int[] data, int hexLength) {
@@ -336,8 +337,8 @@ public class NumberUtils {
      * This method avoids the use on Integer.toHexString, since this class may be used
      * during the boot-phase when the Integer class in not yet initialized.
      *
-     * @param buf
-     * @param value
+     * @param buf the buf
+     * @param value the value
      */
     private static void int2HexString(StringBuilder buf, int value) {
         int rem = value & 0x0F;
@@ -357,12 +358,12 @@ public class NumberUtils {
      * This method avoids the use on Long.toHexString, since this class may be used
      * during the boot-phase when the Long class in not yet initialized.
      *
-     * @param buf
-     * @param value
+     * @param buf the buf
+     * @param value the value
      */
     private static void long2HexString(StringBuilder buf, long value) {
-//      long rem = value & 0x0F;
-        int rem = (int) (value & 0x0FL);
+//      long rem = value & 0x0f;
+        int rem = (int) (value & 0x0fL);
         long q = value >>> 4;
         if (q != 0) {
             long2HexString(buf, q);

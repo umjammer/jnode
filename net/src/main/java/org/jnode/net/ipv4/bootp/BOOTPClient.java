@@ -21,9 +21,6 @@
 package org.jnode.net.ipv4.bootp;
 
 import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
@@ -31,7 +28,6 @@ import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.Device;
 import org.jnode.driver.net.NetDeviceAPI;
 import org.jnode.driver.net.NetworkException;
-import org.jnode.net.NetPermission;
 import org.jnode.net.ipv4.IPv4Address;
 import org.jnode.net.ipv4.config.IPv4ConfigurationService;
 
@@ -48,32 +44,19 @@ public class BOOTPClient extends AbstractBOOTPClient {
     /**
      * Configure the given device using BOOTP
      *
-     * @param device
+     * @param device the device
      */
     public final void configureDevice(final Device device) throws IOException {
         this.device = device;
 
-        final SecurityManager sm = System.getSecurityManager();
-        if (sm != null) {
-            sm.checkPermission(new NetPermission("bootpClient"));
-        }
-
+        // Get the API.
         try {
-            AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
-                // Get the API.
-                try {
-                    api = device.getAPI(NetDeviceAPI.class);
-                } catch (ApiNotFoundException ex) {
-                    throw new NetworkException("Device is not a network device", ex);
-                }
-
-                configureDevice(device.getId(), api.getAddress());
-
-                return null;
-            });
-        } catch (PrivilegedActionException ex) {
-            throw (IOException) ex.getException();
+            api = device.getAPI(NetDeviceAPI.class);
+        } catch (ApiNotFoundException ex) {
+            throw new NetworkException("Device is not a network device", ex);
         }
+
+        configureDevice(device.getId(), api.getAddress());
 
         this.api = null;
         this.device = null;
@@ -83,6 +66,7 @@ public class BOOTPClient extends AbstractBOOTPClient {
      * Performs the actual configuration of a network device based on the
      * settings in a BOOTP header.
      */
+    @Override
     protected void doConfigure(BOOTPHeader hdr) throws IOException {
         super.doConfigure(hdr);
 

@@ -33,9 +33,9 @@ public class FatFormatter {
     public static final int HD_DESC = 0xf8;
     public static final int RAMDISK_DESC = 0xfa;
 
-    private BootSector bs;
-    private Fat fat;
-    private FatDirectory rootDir;
+    private final BootSector bs;
+    private final Fat fat;
+    private final FatDirectory rootDir;
 
     public static FatFormatter fat144FloppyFormatter(int reservedSectors, BootSector bs) {
         return new FatFormatter(FLOPPY_DESC, 512, 1, 2880, 18, 2, FatType.FAT32, 2, 0,
@@ -117,7 +117,7 @@ public class FatFormatter {
     /**
      * Set the label
      * 
-     * @param label
+     * @param label the label
      */
     public void setLabel(String label) throws IOException {
         rootDir.setLabel(label);
@@ -126,8 +126,8 @@ public class FatFormatter {
     /**
      * Format the given device, according to my settings
      * 
-     * @param api
-     * @throws IOException
+     * @param api the api
+     * @throws IOException when an error occurs
      */
     public void format(BlockDeviceAPI api) throws IOException {
         bs.write(api);

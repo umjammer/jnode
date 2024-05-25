@@ -52,9 +52,9 @@ public interface NetworkLayer {
     /**
      * Process a packet that has been received and matches getType()
      * 
-     * @param skbuf
-     * @param deviceAPI
-     * @throws SocketException
+     * @param skbuf the skbuf
+     * @param deviceAPI the deviceAPI
+     * @throws SocketException when an error occurs
      */
     void receive(SocketBuffer skbuf, NetDeviceAPI deviceAPI) throws SocketException;
 
@@ -64,18 +64,18 @@ public interface NetworkLayer {
     Statistics getStatistics();
 
     /**
-     * Register a transportlayer as possible destination of packets received by
-     * this networklayer
+     * Register a transport-layer as possible destination of packets received by
+     * this network-layer
      * 
-     * @param layer
+     * @param layer the transport-layer
      */
     void registerTransportLayer(TransportLayer layer)
         throws LayerAlreadyRegisteredException, InvalidLayerException;
 
     /**
-     * Unregister a transportlayer
+     * Unregister a transport-layer
      * 
-     * @param layer
+     * @param layer the transport-layer
      */
     void unregisterTransportLayer(TransportLayer layer);
 
@@ -85,9 +85,9 @@ public interface NetworkLayer {
     Collection<TransportLayer> getTransportLayers();
 
     /**
-     * Gets a registered transportlayer by its protocol ID.
+     * Gets a registered transport-layer by its protocol ID.
      * 
-     * @param protocolID
+     * @param protocolID the protocol id
      * @throws NoSuchProtocolException No protocol with the given ID was found.
      */
     TransportLayer getTransportLayer(int protocolID) throws NoSuchProtocolException;
@@ -95,7 +95,7 @@ public interface NetworkLayer {
     /**
      * Gets the protocol addresses for a given name, or null if not found.
      * 
-     * @param hostname
+     * @param hostname the hostname
      * @return the addresses or {@code null}
      */
     ProtocolAddress[] getHostByName(String hostname);

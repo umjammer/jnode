@@ -29,7 +29,8 @@ import org.jnode.fs.Formatter;
  * @author Andras Nagy
  */
 public class Ext2FileSystemFormatter extends Formatter<Ext2FileSystem> {
-    private BlockSize blockSize;
+
+    private final BlockSize blockSize;
 
     /**
      * 
@@ -40,10 +41,7 @@ public class Ext2FileSystemFormatter extends Formatter<Ext2FileSystem> {
         this.blockSize = blockSize;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.jnode.fs.Formatter#format(org.jnode.driver.Device)
-     */
+    @Override
     public synchronized Ext2FileSystem format(Device device) throws FileSystemException {
         Ext2FileSystemType fSS = FileSystemType.lookup(Ext2FileSystemType.class);
         Ext2FileSystem fs = fSS.create(device, false);

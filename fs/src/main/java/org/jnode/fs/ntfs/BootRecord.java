@@ -49,7 +49,7 @@ public final class BootRecord extends NTFSStructure {
     private final String serialNumber;
 
     /**
-     * Size of a filerecord in bytes
+     * Size of a file-record in bytes
      */
     private final int fileRecordSize;
 
@@ -66,7 +66,7 @@ public final class BootRecord extends NTFSStructure {
     /**
      * Initialize this instance.
      *
-     * @param buffer
+     * @param buffer the buffer
      */
     public BootRecord(byte[] buffer) {
         super(buffer, 0);
@@ -151,18 +151,18 @@ public final class BootRecord extends NTFSStructure {
     }
 
     /**
-     * Gets the size of a filerecord in bytes.
+     * Gets the size of a file-record in bytes.
      *
-     * @return
+     * @return the size of a file-record
      */
     public int getFileRecordSize() {
         return fileRecordSize;
     }
 
     /**
-     * Gets the size of a indexrecord in bytes.
+     * Gets the size of an index-record in bytes.
      *
-     * @return
+     * @return the size of an index-record
      */
     public int getIndexRecordSize() {
         return indexRecordSize;
@@ -171,7 +171,7 @@ public final class BootRecord extends NTFSStructure {
     /**
      * Gets the size of a cluster bytes.
      *
-     * @return
+     * @return the size of a cluster
      */
     public int getClusterSize() {
         return clusterSize;

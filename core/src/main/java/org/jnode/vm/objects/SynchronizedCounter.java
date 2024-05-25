@@ -24,6 +24,7 @@ package org.jnode.vm.objects;
  * @author Ewout Prangsma (epr@users.sourceforge.net)
  */
 public final class SynchronizedCounter extends Statistic {
+
     private int counter;
 
     public SynchronizedCounter(String name) {
@@ -43,6 +44,7 @@ public final class SynchronizedCounter extends Statistic {
         return counter;
     }
 
+    @Override
     public Object getValue() {
         return counter;
     }

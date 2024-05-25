@@ -20,7 +20,13 @@
 
 package org.jnode.fs.ext2;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+
 import org.jnode.fs.FileSystemException;
+
+import static java.lang.System.getLogger;
+
 
 /**
  * This class provides static methods that operate on the data as a bitmap
@@ -29,7 +35,7 @@ import org.jnode.fs.FileSystemException;
  */
 public class FSBitmap {
 
-    private static final boolean DEBUG = true;
+    private static final Logger logger = getLogger(FSBitmap.class.getName());
 
     /**
      * Check if the block/inode is free according to the bitmap.
@@ -73,7 +79,7 @@ public class FSBitmap {
         byte mask = (byte) ~(1 << bitIndex);
 
         // filesystem consistency check
-        if (DEBUG) {
+        if (logger.isLoggable(Level.DEBUG)) {
             if (isFree(data[byteIndex], bitIndex))
                 throw new FileSystemException("FS consistency error: you are trying "
                         + "to free an unallocated block/inode");

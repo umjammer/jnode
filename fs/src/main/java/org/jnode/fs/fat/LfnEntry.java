@@ -43,11 +43,12 @@ class LfnEntry implements FSEntry, FSEntryCreated, FSEntryLastAccessed {
     // decompacted LFN entry
     private String fileName;
     // TODO: Make them available
-    // private Date creationTime;
-    // private Date lastAccessed;
-    private FatLfnDirectory parent;
+//    private Date creationTime;
+//    private Date lastAccessed;
+    private final FatLfnDirectory parent;
     private FatDirEntry realEntry;
 
+    /** */
     public LfnEntry(FatLfnDirectory parent, FatDirEntry realEntry, String longName) {
         this.realEntry = realEntry;
         this.parent = parent;
@@ -55,6 +56,7 @@ class LfnEntry implements FSEntry, FSEntryCreated, FSEntryLastAccessed {
         id = realEntry.getId();
     }
 
+    /** */
     public LfnEntry(FatLfnDirectory parent, Vector<?> entries, int offset, int length) {
         this.parent = parent;
         id = Integer.toString(offset);
@@ -75,6 +77,7 @@ class LfnEntry implements FSEntry, FSEntryCreated, FSEntryLastAccessed {
         realEntry = (FatDirEntry) entries.get(offset + length - 1);
     }
 
+    /** */
     public FatBasicDirEntry[] compactForm() {
         int totalEntrySize = (fileName.length() / 13) + 1; // + 1 for the real
 
@@ -98,8 +101,8 @@ class LfnEntry implements FSEntry, FSEntryCreated, FSEntryLastAccessed {
 
     }
 
+    /** */
     private byte calculateCheckSum() {
-
         char[] fullName = new char[]{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
         char[] name = realEntry.getNameOnly().toCharArray();
         char[] ext = realEntry.getExt().toCharArray();
@@ -123,75 +126,93 @@ class LfnEntry implements FSEntry, FSEntryCreated, FSEntryLastAccessed {
         return id;
     }
 
+    @Override
     public String getName() {
         return fileName;
     }
 
+    @Override
     public FSDirectory getParent() {
         return realEntry.getParent();
     }
 
+    @Override
     public long getCreated() {
         return realEntry.getCreated();
     }
 
+    @Override
     public long getLastModified() {
         return realEntry.getLastModified();
     }
 
+    @Override
     public long getLastAccessed() {
         return realEntry.getLastAccessed();
     }
 
+    @Override
     public boolean isFile() {
         return realEntry.isFile();
     }
 
+    @Override
     public boolean isDirectory() {
         return realEntry.isDirectory();
     }
 
+    @Override
     public void setName(String newName) {
         fileName = newName;
         realEntry.setName(parent.generateShortNameFor(newName));
     }
 
+    /** */
     public void setCreated(long created) {
         realEntry.setCreated(created);
     }
 
+    @Override
     public void setLastModified(long lastModified) {
         realEntry.setLastModified(lastModified);
     }
 
+    /** */
     public void setLastAccessed(long lastAccessed) {
         realEntry.setLastAccessed(lastAccessed);
     }
 
+    @Override
     public FSFile getFile() throws IOException {
         return realEntry.getFile();
     }
 
+    @Override
     public FSDirectory getDirectory() throws IOException {
         return realEntry.getDirectory();
     }
 
+    @Override
     public FSAccessRights getAccessRights() throws IOException {
         return realEntry.getAccessRights();
     }
 
+    @Override
     public boolean isValid() {
         return realEntry.isValid();
     }
 
+    @Override
     public FileSystem<?> getFileSystem() {
         return realEntry.getFileSystem();
     }
 
+    /** */
     public boolean isDeleted() {
         return realEntry.isDeleted();
     }
 
+    /** */
     public String toString() {
         return "LFN = " + fileName + " / SFN = " + realEntry.getName();
     }
@@ -214,8 +235,9 @@ class LfnEntry implements FSEntry, FSEntryCreated, FSEntryLastAccessed {
      * Indicate if the entry has been modified in memory (ie need to be saved)
      *
      * @return true if the entry need to be saved
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public boolean isDirty() throws IOException {
         return true;
     }

@@ -138,5 +138,3 @@ public interface BootSector {
 
     void setBS_Identifier(byte[] ident);
 }
-
-/* */

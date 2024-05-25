@@ -136,7 +136,7 @@ public class FatLongDirEntry extends FatDirEntry {
 
         /*
          * if the entry is not padded correctly is marked "damaged" and will
-         * considered an orphan entry the thread will not reach this point ...
+         * consider an orphan entry the thread will not reach this point ...
          * game is over ...
          */
 
@@ -242,6 +242,7 @@ public class FatLongDirEntry extends FatDirEntry {
         encodeOthers();
     }
 
+    @Override
     public boolean isLongDirEntry() {
         return true;
     }
@@ -308,6 +309,7 @@ public class FatLongDirEntry extends FatDirEntry {
             component, getIndex(), NumberUtils.hex(lAttr, 2), lType, NumberUtils.hex(lChksum, 2), isLast());
     }
 
+    @Override
     public String toDebugString() {
         StrWriter out = new StrWriter();
 

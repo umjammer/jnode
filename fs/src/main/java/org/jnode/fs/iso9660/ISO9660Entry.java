@@ -33,7 +33,7 @@ import org.jnode.fs.FileSystem;
  */
 public final class ISO9660Entry implements FSEntry {
 
-    private ISO9660FileSystem fs;
+    private final ISO9660FileSystem fs;
     private EntryRecord entryRecord = null;
 
     public ISO9660Entry(ISO9660FileSystem fs, EntryRecord entry) {
@@ -46,23 +46,17 @@ public final class ISO9660Entry implements FSEntry {
         return getName();
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getName()
-     */
+    @Override
     public String getName() {
         return entryRecord.getFileIdentifier();
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getParent()
-     */
+    @Override
     public FSDirectory getParent() {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getLastModified()
-     */
+    @Override
     public long getLastModified() throws IOException {
         return entryRecord.getRecordingTime().toJavaMillis();
     }
@@ -71,30 +65,22 @@ public final class ISO9660Entry implements FSEntry {
         return 0;
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#isFile()
-     */
+    @Override
     public boolean isFile() {
         return !entryRecord.isDirectory();
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#isDirectory()
-     */
+    @Override
     public boolean isDirectory() {
         return entryRecord.isDirectory();
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#setName(java.lang.String)
-     */
+    @Override
     public void setName(String newName) throws IOException {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#setLastModified(long)
-     */
+    @Override
     public void setLastModified(long lastModified) throws IOException {
         throw new UnsupportedOperationException("not yet implemented");
     }
@@ -103,37 +89,27 @@ public final class ISO9660Entry implements FSEntry {
         throw new UnsupportedOperationException("Filesystem is read-only");
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getFile()
-     */
+    @Override
     public FSFile getFile() throws IOException {
         return new ISO9660File(this);
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getDirectory()
-     */
+    @Override
     public FSDirectory getDirectory() throws IOException {
         return new ISO9660Directory(this);
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getAccessRights()
-     */
+    @Override
     public FSAccessRights getAccessRights() throws IOException {
         throw new UnsupportedOperationException("not implemented yet");
     }
 
-    /**
-     * @see org.jnode.fs.FSObject#isValid()
-     */
+    @Override
     public boolean isValid() {
         return true;
     }
 
-    /**
-     * @see org.jnode.fs.FSObject#getFileSystem()
-     */
+    @Override
     public FileSystem<?> getFileSystem() {
         return fs;
     }
@@ -156,8 +132,9 @@ public final class ISO9660Entry implements FSEntry {
      * Indicate if the entry has been modified in memory (ie need to be saved)
      *
      * @return true if the entry need to be saved
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public boolean isDirty() throws IOException {
         return true;
     }
