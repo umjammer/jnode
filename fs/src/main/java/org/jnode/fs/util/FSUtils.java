@@ -39,11 +39,11 @@ public class FSUtils {
 
     private static final Logger log = System.getLogger(FSUtils.class.getName());
 
-    protected static DateFormat dateFormat = new SimpleDateFormat();
+    protected static final DateFormat dateFormat = new SimpleDateFormat();
 
     /**
-     * @param path
-     * @param separator
+     * @param path the path
+     * @param separator the separator
      * @return the file name of a filename + path
      */
     public static String getName(String path, char separator) {
@@ -121,7 +121,7 @@ public class FSUtils {
     /**
      * @param dir an FSDirectory
      * @return a human readable rendering of the FSDirectory
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public static String toString(FSDirectory dir) throws IOException {
         return toString(dir, false);
@@ -131,7 +131,7 @@ public class FSUtils {
      * @param dir an FSDirectory
      * @param deep if {@code true} also render the directory's entries
      * @return a human readable rendering of the FSDirectory
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public static String toString(FSDirectory dir, boolean deep) throws IOException {
         if (dir == null)
@@ -241,8 +241,7 @@ public class FSUtils {
 
         StringBuilder pad = new StringBuilder();
         int nbBlanks = size - str.length();
-        for (int i = 0; i < nbBlanks; i++)
-            pad.append(" ");
+        pad.append(" ".repeat(nbBlanks));
 
         return pad + str;
     }

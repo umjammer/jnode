@@ -23,12 +23,12 @@ package org.jnode.fs.ftpfs;
 import org.jnode.driver.Device;
 
 /**
- * @author Levente S\u00e1ntha
+ * @author Levente Sántha
  */
 public class FTPFSDevice extends Device {
-    private String host;
-    private String user;
-    private String password;
+    private final String host;
+    private final String user;
+    private final String password;
 
     public FTPFSDevice(String host, String user, String password) {
         super("ftp-(" + host + "," + user + ")");

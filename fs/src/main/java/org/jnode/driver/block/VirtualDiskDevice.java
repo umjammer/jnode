@@ -8,13 +8,12 @@ package org.jnode.driver.block;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.ByteBuffer;
-import java.util.logging.Level;
 
 import org.jnode.driver.Device;
 import org.jnode.partitions.PartitionTableEntry;
-
-import vavi.util.Debug;
 
 
 /**
@@ -25,7 +24,7 @@ import vavi.util.Debug;
  */
 public class VirtualDiskDevice extends Device implements FSBlockDeviceAPI {
 
-//    private static final Logger logger = System.getLogger(VirtualDiskDevice.class.getName());
+    private static final Logger logger = System.getLogger(VirtualDiskDevice.class.getName());
 
     /** for partition entry */
     private long offset = 0;
@@ -33,17 +32,17 @@ public class VirtualDiskDevice extends Device implements FSBlockDeviceAPI {
     /** for partition entry */
     public void addOffset(long offset) {
         this.offset += offset;
-Debug.printf(Level.FINE, "offset: %08x + %08x -> %08x", (this.offset - offset), offset, this.offset);
+logger.log(Level.DEBUG, String.format("offset: %08x + %08x -> %08x", (this.offset - offset), offset, this.offset));
     }
 
     /** virtual offset */
-    private VirtualDisk virtualDisk;
+    private final VirtualDisk virtualDisk;
 
     /**
      * Create a new VirtualDiskDevice
      *
-     * @param virtualDisk
-     * @throws FileNotFoundException
+     * @param virtualDisk the virtual disk
+     * @throws FileNotFoundException when an error occurs
      */
     public VirtualDiskDevice(VirtualDisk virtualDisk) throws IOException {
         super("virtualdisk" + System.currentTimeMillis());
@@ -72,7 +71,7 @@ Debug.printf(Level.FINE, "offset: %08x + %08x -> %08x", (this.offset - offset), 
     }
 
     /**
-     * change the length of the underlaying file
+     * change the length of the underlying file
      *
      * @param length real file length
      */
@@ -81,7 +80,7 @@ Debug.printf(Level.FINE, "offset: %08x + %08x -> %08x", (this.offset - offset), 
     }
 
     /**
-     * close the underlaying file
+     * close the underlying file
      */
     public void close() throws IOException {
         virtualDisk.close();

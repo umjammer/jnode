@@ -25,15 +25,17 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * @author epr
  * (every method copied from DosUtils)
+ *
+ * @author epr
  */
 public class Ext2Utils {
+
     /**
      * ceil(a/b) if a>=0
      * 
-     * @param a
-     * @param b
+     * @param a the a
+     * @param b the b
      * @return the result of the computation
      */
     public static long ceilDiv(long a, long b) {
@@ -43,7 +45,7 @@ public class Ext2Utils {
     /**
      * Sets an unsigned 8-bit byte at a given offset
      *
-     * @param offset
+     * @param offset the offset
      */
     public static void set8(byte[] data, int offset, int value) {
         data[offset] = (byte) (value & 0xFF);
@@ -52,7 +54,7 @@ public class Ext2Utils {
     /**
      * Sets an unsigned 32-bit word at a given offset
      *
-     * @param offset
+     * @param offset the offset
      */
     public static void set32(byte[] data, int offset, long value) {
         data[offset] = (byte) (value & 0xFF);
@@ -68,7 +70,7 @@ public class Ext2Utils {
     public static Calendar decodeDate(long time) {
         Calendar ref = Calendar.getInstance();
         ref.setTimeZone(TimeZone.getTimeZone("GMT"));
-        ref.set(1970, 0, 1, 0, 0, 0);
+        ref.set(1970, Calendar.JANUARY, 1, 0, 0, 0);
         ref.add(Calendar.SECOND, (int) time);
         return ref;
     }
@@ -83,5 +85,4 @@ public class Ext2Utils {
         ref.setTime(date);
         return ref.getTimeInMillis() / 1000;
     }
-
 }

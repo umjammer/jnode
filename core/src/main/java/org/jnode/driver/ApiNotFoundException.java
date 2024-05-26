@@ -27,30 +27,28 @@ package org.jnode.driver;
  */
 public class ApiNotFoundException extends DeviceException {
 
-    /**
-     *
-     */
+    /** */
     public ApiNotFoundException() {
         super();
     }
 
     /**
-     * @param message
-     * @param cause
+     * @param message the message
+     * @param cause the cause
      */
     public ApiNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * @param cause
+     * @param cause the cause
      */
     public ApiNotFoundException(Throwable cause) {
         super(cause);
     }
 
     /**
-     * @param s
+     * @param s the message
      */
     public ApiNotFoundException(String s) {
         super(s);

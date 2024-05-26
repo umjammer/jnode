@@ -46,9 +46,9 @@ public class ByteQueueProcessorThread extends Thread {
     /**
      * Create a new instance
      *
-     * @param name
-     * @param queue
-     * @param processor
+     * @param name the name
+     * @param queue the queue
+     * @param processor the processor
      */
     public ByteQueueProcessorThread(String name, ByteQueue queue, ByteQueueProcessor processor) {
         super(name);
@@ -60,8 +60,8 @@ public class ByteQueueProcessorThread extends Thread {
     /**
      * Create a new instance. A new queue is automatically created.
      *
-     * @param name
-     * @param processor
+     * @param name the name
+     * @param processor the processor
      * @see #getQueue()
      */
     public ByteQueueProcessorThread(String name, ByteQueueProcessor processor) {
@@ -73,7 +73,7 @@ public class ByteQueueProcessorThread extends Thread {
      */
     public void stopProcessor() {
         this.stop = true;
-        //this.interrupt();
+//        this.interrupt();
     }
 
     /**
@@ -96,9 +96,8 @@ public class ByteQueueProcessorThread extends Thread {
 
     /**
      * Thread runner
-     *
-     * @see java.lang.Runnable#run()
      */
+    @Override
     public void run() {
         while (!stop) {
             try {

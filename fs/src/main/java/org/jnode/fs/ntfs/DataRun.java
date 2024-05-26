@@ -61,7 +61,7 @@ public final class DataRun implements DataRunInterface {
     /**
      * First VCN of this datarun.
      */
-    private long vcn;
+    private final long vcn;
 
     /**
      * Initialize this instance.
@@ -83,10 +83,10 @@ public final class DataRun implements DataRunInterface {
     /**
      * Initialize this instance.
      *
-     * @param attr
-     * @param offset
+     * @param attr the attr
+     * @param offset the offset
      * @param vcn         First VCN of this datarun.
-     * @param previousLCN
+     * @param previousLCN the previousLCN
      */
     public DataRun(NTFSNonResidentAttribute attr, int offset, long vcn, long previousLCN) {
         NTFSStructure dataRunStructure = new NTFSStructure(attr, offset);
@@ -118,27 +118,17 @@ public final class DataRun implements DataRunInterface {
             default:
                 throw new IllegalArgumentException("Invalid length length " + lenlen);
         }
-        final int cluster;
-        switch (clusterlen) {
-            case 0x00:
+        final int cluster = switch (clusterlen) {
+            case 0x00 -> {
                 sparse = true;
-                cluster = 0;
-                break;
-            case 0x01:
-                cluster = dataRunStructure.getInt8(1 + lenlen);
-                break;
-            case 0x02:
-                cluster = dataRunStructure.getInt16(1 + lenlen);
-                break;
-            case 0x03:
-                cluster = dataRunStructure.getInt24(1 + lenlen);
-                break;
-            case 0x04:
-                cluster = dataRunStructure.getInt32(1 + lenlen);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown cluster length " + clusterlen);
-        }
+                yield 0;
+            }
+            case 0x01 -> dataRunStructure.getInt8(1 + lenlen);
+            case 0x02 -> dataRunStructure.getInt16(1 + lenlen);
+            case 0x03 -> dataRunStructure.getInt24(1 + lenlen);
+            case 0x04 -> dataRunStructure.getInt32(1 + lenlen);
+            default -> throw new IllegalArgumentException("Unknown cluster length " + clusterlen);
+        };
         this.cluster = cluster == 0 ? 0 : cluster + previousLCN;
     }
 
@@ -174,6 +164,7 @@ public final class DataRun implements DataRunInterface {
      *
      * @return Returns the length.
      */
+    @Override
     public int getLength() {
         return length;
     }
@@ -201,15 +192,16 @@ public final class DataRun implements DataRunInterface {
     /**
      * Read clusters from this datarun.
      *
-     * @param vcn
-     * @param dst
-     * @param dstOffset
-     * @param nrClusters
-     * @param clusterSize
-     * @param volume
+     * @param vcn the vcn
+     * @param dst the dst
+     * @param dstOffset the dstOffset
+     * @param nrClusters the nrClusters
+     * @param clusterSize the clusterSize
+     * @param volume the volume
      * @return The number of clusters read.
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public int readClusters(long vcn, byte[] dst, int dstOffset, int nrClusters, int clusterSize,
                             NTFSVolume volume) throws IOException {
 

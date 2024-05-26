@@ -20,13 +20,15 @@
 
 package org.jnode.fs;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.ServiceLoader;
-import java.util.logging.Level;
 
 import org.jnode.driver.block.FSBlockDeviceAPI;
 import org.jnode.partitions.PartitionTableEntry;
 
-import vavi.util.Debug;
+import static java.lang.System.getLogger;
+
 
 /**
  * Specific kind of FileSystemType for block devices
@@ -34,13 +36,16 @@ import vavi.util.Debug;
  * @author epr
  */
 public interface BlockDeviceFileSystemType<T extends FileSystem<?>> extends FileSystemType<T> {
+
+    Logger logger = getLogger(BlockDeviceFileSystemType.class.getName());
+
     /**
      * Can this file system type be used on the given first sector of a
      * blockdevice?
      *
      * @param pte The partition table entry, if any. If null, there is no
      *            partition table entry.
-     * @param firstSector
+     * @param firstSector the firstSector
      */
     boolean supports(PartitionTableEntry pte, byte[] firstSector, FSBlockDeviceAPI devApi);
 
@@ -49,14 +54,13 @@ public interface BlockDeviceFileSystemType<T extends FileSystem<?>> extends File
     static <T extends FileSystemType> T lookup(PartitionTableEntry pte, byte[] firstSector, FSBlockDeviceAPI devApi) {
         ServiceLoader<FileSystemType> sl = ServiceLoader.load(FileSystemType.class);
         for (FileSystemType fst : sl) {
-            if (fst instanceof BlockDeviceFileSystemType) {
-Debug.println(Level.FINE, "filesystem type: " + fst);
-                BlockDeviceFileSystemType bdfst = (BlockDeviceFileSystemType) fst;
+            if (fst instanceof BlockDeviceFileSystemType bdfst) {
+logger.log(Level.DEBUG, "filesystem type: " + fst);
                 if (bdfst.supports(pte, firstSector, devApi)) {
                     return (T) fst;
                 }
             }
         }
-        throw new IllegalArgumentException("no suitable file system type for particuler parametaers.");
+        throw new IllegalArgumentException("no suitable file system type for particular parameters.");
     }
 }

@@ -21,6 +21,8 @@
 package org.jnode.fs.nfs.nfs2;
 
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 
 import org.jnode.fs.FileSystem;
 import org.jnode.fs.FileSystemException;
@@ -32,22 +34,27 @@ import org.jnode.net.nfs.nfs2.mount.Mount1Client;
 import org.jnode.net.nfs.nfs2.mount.MountException;
 import org.jnode.net.nfs.nfs2.mount.MountResult;
 
+import static java.lang.System.getLogger;
+
+
 /**
  * @author Andrei Dore
  */
 public class NFS2FileSystem implements FileSystem<NFS2RootEntry> {
 
-    private NFS2Device device;
+    private static final Logger logger = getLogger(NFS2FileSystem.class.getName());
 
-    private NFS2RootEntry root;
+    private final NFS2Device device;
 
-    private Mount1Client mountClient;
+    private final NFS2RootEntry root;
 
-    private NFS2Client nfsClient;
+    private final Mount1Client mountClient;
+
+    private final NFS2Client nfsClient;
 
     private boolean closed;
 
-    private boolean readOnly;
+    private final boolean readOnly;
 
     private final NFS2FileSystemType type;
 
@@ -70,7 +77,7 @@ public class NFS2FileSystem implements FileSystem<NFS2RootEntry> {
             try {
                 close();
             } catch (IOException e1) {
-                // ignore
+                logger.log(Level.TRACE, e1.getMessage(), e1);
             }
             throw new FileSystemException(e.getMessage(), e);
         }
@@ -85,15 +92,16 @@ public class NFS2FileSystem implements FileSystem<NFS2RootEntry> {
      * Close this filesystem. After a close, all invocations of method of this filesystem or objects created by this
      * filesystem will throw an IOException.
      *
-     * @throws java.io.IOException
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public void close() throws IOException {
         // FIXME ... we squash exceptions though the signature says they can be thrown.
         if (mountClient != null) {
             try {
                 mountClient.unmount(device.getRemoteDirectory());
             } catch (MountException e) {
-                // ignore
+                logger.log(Level.TRACE, e.getMessage(), e);
             }
 
             try {
@@ -107,7 +115,7 @@ public class NFS2FileSystem implements FileSystem<NFS2RootEntry> {
             try {
                 nfsClient.close();
             } catch (IOException e) {
-                // ignore
+                logger.log(Level.TRACE, e.getMessage(), e);
             }
         }
         closed = true;
@@ -123,6 +131,7 @@ public class NFS2FileSystem implements FileSystem<NFS2RootEntry> {
     /**
      * Gets the root entry of this filesystem. This is usually a directory, but this is not required.
      */
+    @Override
     public NFS2RootEntry getRootEntry() throws IOException {
         return root;
     }
@@ -130,6 +139,7 @@ public class NFS2FileSystem implements FileSystem<NFS2RootEntry> {
     /**
      * Is this filesystem closed.
      */
+    @Override
     public boolean isClosed() {
         return closed;
     }
@@ -137,20 +147,24 @@ public class NFS2FileSystem implements FileSystem<NFS2RootEntry> {
     /**
      * Is the filesystem mounted in readonly mode ?
      */
+    @Override
     public boolean isReadOnly() {
         return readOnly;
     }
 
+    @Override
     public long getFreeSpace() {
         FileSystemAttribute fileSystemAttribute = getFileSystemAttribute();
         return fileSystemAttribute.getBlockSize() * fileSystemAttribute.getFreeBlockCount();
     }
 
+    @Override
     public long getTotalSpace() {
         FileSystemAttribute fileSystemAttribute = getFileSystemAttribute();
         return fileSystemAttribute.getBlockSize() * fileSystemAttribute.getBlockCount();
     }
 
+    @Override
     public long getUsableSpace() {
         FileSystemAttribute fileSystemAttribute = getFileSystemAttribute();
         return fileSystemAttribute.getBlockSize() * fileSystemAttribute.getFreeBlockCount();
@@ -164,12 +178,8 @@ public class NFS2FileSystem implements FileSystem<NFS2RootEntry> {
     private FileSystemAttribute getFileSystemAttribute() {
         try {
             return nfsClient.getFileSystemAttribute(root.getFileHandle());
-        } catch (NFS2Exception e) {
-            // throw new IOException(e);
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (NFS2Exception | IOException e) {
+            logger.log(Level.TRACE, e.getMessage(), e);
         }
         return null;
     }

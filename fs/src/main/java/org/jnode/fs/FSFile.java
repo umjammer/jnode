@@ -29,7 +29,7 @@ import java.nio.ByteBuffer;
  * 
  * An FSFile does not have any knowledge of who is using this file. It is also
  * possible that the system uses a single FSFile instance to create two
- * inputstream's for two different principals.
+ * input-stream's for two different principals.
  * 
  * @author epr
  */

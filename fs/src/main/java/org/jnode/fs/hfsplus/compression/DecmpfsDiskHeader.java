@@ -54,17 +54,17 @@ public class DecmpfsDiskHeader {
     /**
      * The magic number.
      */
-    private long magic;
+    private final long magic;
 
     /**
      * The compression type.
      */
-    private long type;
+    private final long type;
 
     /**
      * The uncompressed size.
      */
-    private long uncompressedSize;
+    private final long uncompressedSize;
 
     /**
      * Reads in an decmpfs disk header.

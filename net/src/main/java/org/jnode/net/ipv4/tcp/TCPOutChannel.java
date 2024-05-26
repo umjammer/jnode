@@ -50,7 +50,7 @@ public class TCPOutChannel {
     private final LinkedList<TCPOutSegment> unackedSegments = new LinkedList<>();
 
     /**
-     * The outgoing databuffer
+     * The outgoing data buffer
      */
     private final TCPDataBuffer dataBuffer;
 
@@ -82,7 +82,7 @@ public class TCPOutChannel {
     /**
      * Number of ticks before a retransmit timeout
      */
-    private int timeoutTicks = 6;
+    private final int timeoutTicks = 6;
 
     /**
      * Create a new instance
@@ -100,9 +100,9 @@ public class TCPOutChannel {
     /**
      * Process an ack-nr.
      * Remove all segments that have been acknowledged and remove
-     * the occupied data from the databuffer.
+     * the occupied data from the data buffer.
      *
-     * @param ackNr
+     * @param ackNr the ackNr
      */
     public synchronized void processAck(int ackNr) {
         // Is the ack valid?
@@ -123,7 +123,7 @@ public class TCPOutChannel {
         // The ackNr is valid
         final int diff = ackNr - snd_unack;
         snd_unack = ackNr;
-        // Remove data from the databuffer
+        // Remove data from the data buffer
         dataBuffer.pull(diff);
         for (Iterator<TCPOutSegment> i = unackedSegments.iterator(); i.hasNext();) {
             final TCPOutSegment seg = i.next();
@@ -144,7 +144,7 @@ public class TCPOutChannel {
      * Process timeout handling
      */
     public void timeout() throws SocketException {
-        //allocation free looping
+        // allocation free looping
         for (TCPOutSegment seg : unackedSegments) {
             seg.timeout(tcp);
         }
@@ -157,11 +157,11 @@ public class TCPOutChannel {
     /**
      * Send a TCP segment containing no data
      *
-     * @param ipHdr
-     * @param hdr
+     * @param ipHdr the ipHdr
+     * @param hdr the hdr
      */
     public void send(IPv4Header ipHdr, TCPHeader hdr) throws SocketException {
-        // Check the datalength
+        // Check the data length
         if (hdr.getDataLength() != 0) {
             throw new IllegalArgumentException("dataLength must be 0");
         }
@@ -174,10 +174,10 @@ public class TCPOutChannel {
      * This method blocks until there is enough space in the output buffer
      * to hold the data.
      *
-     * @param ipHdr
-     * @param hdr
-     * @param data
-     * @param offset
+     * @param ipHdr the ipHdr
+     * @param hdr the hdr
+     * @param data the data
+     * @param offset the offset
      * @param length Must be smaller or equal to mss.
      */
     public synchronized void send(IPv4Header ipHdr, TCPHeader hdr, byte[] data, int offset,
@@ -185,7 +185,7 @@ public class TCPOutChannel {
         if (DEBUG) {
             log.log(Level.DEBUG, "outChannel.send(ipHdr,hdr,data," + offset + ", " + length + ')');
         }
-        // Check for maximum datalength
+        // Check for maximum data length
         if (length > mss) {
             throw new IllegalArgumentException("dataLength must be <= mss");
         }
@@ -200,7 +200,7 @@ public class TCPOutChannel {
         if (controlBlock.isReset()) {
             throw new SocketException("Connection reset");
         }
-        // Add to databuffer
+        // Add to data buffer
         final int bufOfs = dataBuffer.add(data, offset, length);
         // Update tcp header
         hdr.setDataLength(length);
@@ -211,9 +211,9 @@ public class TCPOutChannel {
     /**
      * Do the actual sending and adjusting of sequence number.
      *
-     * @param ipHdr
-     * @param hdr
-     * @param dataOffset
+     * @param ipHdr the ipHdr
+     * @param hdr the hdr
+     * @param dataOffset the dataOffset
      */
     private void sendHelper(IPv4Header ipHdr, TCPHeader hdr, int dataOffset)
         throws SocketException {
@@ -221,7 +221,7 @@ public class TCPOutChannel {
         hdr.setSequenceNr(snd_next);
         if (hdr.isFlagSynchronizeSet() || hdr.isFlagFinishedSet()) {
             snd_next++;
-            //snd_unack++;
+            // snd_unack++;
         } else {
             snd_next += hdr.getDataLength();
         }

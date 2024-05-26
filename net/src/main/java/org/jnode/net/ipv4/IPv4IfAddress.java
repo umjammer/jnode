@@ -24,10 +24,10 @@ package org.jnode.net.ipv4;
  * @author JPG
  */
 public class IPv4IfAddress {
-    private IPv4Address net;
-    private IPv4Address address;
-    private IPv4Address mask;
-    private IPv4Address broadcast;
+    private final IPv4Address net;
+    private final IPv4Address address;
+    private final IPv4Address mask;
+    private final IPv4Address broadcast;
 
     public IPv4IfAddress(IPv4Address address, IPv4Address mask) {
         byte[] ip = address.getBytes();

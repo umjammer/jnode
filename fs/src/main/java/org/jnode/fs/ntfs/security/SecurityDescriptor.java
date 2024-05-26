@@ -85,7 +85,7 @@ public class SecurityDescriptor extends NTFSStructure {
     }
 
     /**
-     * Reads in a SID from a offset referenced at the given offset in the buffer. E.g. at offset 4 in the structure read
+     * Reads in a SID from an offset referenced at the given offset in the buffer. E.g. at offset 4 in the structure read
      * the offset to the owner SID and then read the SID.
      *
      * @param offset the offset to read the reference from.

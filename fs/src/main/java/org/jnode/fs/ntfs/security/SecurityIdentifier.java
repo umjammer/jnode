@@ -85,11 +85,9 @@ public class SecurityIdentifier {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof SecurityIdentifier)) {
+        if (!(o instanceof SecurityIdentifier other)) {
             return false;
         }
-
-        SecurityIdentifier other = (SecurityIdentifier) o;
 
         return
             authority == other.authority &&

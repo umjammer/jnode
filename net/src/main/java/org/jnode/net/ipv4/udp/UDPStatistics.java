@@ -29,7 +29,7 @@ import org.jnode.vm.objects.Statistics;
  */
 public class UDPStatistics implements Statistics {
 
-    /** #received datagrams with datalength larger then packet */
+    /** #received datagrams with data length larger then packet */
     protected final Counter badlen = new Counter("badlen");
 
     /** #received datagrams with checksum error */
@@ -60,6 +60,7 @@ public class UDPStatistics implements Statistics {
     /**
      * Gets all statistics
      */
+    @Override
     public Statistic[] getStatistics() {
         return list;
     }

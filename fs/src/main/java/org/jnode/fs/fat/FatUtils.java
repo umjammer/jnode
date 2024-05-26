@@ -39,7 +39,7 @@ public class FatUtils {
     /**
      * Gets the offset (in bytes) of the fat with the given index
      * 
-     * @param bs
+     * @param bs the bs
      * @param fatNr (0..)
      * @return long
      */
@@ -59,7 +59,7 @@ public class FatUtils {
     /**
      * Gets the offset (in bytes) of the root directory with the given index
      * 
-     * @param bs
+     * @param bs the bs
      * @return long
      */
     public static long getRootDirOffset(BootSector bs) {
@@ -77,7 +77,7 @@ public class FatUtils {
     /**
      * Gets the offset of the data (file) area
      * 
-     * @param bs
+     * @param bs the bs
      * @return long
      */
     public static long getFilesOffset(BootSector bs) {
@@ -91,7 +91,7 @@ public class FatUtils {
     /**
      * Return the name (without extension) of a full file name
      * 
-     * @param nameExt
+     * @param nameExt the nameExt
      * @return the name part
      */
     public static String splitName(String nameExt) {
@@ -106,7 +106,7 @@ public class FatUtils {
     /**
      * Return the extension (without name) of a full file name
      * 
-     * @param nameExt
+     * @param nameExt the nameExt
      * @return the extension part
      */
     public static String splitExt(String nameExt) {
@@ -173,13 +173,13 @@ public class FatUtils {
     /**
      * Write the part of a long file name to the given byte array
      * 
-     * @param src
-     * @param srcOffset
-     * @param ordinal
-     * @param checkSum
-     * @param isLast
-     * @param dest
-     * @param destOffset
+     * @param src the src
+     * @param srcOffset the srcOffset
+     * @param ordinal the ordinal
+     * @param checkSum the checkSum
+     * @param isLast the isLast
+     * @param dest the dest
+     * @param destOffset the destOffset
      */
     public static void writeSubString(char[] src, int srcOffset, int ordinal, byte checkSum,
             boolean isLast, byte[] dest, int destOffset) {
@@ -229,22 +229,22 @@ public class FatUtils {
      * Read a part of the long filename from the given byte array and append the
      * result to the given StringBuffer
      * 
-     * @param sb
-     * @param rawData
-     * @param offset
+     * @param sb the sb
+     * @param rawData the rawData
+     * @param offset the offset
      */
     public static void appendSubstring(StringBuffer sb, byte[] rawData, int offset) {
         log.log(Level.DEBUG, "<<< BEGIN appendSubstring buffer=" + sb.toString() + ">>>");
 
         int index = 12;
-        char[] unicodechar = getUnicodeChars(rawData, offset);
+        char[] unicodeChar = getUnicodeChars(rawData, offset);
 
-        log.log(Level.DEBUG, "appendSubstring: unicodechar=" + new String(unicodechar));
+        log.log(Level.DEBUG, "appendSubstring: unicodeChar=" + new String(unicodeChar));
 
-        while (unicodechar[index] == 0)
+        while (unicodeChar[index] == 0)
             index--;
 
-        sb.append(unicodechar, 0, index + 1);
+        sb.append(unicodeChar, 0, index + 1);
 
         log.log(Level.DEBUG, "<<< END appendSubstring buffer=" + sb + ">>>");
     }
@@ -253,21 +253,18 @@ public class FatUtils {
      * Return a part of a long file name read from the given byte array
      */
     public static String getSubstring(byte[] rawData, int offset) {
-        log.log(Level.DEBUG, "<<< BEGIN getSubString: rawData=" /* + FSUtils.toString(rawData, offset, 12) */
-                    + " >>>");
+log.log(Level.DEBUG, "<<< BEGIN getSubString: rawData=" /* + FSUtils.toString(rawData, offset, 12) */ + " >>>");
 
-        // log.log(Level.DEBUG, "getSubString: rawData as
-        // chars="+FSUtils.toStringAsChars(rawData, offset, 12));
+//log.log(Level.DEBUG, "getSubString: rawData as chars=" + FSUtils.toStringAsChars(rawData, offset, 12));
         int index = 12;
         char[] unicodechar = getUnicodeChars(rawData, offset);
         while (unicodechar[index] == 0)
             index--;
 
-        // log.log(Level.DEBUG, "getSubString: rawData.length="+rawData.length+"
-        // offset="+offset+" nbChars(index)="+index);
+//log.log(Level.DEBUG, "getSubString: rawData.length="+rawData.length + "offset=" + offset + " nbChars(index)=" + index);
         String str = new String(unicodechar, 0, index);
 
-        log.log(Level.DEBUG, "<<< END getSubString: return=" + str + " >>>");
+log.log(Level.DEBUG, "<<< END getSubString: return=" + str + " >>>");
 
         return str;
     }

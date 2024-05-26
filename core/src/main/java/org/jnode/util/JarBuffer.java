@@ -46,9 +46,9 @@ public class JarBuffer implements JarConstants {
     /**
      * Initialize this instance.
      *
-     * @param buffer
-     * @throws IOException
-     * @throws ZipException
+     * @param buffer the buffer
+     * @throws IOException when an error occurs
+     * @throws ZipException when an error occurs
      */
     public JarBuffer(ByteBuffer buffer) throws ZipException, IOException {
         this.buffer = buffer;
@@ -74,8 +74,7 @@ public class JarBuffer implements JarConstants {
     }
 
     @SuppressWarnings("deprecation")
-    private Map<String, ByteBuffer> readEntries() throws ZipException,
-        IOException {
+    private Map<String, ByteBuffer> readEntries() throws IOException {
 
         // Start at the beginning
         buffer.rewind();
@@ -102,8 +101,7 @@ public class JarBuffer implements JarConstants {
         final int centralOffset = buffer.getInt(pos + ENDOFF);
 //        System.out.println("centralOffset=" + centralOffset);
 
-        HashMap<String, ByteBuffer> entries = new HashMap<>(
-                count + count / 2);
+        HashMap<String, ByteBuffer> entries = new HashMap<>(count + count / 2);
         buffer.position(centralOffset);
 
         byte[] strBuf = new byte[16];
@@ -117,9 +115,9 @@ public class JarBuffer implements JarConstants {
             }
 
             int method = buffer.getShort(pos + CENHOW);
-            int dostime = buffer.getInt(pos + CENTIM);
+            int dosTime = buffer.getInt(pos + CENTIM);
             int crc = buffer.getInt(pos + CENCRC);
-            int csize = buffer.getInt(pos + CENSIZ);
+            int cSize = buffer.getInt(pos + CENSIZ);
             int size = buffer.getInt(pos + CENLEN);
             int nameLen = buffer.getShort(pos + CENNAM);
             int extraLen = buffer.getShort(pos + CENEXT);
@@ -144,7 +142,7 @@ public class JarBuffer implements JarConstants {
             // Slice of entry data
             final int mark = buffer.position();
             buffer.position(checkLocalHeader(buffer, offset, method));
-            final ByteBuffer entry = (ByteBuffer) buffer.slice().limit(size);
+            final ByteBuffer entry = buffer.slice().limit(size);
             buffer.position(mark);
             entries.put(name, entry);
         }
@@ -152,8 +150,7 @@ public class JarBuffer implements JarConstants {
         return entries;
     }
 
-    private int checkLocalHeader(ByteBuffer buffer, int offset, int method)
-        throws IOException {
+    private int checkLocalHeader(ByteBuffer buffer, int offset, int method) throws IOException {
 
         if (buffer.getInt(offset + 0) != LOCSIG) {
             throw new ZipException("Wrong Local header signature");
@@ -177,8 +174,7 @@ public class JarBuffer implements JarConstants {
         }
     }
 
-    public static void main(String[] args) throws SecurityException,
-        IOException {
+    public static void main(String[] args) throws SecurityException, IOException {
         FileChannel ch = new FileInputStream(args[0]).getChannel();
         ByteBuffer buf = ch.map(FileChannel.MapMode.READ_ONLY, 0, ch.size());
         JarBuffer jb = new JarBuffer(buf);
@@ -191,5 +187,4 @@ public class JarBuffer implements JarConstants {
             }
         }
     }
-
 }

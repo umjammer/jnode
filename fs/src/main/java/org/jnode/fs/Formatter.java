@@ -23,12 +23,13 @@ package org.jnode.fs;
 import org.jnode.driver.Device;
 
 /**
+ * Formatter.
  * 
  * @author Fabien DUMINY (fduminy at jnode.org)
- * 
  * @param <T> a file system implementation.
  */
 public abstract class Formatter<T extends FileSystem<?>> implements Cloneable {
+
     private final FileSystemType<T> type;
 
     protected Formatter(FileSystemType<T> type) {
@@ -55,6 +56,7 @@ public abstract class Formatter<T extends FileSystem<?>> implements Cloneable {
         return type;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Formatter<T> clone() throws CloneNotSupportedException {
         return (Formatter<T>) super.clone();

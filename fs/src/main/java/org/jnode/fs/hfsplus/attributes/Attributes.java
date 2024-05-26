@@ -55,12 +55,12 @@ public class Attributes {
     /**
      * The current file system.
      */
-    private HfsPlusFileSystem fs;
+    private final HfsPlusFileSystem fs;
 
     /**
      * The attributes file data fork.
      */
-    private HfsPlusForkData attributesFile;
+    private final HfsPlusForkData attributesFile;
 
     /**
      * Creates a new attributes file for the give file system.

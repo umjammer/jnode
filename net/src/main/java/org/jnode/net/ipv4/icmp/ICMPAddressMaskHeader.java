@@ -31,7 +31,7 @@ public class ICMPAddressMaskHeader extends ICMPExHeader {
     private final IPv4Address subnetMask;
 
     /**
-     * @param type
+     * @param type the type
      */
     public ICMPAddressMaskHeader(ICMPType type, int identifier, int seqNumber, IPv4Address subnetMask) {
         super(type, 0, identifier, seqNumber);
@@ -42,7 +42,7 @@ public class ICMPAddressMaskHeader extends ICMPExHeader {
     }
 
     /**
-     * @param skbuf
+     * @param skbuf the socket buffer
      */
     public ICMPAddressMaskHeader(SocketBuffer skbuf) {
         super(skbuf);
@@ -53,17 +53,13 @@ public class ICMPAddressMaskHeader extends ICMPExHeader {
         this.subnetMask = new IPv4Address(skbuf, 8);
     }
 
-    /**
-     * @see org.jnode.net.ipv4.icmp.ICMPHeader#doPrefixTo(org.jnode.net.SocketBuffer)
-     */
-    protected void doPrefixTo(SocketBuffer skbuf) {
-        super.doPrefixTo(skbuf);
-        subnetMask.writeTo(skbuf, 8);
+    @Override
+    protected void doPrefixTo(SocketBuffer skBuf) {
+        super.doPrefixTo(skBuf);
+        subnetMask.writeTo(skBuf, 8);
     }
 
-    /**
-     * @see org.jnode.net.LayerHeader#getLength()
-     */
+    @Override
     public int getLength() {
         return 12;
     }
@@ -74,5 +70,4 @@ public class ICMPAddressMaskHeader extends ICMPExHeader {
     public IPv4Address getSubnetMask() {
         return subnetMask;
     }
-
 }

@@ -21,6 +21,8 @@
 package org.jnode.fs.ext2.exception;
 
 import java.io.IOException;
+import java.io.Serial;
+
 
 /**
  * @author Andras Nagy
@@ -28,6 +30,7 @@ import java.io.IOException;
  */
 public class UnallocatedBlockException extends IOException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public UnallocatedBlockException(String s) {

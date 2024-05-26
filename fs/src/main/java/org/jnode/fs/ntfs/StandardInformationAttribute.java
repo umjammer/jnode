@@ -81,6 +81,7 @@ public class StandardInformationAttribute extends NTFSResidentAttribute {
      *
      * @return the flags.
      */
+    @Override
     public int getFlags() {
         return getInt32(getAttributeOffset() + 0x20);
     }

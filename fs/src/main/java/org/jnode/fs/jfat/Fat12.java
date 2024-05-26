@@ -34,10 +34,12 @@ public class Fat12 extends Fat {
         super(bs, api);
     }
 
+    @Override
     protected long offset(int index) {
         return (long) Math.floor(1.5 * index);
     }
 
+    @Override
     public int get(int index) throws IOException {
         int value = (int) getUInt16(index);
 
@@ -50,10 +52,12 @@ public class Fat12 extends Fat {
         return value;
     }
 
+    @Override
     public int set(int index, int element) throws IOException {
         throw new UnsupportedOperationException("Can't write to FAT-12 yet");
     }
 
+    @Override
     public long getClusterPosition(int index) {
         BootSector bootSector = getBootSector();
 
@@ -73,10 +77,12 @@ public class Fat12 extends Fat {
         return !isEofChain(entry);
     }
 
+    @Override
     public boolean isEofChain(int entry) {
         return (entry >= 0xFF0);
     }
 
+    @Override
     public int eofChain() {
         return 0xFF0;
     }

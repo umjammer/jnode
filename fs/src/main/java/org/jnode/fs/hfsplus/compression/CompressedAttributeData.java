@@ -20,17 +20,17 @@ public class CompressedAttributeData extends AttributeData implements Closeable 
     /**
      * The HFS+ file.
      */
-    private HfsPlusFile file;
+    private final HfsPlusFile file;
 
     /**
      * The attribute data which has the compressed copy of the data.
      */
-    private AttributeData attributeData;
+    private final AttributeData attributeData;
 
     /**
      * The compression on-disk header.
      */
-    private DecmpfsDiskHeader decmpfsDiskHeader;
+    private final DecmpfsDiskHeader decmpfsDiskHeader;
 
     /**
      * The decompressor to use to read back the data.

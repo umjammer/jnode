@@ -47,8 +47,8 @@ public class ISO9660Volume implements ISO9660Constants {
     /**
      * Initialize this instance.
      *
-     * @param api
-     * @throws IOException
+     * @param api the api
+     * @throws IOException when an error occurs
      */
     public ISO9660Volume(FSBlockDeviceAPI api) throws IOException {
         this.api = api;
@@ -76,7 +76,7 @@ public class ISO9660Volume implements ISO9660Constants {
                     // pVD.dump(System.out);
                     break;
                 case VolumeDescriptorType.SUPPLEMENTARY_DESCRIPTOR:
-                    bootlog.log(Level.DEBUG, "Found supplementatory descriptor");
+                    bootlog.log(Level.DEBUG, "Found supplementary descriptor");
                     final SupplementaryVolumeDescriptor d =
                         new SupplementaryVolumeDescriptor(this, buffer);
                     if (d.isEncodingKnown()) {
@@ -100,12 +100,12 @@ public class ISO9660Volume implements ISO9660Constants {
     /**
      * Read a block of data from this volume.
      *
-     * @param startLBN
-     * @param offset
-     * @param buffer
-     * @param bufferOffset
-     * @param length
-     * @throws IOException
+     * @param startLBN the startLBN
+     * @param offset the offset
+     * @param buffer the buffer
+     * @param bufferOffset the bufferOffset
+     * @param length the length
+     * @throws IOException when an error occurs
      */
     final void readFromLBN(long startLBN, long offset, byte[] buffer, int bufferOffset, int length)
         throws IOException {

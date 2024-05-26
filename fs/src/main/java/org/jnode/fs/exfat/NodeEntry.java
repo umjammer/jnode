@@ -41,7 +41,7 @@ public final class NodeEntry extends AbstractFSObject implements FSEntry, FSEntr
     /**
      * The index of this entry in the parent.
      */
-    private int index;
+    private final int index;
 
     public NodeEntry(ExFatFileSystem fs, Node node, NodeDirectory parent, int index) {
         super(fs);

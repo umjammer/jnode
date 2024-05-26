@@ -24,6 +24,7 @@ package org.jnode.fs.ext2;
  * @author Andras Nagy
  */
 public class Ext2Constants {
+
     // file types that are stored in the directory records
     public static final int EXT2_FT_UNKNOWN = 0;
     public static final int EXT2_FT_REG_FILE = 1;
@@ -36,39 +37,68 @@ public class Ext2Constants {
     public static final int EXT2_FT_MAX = 8;
 
     // inode constants
-    public static final int EXT2_BAD_INO = 0x01; // bad blocks inode
-    public static final int EXT2_ROOT_INO = 0x02; // root directory inode
-    public static final int EXT2_ACL_IDX_INO = 0x03; // ACL index node
-    public static final int EXT2_ACL_DATA_INO = 0x04; // ACL data inode
-    public static final int EXT2_BOOT_LOADER_INO = 0x05; // boot loader inode
-    public static final int EXT2_UNDEL_DIR_INO = 0x06; // undelete directory inode
+    /** bad blocks inode */
+    public static final int EXT2_BAD_INO = 0x01;
+    /** root directory inode */
+    public static final int EXT2_ROOT_INO = 0x02;
+    /** ACL index node */
+    public static final int EXT2_ACL_IDX_INO = 0x03;
+    /** ACL data inode */
+    public static final int EXT2_ACL_DATA_INO = 0x04;
+    /** boot loader inode */
+    public static final int EXT2_BOOT_LOADER_INO = 0x05;
+    /** undelete directory inode */
+    public static final int EXT2_UNDEL_DIR_INO = 0x06;
 
     // i_mode masks and values
-    public static final int EXT2_S_IFMT = 0xF000; // format mask
-    public static final int EXT2_S_IFSOCK = 0xC000; // socket
-    public static final int EXT2_S_IFLNK = 0xA000; // symbolic link
-    public static final int EXT2_S_IFREG = 0x8000; // regular file
-    public static final int EXT2_S_IFBLK = 0x6000; // block device
-    public static final int EXT2_S_IFDIR = 0x4000; // directory
-    public static final int EXT2_S_IFCHR = 0x2000; // character device
-    public static final int EXT2_S_IFIFO = 0x1000; // fifo
+    /** format mask */
+    public static final int EXT2_S_IFMT = 0xF000;
+    /** socket */
+    public static final int EXT2_S_IFSOCK = 0xC000;
+    /** symbolic link */
+    public static final int EXT2_S_IFLNK = 0xA000;
+    /** regular file */
+    public static final int EXT2_S_IFREG = 0x8000;
+    /** block device */
+    public static final int EXT2_S_IFBLK = 0x6000;
+    /** directory */
+    public static final int EXT2_S_IFDIR = 0x4000;
+    /** character device */
+    public static final int EXT2_S_IFCHR = 0x2000;
+    /** fifo */
+    public static final int EXT2_S_IFIFO = 0x1000;
 
     // access rights
-    public static final int EXT2_S_ISUID = 0x0800; // SUID
-    public static final int EXT2_S_ISGID = 0x0400; // SGID
-    public static final int EXT2_S_ISVTX = 0x0200; // sticky bit
-    public static final int EXT2_S_IRWXU = 0x01C0; // user access right mask
-    public static final int EXT2_S_IRUSR = 0x0100; // read
-    public static final int EXT2_S_IWUSR = 0x0080; // write
-    public static final int EXT2_S_IXUSR = 0x0040; // execute
-    public static final int EXT2_S_IRWXG = 0x0038; // group access right mask
-    public static final int EXT2_S_IRGRP = 0x0020; // read
-    public static final int EXT2_S_IWGRP = 0x0010; // write
-    public static final int EXT2_S_IXGRP = 0x0008; // execute
-    public static final int EXT2_S_IRWXO = 0x0007; // others access right mask
-    public static final int EXT2_S_IROTH = 0x0004; // read
-    public static final int EXT2_S_IWOTH = 0x0002; // write
-    public static final int EXT2_S_IXOTH = 0x0001; // execute
+    /** SUID */
+    public static final int EXT2_S_ISUID = 0x0800;
+    /** SGID */
+    public static final int EXT2_S_ISGID = 0x0400;
+    /** sticky bit */
+    public static final int EXT2_S_ISVTX = 0x0200;
+    /** user access right mask */
+    public static final int EXT2_S_IRWXU = 0x01C0;
+    /** read */
+    public static final int EXT2_S_IRUSR = 0x0100;
+    /** write */
+    public static final int EXT2_S_IWUSR = 0x0080;
+    /** execute */
+    public static final int EXT2_S_IXUSR = 0x0040;
+    /** group access right mask */
+    public static final int EXT2_S_IRWXG = 0x0038;
+    /** read */
+    public static final int EXT2_S_IRGRP = 0x0020;
+    /** write */
+    public static final int EXT2_S_IWGRP = 0x0010;
+    /** execute */
+    public static final int EXT2_S_IXGRP = 0x0008;
+    /** others access right mask */
+    public static final int EXT2_S_IRWXO = 0x0007;
+    /** read */
+    public static final int EXT2_S_IROTH = 0x0004;
+    /** write */
+    public static final int EXT2_S_IWOTH = 0x0002;
+    /** execute */
+    public static final int EXT2_S_IXOTH = 0x0001;
 
     // revision level values (stored in the superblock)
     public static final int EXT2_GOOD_OLD_REV = 0;
@@ -77,12 +107,14 @@ public class Ext2Constants {
     public static final int EXT2_PREALLOC_BLOCK = 7;
 
     // behaviour control flags in the inode
-    public static final long EXT2_INDEX_FL = 0x00010000; // hash indexed directory
+    /** hash indexed directory */
+    public static final long EXT2_INDEX_FL = 0x00010000;
     public static final long EXT4_HUGE_FILE_FL = 0x00040000;
     public static final long EXT4_INODE_EXTENTS_FLAG = 0x00080000;
 
     // Filesystem state constants
-    public static final int EXT2_VALID_FS = 0x0001; // cleanly unmounted
+    /** cleanly unmounted */
+    public static final int EXT2_VALID_FS = 0x0001;
     public static final int EXT2_ERROR_FS = 0x0002;
 
     // what to do when errors are detected
@@ -112,6 +144,7 @@ public class Ext2Constants {
     public static final long EXT4_FEATURE_INCOMPAT_FLEX_BG = 0X0200;
 
     // constants specific to this (JNode) implementation
+
     /**
      * When searching for free blocks, block groups that have at least
      * EXT2_BLOCK_THRESHOLD_RATIO/100 * BlocksPerGroup free blocks are
@@ -121,5 +154,4 @@ public class Ext2Constants {
      * fragmentation) intervall: [0; 100)
      */
     public static final int EXT2_BLOCK_THRESHOLD_PERCENT = 5;
-
 }

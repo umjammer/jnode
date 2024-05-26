@@ -51,7 +51,7 @@ public abstract class Command {
     /**
      * Block the current thread, until this command has finished.
      *
-     * @param timeout
+     * @param timeout the timeout
      * @throws InterruptedException This thread was interrupted
      * @throws TimeoutException     A timeout occurred.
      */

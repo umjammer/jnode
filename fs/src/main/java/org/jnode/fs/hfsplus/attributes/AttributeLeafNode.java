@@ -21,12 +21,10 @@
 package org.jnode.fs.hfsplus.attributes;
 
 import org.jnode.fs.hfsplus.tree.AbstractLeafNode;
-import org.jnode.fs.hfsplus.tree.Key;
-import org.jnode.fs.hfsplus.tree.LeafRecord;
 import org.jnode.fs.hfsplus.tree.NodeDescriptor;
 
 /**
- * An leaf node in the attributes file b-tree.
+ * A leaf node in the attributes file b-tree.
  *
  * @author Luke Quinane
  */
@@ -35,8 +33,8 @@ public class AttributeLeafNode extends AbstractLeafNode<AttributeKey> {
     /**
      * Create a new node.
      *
-     * @param descriptor
-     * @param nodeSize
+     * @param descriptor the descriptor
+     * @param nodeSize the nodeSize
      */
     public AttributeLeafNode(NodeDescriptor descriptor, int nodeSize) {
         super(descriptor, nodeSize);
@@ -45,8 +43,8 @@ public class AttributeLeafNode extends AbstractLeafNode<AttributeKey> {
     /**
      * Create node from existing data.
      *
-     * @param nodeData
-     * @param nodeSize
+     * @param nodeData the nodeData
+     * @param nodeSize the nodeSize
      */
     public AttributeLeafNode(byte[] nodeData, int nodeSize) {
         super(nodeData, nodeSize);
@@ -57,8 +55,4 @@ public class AttributeLeafNode extends AbstractLeafNode<AttributeKey> {
         return new AttributeKey(nodeData, offset);
     }
 
-    @Override
-    protected LeafRecord createRecord(Key key, byte[] nodeData, int offset, int recordSize) {
-        return new LeafRecord(key, nodeData, offset, recordSize);
-    }
 }

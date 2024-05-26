@@ -37,10 +37,11 @@ public class Ext2DirectoryRecord {
 
     private static final Logger log = System.getLogger(Ext2DirectoryRecord.class.getName());
 
-    /*
-     * private int iNodeNr; private int recLen; private short nameLen; private
-     * short type; private StringBuffer name;
-     */
+//    private int iNodeNr;
+//    private int recLen;
+//    private short nameLen;
+//    private short type;
+//    private StringBuffer name;
     private int offset;
     private byte[] data;
     private long fileOffset;
@@ -71,9 +72,9 @@ public class Ext2DirectoryRecord {
      * Create a new Ext2DirectoryRecord from scratch (it can be retrieved with
      * getData())
      * 
-     * @param iNodeNr
-     * @param type
-     * @param name
+     * @param iNodeNr the iNodeNr
+     * @param type the type
+     * @param name the name
      */
     public Ext2DirectoryRecord(Ext2FileSystem fs, long iNodeNr, int type, String name) {
         this.offset = 0;

@@ -23,7 +23,7 @@ package org.jnode.fs.hfs;
 import org.jnode.util.BigEndian;
 
 /**
- * A HFS master directory block (MDB).
+ * An HFS master directory block (MDB).
  *
  * @author Luke Quinane
  */

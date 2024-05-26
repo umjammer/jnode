@@ -28,33 +28,29 @@ import org.jnode.net.SocketBuffer;
 public class ICMPUnreachableHeader extends ICMPHeader {
 
     /**
-     * @param code
+     * @param code the code
      */
     public ICMPUnreachableHeader(int code) {
         super(ICMPType.ICMP_DEST_UNREACH, code);
     }
 
     /**
-     * @param skbuf
+     * @param skBuf the socket buffer
      */
-    public ICMPUnreachableHeader(SocketBuffer skbuf) {
-        super(skbuf);
+    public ICMPUnreachableHeader(SocketBuffer skBuf) {
+        super(skBuf);
         final ICMPType type = getType();
         if (type != ICMPType.ICMP_DEST_UNREACH) {
             throw new IllegalArgumentException("Invalid type " + type);
         }
     }
 
-    /**
-     * @see org.jnode.net.ipv4.icmp.ICMPHeader#doPrefixTo(org.jnode.net.SocketBuffer)
-     */
-    protected void doPrefixTo(SocketBuffer skbuf) {
-        skbuf.set16(4, 0); // Unused, must be 0
+    @Override
+    protected void doPrefixTo(SocketBuffer skBuf) {
+        skBuf.set16(4, 0); // Unused, must be 0
     }
 
-    /**
-     * @see org.jnode.net.LayerHeader#getLength()
-     */
+    @Override
     public int getLength() {
         return 8;
     }

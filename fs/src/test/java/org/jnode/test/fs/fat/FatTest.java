@@ -24,13 +24,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLConnection;
 import java.nio.ByteBuffer;
 
 import org.jnode.driver.block.FileDevice;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSFile;
-import org.jnode.fs.FileSystemException;
 import org.jnode.fs.FileSystemType;
 import org.jnode.fs.fat.BootSector;
 import org.jnode.fs.fat.FatDirectory;
@@ -43,6 +41,7 @@ import org.jnode.util.FileUtils;
  * @author epr
  */
 public class FatTest {
+
     public static void main(String[] args) throws Exception {
 
         PrintWriter out = new PrintWriter(System.out, true);
@@ -62,8 +61,7 @@ public class FatTest {
         printInfo(f, out);
     }
 
-    public static void printInfo(File file, PrintWriter out)
-        throws IOException, FileSystemException {
+    public static void printInfo(File file, PrintWriter out) throws IOException {
         FileDevice fd = new FileDevice(file, "r");
         FatFileSystemType type = FileSystemType.lookup(FatFileSystemType.class);
         FatFileSystem fs = type.create(fd, false);
@@ -88,25 +86,21 @@ public class FatTest {
             fs.getRootDir().printTo(out);
 
             try {
-                FatDirectory dir =
-                        (FatDirectory) fs.getRootEntry().getDirectory().getEntry("AAP")
-                                .getDirectory();
+                var dir = (FatDirectory) fs.getRootEntry().getDirectory().getEntry("AAP").getDirectory();
                 dir.printTo(out);
             } catch (FileNotFoundException ex) {
                 out.println("No AAP directory");
             }
 
             try {
-                FatDirectory dir =
-                        (FatDirectory) fs.getRootEntry().getDirectory().getEntry("boot")
-                                .getDirectory();
+                var dir = (FatDirectory) fs.getRootEntry().getDirectory().getEntry("boot").getDirectory();
                 dir.printTo(out);
             } catch (FileNotFoundException ex) {
                 out.println("No boot directory");
             }
 
         } finally {
-            // fd.stop();
+//            fd.stop();
             fd.close();
         }
     }
@@ -118,7 +112,7 @@ public class FatTest {
         newFd.setLength(1440 * 1024);
         ff.format(newFd);
 
-        // newFd.start();
+//        newFd.start();
         FatFileSystemType type = FileSystemType.lookup(FatFileSystemType.class);
         FatFileSystem fs = type.create(newFd, false);
 
@@ -126,9 +120,8 @@ public class FatTest {
         FSDirectory bDir = dir.addDirectory("boot").getDirectory();
         FSDirectory bgDir = bDir.addDirectory("grub").getDirectory();
 
-        URLConnection urlConn =
-                FatTest.class.getClassLoader().getResource("menu.lst").openConnection();
-        //byte[] buf = new byte[urlConn.getContentLength()];
+        var urlConn = FatTest.class.getClassLoader().getResource("menu.lst").openConnection();
+//        byte[] buf = new byte[urlConn.getContentLength()];
         ByteBuffer buf = ByteBuffer.allocate(urlConn.getContentLength());
         FileUtils.copy(urlConn.getInputStream(), buf.array());
 
@@ -142,7 +135,7 @@ public class FatTest {
 
         fs.flush();
 
-        //newFd.stop();
+//        newFd.stop();
         newFd.close();
     }
 }

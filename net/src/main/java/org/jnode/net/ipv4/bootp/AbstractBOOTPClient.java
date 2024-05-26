@@ -102,7 +102,7 @@ public class AbstractBOOTPClient {
     /**
      * Process a BOOTP response
      *
-     * @param packet
+     * @param packet the packet
      * @return true if the device has been configured, false otherwise
      */
     protected boolean processResponse(int transactionID, DatagramPacket packet) throws IOException {

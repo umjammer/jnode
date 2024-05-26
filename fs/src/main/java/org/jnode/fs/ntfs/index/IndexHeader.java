@@ -36,7 +36,7 @@ final class IndexHeader extends NTFSStructure {
 
     /**
      * Initialize this instance.
-     * @param attr
+     * @param attr the attr
      */
     public IndexHeader(IndexRootAttribute attr) {
         super(attr, attr.getAttributeOffset() + 0x10);
@@ -44,8 +44,8 @@ final class IndexHeader extends NTFSStructure {
 
     /**
      * Initialize this instance.
-     * @param indexBlock
-     * @param offset
+     * @param indexBlock the indexBlock
+     * @param offset the offset
      */
     public IndexHeader(IndexBlock indexBlock, int offset) {
         super(indexBlock, offset);

@@ -21,19 +21,16 @@
 package org.jnode.net.ipv4.udp;
 
 import java.io.IOException;
+import java.lang.System.Logger;
 import java.net.DatagramSocket;
 import java.net.DatagramSocketImplFactory;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.SocketImplFactory;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Random;
 
-import java.lang.System.Logger.Level;
-import java.lang.System.Logger;
 import org.jnode.driver.net.NetworkException;
 import org.jnode.net.SocketBuffer;
 import org.jnode.net.ipv4.IPv4Constants;
@@ -83,92 +80,78 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
     /**
      * for random listener ports
      */
-    private final Integer zero = 0;
-    private final Random random = new Random();
+    private static final Integer zero = 0;
+    private final Random random = new SecureRandom();
 
-    private final int startRandom = 1024;
-    private final int stopRandom = (65535 - startRandom);
+    private static final int startRandom = 1024;
+    private static final int stopRandom = (65535 - startRandom);
 
     /**
      * Create a new instance
      * 
-     * @param ipService
+     * @param ipService the ipService
      */
     public UDPProtocol(IPv4Service ipService) throws NetworkException {
         this.ipService = ipService;
         this.icmp = new ICMPUtils(ipService);
         try {
             dsiFactory = new UDPDatagramSocketImplFactory(this);
-            try {
-                AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
-                    DatagramSocket.setDatagramSocketImplFactory(dsiFactory);
-                    return null;
-                });
-            } catch (SecurityException ex) {
-                log.log(Level.ERROR, "No permission to set DatagramSocketImplFactory", ex);
-            } catch (PrivilegedActionException ex) {
-                throw new NetworkException(ex.getException());
-            }
+            DatagramSocket.setDatagramSocketImplFactory(dsiFactory);
         } catch (IOException ex) {
             throw new NetworkException(ex);
         }
     }
 
-    /**
-     * @see org.jnode.net.ipv4.IPv4Protocol#getName()
-     */
+    @Override
     public String getName() {
         return "udp";
     }
 
-    /**
-     * @see org.jnode.net.ipv4.IPv4Protocol#getProtocolID()
-     */
+    @Override
     public int getProtocolID() {
         return IPPROTO_UDP;
     }
 
-    /**
-     * @see org.jnode.net.ipv4.IPv4Protocol#receive(org.jnode.net.SocketBuffer)
-     */
-    public void receive(SocketBuffer skbuf) throws SocketException {
+    @Override
+    public void receive(SocketBuffer skBuf) throws SocketException {
 
         stat.ipackets.inc();
 
-        final UDPHeader hdr = new UDPHeader(skbuf);
+        final UDPHeader hdr = new UDPHeader(skBuf);
         if (!hdr.isChecksumOk()) {
             stat.badsum.inc();
             return;
         }
 
         // Set the UDP header in the buffer-field
-        skbuf.setTransportLayerHeader(hdr);
+        skBuf.setTransportLayerHeader(hdr);
         // Remove the UDP header from the head of the buffer
-        skbuf.pull(hdr.getLength());
+        skBuf.pull(hdr.getLength());
         // Trim the buffer up to the length in the UDP header
-        skbuf.trim(hdr.getDataLength());
+        skBuf.trim(hdr.getDataLength());
 
-        // Test the length of the buffer to the datalength in the header.
-        if (skbuf.getSize() < hdr.getDataLength()) {
+        // Test the length of the buffer to the data length in the header.
+        if (skBuf.getSize() < hdr.getDataLength()) {
             stat.badlen.inc();
             return;
         }
 
         // Syslog.log(Level.DEBUG, "Found UDP: " + hdr);
 
-        deliver(hdr, skbuf);
+        deliver(hdr, skBuf);
     }
 
     /**
      * Process an ICMP error message that has been received and matches this
-     * protocol. The skbuf is position directly after the ICMP header (thus
+     * protocol. The skBuf is position directly after the ICMP header (thus
      * contains the error IP header and error transport layer header). The
-     * transportLayerHeader property of skbuf is set to the ICMP message header.
+     * transportLayerHeader property of skBuf is set to the ICMP message header.
      * 
-     * @param skbuf
-     * @throws SocketException
+     * @param skBuf the socket buffer
+     * @throws SocketException when an error occurs
      */
-    public void receiveError(SocketBuffer skbuf) throws SocketException {
+    @Override
+    public void receiveError(SocketBuffer skBuf) throws SocketException {
         // TODO handle ICMP errors in UDP
     }
 
@@ -177,6 +160,7 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
      * 
      * @throws SocketException If this protocol is not Socket based.
      */
+    @Override
     public SocketImplFactory getSocketImplFactory() throws SocketException {
         throw new SocketException("UDP is packet based");
     }
@@ -184,6 +168,7 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
     /**
      * Gets the DatagramSocketImplFactory of this protocol.
      */
+    @Override
     public DatagramSocketImplFactory getDatagramSocketImplFactory() {
         return dsiFactory;
     }
@@ -191,17 +176,17 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
     /**
      * Deliver a given packet to all interested sockets.
      * 
-     * @param hdr
-     * @param skbuf
+     * @param hdr the socket buffer
+     * @param skBuf the socket buffer
      */
-    private synchronized void deliver(UDPHeader hdr, SocketBuffer skbuf) throws SocketException {
+    private synchronized void deliver(UDPHeader hdr, SocketBuffer skBuf) throws SocketException {
         final Integer lport = hdr.getDstPort();
-        final IPv4Header ipHdr = (IPv4Header) skbuf.getNetworkLayerHeader();
+        final IPv4Header ipHdr = (IPv4Header) skBuf.getNetworkLayerHeader();
         final UDPDatagramSocketImpl socket = sockets.get(lport);
         if (socket != null) {
             final InetAddress laddr = socket.getLocalAddress();
             if (laddr.isAnyLocalAddress() || laddr.equals(ipHdr.getDestination().toInetAddress())) {
-                if (socket.deliverReceived(skbuf)) {
+                if (socket.deliverReceived(skBuf)) {
                     return;
                 }
             }
@@ -211,13 +196,13 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
             stat.noportbcast.inc();
         }
         // Send a port unreachable back
-        icmp.sendPortUnreachable(skbuf);
+        icmp.sendPortUnreachable(skBuf);
     }
 
     /**
      * Register a datagram socket
      * 
-     * @param socket
+     * @param socket the socket
      */
     protected synchronized void bind(UDPDatagramSocketImpl socket) throws SocketException {
         Integer lport = socket.getLocalPort();
@@ -244,7 +229,7 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
     /**
      * Unregister a datagram socket
      * 
-     * @param socket
+     * @param socket the socket
      */
     protected synchronized void unbind(UDPDatagramSocketImpl socket) {
         final Integer lport = socket.getLocalPort();
@@ -256,19 +241,17 @@ public class UDPProtocol implements IPv4Protocol, IPv4Constants {
     /**
      * Send an UDP packet
      *
-     * @param skbuf
+     * @param skBuf the socket buffer
      */
-    protected void send(IPv4Header ipHdr, UDPHeader udpHdr, SocketBuffer skbuf)
+    protected void send(IPv4Header ipHdr, UDPHeader udpHdr, SocketBuffer skBuf)
         throws SocketException {
-        skbuf.setTransportLayerHeader(udpHdr);
-        udpHdr.prefixTo(skbuf);
-        ipService.transmit(ipHdr, skbuf);
+        skBuf.setTransportLayerHeader(udpHdr);
+        udpHdr.prefixTo(skBuf);
+        ipService.transmit(ipHdr, skBuf);
         stat.opackets.inc();
     }
 
-    /**
-     * @see org.jnode.net.ipv4.IPv4Protocol#getStatistics()
-     */
+    @Override
     public Statistics getStatistics() {
         return stat;
     }

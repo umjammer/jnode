@@ -37,15 +37,13 @@ public class TCPControlBlockList extends IPv4ControlBlockList {
     /**
      * Create a new instance
      * 
-     * @param protocol
+     * @param protocol the protocol
      */
     public TCPControlBlockList(TCPProtocol protocol) {
         this.protocol = protocol;
     }
 
-    /**
-     * @see org.jnode.net.ipv4.IPv4ControlBlockList#createControlBlock(org.jnode.net.ipv4.IPv4ControlBlock)
-     */
+    @Override
     protected IPv4ControlBlock createControlBlock(IPv4ControlBlock parent) {
         return new TCPControlBlock(this, (TCPControlBlock) parent, protocol, isn++);
     }

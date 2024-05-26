@@ -34,13 +34,13 @@ import org.jnode.fs.ReadOnlyFileSystemException;
  * @author gbin
  */
 public class FatLfnDirectory extends FatDirectory {
-    private HashMap<String, LfnEntry> shortNameIndex = new HashMap<>();
-    private HashMap<String, LfnEntry> longFileNameIndex = new HashMap<>();
+    private final HashMap<String, LfnEntry> shortNameIndex = new HashMap<>();
+    private final HashMap<String, LfnEntry> longFileNameIndex = new HashMap<>();
 
     /**
-     * @param fs
-     * @param file
-     * @throws IOException
+     * @param fs the fs
+     * @param file the file
+     * @throws IOException when an error occurs
      */
     public FatLfnDirectory(FatFileSystem fs, FatFile file) throws IOException {
         super(fs, file);
@@ -51,6 +51,7 @@ public class FatLfnDirectory extends FatDirectory {
         super(fs, nrEntries);
     }
 
+    @Override
     public FSEntry addFile(String name) throws IOException {
         if (getFileSystem().isReadOnly()) {
             throw new ReadOnlyFileSystemException("addFile in readonly filesystem");
@@ -67,6 +68,7 @@ public class FatLfnDirectory extends FatDirectory {
         return entry;
     }
 
+    @Override
     public FSEntry addDirectory(String name) throws IOException {
         if (getFileSystem().isReadOnly()) {
             throw new ReadOnlyFileSystemException("addDirectory in readonly filesystem");
@@ -107,6 +109,7 @@ public class FatLfnDirectory extends FatDirectory {
         return entry;
     }
 
+    @Override
     public FSEntry getEntry(String name) {
         // System.out.println("Search : " + name);
         name = name.trim();
@@ -120,6 +123,7 @@ public class FatLfnDirectory extends FatDirectory {
 
     }
 
+    @Override
     protected synchronized void read(byte[] src) {
         super.read(src);
         readLFN();
@@ -146,13 +150,13 @@ public class FatLfnDirectory extends FatDirectory {
                 // System.out.println(" Jumped over : " + entries.get(i));
                 i++;
                 if (i >= size) {
-                    // This is a cutted entry, forgive it
+                    // This is a cut entry, forgive it
                     break;
                 }
             }
             i++;
             if (i >= size) {
-                // This is a cutted entry, forgive it
+                // This is a cut entry, forgive it
                 break;
             }
 
@@ -202,19 +206,23 @@ public class FatLfnDirectory extends FatDirectory {
 
     }
 
+    @Override
     public void flush() throws IOException {
         updateLFN();
         super.flush();
     }
 
+    @Override
     public Iterator<FSEntry> iterator() {
         return new Iterator<>() {
-            Iterator<LfnEntry> it = shortNameIndex.values().iterator();
+            final Iterator<LfnEntry> it = shortNameIndex.values().iterator();
 
+            @Override
             public boolean hasNext() {
                 return it.hasNext();
             }
 
+            @Override
             public FSEntry next() {
                 return it.next();
             }
@@ -222,6 +230,7 @@ public class FatLfnDirectory extends FatDirectory {
             /**
              * @see java.util.Iterator#remove()
              */
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
@@ -229,7 +238,7 @@ public class FatLfnDirectory extends FatDirectory {
     }
 
     /*
-     * Its in the DOS manual!(DOS 5: page 72) Valid: A..Z 0..9 _ ^ $ ~ ! # % & - {} () @ ' `
+     * It's in the DOS manual!(DOS 5: page 72) Valid: A..Z 0..9 _ ^ $ ~ ! # % & - {} () @ ' `
      * 
      * Invalid: spaces/periods,
      */
@@ -307,9 +316,10 @@ public class FatLfnDirectory extends FatDirectory {
     /**
      * Remove the entry with the given name from this directory.
      *
-     * @param name
-     * @throws IOException
+     * @param name the name
+     * @throws IOException when an error occurs
      */
+    @Override
     public void remove(String name) throws IOException {
         name = name.trim();
         LfnEntry byLongName = longFileNameIndex.get(name);

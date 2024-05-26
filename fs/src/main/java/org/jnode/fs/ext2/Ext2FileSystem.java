@@ -29,6 +29,7 @@ import java.util.Date;
 
 import java.lang.System.Logger.Level;
 import java.lang.System.Logger;
+
 import org.jnode.driver.Device;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
@@ -62,27 +63,27 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
 
     private int groupCount;
 
-    private BlockCache blockCache;
+    private final BlockCache blockCache;
 
-    private INodeCache inodeCache;
+    private final INodeCache inodeCache;
 
     private MultipleMountProtection multipleMountProtection;
 
-    // private Object groupDescriptorLock;
-    // private Object superblockLock;
+//    private Object groupDescriptorLock;
+//    private Object superblockLock;
 
-    // private final boolean DEBUG=true;
+//    private final boolean DEBUG = true;
 
-    // TODO: SYNC_WRITE should be made a parameter
     /**
      * if true, writeBlock() does not return until the block is written to disk
+     * TODO: SYNC_WRITE should be made a parameter
      */
     private boolean SYNC_WRITE = true;
 
     /**
      * Constructor for Ext2FileSystem in specified readOnly mode
      *
-     * @throws FileSystemException
+     * @throws FileSystemException when an error occurs
      */
     public Ext2FileSystem(Device device, boolean readOnly) throws FileSystemException {
         super(device, readOnly);
@@ -90,8 +91,8 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         blockCache = new BlockCache(50, (float) 0.75);
         inodeCache = new INodeCache(50, (float) 0.75);
 
-        // groupDescriptorLock = new Object();
-        // superblockLock = new Object();
+//        groupDescriptorLock = new Object();
+//        superblockLock = new Object();
     }
 
     public void read() throws FileSystemException {
@@ -100,10 +101,10 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         try {
             data = ByteBuffer.allocate(Superblock.SUPERBLOCK_LENGTH);
 
-            // skip the first 1024 bytes (bootsector) and read the superblock
+            // skip the first 1024 bytes (boot-sector) and read the superblock
             // TODO: the superblock should read itself
             getApi().read(1024, data);
-            // superblock = new SuperBlock(data, this);
+//            superblock = new SuperBlock(data, this);
             superblock = new Superblock();
             superblock.read(data.array(), this);
 
@@ -113,7 +114,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
             iNodeTables = new INodeTable[groupCount];
 
             for (int i = 0; i < groupCount; i++) {
-                // groupDescriptors[i]=new GroupDescriptor(i, this);
+//                groupDescriptors[i] = new GroupDescriptor(i, this);
                 groupDescriptors[i] = new GroupDescriptor();
                 groupDescriptors[i].read(i, this);
 
@@ -127,15 +128,14 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         }
 
         // check for unsupported filesystem options
-        // (an unsupported INCOMPAT feature means that the fs may not be mounted
-        // at all)
+        // (an unsupported INCOMPAT feature means that the fs may not be mounted at all)
         if (hasIncompatFeature(Ext2Constants.EXT2_FEATURE_INCOMPAT_COMPRESSION)) throw new FileSystemException(
             " Unsupported filesystem feature (COMPRESSION) disallows mounting");
         if (hasIncompatFeature(Ext2Constants.EXT3_FEATURE_INCOMPAT_JOURNAL_DEV)) throw new FileSystemException(
             " Unsupported filesystem feature (JOURNAL_DEV) disallows mounting");
-        // if (hasIncompatFeature(Ext2Constants.EXT3_FEATURE_INCOMPAT_RECOVER))
-        // throw new FileSystemException(getDevice().getId() +
-        // " Unsupported filesystem feature (RECOVER) disallows mounting");
+//        if (hasIncompatFeature(Ext2Constants.EXT3_FEATURE_INCOMPAT_RECOVER))
+//             throw new FileSystemException(getDevice().getId() +
+//                   " Unsupported filesystem feature (RECOVER) disallows mounting");
 
         if (hasIncompatFeature(Ext2Constants.EXT4_FEATURE_INCOMPAT_64BIT)) throw new FileSystemException(
             " Unsupported filesystem feature (64BIT) disallows mounting");
@@ -208,7 +208,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         if (!isReadOnly()) {
             log.log(Level.INFO, " mounting fs r/w");
             superblock.setState(Ext2Constants.EXT2_ERROR_FS);
-            // Mount successfull, update some superblock informations.
+            // Mount successfully, update some superblock information.
             superblock.setMntCount(superblock.getMntCount() + 1);
             superblock.setMTime(Ext2Utils.encodeDate(new Date()));
             superblock.setWTime(Ext2Utils.encodeDate(new Date()));
@@ -295,14 +295,14 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         } catch (IOException ioe) {
             throw new FileSystemException("Unable to create filesystem", ioe);
         }
-
     }
 
     /**
      * Flush all changed structures to the device.
      *
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public void flush() throws IOException {
         log.log(Level.INFO, "Flushing the contents of the filesystem");
         // update the inodes
@@ -313,8 +313,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
                     iNode.flush();
                 }
             } catch (FileSystemException ex) {
-                final IOException ioe = new IOException(ex);
-                throw ioe;
+                throw new IOException(ex);
             }
         }
 
@@ -338,21 +337,19 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         superblock.update();
     }
 
+    @Override
     public void close() throws IOException {
         // mark the filesystem clean
         superblock.setState(Ext2Constants.EXT2_VALID_FS);
         super.close();
     }
 
-    /**
-     * @see org.jnode.fs.spi.AbstractFileSystem#createRootEntry()
-     */
+    @Override
     public Ext2Entry createRootEntry() throws IOException {
         try {
             return new Ext2Entry(getINode(Ext2Constants.EXT2_ROOT_INO), 0, "/", Ext2Constants.EXT2_FT_DIR, this, null);
         } catch (FileSystemException ex) {
-            final IOException ioe = new IOException(ex);
-            throw ioe;
+            throw new IOException(ex);
         }
     }
 
@@ -391,7 +388,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
      */
     public byte[] getBlock(long nr) throws IOException {
         if (isClosed()) throw new IOException("FS closed (fs instance: " + this + ")");
-        // log.log(Level.DEBUG, "blockCache size: "+blockCache.size());
+//        log.log(Level.DEBUG, "blockCache size: "+blockCache.size());
 
         int blockSize = superblock.getBlockSize();
         Block result;
@@ -405,16 +402,15 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
             }
         }
 
-        // perform the time-consuming disk read outside of the synchronized
-        // block
+        // perform the time-consuming disk read outside the synchronized block
         // advantage:
         // -the lock is held for a shorter time, so other blocks that are
-        // already in the cache can be returned immediately and
-        // do not have to wait for a long disk read
+        //  already in the cache can be returned immediately and
+        //  do not have to wait for a long disk read
         // disadvantage:
         // -a single block can be retrieved more than once. However,
-        // the block will be put in the cache only once in the second
-        // synchronized block
+        //  the block will be put in the cache only once in the second
+        //  synchronized block
         ByteBuffer data = ByteBuffer.allocate(blockSize);
         log.log(Level.DEBUG, "Reading block " + nr + " (offset: " + nr * blockSize + ") from disk");
         getApi().read(nr * blockSize, data);
@@ -442,7 +438,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
      * @param data       block data
      * @param forceWrite if forceWrite is false, the block is only updated in the cache (if it was in the cache). If
      *                   forceWrite is true, or the block is not in the cache, write it to disk.
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public void writeBlock(long nr, byte[] data, boolean forceWrite) throws IOException {
         if (isClosed()) throw new IOException("FS closed");
@@ -479,35 +475,76 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         }
     }
 
-    /*
-     * Helper class for timedWrite
-     * @author blind
-     */
-    /*
-     * class TimeoutWatcher extends TimerTask { Thread mainThread; public TimeoutWatcher(Thread mainThread) {
-     * this.mainThread = mainThread; } public void run() { mainThread.interrupt(); } } private static final long TIMEOUT
-     * = 100;
-     */
-    /*
-     * timedWrite writes to disk and waits for timeout, if the operation does not finish in time, restart it. DO NOT
-     * CALL THIS DIRECTLY! ONLY TO BE CALLED FROM writeBlock()! @param nr the number of the block to write
-     * @param data the data in the block
-     */
-    /*
-     * private void timedWrite(long nr, byte[] data) throws IOException{ boolean finished = false; Timer writeTimer;
-     * while(!finished) { finished = true; writeTimer = new Timer(); writeTimer.schedule(new
-     * TimeoutWatcher(Thread.currentThread()), TIMEOUT); try{ getApi().write(nr*getBlockSize(), data, 0,
-     * (int)getBlockSize()); writeTimer.cancel(); }catch(IOException ioe) { //IDEDiskDriver will throw an IOException
-     * with a cause of an InterruptedException //it the write is interrupted if(ioe.getCause() instanceof
-     * InterruptedException) { writeTimer.cancel(); log.log(Level.DEBUG, "IDE driver interrupted during write operation: probably
-     * timeout"); finished = false; } } } } private void timedRead(long nr, byte[] data) throws IOException{ boolean
-     * finished = false; Timer readTimer; while(!finished) { finished = true; readTimer = new Timer();
-     * readTimer.schedule(new TimeoutWatcher(Thread.currentThread()), TIMEOUT); try{ getApi().read( nr*getBlockSize(),
-     * data, 0, (int)getBlockSize()); readTimer.cancel(); }catch(IOException ioe) { //IDEDiskDriver will throw an
-     * IOException with a cause of an InterruptedException //it the write is interrupted if(ioe.getCause() instanceof
-     * InterruptedException) { readTimer.cancel(); log.log(Level.DEBUG, "IDE driver interrupted during read operation: probably
-     * timeout"); finished = false; } } } }
-     */
+//    /**
+//     * Helper class for timedWrite
+//     * @author blind
+//     */
+//    class TimeoutWatcher extends TimerTask {
+//
+//        Thread mainThread;
+//
+//        public TimeoutWatcher(Thread mainThread) {
+//            this.mainThread = mainThread;
+//        }
+//
+//        public void run() {
+//            mainThread.interrupt();
+//        }
+//    }
+//
+//    private static final long TIMEOUT = 100;
+//
+//    /**
+//     * timedWrite writes to disk and waits for timeout,
+//     * if the operation does not finish in time, restart it.
+//     * DO NOT CALL THIS DIRECTLY! ONLY TO BE CALLED FROM writeBlock()!
+//     * @param nr the number of the block to write
+//     * @param data the data in the block
+//     */
+//    private void timedWrite(long nr, byte[] data) throws IOException {
+//        boolean finished = false;
+//        Timer writeTimer;
+//        while (!finished) {
+//            finished = true;
+//            writeTimer = new Timer();
+//            writeTimer.schedule(new
+//                    TimeoutWatcher(Thread.currentThread()), TIMEOUT);
+//            try {
+//                getApi().write(nr * getBlockSize(), data, 0, (int) getBlockSize());
+//                writeTimer.cancel();
+//            } catch (IOException ioe) { // IDEDiskDriver will throw an IOException
+//                                        // with a cause of an InterruptedException
+//                // it the write is interrupted
+//                if (ioe.getCause() instanceof InterruptedException) {
+//                    writeTimer.cancel();
+//                    log.log(Level.DEBUG, "IDE driver interrupted during write operation: probably timeout");
+//                    finished = false;
+//                }
+//            }
+//        }
+//    }
+//
+//    private void timedRead(long nr, byte[] data) throws IOException {
+//        boolean finished = false;
+//        Timer readTimer;
+//        while (!finished) {
+//            finished = true;
+//            readTimer = new Timer();
+//            readTimer.schedule(new TimeoutWatcher(Thread.currentThread()), TIMEOUT);
+//            try {
+//                getApi().read(nr * getBlockSize(), data, 0, (int) getBlockSize());
+//                readTimer.cancel();
+//            } catch (IOException ioe) { // IDEDiskDriver will throw an IOException
+//                                        // with a cause of an InterruptedException
+//                // it the write is interrupted
+//                if (ioe.getCause() instanceof InterruptedException) {
+//                    readTimer.cancel();
+//                    log.log(Level.DEBUG, "IDE driver interrupted during read operation: probably timeout");
+//                    finished = false;
+//                }
+//            }
+//        }
+//    }
 
     public Superblock getSuperblock() {
         return superblock;
@@ -518,7 +555,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
      * the file/directory operations are synchronized to the inodes, so at any point in time it has to be sure that only
      * one instance of any inode is present in the filesystem.
      */
-    public INode getINode(long iNodeNr) throws IOException, FileSystemException {
+    public INode getINode(long iNodeNr) throws IOException {
         if ((iNodeNr < 1) || (iNodeNr > superblock.getINodesCount())) throw new FileSystemException("INode number ("
             + iNodeNr + ") out of range (0-" + superblock.getINodesCount() + ")");
 
@@ -554,27 +591,25 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
     /**
      * Checks whether block <code>blockNr</code> is free, and if it is, then allocates it with preallocation.
      *
-     * @param blockNr
+     * @param blockNr the blockNr
      * @return the block reservation
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public BlockReservation testAndSetBlock(long blockNr) throws IOException {
 
         if (blockNr < superblock.getFirstDataBlock() || blockNr >= superblock.getBlocksCount())
-            return new BlockReservation(
-                false, -1, -1);
+            return new BlockReservation(false, -1, -1);
         int group = translateToGroup(blockNr);
         int index = translateToIndex(blockNr);
 
-        /*
-         * Return false if the block is not a data block but a filesystem metadata block, as the beginning of each block
-         * group is filesystem metadata: superblock copy (if present) block bitmap inode bitmap inode table Free blocks
-         * begin after the inode table.
-         */
+        // Return false if the block is not a data block but a filesystem metadata block, as the beginning of each block
+        // group is filesystem metadata: superblock copy (if present) block bitmap inode table Free blocks
+        // begin after the inode table.
         long iNodeTableBlock = groupDescriptors[group].getInodeTable();
         long firstNonMetadataBlock = iNodeTableBlock + INodeTable.getSizeInBlocks(this);
 
-        if (blockNr < firstNonMetadataBlock) return new BlockReservation(false, -1, -1);
+        if (blockNr < firstNonMetadataBlock)
+            return new BlockReservation(false, -1, -1);
 
         // synchronize to the blockCache to avoid flushing the block between
         // reading it
@@ -587,8 +622,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
                 if (result.isSuccessful()) {
                     writeBlock(groupDescriptors[group].getBlockBitmap(), bitmap, false);
                     modifyFreeBlocksCount(group, -1 - result.getPreallocCount());
-                    // result.setBlock(
-                    // result.getBlock()+superblock.getFirstDataBlock() );
+//                    result.setBlock(result.getBlock() + superblock.getFirstDataBlock());
                     result.setBlock(blockNr);
                 }
                 return result;
@@ -600,15 +634,16 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
     /**
      * Create a new INode
      *
-     * @param preferredBlockBroup first try to allocate the inode in this block group
+     * @param preferredBlockGroup first try to allocate the inode in this block group
      * @return the INode
      */
-    protected INode createINode(int preferredBlockBroup, int fileFormat, int accessRights, int uid, int gid)
-        throws FileSystemException, IOException {
-        if (preferredBlockBroup >= superblock.getBlocksCount()) throw new FileSystemException("Block group "
-            + preferredBlockBroup + " does not exist");
+    protected INode createINode(int preferredBlockGroup, int fileFormat, int accessRights, int uid, int gid)
+        throws IOException {
 
-        int groupNr = preferredBlockBroup;
+        if (preferredBlockGroup >= superblock.getBlocksCount())
+            throw new FileSystemException("Block group " + preferredBlockGroup + " does not exist");
+
+        int groupNr = preferredBlockGroup;
         // first check the preferred block group, if it has any free inodes
         INodeReservation res = findFreeINode(groupNr);
 
@@ -623,11 +658,12 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
             }
         }
 
-        if (!res.isSuccessful()) throw new FileSystemException("No free inodes found!");
+        if (!res.isSuccessful())
+            throw new FileSystemException("No free inodes found!");
 
         // a free inode has been found: create the inode and write it into the
         // inode table
-        INodeTable iNodeTable = iNodeTables[preferredBlockBroup];
+        INodeTable iNodeTable = iNodeTables[preferredBlockGroup];
         // byte[] iNodeData = new byte[INode.INODE_LENGTH];
         long iNodeNr = res.getINodeNr((int) superblock.getINodesPerGroup());
         INode iNode = new INode(this, new INodeDescriptor(iNodeTable, iNodeNr, groupNr, res.getIndex()));
@@ -640,8 +676,8 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         // put the inode into the cache
         synchronized (inodeCache) {
             Long key = iNodeNr;
-            if (inodeCache.containsKey(key)) throw new FileSystemException(
-                "Newly allocated inode is already in the inode cache!?");
+            if (inodeCache.containsKey(key))
+                throw new FileSystemException("Newly allocated inode is already in the inode cache!?");
             else inodeCache.put(key, iNode);
         }
 
@@ -651,9 +687,9 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
     /**
      * Find a free INode in the inode bitmap and allocate it
      *
-     * @param blockGroup
+     * @param blockGroup the block group
      * @return the INode reservation
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     protected INodeReservation findFreeINode(int blockGroup) throws IOException {
         GroupDescriptor gdesc = groupDescriptors[blockGroup];
@@ -693,7 +729,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
     /**
      * Modify the number of free blocks in the block group
      *
-     * @param group
+     * @param group the group
      * @param diff  can be positive or negative
      */
     protected void modifyFreeBlocksCount(int group, int diff) {
@@ -706,7 +742,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
     /**
      * Modify the number of free inodes in the block group
      *
-     * @param group
+     * @param group the group
      * @param diff  can be positive or negative
      */
     protected void modifyFreeInodesCount(int group, int diff) {
@@ -719,8 +755,8 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
     /**
      * Modify the number of used directories in a block group
      *
-     * @param group
-     * @param diff
+     * @param group the group
+     * @param diff the diff
      */
     protected void modifyUsedDirsCount(int group, int diff) {
         GroupDescriptor gdesc = groupDescriptors[group];
@@ -730,39 +766,34 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
     /**
      * Free up a block in the block bitmap.
      *
-     * @param blockNr
-     * @throws FileSystemException
-     * @throws IOException
+     * @param blockNr the block number
+     * @throws FileSystemException when an error occurs
+     * @throws IOException when an error occurs
      */
     public void freeBlock(long blockNr) throws FileSystemException, IOException {
-        if (blockNr < 0 || blockNr >= superblock.getBlocksCount()) throw new FileSystemException(
-            "Attempt to free nonexisting block (" + blockNr + ")");
+        if (blockNr < 0 || blockNr >= superblock.getBlocksCount())
+            throw new FileSystemException("Attempt to free nonexisting block (" + blockNr + ")");
 
         int group = translateToGroup(blockNr);
         int index = translateToIndex(blockNr);
         GroupDescriptor gdesc = groupDescriptors[group];
 
-        /*
-         * Throw an exception if an attempt is made to free up a filesystem metadata block (the beginning of each block
-         * group is filesystem metadata): superblock copy (if present) block bitmap inode bitmap inode table Free blocks
-         * begin after the inode table.
-         */
+        // Throw an exception if an attempt is made to free up a filesystem metadata block (the beginning of each block
+        // group is filesystem metadata): superblock copy (if present) block bitmap inode table Free blocks
+        // begin after the inode table.
         long iNodeTableBlock = groupDescriptors[group].getInodeTable();
         long firstNonMetadataBlock = iNodeTableBlock + INodeTable.getSizeInBlocks(this);
 
-        if (blockNr < firstNonMetadataBlock) throw new FileSystemException(
-            "Attempt to free a filesystem metadata block!");
+        if (blockNr < firstNonMetadataBlock)
+            throw new FileSystemException("Attempt to free a filesystem metadata block!");
 
         // synchronize to the blockCache to avoid flushing the block between
-        // reading it
-        // and synchronizing to it
+        // reading it and synchronizing to it
         synchronized (blockCache) {
             byte[] bitmap = getBlock(gdesc.getBlockBitmap());
 
             // at any time, only one copy of the Block exists in the cache, so
-            // it is
-            // safe to synchronize to the bitmapBlock object (it's part of
-            // Block)
+            // it is safe to synchronize to the bitmapBlock object (it's part of Block)
             synchronized (bitmap) {
                 BlockBitmap.freeBit(bitmap, index);
                 // update the bitmap block
@@ -802,21 +833,17 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         BlockReservation result;
 
         // synchronize to the blockCache to avoid flushing the block between
-        // reading it
-        // and synchronizing to it
+        // reading it and synchronizing to it
         synchronized (blockCache) {
             byte[] bitmapBlock = getBlock(gdesc.getBlockBitmap());
 
             // at any time, only one copy of the Block exists in the cache, so
-            // it is
-            // safe to synchronize to the bitmapBlock object (it's part of
-            // Block)
+            // it is safe to synchronize to the bitmapBlock object (it's part of Block)
             synchronized (bitmapBlock) {
                 result = BlockBitmap.findFreeBlocks(bitmapBlock, metadataLength);
 
                 // if the reservation was successful, write the bitmap data to
-                // disk
-                // within the same synchronized block
+                // disk within the same synchronized block
                 if (result.isSuccessful()) {
                     writeBlock(groupDescriptors[group].getBlockBitmap(), bitmapBlock, true);
                     modifyFreeBlocksCount(group, -1 - result.getPreallocCount());
@@ -845,7 +872,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
     /**
      * Check whether the filesystem uses the given RO feature (S_FEATURE_RO_COMPAT)
      *
-     * @param mask
+     * @param mask the mask
      * @return {@code true} if the filesystem uses the feature, otherwise {@code false}.
      */
     protected boolean hasROFeature(long mask) {
@@ -855,7 +882,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
     /**
      * Check whether the filesystem uses the given COMPAT feature (S_FEATURE_INCOMPAT)
      *
-     * @param mask
+     * @param mask the mask
      * @return {@code true} if the filesystem uses the feature, otherwise {@code false}.
      */
     protected boolean hasIncompatFeature(long mask) {
@@ -885,7 +912,7 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
      * With the sparse_super option set, a filesystem does not have a superblock and group descriptor copy in every
      * block group.
      *
-     * @param groupNr
+     * @param groupNr the groupNr
      * @return true if the block group <code>groupNr</code> has a superblock and a group descriptor copy, otherwise
      *         false
      */
@@ -896,29 +923,32 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
     }
 
     /**
-     *
+     * Creates a file.
      */
+    @Override
     protected FSFile createFile(FSEntry entry) throws IOException {
         Ext2Entry e = (Ext2Entry) entry;
         return new Ext2File(e);
     }
 
     /**
-     *
+     * Creates a directory.
      */
+    @Override
     protected FSDirectory createDirectory(FSEntry entry) throws IOException {
         Ext2Entry e = (Ext2Entry) entry;
         return new Ext2Directory(e);
     }
 
+    /** */
     protected FSEntry buildRootEntry() throws IOException {
         // a free inode has been found: create the inode and write it into the
         // inode table
         INodeTable iNodeTable = iNodeTables[0];
-        // byte[] iNodeData = new byte[INode.INODE_LENGTH];
+//        byte[] iNodeData = new byte[INode.INODE_LENGTH];
         int iNodeNr = Ext2Constants.EXT2_ROOT_INO;
         INode iNode = new INode(this, new INodeDescriptor(iNodeTable, iNodeNr, 0, iNodeNr - 1));
-        int rights = 0xFFFF & (Ext2Constants.EXT2_S_IRWXU | Ext2Constants.EXT2_S_IRWXG | Ext2Constants.EXT2_S_IRWXO);
+        int rights = 0xffff & (Ext2Constants.EXT2_S_IRWXU | Ext2Constants.EXT2_S_IRWXG | Ext2Constants.EXT2_S_IRWXO);
         iNode.create(Ext2Constants.EXT2_S_IFDIR, rights, 0, 0);
         // trigger a write to disk
         iNode.update();
@@ -946,8 +976,8 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         superblock.setState(Ext2Constants.EXT2_ERROR_FS);
         if (superblock.getErrors() == Ext2Constants.EXT2_ERRORS_RO) setReadOnly(true); // remount readonly
 
-        if (superblock.getErrors() == Ext2Constants.EXT2_ERRORS_PANIC) throw new RuntimeException(
-            "EXT2 FileSystem exception", e);
+        if (superblock.getErrors() == Ext2Constants.EXT2_ERRORS_PANIC)
+            throw new RuntimeException("EXT2 FileSystem exception", e);
     }
 
     /**
@@ -964,14 +994,17 @@ public class Ext2FileSystem extends AbstractFileSystem<Ext2Entry> {
         return inodeCache;
     }
 
+    @Override
     public long getFreeSpace() {
         return superblock.getFreeBlocksCount() * superblock.getBlockSize();
     }
 
+    @Override
     public long getTotalSpace() {
         return superblock.getBlocksCount() * superblock.getBlockSize();
     }
 
+    @Override
     public long getUsableSpace() {
         // TODO implement me
         return -1;

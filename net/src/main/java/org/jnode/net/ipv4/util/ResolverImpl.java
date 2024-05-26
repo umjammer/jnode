@@ -21,13 +21,9 @@
 package org.jnode.net.ipv4.util;
 
 import java.net.UnknownHostException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Collection;
 
 import org.jnode.driver.net.NetworkException;
 import org.jnode.net.ProtocolAddress;
@@ -50,9 +46,9 @@ public class ResolverImpl implements Resolver {
     // and a lot of the state is 'static'?
     private static ExtendedResolver resolver;
 
-    private static Map<String, org.xbill.DNS.Resolver> resolvers;
+    private static final Map<String, org.xbill.DNS.Resolver> resolvers;
 
-    private static Map<String, ProtocolAddress[]> hosts;
+    private static final Map<String, ProtocolAddress[]> hosts;
 
     private static Resolver res = null;
 
@@ -76,11 +72,8 @@ public class ResolverImpl implements Resolver {
     public static Resolver getInstance() {
         if (res == null) {
             // FIXME ... do we REALLY have to do this???
-            AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
-                System.setProperty("dns.server", "127.0.0.1");
-                System.setProperty("dns.search", "localdomain");
-                return null;
-            });
+            System.setProperty("dns.server", "127.0.0.1");
+            System.setProperty("dns.search", "localdomain");
             res = new ResolverImpl();
         }
         return res;
@@ -96,35 +89,23 @@ public class ResolverImpl implements Resolver {
     /**
      * Add a dns server
      * 
-     * @param _dnsserver
-     * @throws NetworkException
+     * @param _dnsServer the dns server
+     * @throws NetworkException when an error occurs
      */
-    public static void addDnsServer(ProtocolAddress _dnsserver) throws NetworkException {
+    public static void addDnsServer(ProtocolAddress _dnsServer) throws NetworkException {
         try {
             if (resolver == null) {
-                final String[] server = new String[] {_dnsserver.toString()};
-                try {
-                    AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
-                        resolver = new ExtendedResolver(server);
-                        Lookup.setDefaultResolver(resolver);
-                        return null;
-                    });
-                } catch (PrivilegedActionException x) {
-                    Exception ee = x.getException();
-                    if (ee instanceof UnknownHostException) {
-                        throw (UnknownHostException) ee;
-                    } else {
-                        throw new RuntimeException(ee);
-                    }
-                }
-                resolvers.put(_dnsserver.toString(), resolver);
+                final String[] server = new String[] {_dnsServer.toString()};
+                resolver = new ExtendedResolver(server);
+                Lookup.setDefaultResolver(resolver);
+                resolvers.put(_dnsServer.toString(), resolver);
             }
         } catch (UnknownHostException e) {
             throw new NetworkException("Can't add DNS server", e);
         }
 
         try {
-            String key = _dnsserver.toString();
+            String key = _dnsServer.toString();
             if (!resolvers.containsKey(key)) {
                 SimpleResolver simpleResolver = new SimpleResolver(key);
                 resolver.addResolver(simpleResolver);
@@ -138,13 +119,13 @@ public class ResolverImpl implements Resolver {
     /**
      * removes a dns server
      * 
-     * @param _dnsserver
+     * @param _dnsServer the dns server
      */
-    public static void removeDnsServer(ProtocolAddress _dnsserver) {
+    public static void removeDnsServer(ProtocolAddress _dnsServer) {
         if (resolver == null) {
             return;
         }
-        String key = _dnsserver.toString();
+        String key = _dnsServer.toString();
         if (resolvers.containsKey(key)) {
             org.xbill.DNS.Resolver resolv = resolvers.remove(key);
             if (resolver.getResolvers().length == 1) {
@@ -158,8 +139,8 @@ public class ResolverImpl implements Resolver {
     /**
      * Get from hosts file.
      * 
-     * @param _hostname
-     * @return
+     * @param _hostname the host name
+     * @return addresses in hosts files
      */
     private ProtocolAddress[] getFromHostsFile(String _hostname) {
         // FIXME ... check for changes to the hosts file?
@@ -169,11 +150,12 @@ public class ResolverImpl implements Resolver {
     /**
      * Gets the address(es) of the given hostname.
      * 
-     * @param hostname
+     * @param hostname the host name
      * @return All addresses of the given hostname. The returned array is at
      *         least 1 address long.
-     * @throws java.net.UnknownHostException
+     * @throws java.net.UnknownHostException when an error occurs
      */
+    @Override
     public ProtocolAddress[] getByName(final String hostname) throws UnknownHostException {
         if (hostname == null) {
             throw new UnknownHostException("null");
@@ -186,65 +168,53 @@ public class ResolverImpl implements Resolver {
             throw new UnknownHostException(hostname);
         }
 
-        final PrivilegedExceptionAction<ProtocolAddress[]> action =
-                () -> {
-                    ProtocolAddress[] protocolAddresses;
+        ProtocolAddress[] protocolAddresses;
 
-                    // FIXME ... hard-wired policy that 'hosts' file would
-                    // be consulted
-                    // first. Should be configurable.
-                    protocolAddresses = getFromHostsFile(hostname);
-                    if (protocolAddresses != null) {
-                        return protocolAddresses;
-                    }
-
-                    Lookup.setDefaultResolver(resolver);
-
-                    final Lookup lookup;
-                    try {
-                        lookup = new Lookup(hostname);
-                    } catch (TextParseException e) {
-                        throw new UnknownHostException(hostname);
-                    }
-
-                    lookup.run();
-
-                    if (lookup.getResult() == Lookup.SUCCESSFUL) {
-                        final Record[] records = lookup.getAnswers();
-                        final int recordCount = records.length;
-
-                        protocolAddresses = new ProtocolAddress[recordCount];
-
-                        for (int i = 0; i < recordCount; i++) {
-                            final Record record = records[i];
-                            protocolAddresses[i] = new IPv4Address(record.rdataToString());
-                        }
-                    } else {
-                        throw new UnknownHostException(lookup.getErrorString());
-                    }
-
-                    return protocolAddresses;
-                };
-        try {
-            return AccessController.doPrivileged(action);
-        } catch (PrivilegedActionException ex) {
-            if (ex.getException() instanceof UnknownHostException) {
-                throw (UnknownHostException) ex.getException();
-            } else {
-                throw (UnknownHostException) new UnknownHostException().initCause(ex.getException());
-            }
+        // FIXME ... hard-wired policy that 'hosts' file would
+        // be consulted
+        // first. Should be configurable.
+        protocolAddresses = getFromHostsFile(hostname);
+        if (protocolAddresses != null) {
+            return protocolAddresses;
         }
+
+        Lookup.setDefaultResolver(resolver);
+
+        final Lookup lookup;
+        try {
+            lookup = new Lookup(hostname);
+        } catch (TextParseException e) {
+            throw new UnknownHostException(hostname);
+        }
+
+        lookup.run();
+
+        if (lookup.getResult() == Lookup.SUCCESSFUL) {
+            final Record[] records = lookup.getAnswers();
+            final int recordCount = records.length;
+
+            protocolAddresses = new ProtocolAddress[recordCount];
+
+            for (int i = 0; i < recordCount; i++) {
+                final Record record = records[i];
+                protocolAddresses[i] = new IPv4Address(record.rdataToString());
+            }
+        } else {
+            throw new UnknownHostException(lookup.getErrorString());
+        }
+
+        return protocolAddresses;
     }
 
     /**
      * Gets the hostname of the given address.
      * 
-     * @param address
+     * @param address the protocol address
      * @return All hostnames of the given hostname. The returned array is at
      *         least 1 hostname long.
-     * @throws java.net.UnknownHostException
+     * @throws java.net.UnknownHostException when an error occurs
      */
-
+    @Override
     public String[] getByAddress(ProtocolAddress address) throws UnknownHostException {
         // FIXME ... implement this method properly.
         return new String[0];

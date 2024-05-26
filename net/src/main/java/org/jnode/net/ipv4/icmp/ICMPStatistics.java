@@ -40,6 +40,7 @@ public class ICMPStatistics implements Statistics {
     /**
      * Gets all statistics
      */
+    @Override
     public Statistic[] getStatistics() {
         return list;
     }

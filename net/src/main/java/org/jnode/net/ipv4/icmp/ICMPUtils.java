@@ -41,7 +41,7 @@ public class ICMPUtils {
     /**
      * Create a new instance
      * 
-     * @param ipService
+     * @param ipService the ipService
      */
     public ICMPUtils(IPv4Service ipService) {
         this.ipService = ipService;
@@ -52,7 +52,7 @@ public class ICMPUtils {
      * The IP header and the Transport layer header must be set as attributes in
      * srcBuf, and must be removed from the head of the buffer.
      * 
-     * @param srcBuf
+     * @param srcBuf the srcBuf
      */
     public void sendPortUnreachable(SocketBuffer srcBuf) throws SocketException {
         sendUnreachable(srcBuf, 3);
@@ -63,10 +63,10 @@ public class ICMPUtils {
      * header and the Transport layer header must be set as attributes in
      * srcBuf, and must be removed from the head of the buffer.
      * 
-     * @param srcBuf
+     * @param srcBuf the srcBuf
      */
     private void sendUnreachable(SocketBuffer srcBuf, int code) throws SocketException {
-        // Do not respond to linklayer broadcast messages
+        // Do not respond to link-layer broadcast messages
         if (srcBuf.getLinkLayerHeader().getDestinationAddress().isBroadcast()) {
             return;
         }
@@ -74,7 +74,7 @@ public class ICMPUtils {
         // Gets the original IP header
         final IPv4Header origIpHdr = (IPv4Header) srcBuf.getNetworkLayerHeader();
 
-        // Do not respond to networklayer broadcast/multicast messages
+        // Do not respond to network-layer broadcast/multicast messages
         if (origIpHdr.getDestination().isBroadcast() || origIpHdr.getDestination().isMulticast()) {
             return;
         }
@@ -88,7 +88,7 @@ public class ICMPUtils {
         // Build the response IP header
         final IPv4Header ipHdr = new IPv4Header(tos, ttl, IPv4Constants.IPPROTO_ICMP, dstAddr, 0);
 
-        // Unpull the original transportlayer header
+        // Unpull the original transport-layer header
         srcBuf.unpull(srcBuf.getTransportLayerHeader().getLength());
 
         // Unpull the original IP header

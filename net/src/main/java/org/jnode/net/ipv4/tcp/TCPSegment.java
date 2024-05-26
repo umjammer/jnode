@@ -31,8 +31,8 @@ public class TCPSegment {
     protected final TCPHeader hdr;
 
     /**
-     * @param ipHdr
-     * @param hdr
+     * @param ipHdr the ipHdr
+     * @param hdr the hdr
      */
     public TCPSegment(IPv4Header ipHdr, TCPHeader hdr) {
         this.ipHdr = ipHdr;

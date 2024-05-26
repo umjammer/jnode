@@ -51,8 +51,8 @@ public class NetStaticDeviceConfig extends NetDeviceConfig {
     /**
      * Initialize this instance.
      * 
-     * @param address
-     * @param netmask
+     * @param address the address
+     * @param netmask the netmask
      */
     public NetStaticDeviceConfig(IPv4Address address, IPv4Address netmask) {
         this.address = address;
@@ -60,9 +60,9 @@ public class NetStaticDeviceConfig extends NetDeviceConfig {
     }
 
     /**
-     * @throws NetworkException
-     * @see org.jnode.net.ipv4.config.impl.NetDeviceConfig#apply(Device)
+     * @throws NetworkException when an error occurs
      */
+    @Override
     public void doApply(Device device) throws NetworkException {
         final NetDeviceAPI api;
         try {
@@ -85,17 +85,13 @@ public class NetStaticDeviceConfig extends NetDeviceConfig {
         }
     }
 
-    /**
-     * @see org.jnode.net.ipv4.config.impl.NetDeviceConfig#load(java.util.prefs.Preferences)
-     */
+    @Override
     public void load(Preferences prefs) {
         this.address = loadAddress(prefs, ADDRESS_KEY);
         this.netmask = loadAddress(prefs, NETMASK_KEY);
     }
 
-    /**
-     * @see org.jnode.net.ipv4.config.impl.NetDeviceConfig#store(java.util.prefs.Preferences)
-     */
+    @Override
     public void store(Preferences prefs) {
         storeAddress(prefs, ADDRESS_KEY, address);
         storeAddress(prefs, NETMASK_KEY, netmask);
@@ -104,9 +100,8 @@ public class NetStaticDeviceConfig extends NetDeviceConfig {
     /**
      * Load a single address from the given preferences.
      * 
-     * @param prefs
-     * @param key
-     * @return
+     * @param prefs the preferences
+     * @param key the key
      */
     private IPv4Address loadAddress(Preferences prefs, String key) {
         final String addrStr = prefs.get(key, null);
@@ -120,9 +115,9 @@ public class NetStaticDeviceConfig extends NetDeviceConfig {
     /**
      * Store a single address in the given preferences.
      * 
-     * @param prefs
-     * @param key
-     * @param address
+     * @param prefs the preferences
+     * @param key the key
+     * @param address the address
      */
     private void storeAddress(Preferences prefs, String key, IPv4Address address) {
         if (address != null) {

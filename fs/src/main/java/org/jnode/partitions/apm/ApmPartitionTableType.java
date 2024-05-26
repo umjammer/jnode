@@ -45,13 +45,13 @@ public class ApmPartitionTableType implements PartitionTableType {
         return "APM";
     }
 
-    /** */
+    @Override
     public String getScheme() {
         return "apm";
     }
 
     /**
-     * Checks if the given boot sector contain a APM partition table.
+     * Checks if the given boot sector contain an APM partition table.
      *
      * @param first16KiB the first 16,384 bytes of the disk.
      */

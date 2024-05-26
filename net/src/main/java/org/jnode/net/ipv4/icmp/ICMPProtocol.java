@@ -77,7 +77,7 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
     /**
      * Create a new instance
      *
-     * @param ipService
+     * @param ipService the ipService
      */
     public ICMPProtocol(IPv4Service ipService) {
         this.ipService = ipService;
@@ -86,32 +86,26 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
         replyRequestsThread.start();
     }
 
-    /**
-     * @see org.jnode.net.ipv4.IPv4Protocol#getName()
-     */
+    @Override
     public String getName() {
         return IPNAME_ICMP;
     }
 
-    /**
-     * @see org.jnode.net.ipv4.IPv4Protocol#getProtocolID()
-     */
+    @Override
     public int getProtocolID() {
         return IPPROTO_ICMP;
     }
 
-    /**
-     * @see org.jnode.net.ipv4.IPv4Protocol#receive(org.jnode.net.SocketBuffer)
-     */
-    public void receive(SocketBuffer skbuf) throws SocketException {
+    @Override
+    public void receive(SocketBuffer skBuf) throws SocketException {
 
         // Update statistics
         stat.ipackets.inc();
 
         try {
-            final ICMPHeader hdr = ICMPHeaderFactory.createHeader(skbuf);
-            skbuf.setTransportLayerHeader(hdr);
-            skbuf.pull(hdr.getLength());
+            final ICMPHeader hdr = ICMPHeaderFactory.createHeader(skBuf);
+            skBuf.setTransportLayerHeader(hdr);
+            skBuf.pull(hdr.getLength());
 
             if (!hdr.isChecksumOk()) {
                 stat.badsum.inc();
@@ -122,10 +116,10 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
 
             switch (hdr.getType()) {
                 case ICMP_ECHO:
-                    postReplyRequest(skbuf);
+                    postReplyRequest(skBuf);
                     break;
                 case ICMP_ECHOREPLY:
-                    notifyListeners(skbuf);
+                    notifyListeners(skBuf);
                     break;
                 default:
                     log.log(Level.DEBUG, "GOT ICMP type " + hdr.getType() + ", code " + hdr.getCode());
@@ -138,13 +132,14 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
 
     /**
      * Process an ICMP error message that has been received and matches this
-     * protocol. The skbuf is position directly after the ICMP header (thus
+     * protocol. The skBuf is position directly after the ICMP header (thus
      * contains the error IP header and error transport layer header). The
-     * transportLayerHeader property of skbuf is set to the ICMP message header.
+     * transportLayerHeader property of skBuf is set to the ICMP message header.
      *
-     * @param skbuf
-     * @throws SocketException
+     * @param skbuf the skbuf
+     * @throws SocketException when an error occurs
      */
+    @Override
     public void receiveError(SocketBuffer skbuf) throws SocketException {
         // Ignore errors here
     }
@@ -154,6 +149,7 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
      *
      * @throws SocketException If this protocol is not Socket based.
      */
+    @Override
     public SocketImplFactory getSocketImplFactory() throws SocketException {
         throw new SocketException("ICMP is packet based");
     }
@@ -163,6 +159,7 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
      *
      * @throws SocketException If this protocol is not DatagramSocket based.
      */
+    @Override
     public DatagramSocketImplFactory getDatagramSocketImplFactory() throws SocketException {
         throw new SocketException("Not implemented yet");
     }
@@ -170,7 +167,7 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
     /**
      * Send an ICMP packet
      *
-     * @param skbuf
+     * @param skbuf the skbuf
      */
     protected void send(IPv4Header ipHdr, ICMPHeader icmpHdr, SocketBuffer skbuf)
         throws SocketException {
@@ -183,8 +180,8 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
     /**
      * Send a reply on an ICMP echo header.
      *
-     * @param hdr
-     * @param skbuf
+     * @param hdr the hdr
+     * @param skbuf the skbuf
      */
     private void sendEchoReply(ICMPEchoHeader hdr, SocketBuffer skbuf) throws SocketException {
         final IPv4Header ipHdr = (IPv4Header) skbuf.getNetworkLayerHeader();
@@ -197,6 +194,7 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
     /**
      * @see org.jnode.net.ipv4.IPv4Protocol#getStatistics()
      */
+    @Override
     public Statistics getStatistics() {
         return stat;
     }
@@ -204,31 +202,29 @@ public class ICMPProtocol implements IPv4Protocol, IPv4Constants, ICMPConstants,
     /**
      * Post a request that needs a reply in the reply queue.
      *
-     * @param skbuf
+     * @param skBuf the socket buffer
      */
-    private void postReplyRequest(SocketBuffer skbuf) {
-        replyRequestQueue.add(skbuf);
+    private void postReplyRequest(SocketBuffer skBuf) {
+        replyRequestQueue.add(skBuf);
     }
 
     /**
      * Process a request that needs a reply
      *
-     * @param skbuf
+     * @param skBuf the socket buffer
      */
-    private void processReplyRequest(SocketBuffer skbuf) {
-        final ICMPHeader hdr = (ICMPHeader) skbuf.getTransportLayerHeader();
+    private void processReplyRequest(SocketBuffer skBuf) {
+        final ICMPHeader hdr = (ICMPHeader) skBuf.getTransportLayerHeader();
         try {
             if (hdr.getType() == ICMPType.ICMP_ECHO) {
-                sendEchoReply((ICMPEchoHeader) hdr, skbuf);
+                sendEchoReply((ICMPEchoHeader) hdr, skBuf);
             }
         } catch (SocketException ex) {
             log.log(Level.ERROR, "Error in ICMP reply", ex);
         }
     }
 
-    /**
-     * @see org.jnode.util.QueueProcessor#process(java.lang.Object)
-     */
+    @Override
     public void process(SocketBuffer object) throws Exception {
         processReplyRequest(object);
     }

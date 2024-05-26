@@ -30,15 +30,15 @@ import org.jnode.net.nfs.Protocol;
  */
 public class NFS2Device extends Device {
 
-    private InetAddress host;
+    private final InetAddress host;
 
-    private String remoteDirectory;
+    private final String remoteDirectory;
 
-    private Protocol protocol;
+    private final Protocol protocol;
 
-    private int uid;
+    private final int uid;
 
-    private int gid;
+    private final int gid;
 
     public NFS2Device(InetAddress host, String remoteDirectory, Protocol protocol, int uid, int gid) {
         super("nfs2-(" + host.getHostName() + "," + remoteDirectory + "," + protocol + "," +

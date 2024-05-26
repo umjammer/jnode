@@ -20,8 +20,8 @@
 
 package org.jnode.util;
 
-import java.lang.System.Logger.Level;
 import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 
 /**
  * @author epr
@@ -45,12 +45,11 @@ public class QueueProcessorThread<T> extends Thread {
     /**
      * Create a new instance
      *
-     * @param name
-     * @param queue
-     * @param processor
+     * @param name the name
+     * @param queue the queue
+     * @param processor the processor
      */
-    public QueueProcessorThread(String name, Queue<T> queue,
-                                QueueProcessor<T> processor) {
+    public QueueProcessorThread(String name, Queue<T> queue, QueueProcessor<T> processor) {
         super(name);
         this.queue = queue;
         this.processor = processor;
@@ -60,8 +59,8 @@ public class QueueProcessorThread<T> extends Thread {
     /**
      * Create a new instance. A new queue is automatically created.
      *
-     * @param name
-     * @param processor
+     * @param name the name
+     * @param processor the processor
      * @see #getQueue()
      */
     public QueueProcessorThread(String name, QueueProcessor<T> processor) {
@@ -74,13 +73,13 @@ public class QueueProcessorThread<T> extends Thread {
     public void stopProcessor() {
         this.stop = true;
         this.queue.close();
-        // this.interrupt();
+//        this.interrupt();
     }
 
     /**
      * Handle an exception thrown during the processing of the object.
      *
-     * @param ex
+     * @param ex the exception
      */
     protected void handleException(Exception ex) {
         bootlog.log(Level.ERROR, "Exception in QueueProcessor: " + getName(), ex);
@@ -89,7 +88,7 @@ public class QueueProcessorThread<T> extends Thread {
     /**
      * Handle an exception thrown during the processing of the object.
      *
-     * @param ex
+     * @param ex the exception
      */
     protected void handleError(Error ex) {
         bootlog.log(Level.ERROR, "Error in QueueProcessor: " + getName(), ex);
@@ -97,9 +96,8 @@ public class QueueProcessorThread<T> extends Thread {
 
     /**
      * Thread runner
-     *
-     * @see java.lang.Runnable#run()
      */
+    @Override
     public void run() {
         while (!stop) {
             try {

@@ -49,7 +49,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
     /**
      * Constructor for a new non-root directory
      * 
-     * @param fs
+     * @param fs the fs
      */
     public AbstractFSDirectory(AbstractFileSystem<?> fs) {
         this(fs, false);
@@ -58,7 +58,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
     /**
      * Constructor for a new directory (root or non-root)
      * 
-     * @param fs
+     * @param fs the fs
      * @param root true if it's a root directory
      */
     public AbstractFSDirectory(AbstractFileSystem<?> fs, boolean root) {
@@ -70,7 +70,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
      * Print the contents of this directory to the given writer. Used for
      * debugging purposes.
      * 
-     * @param out
+     * @param out the out
      */
     public final void printTo(PrintWriter out) {
         checkEntriesLoaded();
@@ -87,9 +87,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
         out.println("Unused entries " + freeCount);
     }
 
-    /**
-     * @see org.jnode.fs.FSDirectory#iterator()
-     */
+    @Override
     public final Iterator<FSEntry> iterator() throws IOException {
         checkEntriesLoaded();
         return entries.iterator();
@@ -104,11 +102,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
         return isRoot;
     }
 
-    /**
-     * Gets the entry with the given name.
-     * 
-     * @see org.jnode.fs.FSDirectory#getEntry(java.lang.String)
-     */
+    @Override
     public final FSEntry getEntry(String name) throws IOException {
         // ensure entries are loaded from BlockDevice
         checkEntriesLoaded();
@@ -119,10 +113,11 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
     /**
      * Add a new directory with a given name
      * 
-     * @param name
+     * @param name the name
      * @return the new added directory
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public final synchronized FSEntry addDirectory(String name) throws IOException {
         log.log(Level.DEBUG, "<<< BEGIN addDirectory " + name + " >>>");
         if (!canWrite())
@@ -140,9 +135,10 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
     /**
      * Remove a file or directory with a given name
      * 
-     * @param name
-     * @throws IOException
+     * @param name the name
+     * @throws IOException when an error occurs
      */
+    @Override
     public synchronized void remove(String name) throws IOException {
         if (!canWrite())
             throw new IOException("Filesystem or directory is mounted read-only!");
@@ -156,8 +152,9 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
     /**
      * Flush the contents of this directory to the persistent storage
      * 
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public final void flush() throws IOException {
         if (canWrite()) {
             boolean flushEntries = isEntriesLoaded() && entries.isDirty();
@@ -173,7 +170,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
      * Read the entries of this directory from the persistent storage
      * 
      * @return a list of entries for this directory
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     protected abstract FSEntryTable readEntries() throws IOException;
 
@@ -181,7 +178,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
      * Write the entries of this directory to the persistent storage
      * 
      * @param entries a list of entries for this directory
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     protected abstract void writeEntries(FSEntryTable entries) throws IOException;
 
@@ -189,8 +186,9 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
      * Is this directory dirty (ie is there any data to save to device) ?
      * 
      * @return if this directory is dirty
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public final boolean isDirty() throws IOException {
         if (super.isDirty()) {
             return true;
@@ -203,7 +201,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
 
     /**
      * BE CAREFULL : don't call this method from the constructor of this class
-     * because it call the method readEntries of the child classes that are not
+     * because it calls the method readEntries of the child classes that are not
      * yet initialized (constructed).
      */
     protected final void checkEntriesLoaded() {
@@ -233,7 +231,7 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
     /**
      * Have we already loaded our entries from device ?
      * 
-     * @return if the entries are allready loaded from the device
+     * @return if the entries are already loaded from the device
      */
     private boolean isEntriesLoaded() {
         return (entries != FSEntryTable.EMPTY_TABLE);
@@ -242,10 +240,11 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
     /**
      * Add a new file with a given name
      * 
-     * @param name
-     * @throws IOException
+     * @param name the name
+     * @throws IOException when an error occurs
      * @return the added file entry
      */
+    @Override
     public final synchronized FSEntry addFile(String name) throws IOException {
         log.log(Level.DEBUG, "<<< BEGIN addFile " + name + " >>>");
         if (!canWrite())
@@ -264,24 +263,24 @@ public abstract class AbstractFSDirectory extends AbstractFSObject implements FS
     /**
      * Abstract method to create a new file entry from the given name
      * 
-     * @param name
+     * @param name the name
      * @return the new created file
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     protected abstract FSEntry createFileEntry(String name) throws IOException;
 
     /**
      * Abstract method to create a new directory entry from the given name
-     * @param name
+     * @param name the name
      * @return the new created directory
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     protected abstract FSEntry createDirectoryEntry(String name) throws IOException;
 
     /**
      * Find a free entry and set it with the given entry 
-     * @param newEntry
-     * @throws IOException
+     * @param newEntry the newEntry
+     * @throws IOException when an error occurs
      */
     private void setFreeEntry(FSEntry newEntry) throws IOException {
         checkEntriesLoaded();

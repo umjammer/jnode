@@ -33,7 +33,7 @@ public class ARPCacheEntry {
     private static final long ARP_CACHE_LIFETIME = 10 * 60 * 1000;
 
     private final long creationTime;
-    private long lifeTime;
+    private final long lifeTime;
     private final HardwareAddress hardwareAddress;
     private final ProtocolAddress protocolAddress;
     private final boolean dynamic;
@@ -41,9 +41,9 @@ public class ARPCacheEntry {
     /**
      * Create a new instance
      *
-     * @param hardwareAddress
-     * @param protocolAddress
-     * @param dynamic
+     * @param hardwareAddress the hardwareAddress
+     * @param protocolAddress the protocolAddress
+     * @param dynamic the dynamic
      */
     public ARPCacheEntry(HardwareAddress hardwareAddress, ProtocolAddress protocolAddress, boolean dynamic) {
         this.hardwareAddress = hardwareAddress;

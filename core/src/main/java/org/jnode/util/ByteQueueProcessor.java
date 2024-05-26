@@ -28,10 +28,8 @@ public interface ByteQueueProcessor {
     /**
      * Process the given byte from the queue.
      *
-     * @param value
-     * @throws Exception
+     * @param value the byte value
+     * @throws Exception when an error occurs
      */
-    void process(byte value)
-        throws Exception;
-
+    void process(byte value) throws Exception;
 }

@@ -32,13 +32,13 @@ import org.jnode.fs.FileSystemFullException;
  */
 public class Fat {
 
-    private long[] entries;
+    private final long[] entries;
     /** The type of FAT */
-    private FatType fatType;
+    private final FatType fatType;
     /** The number of sectors this fat takes */
-    private int nrSectors;
+    private final int nrSectors;
     /** The number of bytes/sector */
-    private int sectorSize;
+    private final int sectorSize;
 
     private boolean dirty;
 
@@ -48,9 +48,9 @@ public class Fat {
     /**
      * Create a new instance
      * 
-     * @param bitSize
-     * @param nrSectors
-     * @param sectorSize
+     * @param bitSize the bitSize
+     * @param nrSectors the nrSectors
+     * @param sectorSize the sectorSize
      */
     public Fat(FatType bitSize, int mediumDescriptor, int nrSectors, int sectorSize) {
         this.fatType = bitSize;
@@ -76,7 +76,7 @@ public class Fat {
     /**
      * Read the contents of this FAT from the given device at the given offset.
      * 
-     * @param device
+     * @param device the device
      */
     public synchronized void read(BlockDeviceAPI device, long offset) throws IOException {
         byte[] data = new byte[nrSectors * sectorSize];
@@ -117,7 +117,7 @@ public class Fat {
     /**
      * Write the contents of this FAT to the given device at the given offset.
      * 
-     * @param device
+     * @param device the device
      */
     public synchronized void write(BlockDeviceAPI device, long offset) throws IOException {
         byte[] data = new byte[nrSectors * sectorSize];
@@ -182,7 +182,7 @@ public class Fat {
     /**
      * Gets the entry at a given offset
      * 
-     * @param index
+     * @param index the index
      * @return long
      */
     public long getEntry(int index) {
@@ -214,7 +214,7 @@ public class Fat {
     /**
      * Gets the cluster after the given cluster
      * 
-     * @param cluster
+     * @param cluster the cluster
      * @return long The next cluster number or -1 which means eof.
      */
     public synchronized long getNextCluster(long cluster) {
@@ -310,7 +310,7 @@ public class Fat {
      * Print the contents of this FAT to the given writer. Used for debugging
      * purposes.
      *
-     * @param out
+     * @param out the out
      */
     public void printTo(PrintWriter out) {
         int freeCount = 0;
@@ -337,8 +337,7 @@ public class Fat {
      * Compare this Fat with another Fat.
      */
     public boolean equals(Object other) {
-        if (other instanceof Fat) {
-            Fat of = (Fat) other;
+        if (other instanceof Fat of) {
             return Arrays.equals(entries, of.entries);
         } else {
             return false;
@@ -348,7 +347,7 @@ public class Fat {
     /**
      * Is the given entry a free cluster?
      *
-     * @param entry
+     * @param entry the entry
      * @return boolean
      */
     protected boolean isFreeCluster(long entry) {
@@ -358,7 +357,7 @@ public class Fat {
     /**
      * Is the given entry a reserved cluster?
      *
-     * @param entry
+     * @param entry the entry
      * @return boolean
      */
     protected boolean isReservedCluster(long entry) {
@@ -368,7 +367,7 @@ public class Fat {
     /**
      * Is the given entry an EOF marker
      *
-     * @param entry
+     * @param entry the entry
      * @return boolean
      */
     protected boolean isEofCluster(long entry) {

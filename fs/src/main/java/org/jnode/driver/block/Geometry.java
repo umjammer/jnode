@@ -78,11 +78,11 @@ public class Geometry {
     /**
      * Gets the logical sector number for a given CHS.
      *
-     * @param chs
-     * @return long
+     * @param chs the position
+     * @return the logical sector number
      */
     public long getLogicalSector(CHS chs) {
-        //ls = c*H*S + h*S + s - 1
+        // ls = c * H * S + h * S + s - 1
         long v = (long) chs.getCylinder() * heads * sectors;
         v += (long) chs.getHead() * sectors;
         v += chs.getSector();
@@ -92,9 +92,9 @@ public class Geometry {
     /**
      * Gets a CHS from a given logical sector number
      *
-     * @param logicalSector
-     * @return CHS
-     * @throws GeometryException
+     * @param logicalSector the logical sector
+     * @return the position
+     * @throws GeometryException when an error occurs
      */
     public CHS getCHS(long logicalSector) throws GeometryException {
         // ls = (c*H + h) * S + s - 1
@@ -116,9 +116,9 @@ public class Geometry {
     /**
      * increments the given sector and returns the next logical sector as CHS-value
      *
-     * @param chsToIncrement
+     * @param chsToIncrement the position
      * @return the CHS value of next sector
-     * @throws GeometryException
+     * @throws GeometryException when an error occurs
      */
     public CHS nextSector(CHS chsToIncrement) throws GeometryException {
 
@@ -135,7 +135,7 @@ public class Geometry {
                 h = 0;
                 c++;
                 if (c >= cylinders) {
-                    throw new GeometryException("this geometry doesn't support cyclinder" + c);
+                    throw new GeometryException("this geometry doesn't support cylinder" + c);
                 }
             }
         }

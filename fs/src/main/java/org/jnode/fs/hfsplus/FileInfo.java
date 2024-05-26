@@ -23,9 +23,9 @@ package org.jnode.fs.hfsplus;
 import org.jnode.util.BigEndian;
 
 public class FileInfo {
-    private int fileType;
-    private int fileCreator;
-    private int finderFlags;
+    private final int fileType;
+    private final int fileCreator;
+    private final int finderFlags;
 
     public FileInfo(byte[] data, int offset) {
         fileType = BigEndian.getInt32(data, offset);

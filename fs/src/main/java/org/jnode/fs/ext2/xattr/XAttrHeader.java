@@ -12,7 +12,7 @@ public class XAttrHeader {
     /**
      * The magic number for a xattr header.
      */
-    public static final long MAGIC = 0xEA020000L;
+    public static final long MAGIC = 0xea020000L;
 
     /**
      * The size of the header structure.

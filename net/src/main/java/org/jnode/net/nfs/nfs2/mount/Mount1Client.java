@@ -60,22 +60,22 @@ public class Mount1Client {
     public static final int MAX_NAME_LENGHT = 255;
 
     public static final int MOUNT_OK = 0;
-    private InetAddress host;
-    private Protocol protocol;
-    private int uid;
-    private int gid;
+    private final InetAddress host;
+    private final Protocol protocol;
+    private final int uid;
+    private final int gid;
 
-    private List<OncRpcClient> rpcClientPool;
+    private final List<OncRpcClient> rpcClientPool;
     private boolean closed;
 
     /**
      * Constructs a <code>Mount1Client</code> client stub proxy object from
      * which the MOUNTPROG remote program can be accessed.
      * 
-     * @param host
+     * @param host the host
      *                Internet address of host where to contact the remote
      *                program.
-     * @param protocol
+     * @param protocol the protocol
      *                {@link org.acplt.oncrpc.OncRpcProtocols Protocol} to be
      *                used for ONC/RPC calls.
      */
@@ -174,11 +174,11 @@ public class Mount1Client {
     /**
      * Call remote procedure test.
      * 
-     * @throws OncRpcException
+     * @throws OncRpcException when an error occurs
      *                 if an ONC/RPC error occurs.
-     * @throws IOException
+     * @throws IOException when an error occurs
      *                 if an I/O error occurs.
-     * @throws MountException
+     * @throws MountException when an error occurs
      */
     public void test() throws IOException, MountException {
         call(PROCEDURE_TEST, XdrVoid.XDR_VOID, XdrVoid.XDR_VOID);
@@ -189,14 +189,15 @@ public class Mount1Client {
      * 
      * @param path parameter (of type DirPath) to the remote procedure call.
      * @return Result from remote procedure call (of type MountResult).
-     * @throws OncRpcException
+     * @throws OncRpcException when an error occurs
      *                 if an ONC/RPC error occurs.
-     * @throws IOException
+     * @throws IOException when an error occurs
      *                 if an I/O error occurs.
-     * @throws MountException
+     * @throws MountException when an error occurs
      */
     public MountResult mount(final String path) throws IOException, MountException {
         XdrAble mountParameter = new Parameter() {
+            @Override
             public void xdrEncode(XdrEncodingStream xdrEncodingStream)
                 throws OncRpcException, IOException {
                 xdrEncodingStream.xdrEncodeString(path);
@@ -205,6 +206,7 @@ public class Mount1Client {
 
         final MountResult result = new MountResult();
         XdrAble mountResult = new Result() {
+            @Override
             public void xdrDecode(XdrDecodingStream xdrDecodingStream)
                 throws OncRpcException, IOException {
                 result.setFileHandle(readFileHandle(xdrDecodingStream));
@@ -218,6 +220,7 @@ public class Mount1Client {
         final List<RemoteMountFileSystem> remoteMountFileSystemList =
                 new ArrayList<>();
         XdrAble dumpResult = new Result() {
+            @Override
             public void xdrDecode(XdrDecodingStream xdrDecodingStream)
                 throws OncRpcException, IOException {
                 while (xdrDecodingStream.xdrDecodeBoolean()) {
@@ -236,6 +239,7 @@ public class Mount1Client {
     public List<ExportEntry> export() throws IOException, MountException {
         final List<ExportEntry> exportEntryList = new ArrayList<>();
         XdrAble dumpResult = new Result() {
+            @Override
             public void xdrDecode(XdrDecodingStream xdrDecodingStream)
                 throws OncRpcException, IOException {
                 while (xdrDecodingStream.xdrDecodeBoolean()) {
@@ -262,6 +266,7 @@ public class Mount1Client {
 
     public void unmount(final String dirPath) throws IOException, MountException {
         XdrAble mountParameter = new Parameter() {
+            @Override
             public void xdrEncode(XdrEncodingStream xdrEncodingStream)
                 throws OncRpcException, IOException {
                 xdrEncodingStream.xdrEncodeString(dirPath);
@@ -286,26 +291,30 @@ public class Mount1Client {
     }
 
     private abstract static class Parameter implements XdrAble {
+        @Override
         public void xdrDecode(XdrDecodingStream arg0) throws OncRpcException, IOException {
         }
     }
 
     private abstract static class Result implements XdrAble {
+        @Override
         public void xdrEncode(XdrEncodingStream arg0) throws OncRpcException, IOException {
         }
     }
 
     private static class ResultWithCode implements XdrAble {
         private int resultCode;
-        private XdrAble xdrAble;
+        private final XdrAble xdrAble;
 
         public ResultWithCode(XdrAble xdrAble) {
             this.xdrAble = xdrAble;
         }
 
+        @Override
         public void xdrEncode(XdrEncodingStream xdr) throws OncRpcException, IOException {
         }
 
+        @Override
         public void xdrDecode(XdrDecodingStream xdr) throws OncRpcException, IOException {
             resultCode = xdr.xdrDecodeInt();
             if (resultCode == 0) {

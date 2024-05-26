@@ -34,15 +34,15 @@ import org.jnode.fs.ReadOnlyFileSystemException;
  * @author epr
  */
 public class FatFile extends FatObject implements FSFile {
+
     private long startCluster;
     private long length;
     private FatDirectory dir;
-    private int clusterSize;
-    private boolean isDir;
+    private final int clusterSize;
+    private final boolean isDir;
     private final FatDirEntry myEntry;
 
-    public FatFile(FatFileSystem fs, FatDirEntry myEntry, long startCluster, long length,
-            boolean isDir) {
+    public FatFile(FatFileSystem fs, FatDirEntry myEntry, long startCluster, long length, boolean isDir) {
         super(fs);
         this.myEntry = myEntry;
         this.startCluster = startCluster;
@@ -51,6 +51,7 @@ public class FatFile extends FatObject implements FSFile {
         this.isDir = isDir;
     }
 
+    @Override
     public synchronized void read(long fileOffset, ByteBuffer destBuf) throws IOException {
         int len = destBuf.remaining();
 
@@ -82,6 +83,7 @@ public class FatFile extends FatObject implements FSFile {
         }
     }
 
+    @Override
     public synchronized void write(long fileOffset, ByteBuffer srcBuf) throws IOException {
         int len = srcBuf.remaining();
 
@@ -94,8 +96,7 @@ public class FatFile extends FatObject implements FSFile {
             throw new IOException("Cannot write beyond the EOF");
         }
 
-        if (fileOffset + len > max) { // this is too short increase the size
-                                        // of the file
+        if (fileOffset + len > max) { // this is too short increase the size of the file
             setLength(fileOffset + len);
         }
 
@@ -122,11 +123,7 @@ public class FatFile extends FatObject implements FSFile {
         }
     }
 
-    /**
-     * Sets the length.
-     * 
-     * @param length The length to set
-     */
+    @Override
     public synchronized void setLength(long length) throws IOException {
 
         if (getFileSystem().isReadOnly()) {
@@ -171,19 +168,13 @@ public class FatFile extends FatObject implements FSFile {
         this.myEntry.updateLength(length);
     }
 
-    /**
-     * Returns the length.
-     * 
-     * @return long
-     */
+    @Override
     public long getLength() {
         return length;
     }
 
     /**
      * Gets the size this file occupies on disk
-     * 
-     * @return long
      */
     public long getLengthOnDisk() {
         if (this.length == 0) {
@@ -196,9 +187,7 @@ public class FatFile extends FatObject implements FSFile {
     }
 
     /**
-     * Returns the startCluster.
-     * 
-     * @return long
+     * Returns the start cluster.
      */
     public long getStartCluster() {
         return startCluster;
@@ -220,8 +209,8 @@ public class FatFile extends FatObject implements FSFile {
     /**
      * Calculates the device offset (0-based) for the given cluster and offset
      * within the cluster.
-     * @param cluster
-     * @param clusterOffset
+     * @param cluster the cluster
+     * @param clusterOffset the clusterOffset
      * @return long
      */
     protected long getDevOffset(long cluster, int clusterOffset) {
@@ -232,8 +221,9 @@ public class FatFile extends FatObject implements FSFile {
 
     /**
      * Flush any changes in this file to persistent storage
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public void flush() throws IOException {
         if (dir != null) {
             dir.flush();

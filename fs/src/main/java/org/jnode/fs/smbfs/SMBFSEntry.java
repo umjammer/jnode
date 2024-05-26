@@ -27,35 +27,29 @@ import org.jnode.fs.FSAccessRights;
 import org.jnode.fs.FSEntry;
 
 /**
- * @author Levente S\u00e1ntha
+ * @author Levente Sántha
  */
 public abstract class SMBFSEntry implements FSEntry {
-    SmbFile smbFile;
-    SMBFSDirectory parent;
+    final SmbFile smbFile;
+    final SMBFSDirectory parent;
 
     protected SMBFSEntry(SMBFSDirectory parent, SmbFile smbFile) {
         this.parent = parent;
         this.smbFile = smbFile;
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getAccessRights()
-     */
+    @Override
     public FSAccessRights getAccessRights() throws IOException {
-        //todo implement it
+        // todo implement it
         return null;
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getDirectory()
-     */
+    @Override
     public SMBFSDirectory getDirectory() throws IOException {
         return (SMBFSDirectory) this;
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getFile()
-     */
+    @Override
     public SMBFSFile getFile() throws IOException {
         return (SMBFSFile) this;
     }
@@ -64,13 +58,12 @@ public abstract class SMBFSEntry implements FSEntry {
         return smbFile.createTime();
     }
 
+    @Override
     public long getLastModified() throws IOException {
         return smbFile.getLastModified();
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getName()
-     */
+    @Override
     public String getName() {
         return getSimpleName(smbFile);
     }
@@ -82,16 +75,12 @@ public abstract class SMBFSEntry implements FSEntry {
         return name;
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getParent()
-     */
+    @Override
     public SMBFSDirectory getParent() {
         return parent;
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#isDirectory()
-     */
+    @Override
     public boolean isDirectory() {
         try {
             return smbFile.isDirectory();
@@ -100,17 +89,13 @@ public abstract class SMBFSEntry implements FSEntry {
         }
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#isDirty()
-     */
+    @Override
     public boolean isDirty() throws IOException {
-        //todo implement it
+        // todo implement it
         return false;
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#isFile()
-     */
+    @Override
     public boolean isFile() {
         try {
             return smbFile.isFile();
@@ -123,31 +108,26 @@ public abstract class SMBFSEntry implements FSEntry {
         smbFile.setCreateTime(created);
     }
 
+    @Override
     public void setLastModified(long lastModified) throws IOException {
         smbFile.setLastModified(lastModified);
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#setName(String)
-     */
+    @Override
     public void setName(String newName) throws IOException {
         SmbFile f = new SmbFile(parent.smbFile, newName);
         smbFile.renameTo(f);
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#getFileSystem()
-     */
+    @Override
     public SMBFileSystem getFileSystem() {
-        //todo implement it
+        // todo implement it
         return null;
     }
 
-    /**
-     * @see org.jnode.fs.FSEntry#isValid()
-     */
+    @Override
     public boolean isValid() {
-        //todo implement it
+        // todo implement it
         return true;
     }
 }

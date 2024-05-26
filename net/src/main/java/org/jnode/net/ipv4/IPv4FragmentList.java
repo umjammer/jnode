@@ -50,7 +50,7 @@ public class IPv4FragmentList implements IPv4Constants {
     /**
      * Create a new instance
      * 
-     * @param firstFragment
+     * @param firstFragment the firstFragment
      */
     public IPv4FragmentList(SocketBuffer firstFragment) {
         this.creationTime = System.currentTimeMillis();
@@ -65,7 +65,7 @@ public class IPv4FragmentList implements IPv4Constants {
     /**
      * Add a packet to this object.
      * 
-     * @param skbuf
+     * @param skbuf the skbuf
      */
     public void add(SocketBuffer skbuf) {
         final IPv4Header hdr = (IPv4Header) skbuf.getNetworkLayerHeader();
@@ -87,7 +87,7 @@ public class IPv4FragmentList implements IPv4Constants {
             final int fSize = f.getSize();
 
             if (myFrOfs == (fOfs + fSize)) {
-                // skbuf directly follows f, attach it.
+                // skBuf directly follows f, attach it.
                 f.append(skbuf);
 
                 // See if we can attach the following fragment directly to me
@@ -103,7 +103,7 @@ public class IPv4FragmentList implements IPv4Constants {
                 }
                 return;
             } else if (myFrOfs < fOfs) {
-                // skbuf is before f, insert it here
+                // skBuf is before f, insert it here
                 fragments.add(fragments.indexOf(f), skbuf);
                 return;
             } else if (myFrOfs < (fOfs + fSize)) {
@@ -119,8 +119,8 @@ public class IPv4FragmentList implements IPv4Constants {
     }
 
     /**
-     * Is this fragmentlist still alive. A fragmentlist is alive when is was
-     * created no more then IP_FRAGTIMEOUT milliseconds ago.
+     * Is this fragment-list still alive. A fragment-list is alive when it was
+     * created no more than {@link #IP_FRAGTIMEOUT} milliseconds ago.
      */
     public boolean isAlive() {
         final long now = System.currentTimeMillis();

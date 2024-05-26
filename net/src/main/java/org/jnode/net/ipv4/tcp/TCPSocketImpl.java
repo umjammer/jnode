@@ -69,7 +69,7 @@ public class TCPSocketImpl extends SocketImpl {
     /**
      * Initialize a new instance
      *
-     * @param protocol
+     * @param protocol the protocol
      */
     public TCPSocketImpl(TCPProtocol protocol) {
         this.protocol = protocol;
@@ -81,6 +81,7 @@ public class TCPSocketImpl extends SocketImpl {
      * @param s The implementation object for the accepted connection.
      * @see java.net.SocketImpl#accept(java.net.SocketImpl)
      */
+    @Override
     protected void accept(SocketImpl s) throws IOException {
         if (DEBUG) {
             log.log(Level.DEBUG, "accept " + s);
@@ -98,6 +99,7 @@ public class TCPSocketImpl extends SocketImpl {
         }
     }
 
+    @Override
     protected int getLocalPort() {
         if (DEBUG) {
             log.log(Level.DEBUG, "getLocalPort: controlBlock.getLocalPort()");
@@ -105,16 +107,12 @@ public class TCPSocketImpl extends SocketImpl {
         return controlBlock.getLocalPort();
     }
 
-    /**
-     * @see java.net.SocketImpl#available()
-     */
+    @Override
     protected final int available() throws IOException {
         return getInputStream().available();
     }
 
-    /**
-     * @see java.net.SocketImpl#bind(java.net.InetAddress, int)
-     */
+    @Override
     protected void bind(InetAddress host, int port) throws IOException {
         if (controlBlock != null) {
             throw new IOException("Already bound");
@@ -125,9 +123,7 @@ public class TCPSocketImpl extends SocketImpl {
         controlBlock = protocol.bind(new IPv4Address(host), port);
     }
 
-    /**
-     * @see java.net.SocketImpl#close()
-     */
+    @Override
     protected synchronized void close() throws IOException {
         if (is != null) {
             is.close();
@@ -141,21 +137,16 @@ public class TCPSocketImpl extends SocketImpl {
         }
     }
 
-    /**
-     * @see java.net.SocketImpl#connect(java.net.InetAddress, int)
-     */
+    @Override
     protected final void connect(InetAddress host, int port) throws IOException {
         connect(new InetSocketAddress(host, port), 0);
     }
 
-    /**
-     * @see java.net.SocketImpl#connect(java.net.SocketAddress, int)
-     */
+    @Override
     protected void connect(SocketAddress address, int timeout) throws IOException {
-        if (!(address instanceof InetSocketAddress)) {
+        if (!(address instanceof InetSocketAddress sa)) {
             throw new IOException("InetSocketAddress expected");
         }
-        final InetSocketAddress sa = (InetSocketAddress) address;
         if (sa.isUnresolved()) {
             throw new UnresolvedAddressException();
         }
@@ -165,23 +156,17 @@ public class TCPSocketImpl extends SocketImpl {
         controlBlock.appConnect(new IPv4Address(sa.getAddress()), sa.getPort());
     }
 
-    /**
-     * @see java.net.SocketImpl#connect(java.lang.String, int)
-     */
+    @Override
     protected final void connect(String host, int port) throws IOException {
         connect(InetAddress.getByName(host), port);
     }
 
-    /**
-     * @see java.net.SocketImpl#create(boolean)
-     */
+    @Override
     protected void create(boolean stream) throws IOException {
         // Do nothing yet
     }
 
-    /**
-     * @see java.net.SocketImpl#getInputStream()
-     */
+    @Override
     protected InputStream getInputStream() throws IOException {
         if (controlBlock == null) {
             throw new IOException("Connect first");
@@ -192,29 +177,21 @@ public class TCPSocketImpl extends SocketImpl {
         return is;
     }
 
-    /**
-     * @see java.net.SocketOptions#getOption(int)
-     */
+    @Override
     public Object getOption(int option_id) throws SocketException {
-        switch (option_id) {
-            case SocketOptions.SO_BINDADDR:
-                return controlBlock.getLocalAddress().toInetAddress();
-            case SocketOptions.SO_RCVBUF:
-                return controlBlock.getReceiveBufferSize();
-            case SocketOptions.SO_SNDBUF:
-                return controlBlock.getSendBufferSize();
-            case SocketOptions.SO_TIMEOUT:
+        return switch (option_id) {
+            case SocketOptions.SO_BINDADDR -> controlBlock.getLocalAddress().toInetAddress();
+            case SocketOptions.SO_RCVBUF -> controlBlock.getReceiveBufferSize();
+            case SocketOptions.SO_SNDBUF -> controlBlock.getSendBufferSize();
+            case SocketOptions.SO_TIMEOUT ->
                 // todo implement it, 0 means disabled
-                return 0;
-            default:
-                throw new SocketException("Option " + option_id +
+                    0;
+            default -> throw new SocketException("Option " + option_id +
                     " is not recognised or not implemented");
-        }
+        };
     }
 
-    /**
-     * @see java.net.SocketImpl#getOutputStream()
-     */
+    @Override
     protected OutputStream getOutputStream() throws IOException {
         if (controlBlock == null) {
             throw new IOException("Connect first");
@@ -235,6 +212,7 @@ public class TCPSocketImpl extends SocketImpl {
      * @throws IOException If an error occurs
      * @see java.net.SocketImpl#listen(int)
      */
+    @Override
     protected void listen(int backlog) throws IOException {
         if (controlBlock == null) {
             throw new IOException("Call bind first");
@@ -242,39 +220,27 @@ public class TCPSocketImpl extends SocketImpl {
         controlBlock.appListen();
     }
 
-    /**
-     * @see java.net.SocketImpl#sendUrgentData(int)
-     */
+    @Override
     protected void sendUrgentData(int data) throws IOException {
         // TODO Auto-generated method stub
-
     }
 
-    /**
-     * @see java.net.SocketOptions#setOption(int, java.lang.Object)
-     */
+    @Override
     public void setOption(int option_id, Object val) throws SocketException {
         // TODO Auto-generated method stub
-
     }
 
-    /**
-     * @see java.net.SocketImpl#shutdownInput()
-     */
+    @Override
     protected final void shutdownInput() throws IOException {
         getInputStream().close();
     }
 
-    /**
-     * @see java.net.SocketImpl#shutdownOutput()
-     */
+    @Override
     protected final void shutdownOutput() throws IOException {
         getOutputStream().close();
     }
 
-    /**
-     * @see java.net.SocketImpl#getInetAddress()
-     */
+    @Override
     protected InetAddress getInetAddress() {
         if (controlBlock != null) {
             return controlBlock.getForeignAddress().toInetAddress();
@@ -283,9 +249,7 @@ public class TCPSocketImpl extends SocketImpl {
         }
     }
 
-    /**
-     * @see java.net.SocketImpl#getPort()
-     */
+    @Override
     protected int getPort() {
         if (controlBlock != null) {
             return controlBlock.getForeignPort();
@@ -293,5 +257,4 @@ public class TCPSocketImpl extends SocketImpl {
             return 0;
         }
     }
-
 }

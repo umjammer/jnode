@@ -30,18 +30,18 @@ public class CatalogThread {
     /**
      * The catalog thread record type. Can be a file or a folder.
      */
-    private int recordType;
+    private final int recordType;
 
     /**
      * the catalog node id of the file or folder referenced by the thread
      * record.
      */
-    private CatalogNodeId parentId;
+    private final CatalogNodeId parentId;
 
     /**
      * the name of the file or folder reference by the thread record.
      */
-    private HfsUnicodeString nodeName;
+    private final HfsUnicodeString nodeName;
 
     /**
      * Create catalog thread from existing data.

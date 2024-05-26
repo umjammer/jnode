@@ -32,19 +32,19 @@ public class ExtentKey extends AbstractKey {
     public static final int KEY_LENGTH = 12;
     public static final int MAXIMUM_KEY_LENGTH = 10;
 
-    private int forkType;
-    private int pad;
-    private CatalogNodeId fileId;
-    private long startBlock;
+    private final int forkType;
+    private final int pad;
+    private final CatalogNodeId fileId;
+    private final long startBlock;
 
     /**
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
     public ExtentKey(final byte[] src, final int offset) {
         byte[] ek = new byte[KEY_LENGTH];
         System.arraycopy(src, offset, ek, 0, KEY_LENGTH);
-        //TODO Understand why the +2 is necessary
+        // TODO Understand why the +2 is necessary
         keyLength = BigEndian.getUInt16(ek, 0) + 2;
         forkType = BigEndian.getUInt8(ek, 2);
         pad = BigEndian.getUInt8(ek, 3);
@@ -53,10 +53,10 @@ public class ExtentKey extends AbstractKey {
     }
 
     /**
-     * @param forkType
-     * @param pad
-     * @param fileId
-     * @param startBlock
+     * @param forkType the forkType
+     * @param pad the pad
+     * @param fileId the fileId
+     * @param startBlock the startBlock
      */
     public ExtentKey(int forkType, int pad, CatalogNodeId fileId, int startBlock) {
         super();
@@ -69,8 +69,7 @@ public class ExtentKey extends AbstractKey {
     @Override
     public final int compareTo(final Key key) {
         int res = -1;
-        if (key instanceof ExtentKey) {
-            ExtentKey compareKey = (ExtentKey) key;
+        if (key instanceof ExtentKey compareKey) {
             res = fileId.compareTo(compareKey.getFileId());
             if (res == 0) {
                 res = compareForkType(compareKey.getForkType());
@@ -89,11 +88,9 @@ public class ExtentKey extends AbstractKey {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof ExtentKey)) {
+        if (!(obj instanceof ExtentKey otherKey)) {
             return false;
         }
-
-        ExtentKey otherKey = (ExtentKey) obj;
 
         return
             fileId.getId() == otherKey.fileId.getId() &&

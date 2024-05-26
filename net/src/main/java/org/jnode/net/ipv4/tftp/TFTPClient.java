@@ -49,7 +49,7 @@ public class TFTPClient extends org.apache.commons.net.tftp.TFTPClient {
     public static final String QUIT_CMD = "quit";
 
     private BufferedReader br;
-    private PrintWriter out;
+    private final PrintWriter out;
     private InetAddress serverAddress;
     private int mode = BINARY_MODE;
     private boolean quit;

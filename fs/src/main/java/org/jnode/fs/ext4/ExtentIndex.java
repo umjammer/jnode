@@ -28,6 +28,7 @@ import org.jnode.util.LittleEndian;
  * @author Luke Quinane
  */
 public class ExtentIndex {
+
     /**
      * The length of an extent index.
      */
@@ -67,7 +68,7 @@ public class ExtentIndex {
 
     @Override
     public String toString() {
-        return String.format("ExtentIndex: blockindex:%d leaf(low:%d high:%d)", getBlockIndex(), getLeafLow(),
-                             getLeafHigh());
+        return String.format(
+                "ExtentIndex: blockindex:%d leaf(low:%d high:%d)", getBlockIndex(), getLeafLow(), getLeafHigh());
     }
 }

@@ -102,5 +102,3 @@ public class Main4 {
         fuse.mount(app.fs, app.mountPoint, app.options);
     }
 }
-
-/* */

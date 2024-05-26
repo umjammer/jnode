@@ -33,18 +33,13 @@ public class RARPNetworkLayer extends ARPNetworkLayer {
     public RARPNetworkLayer() {
     }
 
-    /**
-     * @see org.jnode.net.NetworkLayer#getName()
-     */
+    @Override
     public String getName() {
         return "rarp";
     }
 
-    /**
-     * @see org.jnode.net.NetworkLayer#getProtocolID()
-     */
+    @Override
     public int getProtocolID() {
         return EthernetConstants.ETH_P_RARP;
     }
-
 }

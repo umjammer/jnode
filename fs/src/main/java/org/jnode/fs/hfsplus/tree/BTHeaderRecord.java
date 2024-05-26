@@ -40,60 +40,60 @@ public class BTHeaderRecord {
     /**
      * The depth of the current B-Tree.
      */
-    private int treeDepth;
+    private final int treeDepth;
     /**
      * The root node number
      */
-    private long rootNode;
+    private final long rootNode;
     /**
      * The number of records contains in all leaf nodes.
      */
-    private long leafRecords;
+    private final long leafRecords;
     /**
      * The number of the first leaf node. This may be zero.
      */
-    private long firstLeafNode;
+    private final long firstLeafNode;
     /**
      * The number of the last leaf node. This may be zero.
      */
-    private long lastLeafNode;
+    private final long lastLeafNode;
     /**
      * The size in bytes of a node.
      */
-    private int nodeSize;
+    private final int nodeSize;
     /**
      * The maximum length of a key.
      */
-    private int maxKeyLength;
+    private final int maxKeyLength;
     /**
      * The total number of free or used nodes in the B-Tree.
      */
-    private long totalNodes;
+    private final long totalNodes;
     /**
      * The number of free node in the B-Tree.
      */
-    private long freeNodes;
+    private final long freeNodes;
     /**
      * Ignore for HFS+, clumpSize field from {@code HFSPlusForkData} used
      * instead.
      */
-    private long clumpSize;
+    private final long clumpSize;
     /**
      * The type of the B-Tree.
      */
-    private int treeType;
+    private final int treeType;
     /**
      * Ignore in HFS+, should be threat as reserved.
      */
-    private int keyCompareType;
+    private final int keyCompareType;
     /**
      * Various attributes of the B-Tree.
      */
-    private long attributes;
+    private final long attributes;
 
     public BTHeaderRecord(int treeDepth, int rootNode, int leafRecords, int firstLeafNode,
                           int lastLeafNode, int nodeSize, int maxKeyLength, int totalNodes, int freeNodes,
-                          int clumpsize, int treeType, int keyCompareType, int attributes) {
+                          int clumpSize, int treeType, int keyCompareType, int attributes) {
         this.treeDepth = treeDepth;
         this.rootNode = rootNode;
         this.leafRecords = leafRecords;
@@ -103,7 +103,7 @@ public class BTHeaderRecord {
         this.maxKeyLength = maxKeyLength;
         this.totalNodes = totalNodes;
         this.freeNodes = freeNodes;
-        this.clumpSize = clumpsize;
+        this.clumpSize = clumpSize;
         this.treeType = treeType;
         this.keyCompareType = keyCompareType;
         this.attributes = attributes;

@@ -74,9 +74,7 @@ public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl {
         this.closed = false;
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#bind(int, java.net.InetAddress)
-     */
+    @Override
     protected final synchronized void bind(int lport, InetAddress laddr) throws SocketException {
         this.localPort = lport;
         this.laddr = laddr;
@@ -85,9 +83,7 @@ public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl {
 
     protected abstract void doBind(int lport, InetAddress laddr) throws SocketException;
 
-    /**
-     * @see java.net.DatagramSocketImpl#close()
-     */
+    @Override
     protected final synchronized void close() {
         if (!closed) {
             this.closed = true;
@@ -98,45 +94,31 @@ public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl {
 
     protected abstract void doClose();
 
-    /**
-     * @see java.net.DatagramSocketImpl#create()
-     */
+    @Override
     protected void create() throws SocketException {
         // Nothing todo here
     }
 
-    /**
-     * @see java.net.SocketOptions#getOption(int)
-     */
+    @Override
     public final synchronized Object getOption(int option_id) throws SocketException {
         if (closed) {
             throw new SocketException("DatagramSocket closed");
         }
-        switch (option_id) {
-            case IP_TOS:
-                return tos;
-            case SO_BINDADDR:
-                return laddr;
-            case SO_BROADCAST:
-                return broadcast;
-            case SO_RCVBUF:
-                return EthernetConstants.ETH_FRAME_LEN;
-            case SO_SNDBUF:
-                return EthernetConstants.ETH_FRAME_LEN;
-            case SO_TIMEOUT:
-                return timeout;
-            default:
-                return doGetOption(option_id);
-        }
+        return switch (option_id) {
+            case IP_TOS -> tos;
+            case SO_BINDADDR -> laddr;
+            case SO_BROADCAST -> broadcast;
+            case SO_RCVBUF, SO_SNDBUF -> EthernetConstants.ETH_FRAME_LEN;
+            case SO_TIMEOUT -> timeout;
+            default -> doGetOption(option_id);
+        };
     }
 
     protected Object doGetOption(int option_id) throws SocketException {
         throw new SocketException("Unknown option " + option_id);
     }
 
-    /**
-     * @see java.net.SocketOptions#setOption(int, java.lang.Object)
-     */
+    @Override
     public final synchronized void setOption(int option_id, Object val) throws SocketException {
         if (closed) {
             throw new SocketException("DatagramSocket closed");
@@ -151,9 +133,7 @@ public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl {
                 case SO_BROADCAST:
                     broadcast = (Boolean) val;
                     break;
-                case SO_RCVBUF: /* ignore */
-                    break;
-                case SO_SNDBUF: /* ignore */
+                case SO_RCVBUF, SO_SNDBUF: /* ignore */
                     break;
                 case SO_TIMEOUT:
                     timeout = (Integer) val;
@@ -173,61 +153,43 @@ public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl {
         bootlog.log(Level.ERROR, "Unknown option " + option_id);
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#getTimeToLive()
-     */
+    @Override
     protected final int getTimeToLive() throws IOException {
         return ttl;
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#join(java.net.InetAddress)
-     */
+    @Override
     protected void join(InetAddress inetaddr) throws IOException {
         // TODO Auto-generated method stub
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#joinGroup(java.net.SocketAddress,
-     *      java.net.NetworkInterface)
-     */
+    @Override
     protected void joinGroup(SocketAddress mcastaddr, NetworkInterface netIf) throws IOException {
         // TODO Auto-generated method stub
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#leave(java.net.InetAddress)
-     */
+    @Override
     protected void leave(InetAddress inetaddr) throws IOException {
         // TODO Auto-generated method stub
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#leaveGroup(java.net.SocketAddress,
-     *      java.net.NetworkInterface)
-     */
+    @Override
     protected void leaveGroup(SocketAddress mcastaddr, NetworkInterface netIf) throws IOException {
         // TODO Auto-generated method stub
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#peek(java.net.InetAddress)
-     */
+    @Override
     protected int peek(InetAddress i) throws IOException {
         // TODO Auto-generated method stub
         return 0;
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#peekData(java.net.DatagramPacket)
-     */
+    @Override
     protected int peekData(DatagramPacket p) throws IOException {
         throw new IOException("Not implemented");
     }
 
-    /**
-     * @see java.net.DatagramSocketImpl#receive(java.net.DatagramPacket)
-     */
+    @Override
     protected final void receive(DatagramPacket p) throws IOException {
         if (closed) {
             throw new SocketException("DatagramSocket has been closed");
@@ -249,7 +211,7 @@ public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl {
     /**
      * Deliver a packet to this socket. This will put the packet in the
      * receive queue if this socket has not been closed.
-     * @param skbuf
+     * @param skbuf the socket buffer
      */
     public final boolean deliverReceived(SocketBuffer skbuf) {
         if (!closed) {
@@ -263,6 +225,7 @@ public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl {
     /**
      * @see java.net.DatagramSocketImpl#setTimeToLive(int)
      */
+    @Override
     protected final void setTimeToLive(int ttl) {
         this.ttl = ttl;
     }
@@ -271,6 +234,7 @@ public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl {
      * Gets the local port of this socket 
      * @see java.net.DatagramSocketImpl#getLocalPort()
      */
+    @Override
     public final int getLocalPort() {
         return super.getLocalPort();
     }
@@ -285,6 +249,7 @@ public abstract class AbstractDatagramSocketImpl extends DatagramSocketImpl {
     /**
      * @see java.lang.Object#finalize()
      */
+    @Override
     protected void finalize() throws Throwable {
         close();
         super.finalize();

@@ -27,7 +27,6 @@ import org.jnode.partitions.PartitionTableEntry;
 import org.jnode.util.LittleEndian;
 import org.jnode.util.NumberUtils;
 
-import vavi.util.Debug;
 
 /**
  * @author epr

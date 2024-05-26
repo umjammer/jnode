@@ -35,8 +35,8 @@ import org.jnode.fs.spi.AbstractFileSystem;
  * @author epr
  */
 public class FatFileSystem extends AbstractFileSystem<FatRootEntry> {
-    private BootSector bs;
-    private Fat fat;
+    private final BootSector bs;
+    private final Fat fat;
     private final FatDirectory rootDir;
     private final FatRootEntry rootEntry;
     private final HashMap<FatDirEntry, FatFile> files = new HashMap<>();
@@ -53,7 +53,7 @@ public class FatFileSystem extends AbstractFileSystem<FatRootEntry> {
 //            if (!bs.isaValidBootSector()) throw new FileSystemException(
 //                "Can't mount this partition: Invalid BootSector");
 
-            // System.out.println(bs);
+//            System.out.println(bs);
 
             Fat[] fats = new Fat[bs.getNrFats()];
             rootDir = new FatLfnDirectory(this, bs.getNrRootDirEntries());
@@ -79,10 +79,11 @@ public class FatFileSystem extends AbstractFileSystem<FatRootEntry> {
             fat = fats[0];
             rootDir.read(getApi(), FatUtils.getRootDirOffset(bs));
             rootEntry = new FatRootEntry(rootDir);
-            // files = new FatFile[fat.getNrEntries()];
+//            files = new FatFile[fat.getNrEntries()];
         } catch (IOException ex) {
             throw new FileSystemException(ex);
-        } catch (Exception e) { // something bad happened in the FAT boot
+        } catch (Exception e) {
+            // something bad happened in the FAT boot
             // sector... just ignore this FS
             throw new FileSystemException(e);
         }
@@ -91,8 +92,9 @@ public class FatFileSystem extends AbstractFileSystem<FatRootEntry> {
     /**
      * Flush all changed structures to the device.
      *
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public void flush() throws IOException {
 
         final BlockDeviceAPI api = getApi();
@@ -114,12 +116,12 @@ public class FatFileSystem extends AbstractFileSystem<FatRootEntry> {
         if (rootDir.isDirty()) {
             rootDir.flush();
         }
-
     }
 
     /**
      * Gets the root entry of this filesystem. This is usually a directory, but this is not required.
      */
+    @Override
     public FatRootEntry getRootEntry() {
         return rootEntry;
     }
@@ -127,10 +129,9 @@ public class FatFileSystem extends AbstractFileSystem<FatRootEntry> {
     /**
      * Gets the file for the given entry.
      *
-     * @param entry
+     * @param entry the entry
      */
     public synchronized FatFile getFile(FatDirEntry entry) {
-
         FatFile file = files.get(entry);
         if (file == null) {
             file = new FatFile(this, entry, entry.getStartCluster(), entry.getLength(), entry.isDirectory());
@@ -153,7 +154,7 @@ public class FatFileSystem extends AbstractFileSystem<FatRootEntry> {
     }
 
     /**
-     * Returns the bootsector.
+     * Returns the boot-sector.
      *
      * @return BootSector
      */
@@ -170,41 +171,37 @@ public class FatFileSystem extends AbstractFileSystem<FatRootEntry> {
         return rootDir;
     }
 
-    /**
-     *
-     */
+    @Override
     protected FSFile createFile(FSEntry entry) throws IOException {
-
         // TODO Auto-generated method stub
         return null;
     }
 
-    /**
-     *
-     */
+    @Override
     protected FSDirectory createDirectory(FSEntry entry) throws IOException {
         // TODO Auto-generated method stub
         return null;
     }
 
-    /**
-     *
-     */
+    @Override
     protected FatRootEntry createRootEntry() throws IOException {
         // TODO Auto-generated method stub
         return null;
     }
 
+    @Override
     public long getFreeSpace() {
         // TODO implement me
         return -1;
     }
 
+    @Override
     public long getTotalSpace() {
         // TODO implement me
         return -1;
     }
 
+    @Override
     public long getUsableSpace() {
         // TODO implement me
         return -1;

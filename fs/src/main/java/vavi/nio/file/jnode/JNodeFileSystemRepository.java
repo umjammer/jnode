@@ -7,13 +7,14 @@
 package vavi.nio.file.jnode;
 
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Level;
 
 import org.jnode.driver.block.VirtualDisk;
 import org.jnode.driver.block.VirtualDiskDevice;
@@ -24,7 +25,7 @@ import org.jnode.partitions.PartitionTable;
 import com.github.fge.filesystem.driver.FileSystemDriver;
 import com.github.fge.filesystem.provider.FileSystemRepositoryBase;
 
-import vavi.util.Debug;
+import static java.lang.System.getLogger;
 
 
 /**
@@ -37,6 +38,8 @@ import vavi.util.Debug;
  * @version 0.00 2021/12/19 umjammer initial version <br>
  */
 public final class JNodeFileSystemRepository extends FileSystemRepositoryBase {
+
+    private static final Logger logger = getLogger(JNodeFileSystemRepository.class.getName());
 
     /** */
     public JNodeFileSystemRepository() {
@@ -51,8 +54,8 @@ public final class JNodeFileSystemRepository extends FileSystemRepositoryBase {
         String uriString = uri.toString();
         URI subUri = URI.create(uriString.substring(uriString.indexOf(':') + 1));
         String scheme = subUri.getScheme();
-Debug.println(Level.FINE, "scheme: " + scheme);
-Debug.println(Level.FINE, "subUri: " + subUri);
+logger.log(Level.DEBUG, "scheme: " + scheme);
+logger.log(Level.DEBUG, "subUri: " + subUri);
 
         FileSystem<?> fs;
         if ("file".equals(scheme)) {
@@ -60,7 +63,7 @@ Debug.println(Level.FINE, "subUri: " + subUri);
             // not specified
 
             Path path = Paths.get(subUri);
-Debug.println(Level.FINE, "path: " + path + ", " + Files.exists(path));
+logger.log(Level.DEBUG, "path: " + path + ", " + Files.exists(path));
             VirtualDisk virtualDisk = VirtualDiskFactory.getInstance().createVirtualDiskFactory(path);
             VirtualDiskDevice device = new VirtualDiskDevice(virtualDisk);
 
@@ -70,12 +73,12 @@ Debug.println(Level.FINE, "path: " + path + ", " + Files.exists(path));
 
             // scheme specified
             URI subSubUri = URI.create(subUri.toString().substring(scheme.length() + 1));
-Debug.println(Level.FINE, "subSubUri: " + subSubUri);
+logger.log(Level.DEBUG, "subSubUri: " + subSubUri);
             if (!subSubUri.getScheme().equals("file")) {
                 throw new IllegalArgumentException("only file is supported: " + subSubUri);
             }
             Path path = Paths.get(subSubUri);
-Debug.println(Level.FINE, "path: " + path + ", " + Files.exists(path));
+logger.log(Level.DEBUG, "path: " + path + ", " + Files.exists(path));
             VirtualDisk virtualDisk = VirtualDiskFactory.getInstance().createVirtualDiskFactory(path);
             VirtualDiskDevice device = new VirtualDiskDevice(virtualDisk);
 
@@ -87,7 +90,8 @@ Debug.println(Level.FINE, "path: " + path + ", " + Files.exists(path));
         return new JNodeFileSystemDriver<>(fileStore, factoryProvider, fs, env);
     }
 
-    /* ad-hoc hack for ignoring checking opacity */
+    // ad-hoc hack for ignoring checking opacity
+    @Override
     protected void checkURI(URI uri) {
         Objects.requireNonNull(uri);
         if (!uri.isAbsolute()) {

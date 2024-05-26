@@ -82,7 +82,7 @@ public class HfsWrapperFileSystemType implements BlockDeviceFileSystemType<HfsPl
         return "HFS Wrapper";
     }
 
-    /** */
+    @Override
     public String getScheme() {
         return "hfs";
     }

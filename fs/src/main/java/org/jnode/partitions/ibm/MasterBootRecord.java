@@ -67,16 +67,16 @@ public class MasterBootRecord {
     /**
      * Write the BPB to the MBR to its Correct Position.
      *
-     * @param bpb
+     * @param bpb BPB array
      */
     public final void setBPB(byte[] bpb) {
         System.arraycopy(bpb, 0, mbr.array(), 0x3, bpb.length);
     }
 
     /**
-     * Write the contents of this bootsector to the given device.
+     * Write the contents of this boot-sector to the given device.
      *
-     * @param api
+     * @param api the block device api
      */
     public final synchronized void write(BlockDeviceAPI api) throws IOException {
         mbr.position(0);
@@ -86,9 +86,9 @@ public class MasterBootRecord {
     }
 
     /**
-     * Read the contents of this bootsector from the given device.
+     * Read the contents of this boot-sector from the given device.
      *
-     * @param api
+     * @param api the block device api
      */
     public final synchronized void read(BlockDeviceAPI api) throws IOException {
         mbr.position(0);

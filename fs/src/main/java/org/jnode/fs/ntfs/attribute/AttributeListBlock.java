@@ -36,7 +36,7 @@ public final class AttributeListBlock extends NTFSStructure {
     /**
      * The length of the block.
      */
-    private long length;
+    private final long length;
 
     /**
      * @param data   binary data for the block.
@@ -77,6 +77,7 @@ public final class AttributeListBlock extends NTFSStructure {
          *
          * @return {@code true} if there are more elements in the iteration.
          */
+        @Override
         public boolean hasNext() {
             // Safety check in case hasNext is called twice without calling next.
             if (nextElement != null) {
@@ -105,6 +106,7 @@ public final class AttributeListBlock extends NTFSStructure {
          *
          * @return the next entry from the iteration.
          */
+        @Override
         public AttributeListEntry next() {
             if (hasNext()) {
                 AttributeListEntry result = nextElement;
@@ -118,6 +120,7 @@ public final class AttributeListBlock extends NTFSStructure {
         /**
          * @throws UnsupportedOperationException always.
          */
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }

@@ -25,16 +25,17 @@ import org.jnode.fs.FileSystemException;
 import org.jnode.fs.FileSystemType;
 
 /**
- * @author Levente S\u00e1ntha
+ * @author Levente Sántha
  */
 public class FTPFileSystemType implements FileSystemType<FTPFileSystem> {
 
     /**
      * Create a filesystem from a given device.
      * 
-     * @param device
-     * @param readOnly
+     * @param device the device
+     * @param readOnly the readOnly
      */
+    @Override
     public FTPFileSystem create(Device device, boolean readOnly) throws FileSystemException {
         return new FTPFileSystem((FTPFSDevice) device, this);
     }
@@ -42,11 +43,12 @@ public class FTPFileSystemType implements FileSystemType<FTPFileSystem> {
     /**
      * Gets the unique name of this file system type.
      */
+    @Override
     public String getName() {
         return "FTPFS";
     }
 
-    /** */
+    @Override
     public String getScheme() {
         return "ftp";
     }

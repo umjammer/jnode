@@ -26,7 +26,7 @@ public class AttributeKey extends AbstractKey {
     /**
      * The file ID.
      */
-    private CatalogNodeId fileId;
+    private final CatalogNodeId fileId;
 
     /**
      * The start block.
@@ -36,7 +36,7 @@ public class AttributeKey extends AbstractKey {
     /**
      * The attribute name.
      */
-    private HfsUnicodeString attributeName;
+    private final HfsUnicodeString attributeName;
 
     /**
      * Reads in an attribute key.
@@ -74,8 +74,7 @@ public class AttributeKey extends AbstractKey {
     @Override
     public int compareTo(Key key) {
         int result = -1;
-        if (key instanceof AttributeKey) {
-            AttributeKey otherKey = (AttributeKey) key;
+        if (key instanceof AttributeKey otherKey) {
             result = getFileId().compareTo(otherKey.getFileId());
             if (result == 0) {
                 // Note: this is unlikely to be correct. See TN1150 section "Unicode Subtleties" for details
@@ -95,11 +94,9 @@ public class AttributeKey extends AbstractKey {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof AttributeKey)) {
+        if (!(obj instanceof AttributeKey otherKey)) {
             return false;
         }
-
-        AttributeKey otherKey = (AttributeKey) obj;
 
         return
             fileId.getId() == otherKey.fileId.getId() &&

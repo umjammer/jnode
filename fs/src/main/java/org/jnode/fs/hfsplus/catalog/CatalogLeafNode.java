@@ -20,11 +20,8 @@
 
 package org.jnode.fs.hfsplus.catalog;
 
-import java.lang.System.Logger.Level;
 import java.lang.System.Logger;
 import org.jnode.fs.hfsplus.tree.AbstractLeafNode;
-import org.jnode.fs.hfsplus.tree.Key;
-import org.jnode.fs.hfsplus.tree.LeafRecord;
 import org.jnode.fs.hfsplus.tree.NodeDescriptor;
 
 public class CatalogLeafNode extends AbstractLeafNode<CatalogKey> {
@@ -33,8 +30,8 @@ public class CatalogLeafNode extends AbstractLeafNode<CatalogKey> {
     /**
      * Create a new node.
      *
-     * @param descriptor
-     * @param nodeSize
+     * @param descriptor the descriptor
+     * @param nodeSize the nodeSize
      */
     public CatalogLeafNode(NodeDescriptor descriptor, final int nodeSize) {
         super(descriptor, nodeSize);
@@ -43,8 +40,8 @@ public class CatalogLeafNode extends AbstractLeafNode<CatalogKey> {
     /**
      * Create node from existing data.
      *
-     * @param nodeData
-     * @param nodeSize
+     * @param nodeData the nodeData
+     * @param nodeSize the nodeSize
      */
     public CatalogLeafNode(final byte[] nodeData, final int nodeSize) {
         super(nodeData, nodeSize);
@@ -54,11 +51,6 @@ public class CatalogLeafNode extends AbstractLeafNode<CatalogKey> {
     @Override
     protected CatalogKey createKey(byte[] nodeData, int offset) {
         return new CatalogKey(nodeData, offset);
-    }
-
-    @Override
-    protected LeafRecord createRecord(Key key, byte[] nodeData, int offset, int recordSize) {
-        return new LeafRecord(key, nodeData, offset, recordSize);
     }
 
 }

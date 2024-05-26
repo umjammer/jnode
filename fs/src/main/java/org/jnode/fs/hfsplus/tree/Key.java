@@ -26,6 +26,6 @@ public interface Key extends Comparable<Key> {
 
     byte[] getBytes();
 
+    @Override
     int compareTo(Key key);
-
 }

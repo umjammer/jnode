@@ -33,7 +33,7 @@ import org.jnode.fs.FileSystem;
  */
 public abstract class AbstractFSObject implements FSObject {
 
-    private AbstractFileSystem<?> fileSystem;
+    private final AbstractFileSystem<?> fileSystem;
 
     private boolean valid;
     private boolean dirty;
@@ -43,9 +43,9 @@ public abstract class AbstractFSObject implements FSObject {
     private boolean canWrite = true;
 
     /**
-     * Create a new AbstracFSObject
+     * Create a new AbstractFSObject
      * 
-     * @param fs
+     * @param fs the fs
      */
     public AbstractFSObject(AbstractFileSystem<?> fs) {
         this.fileSystem = fs;
@@ -69,6 +69,7 @@ public abstract class AbstractFSObject implements FSObject {
      * 
      * @return if this object is still valid
      */
+    @Override
     public final boolean isValid() {
         return valid;
     }
@@ -76,7 +77,7 @@ public abstract class AbstractFSObject implements FSObject {
     /**
      * Set the valid flag.
      * 
-     * @param valid
+     * @param valid the valid
      */
     protected final void setValid(boolean valid) {
         this.valid = valid;
@@ -86,7 +87,7 @@ public abstract class AbstractFSObject implements FSObject {
      * Is this object dirty (ie some data need to be saved to device)
      * 
      * @return if this object is dirty
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public boolean isDirty() throws IOException {
         return dirty;
@@ -111,6 +112,7 @@ public abstract class AbstractFSObject implements FSObject {
      * 
      * @return the FileSystem this object belongs to
      */
+    @Override
     public final FileSystem<?> getFileSystem() {
         return fileSystem;
     }
@@ -118,8 +120,8 @@ public abstract class AbstractFSObject implements FSObject {
     /**
      * Specify the rights on this object
      * 
-     * @param read
-     * @param write
+     * @param read the read
+     * @param write the write
      */
     public final void setRights(boolean read, boolean write) {
         this.canRead = read;

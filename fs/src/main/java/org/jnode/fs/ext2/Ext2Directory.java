@@ -46,7 +46,7 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
 
     protected INode iNode;
 
-    protected Ext2Entry entry;
+    protected final Ext2Entry entry;
 
     /**
      * @param entry the Ext2Entry representing this directory
@@ -60,7 +60,7 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
         if ((iNode.getFlags() & Ext2Constants.EXT2_INDEX_FL) != 0 ||
             (iNode.getFlags() & Ext2Constants.EXT4_HUGE_FILE_FL) != 0 ||
             (iNode.getFlags() & Ext2Constants.EXT4_INODE_EXTENTS_FLAG) != 0) {
-            readOnly = true; //force readonly
+            readOnly = true; // force readonly
 
             if ((iNode.getFlags() & Ext2Constants.EXT4_INODE_EXTENTS_FLAG) != 0)
                 log.log(Level.DEBUG, "inode uses extents: " + entry);
@@ -79,16 +79,17 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
     /**
      * Method to create a new ext2 directory entry from the given name
      *
-     * @param name
-     * @return @throws
-     * IOException
+     * @param name the name
+     * @return the file system entry
+     * @throws IOException when an error occurs
      */
+    @Override
     public FSEntry createDirectoryEntry(String name) throws IOException {
         if (!canWrite())
             throw new IOException("Filesystem or directory is mounted read-only!");
 
-        //create a new iNode for the file
-        //TODO: access rights, file type, UID and GID should be passed through
+        // create a new iNode for the file
+        // TODO: access rights, file type, UID and GID should be passed through
         // the FSDirectory interface
         INode newINode;
         Ext2DirectoryRecord dr;
@@ -107,31 +108,30 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
 
             newEntry = new Ext2Entry(newINode, dr.getFileOffset(), name, Ext2Constants.EXT2_FT_DIR, fs, this);
 
-            //add "."
+            // add "."
             Ext2Directory newDir = new Ext2Directory(newEntry);
             Ext2DirectoryRecord drThis =
                 new Ext2DirectoryRecord(fs, newINode.getINodeNr(), Ext2Constants.EXT2_FT_DIR, ".");
             newINode.setLinksCount(2);
             newDir.addDirectoryRecord(drThis);
 
-            //add ".."
+            // add ".."
             long parentINodeNr = ((Ext2Directory) entry.getDirectory()).getINode().getINodeNr();
             Ext2DirectoryRecord drParent = new Ext2DirectoryRecord(fs, parentINodeNr, Ext2Constants.EXT2_FT_DIR, "..");
             newDir.addDirectoryRecord(drParent);
 
-            //increase the reference count for the parent directory
+            // increase the reference count for the parent directory
             INode parentINode = fs.getINode(parentINodeNr);
             parentINode.setLinksCount(parentINode.getLinksCount() + 1);
 
-            //update the number of used directories in the block group
+            // update the number of used directories in the block group
             int group = (int) ((newINode.getINodeNr() - 1) / fs.getSuperblock().getINodesPerGroup());
             fs.modifyUsedDirsCount(group, 1);
 
-            //update the new inode
+            // update the new inode
             newINode.update();
         } catch (FileSystemException ex) {
-            final IOException ioe = new IOException(ex);
-            throw ioe;
+            throw new IOException(ex);
         }
 
         return newEntry;
@@ -140,16 +140,17 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
     /**
      * Abstract method to create a new ext2 file entry from the given name
      *
-     * @param name
-     * @return @throws
-     * IOException
+     * @param name new file name
+     * @return the file entry
+     * @throws IOException when an error occurs
      */
+    @Override
     public FSEntry createFileEntry(String name) throws IOException {
         if (!canWrite())
             throw new IOException("Filesystem or directory is mounted read-only!");
 
-        //create a new iNode for the file
-        //TODO: access rights, file type, UID and GID should be passed through
+        // create a new iNode for the file
+        // TODO: access rights, file type, UID and GID should be passed through
         // the FSDirectory interface
         INode newINode;
         Ext2DirectoryRecord dr;
@@ -165,9 +166,8 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
 
             newINode.setLinksCount(newINode.getLinksCount() + 1);
 
-        } catch (FileSystemException ex) {
-            final IOException ioe = new IOException(ex);
-            throw ioe;
+        } catch (FileSystemException e) {
+            throw new IOException(e);
         }
         return new Ext2Entry(newINode, dr.getFileOffset(), name, Ext2Constants.EXT2_FT_REG_FILE, fs, this);
     }
@@ -176,15 +176,15 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
      * Attach an inode to a directory (not used normally, only during fs
      * creation)
      *
-     * @param iNodeNr
-     * @return @throws
-     * IOException
+     * @param iNodeNr the inode Nr
+     * @return file system entry
+     * @throws IOException when an error occurs
      */
     protected FSEntry addINode(long iNodeNr, String linkName, int fileType) throws IOException {
         if (!canWrite())
             throw new IOException("Filesystem or directory is mounted read-only!");
 
-        //TODO: access rights, file type, UID and GID should be passed through
+        // TODO: access rights, file type, UID and GID should be passed through
         // the FSDirectory interface
         Ext2DirectoryRecord dr;
         Ext2FileSystem fs = (Ext2FileSystem) getFileSystem();
@@ -201,36 +201,34 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
 
             return new Ext2Entry(linkedINode, dr.getFileOffset(), linkName, fileType, fs, this);
 
-        } catch (FileSystemException ex) {
-            final IOException ioe = new IOException(ex);
-            throw ioe;
+        } catch (FileSystemException e) {
+            throw new IOException(e);
         }
     }
 
-    private void addDirectoryRecord(Ext2DirectoryRecord dr) throws IOException, FileSystemException {
-        //synchronize to the inode cache to make sure that the inode does not
-        // get
-        //flushed between reading it and locking it
+    private void addDirectoryRecord(Ext2DirectoryRecord dr) throws IOException {
+        // synchronize to the inode cache to make sure that the inode does not
+        // get flushed between reading it and locking it
         synchronized (((Ext2FileSystem) getFileSystem()).getInodeCache()) {
-            //reread the inode before synchronizing to it to make sure
-            //all threads use the same instance
+            // reread the inode before synchronizing to it to make sure
+            // all threads use the same instance
             long iNodeNr = iNode.getINodeNr();
             iNode = ((Ext2FileSystem) getFileSystem()).getINode(iNodeNr);
 
-            //lock the inode into the cache so it is not flushed before synchronizing to it
-            //(otherwise a new instance of INode referring to the same inode could be put
-            //in the cache resulting in the possibility of two threads manipulating the same
-            //inode at the same time because they would synchronize to different INode instances)
+            // lock the inode into the cache so it is not flushed before synchronizing to it
+            // (otherwise a new instance of INode referring to the same inode could be put
+            // in the cache resulting in the possibility of two threads manipulating the same
+            // inode at the same time because they would synchronize to different INode instances)
             iNode.incLocked();
         }
-        //a single inode may be represented by more than one Ext2Directory instances,
-        //but each will use the same instance of the underlying inode (see Ext2FileSystem.getINode()),
-        //so synchronize to the inode.
+        // a single inode may be represented by more than one Ext2Directory instances,
+        // but each will use the same instance of the underlying inode (see Ext2FileSystem.getINode()),
+        // so synchronize to the inode.
         synchronized (iNode) {
             try {
-                Ext2File dir = new Ext2File(entry); //read itself as a file
+                Ext2File dir = new Ext2File(entry); // read itself as a file
 
-                //find the last directory record (if any)
+                // find the last directory record (if any)
                 Ext2FSEntryIterator iterator = new Ext2FSEntryIterator(entry);
                 Ext2DirectoryRecord rec = null;
                 while (iterator.hasNext()) {
@@ -242,70 +240,65 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
                     long lastPos = rec.getFileOffset();
                     long lastLen = rec.getRecLen();
 
-                    //truncate the last record to its minimal size (cut the padding from the end)
+                    // truncate the last record to its minimal size (cut the padding from the end)
                     rec.truncateRecord();
 
-                    //directoryRecords may not extend over block boundaries:
-                    //see if the new record fits in the same block after truncating the last record
+                    // directoryRecords may not extend over block boundaries:
+                    // see if the new record fits in the same block after truncating the last record
                     long remainingLength = fs.getBlockSize() - (lastPos % fs.getBlockSize()) - rec.getRecLen();
                     log.log(Level.DEBUG, "LAST-1 record: begins at: " + lastPos + ", length: " + lastLen);
                     log.log(Level.DEBUG, "LAST-1 truncated length: " + rec.getRecLen());
                     log.log(Level.DEBUG, "Remaining length: " + remainingLength);
                     if (remainingLength >= dr.getRecLen()) {
-                        //write back the last record truncated
-                        //TODO optimize it also to use ByteBuffer at lower level
+                        // write back the last record truncated
+                        // TODO optimize it also to use ByteBuffer at lower level
                         ByteBuffer buf = ByteBuffer.wrap(rec.getData(), rec.getOffset(), rec.getRecLen());
                         dir.write(lastPos, buf);
-                        //                      dir.write(lastPos, rec.getData(), rec.getOffset(), rec
-                        //                      .getRecLen());
+//                        dir.write(lastPos, rec.getData(), rec.getOffset(), rec.getRecLen());
 
-                        //pad the end of the new record with zeroes
+                        // pad the end of the new record with zeroes
                         dr.expandRecord(lastPos + rec.getRecLen(), lastPos + rec.getRecLen() + remainingLength);
 
-                        //append the new record at the end of the list
-                        //TODO optimize it also to use ByteBuffer at lower level
+                        // append the new record at the end of the list
+                        // TODO optimize it also to use ByteBuffer at lower level
                         buf = ByteBuffer.wrap(dr.getData(), dr.getOffset(), dr.getRecLen());
                         dir.write(lastPos + rec.getRecLen(), buf);
-                        //                      dir.write(lastPos + rec.getRecLen(), dr.getData(), dr
-                        //                      .getOffset(), dr.getRecLen());
+//                        dir.write(lastPos + rec.getRecLen(), dr.getData(), dr.getOffset(), dr.getRecLen());
 
                         log.log(Level.DEBUG, "addDirectoryRecord(): LAST   record: begins at: " +
                             (rec.getFileOffset() + rec.getRecLen()) + ", length: " + dr.getRecLen());
                     } else {
-                        //the new record must go to the next block
-                        //(the previously last record (rec) stays padded to the
-                        // end of the block, so we can
-                        // append after that)
+                        // the new record must go to the next block
+                        // (the previously last record (rec) stays padded to the
+                        // end of the block, so we can append after that)
                         dr.expandRecord(lastPos + lastLen, lastPos + lastLen + fs.getBlockSize());
 
-                        //TODO optimize it also to use ByteBuffer at lower level
+                        // TODO optimize it also to use ByteBuffer at lower level
                         ByteBuffer buf = ByteBuffer.wrap(dr.getData(), dr.getOffset(), dr.getRecLen());
                         dir.write(lastPos + lastLen, buf);
-                        //                      dir.write(lastPos + lastLen, dr.getData(), dr
-                        //                      .getOffset(), dr.getRecLen());
+//                        dir.write(lastPos + lastLen, dr.getData(), dr.getOffset(), dr.getRecLen());
                         log.log(Level.DEBUG, "addDirectoryRecord(): LAST   record: begins at: " + (lastPos + lastLen) +
                             ", length: " + dr.getRecLen());
                     }
-                } else { //rec==null, ie. this is the first record in the directory
+                } else { // rec==null, i.e. this is the first record in the directory
                     dr.expandRecord(0, fs.getBlockSize());
-                    //TODO optimize it also to use ByteBuffer at lower level
+                    // TODO optimize it also to use ByteBuffer at lower level
                     ByteBuffer buf = ByteBuffer.wrap(dr.getData(), dr.getOffset(), dr.getRecLen());
                     dir.write(0, buf);
-                    //dir.write(0, dr.getData(), dr.getOffset(), dr.getRecLen());
+//                    dir.write(0, dr.getData(), dr.getOffset(), dr.getRecLen());
                     log.log(Level.DEBUG, "addDirectoryRecord(): LAST   record: begins at: 0, length: " + dr.getRecLen());
                 }
 
-                //dir.flush();
+//                dir.flush();
                 iNode.setMtime(System.currentTimeMillis() / 1000);
 
                 // update the directory inode
                 iNode.update();
 
             } catch (Throwable ex) {
-                final IOException ioe = new IOException(ex);
-                throw ioe;
+                throw new IOException(ex);
             } finally {
-                //unlock the inode from the cache
+                // unlock the inode from the cache
                 iNode.decLocked();
             }
         }
@@ -346,27 +339,28 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
     }
 
     class Ext2FSEntryIterator implements Iterator<FSEntry> {
-        ByteBuffer data;
+        final ByteBuffer data;
 
         int index;
 
         Ext2DirectoryRecord current;
 
         public Ext2FSEntryIterator(Ext2Entry entry) throws IOException {
-            //read itself as a file
+            // read itself as a file
             Ext2File directoryFile = new Ext2File(entry);
-            //read the whole directory
+            // read the whole directory
 
             data = ByteBuffer.allocate((int) directoryFile.getLength());
             directoryFile.read(0, data);
-            //data = new byte[(int) directoryFile.getLength()];            
-            //directoryFile.read(0, data, 0, (int) directoryFile.getLength());
+//            data = new byte[(int) directoryFile.getLength()];
+//            directoryFile.read(0, data, 0, (int) directoryFile.getLength());
 
             index = 0;
         }
 
+        @Override
         public boolean hasNext() {
-            Ext2DirectoryRecord dr = null;
+            Ext2DirectoryRecord dr;
             Ext2FileSystem fs = (Ext2FileSystem) getFileSystem();
             try {
                 do {
@@ -377,10 +371,10 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
                         return false;
                     }
 
-                    //TODO optimize it also to use ByteBuffer at lower level            
+                    // TODO optimize it also to use ByteBuffer at lower level
                     dr = new Ext2DirectoryRecord(fs, data.array(), index, index);
                     index += dr.getRecLen();
-                } while (dr.getINodeNr() == 0); //inode nr=0 means the entry is unused
+                } while (dr.getINodeNr() == 0); // inode nr=0 means the entry is unused
             } catch (Exception e) {
                 fs.handleFSError(e);
                 return false;
@@ -389,10 +383,11 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
             return true;
         }
 
+        @Override
         public FSEntry next() {
 
             if (current == null) {
-                //hasNext actually reads the next element
+                // hasNext actually reads the next element
                 if (!hasNext())
                     throw new NoSuchElementException();
             }
@@ -408,9 +403,7 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
             }
         }
 
-        /**
-         * @see java.util.Iterator#remove()
-         */
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
@@ -418,11 +411,11 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
         /**
          * Returns the next record as an Ext2DirectoryRecord instance
          *
-         * @return
+         * @return the next record
          */
         protected Ext2DirectoryRecord nextDirectoryRecord() {
             if (current == null) {
-                //hasNext actually reads the next element
+                // hasNext actually reads the next element
                 if (!hasNext())
                     throw new NoSuchElementException();
             }
@@ -439,6 +432,7 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
      *
      * @return the FSEntryTable containing the directory's entries.
      */
+    @Override
     protected FSEntryTable readEntries() throws IOException {
         Ext2FSEntryIterator it = new Ext2FSEntryIterator(entry);
         ArrayList<FSEntry> entries = new ArrayList<>();
@@ -449,19 +443,17 @@ public class Ext2Directory extends AbstractFSDirectory implements FSDirectoryId 
             entries.add(entry);
         }
 
-        FSEntryTable table = new FSEntryTable((AbstractFileSystem<?>) getFileSystem(), entries);
-
-        return table;
+        return new FSEntryTable((AbstractFileSystem<?>) getFileSystem(), entries);
     }
 
     /**
      * Write the entries in the table to the device.
      *
-     * @param table
+     * @param table the table
      */
+    @Override
     protected void writeEntries(FSEntryTable table) throws IOException {
-        //nothing to do because createFileEntry and createDirectoryEntry do the
-        // job
+        // nothing to do because createFileEntry and createDirectoryEntry do the job
     }
 
     @Override

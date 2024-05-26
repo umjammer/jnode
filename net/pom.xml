@@ -4,7 +4,7 @@
   <parent>
     <groupId>vavi</groupId>
     <artifactId>vavi-nio-file-jnode</artifactId>
-    <version>0.2.12</version>
+    <version>0.2.13</version>
   </parent>
 
   <artifactId>jnode-net</artifactId>
@@ -35,7 +35,7 @@
     <dependency>
       <groupId>vavi</groupId>
       <artifactId>jnode-core</artifactId>
-      <version>0.2.12</version>
+      <version>0.2.13</version>
     </dependency>
 
     <dependency>
@@ -51,7 +51,7 @@
     <dependency>
       <groupId>org.acplt.remotetea</groupId>
       <artifactId>remotetea-oncrpc</artifactId>
-      <version>1.1.5</version>
+      <version>1.1.6</version>
     </dependency>
 
     <dependency>

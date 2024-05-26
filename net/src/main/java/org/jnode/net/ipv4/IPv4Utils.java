@@ -30,9 +30,9 @@ public class IPv4Utils {
     /**
      * Calculate the checksum of the given header
      * 
-     * @param skbuf
-     * @param start
-     * @param length
+     * @param skbuf the skbuf
+     * @param start the start
+     * @param length the length
      * @return The calculated checksum
      */
     public static int calcChecksum(SocketBuffer skbuf, int start, int length) {
@@ -42,9 +42,9 @@ public class IPv4Utils {
     /**
      * Calculate the checksum of the given header
      * 
-     * @param skbuf
-     * @param start
-     * @param length
+     * @param skbuf the skbuf
+     * @param start the start
+     * @param length the length
      * @param initialValue Result from a previous call to calcChecksum. Use when
      *            to blocks are concatenated
      * @return The calculated checksum

@@ -25,18 +25,22 @@ public abstract class AbstractNodeRecord implements NodeRecord {
     protected Key key = null;
     protected byte[] recordData = null;
 
+    @Override
     public Key getKey() {
         return key;
     }
 
+    @Override
     public byte[] getData() {
         return recordData;
     }
 
+    @Override
     public int getSize() {
         return key.getKeyLength() + recordData.length;
     }
 
+    @Override
     public byte[] getBytes() {
         byte[] data = new byte[key.getKeyLength() + this.recordData.length];
         System.arraycopy(key.getBytes(), 0, data, 0, key.getKeyLength());

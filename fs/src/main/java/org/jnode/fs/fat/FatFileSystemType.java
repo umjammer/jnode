@@ -26,6 +26,7 @@ import org.jnode.fs.BlockDeviceFileSystemType;
 import org.jnode.fs.FileSystemException;
 import org.jnode.partitions.PartitionTableEntry;
 
+
 /**
  * @author epr
  */
@@ -34,53 +35,50 @@ public class FatFileSystemType implements BlockDeviceFileSystemType<FatFileSyste
     /**
      * Gets the unique name of this file system type.
      */
+    @Override
     public String getName() {
         return "FAT";
     }
 
-    /** */
+    @Override
     public String getScheme() {
         return "fat";
     }
 
     /**
      * Can this file system type be used on the given first sector of a
-     * blockdevice?
+     * block-device?
      * 
      * @param pte The partition table entry, if any. If null, there is no
      *            partition table entry.
-     * @param firstSector
+     * @param firstSector the firstSector
      */
+    @Override
     public boolean supports(PartitionTableEntry pte, byte[] firstSector, FSBlockDeviceAPI devApi) {
-/*
-        if (pte != null) {
-            if (!pte.isValid()) {
-                return false;
-            }
-            if (!(pte instanceof IBMPartitionTableEntry)) {
-                return false;
-            }
-            final IBMPartitionTableEntry ipte = (IBMPartitionTableEntry) pte;
-            final IBMPartitionTypes type = ipte.getSystemIndicator();
-            if ((type == IBMPartitionTypes.PARTTYPE_DOS_FAT12) ||
-                    (type == IBMPartitionTypes.PARTTYPE_DOS_FAT16_LT32M) ||
-                    (type == IBMPartitionTypes.PARTTYPE_DOS_FAT16_GT32M)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        try
-        {
-        if (!new BootSector(firstSector).isaValidBootSector())
-            return false;
-        }
-        catch (RuntimeException e)
-        {
-            return false;
-        }
-*/
+//        if (pte != null) {
+//            if (!pte.isValid()) {
+//                return false;
+//            }
+//            if (!(pte instanceof IBMPartitionTableEntry)) {
+//                return false;
+//            }
+//            final IBMPartitionTableEntry ipte = (IBMPartitionTableEntry) pte;
+//            final IBMPartitionTypes type = ipte.getSystemIndicator();
+//            if ((type == IBMPartitionTypes.PARTTYPE_DOS_FAT12) ||
+//                    (type == IBMPartitionTypes.PARTTYPE_DOS_FAT16_LT32M) ||
+//                    (type == IBMPartitionTypes.PARTTYPE_DOS_FAT16_GT32M)) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        }
+//
+//        try {
+//            if (!new BootSector(firstSector).isaValidBootSector())
+//                return false;
+//        } catch (RuntimeException e) {
+//            return false;
+//        }
 
         // FAT-32 is currently handled by the newer jfat package.
         return (firstSector[38] == 0x29 &&
@@ -92,9 +90,10 @@ public class FatFileSystemType implements BlockDeviceFileSystemType<FatFileSyste
     /**
      * Create a filesystem for a given device.
      *
-     * @param device
-     * @param readOnly
+     * @param device the device
+     * @param readOnly the readOnly
      */
+    @Override
     public FatFileSystem create(Device device, boolean readOnly) throws FileSystemException {
         return new FatFileSystem(device, readOnly);
     }

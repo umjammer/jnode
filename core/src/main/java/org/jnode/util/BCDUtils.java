@@ -28,8 +28,8 @@ public class BCDUtils {
     /**
      * Convert a BCD encoded value into a (normal) binary value
      *
-     * @param bcd
-     * @return int
+     * @param bcd the bcd encoded value
+     * @return normal binary value
      */
     public static int bcd2bin(int bcd) {
         return (bcd & 15) + ((bcd >> 4) * 10);
@@ -38,8 +38,8 @@ public class BCDUtils {
     /**
      * Convert a (normal) binary value into a BCD encoded value.
      *
-     * @param bin
-     * @return int
+     * @param bin the normal binary value
+     * @return bcd encoded value
      */
     public static int bin2bcd(int bin) {
         return ((bin / 10) << 4) + (bin % 10);

@@ -8,16 +8,16 @@ package org.jnode.fs.pc98;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.ByteBuffer;
-import java.util.logging.Level;
 
 import org.jnode.driver.block.BlockDeviceAPI;
 import org.jnode.fs.jfat.BootSector;
-
-import vavi.util.Debug;
 import vavi.util.serdes.Serdes;
-
 import vavix.io.fat.PC98BiosParameterBlock;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -27,6 +27,8 @@ import vavix.io.fat.PC98BiosParameterBlock;
  * @version 0.00 2022/02/08 umjammer initial version <br>
  */
 public class PC98BootSector implements BootSector {
+
+    private static final Logger logger = getLogger(PC98BootSector.class.getName());
 
     private PC98BiosParameterBlock bpb;
 
@@ -49,9 +51,9 @@ public class PC98BootSector implements BootSector {
 
         this.bpb = new PC98BiosParameterBlock();
         Serdes.Util.deserialize(bais, bpb);
-Debug.println(Level.FINE, "■ bootRecord ----\n" + bpb);
+logger.log(Level.DEBUG, "■ bootRecord ----\n" + bpb);
         bpb.compute();
-Debug.println(Level.FINE, "■ bootRecord ----\n" + bpb);
+logger.log(Level.DEBUG, "■ bootRecord ----\n" + bpb);
 
         dirty = false;
     }
@@ -335,5 +337,3 @@ Debug.println(Level.FINE, "■ bootRecord ----\n" + bpb);
         return bpb.toString();
     }
 }
-
-/* */

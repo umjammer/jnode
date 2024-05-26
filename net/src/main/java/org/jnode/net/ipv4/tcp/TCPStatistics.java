@@ -64,6 +64,7 @@ public class TCPStatistics implements Statistics {
     /**
      * Gets all statistics
      */
+    @Override
     public Statistic[] getStatistics() {
         return list;
     }

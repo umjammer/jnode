@@ -76,7 +76,7 @@ public class BOOTPHeader {
     /**
      * Create a new header and read it from the given buffer
      * 
-     * @param skbuf
+     * @param skbuf the skbuf
      */
     public BOOTPHeader(SocketBuffer skbuf) {
         this.opcode = skbuf.get(0);
@@ -104,7 +104,7 @@ public class BOOTPHeader {
     /**
      * Create a new header and read it from the given packet
      * 
-     * @param packet
+     * @param packet the packet
      */
     public BOOTPHeader(DatagramPacket packet) {
         this(new SocketBuffer(packet.getData(), packet.getOffset(), packet.getLength()));
@@ -113,11 +113,11 @@ public class BOOTPHeader {
     /**
      * Create a new header (for client usage)
      * 
-     * @param opcode
-     * @param transactionID
-     * @param secsElapsed
-     * @param clientIPAddress
-     * @param clientHwAddress
+     * @param opcode the opcode
+     * @param transactionID the transactionID
+     * @param secsElapsed the secsElapsed
+     * @param clientIPAddress the clientIPAddress
+     * @param clientHwAddress the clientHwAddress
      */
     public BOOTPHeader(int opcode, int transactionID, int secsElapsed,
             Inet4Address clientIPAddress, HardwareAddress clientHwAddress) {
@@ -137,13 +137,13 @@ public class BOOTPHeader {
     /**
      * Create a new header (for server usage)
      * 
-     * @param opcode
-     * @param transactionID
-     * @param secsElapsed
-     * @param clientIPAddress
-     * @param yourIPAddress
-     * @param serverIPAddress
-     * @param clientHwAddress
+     * @param opcode the opcode
+     * @param transactionID the transactionID
+     * @param secsElapsed the secsElapsed
+     * @param clientIPAddress the clientIPAddress
+     * @param yourIPAddress the yourIPAddress
+     * @param serverIPAddress the serverIPAddress
+     * @param clientHwAddress the clientHwAddress
      */
     public BOOTPHeader(int opcode, int transactionID, int secsElapsed,
             Inet4Address clientIPAddress, Inet4Address yourIPAddress, Inet4Address serverIPAddress,
@@ -164,7 +164,7 @@ public class BOOTPHeader {
     /**
      * Prefix this header to the given buffer
      * 
-     * @param skbuf
+     * @param skbuf the skbuf
      */
     public void prefixTo(SocketBuffer skbuf) {
         skbuf.insert(SIZE);

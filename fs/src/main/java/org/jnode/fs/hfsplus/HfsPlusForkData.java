@@ -32,22 +32,24 @@ import org.jnode.fs.hfsplus.extent.ExtentKey;
 import org.jnode.util.BigEndian;
 
 public class HfsPlusForkData {
+
     public static final int FORK_DATA_LENGTH = 80;
     private static final int EXTENT_OFFSET = 16;
+
     /**
      * The size in bytes of the valid data in the fork.
      */
-    private long totalSize;
+    private final long totalSize;
     /** */
-    private long clumpSize;
+    private final long clumpSize;
     /**
      * The total of allocation blocks use by the extents in the fork.
      */
-    private long totalBlock;
+    private final long totalBlock;
     /**
      * The first eight extent descriptors for the fork.
      */
-    private ExtentDescriptor[] extents;
+    private final ExtentDescriptor[] extents;
     /**
      * Overflow extents.
      */
@@ -68,8 +70,8 @@ public class HfsPlusForkData {
      *
      * @param cnid the catalog node ID that owns this fork.
      * @param dataFork indicates whether this is a data fork, or a resource fork.
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
     public HfsPlusForkData(CatalogNodeId cnid, boolean dataFork, final byte[] src, final int offset) {
         this.cnid = cnid;
@@ -81,8 +83,7 @@ public class HfsPlusForkData {
         totalBlock = BigEndian.getUInt32(data, 12);
         extents = new ExtentDescriptor[8];
         for (int i = 0; i < 8; i++) {
-            extents[i] =
-                new ExtentDescriptor(data, EXTENT_OFFSET +
+            extents[i] = new ExtentDescriptor(data, EXTENT_OFFSET +
                     (i * ExtentDescriptor.EXTENT_DESCRIPTOR_LENGTH));
         }
     }
@@ -90,9 +91,9 @@ public class HfsPlusForkData {
     /**
      * Create a new empty data-fork data.
      *
-     * @param totalSize
-     * @param clumpSize
-     * @param totalBlock
+     * @param totalSize the total size
+     * @param clumpSize the clump size
+     * @param totalBlock the total block
      */
     public HfsPlusForkData(CatalogNodeId cnid, long totalSize, int clumpSize, int totalBlock) {
         this.cnid = cnid;
@@ -162,7 +163,7 @@ public class HfsPlusForkData {
             overflowExtents = fileSystem.getExtentOverflow().getOverflowExtents(new ExtentKey(forkType, 0, cnid, 0));
         }
 
-        // Add the overflow extents if the exist
+        // Add the overflow extents if to exist
         if (overflowExtents != null) {
             Collections.addAll(allExtents, overflowExtents);
         }
@@ -221,8 +222,8 @@ public class HfsPlusForkData {
 
     /**
      *
-     * @param index
-     * @param desc
+     * @param index the index
+     * @param desc the desc
      */
     public final void addDescriptor(int index, ExtentDescriptor desc) {
         extents[index] = desc;

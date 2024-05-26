@@ -33,8 +33,8 @@ public class AttributeIndexNode extends AbstractIndexNode<AttributeKey> {
     /**
      * Create a new node.
      *
-     * @param descriptor
-     * @param nodeSize
+     * @param descriptor the descriptor
+     * @param nodeSize the nodeSize
      */
     public AttributeIndexNode(NodeDescriptor descriptor, int nodeSize) {
         super(descriptor, nodeSize);
@@ -43,8 +43,8 @@ public class AttributeIndexNode extends AbstractIndexNode<AttributeKey> {
     /**
      * Create node from existing data.
      *
-     * @param nodeData
-     * @param nodeSize
+     * @param nodeData the nodeData
+     * @param nodeSize the nodeSize
      */
     public AttributeIndexNode(byte[] nodeData, int nodeSize) {
         super(nodeData, nodeSize);

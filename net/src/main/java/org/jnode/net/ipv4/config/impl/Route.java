@@ -39,10 +39,10 @@ final class Route {
     /**
      * Add a route
      * 
-     * @param target
-     * @param gateway
-     * @param device
-     * @throws NetworkException
+     * @param target the target
+     * @param gateway the gateway
+     * @param device the device
+     * @throws NetworkException when an error occurs
      */
     public static void addRoute(IPv4Address target, IPv4Address gateway, Device device)
         throws NetworkException {
@@ -64,10 +64,10 @@ final class Route {
     /**
      * Delete a route
      * 
-     * @param target
-     * @param gateway
-     * @param device
-     * @throws NetworkException
+     * @param target the target
+     * @param gateway the gateway
+     * @param device the device
+     * @throws NetworkException when an error occurs
      */
     public static void delRoute(IPv4Address target, IPv4Address gateway, Device device)
         throws NetworkException {

@@ -28,7 +28,7 @@ public enum ClusterSize {
     private final int size;
 
     ClusterSize(int sizeInKb) {
-        size = (int) (sizeInKb * BinaryScaleFactor.K.getMultiplier()); //Converted into KB
+        size = (int) (sizeInKb * BinaryScaleFactor.K.getMultiplier()); // Converted into KB
     }
 
     public final int getSize() {

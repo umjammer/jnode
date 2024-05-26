@@ -20,7 +20,6 @@
 
 package org.jnode.test.fs.ext2.command;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,7 +29,8 @@ import java.io.IOException;
  * @author Andras Nagy
  */
 public class WriteTest {
-    public WriteTest(String fname) throws FileNotFoundException, IOException {
+
+    static void writeTest(String fname) throws IOException {
         byte[] bbuf = new byte[20];
         for (byte i = 0; i < 20; i++)
             bbuf[i] = (byte) (i + 65);
@@ -39,13 +39,13 @@ public class WriteTest {
         fos.close();
     }
 
-    public WriteTest(String fname, String text) throws FileNotFoundException, IOException {
+    static void writeTest(String fname, String text) throws IOException {
         FileWriter writer = new FileWriter(fname);
         writer.write(text.toCharArray());
         writer.close();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String fname;
         if (args.length > 0)
             fname = args[0];
@@ -54,13 +54,9 @@ public class WriteTest {
             return;
         }
 
-        try {
-            if (args.length > 1)
-                new WriteTest(fname, args[1]);
-            else
-                new WriteTest(fname);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        if (args.length > 1)
+            writeTest(fname, args[1]);
+        else
+            writeTest(fname);
     }
 }

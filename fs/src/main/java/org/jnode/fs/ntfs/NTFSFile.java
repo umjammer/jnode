@@ -21,6 +21,8 @@
 package org.jnode.fs.ntfs;
 
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,11 +38,16 @@ import org.jnode.fs.ntfs.attribute.NTFSAttribute;
 import org.jnode.fs.ntfs.index.IndexEntry;
 import org.jnode.util.ByteBufferUtils;
 
+import static java.lang.System.getLogger;
+
+
 /**
  * @author vali
  * @author Ewout Prangsma (epr@users.sourceforge.net)
  */
 public class NTFSFile implements FSFile, FSFileSlackSpace, FSFileStreams {
+
+    private static final Logger logger = getLogger(NTFSFile.class.getName());
 
     /**
      * The associated file record.
@@ -50,7 +57,7 @@ public class NTFSFile implements FSFile, FSFileSlackSpace, FSFileStreams {
     /**
      * The file system that contains this file.
      */
-    private NTFSFileSystem fs;
+    private final NTFSFileSystem fs;
 
     private IndexEntry indexEntry;
 
@@ -91,20 +98,12 @@ public class NTFSFile implements FSFile, FSFileSlackSpace, FSFileStreams {
         return getFileRecord().getAttributeTotalSize(NTFSAttribute.Types.DATA, null);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.jnode.fs.FSFile#setLength(long)
-     */
+    @Override
     public void setLength(long length) {
         // TODO Auto-generated method stub
-
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.jnode.fs.FSFile#read(long, byte[], int, int)
-     */
-    // public void read(long fileOffset, byte[] dest, int off, int len)
+    @Override
     public void read(long fileOffset, ByteBuffer destBuf) throws IOException {
         // TODO optimize it also to use ByteBuffer at lower level
         final ByteBufferUtils.ByteArray destBA = ByteBufferUtils.toByteArray(destBuf);
@@ -113,28 +112,17 @@ public class NTFSFile implements FSFile, FSFileSlackSpace, FSFileStreams {
         destBA.refreshByteBuffer();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.jnode.fs.FSFile#write(long, byte[], int, int)
-     */
-    // public void write(long fileOffset, byte[] src, int off, int len) {
+    @Override
     public void write(long fileOffset, ByteBuffer src) {
         // TODO Auto-generated method stub
-
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.jnode.fs.FSObject#isValid()
-     */
+    @Override
     public boolean isValid() {
         return true;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.jnode.fs.FSObject#getFileSystem()
-     */
+    @Override
     public FileSystem<?> getFileSystem() {
         return fs;
     }
@@ -147,7 +135,7 @@ public class NTFSFile implements FSFile, FSFileSlackSpace, FSFileStreams {
             try {
                 fileRecord = indexEntry.getParentFileRecord().getVolume().getMFT().getIndexedFileRecord(indexEntry);
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.log(Level.TRACE, e.getMessage(), e);
             }
         }
         return this.fileRecord;
@@ -189,8 +177,9 @@ public class NTFSFile implements FSFile, FSFileSlackSpace, FSFileStreams {
     /**
      * Flush any cached data to the disk.
      *
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public void flush() throws IOException {
         // TODO implement me
     }

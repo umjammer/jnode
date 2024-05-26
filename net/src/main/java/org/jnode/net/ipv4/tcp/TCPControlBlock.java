@@ -54,13 +54,13 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
      */
     private final TCPInChannel inChannel;
 
-    /** Last incoming sequence number */
-    // private int lastInSeqNr;
+//    /** Last incoming sequence number */
+//    private int lastInSeqNr;
 
     /**
      * Window size of the outgoing connection
      */
-    private int outWindowSize;
+    private final int outWindowSize;
 
     /**
      * The current state
@@ -75,7 +75,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * List of connections that are established, but have not been "accepted"
      */
-    private LinkedList<TCPControlBlock> readyToAcceptList = new LinkedList<>();
+    private final LinkedList<TCPControlBlock> readyToAcceptList = new LinkedList<>();
 
     /**
      * Has this connection be reset?
@@ -90,14 +90,14 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * Timeout for blocking operations
      */
-    private int timeout = TCP_DEFAULT_TIMEOUT;
+    private final int timeout = TCP_DEFAULT_TIMEOUT;
 
     /**
      * Create a new instance
      *
-     * @param list
-     * @param parent
-     * @param tcp
+     * @param list the list
+     * @param parent the parent
+     * @param tcp the tcp
      * @param isn    The initial outgoing sequence number
      */
     public TCPControlBlock(TCPControlBlockList list, TCPControlBlock parent, TCPProtocol tcp,
@@ -120,20 +120,20 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * Handle a received segment for this connection
      *
-     * @param hdr
-     * @param skbuf
+     * @param hdr the hdr
+     * @param skBuf the skBuf
      */
-    public synchronized void receive(TCPHeader hdr, SocketBuffer skbuf) throws SocketException {
+    public synchronized void receive(TCPHeader hdr, SocketBuffer skBuf) throws SocketException {
         if (DEBUG) {
             log.log(Level.DEBUG, "receive: me=[" + this + "], hdr=[" + hdr + ']');
         }
 
-        final IPv4Header ipHdr = (IPv4Header) skbuf.getNetworkLayerHeader();
+        final IPv4Header ipHdr = (IPv4Header) skBuf.getNetworkLayerHeader();
         final boolean ack = hdr.isFlagAcknowledgeSet();
         final boolean rst = hdr.isFlagResetSet();
 
         if (rst) {
-            receiveProcessReset(ipHdr, hdr, skbuf);
+            receiveProcessReset(ipHdr, hdr, skBuf);
             return;
         }
 
@@ -143,31 +143,31 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
 
         switch (curState) {
             case TCPS_LISTEN:
-                receiveListen(ipHdr, hdr, skbuf);
+                receiveListen(ipHdr, hdr, skBuf);
                 break;
             case TCPS_SYN_RECV:
-                receiveSynRecv(ipHdr, hdr, skbuf);
+                receiveSynRecv(ipHdr, hdr, skBuf);
                 break;
             case TCPS_SYN_SENT:
-                receiveSynSend(ipHdr, hdr, skbuf);
+                receiveSynSend(ipHdr, hdr, skBuf);
                 break;
             case TCPS_ESTABLISHED:
-                receiveEstablished(ipHdr, hdr, skbuf);
+                receiveEstablished(ipHdr, hdr, skBuf);
                 break;
             case TCPS_FIN_WAIT_1:
-                receiveFinWait1(ipHdr, hdr, skbuf);
+                receiveFinWait1(ipHdr, hdr, skBuf);
                 break;
             case TCPS_FIN_WAIT_2:
-                receiveFinWait2(ipHdr, hdr, skbuf);
+                receiveFinWait2(ipHdr, hdr, skBuf);
                 break;
             case TCPS_LAST_ACK:
-                receiveLastAck(ipHdr, hdr, skbuf);
+                receiveLastAck(ipHdr, hdr, skBuf);
                 break;
             case TCPS_CLOSING:
-                receiveClosing(ipHdr, hdr, skbuf);
+                receiveClosing(ipHdr, hdr, skBuf);
                 break;
             case TCPS_TIME_WAIT:
-                receiveTimeWait(ipHdr, hdr, skbuf);
+                receiveTimeWait(ipHdr, hdr, skBuf);
                 break;
             default:
                 if (DEBUG) {
@@ -180,9 +180,9 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * Process a reset segment
      *
-     * @param ipHdr
-     * @param hdr
-     * @param skbuf
+     * @param ipHdr the ipHdr
+     * @param hdr the hdr
+     * @param skbuf the skbuf
      */
     private void receiveProcessReset(IPv4Header ipHdr, TCPHeader hdr, SocketBuffer skbuf)
         throws SocketException {
@@ -229,8 +229,8 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
      * Current state is LISTEN. If a SYN segment is received, send a SYN&ACK,
      * and set the state to SYN_RECV
      *
-     * @param hdr
-     * @param skbuf
+     * @param hdr the hdr
+     * @param skbuf the skbuf
      */
     private void receiveListen(IPv4Header ipHdr, TCPHeader hdr, SocketBuffer skbuf)
         throws SocketException {
@@ -268,8 +268,8 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
      * of the listening control block. Send a SYN&ACK, and set the state to
      * SYN_RECV
      *
-     * @param hdr
-     * @param skbuf
+     * @param hdr the hdr
+     * @param skbuf the skbuf
      */
     private void listenSynReceivedOnCopy(TCPHeader hdr, SocketBuffer skbuf)
         throws SocketException {
@@ -322,11 +322,11 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     }
 
     /**
-     * Current state is ESTABLISHED, FIN segment received. Send a ACK, and set
+     * Current state is ESTABLISHED, FIN segment received. Send an ACK, and set
      * the state to CLOSE_WAIT
      *
-     * @param hdr
-     * @param skbuf
+     * @param hdr the hdr
+     * @param skbuf the skbuf
      */
     private void receiveEstablished(IPv4Header ipHdr, TCPHeader hdr, SocketBuffer skbuf)
         throws SocketException {
@@ -342,8 +342,8 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * State is FIN_WAIT_1, any segment received
      *
-     * @param hdr
-     * @param skbuf
+     * @param hdr the hdr
+     * @param skbuf the skbuf
      */
     private void receiveFinWait1(IPv4Header ipHdr, TCPHeader hdr, SocketBuffer skbuf)
         throws SocketException {
@@ -367,8 +367,8 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * State is FIN_WAIT_2, any segment received
      *
-     * @param hdr
-     * @param skbuf
+     * @param hdr the hdr
+     * @param skbuf the skbuf
      */
     private void receiveFinWait2(IPv4Header ipHdr, TCPHeader hdr, SocketBuffer skbuf)
         throws SocketException {
@@ -407,8 +407,8 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * State is LAST_ACK, any segment received
      *
-     * @param hdr
-     * @param skbuf
+     * @param hdr the hdr
+     * @param skbuf the skbuf
      */
     private void receiveLastAck(IPv4Header ipHdr, TCPHeader hdr, SocketBuffer skbuf)
         throws SocketException {
@@ -424,8 +424,8 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * State is CLOSING, any segment received
      *
-     * @param hdr
-     * @param skbuf
+     * @param hdr the hdr
+     * @param skbuf the skbuf
      */
     private void receiveClosing(IPv4Header ipHdr, TCPHeader hdr, SocketBuffer skbuf)
         throws SocketException {
@@ -441,8 +441,8 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * State is TIME_WAIT, discard any segments
      *
-     * @param hdr
-     * @param skbuf
+     * @param hdr the hdr
+     * @param skbuf the skbuf
      */
     private void receiveTimeWait(IPv4Header ipHdr, TCPHeader hdr, SocketBuffer skbuf)
         throws SocketException {
@@ -557,7 +557,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
      * Notify this listening parent that one of my children have established a
      * connection.
      *
-     * @param child
+     * @param child the child
      */
     private synchronized void notifyChildEstablished(TCPControlBlock child) throws SocketException {
         if (isState(TCPS_LISTEN)) {
@@ -592,7 +592,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * Is the current state equal to the given state?
      *
-     * @param state
+     * @param state the state
      * @return
      */
     private boolean isState(int state) {
@@ -602,7 +602,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * Update the state and notify any waiting threads
      *
-     * @param state
+     * @param state the state
      */
     private synchronized void setState(int state) throws SocketException {
         // System.out.println("state = " + state);
@@ -628,8 +628,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
                 throw new TimeoutException();
             }
             try {
-                // Thread.currentThread().sleep(Math.max(1, timeout - (now -
-                // start)));
+//                Thread.currentThread().sleep(Math.max(1, timeout - (now - start)));
                 wait(Math.max(1, timeout - (now - start)));
             } catch (InterruptedException ex) {
                 // Ignore
@@ -640,12 +639,11 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * Create a TCP header for outgoing trafic
      *
-     * @param options
+     * @param options the options
      * @return The created TCP header
      */
     protected TCPHeader createOutgoingTCPHeader(int options, int ackNr) {
-        final TCPHeader hdr =
-            new TCPHeader(getLocalPort(), getForeignPort(), 0, 0, ackNr, outWindowSize, 0);
+        var hdr = new TCPHeader(getLocalPort(), getForeignPort(), 0, 0, ackNr, outWindowSize, 0);
         hdr.setFlags(options);
         return hdr;
     }
@@ -657,7 +655,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     /**
      * Wait for incoming requests
      *
-     * @throws SocketException
+     * @throws SocketException when an error occurs
      */
     public synchronized void appListen() throws SocketException {
         if (!isState(TCPS_CLOSED)) {
@@ -670,7 +668,7 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
      * Active connect to a foreign address. This method blocks until the
      * connection has been established.
      *
-     * @throws SocketException
+     * @throws SocketException when an error occurs
      */
     public synchronized void appConnect(IPv4Address fAddr, int fPort) throws SocketException {
         if (!isState(TCPS_CLOSED)) {
@@ -766,14 +764,14 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
     }
 
     /**
-     * Send data to the foreign side. This method can split-up the data in
+     * Send data to the foreign side. This method can split up the data in
      * chunks and blocks until there is space in the send buffer to hold the
      * data.
      *
-     * @param data
-     * @param offset
-     * @param length
-     * @throws SocketException
+     * @param data the data
+     * @param offset the offset
+     * @param length the length
+     * @throws SocketException when an error occurs
      */
     public void appSendData(byte[] data, int offset, int length) throws SocketException {
         if (DEBUG) {
@@ -814,9 +812,9 @@ public class TCPControlBlock extends IPv4ControlBlock implements TCPConstants {
      * Read data from the input buffer up to len bytes long. Block until there
      * is data available.
      *
-     * @param dst
-     * @param off
-     * @param len
+     * @param dst the dst
+     * @param off the off
+     * @param len the len
      * @return The number of bytes read
      */
     public int appRead(byte[] dst, int off, int len) throws SocketException {

@@ -44,8 +44,8 @@ public class SupplementaryVolumeDescriptor extends VolumeDescriptor {
     private final EntryRecord rootDirectoryEntry;
 
     /**
-     * @param volume
-     * @param buffer
+     * @param volume the volume
+     * @param buffer the buffer
      */
     public SupplementaryVolumeDescriptor(ISO9660Volume volume, byte[] buffer)
         throws UnsupportedEncodingException {
@@ -71,11 +71,12 @@ public class SupplementaryVolumeDescriptor extends VolumeDescriptor {
         this.rootDirectoryEntry = new EntryRecord(volume, buffer, 157, encoding);
     }
 
+    @Override
     public void dump(PrintStream out) {
         out.println("Supplementary Volume Descriptor");
         out.println("\tFlags             " + flags);
-        // out.println("\tEscape sequences  " + escapeSequences);
-        // out.println("\tEncoding          " + encoding);
+//        out.println("\tEscape sequences  " + escapeSequences);
+//        out.println("\tEncoding          " + encoding);
         out.println("\tSystemIdentifier  " + systemIdentifier);
         out.println("\tVolumeIdentifier  " + volumeIdentifier);
         out.println("\tVolume Space Size " + spaceSize);
@@ -119,24 +120,23 @@ public class SupplementaryVolumeDescriptor extends VolumeDescriptor {
     /**
      * Gets a derived encoding name from the given escape sequences.
      *
-     * @param escapeSequences
+     * @param escapeSequences the escapeSequences
      * @return the encoding name
      */
     private String getEncoding(String escapeSequences) throws UnsupportedEncodingException {
-        switch (escapeSequences) {
-        case "%/@":
-            // UCS-2 level 1
-            return "UTF-16BE";
-        case "%/C":
-            // UCS-2 level 2
-            return "UTF-16BE";
-        case "%/E":
-            // UCS-2 level 3
-            return "UTF-16BE";
-        default:
-            // Unknown
-            throw new UnsupportedEncodingException(escapeSequences);
-        }
+        // Unknown
+        return switch (escapeSequences) {
+            case "%/@" ->
+                // UCS-2 level 1
+                    "UTF-16BE";
+            case "%/C" ->
+                // UCS-2 level 2
+                    "UTF-16BE";
+            case "%/E" ->
+                // UCS-2 level 3
+                    "UTF-16BE";
+            default -> throw new UnsupportedEncodingException(escapeSequences);
+        };
     }
 
     /**

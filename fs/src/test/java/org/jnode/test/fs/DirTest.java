@@ -28,7 +28,7 @@ import java.io.File;
 public class DirTest {
 
     /**
-     * @param args
+     * @param args the args
      */
     public static void main(String[] args) {
 

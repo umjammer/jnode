@@ -35,7 +35,7 @@ public class NetUtils {
     /**
      * A packet has just been received, send it to the packet-type-manager.
      * 
-     * @param skbuf
+     * @param skbuf the skbuf
      */
     public static void sendToPTM(SocketBuffer skbuf) throws IOException {
         final NetworkLayerManager ptm = getNLM();

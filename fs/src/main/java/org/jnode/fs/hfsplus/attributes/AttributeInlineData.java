@@ -15,12 +15,12 @@ public class AttributeInlineData extends AttributeData {
     /**
      * The attribute size.
      */
-    private long attributeSize;
+    private final long attributeSize;
 
     /**
      * The attribute data.
      */
-    private byte[] attributeData;
+    private final byte[] attributeData;
 
     /**
      * Reads in a new inline attribute.

@@ -37,16 +37,16 @@ import org.jnode.util.LittleEndian;
 public class GrubFatFormatter {
     private byte[] stage1;
     private byte[] stage2;
-    private int bootSectorOffset;
+    private final int bootSectorOffset;
     private String configFile;
     private int installPartition = 0xFFFFFFFF;
-    private FatFormatter formatter;
+    private final FatFormatter formatter;
 
     /**
-     * @param bps
-     * @param spc
-     * @param geom
-     * @param fatSize
+     * @param bps the bps
+     * @param spc the spc
+     * @param geom the geom
+     * @param fatSize the fatSize
      */
     public GrubFatFormatter(int bps, int spc, Geometry geom, FatType fatSize, int bootSectorOffset,
             String stage1ResourceName, String stage2ResourceName) {
@@ -67,9 +67,9 @@ public class GrubFatFormatter {
     /**
      * Constructor for GrubFatFormatter.
      * 
-     * @param bootSectorOffset
-     * @param stage1ResourceName
-     * @param stage2ResourceName
+     * @param bootSectorOffset the bootSectorOffset
+     * @param stage1ResourceName the stage1ResourceName
+     * @param stage2ResourceName the stage2ResourceName
      */
     public GrubFatFormatter(int bootSectorOffset, String stage1ResourceName,
             String stage2ResourceName) {
@@ -81,7 +81,7 @@ public class GrubFatFormatter {
     }
 
     /**
-     * Create the actual bootsector.
+     * Create the actual boot-sector.
      */
     private BootSector createBootSector(String stage1Name, String stage2Name) {
         if (stage1Name == null) {
@@ -163,7 +163,7 @@ public class GrubFatFormatter {
     /**
      * Sets the configFile.
      *
-     * @param configFile
+     * @param configFile the configFile
      *           The configFile to set
      */
     public void setConfigFile(String configFile) {
@@ -184,7 +184,7 @@ public class GrubFatFormatter {
     /**
      * Sets the installPartition.
      *
-     * @param installPartition
+     * @param installPartition the installPartition
      *           The installPartition to set
      */
     public void setInstallPartition(int installPartition) {

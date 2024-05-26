@@ -83,7 +83,7 @@ public class BOOTPServer {
             xml.parseFromReader(reader);
             List<XMLElement> children = xml.getChildren();
             for (XMLElement aChildren : children) {
-                XMLElement child = (XMLElement) aChildren;
+                XMLElement child = aChildren;
                 try {
                     table.put(child.getStringAttribute("ethernetAddress").toUpperCase(),
                             new TableEntry(child));

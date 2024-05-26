@@ -36,7 +36,7 @@ public class GptPartitionTableType implements PartitionTableType {
     /**
      * Indicates whether to require the protective MBR for detection.
      */
-    private boolean requireProtectiveMbr;
+    private final boolean requireProtectiveMbr;
 
     /**
      * Creates a new instance.
@@ -64,7 +64,7 @@ public class GptPartitionTableType implements PartitionTableType {
         return "EFI PART";
     }
 
-    /** */
+    @Override
     public String getScheme() {
         return "gpt";
     }

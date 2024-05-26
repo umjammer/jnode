@@ -31,15 +31,18 @@ public class NFS2RootEntry extends NFS2Entry implements FSEntry {
         super(fileSystem, null, "/", fileHandle, fileAttribute);
     }
 
+    @Override
     public FSFile getFile() throws IOException {
         throw new IOException("It is not  a file. It is the root of the file system.");
     }
 
+    @Override
     public void setLastModified(long lastModified) throws IOException {
         throw new IOException("Cannot change last modified of root directory");
 
     }
 
+    @Override
     public void setName(String newName) throws IOException {
         throw new IOException("Cannot change name of root directory");
     }

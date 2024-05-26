@@ -40,7 +40,7 @@ public class FatFileSystemFormatter extends Formatter<FatFileSystem> {
     private static final int NB_HEADS = 255;
     private static final int SECTOR_PER_TRACK = 63;
 
-    private FatType fatSize;
+    private final FatType fatSize;
 
     public FatFileSystemFormatter(FatType fatSize) {
         super(new FatFileSystemType());
@@ -51,8 +51,9 @@ public class FatFileSystemFormatter extends Formatter<FatFileSystem> {
      * 
      * @param device a device that supports the {@link FSBlockDeviceAPI}.
      * @return the formatted FAT file system.
-     * @throws FileSystemException
+     * @throws FileSystemException when an error occurs
      */
+    @Override
     public FatFileSystem format(Device device) throws FileSystemException {
         try {
             long numberOfSectors;
@@ -63,9 +64,9 @@ public class FatFileSystemFormatter extends Formatter<FatFileSystem> {
 
             PartitionTableEntry entry = api.getPartitionTableEntry();
 
-            // if we can deduce partitiontable/fat dependencies do it otherwise
+            // if we can deduce partition-table/fat dependencies do it otherwise
             // guess it.
-            if (entry != null && entry instanceof IBMPartitionTableEntry) {
+            if (entry instanceof IBMPartitionTableEntry) {
                 numberOfSectors = ((IBMPartitionTableEntry) entry).getNrSectors();
                 offset = ((IBMPartitionTableEntry) entry).getStartLba();
             } else {

@@ -31,7 +31,7 @@ import org.jnode.util.LittleEndian;
  */
 public class FatFsInfo {
 
-    private byte[] sector;
+    private final byte[] sector;
 
     public FatFsInfo(int size) {
         sector = new byte[size];
@@ -103,7 +103,7 @@ public class FatFsInfo {
 
     /**
      * The Lead signature that used to validate the signature that it s an FS_Info Sector.
-     * @param FSI_LeadSig
+     * @param FSI_LeadSig the FSI_LeadSig
      */
     public void setFsInfo_LeadSig(long FSI_LeadSig) {
         set32(0, FSI_LeadSig);
@@ -120,7 +120,7 @@ public class FatFsInfo {
 
     /**
      * Another signature  that is more localized in the sector of the fields that are used. 
-     * @param FSI_StrucSig
+     * @param FSI_StrucSig the FSI_StrucSig
      */
     public void setFsInfo_StrucSig(int FSI_StrucSig) {
         set32(484, FSI_StrucSig);
@@ -129,9 +129,9 @@ public class FatFsInfo {
     /**
      * Contains the last known Free cluster count on the volume. If the value is 0xFFFFFFF,
      * then the Free count is unknown and must be Computed.Any other value can be used, but 
-     * is not necessarily correct.It Should be range checked atleast make sure it is >=Volume Cluseter Count.
+     * is not necessarily correct.It Should be range checked at least make sure it is >=Volume Cluseter Count.
      * 
-     * @param FSI_FreeCount
+     * @param FSI_FreeCount the FSI_FreeCount
      */
     public void setFsInfo_FreeCount(int FSI_FreeCount) {
         set32(488, FSI_FreeCount);

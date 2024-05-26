@@ -55,10 +55,10 @@ public final class IndexAllocationAttribute extends NTFSNonResidentAttribute {
     /**
      * Read an index block starting at a given vcn.
      * 
-     * @param indexRoot
-     * @param vcn
+     * @param indexRoot the indexRoot
+     * @param vcn the vcn
      * @return 
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public IndexBlock getIndexBlock(IndexRoot indexRoot, long vcn) throws IOException {
         log.log(Level.DEBUG, "getIndexBlock(..," + vcn + ")");

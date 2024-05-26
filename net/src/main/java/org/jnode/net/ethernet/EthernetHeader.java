@@ -37,9 +37,9 @@ public class EthernetHeader implements LinkLayerHeader, EthernetConstants {
 
     /**
      * Create a new instance
-     * @param destination
-     * @param source
-     * @param lengthType
+     * @param destination the destination
+     * @param source the source
+     * @param lengthType the lengthType
      */
     public EthernetHeader(
             EthernetAddress destination,
@@ -52,7 +52,7 @@ public class EthernetHeader implements LinkLayerHeader, EthernetConstants {
 
     /**
      * Create a new instance
-     * @param skbuf
+     * @param skbuf the skbuf
      */
     public EthernetHeader(SocketBuffer skbuf) {
         this.destination = new EthernetAddress(skbuf, 0);
@@ -63,14 +63,16 @@ public class EthernetHeader implements LinkLayerHeader, EthernetConstants {
     /**
      * Gets the length of this header in bytes
      */
+    @Override
     public int getLength() {
         return ETH_HLEN;
     }
 
     /**
      * Prefix this header to the front of the given buffer
-     * @param skbuf
+     * @param skbuf the skbuf
      */
+    @Override
     public void prefixTo(SocketBuffer skbuf) {
         skbuf.insert(ETH_HLEN);
         destination.writeTo(skbuf, 0);
@@ -87,6 +89,7 @@ public class EthernetHeader implements LinkLayerHeader, EthernetConstants {
      * @param offset The offset to the first byte (in the buffer) of this header 
      *               (since low layer headers are already prefixed)
      */
+    @Override
     public void finalizeHeader(SocketBuffer skbuf, int offset) {
         // Do nothing
     }
@@ -94,6 +97,7 @@ public class EthernetHeader implements LinkLayerHeader, EthernetConstants {
     /**
      * Gets the source address of the packet described in this header 
      */
+    @Override
     public HardwareAddress getSourceAddress() {
         return source;
     }
@@ -101,6 +105,7 @@ public class EthernetHeader implements LinkLayerHeader, EthernetConstants {
     /**
      * Gets the source address of the packet described in this header 
      */
+    @Override
     public HardwareAddress getDestinationAddress() {
         return destination;
     }

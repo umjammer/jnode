@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class IBMPartitionTableEntryTest {
 
     @Test
-    public void testhasChildPartitionTable() {
+    public void testHasChildPartitionTable() {
         byte[] bootSector = getBootSector();
         LittleEndian.setInt8(bootSector, 450, 0x85);
         IBMPartitionTableEntry pte = new IBMPartitionTableEntry(null, bootSector, 0);
@@ -38,7 +38,7 @@ public class IBMPartitionTableEntryTest {
     }
 
     @Test
-    public void testhasNoChildPartitionTable() {
+    public void testHasNoChildPartitionTable() {
         byte[] bootSector = getBootSector();
         LittleEndian.setInt8(bootSector, 450, 0x84);
         IBMPartitionTableEntry pte = new IBMPartitionTableEntry(null, bootSector, 0);

@@ -38,7 +38,7 @@ public class NodeDirectory extends AbstractFSObject implements FSDirectory, FSDi
     private final Node node;
     private final Map<String, NodeEntry> nameToNode;
     private final Map<String, NodeEntry> idToNode;
-    private final UpcaseTable upcase;
+    private final UpcaseTable upCase;
 
     public NodeDirectory(ExFatFileSystem fs, Node node)
         throws IOException {
@@ -52,13 +52,13 @@ public class NodeDirectory extends AbstractFSObject implements FSDirectory, FSDi
         super(fs);
 
         this.node = node;
-        this.upcase = fs.getUpcase();
+        this.upCase = fs.getUpcase();
         this.nameToNode = new LinkedHashMap<>();
         this.idToNode = new LinkedHashMap<>();
 
         DirectoryParser.
             create(node, showDeleted).
-            setUpcase(this.upcase).
+            setUpcase(this.upCase).
             parse(new VisitorImpl());
 
     }
@@ -76,7 +76,7 @@ public class NodeDirectory extends AbstractFSObject implements FSDirectory, FSDi
 
     @Override
     public FSEntry getEntry(String name) throws IOException {
-        return this.nameToNode.get(upcase.toUpperCase(name));
+        return this.nameToNode.get(upCase.toUpperCase(name));
     }
 
     @Override
@@ -123,32 +123,30 @@ public class NodeDirectory extends AbstractFSObject implements FSDirectory, FSDi
 
         @Override
         public void foundLabel(String label) throws IOException {
-            /* ignore */
+            // ignore
         }
 
         @Override
         public void foundBitmap(
             long startCluster, long size) throws IOException {
 
-            /* ignore */
+            // ignore
         }
 
         @Override
         public void foundUpcaseTable(DirectoryParser parser, long checksum,
                                      long startCluster, long size) throws IOException {
 
-            /* ignore */
+            // ignore
         }
 
         @Override
         public void foundNode(Node node, int index) throws IOException {
-            final String upcaseName = upcase.toUpperCase(node.getName());
+            final String upCaseName = upCase.toUpperCase(node.getName());
 
             NodeEntry nodeEntry = new NodeEntry((ExFatFileSystem) getFileSystem(), node, NodeDirectory.this, index);
-            nameToNode.put(upcaseName, nodeEntry);
+            nameToNode.put(upCaseName, nodeEntry);
             idToNode.put(nodeEntry.getId(), nodeEntry);
         }
-
     }
-
 }

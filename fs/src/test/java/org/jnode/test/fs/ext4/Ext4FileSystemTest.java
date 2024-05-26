@@ -47,16 +47,18 @@ public class Ext4FileSystemTest {
         Ext2FileSystem fs = type.create(device, true);
 
         String expectedStructure =
-            "vol: total:15728640 free:13918208\n" +
-                "  /; \n" +
-                "    lost+found; \n" +
-                "    console; 0; d41d8cd98f00b204e9800998ecf8427e\n" +
-                "    fifo; 0; d41d8cd98f00b204e9800998ecf8427e\n" +
-                "    sda1; 0; d41d8cd98f00b204e9800998ecf8427e\n" +
-                "    The_Rabies_Virus_Remains_a_Medical_Mystery.jpg; 6606; a28d342db2d2081f9d2eb287d49c1110\n" +
-                "    wired-science.jpg; 16; 67bc4bf64a29239a9f148fb768bfbbc8\n" +
-                "    wolf_slice_1.jpg; 6606; a28d342db2d2081f9d2eb287d49c1110\n" +
-                "    index.html; 106102; 99248bc850c65b03b04776342e4b3e7d\n";
+                """
+                        vol: total:15728640 free:13918208
+                          /;\s
+                            lost+found;\s
+                            console; 0; d41d8cd98f00b204e9800998ecf8427e
+                            fifo; 0; d41d8cd98f00b204e9800998ecf8427e
+                            sda1; 0; d41d8cd98f00b204e9800998ecf8427e
+                            The_Rabies_Virus_Remains_a_Medical_Mystery.jpg; 6606; a28d342db2d2081f9d2eb287d49c1110
+                            wired-science.jpg; 16; 67bc4bf64a29239a9f148fb768bfbbc8
+                            wolf_slice_1.jpg; 6606; a28d342db2d2081f9d2eb287d49c1110
+                            index.html; 106102; 99248bc850c65b03b04776342e4b3e7d
+                        """;
 
         DataStructureAsserts.assertStructure(fs, expectedStructure);
     }
@@ -69,9 +71,11 @@ public class Ext4FileSystemTest {
         Ext2FileSystem fs = type.create(device, true);
 
         String expectedStructure =
-            "vol: total:2998272 free:1870848\n" +
-                "  /; \n" +
-                "    lost+found; \n";
+                """
+                        vol: total:2998272 free:1870848
+                          /;\s
+                            lost+found;\s
+                        """;
 
         DataStructureAsserts.assertStructure(fs, expectedStructure);
     }
@@ -134,15 +138,17 @@ public class Ext4FileSystemTest {
         Ext2FileSystem fs = type.create(device, true);
 
         String expectedStructure =
-            "vol:ext4-ftw-omgz total:127926272 free:123949056\n" +
-            "  /; \n" +
-            "    lost+found; \n" +
-            "    wolf_slice_1.jpg; 6606; a28d342db2d2081f9d2eb287d49c1110\n" +
-            "    wired-science.jpg; 16; 67bc4bf64a29239a9f148fb768bfbbc8\n" +
-            "    The_Rabies_Virus_Remains_a_Medical_Mystery.jpg; 6606; a28d342db2d2081f9d2eb287d49c1110\n" +
-            "    console; 0; d41d8cd98f00b204e9800998ecf8427e\n" +
-            "    sda1; 0; d41d8cd98f00b204e9800998ecf8427e\n" +
-            "    fifo; 0; d41d8cd98f00b204e9800998ecf8427e\n";
+                """
+                        vol:ext4-ftw-omgz total:127926272 free:123949056
+                          /;\s
+                            lost+found;\s
+                            wolf_slice_1.jpg; 6606; a28d342db2d2081f9d2eb287d49c1110
+                            wired-science.jpg; 16; 67bc4bf64a29239a9f148fb768bfbbc8
+                            The_Rabies_Virus_Remains_a_Medical_Mystery.jpg; 6606; a28d342db2d2081f9d2eb287d49c1110
+                            console; 0; d41d8cd98f00b204e9800998ecf8427e
+                            sda1; 0; d41d8cd98f00b204e9800998ecf8427e
+                            fifo; 0; d41d8cd98f00b204e9800998ecf8427e
+                        """;
 
         DataStructureAsserts.assertStructure(fs, expectedStructure);
     }
@@ -155,11 +161,13 @@ public class Ext4FileSystemTest {
         Ext2FileSystem fs = type.create(device, true);
 
         String expectedStructure =
-            "vol: total:4997120 free:3680256\n" +
-                "  /; \n" +
-                "    lost+found; \n" +
-                "    Fairy-Penguin.jpg; 60472; 78da81a8cf672de95d27214d44a5ea59\n" +
-                "    why.jpg; 30965; 9b82ac413bb4204a4cf6d3e801af38fd\n";
+                """
+                        vol: total:4997120 free:3680256
+                          /;\s
+                            lost+found;\s
+                            Fairy-Penguin.jpg; 60472; 78da81a8cf672de95d27214d44a5ea59
+                            why.jpg; 30965; 9b82ac413bb4204a4cf6d3e801af38fd
+                        """;
 
         DataStructureAsserts.assertStructure(fs, expectedStructure);
     }

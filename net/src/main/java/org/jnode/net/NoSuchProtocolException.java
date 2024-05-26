@@ -20,6 +20,7 @@
 
 package org.jnode.net;
 
+import java.io.Serial;
 import java.net.SocketException;
 
 /**
@@ -27,6 +28,7 @@ import java.net.SocketException;
  */
 public class NoSuchProtocolException extends SocketException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -37,7 +39,7 @@ public class NoSuchProtocolException extends SocketException {
     }
 
     /**
-     * @param message
+     * @param message the message
      */
     public NoSuchProtocolException(String message) {
         super(message);

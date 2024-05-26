@@ -47,7 +47,7 @@ import static vavi.nio.file.Util.toPathString;
  */
 public final class JNodeFileSystemDriver<T extends FSEntry> extends ExtendedFileSystemDriver<T> {
 
-    private FileSystem<T> fs;
+    private final FileSystem<T> fs;
 
     public JNodeFileSystemDriver(final FileStore fileStore,
             FileSystemFactoryProvider provider,

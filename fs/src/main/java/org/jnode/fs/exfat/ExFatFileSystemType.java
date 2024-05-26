@@ -41,7 +41,7 @@ public class ExFatFileSystemType implements BlockDeviceFileSystemType<ExFatFileS
         return "exFAT";
     }
 
-    /** */
+    @Override
     public String getScheme() {
         return "exfat";
     }

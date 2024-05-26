@@ -35,11 +35,12 @@ import org.apache.commons.net.tftp.TFTPClient;
  * @author epr
  */
 public class TFTPURLConnection extends URLConnection {
+
     private final String host;
     private final String path;
 
     /**
-     * @param url
+     * @param url the url
      */
     public TFTPURLConnection(URL url) {
         super(url);
@@ -47,25 +48,19 @@ public class TFTPURLConnection extends URLConnection {
         this.path = url.getPath();
     }
 
-    /**
-     * @see java.net.URLConnection#connect()
-     */
+    @Override
     public void connect() throws IOException {
-        /* Do nothing */
+        // Do nothing
     }
 
-    /**
-     * @see java.net.URLConnection#getInputStream()
-     */
+    @Override
     public InputStream getInputStream() throws IOException {
         final ByteArrayOutputStream os = new ByteArrayOutputStream();
         final TFTPClient tftp = new TFTPClient();
-        final InetAddress hostAddr = InetAddress.getByName(host);
-        tftp.open(TFTP.DEFAULT_PORT);
-        try {
+        try (tftp) {
+            final InetAddress hostAddr = InetAddress.getByName(host);
+            tftp.open(TFTP.DEFAULT_PORT);
             tftp.receiveFile(path, TFTP.BINARY_MODE, os, hostAddr);
-        } finally {
-            tftp.close();
         }
         return new ByteArrayInputStream(os.toByteArray());
     }

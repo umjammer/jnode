@@ -40,5 +40,3 @@ public interface VirtualDisk {
 
     void close() throws IOException;
 }
-
-/* */

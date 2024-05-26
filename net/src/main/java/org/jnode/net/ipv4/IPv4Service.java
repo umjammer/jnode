@@ -48,19 +48,19 @@ public interface IPv4Service {
      * The following fields are always set (also when set before):
      * version, hdrlength, identification, fragmentOffset, checksum
      * <p>
-     * If the device attribute of the skbuf has been set, the packet will
-     * be send to this device, otherwise a suitable route will be searched
+     * If the device attribute of the skBuf has been set, the packet will
+     * be sent to this device, otherwise a suitable route will be searched
      * for in the routing table.
      * 
-     * @param hdr
-     * @param skbuf
+     * @param hdr the header
+     * @param skBuf the socket buffer
      * @throws SocketException The packet cannot be transmitted
      */
-    void transmit(IPv4Header hdr, SocketBuffer skbuf) throws SocketException;
+    void transmit(IPv4Header hdr, SocketBuffer skBuf) throws SocketException;
 
     /**
      * Gets the protocol for a given ID
-     * @param protocolID
+     * @param protocolID the protocol id
      * @throws NoSuchProtocolException No protocol with the given ID was found.
      */
     IPv4Protocol getProtocol(int protocolID) throws NoSuchProtocolException;

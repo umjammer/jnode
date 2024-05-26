@@ -20,8 +20,9 @@
 
 package org.jnode.fs.jfat;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.charset.Charset;
-import java.util.logging.Level;
 
 import org.jnode.driver.Device;
 import org.jnode.driver.block.FSBlockDeviceAPI;
@@ -29,7 +30,8 @@ import org.jnode.fs.BlockDeviceFileSystemType;
 import org.jnode.fs.FileSystemException;
 import org.jnode.partitions.PartitionTableEntry;
 
-import vavi.util.Debug;
+import static java.lang.System.getLogger;
+
 
 /**
  * <p>
@@ -39,6 +41,8 @@ import vavi.util.Debug;
  * @author Tango
  */
 public class FatFileSystemType implements BlockDeviceFileSystemType<FatFileSystem> {
+
+    private static final Logger logger = getLogger(FatFileSystemType.class.getName());
 
     @Override
     public String getName() {
@@ -52,34 +56,33 @@ public class FatFileSystemType implements BlockDeviceFileSystemType<FatFileSyste
 
     @Override
     public boolean supports(PartitionTableEntry pte, byte[] firstSectors, FSBlockDeviceAPI devApi) {
-/*
-        if (pte != null) {
-            if (!pte.isValid())
-                return false;
+//        if (pte != null) {
+//            if (!pte.isValid())
+//                return false;
+//
+//            if (!(pte instanceof IBMPartitionTableEntry))
+//                return false;
+//
+//            final IBMPartitionTableEntry ipte = (IBMPartitionTableEntry) pte;
+//
+//            final IBMPartitionTypes type = ipte.getSystemIndicator();
+//            if ((type == IBMPartitionTypes.PARTTYPE_WIN95_FAT32) ||
+//                    (type == IBMPartitionTypes.PARTTYPE_WIN95_FAT32_LBA)) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        }
 
-            if (!(pte instanceof IBMPartitionTableEntry))
-                return false;
-
-            final IBMPartitionTableEntry ipte = (IBMPartitionTableEntry) pte;
-
-            final IBMPartitionTypes type = ipte.getSystemIndicator();
-            if ((type == IBMPartitionTypes.PARTTYPE_WIN95_FAT32) ||
-                    (type == IBMPartitionTypes.PARTTYPE_WIN95_FAT32_LBA)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-*/
         if (firstSectors.length < 512) {
             // Not enough data for detection
-Debug.printf(Level.FINE, "Not enough data for detection: %04x/%04x%n", firstSectors.length, 512);
+logger.log(Level.DEBUG, String.format("Not enough data for detection: %04x/%04x%n", firstSectors.length, 512));
             return false;
         }
 
         if (firstSectors[510] != (byte) 0x55 || firstSectors[511] != (byte) 0xaa) {
             // Missing magic number
-Debug.printf(Level.FINE, "Missing magic number 0x55aa: %02x%02x%n", firstSectors[510], firstSectors[511]);
+logger.log(Level.DEBUG, String.format("Missing magic number 0x55aa: %02x%02x%n", firstSectors[510], firstSectors[511]));
             return false;
         }
 

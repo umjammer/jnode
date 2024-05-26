@@ -29,7 +29,7 @@
 package org.jnode.nanoxml;
 
 /**
- * An XMLParseException is thrown when an error occures while parsing an XML
+ * An XMLParseException is thrown when an error occurs while parsing an XML
  * string.
  * <P>
  * $Revision: 1950 $<BR>
@@ -40,9 +40,7 @@ package org.jnode.nanoxml;
  * @author Marc De Scheemaecker
  * @version $Name$, $Revision: 1950 $
  */
-public class XMLParseException
-    extends RuntimeException
-{
+public class XMLParseException extends RuntimeException {
 
     /**
      * Indicates that no line number has been associated with this exception.
@@ -57,7 +55,7 @@ public class XMLParseException
      * <ul><li><code>lineNr &gt 0 || lineNr == NO_LINE</code>
      * </ul></dd></dl>
      */
-    private int lineNr;
+    private final int lineNr;
 
     /**
      * Creates an exception.
@@ -73,9 +71,7 @@ public class XMLParseException
      * <ul><li>getLineNr() => NO_LINE
      * </ul></dd></dl><dl>
      */
-    public XMLParseException(String name,
-                             String message)
-    {
+    public XMLParseException(String name, String message) {
         super("XML Parse Exception during parsing of "
               + ((name == null) ? "the XML definition"
                                 : ("a " + name + " element"))
@@ -99,10 +95,7 @@ public class XMLParseException
      * <ul><li>getLineNr() => lineNr
      * </ul></dd></dl><dl>
      */
-    public XMLParseException(String name,
-                             int    lineNr,
-                             String message)
-    {
+    public XMLParseException(String name, int lineNr, String message) {
         super("XML Parse Exception during parsing of "
               + ((name == null) ? "the XML definition"
                                 : ("a " + name + " element"))
@@ -120,5 +113,4 @@ public class XMLParseException
     {
         return this.lineNr;
     }
-
 }

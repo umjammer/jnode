@@ -38,8 +38,8 @@ final class IndexBlock extends NTFSRecord {
     private final FileRecord parentFileRecord;
 
     /**
-     * @param buffer
-     * @param offset
+     * @param buffer the buffer
+     * @param offset the offset
      */
     public IndexBlock(FileRecord parentFileRecord, byte[] buffer, int offset) throws IOException {
         super(parentFileRecord.getVolume().getBootRecord().getBytesPerSector(), true, buffer, offset);

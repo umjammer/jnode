@@ -37,12 +37,13 @@ import java.nio.charset.CoderResult;
  * @author crawley@jnode.org
  */
 public class ReaderInputStream extends InputStream {
+
     private final Reader reader;
 
-    private CharBuffer chars = CharBuffer.allocate(1024);
-    private ByteBuffer bytes = ByteBuffer.allocate(2048);
+    private final CharBuffer chars = CharBuffer.allocate(1024);
+    private final ByteBuffer bytes = ByteBuffer.allocate(2048);
 
-    private CharsetEncoder encoder;
+    private final CharsetEncoder encoder;
     private CoderResult cr;
 
     public ReaderInputStream(Reader reader) {
@@ -63,7 +64,7 @@ public class ReaderInputStream extends InputStream {
                 return -1;
             }
         }
-        return bytes.get();
+        return bytes.get() & 0xff;
     }
 
     @Override
@@ -103,7 +104,7 @@ public class ReaderInputStream extends InputStream {
      * @param wait if <code>true</code> allow the reader to block.
      * @return the number of bytes added; <code>-1</code> if none were added
      *       and the reader is at the EOF.
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     private int fillBuffer(boolean wait) throws IOException {
         // If there was a coder error left over from the last call, process

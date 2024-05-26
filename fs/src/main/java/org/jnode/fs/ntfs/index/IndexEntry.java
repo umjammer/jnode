@@ -40,9 +40,9 @@ public final class IndexEntry extends NTFSStructure {
 
     /**
      * Initialize this instance.
-     * @param parentFileRecord
-     * @param buffer
-     * @param offset
+     * @param parentFileRecord the parentFileRecord
+     * @param buffer the buffer
+     * @param offset the offset
      */
     public IndexEntry(FileRecord parentFileRecord, byte[] buffer, int offset) {
         super(buffer, offset);
@@ -51,9 +51,9 @@ public final class IndexEntry extends NTFSStructure {
 
     /**
      * Initialize this instance.
-     * @param parentFileRecord
-     * @param parent
-     * @param offset
+     * @param parentFileRecord the parentFileRecord
+     * @param parent the parent
+     * @param offset the offset
      */
     public IndexEntry(FileRecord parentFileRecord, NTFSStructure parent, int offset) {
         super(parent, offset);
@@ -105,7 +105,7 @@ public final class IndexEntry extends NTFSStructure {
 
     public long getSubnodeVCN() {
         return getInt64(getSize() - 8); // TODO: getUInt64AsInt
-        //return getUInt32(getSize() - 8);
+        // return getUInt32(getSize() - 8);
     }
 
     @Override

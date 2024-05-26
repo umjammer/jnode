@@ -34,8 +34,8 @@ final class ConfigurationQueueEntry {
     private boolean ready = false;
 
     /**
-     * @param device
-     * @param config
+     * @param device the device
+     * @param config the config
      */
     public ConfigurationQueueEntry(final Device device,
             final NetDeviceConfig config) {

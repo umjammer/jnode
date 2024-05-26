@@ -20,8 +20,12 @@
 
 package org.jnode.net.nfs.nfs2;
 
+import java.io.Serial;
+
+
 public class NFS2Exception extends Exception {
 
+    @Serial
     private static final long serialVersionUID = -2769208550243772629L;
 
     private ResultCode resultCode;

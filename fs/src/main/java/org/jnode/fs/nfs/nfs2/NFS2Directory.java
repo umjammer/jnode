@@ -21,13 +21,12 @@
 package org.jnode.fs.nfs.nfs2;
 
 import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import java.lang.System.Logger;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
+
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
 import org.jnode.net.nfs.nfs2.CreateDirectoryResult;
@@ -40,33 +39,40 @@ import org.jnode.net.nfs.nfs2.NFS2Client;
 import org.jnode.net.nfs.nfs2.NFS2Exception;
 import org.jnode.net.nfs.nfs2.Time;
 
+import static java.lang.System.getLogger;
+
+
 /**
  * @author Andrei Dore
  */
 public class NFS2Directory extends NFS2Object implements FSDirectory {
 
+    private static final Logger logger = getLogger(NFS2Directory.class.getName());
+
     private static final Iterator<NFS2Entry> EMPTY_NFSENTRY_ITERATOR = new Iterator<>() {
 
+        @Override
         public boolean hasNext() {
             return false;
         }
 
+        @Override
         public NFS2Entry next() {
             return null;
         }
 
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
-
     };
 
     private static final boolean[] DEFAULT_PERMISSION =
         new boolean[]{true, true, false, true, false, false, true, false, false};
 
-    private TableEntry tableEntry;
+    private final TableEntry tableEntry;
 
-    private NFS2Entry directoryEntry;
+    private final NFS2Entry directoryEntry;
 
     NFS2Directory(NFS2Entry entry) {
         super((NFS2FileSystem) entry.getFileSystem());
@@ -77,9 +83,10 @@ public class NFS2Directory extends NFS2Object implements FSDirectory {
     /**
      * Gets the entry with the given name.
      *
-     * @param name
-     * @throws java.io.IOException
+     * @param name the name
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public NFS2Entry getEntry(String name) throws IOException {
         NFS2Entry entry = tableEntry.getEntry(name);
         if (entry != null) {
@@ -101,7 +108,6 @@ public class NFS2Directory extends NFS2Object implements FSDirectory {
         }
         tableEntry.addEntry(entry);
         return entry;
-
     }
 
     @Override
@@ -113,6 +119,7 @@ public class NFS2Directory extends NFS2Object implements FSDirectory {
      * Gets an iterator used to iterate over all the entries of this directory.
      * All elements returned by the iterator must be instanceof FSEntry.
      */
+    @Override
     public Iterator<? extends NFS2Entry> iterator() throws IOException {
         final NFS2Client nfsClient = getNFS2Client();
 
@@ -120,34 +127,24 @@ public class NFS2Directory extends NFS2Object implements FSDirectory {
         FileAttribute fileAttribute;
         try {
             fileAttribute =
-                AccessController.doPrivileged((PrivilegedExceptionAction<FileAttribute>) () -> nfsClient.getAttribute(getNFS2Entry().getFileHandle()));
+                nfsClient.getAttribute(getNFS2Entry().getFileHandle());
 
-        } catch (PrivilegedActionException e) {
-            Exception x = e.getException();
-            if (x instanceof NFS2Exception)
-                throw new IOException(
-                    "An error occurs when the nfs file system tried to retrieve " +
-                        "the file attributes for directory", x);
-            else if (x instanceof IOException) {
-                throw (IOException) x;
-            } else {
-                throw new RuntimeException(x);
-            }
+        } catch (NFS2Exception e) {
+            throw new IOException("An error occurs when the nfs file system tried to retrieve " +
+                        "the file attributes for directory", e);
         }
 
         // check to see if the directory was modified
         // TODO Check to see if is correct .
 
-        // System.out.println("FN" + fileAttribute.getLastModified());
-        // System.out.println("FO" +
-        // getEntry().getFileAttribute().getLastModified());
-        // System.out.println("size------------------" + tableEntry.size());
-        // if (fileAttribute.getLastModified().getSeconds() ==
-        // getEntry().getFileAttribute().getLastModified()
-        // .getSeconds()
-        // && tableEntry.size() != 0) {
-        // return tableEntry.getEntrySet().iterator();
-        // }
+//logger.log(Level.DEBUG, "FN" + fileAttribute.getLastModified());
+//logger.log(Level.DEBUG, "FO" + getEntry().getFileAttribute().getLastModified());
+//logger.log(Level.DEBUG, "size------------------" + tableEntry.size());
+//        if (fileAttribute.getLastModified().getSeconds() ==
+//                getEntry().getFileAttribute().getLastModified().getSeconds()
+//                && tableEntry.size() != 0) {
+//            return tableEntry.getEntrySet().iterator();
+//        }
 
         // clear the cache
         tableEntry.clear();
@@ -170,64 +167,53 @@ public class NFS2Directory extends NFS2Object implements FSDirectory {
         Set<NFS2Entry> nfsEntrySet;
 
         try {
+            Set<Entry> entrySet = new LinkedHashSet<>();
+            boolean eof = false;
+            byte[] cookie = new byte[NFS2Client.COOKIE_SIZE];
+            while (!eof) {
+                ListDirectoryResult result = nfsClient.listDirectory(
+                    directoryEntry.getFileHandle(), cookie, 2048);
+                entrySet.addAll(result.getEntryList());
+                if (result.isEof()) {
+                    eof = true;
+                } else {
+                    // I guess that the list contains at least one entry.
+                    cookie = result.getEntryList().get(
+                        result.getEntryList().size() - 1).cookie();
+                }
+            }
+
+            if (entrySet.isEmpty()) {
+                return new HashSet<>();
+            }
+
             nfsEntrySet =
-                AccessController.doPrivileged((PrivilegedExceptionAction<Set<NFS2Entry>>) () -> {
-                    Set<Entry> entrySet = new LinkedHashSet<>();
-                    boolean eof = false;
-                    byte[] cookie = new byte[NFS2Client.COOKIE_SIZE];
-                    while (!eof) {
-                        ListDirectoryResult result = nfsClient.listDirectory(
-                            directoryEntry.getFileHandle(), cookie, 2048);
-                        entrySet.addAll(result.getEntryList());
-                        if (result.isEof()) {
-                            eof = true;
-                        } else {
-                            // I guess that the list contains at least one entry.
-                            cookie = result.getEntryList().get(
-                                result.getEntryList().size() - 1).getCookie();
-                        }
-                    }
+                    new LinkedHashSet<>(entrySet.size());
 
-                    if (entrySet.isEmpty()) {
-                        return new HashSet<>();
-                    }
+            for (Entry entry : entrySet) {
+                LookupResult lookupResult = nfsClient.lookup(
+                    directoryEntry.getFileHandle(), entry.name());
 
-                    Set<NFS2Entry> nfsEntrySet1 =
-                            new LinkedHashSet<>(entrySet.size());
+                NFS2Entry nfsEntry = new NFS2Entry(
+                    (NFS2FileSystem) getFileSystem(),
+                    NFS2Directory.this, entry.name(), lookupResult.getFileHandle(),
+                    lookupResult.getFileAttribute());
 
-                    for (Entry entry : entrySet) {
-                        LookupResult lookupResult = nfsClient.lookup(
-                            directoryEntry.getFileHandle(), entry.getName());
+                if (!(nfsEntry.isDirectory() || nfsEntry.isFile())) {
+                    continue;
+                }
+                nfsEntrySet.add(nfsEntry);
+            }
 
-                        NFS2Entry nfsEntry = new NFS2Entry(
-                            (NFS2FileSystem) getFileSystem(),
-                            NFS2Directory.this, entry.getName(), lookupResult.getFileHandle(),
-                            lookupResult.getFileAttribute());
-
-                        if (!(nfsEntry.isDirectory() || nfsEntry.isFile())) {
-                            continue;
-                        }
-                        nfsEntrySet1.add(nfsEntry);
-                    }
-                    return nfsEntrySet1;
-                });
-
-        } catch (PrivilegedActionException e) {
-            Exception x = e.getException();
-            if (x instanceof NFS2Exception)
-                throw new IOException(
-                    "An error occurs when the nfs file system tried to fetch the content of the  directory",
-                        x);
-            else if (x instanceof IOException)
-                throw (IOException) x;
-            else
-                throw new RuntimeException(x);
+        } catch (NFS2Exception e) {
+            throw new IOException("An error occurs when the nfs file system tried to fetch" +
+                    " the content of the  directory", e);
         }
 
         return nfsEntrySet;
-
     }
 
+    @Override
     public FSEntry addDirectory(String name) throws IOException {
 
         NFS2Client nfsClient = getNFS2Client();
@@ -247,6 +233,7 @@ public class NFS2Directory extends NFS2Object implements FSDirectory {
         return entry;
     }
 
+    @Override
     public FSEntry addFile(String name) throws IOException {
         NFS2Client nfsClient = getNFS2Client();
 
@@ -267,10 +254,12 @@ public class NFS2Directory extends NFS2Object implements FSDirectory {
         return entry;
     }
 
+    @Override
     public void flush() throws IOException {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public void remove(String name) throws IOException {
         NFS2Entry entry = getEntry(name);
         if (entry == null) {

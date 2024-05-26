@@ -23,12 +23,13 @@ package org.jnode.fs.hfsplus;
 import org.jnode.util.BigEndian;
 
 public class HfsUnicodeString {
+
     /**
      * Length of string in characters.
      */
     private int length;
 
-    private String string;
+    private final String string;
 
     /**
      * Create HFSUnicodeString from existing data.
@@ -51,7 +52,7 @@ public class HfsUnicodeString {
     }
 
     /**
-     * @param string
+     * @param string the string
      */
     public HfsUnicodeString(String string) {
         this.string = string;

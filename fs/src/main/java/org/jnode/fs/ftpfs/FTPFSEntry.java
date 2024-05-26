@@ -26,11 +26,12 @@ import org.jnode.fs.FSAccessRights;
 import org.jnode.fs.FSEntry;
 
 /**
- * @author Levente S\u00e1ntha
+ * @author Levente Sántha
  */
 public abstract class FTPFSEntry implements FSEntry {
-    FTPFileSystem fileSystem;
-    FTPFile ftpFile;
+
+    final FTPFileSystem fileSystem;
+    final FTPFile ftpFile;
     FTPFSDirectory parent;
 
     FTPFSEntry(FTPFileSystem fileSystem, FTPFile ftpFile) {
@@ -43,10 +44,9 @@ public abstract class FTPFSEntry implements FSEntry {
     }
 
     /**
-     * Gets the accessrights for this entry.
-     *
-     * @throws java.io.IOException
+     * Gets the access-rights for this entry.
      */
+    @Override
     public FSAccessRights getAccessRights() throws IOException {
         return null;
     }
@@ -57,6 +57,7 @@ public abstract class FTPFSEntry implements FSEntry {
      *
      * @return The directory described by this entry
      */
+    @Override
     public FTPFSDirectory getDirectory() throws IOException {
         return (FTPFSDirectory) this;
     }
@@ -67,6 +68,7 @@ public abstract class FTPFSEntry implements FSEntry {
      *
      * @return The file described by this entry
      */
+    @Override
     public FTPFSFile getFile() throws IOException {
         return (FTPFSFile) this;
     }
@@ -75,12 +77,13 @@ public abstract class FTPFSEntry implements FSEntry {
      * Gets the last modification time of this entry.
      *
      * @return the last modification time, in milliseconds since January 1, 1970 UTC.
-     * @throws java.io.IOException
+     * @throws java.io.IOException when an error occurs
      */
 
+    @Override
     public long getLastModified() throws IOException {
         return ftpFile.lastModified().getTime();
-        //return ftpFile.getTimestamp().getTimeInMillis();
+        // return ftpFile.getTimestamp().getTimeInMillis();
     }
 
     /**
@@ -90,7 +93,7 @@ public abstract class FTPFSEntry implements FSEntry {
      * obtaining the access time.</p>
      *
      * @return the last access time, in milliseconds since January 1, 1970 UTC.
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public long getLastAccessed() throws IOException {
         return 0;
@@ -99,6 +102,7 @@ public abstract class FTPFSEntry implements FSEntry {
     /**
      * Gets the name of this entry.
      */
+    @Override
     public String getName() {
         return ftpFile.getName();
     }
@@ -106,13 +110,15 @@ public abstract class FTPFSEntry implements FSEntry {
     /**
      * Gets the directory this entry is a part of.
      */
+    @Override
     public FTPFSDirectory getParent() {
         return null;
     }
 
     /**
-     * Is this entry refering to a (sub-)directory?
+     * Is this entry referring to a (sub-)directory?
      */
+    @Override
     public boolean isDirectory() {
         return ftpFile.isDir();
     }
@@ -121,15 +127,17 @@ public abstract class FTPFSEntry implements FSEntry {
      * Indicate if the entry has been modified in memory (ie need to be saved)
      *
      * @return true if the entry need to be saved
-     * @throws java.io.IOException
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public boolean isDirty() throws IOException {
         return false;
     }
 
     /**
-     * Is this entry refering to a file?
+     * Is this entry referring to a file?
      */
+    @Override
     public boolean isFile() {
         return !ftpFile.isDir() && !ftpFile.isLink();
     }
@@ -138,8 +146,9 @@ public abstract class FTPFSEntry implements FSEntry {
      * Sets the last modification time of this entry.  This implementation does nothing.
      *
      * @param lastModified the new last modification time.
-     * @throws java.io.IOException
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public void setLastModified(long lastModified) throws IOException {
 
     }
@@ -155,6 +164,7 @@ public abstract class FTPFSEntry implements FSEntry {
     /**
      * Sets the name of this entry.
      */
+    @Override
     public void setName(String newName) throws IOException {
 
     }
@@ -162,6 +172,7 @@ public abstract class FTPFSEntry implements FSEntry {
     /**
      * Gets the filesystem to which this object belongs.
      */
+    @Override
     public FTPFileSystem getFileSystem() {
         return fileSystem;
     }
@@ -173,6 +184,7 @@ public abstract class FTPFSEntry implements FSEntry {
      * All invocations on methods (exception this method) of invalid objects
      * must throw an IOException.
      */
+    @Override
     public boolean isValid() {
         return true;
     }

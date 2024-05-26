@@ -32,12 +32,12 @@ public class ICMPTimestampHeader extends ICMPExHeader {
     private final int transmitTimestamp;
 
     /**
-     * @param type
-     * @param identifier
-     * @param seqNumber
-     * @param originateTimestamp
-     * @param receiveTimestamp
-     * @param transmitTimestamp
+     * @param type the type
+     * @param identifier the identifier
+     * @param seqNumber the seqNumber
+     * @param originateTimestamp the originateTimestamp
+     * @param receiveTimestamp the receiveTimestamp
+     * @param transmitTimestamp the transmitTimestamp
      */
     public ICMPTimestampHeader(ICMPType type, int identifier, int seqNumber, int originateTimestamp,
             int receiveTimestamp, int transmitTimestamp) {
@@ -51,7 +51,7 @@ public class ICMPTimestampHeader extends ICMPExHeader {
     }
 
     /**
-     * @param skbuf
+     * @param skbuf the skbuf
      */
     public ICMPTimestampHeader(SocketBuffer skbuf) {
         super(skbuf);
@@ -67,16 +67,18 @@ public class ICMPTimestampHeader extends ICMPExHeader {
     /**
      * @see org.jnode.net.ipv4.icmp.ICMPHeader#doPrefixTo(org.jnode.net.SocketBuffer)
      */
-    protected void doPrefixTo(SocketBuffer skbuf) {
-        super.doPrefixTo(skbuf);
-        skbuf.set32(8, originateTimestamp);
-        skbuf.set32(12, receiveTimestamp);
-        skbuf.set32(16, transmitTimestamp);
+    @Override
+    protected void doPrefixTo(SocketBuffer skBuf) {
+        super.doPrefixTo(skBuf);
+        skBuf.set32(8, originateTimestamp);
+        skBuf.set32(12, receiveTimestamp);
+        skBuf.set32(16, transmitTimestamp);
     }
 
     /**
      * @see org.jnode.net.LayerHeader#getLength()
      */
+    @Override
     public int getLength() {
         return 20;
     }

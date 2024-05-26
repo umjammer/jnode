@@ -27,9 +27,10 @@ package org.jnode.fs.ext2;
  * @author Andras Nagy
  */
 public class BlockReservation {
+
     private long block;
-    private int preallocCount;
-    private boolean successful;
+    private final int preallocCount;
+    private final boolean successful;
     private long freeBlocksCount;
 
     public BlockReservation(boolean successful, long block, int preallocCount) {
@@ -97,5 +98,4 @@ public class BlockReservation {
     public void setFreeBlocksCount(long l) {
         freeBlocksCount = l;
     }
-
 }

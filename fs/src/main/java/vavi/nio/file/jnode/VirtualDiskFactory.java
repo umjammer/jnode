@@ -7,18 +7,19 @@
 package vavi.nio.file.jnode;
 
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.logging.Level;
 
 import org.jnode.driver.block.VirtualDisk;
-
 import vavi.emu.disk.Disk;
 import vavi.emu.disk.LogicalDisk;
 import vavi.emu.disk.phisical.D88;
-import vavi.util.Debug;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -30,6 +31,8 @@ import vavi.util.Debug;
  * @version 0.00 2022/02/12 umjammer initial version <br>
  */
 public class VirtualDiskFactory {
+
+    private static final Logger logger = getLogger(VirtualDiskFactory.class.getName());
 
     private VirtualDiskFactory() {}
 
@@ -46,23 +49,23 @@ public class VirtualDiskFactory {
         Disk disk;
         try {
             disk = Disk.read(path);
-Debug.println("disk: " + disk + ", bps: " + disk.getSectorSize() + ", offset: " + disk.getOffset());
+logger.log(Logger.Level.DEBUG, "disk: " + disk + ", bps: " + disk.getSectorSize() + ", offset: " + disk.getOffset());
             // TODO basically jnode has capability of logical disk detection,
             //  but it's for only solid image or header + solid image.
             //  so image that has other info among disk data (e.g. sector info) like "d88"
             //  is not available currently
             if (disk.getSectorSize() == -1) {
-Debug.println("no sector size, try to post read");
+logger.log(Logger.Level.DEBUG, "no sector size, try to post read");
                 try {
                     LogicalDisk logicalDisk = LogicalDisk.read(path, disk);
-Debug.println("logicalDisk: " + logicalDisk + ", bps: " + disk.getSectorSize() + ", offset: " + disk.getOffset());
+logger.log(Logger.Level.DEBUG, "logicalDisk: " + logicalDisk + ", bps: " + disk.getSectorSize() + ", offset: " + disk.getOffset());
                 } catch (IllegalArgumentException e) { // not found for logicalDisk
-Debug.println("no logicalDisk: " + e);
+logger.log(Logger.Level.DEBUG, "no logicalDisk: " + e);
                 }
             }
             assert disk.getSectorSize() != -1 : "bytes per sector should be defined";
         } catch (IllegalArgumentException e) { // not found for disk
-Debug.println("raw disk?: " + e);
+logger.log(Logger.Level.DEBUG, "raw disk?: " + e);
             disk = createNullDisk(); // TODO ???
         }
 
@@ -101,11 +104,11 @@ Debug.println("raw disk?: " + e);
 
             @Override
             public void read(long offset, ByteBuffer buffer) throws IOException {
-Debug.printf(Level.FINER, "offset: %08x, (+o:%08x o:%08x)", offset, disk.getOffset() + offset, disk.getOffset());
+logger.log(Level.TRACE, () -> String.format("offset: %08x, (+o:%08x o:%08x)", offset, disk.getOffset() + offset, disk.getOffset()));
                 if (offset != 0 && disk instanceof D88) {
                     int[] r = disk.search((int) offset);
                     if (r == null) {
-Debug.printf(Level.WARNING, "no such sector of offset: %08x", offset);
+logger.log(Level.WARNING, String.format("no such sector of offset: %08x", offset));
                         throw new IOException(String.format("no such sector of offset: %08x", offset));
                     }
                     sbc.read(ByteBuffer.wrap(disk.getSector(r[0], r[1], r[2]).data));
@@ -142,5 +145,3 @@ Debug.printf(Level.WARNING, "no such sector of offset: %08x", offset);
         };
     }
 }
-
-/* */

@@ -60,7 +60,7 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
     public static final int LAST_ENTRY = 3;
 
     /** Type of entry */
-    private int type;
+    private final int type;
 
     /** name of the entry */
     private String name;
@@ -72,10 +72,10 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
     private final FSAccessRights rights;
 
     /** Parent directory of the entry */
-    private FSDirectory parent; // parent is null for a root
+    private final FSDirectory parent; // parent is null for a root
 
     /** Table of entries of our parent */
-    private FSEntryTable table; // table is null for a root
+    private final FSEntryTable table; // table is null for a root
 
     /** should we treat this directory entry as a file entry ? */
     private boolean treatDirectoryAsFile = false;
@@ -83,7 +83,7 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
     /**
      * Constructor for a root entry
      * 
-     * @param fs
+     * @param fs the fs
      */
     public AbstractFSEntry(AbstractFileSystem<?> fs) {
         // parent and table are null for a root
@@ -93,18 +93,16 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
     /**
      * Constructor for a non-root entry
      * 
-     * @param fs
-     * @param table
-     * @param parent
-     * @param name
-     * @param type
+     * @param fs the fs
+     * @param table the table
+     * @param parent the parent
+     * @param name the name
+     * @param type the type
      */
-    public AbstractFSEntry(AbstractFileSystem<?> fs, FSEntryTable table, FSDirectory parent,
-            String name, int type) {
+    public AbstractFSEntry(AbstractFileSystem<?> fs, FSEntryTable table, FSDirectory parent, String name, int type) {
         super(fs);
         if ((type <= FIRST_ENTRY) || (type >= LAST_ENTRY))
-            throw new IllegalArgumentException(
-                    "type must be DIR_ENTRY, FILE_ENTRY, ROOT_ENTRY or OTHER_ENTRY");
+            throw new IllegalArgumentException("type must be DIR_ENTRY, FILE_ENTRY, ROOT_ENTRY or OTHER_ENTRY");
 
         this.type = type;
         this.name = name;
@@ -119,6 +117,7 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
      * 
      * @return the name of this entry
      */
+    @Override
     public final String getName() {
         return name;
     }
@@ -128,6 +127,7 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
      * 
      * @return the parent directory of this entry
      */
+    @Override
     public final FSDirectory getParent() {
         return parent;
     }
@@ -136,8 +136,9 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
      * Return the date of the last modification of this entry
      * 
      * @return the date of the last modification
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public long getLastModified() throws IOException {
         return lastModified;
     }
@@ -147,6 +148,7 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
      * 
      * @return if this entry denotes a file
      */
+    @Override
     public final boolean isFile() {
         return treatDirectoryAsFile || (type == FILE_ENTRY);
     }
@@ -156,6 +158,7 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
      * 
      * @return is this entry denotes a directory
      */
+    @Override
     public final boolean isDirectory() {
         return (type == DIR_ENTRY) || isRoot();
     }
@@ -172,9 +175,10 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
     /**
      * Change the name of this entry
      * 
-     * @param newName
-     * @throws IOException
+     * @param newName the newName
+     * @throws IOException when an error occurs
      */
+    @Override
     public final void setName(String newName) throws IOException {
         log.log(Level.DEBUG, "<<< BEGIN setName newName=" + newName + " >>>");
         // NB: table is null for a root
@@ -193,6 +197,7 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
         log.log(Level.DEBUG, "<<< END setName newName=" + newName + " >>>");
     }
 
+    @Override
     public void setLastModified(long lastModified) throws IOException {
         /*
          * if(isRoot()) { throw new IOException("Cannot change last modified of
@@ -205,8 +210,9 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
      * Return the file associated with this entry
      * 
      * @return the FSFile associated with this entry
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public final FSFile getFile() throws IOException {
         if (!isFile())
             throw new IOException(getName() + " is not a file");
@@ -218,8 +224,9 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
      * Return the directory associated with this entry
      * 
      * @return the directory associated with this entry
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
+    @Override
     public final FSDirectory getDirectory() throws IOException {
         if (!isDirectory())
             throw new IOException(getName() + " is not a directory");
@@ -230,24 +237,21 @@ public abstract class AbstractFSEntry extends AbstractFSObject implements FSEntr
     /**
      * Return the access rights for this entry
      * @return the FSAccessRights for this entry
-     * @throws IOException 
+     * @throws IOException when an error occurs
      */
+    @Override
     public final FSAccessRights getAccessRights() throws IOException {
         return rights;
     }
 
     /**
      * Should we treat this directory entry as a file entry ? 
-     *
      */
     protected final void setTreatDirectoryAsFile() {
         this.treatDirectoryAsFile = true;
     }
 
-    /**
-     * (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
+    @Override
     public String toString() {
         return FSUtils.toString(this, false);
     }

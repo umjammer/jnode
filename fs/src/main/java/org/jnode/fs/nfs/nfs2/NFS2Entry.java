@@ -35,20 +35,20 @@ import org.jnode.net.nfs.nfs2.Time;
  */
 public class NFS2Entry extends NFS2Object implements FSEntry {
 
-    private NFS2Directory parent;
+    private final NFS2Directory parent;
 
     private NFS2Directory directory;
 
     private NFS2File file;
 
-    private byte[] fileHandle;
+    private final byte[] fileHandle;
 
-    private FileAttribute fileAttribute;
+    private final FileAttribute fileAttribute;
 
-    private String name;
+    private final String name;
 
     @SuppressWarnings("unused")
-    private NFS2AccessRights accessRights;
+    private final NFS2AccessRights accessRights;
 
     NFS2Entry(NFS2FileSystem fileSystem, NFS2Directory parent, String name, byte[] fileHandle,
               FileAttribute fileAttribute) {
@@ -67,6 +67,7 @@ public class NFS2Entry extends NFS2Object implements FSEntry {
         accessRights = new NFS2AccessRights(fileSystem, this);
     }
 
+    @Override
     public FSDirectory getParent() {
         return parent;
     }
@@ -76,14 +77,17 @@ public class NFS2Entry extends NFS2Object implements FSEntry {
         return getName();
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public FSAccessRights getAccessRights() throws IOException {
         return null;
     }
 
+    @Override
     public FSDirectory getDirectory() throws IOException {
         if (!isDirectory()) {
             throw new IOException(getName() + " is not a directory");
@@ -91,6 +95,7 @@ public class NFS2Entry extends NFS2Object implements FSEntry {
         return directory;
     }
 
+    @Override
     public FSFile getFile() throws IOException {
         if (!isFile()) {
             throw new IOException(getName() + " is not a file");
@@ -102,6 +107,7 @@ public class NFS2Entry extends NFS2Object implements FSEntry {
         return fileAttribute.getLastStatusChanged().toJavaMillis();
     }
 
+    @Override
     public long getLastModified() throws IOException {
         return fileAttribute.getLastModified().toJavaMillis();
     }
@@ -110,6 +116,7 @@ public class NFS2Entry extends NFS2Object implements FSEntry {
         return fileAttribute.getLastAccessed().toJavaMillis();
     }
 
+    @Override
     public boolean isDirectory() {
         if (fileAttribute.getType() == FileAttribute.DIRECTORY) {
             return true;
@@ -117,10 +124,12 @@ public class NFS2Entry extends NFS2Object implements FSEntry {
         return false;
     }
 
+    @Override
     public boolean isDirty() throws IOException {
         return false;
     }
 
+    @Override
     public boolean isFile() {
         return fileAttribute.getType() == FileAttribute.FILE;
     }
@@ -129,6 +138,7 @@ public class NFS2Entry extends NFS2Object implements FSEntry {
         // TODO: The setAttribute API appears to have no way to do this.
     }
 
+    @Override
     public void setLastModified(long lastModified) throws IOException {
         NFS2Client client = getNFS2Client();
         try {
@@ -149,6 +159,7 @@ public class NFS2Entry extends NFS2Object implements FSEntry {
         }
     }
 
+    @Override
     public void setName(String newName) throws IOException {
         NFS2Client client = getNFS2Client();
         NFS2Directory parentDirectory = (NFS2Directory) getParent();
@@ -168,5 +179,4 @@ public class NFS2Entry extends NFS2Object implements FSEntry {
     public byte[] getFileHandle() {
         return fileHandle;
     }
-
 }

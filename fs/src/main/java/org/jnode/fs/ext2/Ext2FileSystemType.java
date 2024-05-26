@@ -34,42 +34,34 @@ import org.jnode.util.LittleEndian;
  */
 public class Ext2FileSystemType implements BlockDeviceFileSystemType<Ext2FileSystem> {
 
-    /**
-     * @see org.jnode.fs.FileSystemType#create(Device, boolean)
-     */
+    @Override
     public Ext2FileSystem create(Device device, boolean readOnly) throws FileSystemException {
         Ext2FileSystem fs = new Ext2FileSystem(device, readOnly);
         fs.read();
         return fs;
     }
 
-    /**
-     * @see org.jnode.fs.FileSystemType#getName()
-     */
+    @Override
     public String getName() {
         return "EXT2";
     }
 
-    /** */
+    @Override
     public String getScheme() {
         return "ext2";
     }
 
-    /**
-     * @see org.jnode.fs.BlockDeviceFileSystemType#supports(PartitionTableEntry, byte[], FSBlockDeviceAPI)
-     */
+    @Override
     public boolean supports(PartitionTableEntry pte, byte[] firstSector, FSBlockDeviceAPI devApi) {
-/*
-        if (pte != null) {
-            if (pte instanceof IBMPartitionTableEntry) {
-                if (((IBMPartitionTableEntry) pte).getSystemIndicator() != IBMPartitionTypes.PARTTYPE_LINUXNATIVE) {
-                    return false;
-                }
-            }
-        }
-*/
+//        if (pte != null) {
+//            if (pte instanceof IBMPartitionTableEntry) {
+//                if (((IBMPartitionTableEntry) pte).getSystemIndicator() != IBMPartitionTypes.PARTTYPE_LINUXNATIVE) {
+//                    return false;
+//                }
+//            }
+//        }
 
-        //need to check the magic
+        // need to check the magic
         ByteBuffer magic = ByteBuffer.allocate(2);
         ByteBuffer revLevel = ByteBuffer.allocate(4);
         try {
@@ -78,8 +70,7 @@ public class Ext2FileSystemType implements BlockDeviceFileSystemType<Ext2FileSys
         } catch (IOException e) {
             return false;
         }
-        return
-            (LittleEndian.getUInt16(magic.array(), 0) == 0xEF53) &&
+        return (LittleEndian.getUInt16(magic.array(), 0) == 0xef53) &&
             (LittleEndian.getUInt32(revLevel.array(), 0) == 0 || LittleEndian.getUInt32(revLevel.array(), 0) == 1);
     }
 }

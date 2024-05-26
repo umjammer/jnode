@@ -28,7 +28,7 @@ public interface HardwareAddress {
 
     /**
      * Is this address equal to the given address.
-     * @param o
+     * @param o the o
      */
     boolean equals(HardwareAddress o);
 
@@ -39,14 +39,14 @@ public interface HardwareAddress {
 
     /**
      * Gets the address-byte at a given index
-     * @param index
+     * @param index the index
      */
     byte get(int index);
 
     /**
      * Write this address to a given offset in the given buffer
-     * @param skbuf
-     * @param skbufOffset
+     * @param skbuf the skbuf
+     * @param skbufOffset the skbufOffset
      */
     void writeTo(SocketBuffer skbuf, int skbufOffset);
 

@@ -32,11 +32,11 @@ import java.net.SocketException;
 /**
  * Glue class for supporting gnu.java.nio.DatagramChannelImpl.
  *
- * @author Levente S\u00e1ntha
+ * @author Levente Sántha
  */
 public class PlainUDPDatagramSocketImpl extends DatagramSocketImpl {
 
-    private MyUDPDatagramSocketImpl udp;
+    private final MyUDPDatagramSocketImpl udp;
 
     static class MyUDPDatagramSocketImpl extends UDPDatagramSocketImpl {
         MyUDPDatagramSocketImpl(UDPProtocol protocol) {
@@ -122,7 +122,7 @@ public class PlainUDPDatagramSocketImpl extends DatagramSocketImpl {
 
     @Override
     protected synchronized void create() throws SocketException {
-        //nothing to do here
+        // nothing to do here
     }
 
     @Override
@@ -139,11 +139,11 @@ public class PlainUDPDatagramSocketImpl extends DatagramSocketImpl {
 
     @Override
     protected void send(DatagramPacket packet) throws IOException {
-        //synchronized (SEND_LOCK){
+        // synchronized (SEND_LOCK){
         System.out.println("udp: " + udp);
         System.out.println("packet: " + packet);
         udp.send(packet);
-        //}
+        // }
     }
 
     private final Object RECEIVE_LOCK = new Object();

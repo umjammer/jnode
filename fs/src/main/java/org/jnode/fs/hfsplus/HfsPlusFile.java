@@ -41,7 +41,7 @@ public class HfsPlusFile implements FSFile, FSFileSlackSpace, FSFileStreams {
     /**
      * The associated catalog file.
      */
-    private CatalogFile file;
+    private final CatalogFile file;
 
     /**
      * The hardlink file which contains the actual file data if this file is a hard link.

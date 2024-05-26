@@ -36,7 +36,7 @@ import org.jnode.net.nfs.nfs2.Time;
  */
 public class NFS2File extends NFS2Object implements FSFile {
 
-    private NFS2Entry entry;
+    private final NFS2Entry entry;
 
     NFS2File(NFS2Entry entry) {
         super((NFS2FileSystem) entry.getFileSystem());
@@ -48,6 +48,7 @@ public class NFS2File extends NFS2Object implements FSFile {
      * 
      * @return long
      */
+    @Override
     public long getLength() {
         return entry.getFileAttribute().getSize();
     }
@@ -57,10 +58,11 @@ public class NFS2File extends NFS2Object implements FSFile {
      * read fom this file starting at offset <code>fileOffset</code> and
      * stored in <code>dest</code> starting at offset <code>ofs</code>.
      * 
-     * @param fileOffset
-     * @param dest
-     * @throws java.io.IOException
+     * @param fileOffset file starting offset
+     * @param dest the byte array
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public void read(long fileOffset, ByteBuffer dest) throws IOException {
         NFS2Client client = getNFS2Client();
         try {
@@ -85,8 +87,9 @@ public class NFS2File extends NFS2Object implements FSFile {
     /**
      * Flush any cached data to the disk.
      * 
-     * @throws java.io.IOException
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public void flush() throws IOException {
 
     }
@@ -94,9 +97,10 @@ public class NFS2File extends NFS2Object implements FSFile {
     /**
      * Sets the length of this file.
      * 
-     * @param length
-     * @throws java.io.IOException
+     * @param length the length
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public void setLength(long length) throws IOException {
         NFS2Client client = getNFS2Client();
         try {
@@ -112,10 +116,11 @@ public class NFS2File extends NFS2Object implements FSFile {
      * from <code>src</code> starting at offset <code>ofs</code> and written
      * to this file starting at offset <code>fileOffset</code>.
      * 
-     * @param fileOffset
-     * @param src
-     * @throws java.io.IOException
+     * @param fileOffset the fileOffset
+     * @param src the src
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public void write(long fileOffset, ByteBuffer src) throws IOException {
         NFS2Client client = getNFS2Client();
         try {

@@ -34,7 +34,7 @@ public class GeometryTest {
     /**
      * Constructor for GeometryTest.
      *
-     * @param arg0
+     * @param arg0 the arg0
      */
     public GeometryTest(String arg0) {
     }
@@ -44,7 +44,7 @@ public class GeometryTest {
         long max = geom.getTotalSectors();
         for (long logSec = 0; logSec < max; logSec++) {
             CHS chs = geom.getCHS(logSec);
-            //System.out.println("logSec=" + logSec + ", chs=" + chs);
+            // System.out.println("logSec=" + logSec + ", chs=" + chs);
             assertEquals(logSec, geom.getLogicalSector(chs), "logSec=" + logSec);
         }
     }

@@ -36,14 +36,17 @@ public class FatFile extends FatEntry implements FSFile, FSFileSlackSpace {
         super(fs, parent, record);
     }
 
+    @Override
     public boolean isFile() {
         return true;
     }
 
+    @Override
     public FSFile getFile() {
         return this;
     }
 
+    @Override
     public long getLength() {
         return getEntry().getLength();
     }
@@ -63,6 +66,7 @@ public class FatFile extends FatEntry implements FSFile, FSFileSlackSpace {
         getChain().free(oldClusters - newClusters);
     }
 
+    @Override
     public void setLength(long length) throws IOException {
         long l = getLength();
 
@@ -77,6 +81,7 @@ public class FatFile extends FatEntry implements FSFile, FSFileSlackSpace {
         }
     }
 
+    @Override
     public void read(long offset, ByteBuffer dst) throws IOException {
         int limit = dst.limit();
         long length = getLength();
@@ -100,6 +105,7 @@ public class FatFile extends FatEntry implements FSFile, FSFileSlackSpace {
         write(offset, buf);
     }
 
+    @Override
     public void write(long offset, ByteBuffer src) throws IOException {
         if (offset < 0) throw new IllegalArgumentException("offset<0");
 

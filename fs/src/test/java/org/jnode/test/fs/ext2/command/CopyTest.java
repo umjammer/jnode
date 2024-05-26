@@ -21,7 +21,6 @@
 package org.jnode.test.fs.ext2.command;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -30,7 +29,8 @@ import java.io.IOException;
  * @author Andras Nagy
  */
 public class CopyTest {
-    public CopyTest(String fname, String fname2) throws FileNotFoundException, IOException {
+
+    static void copyTest(String fname, String fname2) throws IOException {
         byte[] bbuf = new byte[1024];
 
         FileInputStream fis = new FileInputStream(fname);
@@ -45,7 +45,7 @@ public class CopyTest {
         fos.close();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String fname, fname2;
         if (args.length >= 2) {
             fname = args[0];
@@ -55,10 +55,6 @@ public class CopyTest {
             return;
         }
 
-        try {
-            new CopyTest(fname, fname2);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        copyTest(fname, fname2);
     }
 }

@@ -20,13 +20,21 @@
 
 package org.jnode.fs.hfsplus.catalog;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+
 import org.jnode.fs.hfsplus.HfsPlusBSDInfo;
 import org.jnode.fs.hfsplus.HfsUtils;
 import org.jnode.util.BigEndian;
 
+import static java.lang.System.getLogger;
+
+
 public class CatalogFolder {
 
-    /* Types */
+    private static final Logger logger = getLogger(CatalogFolder.class.getName());
+
+    // Types
     public static final int RECORD_TYPE_FOLDER = 0x0001;
     public static final int RECORD_TYPE_FOLDER_THREAD = 0x0003;
 
@@ -54,11 +62,11 @@ public class CatalogFolder {
     private HfsPlusBSDInfo permissions;
 
     /**
-     * @param src
+     * @param src the src
      */
     public CatalogFolder(final byte[] src) {
         byte[] data = new byte[88];
-//Debug.println("src: " + src.length);
+logger.log(Level.TRACE, "src: " + src.length);
         System.arraycopy(src, 0, data, 0, Math.min(CATALOG_FOLDER_SIZE, src.length)); // TODO check
         recordType = BigEndian.getInt16(data, 0);
         flags = BigEndian.getUInt16(data, 2);
@@ -73,8 +81,8 @@ public class CatalogFolder {
     }
 
     /**
-     * @param valence
-     * @param folderID
+     * @param valence the valence
+     * @param folderID the folderID
      */
     public CatalogFolder(int valence, CatalogNodeId folderID) {
         this.recordType = RECORD_TYPE_FOLDER;
@@ -101,10 +109,7 @@ public class CatalogFolder {
         return data;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
+    @Override
     public String toString() {
         String s = "Record type: " + recordType + "\n" +
                 "Valence: " + valence + "\n" +
@@ -135,23 +140,23 @@ public class CatalogFolder {
     }
 
     public long getCreateDate() {
-        return HfsUtils.getDate(createDate & 0xffffffffL, false) * 1000L;
+        return HfsUtils.getDate(createDate & 0xffff_ffffL, false) * 1000L;
     }
 
     public long getContentModDate() {
-        return HfsUtils.getDate(contentModDate & 0xffffffffL, false) * 1000L;
+        return HfsUtils.getDate(contentModDate & 0xffff_ffffL, false) * 1000L;
     }
 
     public long getAttrModDate() {
-        return HfsUtils.getDate(attrModDate & 0xffffffffL, false) * 1000L;
+        return HfsUtils.getDate(attrModDate & 0xffff_ffffL, false) * 1000L;
     }
 
     public long getAccessDate() {
-        return HfsUtils.getDate(accessDate & 0xffffffffL, false) * 1000L;
+        return HfsUtils.getDate(accessDate & 0xffff_ffffL, false) * 1000L;
     }
 
     public long getBackupDate() {
-        return HfsUtils.getDate(backupDate & 0xffffffffL, false) * 1000L;
+        return HfsUtils.getDate(backupDate & 0xffff_ffffL, false) * 1000L;
     }
 
     public HfsPlusBSDInfo getPermissions() {
@@ -185,5 +190,4 @@ public class CatalogFolder {
     public void incrementValence() {
         this.setValence(this.getValence() + 1);
     }
-
 }

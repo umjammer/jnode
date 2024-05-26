@@ -35,15 +35,17 @@ import org.jnode.partitions.PartitionTableEntry;
  */
 public class ISO9660FileSystemType implements BlockDeviceFileSystemType<ISO9660FileSystem> {
 
+    @Override
     public final String getName() {
         return "ISO9660";
     }
 
-    /** */
+    @Override
     public String getScheme() {
         return "iso9660";
     }
 
+    @Override
     public boolean supports(PartitionTableEntry pte, byte[] firstSector, FSBlockDeviceAPI devApi) {
         if (pte != null) {
             // CD-ROM's do not have a partition table.
@@ -59,7 +61,7 @@ public class ISO9660FileSystemType implements BlockDeviceFileSystemType<ISO9660F
                 devApi.read(offset, data);
 
                 final String id = new String(data.array(), 1, 5, StandardCharsets.US_ASCII);
-                //System.out.println("id=" + id);
+                // System.out.println("id=" + id);
                 return id.equals("CD001");
             } catch (IOException ex) {
                 // Ignore
@@ -68,6 +70,7 @@ public class ISO9660FileSystemType implements BlockDeviceFileSystemType<ISO9660F
         }
     }
 
+    @Override
     public ISO9660FileSystem create(Device device, boolean readOnly) throws FileSystemException {
         return new ISO9660FileSystem(device, readOnly);
     }

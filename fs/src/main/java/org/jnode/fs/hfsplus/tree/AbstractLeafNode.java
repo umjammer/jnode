@@ -33,8 +33,8 @@ public abstract class AbstractLeafNode<K extends Key> extends AbstractNode<K, Le
     /**
      * Create a new node.
      *
-     * @param descriptor
-     * @param nodeSize
+     * @param descriptor the descriptor
+     * @param nodeSize the nodeSize
      */
     public AbstractLeafNode(NodeDescriptor descriptor, final int nodeSize) {
         super(descriptor, nodeSize);
@@ -43,8 +43,8 @@ public abstract class AbstractLeafNode<K extends Key> extends AbstractNode<K, Le
     /**
      * Create node from existing data.
      *
-     * @param nodeData
-     * @param nodeSize
+     * @param nodeData the nodeData
+     * @param nodeSize the nodeSize
      */
     public AbstractLeafNode(final byte[] nodeData, final int nodeSize) {
         super(nodeData, nodeSize);

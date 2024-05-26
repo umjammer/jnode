@@ -46,10 +46,10 @@ public class SuperBlock extends HfsPlusObject {
     public static final int HFSPLUS_SUPER_MAGIC = 0x482b; // H+
     public static final int HFSX_SUPER_MAGIC = 0x4858; // HX
 
-    public static final int HFSPLUS_MIN_VERSION = 0x0004; /* HFS+ */
-    public static final int HFSPLUS_CURRENT_VERSION = 5; /* HFSX */
+    public static final int HFSPLUS_MIN_VERSION = 0x0004; // HFS+
+    public static final int HFSPLUS_CURRENT_VERSION = 5; // HFSX
 
-    /* HFS+ volume attributes */
+    // HFS+ volume attributes
     public static final int HFSPLUS_VOL_UNMNT_BIT = 8;
     public static final int HFSPLUS_VOL_SPARE_BLK_BIT = 9;
     public static final int HFSPLUS_VOL_NOCACHE_BIT = 10;
@@ -91,7 +91,6 @@ public class SuperBlock extends HfsPlusObject {
                     throw new FileSystemException("Not hfs+ volume header (" + getMagic() +
                         ": bad magic)");
                 }
-
             }
         } catch (IOException e) {
             throw new FileSystemException(e);
@@ -102,17 +101,15 @@ public class SuperBlock extends HfsPlusObject {
      * Create a new volume header.
      *
      * @param params File system format parameters.
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public void create(HFSPlusParams params) throws IOException {
         log.log(Level.DEBUG, "Create new HFS+ volume header (" + params.getVolumeName() +
             ") with block size of " + params.getBlockSize() + " bytes.");
         int burnedBlocksBeforeVH = 0;
         int burnedBlocksAfterAltVH = 0;
-        /*
-         * Volume header is located at sector 2. Block before this position must
-         * be invalidated.
-         */
+        // Volume header is located at sector 2. Block before this position must
+        // be invalidated.
         int blockSize = params.getBlockSize();
         if (blockSize == 512) {
             burnedBlocksBeforeVH = 2;
@@ -166,8 +163,7 @@ public class SuperBlock extends HfsPlusObject {
         }
         // Extent B-Tree initialization
         log.log(Level.DEBUG, "Init extent file.");
-        forkdata =
-            new HfsPlusForkData(CatalogNodeId.HFSPLUS_EXT_CNID, params.getExtentClumpSize(),
+        forkdata = new HfsPlusForkData(CatalogNodeId.HFSPLUS_EXT_CNID, params.getExtentClumpSize(),
                 params.getExtentClumpSize(), (params.getExtentClumpSize() / blockSize));
         desc = new ExtentDescriptor(nextBlock, forkdata.getTotalBlocks());
         forkdata.addDescriptor(0, desc);
@@ -177,8 +173,7 @@ public class SuperBlock extends HfsPlusObject {
         // Catalog B-Tree initialization
         log.log(Level.DEBUG, "Init catalog file.");
         int totalBlocks = params.getCatalogClumpSize() / blockSize;
-        forkdata =
-            new HfsPlusForkData(CatalogNodeId.HFSPLUS_CAT_CNID, params.getCatalogClumpSize(),
+        forkdata = new HfsPlusForkData(CatalogNodeId.HFSPLUS_CAT_CNID, params.getCatalogClumpSize(),
                 params.getCatalogClumpSize(), totalBlocks);
         desc = new ExtentDescriptor(nextBlock, totalBlocks);
         forkdata.addDescriptor(0, desc);
@@ -195,7 +190,7 @@ public class SuperBlock extends HfsPlusObject {
      * 
      * @param totalBlocks Total of blocks found in the device.
      * @return the number of blocks.
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     private long getClumpSize(long totalBlocks) throws IOException {
         long clumpSize;
@@ -228,7 +223,6 @@ public class SuperBlock extends HfsPlusObject {
 
     //
     public final long getAttributes() {
-
         return BigEndian.getUInt32(data, 4);
     }
 
@@ -442,7 +436,7 @@ public class SuperBlock extends HfsPlusObject {
     }
 
     public final String toString() {
-        String buffer = "Magic: 0x" + NumberUtils.hex(getMagic(), 4) + "\n" +
+        return "Magic: 0x" + NumberUtils.hex(getMagic(), 4) + "\n" +
                 "Version: " + getVersion() + "\n" + "\n" +
                 "Attributes: " + getAttributesAsString() + " (" +
                 getAttributes() + ")" + "\n" + "\n" +
@@ -475,6 +469,5 @@ public class SuperBlock extends HfsPlusObject {
                 getAttributesFile() + "\n" +
                 "Startup file" + "\n" +
                 getStartupFile() + "\n";
-        return buffer;
     }
 }

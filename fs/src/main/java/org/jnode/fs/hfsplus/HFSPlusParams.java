@@ -54,7 +54,7 @@ public class HFSPlusParams {
     private int catalogClumpSize;
     private int catalogNodeSize;
     private int extentClumpSize;
-    private int extentNodeSize;
+    private final int extentNodeSize;
     private int attributeClumpSize;
     private int attributeNodeSize;
     private int allocationClumpSize;
@@ -72,9 +72,9 @@ public class HFSPlusParams {
     /**
      * Initialize default sizes (allocation, catalog node, etc...)
      *
-     * @param fs
-     * @throws FileSystemException
-     * @throws IOException
+     * @param fs the fs
+     * @throws FileSystemException when an error occurs
+     * @throws IOException when an error occurs
      */
     public void initializeDefaultsValues(HfsPlusFileSystem fs)
         throws FileSystemException, IOException {
@@ -151,9 +151,9 @@ public class HFSPlusParams {
         }
     }
 
-    private int[] extentClumpTable = new int[]{4, 4, 4, 5, 5, 6, 7, 8, 9, 11, 14, 16, 20, 25, 32};
-    private int[] catalogClumpTable =
-        new int[]{4, 6, 8, 11, 14, 19, 25, 34, 45, 60, 80, 107, 144, 192, 256};
+    private final int[] extentClumpTable = new int[] {4, 4, 4, 5, 5, 6, 7, 8, 9, 11, 14, 16, 20, 25, 32};
+    private final int[] catalogClumpTable =
+        new int[] {4, 6, 8, 11, 14, 19, 25, 34, 45, 60, 80, 107, 144, 192, 256};
 
     /**
      * Get the file clump size for Extent and catalog B-Tree files.
@@ -196,12 +196,12 @@ public class HFSPlusParams {
     }
 
     /**
-     * @param clumpBlocks
-     * @return
+     * @param clumpBlocks the clump blocks
+     * @return clump size
      */
     private int clumpSizeCalculation(long clumpBlocks) throws FileSystemException {
         long clumpSize = clumpBlocks * blockSize;
-        if ((clumpSize & 0XFFFFFFFF00000000L) == 0) {
+        if ((clumpSize & 0xffff_ffff_0000_0000L) == 0) {
             throw new FileSystemException("Too many blocks (" + clumpBlocks + ") for clump size (" +
                 clumpSize + ").");
         }
@@ -245,7 +245,6 @@ public class HFSPlusParams {
     }
 
     public int getCatalogNodeSize() {
-
         return catalogNodeSize;
     }
 
@@ -296,5 +295,4 @@ public class HFSPlusParams {
     public int getInitializeNumRecords() {
         return journaled ? 6 : 2;
     }
-
 }

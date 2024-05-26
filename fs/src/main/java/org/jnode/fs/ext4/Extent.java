@@ -28,6 +28,7 @@ import org.jnode.util.LittleEndian;
  * @author Luke Quinane
  */
 public class Extent {
+
     /**
      * The length of an extent.
      */
@@ -36,7 +37,7 @@ public class Extent {
     /**
      * The data for the extent.
      */
-    private byte[] data;
+    private final byte[] data;
 
     /**
      * Create an extent object.

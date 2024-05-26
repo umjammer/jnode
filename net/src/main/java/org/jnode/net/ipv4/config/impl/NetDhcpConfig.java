@@ -32,9 +32,7 @@ import org.jnode.net.ipv4.dhcp.DHCPClient;
  */
 public class NetDhcpConfig extends NetDeviceConfig {
 
-    /**
-     * @see org.jnode.net.ipv4.config.impl.NetDeviceConfig#apply(org.jnode.driver.Device)
-     */
+    @Override
     public void doApply(Device device) throws NetworkException {
         final DHCPClient dhcp = new DHCPClient();
         try {
@@ -44,16 +42,12 @@ public class NetDhcpConfig extends NetDeviceConfig {
         }
     }
 
-    /**
-     * @see org.jnode.net.ipv4.config.impl.NetDeviceConfig#load(java.util.prefs.Preferences)
-     */
+    @Override
     public void load(Preferences prefs) {
         // Do nothing
     }
 
-    /**
-     * @see org.jnode.net.ipv4.config.impl.NetDeviceConfig#store(java.util.prefs.Preferences)
-     */
+    @Override
     public void store(Preferences prefs) {
         // Do nothing
     }

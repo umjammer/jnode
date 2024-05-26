@@ -31,10 +31,10 @@ all formats are mounted by fuse also!
 | ibm (dmg:jfat(fat16))        | ✅    |        |          |      |      |     |       |       |       | partition                                             |
 | pc98 (jfat(fat16))           | ✅    |        |          |      |      |     |       |       |       | partition                                             |
 | raw (exfat)                  | ✅    |        |          |      |      |     |       |       |       | virtual partition                                     |
-| vdisk (nhd:pc98:fat16)       | ✅    |        |          |      |      |     |       |       |       | [virtual disk](vavi-nio-file-emu), partition          |
-| fuse (vdisk(nhd):pc98:fat16) | ✅    |        |          |      |      |     |       |       |       | [fuse](vavi-net-fuse), virtualDisk, partition         |
+| vdisk (nhd:pc98:fat16)       | ✅    |        |          |      |      |     |       |       |       | [virtual disk](https://github.com/umjammer/vavi-nio-file-emu), partition          |
+| fuse (vdisk(nhd):pc98:fat16) | ✅    |        |          |      |      |     |       |       |       | [fuse](https://github.com/umjammer/vavi-net-fuse), virtualDisk, partition         |
 | vdisk (d88:pc98:n88)         | 🚧   |        |          |      | | | | |       | not solid image is not supported by DeviceAPI         |
-| vdisk (fdi:pc98:fat12)       | ✅    |        |          |      | | | | |       | [virtual disk](vavi-nio-file-emu), partition          |
+| vdisk (fdi:pc98:fat12)       | ✅    |        |          |      | | | | |       | [virtual disk](https://github.com/umjammer/vavi-nio-file-emu), partition          |
 
 ## Install
 

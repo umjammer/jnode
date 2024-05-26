@@ -38,7 +38,7 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
 
     private static final Logger log = System.getLogger(Ext2File.class.getName());
 
-    String name;
+    final String name;
     INode iNode;
 
     public Ext2File(Ext2Entry entry) {
@@ -53,7 +53,7 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
 
     @Override
     public long getLength() {
-        // log.log(Level.DEBUG, "getLength(): "+iNode.getSize());
+//        log.log(Level.DEBUG, "getLength(): "+iNode.getSize());
         return iNode.getSize();
     }
 
@@ -64,8 +64,7 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
         long blockSize = iNode.getExt2FileSystem().getBlockSize();
 
         // synchronize to the inode cache to make sure that the inode does not
-        // get
-        // flushed between reading it and locking it
+        // get flushed between reading it and locking it
         synchronized (((Ext2FileSystem) getFileSystem()).getInodeCache()) {
             // reread the inode before synchronizing to it to make sure
             // all threads use the same instance
@@ -107,11 +106,9 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
                     return;
                 }
 
-                // if length>getLength(), then new blocks are allocated for the
-                // file
-                // The content of the new blocks is undefined (see the
-                // setLength(long i)
-                // method of java.io.RandomAccessFile
+                // if length>getLength(), then new blocks are allocated for the file
+                // The content of the new blocks is undefined
+                // (see the setLength(long i) method of java.io.RandomAccessFile)
                 if (length > getLength()) {
                     long len = length - getLength();
                     long blocksAllocated = getLengthInBlocks();
@@ -187,8 +184,7 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
         log.log(Level.DEBUG, "File:" + name + " size:" + getLength() + " read offset: " + fileOffset + " len: "
                 + dest.length);
 
-        // a single inode may be represented by more than one Ext2Directory
-        // instances,
+        // a single inode may be represented by more than one Ext2Directory instances,
         // but each will use the same instance of the underlying inode (see
         // Ext2FileSystem.getINode()),
         // so synchronize to the inode
@@ -238,8 +234,7 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
         }
 
         // synchronize to the inode cache to make sure that the inode does not
-        // get
-        // flushed between reading it and locking it
+        // get flushed between reading it and locking it
         synchronized (((Ext2FileSystem) getFileSystem()).getInodeCache()) {
             // reread the inode before synchronizing to it to make sure
             // all threads use the same instance
@@ -262,10 +257,11 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
             // Ext2FileSystem.getINode()),
             // so synchronize to the inode
             synchronized (iNode) {
-                if (fileOffset > getLength()) throw new IOException(
-                    "Can't write beyond the end of the file! (fileOffset: " + fileOffset + ", getLength()"
-                        + getLength());
-                if (off + len > src.length) throw new IOException("src is shorter than what you want to write");
+                if (fileOffset > getLength())
+                    throw new IOException("Can't write beyond the end of the file! (fileOffset: " +
+                            fileOffset + ", getLength()" + getLength());
+                if (off + len > src.length)
+                    throw new IOException("src is shorter than what you want to write");
 
                 log.log(Level.DEBUG, "write(fileOffset=" + fileOffset + ", src, off, len=" + len + ")");
 
@@ -291,9 +287,8 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
                     if (blockIndex >= blocksAllocated) {
                         try {
                             iNode.allocateDataBlock(blockIndex);
-                        } catch (FileSystemException ex) {
-                            final IOException ioe = new IOException("Internal filesystem exception", ex);
-                            throw ioe;
+                        } catch (FileSystemException e) {
+                            throw new IOException("Internal filesystem exception", e);
                         }
                         blocksAllocated++;
                     }
@@ -307,12 +302,11 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
 
                 iNode.setMtime(System.currentTimeMillis() / 1000);
             }
-        } catch (IOException ex) {
+        } catch (IOException e) {
             // ... this avoids wrapping an IOException inside another one.
-            throw ex;
-        } catch (Throwable ex) {
-            final IOException ioe = new IOException(ex);
-            throw ioe;
+            throw e;
+        } catch (Throwable e) {
+            throw new IOException(e);
         } finally {
             // write done, unlock the inode from the cache
             iNode.decLocked();
@@ -336,9 +330,8 @@ public class Ext2File extends AbstractFSFile implements FSFileSlackSpace {
         long iNodeNr = iNode.getINodeNr();
         try {
             iNode = ((Ext2FileSystem) getFileSystem()).getINode(iNodeNr);
-        } catch (FileSystemException ex) {
-            final IOException ioe = new IOException(ex);
-            throw ioe;
+        } catch (FileSystemException e) {
+            throw new IOException(e);
         }
     }
 

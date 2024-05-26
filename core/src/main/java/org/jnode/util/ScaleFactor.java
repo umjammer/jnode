@@ -21,6 +21,7 @@
 package org.jnode.util;
 
 public interface ScaleFactor {
+
     long getMultiplier();
 
     String getUnit();

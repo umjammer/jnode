@@ -36,7 +36,7 @@ public class GroupDescriptor {
 
     public static final int GROUPDESCRIPTOR_LENGTH = 32;
 
-    private byte[] data;
+    private final byte[] data;
     private Ext2FileSystem fs;
     private int groupNr;
     private boolean dirty;
@@ -74,8 +74,7 @@ public class GroupDescriptor {
         if (!fs.groupHasDescriptors(groupNr))
             desc = 0;
         else
-            desc =
-                    1 + /* superblock */
+            desc = 1 + /* superblock */
                     Ext2Utils.ceilDiv((long) fs.getGroupCount() * GroupDescriptor.GROUPDESCRIPTOR_LENGTH,
                             fs.getBlockSize()); /* GDT */
         Superblock superblock = fs.getSuperblock();
@@ -88,17 +87,13 @@ public class GroupDescriptor {
         long inodeTableSize = Ext2Utils.ceilDiv(superblock.getINodesPerGroup() * iNodeSize, fs.getBlockSize());
         long blockCount;
         if (groupNr == fs.getGroupCount() - 1)
-            blockCount =
-                superblock.getBlocksCount() - 
+            blockCount = superblock.getBlocksCount() -
                 superblock.getBlocksPerGroup() * (fs.getGroupCount() - 1) - 
                 superblock.getFirstDataBlock();
         else
             blockCount = superblock.getBlocksPerGroup();
 
-        setFreeBlocksCount((int) (blockCount - desc /*
-                                                     * superblock copy, GDT
-                                                     * copies
-                                                     */
+        setFreeBlocksCount((int) (blockCount - desc /* superblock copy, GDT copies */
                 - 2 /* block and inode bitmaps */
                 - inodeTableSize)); /* inode table */
 
@@ -122,11 +117,10 @@ public class GroupDescriptor {
      */
     protected synchronized void updateGroupDescriptor() throws IOException {
         if (isDirty()) {
-            log.log(Level.DEBUG, "Updating groupdescriptor copies");
+            log.log(Level.DEBUG, "Updating groupDescriptor copies");
             Superblock superblock = fs.getSuperblock();
             for (int i = 0; i < fs.getGroupCount(); i++) {
-                // check if there is a group descriptor table copy in the block
-                // group
+                // check if there is a group descriptor table copy in the block group
                 if (!fs.groupHasDescriptors(i))
                     continue;
 
@@ -147,8 +141,7 @@ public class GroupDescriptor {
         return GROUPDESCRIPTOR_LENGTH;
     }
 
-    // this field is only written during format (so no synchronization issues
-    // here)
+    // this field is only written during format (so no synchronization issues here)
     public long getBlockBitmap() {
         return LittleEndian.getUInt32(data, 0);
     }
@@ -158,8 +151,7 @@ public class GroupDescriptor {
         setDirty(true);
     }
 
-    // this field is only written during format (so no synchronization issues
-    // here)
+    // this field is only written during format (so no synchronization issues here)
     public long getInodeBitmap() {
         return LittleEndian.getUInt32(data, 4);
     }
@@ -169,8 +161,7 @@ public class GroupDescriptor {
         setDirty(true);
     }
 
-    // this field is only written during format (so no synchronization issues
-    // here)
+    // this field is only written during format (so no synchronization issues here)
     public long getInodeTable() {
         return LittleEndian.getUInt32(data, 8);
     }
@@ -215,7 +206,7 @@ public class GroupDescriptor {
     }
 
     /**
-     * @param b
+     * @param b the b
      */
     public void setDirty(boolean b) {
         dirty = b;

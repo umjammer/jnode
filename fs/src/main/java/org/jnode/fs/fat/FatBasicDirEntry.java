@@ -25,7 +25,7 @@ package org.jnode.fs.fat;
  */
 public class FatBasicDirEntry extends FatObject implements FatConstants {
 
-    protected byte[] rawData = new byte[32];
+    protected final byte[] rawData = new byte[32];
 
     public FatBasicDirEntry(AbstractDirectory dir) {
         super(dir.getFatFileSystem());

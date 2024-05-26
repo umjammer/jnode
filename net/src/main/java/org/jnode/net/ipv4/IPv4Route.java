@@ -40,8 +40,8 @@ public class IPv4Route implements IPv4Constants {
     /**
      * Create a new instance
      * 
-     * @param destination
-     * @param device
+     * @param destination the destination
+     * @param device the device
      * @throws IllegalArgumentException If the device is not a network device.
      */
     public IPv4Route(IPv4Address destination, Device device) throws IllegalArgumentException {
@@ -51,8 +51,8 @@ public class IPv4Route implements IPv4Constants {
     /**
      * Create a new instance
      * 
-     * @param destination
-     * @param device
+     * @param destination the destination
+     * @param device the device
      * @throws IllegalArgumentException If the device is not a network device.
      */
     public IPv4Route(IPv4Address destination, IPv4Address subnetmask, Device device)
@@ -63,9 +63,9 @@ public class IPv4Route implements IPv4Constants {
     /**
      * Create a new instance
      * 
-     * @param destination
-     * @param gateway
-     * @param device
+     * @param destination the destination
+     * @param gateway the gateway
+     * @param device the device
      * @throws IllegalArgumentException If the device is not a network device.
      */
     public IPv4Route(IPv4Address destination, IPv4Address subnetmask, IPv4Address gateway,
@@ -129,7 +129,7 @@ public class IPv4Route implements IPv4Constants {
     /**
      * Set the gateway flag
      * 
-     * @param on
+     * @param on the on
      * @throws IllegalArgumentException If on is true and no gateway address is
      *             set.
      */
@@ -148,7 +148,7 @@ public class IPv4Route implements IPv4Constants {
     /**
      * Set the up flag
      * 
-     * @param on
+     * @param on the on
      */
     public void setUp(boolean on) {
         if (on) {

@@ -35,29 +35,29 @@ public interface IPv4ConfigurationService {
     /**
      * Configure the device using BOOTP.
      * 
-     * @param device
-     * @param persistent
-     * @throws NetworkException
+     * @param device the device
+     * @param persistent the persistent
+     * @throws NetworkException when an error occurs
      */
     void configureDeviceBootp(Device device, boolean persistent) throws NetworkException;
 
     /**
      * Configure the device using DHCP.
      * 
-     * @param device
-     * @param persistent
-     * @throws NetworkException
+     * @param device the device
+     * @param persistent the persistent
+     * @throws NetworkException when an error occurs
      */
     void configureDeviceDhcp(Device device, boolean persistent) throws NetworkException;
 
     /**
      * Set a static configuration for the given device.
      * 
-     * @param device
-     * @param address
-     * @param netmask
-     * @param persistent
-     * @throws NetworkException
+     * @param device the device
+     * @param address the address
+     * @param netmask the netmask
+     * @param persistent the persistent
+     * @throws NetworkException when an error occurs
      */
     void configureDeviceStatic(Device device, IPv4Address address, IPv4Address netmask,
             boolean persistent) throws NetworkException;
@@ -65,11 +65,11 @@ public interface IPv4ConfigurationService {
     /**
      * Add a route
      * 
-     * @param target
-     * @param gateway
-     * @param device
-     * @param persistent
-     * @throws NetworkException
+     * @param target the target
+     * @param gateway the gateway
+     * @param device the device
+     * @param persistent the persistent
+     * @throws NetworkException when an error occurs
      */
     void addRoute(IPv4Address target, IPv4Address gateway, Device device, boolean persistent)
         throws NetworkException;
@@ -77,10 +77,10 @@ public interface IPv4ConfigurationService {
     /**
      * Delete a route
      * 
-     * @param target
-     * @param gateway
-     * @param device
-     * @throws NetworkException
+     * @param target the target
+     * @param gateway the gateway
+     * @param device the device
+     * @throws NetworkException when an error occurs
      */
     void deleteRoute(IPv4Address target, IPv4Address gateway, Device device)
         throws NetworkException;

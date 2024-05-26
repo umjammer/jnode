@@ -6,9 +6,12 @@
 
 package org.jnode.partitions.raw;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+
 import org.jnode.partitions.PartitionTableEntry;
 
-import vavi.util.Debug;
+import static java.lang.System.getLogger;
 
 
 /**
@@ -19,11 +22,13 @@ import vavi.util.Debug;
  */
 public class RawPartitionTableEntry implements PartitionTableEntry {
 
+    private static final Logger logger = getLogger(RawPartitionTableEntry.class.getName());
+
     /**
      * Creates a new entry.
      */
     public RawPartitionTableEntry() {
-Debug.println("virtual raw partition");
+logger.log(Level.DEBUG, "virtual raw partition");
     }
 
     @Override

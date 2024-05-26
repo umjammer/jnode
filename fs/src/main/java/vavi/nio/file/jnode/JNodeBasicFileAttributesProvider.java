@@ -7,6 +7,8 @@
 package vavi.nio.file.jnode;
 
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.nio.file.attribute.GroupPrincipal;
@@ -21,13 +23,16 @@ import org.jnode.fs.FSEntry;
 
 import com.github.fge.filesystem.attributes.provider.BasicFileAttributesProvider;
 
-import vavi.util.Debug;
+
+import static java.lang.System.getLogger;
 
 
 /**
  * {@link BasicFileAttributes} implementation for JNode.
  */
 public final class JNodeBasicFileAttributesProvider extends BasicFileAttributesProvider implements PosixFileAttributes {
+
+    private static final Logger logger = getLogger(JNodeBasicFileAttributesProvider.class.getName());
 
     private final FSEntry entry;
 
@@ -51,7 +56,7 @@ public final class JNodeBasicFileAttributesProvider extends BasicFileAttributesP
         try {
             return FileTime.fromMillis(entry.getLastModified());
         } catch (IOException e) {
-Debug.println(e);
+logger.log(Level.ERROR, e.getMessage(), e);
             return FileTime.fromMillis(0);
         }
     }
@@ -86,24 +91,21 @@ Debug.println(e);
         try {
             return entry.getFile().getLength();
         } catch (IOException e) {
-Debug.println(e);
+logger.log(Level.ERROR, e.getMessage(), e);
             return 0;
         }
     }
 
-    /* @see java.nio.file.attribute.PosixFileAttributes#owner() */
     @Override
     public UserPrincipal owner() {
         return null;
     }
 
-    /* @see java.nio.file.attribute.PosixFileAttributes#group() */
     @Override
     public GroupPrincipal group() {
         return null;
     }
 
-    /* @see java.nio.file.attribute.PosixFileAttributes#permissions() */
     @Override
     public Set<PosixFilePermission> permissions() {
         return isDirectory() ? PosixFilePermissions.fromString("rwxr-xr-x") : PosixFilePermissions.fromString("rw-r--r--");

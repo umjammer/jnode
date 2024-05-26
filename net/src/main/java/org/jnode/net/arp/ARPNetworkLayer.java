@@ -81,13 +81,15 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * Gets the name of this type
      */
+    @Override
     public String getName() {
         return "arp";
     }
 
     /**
-     * Gets the protocol ID this packettype handles
+     * Gets the protocol ID this packet-type handles
      */
+    @Override
     public int getProtocolID() {
         return EthernetConstants.ETH_P_ARP;
     }
@@ -95,6 +97,7 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * Can this packet type process packets received from the given device?
      */
+    @Override
     public boolean isAllowedForDevice(Device dev) {
         // For all devices
         return true;
@@ -103,10 +106,11 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * Process a packet that has been received and matches getType()
      *
-     * @param skbuf
-     * @param deviceAPI
-     * @throws SocketException
+     * @param skbuf the socket buffer
+     * @param deviceAPI the device API
+     * @throws SocketException when an error occurs
      */
+    @Override
     public void receive(SocketBuffer skbuf, NetDeviceAPI deviceAPI) throws SocketException {
 
         // Update statistics
@@ -142,10 +146,10 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * Process and ARP request.
      *
-     * @param skbuf
-     * @param hdr
-     * @param deviceAPI
-     * @throws NetworkException
+     * @param skbuf the socket buffer
+     * @param hdr the hdr
+     * @param deviceAPI the deviceAPI
+     * @throws NetworkException when an error occurs
      */
     private void processARPRequest(SocketBuffer skbuf, ARPHeader hdr, NetDeviceAPI deviceAPI)
         throws SocketException {
@@ -170,10 +174,10 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * Process and ARP reply
      *
-     * @param skbuf
-     * @param hdr
-     * @param deviceAPI
-     * @throws NetworkException
+     * @param skbuf the socket buffer
+     * @param hdr the hdr
+     * @param deviceAPI the deviceAPI
+     * @throws NetworkException when an error occurs
      */
     private void processARPReply(SocketBuffer skbuf, ARPHeader hdr, NetDeviceAPI deviceAPI)
         throws SocketException {
@@ -183,10 +187,10 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * Process and RARP request
      *
-     * @param skbuf
-     * @param hdr
-     * @param deviceAPI
-     * @throws NetworkException
+     * @param skbuf the socket buffer
+     * @param hdr the hdr
+     * @param deviceAPI the deviceAPI
+     * @throws NetworkException when an error occurs
      */
     private void processRARPRequest(SocketBuffer skbuf, ARPHeader hdr, NetDeviceAPI deviceAPI)
         throws SocketException {
@@ -197,10 +201,10 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * Process and RARP reply
      *
-     * @param skbuf
-     * @param hdr
-     * @param deviceAPI
-     * @throws NetworkException
+     * @param skbuf the socket buffer
+     * @param hdr the hdr
+     * @param deviceAPI the deviceAPI
+     * @throws NetworkException when an error occurs
      */
     private void processRARPReply(SocketBuffer skbuf, ARPHeader hdr, NetDeviceAPI deviceAPI)
         throws SocketException {
@@ -214,24 +218,18 @@ public class ARPNetworkLayer implements NetworkLayer {
         return cache;
     }
 
-    /**
-     * @see org.jnode.net.NetworkLayer#getStatistics()
-     */
+    @Override
     public Statistics getStatistics() {
         return stat;
     }
 
-    /**
-     * @see org.jnode.net.NetworkLayer#registerTransportLayer(org.jnode.net.TransportLayer)
-     */
+    @Override
     public void registerTransportLayer(TransportLayer layer)
         throws LayerAlreadyRegisteredException, InvalidLayerException {
         throw new InvalidLayerException("ARP cannot register transportlayers");
     }
 
-    /**
-     * @see org.jnode.net.NetworkLayer#unregisterTransportLayer(org.jnode.net.TransportLayer)
-     */
+    @Override
     public void unregisterTransportLayer(TransportLayer layer) {
         // Just ignore
     }
@@ -239,6 +237,7 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * Gets all registered transport-layers
      */
+    @Override
     public Collection<TransportLayer> getTransportLayers() {
         return new ArrayList<>(0);
     }
@@ -246,8 +245,9 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * Gets a registered transportlayer by its protocol ID.
      *
-     * @param protocolID
+     * @param protocolID the protocolID
      */
+    @Override
     public TransportLayer getTransportLayer(int protocolID) throws NoSuchProtocolException {
         throw new NoSuchProtocolException("protocol " + protocolID);
     }
@@ -255,12 +255,12 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * Gets the hardware address for a given protocol address.
      *
-     * @param address
-     * @param myAddress
-     * @param device
-     * @param timeout
-     * @throws TimeoutException
-     * @throws NetworkException
+     * @param address the address
+     * @param myAddress the myAddress
+     * @param device the device
+     * @param timeout the timeout
+     * @throws TimeoutException when an error occurs
+     * @throws NetworkException when an error occurs
      */
     public HardwareAddress getHardwareAddress(ProtocolAddress address, ProtocolAddress myAddress,
                                               Device device, long timeout) throws TimeoutException, NetworkException {
@@ -301,9 +301,10 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * Gets the protocol addresses for a given name, or null if not found.
      *
-     * @param hostname
+     * @param hostname the hostname
      * @return the addresses or {@code null}
      */
+    @Override
     public ProtocolAddress[] getHostByName(String hostname) {
         return null;
     }
@@ -311,9 +312,9 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * Create and transmit an ARP request
      *
-     * @param address
-     * @param myAddress
-     * @param device
+     * @param address the address
+     * @param myAddress the myAddress
+     * @param device the device
      */
     private void request(ProtocolAddress address, ProtocolAddress myAddress, Device device)
         throws NetworkException {
@@ -338,7 +339,7 @@ public class ARPNetworkLayer implements NetworkLayer {
     /**
      * Gets the NetDeviceAPI for a given device
      *
-     * @param device
+     * @param device the device
      */
     private NetDeviceAPI getAPI(Device device) {
         try {

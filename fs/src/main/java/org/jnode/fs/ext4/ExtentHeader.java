@@ -30,6 +30,7 @@ import org.jnode.util.LittleEndian;
  * @author Luke Quinane
  */
 public class ExtentHeader {
+
     /**
      * The length of an extent header.
      */
@@ -192,7 +193,7 @@ public class ExtentHeader {
 
     @Override
     public String toString() {
-        return String
-            .format("ExtentHeader: depth:%d entries:%d/%d", getDepth(), getEntryCount(), getMaximumEntryCount());
+        return String.format(
+                "ExtentHeader: depth:%d entries:%d/%d", getDepth(), getEntryCount(), getMaximumEntryCount());
     }
 }

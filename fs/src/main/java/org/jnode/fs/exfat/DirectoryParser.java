@@ -55,7 +55,7 @@ public class DirectoryParser {
     }
 
     public static DirectoryParser create(Node node, boolean showDeleted) throws IOException {
-        assert (node.isDirectory()) : "not a directory"; //NOI18N
+        assert (node.isDirectory()) : "not a directory";
 
         final DirectoryParser result = new DirectoryParser(node, showDeleted);
         result.init();
@@ -65,7 +65,7 @@ public class DirectoryParser {
     private final ExFatSuperBlock sb;
     private final ByteBuffer chunk;
     private final Node node;
-    private boolean showDeleted;
+    private final boolean showDeleted;
     private long cluster;
     private UpcaseTable upcase;
     private int index;
@@ -96,8 +96,7 @@ public class DirectoryParser {
     }
 
     private boolean advance() throws IOException {
-        assert ((chunk.position() % ENTRY_SIZE) == 0) :
-            "not on entry boundary"; //NOI18N
+        assert ((chunk.position() % ENTRY_SIZE) == 0) : "not on entry boundary";
 
         if (chunk.remaining() == 0) {
             cluster = node.nextCluster(cluster);
@@ -210,9 +209,9 @@ public class DirectoryParser {
 
         final int referenceChecksum = DeviceAccess.getUint16(chunk);
         final int attrib = DeviceAccess.getUint16(chunk);
-        skip(2); /* unknown */
+        skip(2); // unknown
         final EntryTimes times = EntryTimes.read(chunk);
-        skip(7); /* unknown */
+        skip(7); // unknown
 
         advance();
 
@@ -228,12 +227,12 @@ public class DirectoryParser {
         }
 
         final int flag = DeviceAccess.getUint8(chunk);
-        skip(1); /* unknown */
+        skip(1); // unknown
         int nameLen = DeviceAccess.getUint8(chunk);
         final int nameHash = DeviceAccess.getUint16(chunk);
-        skip(2); /* unknown */
+        skip(2); // unknown
         final long realSize = DeviceAccess.getUint64(chunk);
-        skip(4); /* unknown */
+        skip(4); // unknown
         final long startCluster = DeviceAccess.getUint32(chunk);
         final long size = DeviceAccess.getUint64(chunk);
 
@@ -243,7 +242,7 @@ public class DirectoryParser {
 
         conts--;
 
-        /* read file name */
+        // read file name
         final StringBuilder nameBuilder = new StringBuilder(nameLen);
 
         while (conts-- > 0) {
@@ -271,7 +270,7 @@ public class DirectoryParser {
             assert (nameLen >= 0);
 
             if (nameLen == 0) {
-                assert (conts == 0) : "conts remaining?!"; //NOI18N
+                assert (conts == 0) : "conts remaining?!";
                 skip((ENAME_MAX_LEN - toRead) * DeviceAccess.BYTES_PER_CHAR);
             }
         }
@@ -344,21 +343,20 @@ public class DirectoryParser {
             String label) throws IOException;
 
         /**
-         * @param startCluster
+         * @param startCluster the startCluster
          * @param size         bitmap size in bytes
          */
         void foundBitmap(
             long startCluster, long size) throws IOException;
 
         /**
-         * @param checksum
-         * @param startCluster
+         * @param checksum the checksum
+         * @param startCluster the startCluster
          * @param size         table size in bytes
          */
         void foundUpcaseTable(DirectoryParser parser,
-                                     long checksum, long startCluster, long size) throws IOException;
+                              long checksum, long startCluster, long size) throws IOException;
 
         void foundNode(Node node, int index) throws IOException;
     }
-
 }

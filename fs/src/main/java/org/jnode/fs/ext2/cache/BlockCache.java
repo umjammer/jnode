@@ -53,6 +53,7 @@ public final class BlockCache extends LinkedHashMap<Object, Block> {
         cacheListeners.add(listener);
     }
 
+    @Override
     protected synchronized boolean removeEldestEntry(Map.Entry<Object, Block> eldest) {
         log.log(Level.DEBUG, "BlockCache size: " + size());
         if (size() > MAX_SIZE) {

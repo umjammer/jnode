@@ -37,11 +37,11 @@ import java.nio.charset.CoderResult;
  */
 public class WriterOutputStream extends OutputStream {
 
-    private ByteBuffer bytes = ByteBuffer.allocate(2048);
-    private CharBuffer chars = CharBuffer.allocate(2048);
+    private final ByteBuffer bytes = ByteBuffer.allocate(2048);
+    private final CharBuffer chars = CharBuffer.allocate(2048);
 
-    private Writer writer;
-    private CharsetDecoder decoder;
+    private final Writer writer;
+    private final CharsetDecoder decoder;
     private final boolean reallyClose;
 
     /**

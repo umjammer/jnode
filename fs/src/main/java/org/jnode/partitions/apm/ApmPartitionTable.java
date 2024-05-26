@@ -47,7 +47,6 @@ public class ApmPartitionTable implements PartitionTable<ApmPartitionTableEntry>
     /**
      * Create a new instance
      *
-     * @param tableType the partition table type.
      * @param first16KiB the first 16,384 bytes of the disk.
      * @param device the drive device.
      */

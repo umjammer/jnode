@@ -14,8 +14,8 @@ public class FatEntriesFactory {
     private int index;
     private int next;
     private FatEntry entry;
-    protected boolean includeDeleted;
-    private FatDirectory directory;
+    protected final boolean includeDeleted;
+    private final FatDirectory directory;
 
     protected FatEntriesFactory(FatDirectory directory, boolean includeDeleted) {
         label = false;

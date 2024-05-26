@@ -48,7 +48,7 @@ public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
     /**
      * The directory entry
      */
-    private HfsPlusEntry entry;
+    private final HfsPlusEntry entry;
 
     /**
      * Table of entries of our parent
@@ -58,7 +58,7 @@ public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
     /**
      * The catalog directory record
      */
-    private CatalogFolder folder;
+    private final CatalogFolder folder;
 
     /**
      * The hardlink directory which contains the actual directory contents if this directory is a hard link.
@@ -101,7 +101,7 @@ public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
     }
 
     private FSEntry createFileEntry(final String name) throws IOException {
-        //TODO implements this method.
+        // TODO implements this method.
         /*
          * if (fs.isReadOnly()) { throw new ReadOnlyFileSystemException(); }
          * Catalog catalog = fs.getCatalog(); SuperBlock volumeHeader =
@@ -177,7 +177,7 @@ public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
 
     /**
      * BE CAREFULL : don't call this method from the constructor of this class
-     * because it call the method readEntries of the child classes that are not
+     * because it calls the method readEntries of the child classes that are not
      * yet initialized (constructed).
      */
     protected final void checkEntriesLoaded() {
@@ -214,7 +214,7 @@ public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
 
     /**
      * @return read all entries link to the current directory in the file system.
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     private FSEntryTable readEntries() throws IOException {
         List<FSEntry> pathList = new LinkedList<>();
@@ -317,8 +317,8 @@ public class HfsPlusDirectory implements FSDirectory, FSDirectoryId {
     /**
      * Find a free entry and set it with the given entry
      *
-     * @param newEntry
-     * @throws IOException
+     * @param newEntry the newEntry
+     * @throws IOException when an error occurs
      */
     private void setFreeEntry(FSEntry newEntry) throws IOException {
         checkEntriesLoaded();

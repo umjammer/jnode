@@ -8,9 +8,10 @@ package org.jnode.partitions.pc98;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.logging.Level;
 
 import org.jnode.driver.Device;
 import org.jnode.driver.block.BlockDeviceAPI;
@@ -18,12 +19,11 @@ import org.jnode.partitions.PartitionTable;
 import org.jnode.partitions.PartitionTableException;
 import org.jnode.partitions.PartitionTableType;
 import org.jnode.util.LittleEndian;
-
-import vavi.util.Debug;
 import vavi.util.StringUtil;
 import vavi.util.serdes.Serdes;
-
 import vavix.io.partition.PC98PartitionEntry;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -33,6 +33,8 @@ import vavix.io.partition.PC98PartitionEntry;
  * @version 0.00 2022/02/06 umjammer initial version <br>
  */
 public class PC98PartitionTableType implements PartitionTableType {
+
+    private static final Logger logger = getLogger(PC98PartitionTableType.class.getName());
 
     @Override
     public PartitionTable<?> create(byte[] firstSector, Device device) throws PartitionTableException {
@@ -44,7 +46,7 @@ public class PC98PartitionTableType implements PartitionTableType {
         return "PC98";
     }
 
-    /** */
+    @Override
     public String getScheme() {
         return "pc98";
     }
@@ -56,26 +58,26 @@ public class PC98PartitionTableType implements PartitionTableType {
     // works don't touch
     @Override
     public boolean supports(byte[] bootSector, BlockDeviceAPI devApi) {
-Debug.println(Level.FINER, "bootSector: \n" + StringUtil.getDump(bootSector));
+logger.log(Level.DEBUG, "bootSector: \n" + StringUtil.getDump(bootSector));
         if (bootSector.length < 0x400) {
-Debug.printf(Level.FINE, "Not enough data for detection: %04x/%04x%n", bootSector.length, 0x400);
+logger.log(Level.DEBUG, String.format("Not enough data for detection: %04x/%04x", bootSector.length, 0x400));
             return false;
         }
 
         if (LittleEndian.getUInt16(bootSector, 510) != 0xaa55) {
-Debug.printf(Level.FINE, "No aa55 magic: %04x%n", LittleEndian.getUInt16(bootSector, 510));
+logger.log(Level.DEBUG, String.format("No aa55 magic: %04x", LittleEndian.getUInt16(bootSector, 510)));
             return false;
         }
 
         if (Arrays.stream(iplSignatures).noneMatch(s ->
             new String(bootSector, 4, s.length(), StandardCharsets.US_ASCII).equals(s)
         )) {
-Debug.println(Level.FINE, "no matching signature is found: " + new String(bootSector, 4, 4, StandardCharsets.US_ASCII));
+logger.log(Level.DEBUG, "no matching signature is found: " + new String(bootSector, 4, 4, StandardCharsets.US_ASCII));
             return false;
         }
 
         if (new String(bootSector, 0x36, 3, StandardCharsets.US_ASCII).equals("FAT")) {
-Debug.println(Level.FINE, "strings FAT is found, this partition might be for AT");
+logger.log(Level.DEBUG, "strings FAT is found, this partition might be for AT");
             return false;
         }
 
@@ -91,7 +93,7 @@ Debug.println(Level.FINE, "strings FAT is found, this partition might be for AT"
             } catch (IOException e) {
                 continue;
             }
-Debug.println("[" + count + "]: " + pe);
+logger.log(Level.DEBUG, "[" + count + "]: " + pe);
             count++;
         }
 

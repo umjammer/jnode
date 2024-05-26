@@ -28,9 +28,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CatalogKeyTest {
-    byte[] KEY_AS_BYTES_ARRAY =
+    final byte[] KEY_AS_BYTES_ARRAY =
         new byte[]{0, 24, 0, 0, 0, 7, 0, 8, 0, 116, 0, 101, 0, 115, 0, 116, 0, 46, 0, 116, 0, 120, 0, 116};
-    String NODE_NAME_AS_STRING = "test.txt";
+    final String NODE_NAME_AS_STRING = "test.txt";
 
     @Test
     public void testKeyFromBytesArray() {

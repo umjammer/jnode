@@ -26,9 +26,10 @@ import java.nio.ByteBuffer;
 import org.jnode.fs.FSFile;
 
 /**
- * @author Levente S\u00e1ntha
+ * @author Levente Sántha
  */
 public class FTPFSFile extends FTPFSEntry implements FSFile {
+
     private byte[] data;
 
     FTPFSFile(FTPFileSystem fileSystem, FTPFile ftpFile) {
@@ -40,6 +41,7 @@ public class FTPFSFile extends FTPFSEntry implements FSFile {
      *
      * @return long
      */
+    @Override
     public long getLength() {
         return ftpFile.size();
     }
@@ -49,21 +51,21 @@ public class FTPFSFile extends FTPFSEntry implements FSFile {
      * The read data is read fom this file starting at offset <code>fileOffset</code>
      * and stored in <code>dest</code> starting at offset <code>ofs</code>.
      *
-     * @param fileOffset
-     * @param dest
-     * @throws java.io.IOException
+     * @param fileOffset the offset of file to start reading
+     * @param dest the destination buffer
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public synchronized void read(long fileOffset, ByteBuffer dest) throws IOException {
         try {
             if (data == null) {
                 synchronized (fileSystem) {
                     fileSystem.chdir(parent.path());
                     data = fileSystem.get(getName());
-                    //InputStream in = fileSystem.retrieveFileStream(getName());
-                    //int i = in.available();
-                    //data = new byte[i];
-                    //in.read(data);
-
+//                    InputStream in = fileSystem.retrieveFileStream(getName());
+//                    int i = in.available();
+//                    data = new byte[i];
+//                    in.read(data);
                 }
             }
             int len = dest.remaining();
@@ -79,8 +81,9 @@ public class FTPFSFile extends FTPFSEntry implements FSFile {
     /**
      * Flush any cached data to the disk.
      *
-     * @throws java.io.IOException
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public void flush() throws IOException {
         // TODO implement me
     }
@@ -88,9 +91,10 @@ public class FTPFSFile extends FTPFSEntry implements FSFile {
     /**
      * Sets the length of this file.
      *
-     * @param length
-     * @throws java.io.IOException
+     * @param length the length
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public void setLength(long length) throws IOException {
         // TODO implement me
     }
@@ -100,10 +104,11 @@ public class FTPFSFile extends FTPFSEntry implements FSFile {
      * The data is read from <code>src</code> starting at offset
      * <code>ofs</code> and written to this file starting at offset <code>fileOffset</code>.
      *
-     * @param fileOffset
-     * @param src
-     * @throws java.io.IOException
+     * @param fileOffset the fileOffset
+     * @param src the src
+     * @throws java.io.IOException when an error occurs
      */
+    @Override
     public void write(long fileOffset, ByteBuffer src) throws IOException {
         // TODO implement me
     }

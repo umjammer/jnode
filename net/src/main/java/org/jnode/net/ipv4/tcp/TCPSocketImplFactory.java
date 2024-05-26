@@ -34,17 +34,14 @@ public class TCPSocketImplFactory implements SocketImplFactory {
     /**
      * Initialize a new instance
      * 
-     * @param protocol
+     * @param protocol the protocol
      */
     public TCPSocketImplFactory(TCPProtocol protocol) {
         this.protocol = protocol;
     }
 
-    /**
-     * @see java.net.SocketImplFactory#createSocketImpl()
-     */
+    @Override
     public SocketImpl createSocketImpl() {
         return new TCPSocketImpl(protocol);
     }
-
 }

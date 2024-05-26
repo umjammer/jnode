@@ -23,5 +23,3 @@ public class JNodeFileSystemOptionsFactory extends FileSystemOptionsFactory {
         addLinkOption(LinkOption.NOFOLLOW_LINKS);
     }
 }
-
-/* */

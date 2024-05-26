@@ -35,8 +35,8 @@ public class FSEntryTableIgnoreCase extends FSEntryTable {
     /**
      * Construct a FSEntryTableIgnoreCase from a list of FSEntry
      * 
-     * @param fs
-     * @param entryList
+     * @param fs the fs
+     * @param entryList the entryList
      */
     public FSEntryTableIgnoreCase(AbstractFileSystem<?> fs, List<FSEntry> entryList) {
         super(fs, entryList);
@@ -45,6 +45,7 @@ public class FSEntryTableIgnoreCase extends FSEntryTable {
     /**
      * To Ignore case, we convert all entry names to upper case
      */
+    @Override
     protected String normalizeName(String name) {
         if (name == null) {
             return null;

@@ -20,7 +20,6 @@
 
 package org.jnode.fs.jfat;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -32,9 +31,9 @@ import org.jnode.fs.FileSystemFullException;
 
 /**
  * @author gvt
- * 
  */
 public class FatChain {
+
     private static final Logger log = System.getLogger(FatChain.class.getName());
 
     private final FatFileSystem fs;
@@ -43,10 +42,10 @@ public class FatChain {
     private int head;
     private boolean dirty;
 
-    private boolean dolog = false;
+    private final boolean dolog = false;
 
-    private ChainPosition position;
-    private ChainIterator iterator;
+    private final ChainPosition position;
+    private final ChainIterator iterator;
 
     public FatChain(FatFileSystem fs, int startEntry) {
         this.fs = fs;
@@ -359,7 +358,7 @@ public class FatChain {
     /**
      * length is used to zero the last cluster allocated to a chain when this is
      * required i.e. from FatFile
-     *
+     * <p>
      * when there is no need to zero the cluster at the end of the chain, last
      * cluster, we can use any clsize multiple or zero
      */
@@ -371,21 +370,21 @@ public class FatChain {
         if (offset < 0)
             throw new IllegalArgumentException("offset<0");
 
-        // ChainPosition p = new ChainPosition ( offset );
+//        ChainPosition p = new ChainPosition(offset);
         ChainPosition p = position;
         p.setPosition(offset);
         int clsize = p.getSize();
         int clidx = p.getIndex();
 
-        // int last;
-        // int cluster = 0;
+//        int last;
+//        int cluster = 0;
 
-        // ChainIterator i = listIterator (0);
+//        ChainIterator i = listIterator (0);
         ChainIterator i = iterator;
         int cluster = i.getCluster(clidx);
         int last = i.nextIndex();
 
-        // System.out.println("head=" + head + " clidx=" + clidx + " cluster=" + cluster + " last=" + last);
+//System.out.println("head=" + head + " clidx=" + clidx + " cluster=" + cluster + " last=" + last);
 
 //        for (last = 0; last < clidx; last++)
 //            if (i.hasNext())
@@ -526,7 +525,7 @@ public class FatChain {
      * Dumps a chain on a file: used for debugging and testing inside the
      * FatChain class size() can and must be used
      */
-    public void dump(String fileName) throws IOException, FileNotFoundException {
+    public void dump(String fileName) throws IOException {
         int size = size();
         FileOutputStream f = new FileOutputStream(fileName);
         ByteBuffer buf = ByteBuffer.allocate(fat.getClusterSize());
@@ -545,7 +544,7 @@ public class FatChain {
      * Dumps a chain cluster: used for debugging and testing "inside" the
      * FatChain class
      */
-    public void dumpCluster(String fileName, int index) throws IOException, FileNotFoundException {
+    public void dumpCluster(String fileName, int index) throws IOException {
         FileOutputStream f = new FileOutputStream(fileName);
         ByteBuffer buf = ByteBuffer.allocate(fat.getClusterSize());
 
@@ -661,10 +660,10 @@ public class FatChain {
         /**
          * this method is used to append a new allocated chain to the current
          * chain while is positioned at the end of chain
-         * 
+         * <p>
          * it can be used if and only if cursor is an EndOfChain it will throw
          * an exception otherwise
-         *
+         * </p>
          * chain index is not changed ... the chain remains positioned where it
          * was ...
          */
@@ -706,7 +705,7 @@ public class FatChain {
          * completeness, but it is expensive ... this a "true forward only list"
          * ... the previous element can be recovered only by a complete list
          * scan
-         *
+         * <p>
          * ... perhaps an UnsupportedOperationException would be better here ...
          * but who knows? ;-)
          */

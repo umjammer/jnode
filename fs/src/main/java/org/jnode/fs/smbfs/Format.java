@@ -21,6 +21,7 @@
 package org.jnode.fs.smbfs;
 
 public class Format {
+
     /**
      * Formats the number following printf conventions.
      * Main limitation: Can only handle one format parameter at a time
@@ -61,7 +62,6 @@ public class Format {
      *          </ul>
      * @throws IllegalArgumentException if bad format
      */
-
     public Format(String s) {
         width = 0;
         precision = -1;
@@ -144,7 +144,6 @@ public class Format {
      * @param fmt the format string
      * @param x   the double to print
      */
-
     public static void print(java.io.PrintStream s, String fmt, double x) {
         s.print(new Format(fmt).form(x));
     }
@@ -167,7 +166,6 @@ public class Format {
      * @param fmt the format string
      * @param x   the character to
      */
-
     public static void print(java.io.PrintStream s, String fmt, char x) {
         s.print(new Format(fmt).form(x));
     }
@@ -178,7 +176,6 @@ public class Format {
      * @param s a PrintStream, fmt the format string
      * @param x a string that represents the digits to print
      */
-
     public static void print(java.io.PrintStream s, String fmt, String x) {
         s.print(new Format(fmt).form(x));
     }
@@ -189,7 +186,6 @@ public class Format {
      * @param s a string
      * @return the numeric value of the prefix of s representing a base 10 integer
      */
-
     public static int atoi(String s) {
         return (int) atol(s);
     }
@@ -200,7 +196,6 @@ public class Format {
      * @param s a string
      * @return the numeric value of the prefix of s representing a base 10 integer
      */
-
     public static long atol(String s) {
         int i = 0;
 
@@ -212,6 +207,7 @@ public class Format {
         } else return parseLong(s, 10);
     }
 
+    /** */
     private static long parseLong(String s, int base) {
         int i = 0;
         int sign = 1;
@@ -240,11 +236,10 @@ public class Format {
     }
 
     /**
-     * Converts a string of digits to an double
+     * Converts a string of digits to a double
      *
      * @param s a string
      */
-
     public static double atof(String s) {
         int i = 0;
         int sign = 1;
@@ -287,7 +282,6 @@ public class Format {
      * @return the formatted string
      * @throws IllegalArgumentException if bad argument
      */
-
     public String form(double x) {
         String r;
         if (precision < 0) precision = 6;
@@ -311,7 +305,6 @@ public class Format {
      * @param x the number to format
      * @return the formatted string
      */
-
     public String form(long x) {
         String r;
         int s = 0;
@@ -438,9 +431,7 @@ public class Format {
 
     private static String repeat(char c, int n) {
         if (n <= 0) return "";
-        StringBuilder s = new StringBuilder(n);
-        for (int i = 0; i < n; i++) s.append(c);
-        return s.toString();
+        return String.valueOf(c).repeat(n);
     }
 
     private static String convert(long x, int n, int m, String d) {
@@ -559,7 +550,7 @@ public class Format {
 
     private int width;
     private int precision;
-    private String pre;
+    private final String pre;
     private String post;
     private boolean leading_zeroes;
     private boolean show_plus;

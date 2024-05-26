@@ -74,18 +74,22 @@ public class FatFileSystem extends AbstractFileSystem<FatRootDirectory> {
         return cp;
     }
 
+    @Override
     protected FSFile createFile(FSEntry entry) throws IOException {
         return entry.getFile();
     }
 
+    @Override
     protected FSDirectory createDirectory(FSEntry entry) throws IOException {
         return entry.getDirectory();
     }
 
+    @Override
     protected FatRootDirectory createRootEntry() throws IOException {
         return new FatRootDirectory(this);
     }
 
+    @Override
     public void flush() throws IOException {
         super.flush();
         fat.flush();
@@ -97,16 +101,19 @@ public class FatFileSystem extends AbstractFileSystem<FatRootDirectory> {
         return String.format("FAT File System: %s", fat);
     }
 
+    @Override
     public long getFreeSpace() {
         // TODO implement me
         return -1;
     }
 
+    @Override
     public long getTotalSpace() {
         // TODO implement me
         return -1;
     }
 
+    @Override
     public long getUsableSpace() {
         // TODO implement me
         return -1;

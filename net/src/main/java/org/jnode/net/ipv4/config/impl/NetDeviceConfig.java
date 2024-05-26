@@ -20,9 +20,6 @@
 
 package org.jnode.net.ipv4.config.impl;
 
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.prefs.Preferences;
 
 import org.jnode.driver.Device;
@@ -43,14 +40,7 @@ abstract class NetDeviceConfig {
      * Apply this configuration for the device.
      */
     public final void apply(final Device device) throws NetworkException {
-        try {
-            AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
-                doApply(device);
-                return null;
-            });
-        } catch (PrivilegedActionException ex) {
-            throw (NetworkException) ex.getException();
-        }
+        doApply(device);
     }
 
     /**
@@ -60,13 +50,13 @@ abstract class NetDeviceConfig {
 
     /**
      * Load the data of this configuration from the given preferences.
-     * @param prefs
+     * @param prefs the preferences
      */
     public abstract void load(Preferences prefs);
 
     /**
      * Store the data of this configuration into the given preferences.
-     * @param prefs
+     * @param prefs the preferences
      */
     public abstract void store(Preferences prefs);
 }

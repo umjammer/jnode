@@ -37,7 +37,7 @@ public class TCPTimer extends Thread {
     /**
      * Create a new instance
      * 
-     * @param cbList
+     * @param cbList the cbList
      */
     public TCPTimer(TCPControlBlockList cbList) {
         super(autoName());
@@ -49,6 +49,7 @@ public class TCPTimer extends Thread {
      * 
      * @see java.lang.Runnable#run()
      */
+    @Override
     public void run() {
         while (!stop) {
             try {

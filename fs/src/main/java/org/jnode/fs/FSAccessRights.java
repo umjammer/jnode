@@ -54,7 +54,7 @@ public interface FSAccessRights extends FSObject {
     boolean canWrite();
 
     /**
-     * Returns <tt>true</tt> if execution is allow for the related entry.
+     * Returns <tt>true</tt> if execution is allowed for the related entry.
      * 
      * @return <tt>true</tt> if execution is allow for the related entry.
      */
@@ -64,29 +64,29 @@ public interface FSAccessRights extends FSObject {
      * Set related entry as readable. This right can be limited to the owner.
      * 
      * @param enable <tt>true</tt> to allow right to read the related entry.
-     * @param owneronly <tt>true</tt> to limit the read to the owner.
+     * @param ownerOnly <tt>true</tt> to limit the read to the owner.
      * 
      * @return <tt>true</tt> if read is allowed.
      */
-    boolean setReadable(boolean enable, boolean owneronly);
+    boolean setReadable(boolean enable, boolean ownerOnly);
 
     /**
      * Set related entry as writable. This right can be limited to the owner.
      * 
      * @param enable <tt>true</tt> to allow right to write the related entry.
-     * @param owneronly <tt>true</tt> to limit the write to the owner.
+     * @param ownerOnly <tt>true</tt> to limit the write to the owner.
      * 
      * @return <tt>true</tt> if write is allowed.
      */
-    boolean setWritable(boolean enable, boolean owneronly);
+    boolean setWritable(boolean enable, boolean ownerOnly);
 
     /**
      * Set related entry as executable. This right can be limited to the owner.
      * 
      * @param enable <tt>true</tt> to allow right to execute the related entry.
-     * @param owneronly <tt>true</tt> to limit the read to the owner.
+     * @param ownerOnly <tt>true</tt> to limit the read to the owner.
      * 
      * @return <tt>true</tt> if execution is allowed.
      */
-    boolean setExecutable(boolean enable, boolean owneronly);
+    boolean setExecutable(boolean enable, boolean ownerOnly);
 }

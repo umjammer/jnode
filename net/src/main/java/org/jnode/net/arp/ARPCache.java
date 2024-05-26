@@ -68,10 +68,10 @@ public class ARPCache {
     }
 
     /**
-     * Gets the cached netword address for the given protocol address, or null
+     * Gets the cached network address for the given protocol address, or null
      * if not found.
      * 
-     * @param protocolAddress
+     * @param protocolAddress the protocolAddress
      */
     public synchronized HardwareAddress get(ProtocolAddress protocolAddress) {
         final ARPCacheEntry entry = protocolToNetworkAddresses.get(protocolAddress);
@@ -90,10 +90,10 @@ public class ARPCache {
     }
 
     /**
-     * Gets the cached protocol address for the given netword address, or null
+     * Gets the cached protocol address for the given network address, or null
      * if not found.
      * 
-     * @param hardwareAddress
+     * @param hardwareAddress the hardwareAddress
      */
     public synchronized ProtocolAddress get(HardwareAddress hardwareAddress) {
         final ARPCacheEntry entry = networkToProtocolAddresses.get(hardwareAddress);

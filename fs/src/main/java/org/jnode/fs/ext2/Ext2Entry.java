@@ -46,11 +46,10 @@ public class Ext2Entry extends AbstractFSEntry implements FSEntryLastChanged, FS
     private static final Logger log = System.getLogger(Ext2Entry.class.getName());
 
     private INode iNode = null;
-    private long directoryRecordId;
-    private int type;
+    private final long directoryRecordId;
+    private final int type;
 
-    public Ext2Entry(INode iNode, long directoryRecordId, String name, int type, Ext2FileSystem fs,
-                     FSDirectory parent) {
+    public Ext2Entry(INode iNode, long directoryRecordId, String name, int type, Ext2FileSystem fs, FSDirectory parent) {
         super(fs, null, parent, name, getFSEntryType(name, iNode));
         this.iNode = iNode;
         this.directoryRecordId = directoryRecordId;
@@ -60,6 +59,7 @@ public class Ext2Entry extends AbstractFSEntry implements FSEntryLastChanged, FS
             (isDirectory() ? " is a directory " : "") + (isFile() ? " is a file " : ""));
     }
 
+    @Override
     public long getLastChanged() throws IOException {
         return iNode.getCtime() * 1000;
     }
@@ -69,10 +69,12 @@ public class Ext2Entry extends AbstractFSEntry implements FSEntryLastChanged, FS
         return Long.toString(iNode.getINodeNr()) + '-' + directoryRecordId;
     }
 
+    @Override
     public long getLastModified() throws IOException {
         return iNode.getMtime() * 1000;
     }
 
+    @Override
     public long getLastAccessed() throws IOException {
         return iNode.getAtime() * 1000;
     }
@@ -81,6 +83,7 @@ public class Ext2Entry extends AbstractFSEntry implements FSEntryLastChanged, FS
         iNode.setCtime(lastChanged / 1000);
     }
 
+    @Override
     public void setLastModified(long lastModified) throws IOException {
         iNode.setMtime(lastModified / 1000);
     }

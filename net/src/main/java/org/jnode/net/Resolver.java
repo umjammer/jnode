@@ -30,20 +30,20 @@ public interface Resolver {
     /**
      * Gets the address(es) of the given hostname.
      * 
-     * @param hostname
+     * @param hostname the hostname
      * @return All addresses of the given hostname. The returned array is at
      *         least 1 address long.
-     * @throws UnknownHostException
+     * @throws UnknownHostException when an error occurs
      */
     ProtocolAddress[] getByName(String hostname) throws UnknownHostException;
 
     /**
      * Gets the hostname of the given address.
      * 
-     * @param address
+     * @param address the address
      * @return All hostnames of the given hostname. The returned array is at
      *         least 1 hostname long.
-     * @throws UnknownHostException
+     * @throws UnknownHostException when an error occurs
      */
     String[] getByAddress(ProtocolAddress address) throws UnknownHostException;
 

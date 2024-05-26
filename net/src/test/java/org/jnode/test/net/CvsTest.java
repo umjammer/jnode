@@ -20,13 +20,13 @@
 
 package org.jnode.test.net;
 
-/**
- * @author Martin Hartvig
- */
 import com.jcraft.jsch.JSch;
 
 import javax.crypto.NullCipher;
 
+/**
+ * @author Martin Hartvig
+ */
 public class CvsTest {
 
     public static void main(String[] args) {

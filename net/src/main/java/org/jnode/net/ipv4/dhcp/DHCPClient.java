@@ -22,10 +22,6 @@ package org.jnode.net.ipv4.dhcp;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
@@ -35,7 +31,6 @@ import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.Device;
 import org.jnode.driver.net.NetDeviceAPI;
 import org.jnode.driver.net.NetworkException;
-import org.jnode.net.NetPermission;
 import org.jnode.net.ipv4.IPv4Address;
 import org.jnode.net.ipv4.bootp.BOOTPHeader;
 import org.jnode.net.ipv4.config.IPv4ConfigurationService;
@@ -57,7 +52,7 @@ public class DHCPClient extends AbstractDHCPClient {
     /**
      * Configure the given device using BOOTP
      *
-     * @param device
+     * @param device the device
      */
     public final void configureDevice(final Device device) throws IOException {
         this.device = device;
@@ -75,6 +70,7 @@ public class DHCPClient extends AbstractDHCPClient {
      * Performs the actual configuration of a network device based on the
      * settings in a DHCP message.
      */
+    @Override
     protected void doConfigure(DHCPMessage msg) throws IOException {
         super.doConfigure(msg);
 

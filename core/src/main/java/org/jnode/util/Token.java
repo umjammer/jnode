@@ -37,10 +37,10 @@ public class Token {
     /**
      * Claim ownership of this token
      *
-     * @param owner
-     * @param timeout
-     * @throws InterruptedException
-     * @throws TimeoutException
+     * @param owner the owner
+     * @param timeout the timeout
+     * @throws InterruptedException when an error occurs
+     * @throws TimeoutException when an error occurs
      */
     public synchronized void claim(Object owner, long timeout)
         throws InterruptedException, TimeoutException {

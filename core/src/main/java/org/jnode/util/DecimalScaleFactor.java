@@ -28,10 +28,10 @@ public enum DecimalScaleFactor implements ScaleFactor {
     T(1000L * 1000L * 1000L * 1000L, "T"),
     P(1000L * 1000L * 1000L * 1000L * 1000L, "P"),
     E(1000L * 1000L * 1000L * 1000L * 1000L * 1000L, "E");
-    //these units have too big multipliers to fit in a long
+    // these units have too big multipliers to fit in a long
     // (aka they are greater than 2^64) :
-    //Z(1000l*1000l*1000l*1000l*1000l*1000l*1000l, "Z"),
-    //Y(1000l*1000l*1000l*1000l*1000l*1000l*1000l*1000l, "Y");
+    // Z(1000l*1000l*1000l*1000l*1000l*1000l*1000l, "Z"),
+    // Y(1000l*1000l*1000l*1000l*1000l*1000l*1000l*1000l, "Y");
 
     public static final DecimalScaleFactor MIN = B;
     public static final DecimalScaleFactor MAX = E;
@@ -44,10 +44,12 @@ public enum DecimalScaleFactor implements ScaleFactor {
         this.unit = unit;
     }
 
+    @Override
     public long getMultiplier() {
         return multiplier;
     }
 
+    @Override
     public String getUnit() {
         return unit;
     }

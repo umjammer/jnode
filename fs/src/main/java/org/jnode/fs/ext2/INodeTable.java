@@ -26,18 +26,20 @@ import org.jnode.fs.FileSystemException;
 /**
  * This class represents a part of the inode table (that which is contained
  * in one block group).
- * 
+ * <p>
  * It provides methods for reading and writing the (already allocated) inodes.
- * 
+ * </p>
  * An inode table contains just the inodes, with no extra metadata.
  * 
  * @author Andras Nagy
  */
 public class INodeTable {
+
     private final int blockSize;
-    int blockCount;
-    Ext2FileSystem fs;
-    int firstBlock; // the first block of the inode table
+    final int blockCount;
+    final Ext2FileSystem fs;
+    /** the first block of the inode table */
+    final int firstBlock;
 
     public INodeTable(Ext2FileSystem fs, int firstBlock) {
         this.fs = fs;
@@ -55,13 +57,12 @@ public class INodeTable {
     }
 
     /**
-     * get the <code>blockNo</code>th block from the beginning of the inode
-     * table
+     * get the <code>blockNo</code>th block from the beginning of the inode table
      * 
-     * @param blockNo
+     * @param blockNo the blockNo
      * @return the contents of the block as a byte[]
-     * @throws FileSystemException
-     * @throws IOException
+     * @throws FileSystemException when an error occurs
+     * @throws IOException when an error occurs
      */
     private byte[] getINodeTableBlock(long blockNo) throws FileSystemException, IOException {
         if (blockNo < blockCount)
@@ -72,13 +73,12 @@ public class INodeTable {
     }
 
     /**
-     * Write the <code>blockNo</code>th block (from the beginning of the
-     * inode table)
+     * Write the <code>blockNo</code>th block (from the beginning of the inode table)
      * 
-     * @param data
-     * @param blockNo
-     * @throws FileSystemException
-     * @throws IOException
+     * @param data the data
+     * @param blockNo the blockNo
+     * @throws FileSystemException when an error occurs
+     * @throws IOException when an error occurs
      */
     private void writeINodeTableBlock(byte[] data, int blockNo)
         throws FileSystemException, IOException {
@@ -90,13 +90,13 @@ public class INodeTable {
     }
 
     /**
-     * Get the indexth inode from the inode table. (index is not an inode
+     * Get the index-th inode from the inode table. (index is not an inode
      * number, it is just an index in the inode table)
-     * 
+     * <p>
      * For each inode table, only one instance of INodeTable exists, so it is
      * safe to synchronize to it
      */
-    public synchronized byte[] getInodeData(int index) throws IOException, FileSystemException {
+    public synchronized byte[] getInodeData(int index) throws IOException {
         int iNodeSize = fs.getSuperblock().getINodeSize();
         byte[] data = new byte[iNodeSize];
 
@@ -105,8 +105,7 @@ public class INodeTable {
             long blockNo = ((long) index * iNodeSize + indexCopied) / blockSize;
             int blockOffset = (index * iNodeSize + indexCopied) % blockSize;
             int copyLength = Math.min(blockSize - blockOffset, iNodeSize);
-            System.arraycopy(getINodeTableBlock(blockNo), blockOffset, data, indexCopied,
-                    copyLength);
+            System.arraycopy(getINodeTableBlock(blockNo), blockOffset, data, indexCopied, copyLength);
             indexCopied += copyLength;
         }
         return data;
@@ -116,7 +115,7 @@ public class INodeTable {
      * For each inode table, only one instance of INodeTable exists, so it is
      * safe to synchronize to it
      */
-    public synchronized void writeInodeData(int index, byte[] data) throws IOException, FileSystemException {
+    public synchronized void writeInodeData(int index, byte[] data) throws IOException {
         int iNodeSize = fs.getSuperblock().getINodeSize();
 
         int indexCopied = 0;

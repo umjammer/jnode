@@ -37,7 +37,7 @@ import org.jnode.fs.ReadOnlyFileSystemException;
  */
 public abstract class AbstractDirectory extends FatObject implements FSDirectory, FSDirectoryId {
 
-    protected Vector<FatBasicDirEntry> entries = new Vector<>();
+    protected final Vector<FatBasicDirEntry> entries = new Vector<>();
     private boolean _dirty;
     protected FatFile file;
 
@@ -62,12 +62,7 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
         return Long.toString(file.getStartCluster());
     }
 
-    /**
-     * Gets an iterator to iterate over all entries. The iterated objects are
-     * all instance DirEntry.
-     *
-     * @return Iterator
-     */
+    @Override
     public Iterator<FSEntry> iterator() {
         return new DirIterator();
     }
@@ -75,8 +70,8 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
     /**
      * Add a directory entry.
      *
-     * @param nameExt
-     * @throws IOException
+     * @param nameExt the name and extension
+     * @throws IOException when an error occurs
      */
     protected synchronized FatDirEntry addFatFile(String nameExt) throws IOException {
         if (getFileSystem().isReadOnly()) {
@@ -110,9 +105,10 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
     /**
      * Add a new file with a given name to this directory.
      *
-     * @param name
-     * @throws IOException
+     * @param name the file name
+     * @throws IOException when an error occurs
      */
+    @Override
     public FSEntry addFile(String name) throws IOException {
         return addFatFile(name);
     }
@@ -120,9 +116,9 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
     /**
      * Add a directory entry of the type directory.
      *
-     * @param nameExt
-     * @param parentCluster
-     * @throws IOException
+     * @param nameExt the name and extension
+     * @param parentCluster the parentCluster
+     * @throws IOException when an error occurs
      */
     protected synchronized FatDirEntry addFatDirectory(String nameExt, long parentCluster) throws IOException {
         final FatDirEntry entry = addFatFile(nameExt);
@@ -131,13 +127,13 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
         final FatFile file = entry.getFatFile();
         file.setLength(clusterSize);
 
-        //TODO optimize it also to use ByteBuffer at lower level        
-        //final byte[] buf = new byte[clusterSize];
+        // TODO optimize it also to use ByteBuffer at lower level
+        // final byte[] buf = new byte[clusterSize];
         final ByteBuffer buf = ByteBuffer.allocate(clusterSize);
 
         // Clean the contents of this cluster to avoid reading strange data
         // in the directory.
-        //file.write(0, buf, 0, buf.length);
+        // file.write(0, buf, 0, buf.length);
         file.write(0, buf);
 
         file.getDirectory().initialize(file.getStartCluster(), parentCluster);
@@ -148,9 +144,10 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
     /**
      * Add a new (sub-)directory with a given name to this directory.
      *
-     * @param name
-     * @throws IOException
+     * @param name the directory name
+     * @throws IOException when an error occurs
      */
+    @Override
     public FSEntry addDirectory(String name) throws IOException {
         if (getFileSystem().isReadOnly()) {
             throw new ReadOnlyFileSystemException("addDirectory in readonly filesystem");
@@ -168,16 +165,16 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
     /**
      * Gets the number of directory entries in this directory
      *
-     * @return int
+     * @return entries size
      */
     public int getSize() {
         return entries.size();
     }
 
     /**
-     * Search for an entry with a given name.ext
+     * Search for an entry with a given "name.ext"
      *
-     * @param nameExt
+     * @param nameExt the name and extension
      * @return FatDirEntry null == not found
      */
     protected FatDirEntry getFatEntry(String nameExt) {
@@ -186,8 +183,7 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
         final String ext = splitExt(nameExt);
         int size = entries.size();
         for (final FatBasicDirEntry entry : entries) {
-            if (entry != null && entry instanceof FatDirEntry) {
-                FatDirEntry fde = (FatDirEntry) entry;
+            if (entry instanceof FatDirEntry fde) {
                 if (name.equalsIgnoreCase(fde.getNameOnly()) && ext.equalsIgnoreCase(fde.getExt())) {
                     return fde;
                 }
@@ -199,9 +195,10 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
     /**
      * Gets the entry with the given name.
      *
-     * @param name
-     * @throws IOException
+     * @param name the name
+     * @throws IOException when an error occurs
      */
+    @Override
     public FSEntry getEntry(String name) throws IOException {
         final FatDirEntry entry = getFatEntry(name);
         if (entry == null) {
@@ -214,8 +211,9 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
     /**
      * Remove a file or directory with a given name
      *
-     * @param nameExt
+     * @param nameExt the name and extension
      */
+    @Override
     public synchronized void remove(String nameExt) throws IOException {
         FatDirEntry entry = getFatEntry(nameExt);
         if (entry == null) {
@@ -235,7 +233,7 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
      * Print the contents of this directory to the given writer. Used for
      * debugging purposes.
      *
-     * @param out
+     * @param out the output to print
      */
     public void printTo(PrintWriter out) {
         int freeCount = 0;
@@ -255,14 +253,12 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
 
         private int offset = 0;
 
-        /**
-         * @see java.util.Iterator#hasNext()
-         */
+        @Override
         public boolean hasNext() {
             int size = entries.size();
             while (offset < size) {
                 FatBasicDirEntry e = entries.get(offset);
-                if ((e != null) && e instanceof FatDirEntry && !((FatDirEntry) e).isDeleted()) {
+                if (e instanceof FatDirEntry && !((FatDirEntry) e).isDeleted()) {
                     return true;
                 } else {
                     offset++;
@@ -271,14 +267,12 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
             return false;
         }
 
-        /**
-         * @see java.util.Iterator#next()
-         */
+        @Override
         public FSEntry next() {
             int size = entries.size();
             while (offset < size) {
                 FatBasicDirEntry e = entries.get(offset);
-                if ((e != null) && (e instanceof FatDirEntry) && !((FatDirEntry) e).isDeleted()) {
+                if ((e instanceof FatDirEntry) && !((FatDirEntry) e).isDeleted()) {
                     offset++;
                     return (FSEntry) e;
                 } else {
@@ -288,9 +282,7 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
             throw new NoSuchElementException();
         }
 
-        /**
-         * @see java.util.Iterator#remove()
-         */
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
@@ -299,7 +291,7 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
     /**
      * Returns the dirty.
      *
-     * @return boolean
+     * @return is dirty or not
      */
     public boolean isDirty() {
         if (_dirty) {
@@ -307,7 +299,7 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
         }
         int size = entries.size();
         for (FatBasicDirEntry entry : entries) {
-            if ((entry != null) && (entry instanceof FatDirEntry)) {
+            if ((entry instanceof FatDirEntry)) {
                 if (((FatDirEntry) entry).isDirty()) {
                     return true;
                 }
@@ -334,7 +326,7 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
      * Can this directory change size of <code>newSize</code> directory
      * entries?
      *
-     * @param newSize
+     * @param newSize the new size
      * @return boolean
      */
     protected abstract boolean canChangeSize(int newSize);
@@ -360,7 +352,7 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
     /**
      * Sets the first two entries '.' and '..' in the directory
      *
-     * @param parentCluster
+     * @param parentCluster the parent cluster
      */
     protected void initialize(long myCluster, long parentCluster) {
         FatDirEntry e = new FatDirEntry(this, ".", "");
@@ -376,12 +368,13 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
     /**
      * Flush the contents of this directory to the persistent storage
      */
+    @Override
     public abstract void flush() throws IOException;
 
     /**
      * Read the contents of this directory from the given byte array
      *
-     * @param src
+     * @param src byte array
      */
     protected synchronized void read(byte[] src) {
         int size = entries.size();
@@ -400,7 +393,7 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
      * Write the contents of this directory to the given device at the given
      * offset.
      *
-     * @param dest
+     * @param dest byte array
      */
     protected synchronized void write(byte[] dest) {
         int size = entries.size();
@@ -414,5 +407,4 @@ public abstract class AbstractDirectory extends FatObject implements FSDirectory
             }
         }
     }
-
 }

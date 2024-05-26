@@ -17,17 +17,17 @@ public class LogRecord extends NTFSStructure {
     /**
      * The position inside the structure from which {@link #getClientDataLength()} is calculated.
      */
-    public static int LENGTH_CALCULATION_OFFSET = 0x30;
+    public static final int LENGTH_CALCULATION_OFFSET = 0x30;
 
     /**
      * The record type value for a check point record.
      */
-    public static int RECORD_TYPE_CHECKPOINT = 0x2;
+    public static final int RECORD_TYPE_CHECKPOINT = 0x2;
 
     /**
      * The flag that indicates the record crosses a page boundary.
      */
-    public static int FLAG_CROSSES_PAGE = 0x1;
+    public static final int FLAG_CROSSES_PAGE = 0x1;
 
     /**
      * The 'LCNs to follow' value that indicates that there is a subsequent record.

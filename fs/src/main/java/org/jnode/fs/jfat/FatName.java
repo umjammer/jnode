@@ -64,9 +64,9 @@ public class FatName {
     private final String shortName;
     private final String longName;
 
-    private String shortBase;
-    private String shortExt;
-    private FatCase shortCase;
+    private final String shortBase;
+    private final String shortExt;
+    private final FatCase shortCase;
 
     FatName(FatDirectory parent, String name) throws IOException {
         CodePage cp = parent.getFatFileSystem().getCodePage();

@@ -37,10 +37,10 @@ import org.jnode.fs.FileSystem;
 public class UnixFSAccessRights implements FSAccessRights {
     private final FileSystem<?> filesystem;
 
-    private Subject subject = new Subject();
+    private final Subject subject = new Subject();
 
-    private UserPrincipal owner;
-    private Set<Principal> admins;
+    private final UserPrincipal owner;
+    private final Set<Principal> admins;
 
     private final Rights ownerRights = new Rights(true, true, true);
     private final Rights groupRights = new Rights();
@@ -77,73 +77,82 @@ public class UnixFSAccessRights implements FSAccessRights {
         return rights;
     }
 
+    @Override
     public boolean canExecute() {
         return getUserRights().isExecute();
     }
 
+    @Override
     public boolean canRead() {
         return getUserRights().isRead();
     }
 
+    @Override
     public boolean canWrite() {
         return getUserRights().isWrite();
     }
 
+    @Override
     public Principal getOwner() {
         return owner;
     }
 
-    public boolean setExecutable(boolean enable, boolean owneronly) {
+    @Override
+    public boolean setExecutable(boolean enable, boolean ownerOnly) {
         if (!owner.equals(getUser())) {
             return false;
         }
 
         ownerRights.setExecute(enable);
-        if (!owneronly) {
+        if (!ownerOnly) {
             groupRights.setExecute(enable);
             worldRights.setExecute(enable);
         }
         return true;
     }
 
-    public boolean setReadable(boolean enable, boolean owneronly) {
+    @Override
+    public boolean setReadable(boolean enable, boolean ownerOnly) {
         if (!owner.equals(getUser())) {
             return false;
         }
 
         ownerRights.setRead(enable);
-        if (!owneronly) {
+        if (!ownerOnly) {
             groupRights.setRead(enable);
             worldRights.setRead(enable);
         }
         return true;
     }
 
-    public boolean setWritable(boolean enable, boolean owneronly) {
+    @Override
+    public boolean setWritable(boolean enable, boolean ownerOnly) {
         if (!owner.equals(getUser())) {
             return false;
         }
 
         ownerRights.setWrite(enable);
-        if (!owneronly) {
+        if (!ownerOnly) {
             groupRights.setWrite(enable);
             worldRights.setWrite(enable);
         }
         return true;
     }
 
+    @Override
     public FileSystem<?> getFileSystem() {
         return filesystem;
     }
 
+    @Override
     public boolean isValid() {
         return true;
     }
 
     private static class Rights {
-        private boolean read = false;
-        private boolean write = false;
-        private boolean execute = false;
+        private boolean read;
+        private boolean write;
+        private boolean execute;
 
         public Rights() {
             this(false, false, false);

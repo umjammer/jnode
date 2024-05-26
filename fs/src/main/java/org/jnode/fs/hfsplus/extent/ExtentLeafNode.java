@@ -24,7 +24,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.jnode.fs.hfsplus.tree.AbstractLeafNode;
-import org.jnode.fs.hfsplus.tree.Key;
 import org.jnode.fs.hfsplus.tree.LeafRecord;
 import org.jnode.fs.hfsplus.tree.NodeDescriptor;
 
@@ -33,8 +32,8 @@ public class ExtentLeafNode extends AbstractLeafNode<ExtentKey> {
     /**
      * Create a new node.
      *
-     * @param descriptor
-     * @param nodeSize
+     * @param descriptor the descriptor
+     * @param nodeSize the nodeSize
      */
     public ExtentLeafNode(NodeDescriptor descriptor, final int nodeSize) {
         super(descriptor, nodeSize);
@@ -43,8 +42,8 @@ public class ExtentLeafNode extends AbstractLeafNode<ExtentKey> {
     /**
      * Create node from existing data.
      *
-     * @param nodeData
-     * @param nodeSize
+     * @param nodeData the nodeData
+     * @param nodeSize the nodeSize
      */
     public ExtentLeafNode(final byte[] nodeData, final int nodeSize) {
         super(nodeData, nodeSize);
@@ -54,11 +53,6 @@ public class ExtentLeafNode extends AbstractLeafNode<ExtentKey> {
     @Override
     protected ExtentKey createKey(byte[] nodeData, int offset) {
         return new ExtentKey(nodeData, offset);
-    }
-
-    @Override
-    protected LeafRecord createRecord(Key key, byte[] nodeData, int offset, int recordSize) {
-        return new LeafRecord(key, nodeData, offset, recordSize);
     }
 
     /**

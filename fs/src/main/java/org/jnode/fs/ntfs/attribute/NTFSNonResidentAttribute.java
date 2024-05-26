@@ -34,7 +34,7 @@ import org.jnode.fs.util.FSUtils;
 
 /**
  * An NTFS file attribute that has its data stored outside the attribute.
- * The attribute itself contains a runlist refering to the actual data.
+ * The attribute itself contains a run-list referring to the actual data.
  *
  * @author Chira
  * @author Ewout Prangsma (epr@users.sourceforge.net)
@@ -57,7 +57,7 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
     public NTFSNonResidentAttribute(FileRecord fileRecord, int offset, int fallbackCompressionUnit) {
         super(fileRecord, offset);
         /*
-         * process the dataruns...all non resident attributes have their data
+         * process the data-runs...all non-resident attributes have their data
          * outside. can find where using data runs
          */
         final int dataRunsOffset = getDataRunsOffset();
@@ -139,15 +139,15 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
     /**
      * Read the data runs.
      *
-     * @param parentoffset
+     * @param parentOffset the parentOffset
      * @param fallbackCompressionUnit the fallback compression unit to use if the attribute is compressed but doesn't
      *   have a compression unit stored.
      */
-    private void readDataRuns(int parentoffset, int fallbackCompressionUnit) {
-        int offset = parentoffset;
+    private void readDataRuns(int parentOffset, int fallbackCompressionUnit) {
+        int offset = parentOffset;
 
         long previousLCN = 0;
-        final List<DataRunInterface> dataruns = getDataRuns();
+        final List<DataRunInterface> dataRuns = getDataRuns();
         long vcn = 0;
 
         // If this attribute is compressed we will coalesce compressed/sparse
@@ -175,7 +175,7 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
                     // run. So add that in if we hit one
                     if (dataRun.getLength() + lastCompressedSize > compUnitSize) {
                         int length = dataRun.getLength() - (compUnitSize - lastCompressedSize);
-                        dataruns.add(new DataRun(0, length, true, 0, vcn));
+                        dataRuns.add(new DataRun(0, length, true, 0, vcn));
 
                         this.numberOfVCNs += length;
                         vcn += length;
@@ -184,7 +184,7 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
                 } else if (dataRun.getLength() >= compUnitSize) {
                     // Compressed/sparse pairs always add to the compression unit size.  If
                     // the unit only compresses to 16, the system will store it uncompressed.
-                    // Also if one-or more of these uncompressed runs happen next to each other then they can be
+                    // Also if one-or more of these uncompressed runs happen next to each other than they can be
                     // coalesced into a single run and even coalesced into the next compressed run. In that case the
                     // compressed run needs to be split off
 
@@ -194,14 +194,14 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
                         // Uncompressed run coalesced with compressed run. First add in the uncompressed portion:
                         int uncompressedLength = dataRun.getLength() - remainder;
                         DataRun uncompressed = new DataRun(dataRun.getCluster(), uncompressedLength, false, 0, vcn);
-                        dataruns.add(uncompressed);
+                        dataRuns.add(uncompressed);
                         vcn += uncompressedLength;
                         this.numberOfVCNs += uncompressedLength;
 
                         // Next add in the compressed portion
                         DataRun compressedRun =
                             new DataRun(dataRun.getCluster() + uncompressedLength, remainder, false, 0, vcn);
-                        dataruns.add(new CompressedDataRun(compressedRun, compUnitSize));
+                        dataRuns.add(new CompressedDataRun(compressedRun, compUnitSize));
                         expectingSparseRunNext = true;
                         lastCompressedSize = remainder;
 
@@ -209,13 +209,13 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
                         vcn += compUnitSize;
 
                     } else {
-                        dataruns.add(dataRun);
+                        dataRuns.add(dataRun);
                         this.numberOfVCNs += dataRun.getLength();
                         vcn += dataRun.getLength();
                     }
 
                 } else {
-                    dataruns.add(new CompressedDataRun(dataRun, compUnitSize));
+                    dataRuns.add(new CompressedDataRun(dataRun, compUnitSize));
                     expectingSparseRunNext = true;
                     lastCompressedSize = dataRun.getLength();
 
@@ -223,8 +223,8 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
                     vcn += compUnitSize;
                 }
             } else {
-                // map VCN-> datarun
-                dataruns.add(dataRun);
+                // map VCN-> data-run
+                dataRuns.add(dataRun);
                 this.numberOfVCNs += dataRun.getLength();
                 vcn += dataRun.getLength();
                 lastCompressedSize = 0;
@@ -239,7 +239,7 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
             firstDataRun = false;
         }
 
-        // check the dataruns
+        // check the dataRuns
         final int clusterSize = getFileRecord().getClusterSize();
         // Rounds up but won't work for 0, which shouldn't occur here.
         final long allocatedVCNs = (getAttributeAllocatedSize() - 1) / clusterSize + 1;
@@ -247,7 +247,7 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
             // Probably not a problem, often multiple attributes make up one allocation.
             log.log(Level.DEBUG, "VCN mismatch between data runs and allocated size, possibly a composite attribute. " +
                 "data run VCNs = " + this.numberOfVCNs + ", allocated size = " + allocatedVCNs +
-                ", data run count = " + dataRuns.size());
+                ", data run count = " + this.dataRuns.size());
         }
     }
 
@@ -262,10 +262,10 @@ public class NTFSNonResidentAttribute extends NTFSAttribute {
      * Read a number of clusters starting from a given virtual cluster number
      * (vcn).
      *
-     * @param vcn
-     * @param nrClusters
+     * @param vcn the vcn
+     * @param nrClusters the nrClusters
      * @return The number of clusters read.
-     * @throws IOException
+     * @throws IOException when an error occurs
      */
     public int readVCN(long vcn, byte[] dst, int dstOffset, int nrClusters) throws IOException {
         final int flags = getFlags();

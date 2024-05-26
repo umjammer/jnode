@@ -30,8 +30,8 @@ public class LittleEndian {
     /**
      * Gets an 8-bit unsigned integer from the given byte array at the given offset.
      *
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
     public static int getUInt8(byte[] src, int offset) {
         return src[offset] & 0xFF;
@@ -40,8 +40,8 @@ public class LittleEndian {
     /**
      * Gets an 8-bit signed integer from the given byte array at the given offset.
      *
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
     public static int getInt8(byte[] src, int offset) {
         return src[offset];
@@ -50,8 +50,8 @@ public class LittleEndian {
     /**
      * Gets a 16-bit unsigned integer from the given byte array at the given offset.
      *
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
     public static int getUInt16(byte[] src, int offset) {
         final int v0 = src[offset + 0] & 0xFF;
@@ -62,8 +62,8 @@ public class LittleEndian {
     /**
      * Gets a 16-bit signed integer from the given byte array at the given offset.
      *
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
     public static int getInt16(byte[] src, int offset) {
         final int v0 = src[offset + 0] & 0xFF;
@@ -74,8 +74,8 @@ public class LittleEndian {
     /**
      * Gets a 24-bit unsigned integer from the given byte array at the given offset.
      *
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
     public static int getUInt24(byte[] src, int offset) {
         final int v0 = src[offset + 0] & 0xFF;
@@ -87,8 +87,8 @@ public class LittleEndian {
     /**
      * Gets a 24-bit signed integer from the given byte array at the given offset.
      *
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
     public static int getInt24(byte[] src, int offset) {
         final int v0 = src[offset + 0] & 0xFF;
@@ -100,8 +100,8 @@ public class LittleEndian {
     /**
      * Gets a 32-bit unsigned integer from the given byte array at the given offset.
      *
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
     public static long getUInt32(byte[] src, int offset) {
         final long v0 = src[offset + 0] & 0xFF;
@@ -114,8 +114,8 @@ public class LittleEndian {
     /**
      * Gets a 32-bit signed integer from the given byte array at the given offset.
      *
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
     public static int getInt32(byte[] src, int offset) {
         final int v0 = src[offset + 0] & 0xFF;
@@ -128,8 +128,8 @@ public class LittleEndian {
     /**
      * Gets a 48-bit unsigned integer from the given byte array at the given offset.
      *
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
     public static long getUInt48(byte[] src, int offset) {
         final long v0 = src[offset + 0] & 0xFF;
@@ -144,8 +144,8 @@ public class LittleEndian {
     /**
      * Gets a 48-bit signed integer from the given byte array at the given offset.
      *
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
     public static long getInt48(byte[] src, int offset) {
         final long v0 = src[offset + 0] & 0xFF;
@@ -160,8 +160,8 @@ public class LittleEndian {
     /**
      * Gets a 64-bit signed integer from the given byte array at the given offset.
      *
-     * @param src
-     * @param offset
+     * @param src the src
+     * @param offset the offset
      */
     public static long getInt64(byte[] src, int offset) {
         final long v0 = src[offset + 0] & 0xFF;

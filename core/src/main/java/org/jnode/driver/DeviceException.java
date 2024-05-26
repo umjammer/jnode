@@ -21,36 +21,34 @@
 package org.jnode.driver;
 
 /**
- * Generic exception of devices in the device framework.
+ * Generic exception to devices in the device framework.
  *
  * @author Ewout Prangsma (epr@users.sourceforge.net)
  */
 public class DeviceException extends RuntimeException {
 
-    /**
-     *
-     */
+    /** */
     public DeviceException() {
         super();
     }
 
     /**
-     * @param message
-     * @param cause
+     * @param message the message
+     * @param cause the cause
      */
     public DeviceException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * @param cause
+     * @param cause the cause
      */
     public DeviceException(Throwable cause) {
         super(cause);
     }
 
     /**
-     * @param s
+     * @param s the s
      */
     public DeviceException(String s) {
         super(s);
