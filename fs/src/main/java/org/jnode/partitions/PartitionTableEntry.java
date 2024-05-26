@@ -21,8 +21,9 @@
 package org.jnode.partitions;
 
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.ByteBuffer;
-import java.util.logging.Level;
 
 import org.jnode.driver.ApiNotFoundException;
 import org.jnode.driver.block.FSBlockDeviceAPI;
@@ -30,14 +31,17 @@ import org.jnode.driver.block.FileDevice;
 import org.jnode.driver.block.VirtualDiskDevice;
 import org.jnode.fs.BlockDeviceFileSystemType;
 import org.jnode.fs.FileSystem;
-
-import vavi.util.Debug;
 import vavi.util.StringUtil;
+
+import static java.lang.System.getLogger;
+
 
 /**
  * @author epr
  */
 public interface PartitionTableEntry {
+
+    Logger logger = getLogger(PartitionTableEntry.class.getName());
 
     /**
      * Is this a valid entry, if not it must be ignored.
@@ -73,12 +77,12 @@ public interface PartitionTableEntry {
             int sectorSize = device.getAPI(FSBlockDeviceAPI.class).getSectorSize();
 
             long offset = getStartOffset(sectorSize);
-Debug.printf(Level.FINE, "entry offset: %08x", offset);
+logger.log(Level.DEBUG, String.format("entry offset: %08x", offset));
             device.addOffset(offset);
 
             byte[] bytes = new byte[sectorSize];
             device.getAPI(FSBlockDeviceAPI.class).read(0, ByteBuffer.wrap(bytes));
-Debug.println(Level.FINE, "entry heads\n" + StringUtil.getDump(bytes, 128));
+logger.log(Level.DEBUG, "entry heads\n" + StringUtil.getDump(bytes, 128));
 
             BlockDeviceFileSystemType<?> bdfst = BlockDeviceFileSystemType.lookup(this, bytes, device.getAPI(FSBlockDeviceAPI.class));
             return bdfst.create(device, true);
@@ -96,12 +100,12 @@ Debug.println(Level.FINE, "entry heads\n" + StringUtil.getDump(bytes, 128));
             int sectorSize = device.getAPI(FSBlockDeviceAPI.class).getSectorSize();
 
             long offset = getStartOffset(sectorSize);
-Debug.printf(Level.FINE, "entry offset: %08x", offset);
+logger.log(Level.DEBUG, String.format("entry offset: %08x", offset));
             device.addOffset(offset);
 
             byte[] bytes = new byte[sectorSize];
             device.getAPI(FSBlockDeviceAPI.class).read(0, ByteBuffer.wrap(bytes));
-Debug.println(Level.FINER, "entry heads\n" + StringUtil.getDump(bytes, 128));
+logger.log(Level.TRACE, "entry heads\n" + StringUtil.getDump(bytes, 128));
 
             BlockDeviceFileSystemType<?> bdfst = BlockDeviceFileSystemType.lookup(this, bytes, device.getAPI(FSBlockDeviceAPI.class));
             return bdfst.create(device, true);

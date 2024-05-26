@@ -8,19 +8,19 @@ package org.jnode.partitions.pc98;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.jnode.driver.Device;
 import org.jnode.partitions.PartitionTable;
-
-import vavi.util.Debug;
 import vavi.util.serdes.Serdes;
-
 import vavix.io.partition.PC98PartitionEntry;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -30,6 +30,8 @@ import vavix.io.partition.PC98PartitionEntry;
  * @version 0.00 2022/02/06 umjammer initial version <br>
  */
 public class PC98PartitionTable implements PartitionTable<PC98PartitionTableEntry> {
+
+    private static final Logger logger = getLogger(PC98PartitionTable.class.getName());
 
     /**
      * The partition entries
@@ -49,10 +51,10 @@ public class PC98PartitionTable implements PartitionTable<PC98PartitionTableEntr
                 if (!pe.isValid()) {
                     continue;
                 }
-//Debug.println("[" + i + "]: " + pe);
+logger.log(Level.TRACE, "[" + i + "]: " + pe);
                 partitions.add(new PC98PartitionTableEntry(pe, device));
             } catch (IOException e) {
-                Debug.println(Level.FINEST, e);
+                logger.log(Level.ERROR, e.getMessage(), e);
             }
         }
     }

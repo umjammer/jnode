@@ -6,15 +6,15 @@
 
 package org.jnode.partitions.pc98;
 
-import java.util.logging.Level;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 
 import org.jnode.driver.Device;
 import org.jnode.driver.block.VirtualDiskDevice;
 import org.jnode.partitions.PartitionTableEntry;
-
-import vavi.util.Debug;
-
 import vavix.io.partition.PC98PartitionEntry;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -24,6 +24,8 @@ import vavix.io.partition.PC98PartitionEntry;
  * @version 0.00 2022/02/06 umjammer initial version <br>
  */
 public class PC98PartitionTableEntry implements PartitionTableEntry {
+
+    private static final Logger logger = getLogger(PC98PartitionTableEntry.class.getName());
 
     private final PC98PartitionEntry pe;
 
@@ -39,7 +41,7 @@ public class PC98PartitionTableEntry implements PartitionTableEntry {
             heads = ((VirtualDiskDevice) device).getHeads();
             secs = ((VirtualDiskDevice) device).getSectors();
         }
-Debug.printf(Level.FINE, "heads: %d, secs: %d, device: ", heads, secs, device.getClass().getName());
+logger.log(Level.DEBUG, String.format("heads: %d, secs: %d, device: ", heads, secs, device.getClass().getName()));
     }
 
     // @see "https://github.com/aaru-dps/Aaru.Helpers/blob/4640bb88d3eb907d0f0617d5ee5159fbc13c5653/CHS.cs"
@@ -65,19 +67,19 @@ Debug.printf(Level.FINE, "heads: %d, secs: %d, device: ", heads, secs, device.ge
 
     @Override
     public long getStartOffset(int sectorSize) {
-Debug.printf(Level.FINE, "s.c: %d, s.h: %d, s.s: %d, heads: %d, secs: %d, bps: %d", pe.startCylinder, pe.startHeader, pe.startSector, heads, secs, sectorSize);
+logger.log(Level.DEBUG, String.format("s.c: %d, s.h: %d, s.s: %d, heads: %d, secs: %d, bps: %d", pe.startCylinder, pe.startHeader, pe.startSector, heads, secs, sectorSize));
         if (heads != 0 && secs != 0) {
             return (long) toLBA(pe.startCylinder, pe.startHeader, pe.startSector + 1, heads, secs) * sectorSize;
         } else {
             // when device is not VirtualDiskDevice
-Debug.println(Level.WARNING, "@@@@@@@@@@@@@@@@@@@@@@@@ magic number is used @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+logger.log(Level.WARNING, "@@@@@@@@@@@@@@@@@@@@@@@@ magic number is used @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             return 0x20000;
         }
     }
 
     @Override
     public long getEndOffset(int sectorSize) {
-Debug.printf(Level.FINE, "e.c: %d, e.h: %d, e.s: %d, heads: %d, secs: %d, bps: %d", pe.endCylinder, pe.endHeader, pe.endSector, heads, secs, sectorSize);
+logger.log(Level.DEBUG, String.format("e.c: %d, e.h: %d, e.s: %d, heads: %d, secs: %d, bps: %d", pe.endCylinder, pe.endHeader, pe.endSector, heads, secs, sectorSize));
         return (long) toLBA(pe.endCylinder, pe.endHeader, pe.endSector + 1, heads, secs) * sectorSize;
     }
 }

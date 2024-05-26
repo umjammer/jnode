@@ -20,13 +20,15 @@
 
 package org.jnode.fs;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.ServiceLoader;
-import java.util.logging.Level;
 
 import org.jnode.driver.block.FSBlockDeviceAPI;
 import org.jnode.partitions.PartitionTableEntry;
 
-import vavi.util.Debug;
+import static java.lang.System.getLogger;
+
 
 /**
  * Specific kind of FileSystemType for block devices
@@ -34,6 +36,9 @@ import vavi.util.Debug;
  * @author epr
  */
 public interface BlockDeviceFileSystemType<T extends FileSystem<?>> extends FileSystemType<T> {
+
+    Logger logger = getLogger(BlockDeviceFileSystemType.class.getName());
+
     /**
      * Can this file system type be used on the given first sector of a
      * blockdevice?
@@ -50,7 +55,7 @@ public interface BlockDeviceFileSystemType<T extends FileSystem<?>> extends File
         ServiceLoader<FileSystemType> sl = ServiceLoader.load(FileSystemType.class);
         for (FileSystemType fst : sl) {
             if (fst instanceof BlockDeviceFileSystemType bdfst) {
-Debug.println(Level.FINE, "filesystem type: " + fst);
+logger.log(Level.DEBUG, "filesystem type: " + fst);
                 if (bdfst.supports(pte, firstSector, devApi)) {
                     return (T) fst;
                 }

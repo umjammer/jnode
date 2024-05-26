@@ -21,20 +21,24 @@
 package org.jnode.partitions;
 
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.ByteBuffer;
-import java.util.logging.Level;
 
 import org.jnode.driver.block.FSBlockDeviceAPI;
 import org.jnode.driver.block.FileDevice;
 import org.jnode.driver.block.VirtualDiskDevice;
 import org.jnode.fs.FileSystem;
 
-import vavi.util.Debug;
+import static java.lang.System.getLogger;
+
 
 /**
  * @author epr
  */
 public interface PartitionTable<PTE extends PartitionTableEntry> extends Iterable<PTE> {
+
+    Logger logger = getLogger(PartitionTable.class.getName());
 
     /**
      * @param device only {@link FileDevice} is acceptable
@@ -48,10 +52,10 @@ public interface PartitionTable<PTE extends PartitionTableEntry> extends Iterabl
 
         PartitionTableType type = PartitionTableType.lookup(bytes, device);
         PartitionTable<?> table = type.create(bytes, device);
-Debug.println("PARTITION: " + table);
+logger.log(Level.DEBUG, "PARTITION: " + table);
         int i = 0;
         for (PartitionTableEntry entry : table) {
-Debug.println("partition entry[" + i + "]: " + entry);
+logger.log(Level.DEBUG, "partition entry[" + i + "]: " + entry);
             if (i == n) {
                 if (entry.isValid()) {
                     return entry.getFileSystem(device);
@@ -76,10 +80,10 @@ Debug.println("partition entry[" + i + "]: " + entry);
 
         PartitionTableType type = PartitionTableType.lookup(bytes, device);
         PartitionTable<?> table = type.create(bytes, device);
-Debug.println(Level.FINE, "PARTITION: " + table);
+logger.log(Level.DEBUG, "PARTITION: " + table);
         int i = 0;
         for (PartitionTableEntry entry : table) {
-Debug.println(Level.FINE, "partition entry[" + i + "]: " + entry);
+logger.log(Level.DEBUG, "partition entry[" + i + "]: " + entry);
             if (i == n) {
                 if (entry.isValid()) {
                     return entry.getFileSystem(device);

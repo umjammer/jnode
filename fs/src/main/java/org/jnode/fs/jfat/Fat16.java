@@ -21,11 +21,13 @@
 package org.jnode.fs.jfat;
 
 import java.io.IOException;
-import java.util.logging.Level;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 
 import org.jnode.driver.block.BlockDeviceAPI;
 
-import vavi.util.Debug;
+import static java.lang.System.getLogger;
+
 
 /**
  * A FAT implementation for FAT-16.
@@ -33,6 +35,9 @@ import vavi.util.Debug;
  * @author Luke Quinane
  */
 public class Fat16 extends Fat {
+
+    private static final Logger logger = getLogger(Fat16.class.getName());
+
     protected Fat16(BootSector bs, BlockDeviceAPI api) {
         super(bs, api);
     }
@@ -51,9 +56,9 @@ public class Fat16 extends Fat {
     public int set(int index, int element) throws IOException {
         long old = getUInt16(index);
 
-        setInt16(index, element & 0xFFFF);
+        setInt16(index, element & 0xffff);
 
-        return (int) (old & 0x0000FFFF);
+        return (int) (old & 0x0000_ffff);
     }
 
     @Override
@@ -61,7 +66,7 @@ public class Fat16 extends Fat {
         BootSector bootSector = getBootSector();
 
         long rootDirectoryOffset = bootSector.getFirstDataSector() * bootSector.getBytesPerSector();
-Debug.printf(Level.FINER, "fat[" + index + "]: offset: %08x%n", rootDirectoryOffset);
+logger.log(Level.TRACE, () -> String.format("fat[" + index + "]: offset: %08x", rootDirectoryOffset));
         if (index == 0) {
             return rootDirectoryOffset;
         }
@@ -78,7 +83,7 @@ Debug.printf(Level.FINER, "fat[" + index + "]: offset: %08x%n", rootDirectoryOff
 
     @Override
     public boolean isEofChain(int entry) {
-        return (entry >= 0xFFF8);
+        return (entry >= 0xfff8);
     }
 
     @Override
