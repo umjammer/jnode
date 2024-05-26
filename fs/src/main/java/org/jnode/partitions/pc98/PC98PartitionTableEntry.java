@@ -41,7 +41,7 @@ public class PC98PartitionTableEntry implements PartitionTableEntry {
             heads = ((VirtualDiskDevice) device).getHeads();
             secs = ((VirtualDiskDevice) device).getSectors();
         }
-logger.log(Level.DEBUG, String.format("heads: %d, secs: %d, device: ", heads, secs, device.getClass().getName()));
+logger.log(Level.DEBUG, String.format("heads: %d, secs: %d, device: %s", heads, secs, device.getClass().getName()));
     }
 
     // @see "https://github.com/aaru-dps/Aaru.Helpers/blob/4640bb88d3eb907d0f0617d5ee5159fbc13c5653/CHS.cs"
